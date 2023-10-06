@@ -16,7 +16,8 @@
 
         <div class="timer-container">
             <div 
-                v-for="(event, index) in events" :key="index"    
+                v-for="(event, index) in events" :key="index"   
+                :id="`timer-${event.name}`" 
             >
                 <div 
                 class="timer"
@@ -68,10 +69,10 @@
                 v-for="(event, index) in events" :key="event.name"
             >
                 <input 
-                    type="checkbox" :id="event.name" :name="event.name" :checked="store.toggleEvent[index].status"
+                    type="checkbox" :id="`checkbox-${event.name}`" :name="event.name" :checked="store.toggleEvent[index].status"
                     @click="checkCheckbox(index)"
                 />
-                <label :for="event.name">{{ event.name }}</label>
+                <label :for="`checkbox-${event.name}`">{{ event.name }}</label>
             </div>
         </article>
     </section>

@@ -50,6 +50,12 @@ h1{
     color: var(--color-h1);
     font-size: var(--font-size-h1);
 }
+h4{
+    color: var(--color-text);
+    font-size: var(--font-size-h4);
+    margin: 0;
+    font-weight: normal;
+}
 h5{
     color: var(--color-text);
     font-size: var(--font-size-h5);
@@ -80,12 +86,11 @@ nav{
     /* padding-left: var(--nav-padding); */
     z-index: 100000;
 }
-nav::-webkit-scrollbar{
+::-webkit-scrollbar{
     width: 1rem;
-    border-left: var(--border-general);
-    border-right: var(--border-general);
+    border: var(--border-general);
 }
-nav::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb{
     background-color: var(--color-scrollbar-thumb);
 }
 nav .top img{
@@ -310,6 +315,7 @@ nav section.nav-timer-container .hidden-timer{
     --color-event-overdue: #EC004D; 
 
     --font-size-h1: clamp(2rem, 20vw, 6.25rem);
+    --font-size-h4: clamp(1.3rem, 6vw, 2rem);
     --font-size-h5: clamp(1.2rem, 7vw, 1.5rem);
     --font-size-h6: clamp(1rem, 5vw, 1rem);
 
@@ -331,6 +337,8 @@ nav section.nav-timer-container .hidden-timer{
     --padding-h5: 20px 10px 20px 10px;
     --padding-main: 0px 10px 0 10px;
     --padding-timers: 5px;
+    --padding-general-10px: 10px;
+    --padding-p-inline: 0px 3px 0px 3px;
 
     --margin-shortcuts-svg: 0 10px 0 10px;
 

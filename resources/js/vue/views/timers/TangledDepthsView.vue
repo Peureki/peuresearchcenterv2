@@ -11,10 +11,19 @@
     <MainTimers
         :events="events"
     >
-        <template v-slot:intro>
-            <p>Merp</p>
+        <template v-slot:info>
+            <h4>How This Works</h4>
+            <article class="info-content">
+                <p>Tangled Depths is a unique map where there are meta-outpost events that need to be completed before the events listed on this page can begin. Each outpost will have a linear chain of events. </p>
+
+                <p>On the navigation, there are <span><img src="@/imgs/icons/Outpost_Active.png">outpost events</span>(Nuhoch, Ogre, etc). When you complete the final chain of meta-outpost events (the in-game outpost symbol will turn orange), click on the appropiate outpost to start all of that area's timers.</p>
+
+                <p>Since this map is unique, these events have two different kinds of timers. The initial spawn when you complete their meta-outpost events and their respawn timers. After completing an event for the first time, a new cooldown will initiate.</p>
+                <p>Priority outposts to complete: Nuhoch &#x2192; Ogre &#x2192; Rata &#x2192; SCAR</p>
+                <p></p>
+            </article>
+            
         </template>
-    
     </MainTimers>
 </template>
 
@@ -157,7 +166,7 @@ let events = [
     {
         name: "Beetle",
         outpost: "Nuhoch",
-        recommended: false,
+        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 10 + 25),
         initialMin: 60 * 1 + 10,

@@ -101,7 +101,6 @@ export default class Timer{
         this.interval = setInterval(() => {
             this.initialCooldown.value--;
             this.active.value = true;
-            console.log(this.initialCooldown.value);
         }, 1000);
     }
 
