@@ -290,6 +290,9 @@ nav section.nav-timer-container .hidden-timer{
 .event-overdue{
     color: var(--color-event-overdue);
 }
+.event-meta{
+    color: var(--color-event-meta);
+}
 
 .border-event-up{
     border-right: var(--border-event-up);
@@ -299,6 +302,9 @@ nav section.nav-timer-container .hidden-timer{
 }
 .border-event-overdue{
     border-right: var(--border-event-overdue);
+}
+.border-event-meta{
+    border-right: var(--border-event-meta);
 }
 
 :root{
@@ -313,6 +319,7 @@ nav section.nav-timer-container .hidden-timer{
     --color-event-up: #5ED625;
     --color-event-upcoming: #FFB64A;
     --color-event-overdue: #EC004D; 
+    --color-event-meta: #76E9E1;
 
     --font-size-h1: clamp(2rem, 20vw, 6.25rem);
     --font-size-h4: clamp(1.3rem, 6vw, 2rem);
@@ -326,6 +333,7 @@ nav section.nav-timer-container .hidden-timer{
     --border-event-up: 4px solid #5ED625;
     --border-event-upcoming: 4px solid #FFB64A;
     --border-event-overdue: 4px solid #EC004D;
+    --border-event-meta: 4px solid #76E9E1;
 
     --nav-width: clamp(15rem, 15vw, 18rem);
     --nav-padding: 10px 0 10px 10px;

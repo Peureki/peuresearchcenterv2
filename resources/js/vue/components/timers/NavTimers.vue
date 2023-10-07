@@ -13,25 +13,72 @@
             </Transition>
             
         </div>
-
+        <!-- 
+            *
+            * META CONTAINER 
+            *
+        -->
+        <div class="meta-container">
+            <div 
+                class="timer" v-for="(event, index) in meta" :index="index"
+                :style="{'border-right': event.status.value ? 'var(--border-event-meta)' : 'none'}" 
+            >
+                <p class="hidden-timer">{{ event.cooldown.value }}</p>
+                <article>
+                    <h6 
+                        class="event-name event-meta"
+                        :style="{color: event.status.value ? 'var(--color-event-meta)' : 'var(--color-text)'}"
+                    >
+                        {{ event.name }}
+                    </h6>
+                    <div class="icons">
+                        <img 
+                            v-if="event.status.value"
+                            src="@/imgs/icons/Active_Arrow.png" alt="Active marker" title="Currently active"
+                        >
+                    </div>
+                </article>
+                <article>
+                    <div class="progress-bar-container">
+                        <div 
+                            class="progress-bar"
+                            :style="{
+                                width: `${event.progress.value * 100}%`,
+                                'background-color': event.status.value ? 'var(--color-event-meta)' : 'var(--color-text)'
+                            }"
+                        ></div>
+                    </div>
+                    <div class="time">
+                        <p 
+                            class="event-time event-meta"
+                            :style="{color: event.status.value ? 'var(--color-event-meta)' : 'var(--color-text)'}"
+                        >{{ convertToTime(event.cooldown) }}</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <!-- 
+            *
+            * TIMER CONTAINER
+            *
+        -->
         <div class="timer-container">
             <div 
                 v-for="(event, index) in events" :key="index"   
                 :id="`timer-${event.name}`" 
             >
                 <div 
-                class="timer"
+                    class="timer"
                     v-show="store.toggleEvent[index].status"
                 >
                     <p class="hidden-timer">{{ event.initialCooldown }}</p>
                     <article>
                         
                         <h6 class="event-name">{{ event.name }}</h6>
-                        <div 
-                            class="icons">
+                        <div class="icons">
                             <img 
-                                :src="chain.img" :alt="chain.type" :title="chain.type"
                                 v-for="chain in event.chain"
+                                :src="chain.img" :alt="chain.type" :title="chain.type"    
                             >
                         </div>
                     </article>
@@ -82,11 +129,12 @@
 import { ref, onMounted, toRef } from 'vue'
 
 import TimerFunctions from '@/js/vue/components/timers/TimerFunctions.vue'
-import { sortTimers, colorTimers, share, store, convertToTime } from '@/js/vue/composables/TimerFunctions.js'
+import { sortTimers, colorTimers, share, store, metaCountdown, convertToTime } from '@/js/vue/composables/TimerFunctions.js'
 
 const props = defineProps({
     outposts: Object,
     events: Object,
+    meta: Object,
 })
 // By default, all checkboxes are checked 
 // Set the array for the v-model to be all true b/c by default, it's empty and null until the user interacts with the checkboxes
@@ -129,13 +177,17 @@ const startSpecificTimers = (outpost) => {
 }
 
 onMounted(() => {
-    let timerContainer = document.querySelector('.timer-container');
+    let timerContainer = document.querySelector('.timer-container'),
+        metaContainer = document.querySelector('.meta-container');
     let eventContainer = timerContainer.querySelectorAll('.timer'),
         eventNames = timerContainer.querySelectorAll('.event-name'),
         eventTimes = timerContainer.querySelectorAll('.event-time');
 
     sortTimers(props.events, timerContainer);
+    sortTimers(props.meta, metaContainer);
     colorTimers(props.events, eventContainer, eventNames, eventTimes);
+
+    metaCountdown(props.meta);
 })
 
 
@@ -171,6 +223,18 @@ onMounted(() => {
     font-size: var(--font-size-p);
     font-family: var(--font-family);
     color: var(--color-text);
+}
+
+.progress-bar-container{
+    width: 65%;
+    height: 20px;
+    border: 1px solid white;
+}
+.progress-bar{
+    width: 0%;
+    height: 100%;
+    background-color: var(--color-event-meta);
+    transition: var(--transition-all-03s-ease);
 }
 
 .toggle-enter-active {

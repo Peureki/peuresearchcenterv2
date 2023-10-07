@@ -4,11 +4,14 @@
             <NavTimers
                 :outposts="outposts"
                 :events="events"
+                :meta="meta"
             />
         </template>
     </Nav>
 
     <MainTimers
+        :map="Map"
+        alt="Tangled Depths"
         :events="events"
     >
         <template v-slot:info>
@@ -20,9 +23,7 @@
 
                 <p>Since this map is unique, these events have two different kinds of timers. The initial spawn when you complete their meta-outpost events and their respawn timers. After completing an event for the first time, a new cooldown will initiate.</p>
                 <p>Priority outposts to complete: Nuhoch &#x2192; Ogre &#x2192; Rata &#x2192; SCAR</p>
-                <p></p>
             </article>
-            
         </template>
     </MainTimers>
 </template>
@@ -33,15 +34,51 @@ import { ref } from 'vue'
 import Nav from '../../components/Nav.vue'
 
 import NavTimers from '@/js/vue/components/timers/NavTimers.vue'
-import TimerFunctions from '@/js/vue/components/timers/TimerFunctions.vue'
 import MainTimers from '@/js/vue/components/timers/MainTimers.vue'
-
-import { convertToTime } from '@/js/vue/composables/TimerFunctions.js'
 
 import EventSwords from '@/imgs/icons/Event_Swords.png'
 import EventBoss from '@/imgs/icons/Event_Boss.png'
 import EventShield from '@/imgs/icons/Event_Shield.png'
 import EventRally from '@/imgs/icons/Event_Rally.png'
+
+import Map from '@/imgs/maps/Tangled_Depths.jpg'
+
+// TD meta time example
+// Meta UTC times
+// 0:30, 2:30, 4:30, 6:30, 8:30, 10:30, 12:30, 14:30, 16:30, 18:30, 20:30, 22:30
+// Outposts
+// 0:46, 2:46, 4:46
+// 2:25
+let meta = [
+    {
+        name: "Prep",
+        starts: [2, 25],
+        duration: 60 * 5,
+        repeats: 2,
+        cooldown: ref(0),
+        progress: ref(0),
+        status: ref(false),
+    },
+    {
+        name: "Chak Gerant",
+        starts: [2, 30],
+        duration: 60 * 16,
+        repeats: 2,
+        cooldown: ref(0),
+        progress: ref(0),
+        status: ref(false),
+    },
+    {
+        name: "Help the Outposts",
+        starts: [2, 46],
+        duration: 60 * 99,
+        repeats: 2,
+        cooldown: ref(0),
+        progress: ref(0),
+        status: ref(false),
+    },
+    
+]
 
 let outposts = ref([
     {
@@ -79,6 +116,7 @@ let events = [
         respawnMax: -(60 * 2 + 10),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -107,6 +145,7 @@ let events = [
         respawnMax: -(60 * 2 + 22),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -130,6 +169,7 @@ let events = [
         respawnMax: -(60 * 1 + 32),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -153,6 +193,7 @@ let events = [
         respawnMax: -(60 * 2 + 50),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -176,6 +217,7 @@ let events = [
         respawnMax: -(60 * 1 + 29),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -199,6 +241,7 @@ let events = [
         respawnMax: -(60 * 1 + 0),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -226,6 +269,7 @@ let events = [
         respawnMax: -(60 * 0 + 17),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -249,6 +293,7 @@ let events = [
         respawnMax: -(60 * 1 + 0),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -279,6 +324,7 @@ let events = [
         respawnMax: -(60 * 2 + 31),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -302,6 +348,7 @@ let events = [
         respawnMax: -(60 * 0 + 33),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -329,6 +376,7 @@ let events = [
         respawnMax: -(60 * 1 + 28),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Skrimish',
@@ -352,6 +400,7 @@ let events = [
         respawnMax: -(60 * 0 + 6),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -378,6 +427,7 @@ let events = [
         respawnMax: -(60 * 2 + 30),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Skrimish',
@@ -401,6 +451,7 @@ let events = [
         respawnMax: -(60 * 1 + 40),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -428,6 +479,7 @@ let events = [
         respawnMax: -(60 * 0 + 36),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Skrimish',
@@ -454,6 +506,7 @@ let events = [
         respawnMax: -(60 * 1 + 0),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Rally',
@@ -485,6 +538,7 @@ let events = [
         respawnMax: -(60 * 1 + 39),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -508,6 +562,7 @@ let events = [
         respawnMax: -(60 * 1 + 39),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Skrimish',
@@ -531,6 +586,7 @@ let events = [
         respawnMax: -(60 * 1 + 0),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -561,6 +617,7 @@ let events = [
         respawnMax: -(60 * 0 + 29),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Skrimish',
@@ -592,6 +649,7 @@ let events = [
         respawnMax: -(60 * 0 + 55),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -615,6 +673,7 @@ let events = [
         respawnMax: -(60 * 5 + 52),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -642,6 +701,7 @@ let events = [
         respawnMax: -(60 * 0 + 0),
         active: ref(false),
         respawnActive: ref(false),
+        status: ref(false),
         chain: [
             {
                 type: 'Boss',

@@ -1,19 +1,7 @@
-import { first } from 'lodash';
+import { first, last } from 'lodash';
 import { ref, reactive, isRef } from 'vue'
 import { clearInterval, clearTimeout, setInterval, setTimeout } from 'worker-timers';
 
-//const worker = new Worker(new URL('./Worker.js', import.meta.url));
-
-// worker.postMessage('start');
-
-// // Add an event listener to receive messages from the web worker
-// worker.addEventListener('message', (event) => {
-//     if (event.data === 'task_completed') {
-//         // Handle the completion of a background task from the web worker
-//         // You can update your UI or perform any other necessary actions here
-//         console.log('merp');
-//     }
-// });
 // STORE
 // Allows state management for toggling the start/stop buttons for both the nav and map timers
 // Create an array to set specficially which group of timer rather than all of them
@@ -34,15 +22,17 @@ export const store = reactive({
     setToggleEvent(index, value){
         this.toggleEvent[index] = value;
     }
-    
-
 })
 
 export const share = {
     timers: [],
+    metas: [],
     setTimer(index, value){
         this.timers[index] = value;
     },
+    setMetas(index, value){
+        this.metas[index] = value;
+    }
     
 }
 
@@ -58,7 +48,7 @@ export function convertToTime(cooldown){
     } else {
         cd = cooldown;
     }
-    let minutes, seconds, formatTime;
+    let minutes, seconds, formatTime, formatHours, formatMinutes, formatSeconds;
 
     const hours = Math.floor(cd / 3600);
     const remainingSecs = cd % 3600;
@@ -66,22 +56,30 @@ export function convertToTime(cooldown){
     minutes = cd < 0 ? Math.ceil(remainingSecs / 60) : Math.floor(remainingSecs / 60);
     seconds =  remainingSecs % 60;
 
-    // Check if cooldown is negative
-    // If yes => make the displayed value in absolute values (but the cooldown is still negative to sort)
-    // If no => format time normally
-    if (cd < 0){
-        if (seconds > -10){
-            formatTime = `${Math.abs(minutes)}:0${Math.abs(seconds)}`;
-        } else {
-            formatTime = `${Math.abs(minutes)}:${Math.abs(seconds)}`;
-        }
+    // If hours is POSITIVE
+    if (hours > 0){
+        formatHours = `${hours}:`
+        formatMinutes = minutes < 10 ? `0${minutes}:` : `${minutes}:`;
+    // If hours is 0 or NEGATIVE
     } else {
-        if (seconds < 10){
-            formatTime = `${minutes}:0${seconds}`;
+        formatHours = ``;
+        // If minutes is NEGATIVE
+        if (minutes < 0){
+            formatMinutes = minutes > -10 ? `0${Math.abs(minutes)}:` : `${Math.abs(minutes)}:`; 
+        // If minutes is POSTIVE
         } else {
-            formatTime = `${minutes}:${seconds}`;
+            formatMinutes = `${minutes}:`;
         }
     }
+    // If seconds is NEGATIVE
+    if (seconds < 0){
+        formatSeconds = seconds > -10 ? `0${Math.abs(seconds)}` : Math.abs(seconds); 
+    // If seconds is POSTIVE
+    } else {
+        formatSeconds = seconds < 10 ? `0${seconds}` : seconds; 
+    }
+
+    formatTime = formatHours + formatMinutes + formatSeconds;
     return formatTime;
 }
 // TIMER CLASS
@@ -157,6 +155,18 @@ export const sortTimers = (listOfEvents, parentNode) => {
         events.forEach((event, index) => {
             // Get an array of each individual timer
             parent = Array.from(parentNode.children);
+            const lastEvent = parent[parent.length - 1];
+            const lastEventName = lastEvent.querySelector('.event-name').innerHTML;
+            // ONLY FOR METAS 
+            // Meta (event) object has the status property for which is active and which is not
+            // Get the last in the list as that's the one that's active
+            if (event.hasOwnProperty('status')){
+                if (lastEventName == event.name){
+                    event.status.value = true;
+                } else {
+                    event.status.value = false;
+                }
+            }
 
             // Only trigger if the current index is within events.length range so it doesn't go over
             if (index < events.length - 1){
@@ -193,7 +203,7 @@ export function colorTimers(events, eventContainer, eventNames, eventTimes){
         events.forEach((event, index) => {     
             cooldown = event.initialCooldown.value;
             // RESPAWN ACTIVITY
-            // Only triggers when users have restarted the timer OR (WIP) start a timer that does not have an initial+respawn timer
+            // Only triggers when users have restarted the timer OR start a timer that does not have an initial+respawn timer
             if (event.respawnActive.value == true || event.singleCooldown.value == true){
                 // Cooldown is past min time and > 0
                 if (cooldown <= event.respawnMin && cooldown > 0){
@@ -316,4 +326,63 @@ export function colorTimers(events, eventContainer, eventNames, eventTimes){
     }, 1000);
     
 }
+
+// META COUNTDOWNS
+//
+// Each mapView should contain a 'meta' object
+// This object contains the event name, cooldown (ref), and the time for when the meta/pre events begin.
+// Time should be labeled from 0-2 UTC
+// Example
+// TD is 0:30 UTC, but it's better to keep it at the higher end (2:30) because math
+export function metaCountdown(meta){
+    setInterval(() => {
+        let utcHour = new Date().getUTCHours(),
+            utcMinutes = new Date().getUTCMinutes() * 60,
+            utcSeconds = new Date().getUTCSeconds(),
+            currentTime;
+
+        let targetHour, targetMinutes, targetTime,
+            currentHour, currentMinutes, currentSeconds;
+
+        let cooldown, progress; 
+
+        currentMinutes = utcMinutes;
+        currentSeconds = utcSeconds;
+        // For each meta or event, check on their name, start time, and return their cooldowns
+        meta.forEach((event) => {
+            // If meta events repeat every 2 hours
+            if (event.repeats == 2){
+                targetHour = event.starts[0] * 3600;
+                targetMinutes = event.starts[1] * 60;
+
+                // HOUR IS 1
+                if (utcHour % 2 == 1){
+                    currentHour = 3600;
+                }
+                // HOUR IS 0
+                if (utcHour % 2 == 0){
+                    currentHour = 0;
+                }
+
+                currentTime = currentHour + currentMinutes + currentSeconds;
+                targetTime = targetHour + targetMinutes;
+                cooldown = targetTime - currentTime; 
+
+                // Because we're only measuring from 0-1, and events are never over 2hours, reduce cooldown by 2 hours for when the UTC time is 0 and when it's the same time as the meta spawn
+                if (cooldown > 7200){
+                    cooldown -= 7200; 
+                }
+
+                progress = 1 - (cooldown/7200);
+                event.progress.value = progress;
+            }     
+            event.cooldown.value = cooldown;    
+            cooldown = convertToTime(cooldown);
+            
+            
+        })
+
+    }, 1000);
+}
+
 

@@ -6,7 +6,7 @@
 
         <section class="content-container">
             <div class="map-container">
-                <img src="@/imgs/maps/Tangled_Depths.jpg" alt="Tangled Depths map with timers">
+                <img :src="map" :alt="alt" :title="alt">
                 <div v-for="(event, index) in events" :key="index">
                     <div
                         class="map-timer" 
@@ -62,9 +62,15 @@
                     </span>
 
                     <span class="legend-item">
+                        <img src="@/imgs/icons/Active_Arrow.png" alt="Active arrow" title="Meta event that's currently active">
+                        <p>Currently active map status</p>
+                    </span>
+
+                    <span class="legend-item">
                         <img src="@/imgs/icons/Event_Boss.png" alt="Event boss" title="Champ or boss">
                         <p>Champ or Boss</p>
                     </span>
+
                     <span class="legend-item">
                         <img src="@/imgs/icons/Event_Swords.png" alt="Event swords" title="Skirmish">
                         <p>Skirmish</p>
@@ -124,6 +130,8 @@ import TimerFunctions from '@/js/vue/components/timers/TimerFunctions.vue'
 import { colorTimers, store } from '@/js/vue/composables/TimerFunctions';
 
 const props = defineProps({
+    map: String,
+    alt: String,
     events: Object,
 })
 
