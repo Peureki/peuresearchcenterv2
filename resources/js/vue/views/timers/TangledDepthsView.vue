@@ -53,7 +53,6 @@ let meta = [
     {
         name: "Prep",
         starts: [2, 25],
-        duration: 60 * 5,
         repeats: 2,
         cooldown: ref(0),
         progress: ref(0),
@@ -62,7 +61,6 @@ let meta = [
     {
         name: "Chak Gerant",
         starts: [2, 30],
-        duration: 60 * 16,
         repeats: 2,
         cooldown: ref(0),
         progress: ref(0),
@@ -71,7 +69,6 @@ let meta = [
     {
         name: "Help the Outposts",
         starts: [2, 46],
-        duration: 60 * 99,
         repeats: 2,
         cooldown: ref(0),
         progress: ref(0),
@@ -106,7 +103,6 @@ let events = [
     {
         name: "Chak Lobber (Nuh)",
         outpost: "Nuhoch",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 7 + 13),
         initialMin: 60 * 1 + 50,
@@ -116,7 +112,8 @@ let events = [
         respawnMax: -(60 * 2 + 10),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Skirmish',
@@ -135,7 +132,6 @@ let events = [
     {
         name: "Sporling",
         outpost: "Nuhoch",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 7 + 38),
         initialMin: 60 * 1 + 46,
@@ -145,7 +141,8 @@ let events = [
         respawnMax: -(60 * 2 + 22),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Skirmish',
@@ -159,7 +156,6 @@ let events = [
     {
         name: "Elementals",
         outpost: "Nuhoch",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 2 + 50),
         initialMin: 60 * 0 + 59,
@@ -169,7 +165,8 @@ let events = [
         respawnMax: -(60 * 1 + 32),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Skirmish',
@@ -183,7 +180,6 @@ let events = [
     {
         name: "Grub Pit",
         outpost: "Nuhoch",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 0 + 0),
         initialMin: 60 * 1 + 0,
@@ -193,7 +189,8 @@ let events = [
         respawnMax: -(60 * 2 + 50),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Skirmish',
@@ -207,7 +204,6 @@ let events = [
     {
         name: "Beetle",
         outpost: "Nuhoch",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 10 + 25),
         initialMin: 60 * 1 + 10,
@@ -217,7 +213,8 @@ let events = [
         respawnMax: -(60 * 1 + 29),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Escort',
@@ -231,7 +228,6 @@ let events = [
     {
         name: "Alchemist Patli",
         outpost: "Nuhoch",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 12 + 50),
         initialMin: 60 * 1 + 11,
@@ -241,7 +237,8 @@ let events = [
         respawnMax: -(60 * 1 + 0),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Escort',
@@ -259,7 +256,6 @@ let events = [
     {
         name: "Zintl",
         outpost: "Nuhoch",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 23 + 5),
         initialMin: 60 * 3 + 53,
@@ -269,7 +265,8 @@ let events = [
         respawnMax: -(60 * 0 + 17),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Skirmish',
@@ -283,7 +280,6 @@ let events = [
     {
         name: "Skelk",
         outpost: "Nuhoch",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 22 + 5),
         initialMin: 60 * 5 + 55,
@@ -293,7 +289,8 @@ let events = [
         respawnMax: -(60 * 1 + 0),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Escort',
@@ -314,7 +311,6 @@ let events = [
     {
         name: "Wyvern Nest",
         outpost: "Ogre",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 3 + 0),
         initialMin: 60 * 1 + 5,
@@ -324,7 +320,8 @@ let events = [
         respawnMax: -(60 * 2 + 31),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Skirmish',
@@ -338,7 +335,6 @@ let events = [
     {
         name: "Matriarch Bat",
         outpost: "Ogre",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 7 + 15),
         initialMin: 60 * 2 + 1,
@@ -348,7 +344,8 @@ let events = [
         respawnMax: -(60 * 0 + 33),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Escort',
@@ -366,7 +363,6 @@ let events = [
     {
         name: "Chak Morale",
         outpost: "Ogre",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 12 + 55),
         initialMin: 60 * 2 + 25,
@@ -376,7 +372,8 @@ let events = [
         respawnMax: -(60 * 1 + 28),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Skrimish',
@@ -390,7 +387,6 @@ let events = [
     {
         name: "Grubs",
         outpost: "Ogre",
-        recommended: false,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 17 + 20),
         initialMin: 60 * 2 + 22,
@@ -400,7 +396,8 @@ let events = [
         respawnMax: -(60 * 0 + 6),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(false),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Escort',
@@ -417,7 +414,6 @@ let events = [
     {
         name: "Haywire Golems",
         outpost: "Rata",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 4 + 20),
         initialMin: 60 * 0 + 20,
@@ -427,7 +423,8 @@ let events = [
         respawnMax: -(60 * 2 + 30),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Skrimish',
@@ -441,7 +438,6 @@ let events = [
     {
         name: "Chak Lobber (Rata)",
         outpost: "Rata",
-        recommended: false,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 8 + 5),
         initialMin: 60 * 0 + 40,
@@ -451,7 +447,8 @@ let events = [
         respawnMax: -(60 * 1 + 40),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(false),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Escort',
@@ -469,7 +466,6 @@ let events = [
     {
         name: "Mushrooms",
         outpost: "Rata",
-        recommended: false,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 3 + 10),
         initialMin: 60 * 0 + 3,
@@ -479,7 +475,8 @@ let events = [
         respawnMax: -(60 * 0 + 36),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(false),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Skrimish',
@@ -496,7 +493,6 @@ let events = [
     {
         name: "Chak Crown",
         outpost: "SCAR",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 8 + 25),
         initialMin: 60 * 2 + 55,
@@ -506,7 +502,8 @@ let events = [
         respawnMax: -(60 * 1 + 0),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Rally',
@@ -528,7 +525,6 @@ let events = [
     {
         name: "Fire Wyvern",
         outpost: "SCAR",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 7 + 10),
         initialMin: 60 * 0 + 54,
@@ -538,7 +534,8 @@ let events = [
         respawnMax: -(60 * 1 + 39),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Boss',
@@ -552,7 +549,6 @@ let events = [
     {
         name: "Wasps",
         outpost: "SCAR",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 16 + 35),
         initialMin: 60 * 2 + 47,
@@ -562,7 +558,8 @@ let events = [
         respawnMax: -(60 * 1 + 39),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Skrimish',
@@ -576,7 +573,6 @@ let events = [
     {
         name: "Chak Lobber (SCAR)",
         outpost: "SCAR",
-        recommended: true,
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 30 + 25),
         initialMin: 60 * 1 + 25,
@@ -586,7 +582,8 @@ let events = [
         respawnMax: -(60 * 1 + 0),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Escort',
@@ -607,7 +604,6 @@ let events = [
     {
         name: "Mushroom King",
         outpost: "",
-        recommended: true,
         singleCooldown: ref(true),
         initialCooldown: ref(60 * 18 + 45),
         initialMin: 60 * 0 + 40,
@@ -617,7 +613,8 @@ let events = [
         respawnMax: -(60 * 0 + 29),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Skrimish',
@@ -639,7 +636,6 @@ let events = [
     {
         name: "Treasure Mushroom",
         outpost: "",
-        recommended: true,
         singleCooldown: ref(true),
         initialCooldown: ref(60 * 9 + 30),
         initialMin: 60 * 1 + 14,
@@ -649,7 +645,8 @@ let events = [
         respawnMax: -(60 * 0 + 55),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Boss',
@@ -663,7 +660,6 @@ let events = [
     {
         name: "Chak Driver",
         outpost: "",
-        recommended: true,
         singleCooldown: ref(true),
         initialCooldown: ref(60 * 38 + 10),
         initialMin: 60 * 5 + 43,
@@ -673,7 +669,8 @@ let events = [
         respawnMax: -(60 * 5 + 52),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Skirmish',
@@ -691,7 +688,6 @@ let events = [
     {
         name: "Rock Hands",
         outpost: "",
-        recommended: true,
         singleCooldown: ref(true),
         initialCooldown: ref(60 * 30 + 0),
         initialMin: 60 * 0 + 0,
@@ -701,7 +697,8 @@ let events = [
         respawnMax: -(60 * 0 + 0),
         active: ref(false),
         respawnActive: ref(false),
-        status: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
         chain: [
             {
                 type: 'Boss',

@@ -206,13 +206,6 @@ nav section .distinquish-maps .label#pof{
 nav section .distinquish-maps .maps{
     width: 100%;
 }
-nav section.nav-timer-container .outposts > div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-bottom: var(--border-bottom);
-    cursor: pointer;
-}
 nav section.nav-timer-container .outposts:hover{
     text-decoration-line: line-through;
     text-decoration-color: var(--color-text);

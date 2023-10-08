@@ -12,16 +12,12 @@ import { clearInterval, clearTimeout, setInterval, setTimeout } from 'worker-tim
 export const store = reactive({
     togglePlay: [],
     toggleInfo: [],
-    toggleEvent: [],
     setTogglePlay(index, value){
         this.togglePlay[index] = value;
     },
     setToggleInfo(index, value){
         this.toggleInfo[index] = value;
     },
-    setToggleEvent(index, value){
-        this.toggleEvent[index] = value;
-    }
 })
 
 export const share = {
@@ -198,7 +194,6 @@ export const sortTimers = (listOfEvents, parentNode) => {
 
 export function colorTimers(events, eventContainer, eventNames, eventTimes){
     let cooldown;
-
     setInterval(() => {
         events.forEach((event, index) => {     
             cooldown = event.initialCooldown.value;
@@ -249,23 +244,9 @@ export function colorTimers(events, eventContainer, eventNames, eventTimes){
                     eventTimes[index].classList.remove('event-overdue');
                 }
             // User did not activate the timer yet
-            } else {
-                eventContainer[index].classList.remove('border-event-up');
-                eventContainer[index].classList.remove('border-event-upcoming');
-                eventContainer[index].classList.remove('border-event-overdue');
-
-                eventNames[index].classList.remove('event-up');
-                eventNames[index].classList.remove('event-upcoming');
-                eventNames[index].classList.remove('event-overdue');
-
-                eventTimes[index].classList.remove('event-up');
-                eventTimes[index].classList.remove('event-upcoming');
-                eventTimes[index].classList.remove('event-overdue');
-            } 
-
-            // INITIAL SPAWN ACTIVITY
-            // Only triggers when users have started a timer that has both an initial cooldown and respawn cooldown
-            if (event.active.value == true && event.singleCooldown.value == false){
+            } else if (event.active.value == true && event.singleCooldown.value == true){
+                // INITIAL SPAWN ACTIVITY
+                // Only triggers when users have started a timer that has both an initial cooldown and respawn cooldown
                 // Cooldown is past min time and > 0
                 if (cooldown <= event.initialMin && cooldown > 0){
                     eventContainer[index].classList.add('border-event-upcoming');
@@ -324,7 +305,6 @@ export function colorTimers(events, eventContainer, eventNames, eventTimes){
             } 
         })
     }, 1000);
-    
 }
 
 // META COUNTDOWNS

@@ -11,16 +11,16 @@
             <!-- PLAY -->
             <svg 
                 width="10" height="13" viewBox="0 0 10 13" fill="none" xmlns="http://www.w3.org/2000/svg"
-                v-if="store.togglePlay[index].status"
-                @click="toggleTimer(index); startTimer(index);"    
+                v-if="event.togglePlay.value"
+                @click="event.togglePlay.value = !event.togglePlay.value; startTimer(index);"    
             >
                 <path d="M0 0V13L10 6.5L0 0Z" fill="#FFD12C"/>
             </svg>
             <!-- STOP -->
             <svg 
                 width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"
-                v-if="!store.togglePlay[index].status"
-                @click="toggleTimer(index); stopTimer(index);"    
+                v-if="!event.togglePlay.value"
+                @click="event.togglePlay.value = !event.togglePlay.value; stopTimer(index);"    
             >
                 <path d="M0 10V0H10V10H0Z" fill="#FFD12C"/>
             </svg>

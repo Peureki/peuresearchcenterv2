@@ -1,9 +1,14 @@
 <template>
     <section class="nav-timer-container">
+        <!--
+            *
+            *   OUTPOST (if exist)
+            *
+        -->
         <div 
             class="outposts"
             v-for="(outpost, index) in outposts"
-            @click="startSpecificTimers(outpost); toggle(index);"  
+            @click="startSpecificTimers(outpost, events); toggle(index);"  
         >
             <Transition name="toggle">
                 <div v-if="toggleOutpost[index].status">
@@ -69,7 +74,7 @@
             >
                 <div 
                     class="timer"
-                    v-show="store.toggleEvent[index].status"
+                    v-show="event.toggleCheckbox.value"
                 >
                     <p class="hidden-timer">{{ event.initialCooldown }}</p>
                     <article>
@@ -109,6 +114,11 @@
                 </div>
             </div>
         </div>
+        <!--
+            *
+            * CHECKBOX CONTAINERS
+            *
+        -->
         <article class="checkbox-container">
             <p>Add or remove timers</p>
             <div 
@@ -116,8 +126,8 @@
                 v-for="(event, index) in events" :key="event.name"
             >
                 <input 
-                    type="checkbox" :id="`checkbox-${event.name}`" :name="event.name" :checked="store.toggleEvent[index].status"
-                    @click="checkCheckbox(index)"
+                    type="checkbox" :id="`checkbox-${event.name}`" :name="event.name" :checked="event.toggleCheckbox.value"
+                    @click="event.toggleCheckbox.value = !event.toggleCheckbox.value"
                 />
                 <label :for="`checkbox-${event.name}`">{{ event.name }}</label>
             </div>
@@ -126,7 +136,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, toRef } from 'vue'
+import { computed, onMounted } from 'vue'
 
 import TimerFunctions from '@/js/vue/components/timers/TimerFunctions.vue'
 import { sortTimers, colorTimers, share, store, metaCountdown, convertToTime } from '@/js/vue/composables/TimerFunctions.js'
@@ -136,29 +146,13 @@ const props = defineProps({
     events: Object,
     meta: Object,
 })
-// By default, all checkboxes are checked 
-// Set the array for the v-model to be all true b/c by default, it's empty and null until the user interacts with the checkboxes
-//
-// Store the reactive array into a global state for the v-ifs for the timers on the nav and map
-props.events.forEach((event, index) => {
-    if (event.recommended){
-        store.setToggleEvent(index, {status: true, name: event.name});
-    } else {
-        store.setToggleEvent(index, {status: false, name: event.name});
-    }
-})
-
-const checkCheckbox = (index) => {
-    store.toggleEvent[index].status = !store.toggleEvent[index].status;
-    console.log(store.toggleEvent);
-}
-
 const toggleOutpost = props.outposts;
+
 const toggle = (index) => {
     toggleOutpost[index].status = !toggleOutpost[index].status;
 }
 
-const startSpecificTimers = (outpost) => {
+const startSpecificTimers = (outpost, events) => {
     let toggle = false;
 
     share.timers.forEach((timer) => {
@@ -168,9 +162,9 @@ const startSpecificTimers = (outpost) => {
         }
     })
     if (toggle == true){
-        store.togglePlay.forEach((_, index) => {
-            if (outpost.name == store.togglePlay[index].outpost){
-                store.togglePlay[index].status = !store.togglePlay[index].status;
+        events.forEach((event) => {
+            if (outpost.name == event.outpost){
+                event.togglePlay.value = !event.togglePlay.value;
             }
         })
     }
@@ -195,6 +189,17 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.outposts > div{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: var(--nav-padding-left);
+    border-bottom: var(--border-bottom);
+    cursor: pointer;
+}
+.outposts h5{
+    text-align: left;
+}
 .info{
     display: flex;
     flex-direction: column;

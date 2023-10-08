@@ -141,7 +141,7 @@
                             <h6>Verdant Brink</h6>
                         </router-link>
 
-                        <router-link to="/benchmarks/maps">
+                        <router-link to="/timers/auric-basin">
                             <img src="../../../imgs/icons/Lump_of_Aurillium.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Auric Basin</h6>
                         </router-link>

@@ -5,13 +5,18 @@
         </header>
 
         <section class="content-container">
+            <!--
+                *
+                * MAP CONTAINER
+                *
+            -->
             <div class="map-container">
                 <img :src="map" :alt="alt" :title="alt">
                 <div v-for="(event, index) in events" :key="index">
                     <div
                         class="map-timer" 
                         :style="{top: event.top, left: event.left}"
-                        v-show="store.toggleEvent[index].status" 
+                        v-show="event.toggleCheckbox.value" 
                     >
                         <article>
                             <h6 class="event-name">{{ event.name }}</h6>
@@ -29,8 +34,12 @@
                     </div>
                 </div>
             </div>
-
-            <div class="header-container">
+            <!--
+                *
+                * INFO CONTAINER
+                *
+            -->
+            <div class="info-container">
                 <div class="legend">
                     <h4>Legend</h4>
                     <span class="legend-item">
@@ -220,7 +229,7 @@ onMounted(() => {
     display: none;
 }
 
-.header-container{
+.info-container{
     display: grid;
     grid-template-columns: 1fr 2fr;
 }
