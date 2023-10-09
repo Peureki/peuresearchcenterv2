@@ -6,6 +6,7 @@ import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
 
 import TimersAuricBasinView from './views/timers/AuricBasinView.vue'
 import TimersTangledDepthsView from './views/timers/TangledDepthsView.vue'
+import TimersDragonfallView from '@/js/vue/views/timers/DragonfallView.vue'
 
 const routes = [
     {
@@ -26,6 +27,7 @@ const routes = [
     // *
     // * TIMERS
     // *
+    // * HOT
     {
         path: '/timers/auric-basin',
         component: TimersAuricBasinView,
@@ -35,6 +37,12 @@ const routes = [
         path: '/timers/tangled-depths',
         component: TimersTangledDepthsView,
         name: 'timers-tangled-depths',
+    },
+    // LS4
+    {
+        path: '/timers/dragonfall',
+        component: TimersDragonfallView,
+        name: 'timers-dragonfall',
     },
 ]
 

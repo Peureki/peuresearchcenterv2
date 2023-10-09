@@ -226,6 +226,23 @@
                         </router-link>
                     </div>   
                 </div>
+                <!--
+                    *
+                    * LS4 TIMERS
+                    *
+                -->
+                <div class="distinquish-maps">
+                    <div class="label" id="ls4">
+                        <h6>LS4</h6>
+                    </div>
+
+                    <div class="maps">
+                        <router-link to="/timers/dragonfall">
+                            <img src="@/imgs/icons/Mistborn_Mote.png" alt="Mistborn Mote" title="Timers/Dragonfall">
+                            <h6>Dragonfall</h6>
+                        </router-link>
+                    </div>   
+                </div>
             </section>
         </Transition>
     </nav>

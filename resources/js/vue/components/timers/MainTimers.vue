@@ -1,7 +1,7 @@
 <template>
     <main>
         <header>
-            <h1>Tangled Depths Timers</h1>
+            <h1>{{ mapName }}</h1>
         </header>
 
         <section class="content-container">
@@ -72,7 +72,7 @@
 
                     <span class="legend-item">
                         <img src="@/imgs/icons/Active_Arrow.png" alt="Active arrow" title="Meta event that's currently active">
-                        <p>Currently active map status</p>
+                        <p>Current Active Map Status</p>
                     </span>
 
                     <span class="legend-item">
@@ -136,9 +136,10 @@
 import { ref, onMounted } from 'vue'
 
 import TimerFunctions from '@/js/vue/components/timers/TimerFunctions.vue'
-import { colorTimers, store } from '@/js/vue/composables/TimerFunctions';
+import { colorTimers } from '@/js/vue/composables/TimerFunctions';
 
 const props = defineProps({
+    mapName: String,
     map: String,
     alt: String,
     events: Object,
@@ -148,7 +149,6 @@ onMounted(() => {
     let scrollContainer = document.querySelector('.map-container'),
         isScrolling = false,
         startX, scrollLeft;
-
 
     scrollContainer.addEventListener('mousedown', (e) => {
         isScrolling = true;
@@ -218,8 +218,6 @@ onMounted(() => {
 .icons{
     display: flex;
     align-items: center;
-
-    gap: 5px;
 }
 .icons img{
     width: 20px;

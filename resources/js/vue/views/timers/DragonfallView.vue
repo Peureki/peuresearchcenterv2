@@ -10,9 +10,9 @@
     </Nav>
 
     <MainTimers
-        map-name="Auric Basin Timers"
+        map-name="Dragonfall Timers"
         :map="Map"
-        alt="Tangled Depths"
+        alt="Dragonfall"
         :events="events"
     >
         <template v-slot:info>
@@ -54,88 +54,57 @@ import EventBoss from '@/imgs/icons/Event_Boss.png'
 import EventShield from '@/imgs/icons/Event_Shield.png'
 import EventRally from '@/imgs/icons/Event_Rally.png'
 
-import Map from '@/imgs/maps/Auric_Basin.jpg'
+import Map from '@/imgs/maps/Dragonfall.jpg'
 
 // INPUT META AND PRE-META TIMES
 // name: [name of the event]
 // starts: [[hour, min]] 
 // If hour is odd UTC, do 3. If even, do 2
 let meta = [
-    {
-        name: "Challenges",
-        starts: [2, 45],
-        repeats: 2,
-        cooldown: ref(0),
-        progress: ref(0),
-        status: ref(false),
-    },
-    {
-        name: "Mordrem Pre-event",
-        starts: [2, 48],
-        repeats: 2,
-        cooldown: ref(0),
-        progress: ref(0),
-        status: ref(false),
-    },
-    {
-        name: "Octovine",
-        starts: [3, 0],
-        repeats: 2,
-        cooldown: ref(0),
-        progress: ref(0),
-        status: ref(false),
-    },
-    {
-        name: "Pylons",
-        starts: [3, 30],
-        repeats: 2,
-        cooldown: ref(0),
-        progress: ref(0),
-        status: ref(false),
-    },
+
 ]
 // APPLY ONLY if the map has outposts or events that have start collectively when a certain area is completed
 let outposts = [
     {
-        name: "North Pylon",
+        name: "Crystal Bloom (Captured)",
         status: ref(true),
     },
     {
-        name: "Southeast Pylon",
+        name: "Crystal Bloom (T2)",
         status: ref(true),
     },
     {
-        name: "South Pylon",
+        name: "Olmakhan (Captured)",
         status: ref(true),
     },
     {
-        name: "Southwest Pylon",
+        name: "Olmakhan (T1)",
         status: ref(true),
     },
     {
-        name: "West Pylon",
+        name: "Mist Warden (Captured)",
         status: ref(true),
     },
     {
-        name: "West-North Pylon",
+        name: "Mist Warden (T2)",
         status: ref(true),
     },
 ]
 
 let events = [
     /*
-     * NORTH PYLON
+     * CRYSTAL BLOOM (CAPTURED)
      */
     {
-        name: "Jungle Stalk",
-        outpost: "North Pylon",
+        name: "Cull (Crystal Bloom, W)",
+        outpost: "Crystal Bloom (Captured)",
         singleCooldown: ref(false),
-        initialCooldown: ref(60 * 11 + 25),
-        initialMin: 60 * 0 + 4,
-        initialMax: -(60 * 0 + 4),
-        respawnCooldown: ref(60 * 10 + 15), 
-        respawnMin: 60 * 1 + 0,
-        respawnMax: -(60 * 1 + 0),
+        initialCooldown: ref(60 * 1 + 40),
+        initialMin: 60 * 0 + 25,
+        initialMax: -(60 * 0 + 19),
+        respawnCooldown: ref(60 * 4 + 0), 
+        respawnMin: 60 * 0 + 56,
+        respawnMax: -(60 * 1 + 2),
         active: ref(false),
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
@@ -143,55 +112,24 @@ let events = [
         toggleInfo: ref(false),
         chain: [
             {
-                type: 'Boss',
-                img: EventBoss,
+                type: 'Skrimish',
+                img: EventSwords,
             },
         ],
-        info: 'Champ stalk. If DPS is meh, may need to CC. Otherwise, takes much longer to die',
+        info: 'Small bunch of regular mobs + veteran',
         top: `${8}%`,
-        left: `${65}%`, 
+        left: `${15}%`, 
     },
-    /*
-     * SOUTHEAST PYLON
-     */
-     {
-        name: "Wyvern",
-        outpost: "Southeast Pylon",
-        singleCooldown: ref(false),
-        initialCooldown: ref(60 * 9 + 35),
-        initialMin: 60 * 0 + 37,
-        initialMax: -(60 * 0 + 37),
-        respawnCooldown: ref(60 * 11 + 10), 
-        respawnMin: 60 * 0 + 38,
-        respawnMax: -(60 * 0 + 22),
-        active: ref(false),
-        respawnActive: ref(false),
-        toggleCheckbox: ref(true),
-        togglePlay: ref(true),
-        toggleInfo: ref(false),
-        chain: [
-            {
-                type: 'Boss',
-                img: EventBoss,
-            },
-        ],
-        info: 'Champ wyvern. CC when the bar is up, otherwise will become invulnerable and take much longer to die. Do not stand in front. Wyvern go brr',
-        top: `${73}%`,
-        left: `${102}%`, 
-    },
-    /*
-     * SOUTH PYLON
-     */
     {
-        name: "Blighted Saplings",
-        outpost: "South Pylon",
+        name: "Cull (Crystal Bloom, S)",
+        outpost: "Crystal Bloom (Captured)",
         singleCooldown: ref(false),
-        initialCooldown: ref(60 * 6 + 35),
-        initialMin: 60 * 1 + 0,
-        initialMax: -(60 * 1 + 0),
-        respawnCooldown: ref(60 * 8 + 35), 
-        respawnMin: 60 * 0 + 8,
-        respawnMax: -(60 * 0 + 15),
+        initialCooldown: ref(60 * 1 + 40),
+        initialMin: 60 * 0 + 25,
+        initialMax: -(60 * 0 + 19),
+        respawnCooldown: ref(60 * 4 + 0), 
+        respawnMin: 60 * 0 + 56,
+        respawnMax: -(60 * 1 + 2),
         active: ref(false),
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
@@ -199,27 +137,49 @@ let events = [
         toggleInfo: ref(false),
         chain: [
             {
-                type: 'Boss',
-                img: EventBoss,
+                type: 'Skrimish',
+                img: EventSwords,
             },
         ],
-        info: "This event repeats 3x AS LONG AS nobody completes the 'Prevent Blight Tendor Monocot' event. Blighted Saplings is the failed event of this. It needs to fail in order to spawn.",
-        top: `${85}%`,
-        left: `${65}%`, 
+        info: 'Small bunch of regular mobs + veteran',
+        top: `${27}%`,
+        left: `${30}%`, 
     },
-    /*
-     * SOUTHWEST
-     */
     {
-        name: "Stoneheads",
-        outpost: "Southwest Pylon",
+        name: "Cull (Crystal Bloom, E)",
+        outpost: "Crystal Bloom (Captured)",
         singleCooldown: ref(false),
-        initialCooldown: ref(60 * 10 + 10),
-        initialMin: 60 * 0 + 58,
-        initialMax: -(60 * 0 + 49),
-        respawnCooldown: ref(60 * 10 + 15), 
-        respawnMin: 60 * 1 + 0,
-        respawnMax: -(60 * 1 + 0),
+        initialCooldown: ref(60 * 1 + 40),
+        initialMin: 60 * 0 + 25,
+        initialMax: -(60 * 0 + 19),
+        respawnCooldown: ref(60 * 4 + 0), 
+        respawnMin: 60 * 0 + 56,
+        respawnMax: -(60 * 1 + 2),
+        active: ref(false),
+        respawnActive: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
+        toggleInfo: ref(false),
+        chain: [
+            {
+                type: 'Skrimish',
+                img: EventSwords,
+            },
+        ],
+        info: 'Small bunch of regular mobs + veteran',
+        top: `${9}%`,
+        left: `${60}%`, 
+    },
+    {
+        name: "Champ Abyssal",
+        outpost: "Crystal Bloom (Captured)",
+        singleCooldown: ref(false),
+        initialCooldown: ref(60 * 3 + 45),
+        initialMin: 60 * 0 + 48,
+        initialMax: -(60 * 1 + 14),
+        respawnCooldown: ref(60 * 9 + 25), 
+        respawnMin: 60 * 0 + 19,
+        respawnMax: -(60 * 0 + 19),
         active: ref(false),
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
@@ -231,23 +191,20 @@ let events = [
                 img: EventBoss,
             },
         ],
-        info: "Two champ stoneheads. When they reach 50%, they go invul and you need to kill rolling devils. Some could be champs if upscaled. This event is only recommended if you have a large DPS squad",
-        top: `${82}%`,
+        info: 'Champ',
+        top: `${18}%`,
         left: `${22}%`, 
     },
-    /*
-     * WEST PYLON
-     */
     {
-        name: "Golden Ooze",
-        outpost: "West Pylon",
+        name: "Brandstorm (Crystal Bloom)",
+        outpost: "Crystal Bloom (Captured)",
         singleCooldown: ref(false),
-        initialCooldown: ref(60 * 13 + 5),
-        initialMin: 60 * 0 + 26,
-        initialMax: -(60 * 0 + 25),
-        respawnCooldown: ref(60 * 13 + 55), 
-        respawnMin: 60 * 0 + 51,
-        respawnMax: -(60 * 0 + 30),
+        initialCooldown: ref(60 * 1 + 40),
+        initialMin: 60 * 0 + 25,
+        initialMax: -(60 * 0 + 19),
+        respawnCooldown: ref(60 * 4 + 0), 
+        respawnMin: 60 * 0 + 56,
+        respawnMax: -(60 * 1 + 2),
         active: ref(false),
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
@@ -255,40 +212,12 @@ let events = [
         toggleInfo: ref(false),
         chain: [
             {
-                type: 'Boss',
-                img: EventBoss,
+                type: 'Skrimish',
+                img: EventSwords,
             },
         ],
-        info: "Champ ooze. DPS and CC fairly quickly to avoid the smaller ooze from constantly healing it. Can bug when attacking too early before it officially spawns.",
-        top: `${38}%`,
-        left: `${10}%`, 
-    },
-    /*
-     * WEST-NORTH PYLON
-     */
-    {
-        name: "Gold Guzzler",
-        outpost: "West-North Pylon",
-        singleCooldown: ref(false),
-        initialCooldown: ref(60 * 9 + 20),
-        initialMin: 60 * 1 + 0,
-        initialMax: -(60 * 1 + 0),
-        respawnCooldown: ref(60 * 9 + 30), 
-        respawnMin: 60 * 1 + 0,
-        respawnMax: -(60 * 1 + 0),
-        active: ref(false),
-        respawnActive: ref(false),
-        toggleCheckbox: ref(true),
-        togglePlay: ref(true),
-        toggleInfo: ref(false),
-        chain: [
-            {
-                type: 'Boss',
-                img: EventBoss,
-            },
-        ],
-        info: "Throw rocks & CC to remove invul phase. Every CC break spawns arrowheads in the pit.",
-        top: `${20}%`,
+        info: 'Bunch of mobs and a tanky brandstorm',
+        top: `${17}%`,
         left: `${40}%`, 
     },
     /*

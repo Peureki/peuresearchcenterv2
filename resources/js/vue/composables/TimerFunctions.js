@@ -9,17 +9,6 @@ import { clearInterval, clearTimeout, setInterval, setTimeout } from 'worker-tim
 //
 // When the timer page is initalized, for each instance of the timers, in that View, set store.toggle[index]
 // Use setToggle as a function to know which should be changed when interacting with the timers
-export const store = reactive({
-    togglePlay: [],
-    toggleInfo: [],
-    setTogglePlay(index, value){
-        this.togglePlay[index] = value;
-    },
-    setToggleInfo(index, value){
-        this.toggleInfo[index] = value;
-    },
-})
-
 export const share = {
     timers: [],
     metas: [],
@@ -243,8 +232,7 @@ export function colorTimers(events, eventContainer, eventNames, eventTimes){
                     eventTimes[index].classList.remove('event-upcoming');
                     eventTimes[index].classList.remove('event-overdue');
                 }
-            // User did not activate the timer yet
-            } else if (event.active.value == true && event.singleCooldown.value == true){
+            } else if (event.active.value == true && event.singleCooldown.value == false){
                 // INITIAL SPAWN ACTIVITY
                 // Only triggers when users have started a timer that has both an initial cooldown and respawn cooldown
                 // Cooldown is past min time and > 0

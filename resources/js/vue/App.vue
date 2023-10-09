@@ -69,6 +69,16 @@ h6{
     margin: 0;
     font-weight: normal;
 }
+ul {
+    margin: 0;
+}
+li {
+    font-family: var(--font-family);
+    font-size: var(--font-size-p);
+    color: var(--color-text);
+    list-style: none;
+}
+
 nav h6{
     white-space: nowrap;
 }
@@ -248,13 +258,15 @@ nav section.nav-timer-container img{
 nav section.nav-timer-container svg{
     cursor: pointer;
 }
-nav section.nav-timer-container .icons{
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
 nav section.nav-timer-container .hidden-timer{
     display: none;
+}
+
+.list-general {
+    padding: var(--padding-ul-general);
+}
+.list-general li{
+    padding: var(--padding-li-general);
 }
 
 .rotate180 {
@@ -337,9 +349,12 @@ nav section.nav-timer-container .hidden-timer{
     --padding-shortcuts: 10px;
     --padding-h5: 20px 10px 20px 10px;
     --padding-main: 0px 10px 0 10px;
+    --padding-outpost: 10px 0px 10px 10px;
     --padding-timers: 5px;
     --padding-general-10px: 10px;
     --padding-p-inline: 0px 3px 0px 3px;
+    --padding-ul-general: 0px 10px 0px 10px;
+    --padding-li-general: 3px 10px 3px 10px;
 
     --margin-shortcuts-svg: 0 10px 0 10px;
 

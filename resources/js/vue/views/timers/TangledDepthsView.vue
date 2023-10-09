@@ -77,7 +77,7 @@ let meta = [
     
 ]
 
-let outposts = ref([
+let outposts = [
     {
         name: "Nuhoch",
         status: ref(true),
@@ -94,7 +94,7 @@ let outposts = ref([
         name: "SCAR",
         status: ref(true),
     },
-])
+]
 
 let events = [
     /*
@@ -114,6 +114,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -143,6 +144,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -167,6 +169,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -191,6 +194,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -215,6 +219,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -239,6 +244,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -267,6 +273,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -291,6 +298,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -298,7 +306,7 @@ let events = [
             },
             {
                 type: 'Boss',
-                img: EventShield,
+                img: EventBoss,
             },
         ],
         info: "Spawns underneth the Nuhoch waypoint. Escort travels down the tunnel to the water. Then champ skelk. The skelk needs to be CCed to prevent it from teleporting faster, but still might do so",
@@ -322,6 +330,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -346,6 +355,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -374,6 +384,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Skrimish',
@@ -398,6 +409,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(false),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -425,6 +437,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Skrimish',
@@ -449,6 +462,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(false),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -477,6 +491,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(false),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Skrimish',
@@ -504,6 +519,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Rally',
@@ -536,6 +552,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -560,6 +577,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Skrimish',
@@ -584,6 +602,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -615,6 +634,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Skrimish',
@@ -647,6 +667,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -671,6 +692,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -699,6 +721,7 @@ let events = [
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
+        toggleInfo: ref(false),
         chain: [
             {
                 type: 'Boss',

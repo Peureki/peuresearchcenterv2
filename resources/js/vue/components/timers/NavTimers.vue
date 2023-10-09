@@ -8,12 +8,12 @@
         <div 
             class="outposts"
             v-for="(outpost, index) in outposts"
-            @click="startSpecificTimers(outpost, events); toggle(index);"  
+            @click="outpost.status.value = !outpost.status.value; startSpecificTimers(outpost, events);"  
         >
             <Transition name="toggle">
-                <div v-if="toggleOutpost[index].status">
+                <div v-if="outpost.status.value">
                     <img src="@/imgs/icons/Outpost_Active.png" alt="Outpost icon" title="Outpost">
-                    <h5>{{ outpost.name }}</h5>
+                    <h6>{{ outpost.name }}</h6>
                 </div>
             </Transition>
             
@@ -94,21 +94,75 @@
                     <Transition name="toggle">
                         <article 
                             class="info"
-                            v-if="store.toggleInfo[index]"
+                            v-if="event.toggleInfo.value"
                         >
+                            <!--
+                                *
+                                * Event outpost info (if applicable)
+                                *
+                            -->
+                            <div 
+                                class="info-block"
+                                v-if="event.outpost != ''"    
+                            >
+                                <span class="left-right-text">
+                                    <p>Outpost:</p>
+                                    <p>{{ event.outpost }}</p>
+                                </span>
+                            </div>
+                            
+                            <!--
+                                *
+                                * Event info
+                                *
+                            -->
                             <p>{{ event.info }}</p>
-                            <!-- <span class="left-right-text">
-                                <p>Initial avg:</p>
-                                <p>{{ event.initialCooldown }}</p>
-                            </span>
-                            <span class="left-right-text">
-                                <p>Initial min:</p>
-                                <p>{{ convertToTime(event.initialMin) }}</p>
-                            </span>
-                            <span class="left-right-text">
-                                <p>Initial max:</p>
-                                <p>{{ convertToTime(event.initialMax) }}</p>
-                            </span> -->
+                            <!-- 
+                                *
+                                * INITIAL COOLDOWN INFO
+                                * Show if it has an initial cooldown. Otherwise only show the respawn time
+                                *
+                            -->
+                            <div class="info-block">
+                                <span 
+                                    v-if="event.initialCooldown.value != event.respawnCooldown.value"
+                                    class="left-right-text"
+                                >
+                                    <p class="event-upcoming">Initial min:</p>
+                                    <p class="event-upcoming">{{ convertToTime(event.initialCooldown.value - event.initialMin) }}</p>
+                                </span>
+                                <span 
+                                    v-if="event.initialCooldown.value != event.respawnCooldown.value"
+                                    class="left-right-text"
+                                >
+                                    <p class="event-up">Initial avg:</p>
+                                    <p class="event-up">{{ convertToTime(event.initialCooldown) }}</p>
+                                </span>
+                                <span 
+                                    v-if="event.initialCooldown.value != event.respawnCooldown.value"
+                                    class="left-right-text"
+                                >
+                                    <p class="event-overdue">Initial max:</p>
+                                    <p class="event-overdue">{{ convertToTime( event.initialCooldown.value - event.initialMax) }}</p>
+                                </span>
+                                <!-- 
+                                    *
+                                    * RESPAWN COOLDOWN INFO
+                                    *
+                                -->
+                                <span class="left-right-text">
+                                    <p class="event-upcoming">Respawn min:</p>
+                                    <p class="event-upcoming">{{ convertToTime(event.respawnCooldown.value - event.respawnMin) }}</p>
+                                </span>
+                                <span class="left-right-text">
+                                    <p class="event-up">Respawn avg:</p>
+                                    <p class="event-up">{{ convertToTime(event.respawnCooldown) }}</p>
+                                </span>
+                                <span class="left-right-text">
+                                    <p class="event-overdue">Respawn max:</p>
+                                    <p class="event-overdue">{{ convertToTime( event.respawnCooldown.value - event.respawnMax) }}</p>
+                                </span>
+                            </div>
                         </article>
                     </Transition>
                 </div>
@@ -139,7 +193,7 @@
 import { computed, onMounted } from 'vue'
 
 import TimerFunctions from '@/js/vue/components/timers/TimerFunctions.vue'
-import { sortTimers, colorTimers, share, store, metaCountdown, convertToTime } from '@/js/vue/composables/TimerFunctions.js'
+import { sortTimers, colorTimers, share, metaCountdown, convertToTime } from '@/js/vue/composables/TimerFunctions.js'
 
 const props = defineProps({
     outposts: Object,
@@ -178,10 +232,10 @@ onMounted(() => {
         eventTimes = timerContainer.querySelectorAll('.event-time');
 
     sortTimers(props.events, timerContainer);
-    sortTimers(props.meta, metaContainer);
+    //sortTimers(props.meta, metaContainer);
     colorTimers(props.events, eventContainer, eventNames, eventTimes);
 
-    metaCountdown(props.meta);
+    //metaCountdown(props.meta);
 })
 
 
@@ -189,22 +243,33 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.icons{
+    display: flex;
+    align-items: center;
+}
 .outposts > div{
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: var(--nav-padding-left);
+    padding-inline: var(--padding-timers);
     border-bottom: var(--border-bottom);
     cursor: pointer;
 }
-.outposts h5{
+.outposts h6{
     text-align: left;
+    padding: var(--padding-outpost);
+}
+.timer h6{
+    white-space: wrap;
 }
 .info{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 5px;
+    gap: 20px;
+}
+.info-block{
+    width: 100%;
 }
 .left-right-text{
     display: flex;
