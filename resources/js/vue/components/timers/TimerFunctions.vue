@@ -46,10 +46,34 @@
                 v-if="event.toggleInfo.value"    
                 @click="event.toggleInfo.value = !event.toggleInfo.value"
             >
-                <path d="M14 0C6.2 0 0 6.2 0 14C0 21.8 6.2 28 14 28C21.8 28 28 21.8 28 14C28 6.2 21.8 0 14 0ZM14 26C7.4 26 2 20.6 2 14C2 7.4 7.4 2 14 2C20.6 2 26 7.4 26 14C26 20.6 20.6 26 14 26Z" fill="#FFD12C"/>
-                <path d="M19.4 21L14 15.6L8.6 21L7 19.4L12.4 14L7 8.6L8.6 7L14 12.4L19.4 7L21 8.6L15.6 14L21 19.4L19.4 21Z" fill="#FFD12C"/>
+                <path d="M14 0C6.2 0 0 6.2 0 14C0 21.8 6.2 28 14 28C21.8 28 28 21.8 28 14C28 6.2 21.8 0 14 0ZM14 26C7.4 26 2 20.6 2 14C2 7.4 7.4 2 14 2C20.6 2 26 7.4 26 14C26 20.6 20.6 26 14 26Z" fill="var(--color-link)"/>
+                <path d="M19.4 21L14 15.6L8.6 21L7 19.4L12.4 14L7 8.6L8.6 7L14 12.4L19.4 7L21 8.6L15.6 14L21 19.4L19.4 21Z" fill="var(--color-link)"/>
             </svg>
 
+            <div 
+                class="timer-waypoint-container" v-if="event.waypointName"
+                @click="copyText(event.waypointLink); toggleTooltip(event.toggleTooltip);"    
+            >
+                <img src="@/imgs/icons/Waypoint.png" :alt="event.waypointName" :title="`Click to copy '${event.waypointName}'`">
+                <Transition name="fade">
+                    <div 
+                        class="tooltip"
+                        v-if="event.toggleTooltip.value"
+                    >
+                        <p>Copied!</p>
+                    </div>
+                </Transition>
+            </div>
+
+            <div class="checkbox-timer-container">
+                <input 
+                    type="checkbox" :id="`checkbox-timer-${event.name}-${parentViewId}`" :name="event.name" :checked="event.toggleCheckbox.value"
+                    @click="event.toggleCheckbox.value = !event.toggleCheckbox.value"
+                />
+                <label :for="`checkbox-timer-${event.name}-${parentViewId}`"></label>
+            </div>
+
+            
         </div>
         <div class="time">
             <p class="event-time">{{ convertToTime(event.initialCooldown) }}</p>
@@ -58,13 +82,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, getCurrentInstance} from 'vue'
 
 import { convertToTime} from '@/js/vue/composables/TimerFunctions.js'
 import Timer from '@/js/vue/composables/TimerFunctions.js'
 import { share } from '@/js/vue/composables/TimerFunctions.js'
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
+
+import { toggleTooltip } from '@/js/vue/composables/MouseFunctions'
 
 const props = defineProps({
     event: Object,
@@ -73,6 +99,22 @@ const props = defineProps({
 
 const timer = ref([]);
 const rotate = ref(0);
+
+const copyText = (text) => {
+    if (navigator.clipboard){
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                console.log(`copied ${text}`);
+            })
+            .catch(err => {
+                console.log('Failed to copy text: ', err);
+            })
+    }
+}
+
+// For timers and any duplicated IDs
+// Use the parent view ID to differentiate
+const parentViewId = ref(getCurrentInstance().parent.uid);
 
 share.timers[props.index] = new Timer(
     props.event.initialCooldown, 
@@ -155,6 +197,18 @@ const restartTimer = (index) => {
 .icons svg:first-child{
     width: 17px;
     height: 17px;
+}
+.event-time{
+    padding: var(--padding-event-time);
+}
+.timer-waypoint-container{
+    position: relative;
+}
+.timer-waypoint-container img{
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    cursor: pointer;
 }
 
 </style>

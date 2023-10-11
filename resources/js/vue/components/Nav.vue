@@ -78,7 +78,7 @@
             </svg>
         </header>
 
-        <Transition name="fade">
+        <Transition name="fade-right">
             <section v-if="benchmarksToggle">
                 <router-link to="/benchmarks/maps">
                     <img src="../../../imgs/icons/Commander_Icon.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">

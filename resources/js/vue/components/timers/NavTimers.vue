@@ -174,16 +174,37 @@
             *
         -->
         <article class="checkbox-container">
-            <p>Add or remove timers</p>
+            <!--
+                *
+                * GROUP CHECKBOXES
+                *
+            -->
+            <h5>Add/remove group</h5>
             <div 
-                class="checkbox"
-                v-for="(event, index) in events" :key="event.name"
+                class="checkbox-timer-container"
+                v-for="(event, index) in checkboxes" :key="event.name"
             >
                 <input 
-                    type="checkbox" :id="`checkbox-${event.name}`" :name="event.name" :checked="event.toggleCheckbox.value"
+                    type="checkbox" :id="`checkbox-timer-group-${event.name}`" :name="event.name" :checked="event.toggle.value"
+                    @click="event.toggle.value = !event.toggle.value; toggleCheckboxGroup(event.name)"
+                />
+                <label :for="`checkbox-timer-group-${event.name}`">{{ event.name }}</label>
+            </div>
+            <!--
+                *
+                * INDIVIDUAL CHECKBOXES
+                *
+            -->
+            <h5>Individuals</h5>
+            <div 
+                class="checkbox-timer-container"
+                v-for="event in events" :key="event.name"
+            >
+                <input 
+                    type="checkbox" :id="`checkbox-timer-individual-${event.name}`" :name="event.name" :checked="event.toggleCheckbox.value"
                     @click="event.toggleCheckbox.value = !event.toggleCheckbox.value"
                 />
-                <label :for="`checkbox-${event.name}`">{{ event.name }}</label>
+                <label :for="`checkbox-timer-individual-${event.name}`">{{ event.name }}</label>
             </div>
         </article>
     </section>
@@ -199,11 +220,17 @@ const props = defineProps({
     outposts: Object,
     events: Object,
     meta: Object,
+    checkboxes: Object,
 })
 const toggleOutpost = props.outposts;
 
-const toggle = (index) => {
-    toggleOutpost[index].status = !toggleOutpost[index].status;
+const toggleCheckboxGroup = (targetName) => {
+    console.log(targetName);
+    props.events.forEach((event) => {
+        if (event.name.includes(targetName) || event.outpost.includes(targetName)){
+            event.toggleCheckbox.value = !event.toggleCheckbox.value;
+        }
+    })
 }
 
 const startSpecificTimers = (outpost, events) => {
@@ -232,10 +259,10 @@ onMounted(() => {
         eventTimes = timerContainer.querySelectorAll('.event-time');
 
     sortTimers(props.events, timerContainer);
-    //sortTimers(props.meta, metaContainer);
+    sortTimers(props.meta, metaContainer);
     colorTimers(props.events, eventContainer, eventNames, eventTimes);
 
-    //metaCountdown(props.meta);
+    metaCountdown(props.meta);
 })
 
 
@@ -274,6 +301,7 @@ onMounted(() => {
 .left-right-text{
     display: flex;
     justify-content: space-between;
+    text-align: right;
     width: 100%;
 }
 .checkbox-container{

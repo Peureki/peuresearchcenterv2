@@ -1,4 +1,5 @@
 <template>
+    
     <router-view></router-view>
 </template>
 
@@ -40,7 +41,7 @@ html, body{
     height: 100%;
 }
 
-h1, h2, h3, h4, h5, h6, p{
+h1, h2, h3, h4, h5, h6, p, label{
     font-family: var(--font-family);
     color: var(--color-text);
     margin: 0;
@@ -68,6 +69,9 @@ h6{
     font-size: var(--font-size-h6);
     margin: 0;
     font-weight: normal;
+}
+p, label {
+    font-size: var(--font-size-p);
 }
 ul {
     margin: 0;
@@ -213,6 +217,9 @@ nav section .distinquish-maps .label#ls3{
 nav section .distinquish-maps .label#pof{
     background-color: var(--color-pof);
 }
+nav section .distinquish-maps .label#ls4{
+    background-color: var(--color-ls4);
+}
 nav section .distinquish-maps .maps{
     width: 100%;
 }
@@ -269,22 +276,87 @@ nav section.nav-timer-container .hidden-timer{
     padding: var(--padding-li-general);
 }
 
+/* 
+ * GLOBAL CHECKBOXES
+ */
+.checkbox-timer-container{
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 15px;
+    height: 15px;
+    padding: var(--padding-checkboxes);
+}
+.checkbox-timer-container input[type="checkbox"]{
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+}
+.checkbox-timer-container label {
+    display: flex;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.checkbox-timer-container label::before{
+    content: "";
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    color: var(--color-text);
+    border: 1px solid var(--color-link);
+}
+.checkbox-timer-container input[type="checkbox"]:checked + label::before{
+    content: "\002714";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 
+ * TOOLTIP
+ */
+.tooltip{
+    position: absolute;
+    background-color: var(--color-bkg);
+    padding: var(--padding-tooltip);
+    margin: var(--margin-tooltip);
+    border: var(--border-tooltip);
+    z-index: 100000000000000;
+}
+.tooltip p{
+    white-space: nowrap;
+}
+
 .rotate180 {
     transform: rotate(180deg);
 }
-
-.fade-enter-active {
+/* 
+ * TRANSITIONS
+ */
+.fade-right-enter-active {
     transition: opacity 0.1s ease, transform 0.5s ease;
 }
-.fade-leave-active{
+.fade-right-leave-active{
     transition: all 0.1s ease;
+}
+
+.fade-right-enter-from,
+.fade-right-leave-to {
+    opacity: 0;
+    transform: translateX(25px);
+}
+
+.fade-enter-active {
+    transition: opacity 0.3s ease;
+}
+.fade-leave-active{
+    transition: all 0.3s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
-    transform: translateX(25px);
 }
+
 
 .event-up{
     color: var(--color-event-up);
@@ -316,10 +388,12 @@ nav section.nav-timer-container .hidden-timer{
     --color-bkg: #2a2b2e;
     --color-h1: #ff391b;
     --color-text: #ffffff;
+    --color-link: #ffd12c;
     --color-black: #000000;
     --color-hot: #5ed625;
     --color-ls3: #f75277;
     --color-pof: #ec004d;
+    --color-ls4: #AF3CC9;
     --color-scrollbar-thumb: #88888a;
     --color-event-up: #5ED625;
     --color-event-upcoming: #FFB64A;
@@ -327,9 +401,11 @@ nav section.nav-timer-container .hidden-timer{
     --color-event-meta: #76E9E1;
 
     --font-size-h1: clamp(2rem, 20vw, 6.25rem);
-    --font-size-h4: clamp(1.3rem, 6vw, 2rem);
-    --font-size-h5: clamp(1.2rem, 7vw, 1.5rem);
-    --font-size-h6: clamp(1rem, 5vw, 1rem);
+    --font-size-h3: clamp(1.3rem, 8vw, 2rem);
+    --font-size-h4: clamp(1.2rem, 7vw, 1.5rem);
+    --font-size-h5: clamp(1.1rem, 5vw, 1.3rem);
+    --font-size-h6: clamp(0.8rem, 4vw, 1rem);
+    --font-size-p: clamp(0.8rem, 4vw, 1rem);
 
     --font-family: 'Rubik', sans-serif;
 
@@ -339,6 +415,7 @@ nav section.nav-timer-container .hidden-timer{
     --border-event-upcoming: 4px solid #FFB64A;
     --border-event-overdue: 4px solid #EC004D;
     --border-event-meta: 4px solid #76E9E1;
+    --border-tooltip: 2px solid #5f6062;
 
     --nav-width: clamp(15rem, 15vw, 18rem);
     --nav-padding: 10px 0 10px 10px;
@@ -351,12 +428,16 @@ nav section.nav-timer-container .hidden-timer{
     --padding-main: 0px 10px 0 10px;
     --padding-outpost: 10px 0px 10px 10px;
     --padding-timers: 5px;
+    --padding-event-time: 0px 0px 0px 10px;
     --padding-general-10px: 10px;
     --padding-p-inline: 0px 3px 0px 3px;
     --padding-ul-general: 0px 10px 0px 10px;
     --padding-li-general: 3px 10px 3px 10px;
+    --padding-checkboxes: 10px 5px 10px 5px;
+    --padding-tooltip: 10px;
 
     --margin-shortcuts-svg: 0 10px 0 10px;
+    --margin-tooltip: 20px 0px 0px 0px;
 
     --transition-all-03s-ease: all 0.3s ease;
 
