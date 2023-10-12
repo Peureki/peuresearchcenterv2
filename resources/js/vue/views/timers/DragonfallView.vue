@@ -19,23 +19,19 @@
         <template v-slot:info>
             <h4>How This Works</h4>
             <article class="info-content">
-                <p>Auric Basin is a unique map where there are pylon(outpost) events that need to be completed before some of the events listed on this page can begin. Each outpost will have a linear chain of events. </p>
+                <p>The overall goal is to get to the meta as fast as possible. Complete each sector/outpost by doing events in their area. When you complete them, click on the <span><img src="@/imgs/icons/Outpost_Active.png"> ouposts</span> to start their timers.</p>
 
-                <p>On the navigation, there are <span><img src="@/imgs/icons/Outpost_Active.png">pylon events</span>(North, Souteast, etc). When you complete the final chain of meta-outpost events (the in-game pylon symbol will turn orange), click on the appropiate outpost to start all of that area's timers.</p>
+                <p>For Menders: Menders spawn at T3 at Mist Warden and Crystal Bloom sector, but T2 at Olmakhan.</p>
 
-                <p>Since this map is unique, these events have two different kinds of timers. The initial spawn when you complete their meta-outpost events and their respawn timers. After completing an event for the first time, a new cooldown will initiate.</p>
-                <p>Priority pylons to complete: South &#x2192; Southeast &#x2192; West &#x2192; West-North &#x2192; North (if has progress already) &#x2192; Southwest &#x2192; East</p>
+                <p>For Bridges: The first cooldown is after completing the salvage event. Restart the timer after completing the first defense.</p>
 
                 <p>Repeatable priority of events:</p>
                 <ul class="list-general">
-                    <li>1. Veteran Vinetooths</li>
-                    <li>2. Blighted Saplings (south)</li>
-                    <li>3. Wyvern (southeast)</li>
-                    <li>4. Golden Ooze (west)</li>
-                    <li>5. Gold Guzzler (west-north)</li>
-                    <li>6. Stalk (north)</li>
-                    <li>7. Stoneheads (southwest & if squad has great DPS/CC)</li>
-                    <li>8. Priory Escorts</li>
+                    <li>1. Menders</li>
+                    <li>2. Culls</li>
+                    <li>3. Brandstorms</li>
+                    <li>4. Champs</li>
+                    <li>5. Sector/Outpost Objectives</li>
                 </ul>
             </article>
         </template>
@@ -71,7 +67,7 @@ let outposts = [
         status: ref(true),
     },
     {
-        name: "Crystal Bloom (T2)",
+        name: "Crystal Bloom (Finished T2)",
         status: ref(true),
     },
     {
@@ -79,7 +75,7 @@ let outposts = [
         status: ref(true),
     },
     {
-        name: "Olmakhan (T1)",
+        name: "Olmakhan (Finished T1)",
         status: ref(true),
     },
     {
@@ -87,7 +83,7 @@ let outposts = [
         status: ref(true),
     },
     {
-        name: "Mist Warden (T2)",
+        name: "Mist Warden (Finished T2)",
         status: ref(true),
     },
 ]
@@ -107,7 +103,7 @@ let checkboxes = [
     },
     {
         name: "Cull",
-        toggle: ref(true),
+        toggle: ref(false),
     },
     {
         name: "Brandstorm",
@@ -143,7 +139,7 @@ let events = [
         respawnMax: -(60 * 1 + 2),
         active: ref(false),
         respawnActive: ref(false),
-        toggleCheckbox: ref(true),
+        toggleCheckbox: ref(false),
         togglePlay: ref(true),
         toggleInfo: ref(false),
         toggleTooltip: ref(false),
@@ -171,7 +167,7 @@ let events = [
         respawnMax: -(60 * 1 + 2),
         active: ref(false),
         respawnActive: ref(false),
-        toggleCheckbox: ref(true),
+        toggleCheckbox: ref(false),
         togglePlay: ref(true),
         toggleInfo: ref(false),
         toggleTooltip: ref(false),
@@ -199,7 +195,7 @@ let events = [
         respawnMax: -(60 * 1 + 2),
         active: ref(false),
         respawnActive: ref(false),
-        toggleCheckbox: ref(true),
+        toggleCheckbox: ref(false),
         togglePlay: ref(true),
         toggleInfo: ref(false),
         toggleTooltip: ref(false),
@@ -273,7 +269,7 @@ let events = [
     },
     {
         name: "Mender (Crystal Bloom)",
-        outpost: "Crystal Bloom (T2)",
+        outpost: "Crystal Bloom (Finished T2)",
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 2 + 25),
         initialMin: 60 * 0 + 37,
@@ -314,7 +310,7 @@ let events = [
         respawnMax: -(60 * 1 + 2),
         active: ref(false),
         respawnActive: ref(false),
-        toggleCheckbox: ref(true),
+        toggleCheckbox: ref(false),
         togglePlay: ref(true),
         toggleInfo: ref(false),
         toggleTooltip: ref(false),
@@ -342,7 +338,7 @@ let events = [
         respawnMax: -(60 * 1 + 2),
         active: ref(false),
         respawnActive: ref(false),
-        toggleCheckbox: ref(true),
+        toggleCheckbox: ref(false),
         togglePlay: ref(true),
         toggleInfo: ref(false),
         toggleTooltip: ref(false),
@@ -370,7 +366,7 @@ let events = [
         respawnMax: -(60 * 1 + 2),
         active: ref(false),
         respawnActive: ref(false),
-        toggleCheckbox: ref(true),
+        toggleCheckbox: ref(false),
         togglePlay: ref(true),
         toggleInfo: ref(false),
         toggleTooltip: ref(false),
@@ -444,7 +440,7 @@ let events = [
     },
     {
         name: "Mender (Olmakhan)",
-        outpost: "Olmakhan (T1)",
+        outpost: "Olmakhan (Finished T1)",
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 2 + 25),
         initialMin: 60 * 0 + 37,
@@ -485,7 +481,7 @@ let events = [
         respawnMax: -(60 * 1 + 2),
         active: ref(false),
         respawnActive: ref(false),
-        toggleCheckbox: ref(true),
+        toggleCheckbox: ref(false),
         togglePlay: ref(true),
         toggleInfo: ref(false),
         toggleTooltip: ref(false),
@@ -513,7 +509,7 @@ let events = [
         respawnMax: -(60 * 1 + 2),
         active: ref(false),
         respawnActive: ref(false),
-        toggleCheckbox: ref(true),
+        toggleCheckbox: ref(false),
         togglePlay: ref(true),
         toggleInfo: ref(false),
         toggleTooltip: ref(false),
@@ -541,7 +537,7 @@ let events = [
         respawnMax: -(60 * 1 + 2),
         active: ref(false),
         respawnActive: ref(false),
-        toggleCheckbox: ref(true),
+        toggleCheckbox: ref(false),
         togglePlay: ref(true),
         toggleInfo: ref(false),
         toggleTooltip: ref(false),
@@ -615,7 +611,7 @@ let events = [
     },
     {
         name: "Mender (Mist Warden)",
-        outpost: "Mist Warden (T2)",
+        outpost: "Mist Warden (Finished T2)",
         singleCooldown: ref(false),
         initialCooldown: ref(60 * 2 + 25),
         initialMin: 60 * 0 + 37,

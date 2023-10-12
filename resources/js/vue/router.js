@@ -8,6 +8,8 @@ import TimersAuricBasinView from './views/timers/AuricBasinView.vue'
 import TimersTangledDepthsView from './views/timers/TangledDepthsView.vue'
 import TimersDragonfallView from '@/js/vue/views/timers/DragonfallView.vue'
 
+import TimersSkywatchArchipelagoView from '@/js/vue/views/timers/SkywatchArchipelagoView.vue'
+
 const routes = [
     {
         path: '/',
@@ -43,6 +45,12 @@ const routes = [
         path: '/timers/dragonfall',
         component: TimersDragonfallView,
         name: 'timers-dragonfall',
+    },
+    // SOTO
+    {
+        path: '/timers/skywatch-archipelago',
+        component: TimersSkywatchArchipelagoView,
+        name: 'timers-skywatch-archipelago',
     },
 ]
 

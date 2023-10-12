@@ -5,6 +5,7 @@
                 :outposts="outposts"
                 :events="events"
                 :meta="meta"
+                :checkboxes="checkboxes"
             />
         </template>
     </Nav>
@@ -122,6 +123,17 @@ let outposts = [
     },
 ]
 
+let checkboxes = [
+    {
+        name: "Veteran Vinetooth",
+        toggle: ref(true),
+    },
+    {
+        name: "Priory Explorer",
+        toggle: ref(true),
+    },
+]
+
 let events = [
     /*
      * NORTH PYLON
@@ -141,6 +153,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -148,6 +161,8 @@ let events = [
             },
         ],
         info: 'Champ stalk. If DPS is meh, may need to CC. Otherwise, takes much longer to die',
+        waypointName: "Northwatch Waypoint",
+        waypointLink: "[&BN0HAAA=]",
         top: `${8}%`,
         left: `${65}%`, 
     },
@@ -169,6 +184,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -176,6 +192,8 @@ let events = [
             },
         ],
         info: 'Champ wyvern. CC when the bar is up, otherwise will become invulnerable and take much longer to die. Do not stand in front. Wyvern go brr',
+        waypointName: "Chak Hollow Waypoint",
+        waypointLink: "[&BEkIAAA=]",
         top: `${73}%`,
         left: `${102}%`, 
     },
@@ -197,6 +215,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -204,6 +223,8 @@ let events = [
             },
         ],
         info: "This event repeats 3x AS LONG AS nobody completes the 'Prevent Blight Tendor Monocot' event. Blighted Saplings is the failed event of this. It needs to fail in order to spawn.",
+        waypointName: "Southwatch Waypoint",
+        waypointLink: "[&BAIIAAA=]",
         top: `${85}%`,
         left: `${65}%`, 
     },
@@ -225,6 +246,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -232,6 +254,8 @@ let events = [
             },
         ],
         info: "Two champ stoneheads. When they reach 50%, they go invul and you need to kill rolling devils. Some could be champs if upscaled. This event is only recommended if you have a large DPS squad",
+        waypointName: "Southwatch Waypoint",
+        waypointLink: "[&BAIIAAA=]",
         top: `${82}%`,
         left: `${22}%`, 
     },
@@ -253,6 +277,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -260,6 +285,8 @@ let events = [
             },
         ],
         info: "Champ ooze. DPS and CC fairly quickly to avoid the smaller ooze from constantly healing it. Can bug when attacking too early before it officially spawns.",
+        waypointName: "Westwatch Waypoint",
+        waypointLink: "[&BAYIAAA=]",
         top: `${38}%`,
         left: `${10}%`, 
     },
@@ -281,6 +308,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -288,6 +316,8 @@ let events = [
             },
         ],
         info: "Throw rocks & CC to remove invul phase. Every CC break spawns arrowheads in the pit.",
+        waypointName: "Westwatch Waypoint",
+        waypointLink: "[&BAYIAAA=]",
         top: `${20}%`,
         left: `${40}%`, 
     },
@@ -309,6 +339,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -316,6 +347,8 @@ let events = [
             },
         ],
         info: 'Veteran vinetooth. Depending on the squad size, will need to manage dps',
+        waypointName: "Northwatch Waypoint",
+        waypointLink: "[&BN0HAAA=]",
         top: `${27}%`,
         left: `${60}%`,
     },
@@ -334,6 +367,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -341,6 +375,8 @@ let events = [
             },
         ],
         info: 'Veteran vinetooth. Depending on the squad size, will need to manage dps',
+        waypointName: "Eastwatch Waypoint",
+        waypointLink: "[&BGwIAAA=]",
         top: `${45}%`,
         left: `${100}%`,
     },
@@ -359,6 +395,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -366,6 +403,8 @@ let events = [
             },
         ],
         info: 'Veteran vinetooth. Depending on the squad size, will need to manage dps',
+        waypointName: "Southwatch Waypoint",
+        waypointLink: "[&BAIIAAA=]",
         top: `${68}%`,
         left: `${63}%`,
     },
@@ -384,6 +423,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -391,6 +431,8 @@ let events = [
             },
         ],
         info: 'Veteran vinetooth. Depending on the squad size, will need to manage dps',
+        waypointName: "Westwatch Waypoint",
+        waypointLink: "[&BAYIAAA=]",
         top: `${53}%`,
         left: `${20}%`,
     },
@@ -409,6 +451,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -416,6 +459,8 @@ let events = [
             },
         ],
         info: 'Small escort with a rally defense at the end',
+        waypointName: "Eastwatch Waypoint",
+        waypointLink: "[&BGwIAAA=]",
         top: `${40}%`,
         left: `${95}%`,
     },
@@ -434,6 +479,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -441,6 +487,8 @@ let events = [
             },
         ],
         info: 'Small escort with a rally defense at the end. This specific escort can spawn either south or north where the TM spawns',
+        waypointName: "Eastwatch Waypoint",
+        waypointLink: "[&BGwIAAA=]",
         top: `${65}%`,
         left: `${90}%`,
     },
@@ -459,6 +507,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -466,6 +515,8 @@ let events = [
             },
         ],
         info: 'Small escort with a rally defense at the end',
+        waypointName: "Westwatch Waypoint",
+        waypointLink: "[&BAYIAAA=]",
         top: `${62}%`,
         left: `${25}%`,
     },
@@ -485,6 +536,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -492,6 +544,8 @@ let events = [
             },
         ],
         info: 'Daily TM rewards guranteed rare, spirit shard once per day. But, can still be counted for map bonus rewards after.',
+        waypointName: "Eastwatch Waypoint",
+        waypointLink: "[&BGwIAAA=]",
         top: `${60}%`,
         left: `${100}%`,
     },

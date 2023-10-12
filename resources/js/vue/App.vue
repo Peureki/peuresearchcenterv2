@@ -220,6 +220,9 @@ nav section .distinquish-maps .label#pof{
 nav section .distinquish-maps .label#ls4{
     background-color: var(--color-ls4);
 }
+nav section .distinquish-maps .label#soto{
+    background-color: var(--color-soto);
+}
 nav section .distinquish-maps .maps{
     width: 100%;
 }
@@ -394,6 +397,7 @@ nav section.nav-timer-container .hidden-timer{
     --color-ls3: #f75277;
     --color-pof: #ec004d;
     --color-ls4: #AF3CC9;
+    --color-soto: #d3a049;
     --color-scrollbar-thumb: #88888a;
     --color-event-up: #5ED625;
     --color-event-upcoming: #FFB64A;

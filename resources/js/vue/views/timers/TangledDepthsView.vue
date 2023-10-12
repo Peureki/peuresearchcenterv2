@@ -5,6 +5,7 @@
                 :outposts="outposts"
                 :events="events"
                 :meta="meta"
+                :checkboxes="checkboxes"
             />
         </template>
     </Nav>
@@ -96,6 +97,25 @@ let outposts = [
     },
 ]
 
+let checkboxes = [
+    {
+        name: "Nuhoch",
+        toggle: ref(true),
+    },
+    {
+        name: "Ogre",
+        toggle: ref(true),
+    },
+    {
+        name: "Rata",
+        toggle: ref(true),
+    },
+    {
+        name: "SCAR",
+        toggle: ref(true),
+    },
+]
+
 let events = [
     /*
      * NUHOCH EVENTS
@@ -115,6 +135,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -126,6 +147,8 @@ let events = [
             },
         ],
         info: '1st event: Kill chak. Does not scale well with a large squad when initially spawned. 2nd event: Champ in the cave, south',
+        waypointName: "Teku Nuhoch Waypoint",
+        waypointLink: "[&BAwIAAA=]",
         top: `${33}%`,
         left: `${55}%`,
         
@@ -145,6 +168,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -152,6 +176,8 @@ let events = [
             },
         ],
         info: '1st event: Kill chak. Does not scale well with a large squad when initially spawned. 2nd event: Champ in the cave, south',
+        waypointName: "Teku Nuhoch Waypoint",
+        waypointLink: "[&BAwIAAA=]",
         top: `${10}%`,
         left: `${70}%`,
     },
@@ -170,6 +196,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -177,6 +204,8 @@ let events = [
             },
         ],
         info: "Mobs have 'last laugh' when killed. Can upscale to champ Elementals and Sparks",
+        waypointName: "Teku Nuhoch Waypoint",
+        waypointLink: "[&BAwIAAA=]",
         top: `${15}%`,
         left: `${100}%`,
     },
@@ -195,6 +224,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -202,6 +232,8 @@ let events = [
             },
         ],
         info: "Witout people, it spawns only a few chak. With a squad, it could spawn over 30+ chak",
+        waypointName: "Teku Nuhoch Waypoint",
+        waypointLink: "[&BAwIAAA=]",
         top: `${8}%`,
         left: `${43}%`,
     },
@@ -220,6 +252,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -227,6 +260,8 @@ let events = [
             },
         ],
         info: "This event has multiple location spawns. All on the surface level of Nuhoch. Sometimes can spawn in the middle, south of the main tree, east or north, but the target location is always west. Very slow event without constant superspeed.",
+        waypointName: "Teku Nuhoch Waypoint",
+        waypointLink: "[&BAwIAAA=]",
         top: `${25}%`,
         left: `${70}%`,
     },
@@ -245,6 +280,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -256,6 +292,8 @@ let events = [
             },
         ],
         info: "First event: starts at the surface level, north. Escort moves quick and has a few waves of enemies along the way. Upscales to champs in the very beginning. Second event: Not worth doing",
+        waypointName: "Teku Nuhoch Waypoint",
+        waypointLink: "[&BAwIAAA=]",
         top: `${20}%`,
         left: `${50}%`,
     },
@@ -274,6 +312,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -281,6 +320,8 @@ let events = [
             },
         ],
         info: "Surface level. Waves of Zintl. Can spawn multiple champs. The event does complete itself after a while if no one is present",
+        waypointName: "Teku Nuhoch Waypoint",
+        waypointLink: "[&BAwIAAA=]",
         top: `${11}%`,
         left: `${55}%`,
     },
@@ -299,6 +340,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -310,6 +352,8 @@ let events = [
             },
         ],
         info: "Spawns underneth the Nuhoch waypoint. Escort travels down the tunnel to the water. Then champ skelk. The skelk needs to be CCed to prevent it from teleporting faster, but still might do so",
+        waypointName: "Teku Nuhoch Waypoint",
+        waypointLink: "[&BAwIAAA=]",
         top: `${18}%`,
         left: `${78}%`,
     },
@@ -331,6 +375,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -338,6 +383,8 @@ let events = [
             },
         ],
         info: '5 Wyvern nests to destroy. Surrounded by Fire Wyverns. Possible champs, but delayed',
+        waypointName: "Ogre Camp Waypoint",
+        waypointLink: "[&BMwHAAA=]",
         top: `${70}%`,
         left: `${65}%`,
     },
@@ -356,6 +403,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -367,6 +415,8 @@ let events = [
             },
         ],
         info: 'Very short escort that starts from the waypoint. Second event is a champ that produces condis that can last for over a minute. BRING CONDI CLEANSES',
+        waypointName: "Ogre Camp Waypoint",
+        waypointLink: "[&BMwHAAA=]",
         top: `${52}%`,
         left: `${43}%`,
     },
@@ -385,6 +435,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Skrimish',
@@ -392,6 +443,8 @@ let events = [
             },
         ],
         info: 'Kill chak. If with a squad, spread out. Otherwise the event takes forever',
+        waypointName: "Ogre Camp Waypoint",
+        waypointLink: "[&BMwHAAA=]",
         top: `${70}%`,
         left: `${36}%`,
     },
@@ -410,6 +463,7 @@ let events = [
         toggleCheckbox: ref(false),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -417,6 +471,8 @@ let events = [
             },
         ],
         info: 'NOT RECOMMENDED with a squad. Can easily bug out if someone interacts with the escort bat. Otherwise, can finish very quickly. Champs are fake.',
+        waypointName: "Ogre Camp Waypoint",
+        waypointLink: "[&BMwHAAA=]",
         top: `${63}%`,
         left: `${50}%`,
     },
@@ -438,6 +494,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Skrimish',
@@ -445,6 +502,8 @@ let events = [
             },
         ],
         info: 'Recommended with squad < 30. With a very large squad, could take a while if no elite/champs spawn.',
+        waypointName: "Rata Novas Waypoint",
+        waypointLink: "[&BAMIAAA=]",
         top: `${45}%`,
         left: `${95}%`,
     },
@@ -463,6 +522,7 @@ let events = [
         toggleCheckbox: ref(false),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -474,6 +534,8 @@ let events = [
             },
         ],
         info: 'NOT RECOMMENDED. Very long escort. If the boss is up, then that is worth doing.',
+        waypointName: "Rata Novas Waypoint",
+        waypointLink: "[&BAMIAAA=]",
         top: `${35}%`,
         left: `${80}%`,
     },
@@ -492,6 +554,7 @@ let events = [
         toggleCheckbox: ref(false),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Skrimish',
@@ -499,6 +562,8 @@ let events = [
             },
         ],
         info: 'NOT RECOMMENDED w/ a squad. Far location and may get too chaotic with the scaling/one shot downs',
+        waypointName: "Rata Novas Waypoint",
+        waypointLink: "[&BAMIAAA=]",
         top: `${55}%`,
         left: `${85}%`,
     },
@@ -520,6 +585,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Rally',
@@ -535,6 +601,8 @@ let events = [
             },
         ],
         info: '1) Spawns at the waypoint. Lots of chak + champ. 2) Escort from SCAR to Confluence waypoint (can upscale once to champs). 3) Chak Crown (kill vets and then boss)',
+        waypointName: "SCAR Camp Waypoint",
+        waypointLink: "[&BAAIAAA=]",
         top: `${70}%`,
         left: `${100}%`,
     },
@@ -553,6 +621,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -560,6 +629,8 @@ let events = [
             },
         ],
         info: 'Veteran Fire Wyvern. If large squad, small pokes.',
+        waypointName: "SCAR Camp Waypoint",
+        waypointLink: "[&BAAIAAA=]",
         top: `${85}%`,
         left: `${120}%`,
     },
@@ -578,6 +649,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Skrimish',
@@ -585,6 +657,8 @@ let events = [
             },
         ],
         info: 'Lots of wasps. Can upscale to multiple champs',
+        waypointName: "SCAR Camp Waypoint",
+        waypointLink: "[&BAAIAAA=]",
         top: `${68}%`,
         left: `${122}%`,
     },
@@ -603,6 +677,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Escort',
@@ -614,6 +689,8 @@ let events = [
             },
         ],
         info: '1) Escort from the SCAR wp to the end of the lane. 2) Either DPS the boss quickly or CC, otherwise the event will delay. It has a history of stalling at the escort.',
+        waypointName: "SCAR Camp Waypoint",
+        waypointLink: "[&BAAIAAA=]",
         top: `${57}%`,
         left: `${107}%`,
     },
@@ -635,6 +712,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Skrimish',
@@ -650,6 +728,8 @@ let events = [
             },
         ],
         info: '1) Spawns lots of mushrooms. Finishes very quickly and NPCs usually do it themselves after a minute. 2) Champ mushroom. 3) Escort to Ogre wp. Slight for the escort to spawn champs',
+        waypointName: "Order of Whispers Camp Waypoint",
+        waypointLink: "[&BA4IAAA=]",
         top: `${35}%`,
         left: `${25}%`,
     },
@@ -668,6 +748,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -675,6 +756,8 @@ let events = [
             },
         ],
         info: 'Daily boss. Can only be rewarded with a guaranteed rare, spirit shard, bouncy chest once per day. But, can still continously count for map bonus rewards.',
+        waypointName: "Teku Nuhoch Waypoint",
+        waypointLink: "[&BAwIAAA=]",
         top: `${2}%`,
         left: `${45}%`,
     },
@@ -693,6 +776,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Skirmish',
@@ -704,6 +788,8 @@ let events = [
             },
         ],
         info: "Manually activate this event if there's an invisible char waiting when you enter the Chak Stronghold. 1) Kill chak (difficult to get gold credit). 2) Boss @ 50% will move northward. **Event 2) counts for two events in one**",
+        waypointName: "Teku Nuhoch Waypoint",
+        waypointLink: "[&BAwIAAA=]",
         top: `${15}%`,
         left: `${25}%`,
     },
@@ -722,6 +808,7 @@ let events = [
         toggleCheckbox: ref(true),
         togglePlay: ref(true),
         toggleInfo: ref(false),
+        toggleTooltip: ref(false),
         chain: [
             {
                 type: 'Boss',
@@ -729,6 +816,8 @@ let events = [
             },
         ],
         info: "There's a mastery at the map location at Northern Confluence Tunnel. Fly up and, if there are 3 Earth Elementals defending a hidden room, then the event is up.",
+        waypointName: "Teku Nuhoch Waypoint",
+        waypointLink: "[&BAwIAAA=]",
         top: `${50}%`,
         left: `${70}%`,
     },

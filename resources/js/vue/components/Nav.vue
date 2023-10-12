@@ -238,8 +238,25 @@
 
                     <div class="maps">
                         <router-link to="/timers/dragonfall">
-                            <img src="@/imgs/icons/Mistborn_Mote.png" alt="Mistborn Mote" title="Timers/Dragonfall">
+                            <img src="@/imgs/icons/Mistborn_Mote.png" alt="Mistborn Mote" title="timers/dragonfall">
                             <h6>Dragonfall</h6>
+                        </router-link>
+                    </div>   
+                </div>
+                <!--
+                    *
+                    * SOTO TIMERS
+                    *
+                -->
+                <div class="distinquish-maps">
+                    <div class="label" id="soto">
+                        <h6>SOTO</h6>
+                    </div>
+
+                    <div class="maps">
+                        <router-link to="/timers/skywatch-archipelago">
+                            <img src="@/imgs/icons/Static_Charge.png" alt="Static Charge" title="timers/skywatch-archipelago">
+                            <h6>Skywatch Archipelago</h6>
                         </router-link>
                     </div>   
                 </div>
