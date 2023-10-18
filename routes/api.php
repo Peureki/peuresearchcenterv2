@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FetchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/fetch-items', [FetchController::class, 'fetchItems']);
+Route::get('/fetch-prices', [FetchController::class, 'fetchPrices']);
+Route::get('/fetch-ss', [FetchController::class, 'fetchSS']);
+Route::get('/fetch-trophy-shipments', [FetchController::class, 'fetchTrophyShipments']);
