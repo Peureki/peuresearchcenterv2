@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('item_id');
-            $table->string('name');
             $table->decimal('drop_rate', 10, 8); 
 
             $table->foreign('item_id')->references('id')->on('items')->onUpdate('cascade');

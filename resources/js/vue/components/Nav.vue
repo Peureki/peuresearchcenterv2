@@ -53,11 +53,27 @@
             </div>
         </div>
         <!--
-            * TIMERS
+            * SLOT - TIMERS
             * 
             * This changes depending on what timer page the website is currently on
         -->
         <slot name="timer"></slot>
+
+        <!--
+            * 
+            * SETTINGS / OPTIONS
+            * 
+        -->
+        <Transition name="fade-right">
+            <section v-if="settingsToggle">
+                <div class="settings-container">
+                    <button type="button" @click="changePrice">{{ priceSetting }}</button>
+                    <br>
+                    <label for="tax">Tax:</label><input type="text" id="tax" name="tax" v-model="taxSetting">
+                </div>
+            
+            </section>
+        </Transition>
 
         <!--
             *
@@ -109,6 +125,44 @@
 
         <!--
             *
+            * CURRENCIES
+            *
+        -->
+        <header @click="curriencesToggle = !curriencesToggle">
+            <h5>Curriences</h5>
+            <svg 
+                class="expand"
+                :class="{rotate180: curriencesToggle}" 
+                width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg"
+            >
+                <path d="M8.81372 0.397634C8.6944 0.280464 8.5326 0.214642 8.36389 0.214642C8.19519 0.214642 8.03339 0.280464 7.91407 0.397634L4.76468 3.49138L1.61529 0.397634C1.49529 0.283785 1.33457 0.220788 1.16775 0.222212C1.00093 0.223636 0.841356 0.289367 0.723392 0.405247C0.605428 0.521127 0.538516 0.677885 0.537066 0.841758C0.535617 1.00563 0.599746 1.16351 0.715642 1.28138L4.31486 4.81701C4.43417 4.93418 4.59597 5 4.76468 5C4.93339 5 5.09519 4.93418 5.2145 4.81701L8.81372 1.28138C8.93299 1.16418 9 1.00524 9 0.839509C9 0.673781 8.93299 0.514838 8.81372 0.397634Z" fill="#FFD12C"/>
+            </svg>
+        </header>
+
+        <Transition name="fade-right">
+            <section v-if="curriencesToggle">
+                <!--
+                    *
+                    * LS4 CURRIENCES
+                    *
+                -->
+                <div class="distinquish-section">
+                    <div class="label" id="ls4">
+                        <h6>LS4</h6>
+                    </div>
+
+                    <div class="routes">
+                        <router-link to="/currencies/volatile-magic">
+                            <img src="@/imgs/icons/Volatile_Magic.png" alt="Volatile Magic" title="Volatile Magic">
+                            <h6>Volatile Magic</h6>
+                        </router-link>
+                    </div>   
+                </div>
+            </section>
+        </Transition>
+
+        <!--
+            *
             * TIMERS
             *
         -->
@@ -123,19 +177,19 @@
             </svg>
         </header>
 
-        <Transition name="fade">
+        <Transition name="fade-right">
             <section v-if="timersToggle">
                 <!--
                     *
                     * HOT TIMERS
                     *
                 -->
-                <div class="distinquish-maps">
+                <div class="distinquish-section">
                     <div class="label" id="hot">
                         <h6>HoT</h6>
                     </div>
 
-                    <div class="maps">
+                    <div class="routes">
                         <router-link to="/benchmarks/maps">
                             <img src="../../../imgs/icons/Airship_Part.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Verdant Brink</h6>
@@ -157,12 +211,12 @@
                     * LS3 TIMERS
                     *
                 -->
-                <div class="distinquish-maps">
+                <div class="distinquish-section">
                     <div class="label" id="ls3">
                         <h6>LS3</h6>
                     </div>
 
-                    <div class="maps">
+                    <div class="routes">
                         <router-link to="/benchmarks/maps">
                             <img src="../../../imgs/icons/Blood_Ruby.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Bloodstone Fen</h6>
@@ -194,12 +248,12 @@
                     * POF TIMERS
                     *
                 -->
-                <div class="distinquish-maps">
+                <div class="distinquish-section">
                     <div class="label" id="pof">
                         <h6>POF</h6>
                     </div>
 
-                    <div class="maps">
+                    <div class="routes">
                         <router-link to="/benchmarks/maps">
                             <img src="../../../imgs/icons/Springer.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Desert Highlands</h6>
@@ -231,12 +285,12 @@
                     * LS4 TIMERS
                     *
                 -->
-                <div class="distinquish-maps">
+                <div class="distinquish-section">
                     <div class="label" id="ls4">
                         <h6>LS4</h6>
                     </div>
 
-                    <div class="maps">
+                    <div class="routes">
                         <router-link to="/timers/dragonfall">
                             <img src="@/imgs/icons/Mistborn_Mote.png" alt="Mistborn Mote" title="timers/dragonfall">
                             <h6>Dragonfall</h6>
@@ -248,12 +302,12 @@
                     * SOTO TIMERS
                     *
                 -->
-                <div class="distinquish-maps">
+                <div class="distinquish-section">
                     <div class="label" id="soto">
                         <h6>SOTO</h6>
                     </div>
 
-                    <div class="maps">
+                    <div class="routes">
                         <router-link to="/timers/skywatch-archipelago">
                             <img src="@/imgs/icons/Static_Charge.png" alt="Static Charge" title="timers/skywatch-archipelago">
                             <h6>Skywatch Archipelago</h6>
@@ -266,13 +320,50 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch} from 'vue'
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
 
+// For first time visitors
+// If there is no exisiting local stoarge property (like priceSetting), then make one by default
+// Otherwise, don't do anything
+const setDefaultLocalStorage = () => {
+    if (!localStorage.priceSetting){
+        localStorage.setItem('priceSetting', 'sell_price'); 
+    }
+    if (!localStorage.taxSetting){
+        localStorage.setItem('taxSetting', 0.85);
+    }
+}
+setDefaultLocalStorage(); 
+
 const benchmarksToggle = ref(true),
+    curriencesToggle = ref(true),
     timersToggle = ref(true);
 
+const settingsToggle = ref(true);
 
+const priceSetting = ref(localStorage.priceSetting),
+    taxSetting = ref(parseFloat(localStorage.taxSetting));
+
+
+
+const changePrice = () => {
+    if (priceSetting.value == 'sell_price'){
+        priceSetting.value = 'buy_price';
+        
+    } else {
+        priceSetting.value = 'sell_price';
+    }
+    localStorage.setItem('priceSetting', priceSetting.value);
+    console.log(localStorage);
+}
+
+watch(taxSetting, (newTaxSetting) => {
+    if (newTaxSetting == ''){
+        newTaxSetting = 0.85;
+    }
+    localStorage.taxSetting = newTaxSetting;
+})
 
 </script>

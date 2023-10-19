@@ -2,31 +2,72 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bags\TrophyShipment;
 use App\Models\Items;
+use App\Models\Shipment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class BagController extends Controller
 {
-    public function updateTrophyShipment(){
-        $targetItems = ["24358", "24289", "83757", "24300", "83103", "24299", "24341", "24350", "24356", "24288", "24277", "24276", "24282", "24283", "24294", "24295", "24351", "24357"];
+    // *
+    // * VOLATILE MAGIC
+    // *
+    public function volatileMagic($priceSetting, $tax){
+        // Initialize each shipment with the Shipment Model
+        $trophyShipments = (new Shipment)->setTable('trophy_shipments')->get(); 
+        $metalShipments = (new Shipment)->setTable('metal_shipments')->get();
+        $leatherShipments = (new Shipment)->setTable('leather_shipments')->get();
+        $woodShipments = (new Shipment)->setTable('wood_shipments')->get(); 
+        $clothShipments = (new Shipment)->setTable('cloth_shipments')->get(); 
 
-        $dropRate = ["1.00157032827339", "1.10782920810588", "0.20189934943543", "1.01809616391236", "0.198010917520377", "4.97607118821506", "5.05197038809542", "5.04037986988709", "4.93382187990728", "4.98392282958199", "1.00837508412473", "4.99700889852688", "5.02205937336424", "1.12914080610185", "5.03477155462499", "0.993045689075002", "1.04090331264488", "1.00388843191505"];
-
-        foreach ($targetItems as $key => $item){
-            $matchedItem = Items::where('id', $item)->get()[0]; 
-            TrophyShipment::updateOrCreate(
-                [
-                    'id' => $item
-                ],
-                [
-                    'item_id' => $matchedItem['id'],
-                    'name' => $matchedItem['name'],
-                    'drop_rate' => $dropRate[$key],
-                ]
-            );
+        // If the tax param exist, then that will be the tax
+        // Otherwise, default to 0.85
+        if ($tax){
+            $tax = $tax;
+        } else {
+            $tax = 0.85; 
         }
+        // If the price setting exist, then be that
+        // Otherwise, default to sell_price
+        // sell_price and buy_price are going to be params for the items table to get their respective columns in the db
+        if ($priceSetting){
+            if ($priceSetting == 'sell_price'){
+                $priceSetting == 'sell_price';
+            } 
+            if ($priceSetting == 'buy_price'){
+                $priceSetting == 'buy_price';
+            }
+        } else {
+            $priceSetting = 'sell_price';
+        }
+        
+        $shipments = [
+            "trophyShipments" => ["name" => "Trophy Shipments"] + $this->processShipment($trophyShipments, $priceSetting, $tax),
+            "metalShipments" => ["name" => "Metal Shipments"] + $this->processShipment($metalShipments, $priceSetting, $tax),
+            "leatherShipments" => ["name" => "Leather Shipments"] + $this->processShipment($leatherShipments, $priceSetting, $tax),
+            "woodShipments" => ["name" => "Wood Shipments"] + $this->processShipment($woodShipments, $priceSetting, $tax),
+            "clothShipments" => ["name" => "Cloth Shipments"] + $this->processShipment($clothShipments, $priceSetting, $tax),
+        ];
+
+        return response()->json($shipments);
+    }
+
+    private function processShipment($bag, $priceSetting, $tax){
+        $shipmentValue = 0;
+        $currencyValue = 0;
+
+        foreach ($bag as $mat){
+            // items is the foriegn key to access the main items table
+            $item = $mat->items; 
+            $shipmentValue += ($item[$priceSetting] * $tax) * $mat['drop_rate'];
+        }
+
+        $currencyValue = ($shipmentValue - 10000)/250;
+
+        return [
+            'shipmentValue' => $shipmentValue, 
+            'currencyValue' => $currencyValue
+        ]; 
     }
 
     

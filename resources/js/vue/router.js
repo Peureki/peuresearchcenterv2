@@ -4,6 +4,8 @@ import HomeView from './views/HomeView.vue'
 import BenchmarksMapsView from './views/benchmarks/MapsView.vue'
 import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
 
+import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagicView.vue'
+
 import TimersAuricBasinView from './views/timers/AuricBasinView.vue'
 import TimersTangledDepthsView from './views/timers/TangledDepthsView.vue'
 import TimersDragonfallView from '@/js/vue/views/timers/DragonfallView.vue'
@@ -25,6 +27,15 @@ const routes = [
         path: '/benchmarks/fishing',
         component: BenchmarksFishingView,
         name: 'benchmarks-fishing',
+    },
+    // *
+    // * CURRENCIES
+    // *
+    // * LS4
+    {
+        path: '/currencies/volatile-magic',
+        component:  CurrenciesVolatileMagicView,
+        name: 'currencies-volatile-magic',
     },
     // *
     // * TIMERS

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/update-trophy-shipment', [BagController::class, 'updateTrophyShipment']);
+
 
 Route::get('/{any}', function () {
     return view('welcome');

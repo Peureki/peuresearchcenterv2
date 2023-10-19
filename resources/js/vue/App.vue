@@ -193,11 +193,11 @@ nav a:hover{
 }
 
 
-nav section .distinquish-maps{
+nav section .distinquish-section{
     display: grid;
     grid-template-columns: 1fr 10fr;
 }
-nav section .distinquish-maps .label{
+nav section .distinquish-section .label{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -205,25 +205,25 @@ nav section .distinquish-maps .label{
     transform: rotate(180deg);
     padding: var(--nav-padding-label);
 }
-nav section .distinquish-maps .label h6{
+nav section .distinquish-section .label h6{
     color: var(--color-black);
 }
-nav section .distinquish-maps .label#hot{
+nav section .distinquish-section .label#hot{
     background-color: var(--color-hot);
 }
-nav section .distinquish-maps .label#ls3{
+nav section .distinquish-section .label#ls3{
     background-color: var(--color-ls3);
 }
-nav section .distinquish-maps .label#pof{
+nav section .distinquish-section .label#pof{
     background-color: var(--color-pof);
 }
-nav section .distinquish-maps .label#ls4{
+nav section .distinquish-section .label#ls4{
     background-color: var(--color-ls4);
 }
-nav section .distinquish-maps .label#soto{
+nav section .distinquish-section .label#soto{
     background-color: var(--color-soto);
 }
-nav section .distinquish-maps .maps{
+nav section .distinquish-section .routes{
     width: 100%;
 }
 nav section.nav-timer-container .outposts:hover{
@@ -270,6 +270,28 @@ nav section.nav-timer-container svg{
 }
 nav section.nav-timer-container .hidden-timer{
     display: none;
+}
+
+/* 
+ * GENERAL TABLES
+ */
+table{
+    border-spacing: 0;
+}
+table thead tr:first-child th{
+    background-color: var(--color-table-header);
+}
+table thead h4{
+    color: var(--color-black);
+    padding: var(--padding-table-header);
+}
+table td{
+    color: var(--color-text);
+    font-size: var(--font-size-p);
+    font-family: var(--font-family);
+    padding: var(--padding-table-td);
+    border-right: var(--border-general);
+    border-bottom: var(--border-general);
 }
 
 .list-general {
@@ -403,11 +425,12 @@ nav section.nav-timer-container .hidden-timer{
     --color-event-upcoming: #FFB64A;
     --color-event-overdue: #EC004D; 
     --color-event-meta: #76E9E1;
+    --color-table-header: #79eb94;
 
     --font-size-h1: clamp(2rem, 20vw, 6.25rem);
     --font-size-h3: clamp(1.3rem, 8vw, 2rem);
     --font-size-h4: clamp(1.2rem, 7vw, 1.5rem);
-    --font-size-h5: clamp(1.1rem, 5vw, 1.3rem);
+    --font-size-h5: clamp(1.1rem, 5vw, 1.2rem);
     --font-size-h6: clamp(0.8rem, 4vw, 1rem);
     --font-size-p: clamp(0.8rem, 4vw, 1rem);
 
@@ -439,6 +462,8 @@ nav section.nav-timer-container .hidden-timer{
     --padding-li-general: 3px 10px 3px 10px;
     --padding-checkboxes: 10px 5px 10px 5px;
     --padding-tooltip: 10px;
+    --padding-table-header: 10px 10px 10px 10px;
+    --padding-table-td: 10px 10px 10px 10px;
 
     --margin-shortcuts-svg: 0 10px 0 10px;
     --margin-tooltip: 20px 0px 0px 0px;

@@ -1,8 +1,6 @@
 <template>
     <main>
-        <header>
-            <h1>{{ mapName }}</h1>
-        </header>
+        <Header :page-name="mapName"/>
 
         <section class="content-container">
             <!--
@@ -134,6 +132,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+
+import Header from '@/js/vue/components/general/Header.vue'
 
 import TimerFunctions from '@/js/vue/components/timers/TimerFunctions.vue'
 import { colorTimers } from '@/js/vue/composables/TimerFunctions';
