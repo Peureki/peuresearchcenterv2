@@ -7,8 +7,12 @@ use App\Models\Shipment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-class BagController extends Controller
+class CurrencyController extends Controller
 {
+    // * BAG CONTROLLER
+    // * 
+    // * This controller is to return a COLLECTION of bags
+
     // *
     // * VOLATILE MAGIC
     // *

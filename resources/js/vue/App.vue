@@ -281,6 +281,20 @@ table{
 table thead tr:first-child th{
     background-color: var(--color-table-header);
 }
+table thead img {
+    width: var(--font-size-h5);
+    height: var(--font-size-h5);
+}
+table th{
+    border-bottom: var(--border-general);
+    border-right: var(--border-general);
+    cursor: pointer;
+    transition: var(--transition-all-03s-ease);
+}
+table th:hover{
+    color: var(--color-black);
+    border-bottom: var(--border-bottom-link);
+}
 table thead h4{
     color: var(--color-black);
     padding: var(--padding-table-header);
@@ -292,6 +306,28 @@ table td{
     padding: var(--padding-table-td);
     border-right: var(--border-general);
     border-bottom: var(--border-general);
+    vertical-align: middle;
+}
+table td.gold{
+    text-align: right;
+}
+table td.gold span{
+    margin: var(--margin-gold-span);
+}
+
+table svg{
+    width: 16px;
+    height: 16px;
+}
+table td span.cta{
+    display: flex;
+    justify-content: center;
+}
+table td img{
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    margin-left: 2px;
 }
 
 .list-general {
@@ -438,6 +474,7 @@ table td{
 
     --border-general: 2px solid #5f6062;
     --border-bottom: 2px solid #5f6062;
+    --border-bottom-link: 2px solid #ffd12c;
     --border-event-up: 4px solid #5ED625;
     --border-event-upcoming: 4px solid #FFB64A;
     --border-event-overdue: 4px solid #EC004D;
@@ -464,9 +501,11 @@ table td{
     --padding-tooltip: 10px;
     --padding-table-header: 10px 10px 10px 10px;
     --padding-table-td: 10px 10px 10px 10px;
+    --padding-gold-span: 0px 1px 0px 1px;
 
     --margin-shortcuts-svg: 0 10px 0 10px;
     --margin-tooltip: 20px 0px 0px 0px;
+    --margin-gold-span: 0px 2px 0px 2px;
 
     --transition-all-03s-ease: all 0.3s ease;
 

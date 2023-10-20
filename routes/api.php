@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\BagController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\FetchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,4 +25,7 @@ Route::get('/fetch-prices', [FetchController::class, 'fetchPrices']);
 Route::get('/fetch-ss', [FetchController::class, 'fetchSS']);
 Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 
-Route::get('/currencies/volatile-magic/{priceSetting}/{tax}', [BagController::class, 'volatileMagic']);
+// CURRENCIES
+Route::get('/currencies/volatile-magic/{priceSetting}/{tax}', [CurrencyController::class, 'volatileMagic']);
+
+// DETAILS
