@@ -65,7 +65,7 @@ class CurrencyController extends Controller
             $item = $mat->items; 
             $shipmentValue += ($item[$priceSetting] * $tax) * $mat['drop_rate'];
         }
-
+        // Cost to buy each shipment is 1g (10000) and 250VM 
         $currencyValue = ($shipmentValue - 10000)/250;
 
         return [

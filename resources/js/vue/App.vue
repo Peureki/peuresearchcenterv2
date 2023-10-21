@@ -319,10 +319,17 @@ table svg{
     width: 16px;
     height: 16px;
 }
-table td span.cta{
+table td.cta{
+    cursor: pointer;
+}
+table td.cta span{
     display: flex;
     justify-content: center;
 }
+table td.cta span svg{
+    transition: var(--transition-all-03s-ease);
+}
+
 table td img{
     vertical-align: middle;
     width: 16px;
