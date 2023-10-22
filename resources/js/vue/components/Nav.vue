@@ -80,7 +80,7 @@
             * BENCHMARKS
             *
         -->
-        <header 
+        <!-- <header 
             id="nav"
             @click="benchmarksToggle = !benchmarksToggle"
         >
@@ -121,7 +121,7 @@
                     <h6>Alt Parking</h6>
                 </router-link>
             </section>
-        </Transition>
+        </Transition> -->
 
         <!--
             *
@@ -190,10 +190,10 @@
                     </div>
 
                     <div class="routes">
-                        <router-link to="/benchmarks/maps">
+                        <!-- <router-link to="/benchmarks/maps">
                             <img src="../../../imgs/icons/Airship_Part.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Verdant Brink</h6>
-                        </router-link>
+                        </router-link> -->
 
                         <router-link to="/timers/auric-basin">
                             <img src="../../../imgs/icons/Lump_of_Aurillium.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
@@ -211,7 +211,7 @@
                     * LS3 TIMERS
                     *
                 -->
-                <div class="distinquish-section">
+                <!-- <div class="distinquish-section">
                     <div class="label" id="ls3">
                         <h6>LS3</h6>
                     </div>
@@ -242,13 +242,13 @@
                             <h6>Siren's Landing</h6>
                         </router-link>
                     </div>   
-                </div>
+                </div> -->
                 <!--
                     *
                     * POF TIMERS
                     *
                 -->
-                <div class="distinquish-section">
+                <!-- <div class="distinquish-section">
                     <div class="label" id="pof">
                         <h6>POF</h6>
                     </div>
@@ -279,7 +279,7 @@
                             <h6>Domain of Vabbi</h6>
                         </router-link>
                     </div>   
-                </div>
+                </div> -->
                 <!--
                     *
                     * LS4 TIMERS

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Items;
-use App\Models\Shipment;
+use App\Models\Bag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -18,11 +18,11 @@ class CurrencyController extends Controller
     // *
     public function volatileMagic($priceSetting, $tax){
         // Initialize each shipment with the Shipment Model
-        $trophyShipments = (new Shipment)->setTable('trophy_shipments')->get(); 
-        $metalShipments = (new Shipment)->setTable('metal_shipments')->get();
-        $leatherShipments = (new Shipment)->setTable('leather_shipments')->get();
-        $woodShipments = (new Shipment)->setTable('wood_shipments')->get(); 
-        $clothShipments = (new Shipment)->setTable('cloth_shipments')->get(); 
+        $trophyShipments = (new Bag)->setTable('trophy_shipments')->get(); 
+        $metalShipments = (new Bag)->setTable('metal_shipments')->get();
+        $leatherShipments = (new Bag)->setTable('leather_shipments')->get();
+        $woodShipments = (new Bag)->setTable('wood_shipments')->get(); 
+        $clothShipments = (new Bag)->setTable('cloth_shipments')->get(); 
 
         // If the tax param exist, then that will be the tax
         // Otherwise, default to 0.85
@@ -63,10 +63,11 @@ class CurrencyController extends Controller
         foreach ($bag as $mat){
             // items is the foriegn key to access the main items table
             $item = $mat->items; 
-            $shipmentValue += ($item[$priceSetting] * $tax) * $mat['drop_rate'];
+            $shipmentValue += (($item[$priceSetting] * $tax) * $mat['drop_rate']);
         }
         // Cost to buy each shipment is 1g (10000) and 250VM 
-        $currencyValue = ($shipmentValue - 10000)/250;
+        $shipmentValue -= 10000; 
+        $currencyValue = ($shipmentValue)/250;
 
         return [
             'shipmentValue' => $shipmentValue, 

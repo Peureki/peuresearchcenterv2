@@ -82,6 +82,10 @@ li {
     color: var(--color-text);
     list-style: none;
 }
+table, th, td{
+    border: var(--border-general);
+    border-collapse: collapse;
+}
 
 nav h6{
     white-space: nowrap;
@@ -233,7 +237,6 @@ nav section.nav-timer-container .outposts:hover{
 
 
 main {
-    /* padding-left: calc(var(--nav-width) + 1rem); */
     padding-left: var(--nav-width);
 }
 main header{
@@ -273,28 +276,40 @@ nav section.nav-timer-container .hidden-timer{
 }
 
 /* 
+ *
  * GENERAL TABLES
+ *
  */
 table{
     border-spacing: 0;
 }
+/* Only the main header at the top */
 table thead tr:first-child th{
     background-color: var(--color-table-header);
+}
+/* Prevents the main header of the table to look selectable */
+table tr:not(:first-child) th:hover{
+    color: var(--color-black);
+    border-bottom: var(--border-bottom-link);
+}
+table tr:nth-child(odd){
+    /* background-color: #252629; */
+    background-color: #303134;
+}
+
+table thead svg{
+    width: 20px;
+    height: 20px;
 }
 table thead img {
     width: var(--font-size-h5);
     height: var(--font-size-h5);
 }
 table th{
-    border-bottom: var(--border-general);
-    border-right: var(--border-general);
     cursor: pointer;
     transition: var(--transition-all-03s-ease);
 }
-table th:hover{
-    color: var(--color-black);
-    border-bottom: var(--border-bottom-link);
-}
+
 table thead h4{
     color: var(--color-black);
     padding: var(--padding-table-header);
@@ -304,8 +319,6 @@ table td{
     font-size: var(--font-size-p);
     font-family: var(--font-family);
     padding: var(--padding-table-td);
-    border-right: var(--border-general);
-    border-bottom: var(--border-general);
     vertical-align: middle;
 }
 table td.gold{
@@ -316,8 +329,8 @@ table td.gold span{
 }
 
 table svg{
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
 }
 table td.cta{
     cursor: pointer;
@@ -329,11 +342,14 @@ table td.cta span{
 table td.cta span svg{
     transition: var(--transition-all-03s-ease);
 }
+table td.total{
+    text-align: right;
+}
 
 table td img{
     vertical-align: middle;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     margin-left: 2px;
 }
 
@@ -396,6 +412,9 @@ table td img{
 
 .rotate180 {
     transform: rotate(180deg);
+}
+.rotate-90{
+    transform: rotate(90deg);
 }
 /* 
  * TRANSITIONS
@@ -509,6 +528,7 @@ table td img{
     --padding-table-header: 10px 10px 10px 10px;
     --padding-table-td: 10px 10px 10px 10px;
     --padding-gold-span: 0px 1px 0px 1px;
+    --padding-article: 10px;
 
     --margin-shortcuts-svg: 0 10px 0 10px;
     --margin-tooltip: 20px 0px 0px 0px;
