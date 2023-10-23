@@ -12,25 +12,18 @@ class CurrencyController extends Controller
     // * BAG CONTROLLER
     // * 
     // * This controller is to return a COLLECTION of bags
-
-    // *
-    // * VOLATILE MAGIC
-    // *
-    public function volatileMagic($priceSetting, $tax){
-        // Initialize each shipment with the Shipment Model
-        $trophyShipments = (new Bag)->setTable('trophy_shipments')->get(); 
-        $metalShipments = (new Bag)->setTable('metal_shipments')->get();
-        $leatherShipments = (new Bag)->setTable('leather_shipments')->get();
-        $woodShipments = (new Bag)->setTable('wood_shipments')->get(); 
-        $clothShipments = (new Bag)->setTable('cloth_shipments')->get(); 
-
+    private function getTax($tax){
         // If the tax param exist, then that will be the tax
         // Otherwise, default to 0.85
         if ($tax){
-            $tax = $tax;
+            return $tax;
         } else {
-            $tax = 0.85; 
+            $tax = 0.85;
+            return $tax;
         }
+    }
+
+    private function getPriceSetting($priceSetting){
         // If the price setting exist, then be that
         // Otherwise, default to sell_price
         // sell_price and buy_price are going to be params for the items table to get their respective columns in the db
@@ -44,6 +37,43 @@ class CurrencyController extends Controller
         } else {
             $priceSetting = 'sell_price';
         }
+        return $priceSetting;
+    }
+
+    // *
+    // * VOLATILE MAGIC
+    // *
+    public function volatileMagic($priceSetting, $tax){
+        // Initialize each shipment with the Shipment Model
+        $trophyShipments = (new Bag)->setTable('trophy_shipments')->get(); 
+        $metalShipments = (new Bag)->setTable('metal_shipments')->get();
+        $leatherShipments = (new Bag)->setTable('leather_shipments')->get();
+        $woodShipments = (new Bag)->setTable('wood_shipments')->get(); 
+        $clothShipments = (new Bag)->setTable('cloth_shipments')->get(); 
+
+        // // If the tax param exist, then that will be the tax
+        // // Otherwise, default to 0.85
+        // if ($tax){
+        //     $tax = $tax;
+        // } else {
+        //     $tax = 0.85; 
+        // }
+        // // If the price setting exist, then be that
+        // // Otherwise, default to sell_price
+        // // sell_price and buy_price are going to be params for the items table to get their respective columns in the db
+        // if ($priceSetting){
+        //     if ($priceSetting == 'sell_price'){
+        //         $priceSetting == 'sell_price';
+        //     } 
+        //     if ($priceSetting == 'buy_price'){
+        //         $priceSetting == 'buy_price';
+        //     }
+        // } else {
+        //     $priceSetting = 'sell_price';
+        // }
+        $priceSetting = $this->getPriceSetting($priceSetting);
+        $tax = $this->getTax($tax);
+
         
         $shipments = [
             "trophyShipments" => ["name" => "Trophy Shipments"] + $this->processShipment($trophyShipments, $priceSetting, $tax),
@@ -73,6 +103,13 @@ class CurrencyController extends Controller
             'shipmentValue' => $shipmentValue, 
             'currencyValue' => $currencyValue
         ]; 
+    }
+    // *
+    // * UNBOUND MAGIC
+    // *
+    public function unboundMagic($priceSetting, $tax){
+        $magicWarpedPacket = (new Bag)->setTable('magic_warped_packet')->get();
+        $mistWarpedBundle = (new Bag)->setTable('mist_warped_bundle')->get(); 
     }
 
     

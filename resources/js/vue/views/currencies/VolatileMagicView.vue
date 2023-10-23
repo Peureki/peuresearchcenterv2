@@ -3,12 +3,12 @@
     <main>
         <Header page-name="Volatile Magic"/>
     
-        <Section>
-            <template v-slot:table>
+        <TwoColSection>
+            <template v-slot:table1>
                 <table class="vm" ref="vmTable">
                     <thead>
                         <tr>
-                            <th colspan="4"><h4>Best Value</h4></th>
+                            <th colspan="100%"><h4>Best Value</h4></th>
                         </tr>
                         <tr>
                             <th @click="sortTable(vmTable, 0, 'string')"><h5>Name</h5></th>
@@ -25,12 +25,12 @@
                         <tr v-for="(shipment, index) in shipments">
                             <td>{{ shipment.name }}</td>
                             <td class="gold">
-                                <span v-for="gold in formatValue(shipment.shipmentValue)">
+                                <span class="gold-label" v-for="gold in formatValue(shipment.shipmentValue)">
                                     {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                                 </span>
                             </td>
                             <td class="gold">
-                                <span v-for="gold in formatValue(shipment.currencyValue)">
+                                <span class="gold-label" v-for="gold in formatValue(shipment.currencyValue)">
                                     {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                                 </span>
                             </td>
@@ -53,53 +53,67 @@
                 </table>
             </template>
 
-            <template v-slot:description>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <template v-slot:table2>
+                <table class="vmDetails" ref="vmDetails">
+                    <thead>
+                        <tr>
+                            <th colspan="100%"><h4>{{ detailsName }} Details</h4></th>
+                        </tr>
+                        <tr>
+                            <th @click="sortTable(vmDetails, 0, 'string')"><h5>Name</h5></th>
+                            <th @click="sortTable(vmDetails, 1, 'number')"><h5>Drop Rate</h5></th>
+                            <th @click="sortTable(vmDetails, 2, 'gold')"><h5>Value</h5></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="bag in bags">
+                            <td><img :src="bag.icon" :alt="bag.name" :title="bag.name"> {{ bag.name }}</td>
+                            <td>{{ bag.dropRate }}</td>
+                            <td class="gold">
+                                <span class="gold-label" v-for="gold in formatValue(bag.value)">
+                                    {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                                </span>
+                            </td>
+                        </tr>
+                        <tr class="row-offset">
+                            <td class="cost" colspan="100%">
+                                <span>Cost:</span>
+                                <span>
+                                    -<span v-for="gold in formatValue(costPerShipment)">
+                                        {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr class="row-offset">
+                            <td class="total" colspan="100%">
+                                <span>Total:</span>
+                                <span>
+                                    <span v-for="gold in formatValue(detailsTotal)">
+                                        {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </template>
-        </Section>
+        </TwoColSection>
 
         
 
-        <table class="vmDetails" ref="vmDetails">
-            <thead>
-                <tr>
-                    <th colspan="100%"><h4>{{ detailsName }} Details</h4></th>
-                </tr>
-                <tr>
-                    <th @click="sortTable(vmDetails, 0, 'string')"><h5>Name</h5></th>
-                    <th @click="sortTable(vmDetails, 1, 'number')"><h5>Drop Rate</h5></th>
-                    <th @click="sortTable(vmDetails, 2, 'gold')"><h5>Value</h5></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="bag in bags">
-                    <td><img :src="bag.icon" :alt="bag.name" :title="bag.name"> {{ bag.name }}</td>
-                    <td>{{ bag.dropRate }}</td>
-                    <td class="gold">
-                        <span v-for="gold in formatValue(bag.value)">
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="total" colspan="100%">
-                        Total: 
-                        <span v-for="gold in formatValue(detailsTotal)">
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                        </span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        
+
+        <p>Volatile Magic is a currency from and obtained mainly from LS4 maps. Shipments can be purchased at every LS4 map that has the VM symbol above their head. Istan, Sandswept, Kourna, and Dragonfall has their vendors when you spawn using their Teleport Scroll or from their main waypoint.</p>
     </main>
     
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 
 import Header from '@/js/vue/components/general/Header.vue'
-import Section from '@/js/vue/components/general/Section.vue'
+import TwoColSection from '@/js/vue/components/general/TwoColSection.vue'
 
 import Nav from '@/js/vue/components/Nav.vue'
 
@@ -112,6 +126,7 @@ const shipments = ref(null),
 const bags = ref(null),
     detailsName = ref(null),
     vmDetails = ref(null),
+    costPerShipment = ref(10000),
     detailsTotal = ref(null);
 
 const ctaDetails = ref([]);
@@ -136,6 +151,11 @@ const getVM = async () => {
         const response = await fetch(`../api/currencies/volatile-magic/${localStorage.priceSetting}/${localStorage.taxSetting}`);
         const responseData = await response.json(); 
         shipments.value = responseData;
+        
+        await nextTick(() => {
+            sortTable(vmTable.value, 2, 'gold');
+        });
+        
     } catch (error) {
         console.log('Error fetching data: ', error);
     }
@@ -170,7 +190,11 @@ const getDetails = async (name) => {
             detailsTotal.value += item.value; 
         })
         // Cost of shipments 
-        detailsTotal.value -= 10000; 
+        detailsTotal.value -= costPerShipment.value; 
+
+        await nextTick(() => {
+            sortTable(vmDetails.value, 2, 'gold');
+        })
 
     } catch (error){
         console.log("Error fetching data: ", error);
@@ -181,6 +205,7 @@ const getDetails = async (name) => {
 
 onMounted(() => {
     getVM(); 
+    
 })
 
 </script>

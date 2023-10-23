@@ -342,8 +342,9 @@ table td.cta span{
 table td.cta span svg{
     transition: var(--transition-all-03s-ease);
 }
-table td.total{
-    text-align: right;
+table td.total span + span,
+table td.cost span + span{
+    float: right;
 }
 
 table td img{

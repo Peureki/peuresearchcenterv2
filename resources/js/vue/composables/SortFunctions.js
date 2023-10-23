@@ -7,8 +7,9 @@ export function sortTable(table, column, setting){
 
     while(switching){
         switching = false; 
-        rows = table.rows; 
-
+        // Removes rows that are "row-offset" from being counted. Example: totals/cost rows so they don't accidently get sorted
+        rows = Array.from(table.rows).filter((row) => !row.classList.contains('row-offset'));
+        
         for (i = 2; i < rows.length - 1; i++){
             shouldSwitch = false; 
 
@@ -44,19 +45,30 @@ export function sortTable(table, column, setting){
                 // 1. Since gold is displayed in <span> tags with the imgs, get the span
                 // 2. For each span, get the num (the only thing in text form) from the span
                 // 3. From there, concat each num and parse to form the numerical gold amount
-                xSpan = x.querySelectorAll('span');
+                try {
+                    xSpan = x.querySelectorAll('.gold-label');
+                    ySpan = y.querySelectorAll('.gold-label');
+                } catch (error){}
+                
                 xSpan.forEach((span) => {
                     xNum += span.textContent.toString(); 
                 });
-
-                ySpan = y.querySelectorAll('span');
+                
                 ySpan.forEach((span) => {
                     yNum += span.textContent.toString(); 
                 });
+                
                 // Have to use replace because there's a leading 0 in all the strings
                 // It also makes negative number work
                 xNum = parseInt(xNum.replace(/^0+/, ""));
                 yNum = parseInt(yNum.replace(/^0+/, ""));
+
+                // When the xNum or yNum (string) is 00, parsing and using the fancy tricks makes it NaN
+                // This makes it 0 if NaN
+                if (isNaN(xNum))
+                    xNum = 0;
+                if (isNaN(yNum))
+                    yNum = 0;     
                 
                 if (xNum < yNum){
                     shouldSwitch = true;

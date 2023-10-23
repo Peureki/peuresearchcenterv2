@@ -1,11 +1,11 @@
 <template>
     <section>
         <article>
-            <slot name="table"></slot>
+            <slot name="table1"></slot>
         </article>
         
         <article>
-            <slot name="description"></slot>
+            <slot name="table2"></slot>
         </article>
     </section>
 </template>

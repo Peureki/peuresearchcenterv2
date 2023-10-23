@@ -157,7 +157,7 @@ let events = [
         name: "Sporling",
         outpost: "Nuhoch",
         singleCooldown: ref(false),
-        initialCooldown: ref(60 * 7 + 38),
+        initialCooldown: ref(60 * 7 + 40),
         initialMin: 60 * 1 + 46,
         initialMax: -(60 * 2 + 11),
         respawnCooldown: ref(60 * 30 + 14),
@@ -178,7 +178,7 @@ let events = [
         info: '1st event: Kill chak. Does not scale well with a large squad when initially spawned. 2nd event: Champ in the cave, south',
         waypointName: "Teku Nuhoch Waypoint",
         waypointLink: "[&BAwIAAA=]",
-        top: `${10}%`,
+        top: `${5}%`,
         left: `${70}%`,
     },
     {
