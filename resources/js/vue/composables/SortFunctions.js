@@ -3,7 +3,6 @@ export function sortTable(tableName, column, setting){
     let xSpan, ySpan; 
     let xNum, yNum;
     let table = document.querySelector(`.${tableName}`);
-
     switching = true; 
 
     while(switching){

@@ -5,7 +5,11 @@
     
         <TwoColSection>
             <template v-slot:table1>
-                <table class="currency-table">
+                <CurrencyMainTable
+                    :bags="shipments"
+                    @get-populate-bag-details="getPopulateBagDetails"
+                />
+                <!-- <table class="currency-table">
                     <thead>
                         <tr>
                             <th colspan="100%"><h4>Best Value</h4></th>
@@ -55,95 +59,16 @@
                             </td>
                         </tr>
                     </tbody>
-                </table>
+                </table> -->
             </template>
 
             <template v-slot:table2>
-                <CurrencyTable
+                <CurrencyDetailsTable
                     :table-toggle="detailsToggle"
                     :currency-name="currencyName"
                     :bag="bag"
                     :bag-content="bagContent"
-                >
-
-                </CurrencyTable>
-                <!-- <table 
-                    class="vmDetails" ref="vmDetails"
-                    v-if="templateDetails"   
-                >
-                    <thead>
-                        <tr>
-                            <th colspan="100%"><h4>{{ bag.name }} Details</h4></th>
-                        </tr>
-                        <tr>
-                            <th @click="sortTable(vmDetails, 0, 'string')"><h5>Name</h5></th>
-                            <th @click="sortTable(vmDetails, 1, 'number')"><h5>Drop Rate</h5></th>
-                            <th @click="sortTable(vmDetails, 2, 'gold')"><h5>Value</h5></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="mat in bagContent">
-                            <td><img :src="mat.icon" :alt="mat.name" :title="mat.name"> {{ mat.name }}</td>
-                            <td>{{ mat.dropRate }}</td>
-                            <td class="gold">
-                                <span class="gold-label" v-for="gold in formatValue(mat.value)">
-                                    {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                                </span>
-                            </td>
-                        </tr>
-                        <tr class="row-offset">
-                            <td class="total" colspan="100%">
-                                <span>Subtotal: </span>
-                                <span class="float-right">
-                                    <span v-for="gold in formatValue(bag.bagSubValue)">
-                                        {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                                    </span>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr class="row-offset">
-                            <td class="cost" colspan="100%">
-                                <span>Cost per bag:</span>
-                                <span class="float-right">
-                                    -<span v-for="gold in formatValue(bag.costPerBag)">
-                                        {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                                    </span>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr class="row-offset">
-                            <td class="total" colspan="100%">
-                                <span>Total per bag:</span>
-                                <span class="float-right">
-                                    <span v-for="gold in formatValue(bag.bagValue)">
-                                        {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                                    </span>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr class="row-offset">
-                            <td class="cost" colspan="100%">
-                                <span>{{currencyName}} per bag:</span>
-                                <span class="float-right">
-                                    -{{ bag.currencyPerBag }}<img src="@/imgs/icons/Volatile_Magic.png" alt="Volatile Magic" title="Volatile Magic">
-                                </span> 
-                            </td>
-                        </tr>
-                        <tr class="row-offset">
-                            <td class="total" colspan="100%">
-                                <span>
-                                    Total per {{ currencyName }}
-                                    <img src="@/imgs/icons/Volatile_Magic.png" alt="Volatile Magic" title="Volatile Magic">:
-                                </span>
-                                <span class="float-right">
-                                    <span v-for="gold in formatValue(bag.currencyValue)">
-                                        {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                                    </span>
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table> -->
+                />
             </template>
         </TwoColSection>
 
@@ -159,7 +84,8 @@ import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import TwoColSection from '@/js/vue/components/general/TwoColSection.vue'
 
-import CurrencyTable from '@/js/vue/components/tables/CurrencyTable.vue'
+import CurrencyMainTable from '@/js/vue/components/tables/CurrencyMainTable.vue'
+import CurrencyDetailsTable from '@/js/vue/components/tables/CurrencyDetailsTable.vue'
 
 import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
 import { sortTable } from '@/js/vue/composables/SortFunctions.js'
@@ -169,7 +95,7 @@ import { populateMainTable, populateCurrencyDetails } from '@/js/vue/composables
 const currencyName = ref('Volatile Magic');
 
 const detailsToggle = ref(false);
-const ctaDetails = ref([]);
+
 
 const priceSetting = ref(localStorage.priceSetting);
 
@@ -188,16 +114,7 @@ const getPopulateBagDetails = (individualBag) => {
     populateCurrencyDetails(individualBag, bagContent, sortDetails); 
 }
 
-// Use to rotate individual svgs that are created dynamically
-// Needs: 
-// 1. Class name of the cta
-// 2. Initialize a ref 
-// 3. Dynamically create the ref within the cta. ex: :ref="el => ctaDetails[index] = el" 
-const rotate90 = (index) => {
-    const ctaTd = document.querySelectorAll('.ctaArrow');
-    ctaTd.forEach((cta) => { cta.classList.remove('rotate-90'); });
-    ctaDetails.value[index].classList.add('rotate-90');
-}
+
 
 onMounted(() => {
     populateMainTable(url, shipments, sortFunction);

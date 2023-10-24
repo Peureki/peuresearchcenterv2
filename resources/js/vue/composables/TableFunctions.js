@@ -28,8 +28,6 @@ export async function populateMainTable(url, ref, sortFunction){
 // 
 // This is because the ref variables aren't reactive when called from within the HTML??
 export async function populateCurrencyDetails(bag, refBag, sortFunction) {
-    //refTotal.value = 0;
-
     try{
         let response = await fetch(`../api/bags/${bag.dbName}/${localStorage.priceSetting}/${localStorage.taxSetting}`);
         let responseData = await response.json(); 
