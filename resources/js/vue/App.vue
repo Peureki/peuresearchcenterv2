@@ -342,10 +342,7 @@ table td.cta span{
 table td.cta span svg{
     transition: var(--transition-all-03s-ease);
 }
-table td.total span + span,
-table td.cost span + span{
-    float: right;
-}
+
 
 table td img{
     vertical-align: middle;
@@ -417,6 +414,11 @@ table td img{
 .rotate-90{
     transform: rotate(90deg);
 }
+
+.float-right{
+    float: right;
+}
+
 /* 
  * TRANSITIONS
  */

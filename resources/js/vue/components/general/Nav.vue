@@ -147,6 +147,18 @@
                     *
                 -->
                 <div class="distinquish-section">
+                    <div class="label" id="ls3">
+                        <h6>LS3</h6>
+                    </div>
+
+                    <div class="routes">
+                        <router-link to="/currencies/unbound-magic">
+                            <img src="@/imgs/icons/Unbound_Magic.png" alt="Unbound Magic" title="Unbound Magic">
+                            <h6>Unbound Magic</h6>
+                        </router-link>
+                    </div>   
+                </div>
+                <div class="distinquish-section">
                     <div class="label" id="ls4">
                         <h6>LS4</h6>
                     </div>
@@ -196,12 +208,12 @@
                         </router-link> -->
 
                         <router-link to="/timers/auric-basin">
-                            <img src="../../../imgs/icons/Lump_of_Aurillium.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
+                            <img src="@/imgs/icons/Lump_of_Aurillium.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Auric Basin</h6>
                         </router-link>
 
                         <router-link to="/timers/tangled-depths">
-                            <img src="../../../imgs/icons/Ley_Line_Crystal.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
+                            <img src="@/imgs/icons/Ley_Line_Crystal.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Tangled Depths</h6>
                         </router-link>
                     </div>   

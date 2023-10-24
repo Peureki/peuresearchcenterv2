@@ -1,19 +1,19 @@
 <template>
     <Nav/>
     <main>
-        <Header page-name="Volatile Magic"/>
+        <Header :page-name="currencyName"/>
     
         <TwoColSection>
             <template v-slot:table1>
-                <table class="vm" ref="vmTable">
+                <table class="currency-table">
                     <thead>
                         <tr>
                             <th colspan="100%"><h4>Best Value</h4></th>
                         </tr>
                         <tr>
-                            <th @click="sortTable(vmTable, 0, 'string')"><h5>Name</h5></th>
-                            <th @click="sortTable(vmTable, 1, 'gold')"><h5>/Shipment</h5></th>
-                            <th @click="sortTable(vmTable, 2, 'gold')"><img src="@/imgs/icons/Volatile_Magic.png" alt="Volatile Magic" title="Volatile Magic"></th>
+                            <th @click="sortTable('currency-table', 0, 'string')"><h5>Name</h5></th>
+                            <th @click="sortTable('currency-table', 1, 'gold')"><h5>/Shipment</h5></th>
+                            <th @click="sortTable('currency-table', 2, 'gold')"><img src="@/imgs/icons/Volatile_Magic.png" alt="Volatile Magic" title="Volatile Magic"></th>
                             <th>
                                 <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M8.16675 13.1665H9.83341V8.1665H8.16675V13.1665ZM9.00008 6.49984C9.23619 6.49984 9.43425 6.41984 9.59425 6.25984C9.75425 6.09984 9.83397 5.90206 9.83341 5.6665C9.83341 5.43039 9.75341 5.23234 9.59341 5.07234C9.43341 4.91234 9.23564 4.83261 9.00008 4.83317C8.76397 4.83317 8.56591 4.91317 8.40591 5.07317C8.24591 5.23317 8.16619 5.43095 8.16675 5.6665C8.16675 5.90262 8.24675 6.10067 8.40675 6.26067C8.56675 6.42067 8.76453 6.50039 9.00008 6.49984ZM9.00008 17.3332C7.8473 17.3332 6.76397 17.1143 5.75008 16.6765C4.73619 16.2387 3.85425 15.6451 3.10425 14.8957C2.35425 14.1457 1.76064 13.2637 1.32341 12.2498C0.886193 11.2359 0.667304 10.1526 0.666748 8.99984C0.666748 7.84706 0.885637 6.76373 1.32341 5.74984C1.76119 4.73595 2.3548 3.854 3.10425 3.104C3.85425 2.354 4.73619 1.76039 5.75008 1.32317C6.76397 0.885948 7.8473 0.667059 9.00008 0.666504C10.1529 0.666504 11.2362 0.885393 12.2501 1.32317C13.264 1.76095 14.1459 2.35456 14.8959 3.104C15.6459 3.854 16.2398 4.73595 16.6776 5.74984C17.1154 6.76373 17.334 7.84706 17.3334 8.99984C17.3334 10.1526 17.1145 11.2359 16.6767 12.2498C16.239 13.2637 15.6454 14.1457 14.8959 14.8957C14.1459 15.6457 13.264 16.2396 12.2501 16.6773C11.2362 17.1151 10.1529 17.3337 9.00008 17.3332ZM9.00008 15.6665C10.8612 15.6665 12.4376 15.0207 13.7292 13.729C15.0209 12.4373 15.6667 10.8609 15.6667 8.99984C15.6667 7.13873 15.0209 5.56234 13.7292 4.27067C12.4376 2.979 10.8612 2.33317 9.00008 2.33317C7.13897 2.33317 5.56258 2.979 4.27091 4.27067C2.97925 5.56234 2.33341 7.13873 2.33341 8.99984C2.33341 10.8609 2.97925 12.4373 4.27091 13.729C5.56258 15.0207 7.13897 15.6665 9.00008 15.6665Z" fill="var(--color-text)"/>
@@ -25,7 +25,7 @@
                         <tr v-for="(shipment, index) in shipments">
                             <td>{{ shipment.name }}</td>
                             <td class="gold">
-                                <span class="gold-label" v-for="gold in formatValue(shipment.shipmentValue)">
+                                <span class="gold-label" v-for="gold in formatValue(shipment.bagValue)">
                                     {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                                 </span>
                             </td>
@@ -36,7 +36,11 @@
                             </td>
                             <td 
                                 class="cta" 
-                                @click="getDetails(shipment.name); rotate90(index)"
+                                @click="
+                                    detailsToggle = true;
+                                    getPopulateBagDetails(shipment); 
+                                    rotate90(index);
+                                "
                             >
                                 <span>
                                     <svg 
@@ -45,6 +49,7 @@
                                         width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
                                     >
                                         <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
+                                        <title>Details</title>
                                     </svg>
                                 </span>
                             </td>
@@ -54,10 +59,21 @@
             </template>
 
             <template v-slot:table2>
-                <table class="vmDetails" ref="vmDetails">
+                <CurrencyTable
+                    :table-toggle="detailsToggle"
+                    :currency-name="currencyName"
+                    :bag="bag"
+                    :bag-content="bagContent"
+                >
+
+                </CurrencyTable>
+                <!-- <table 
+                    class="vmDetails" ref="vmDetails"
+                    v-if="templateDetails"   
+                >
                     <thead>
                         <tr>
-                            <th colspan="100%"><h4>{{ detailsName }} Details</h4></th>
+                            <th colspan="100%"><h4>{{ bag.name }} Details</h4></th>
                         </tr>
                         <tr>
                             <th @click="sortTable(vmDetails, 0, 'string')"><h5>Name</h5></th>
@@ -66,20 +82,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="bag in bags">
-                            <td><img :src="bag.icon" :alt="bag.name" :title="bag.name"> {{ bag.name }}</td>
-                            <td>{{ bag.dropRate }}</td>
+                        <tr v-for="mat in bagContent">
+                            <td><img :src="mat.icon" :alt="mat.name" :title="mat.name"> {{ mat.name }}</td>
+                            <td>{{ mat.dropRate }}</td>
                             <td class="gold">
-                                <span class="gold-label" v-for="gold in formatValue(bag.value)">
+                                <span class="gold-label" v-for="gold in formatValue(mat.value)">
                                     {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                                 </span>
                             </td>
                         </tr>
                         <tr class="row-offset">
+                            <td class="total" colspan="100%">
+                                <span>Subtotal: </span>
+                                <span class="float-right">
+                                    <span v-for="gold in formatValue(bag.bagSubValue)">
+                                        {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr class="row-offset">
                             <td class="cost" colspan="100%">
-                                <span>Cost:</span>
-                                <span>
-                                    -<span v-for="gold in formatValue(costPerShipment)">
+                                <span>Cost per bag:</span>
+                                <span class="float-right">
+                                    -<span v-for="gold in formatValue(bag.costPerBag)">
                                         {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                                     </span>
                                 </span>
@@ -87,22 +113,39 @@
                         </tr>
                         <tr class="row-offset">
                             <td class="total" colspan="100%">
-                                <span>Total:</span>
+                                <span>Total per bag:</span>
+                                <span class="float-right">
+                                    <span v-for="gold in formatValue(bag.bagValue)">
+                                        {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr class="row-offset">
+                            <td class="cost" colspan="100%">
+                                <span>{{currencyName}} per bag:</span>
+                                <span class="float-right">
+                                    -{{ bag.currencyPerBag }}<img src="@/imgs/icons/Volatile_Magic.png" alt="Volatile Magic" title="Volatile Magic">
+                                </span> 
+                            </td>
+                        </tr>
+                        <tr class="row-offset">
+                            <td class="total" colspan="100%">
                                 <span>
-                                    <span v-for="gold in formatValue(detailsTotal)">
+                                    Total per {{ currencyName }}
+                                    <img src="@/imgs/icons/Volatile_Magic.png" alt="Volatile Magic" title="Volatile Magic">:
+                                </span>
+                                <span class="float-right">
+                                    <span v-for="gold in formatValue(bag.currencyValue)">
                                         {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                                     </span>
                                 </span>
                             </td>
                         </tr>
                     </tbody>
-                </table>
+                </table> -->
             </template>
         </TwoColSection>
-
-        
-
-        
 
         <p>Volatile Magic is a currency from and obtained mainly from LS4 maps. Shipments can be purchased at every LS4 map that has the VM symbol above their head. Istan, Sandswept, Kourna, and Dragonfall has their vendors when you spawn using their Teleport Scroll or from their main waypoint.</p>
     </main>
@@ -112,26 +155,38 @@
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
 
+import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import TwoColSection from '@/js/vue/components/general/TwoColSection.vue'
 
-import Nav from '@/js/vue/components/Nav.vue'
+import CurrencyTable from '@/js/vue/components/tables/CurrencyTable.vue'
 
 import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
 import { sortTable } from '@/js/vue/composables/SortFunctions.js'
 
-const shipments = ref(null),
-    vmTable = ref(null);
+import { populateMainTable, populateCurrencyDetails } from '@/js/vue/composables/TableFunctions'
 
-const bags = ref(null),
-    detailsName = ref(null),
-    vmDetails = ref(null),
-    costPerShipment = ref(10000),
-    detailsTotal = ref(null);
+const currencyName = ref('Volatile Magic');
 
+const detailsToggle = ref(false);
 const ctaDetails = ref([]);
 
 const priceSetting = ref(localStorage.priceSetting);
+
+// Initalize for main table 
+const url = `../api/currencies/volatile-magic/${localStorage.priceSetting}/${localStorage.taxSetting}`,
+    shipments = ref(null),
+    sortFunction = () => sortTable('currency-table', 2, 'gold');
+
+// Initalize for bag details table
+const bag = ref(null),
+    bagContent = ref(null),
+    sortDetails = () => sortTable('currency-details-table', 2, 'gold');
+
+const getPopulateBagDetails = (individualBag) => {
+    bag.value = individualBag;
+    populateCurrencyDetails(individualBag, bagContent, sortDetails); 
+}
 
 // Use to rotate individual svgs that are created dynamically
 // Needs: 
@@ -144,68 +199,8 @@ const rotate90 = (index) => {
     ctaDetails.value[index].classList.add('rotate-90');
 }
 
-// Send a request to get VM
-// use the localStorage priceSetting and taxSetting as params 
-const getVM = async () => {
-    try {
-        const response = await fetch(`../api/currencies/volatile-magic/${localStorage.priceSetting}/${localStorage.taxSetting}`);
-        const responseData = await response.json(); 
-        shipments.value = responseData;
-        
-        await nextTick(() => {
-            sortTable(vmTable.value, 2, 'gold');
-        });
-        
-    } catch (error) {
-        console.log('Error fetching data: ', error);
-    }
-}
-const getDetails = async (name) => {
-    detailsName.value = name;
-    detailsTotal.value = 0;
-
-    try{
-        let response, responseData;
-        switch (name){
-            case "Trophy Shipments": 
-                response = await fetch(`../api/bags/trophy_shipments/${localStorage.priceSetting}/${localStorage.taxSetting}`);
-            break;
-            case "Metal Shipments": 
-                response = await fetch(`../api/bags/metal_shipments/${localStorage.priceSetting}/${localStorage.taxSetting}`);
-            break;
-            case "Leather Shipments": 
-                response = await fetch(`../api/bags/leather_shipments/${localStorage.priceSetting}/${localStorage.taxSetting}`);
-            break;
-            case "Wood Shipments": 
-                response = await fetch(`../api/bags/wood_shipments/${localStorage.priceSetting}/${localStorage.taxSetting}`);
-            break;
-            case "Cloth Shipments": 
-                response = await fetch(`../api/bags/cloth_shipments/${localStorage.priceSetting}/${localStorage.taxSetting}`);
-            break;
-        }
-        responseData = await response.json(); 
-        bags.value = responseData; 
-        // Get total
-        bags.value.forEach((item) => {
-            detailsTotal.value += item.value; 
-        })
-        // Cost of shipments 
-        detailsTotal.value -= costPerShipment.value; 
-
-        await nextTick(() => {
-            sortTable(vmDetails.value, 2, 'gold');
-        })
-
-    } catch (error){
-        console.log("Error fetching data: ", error);
-    }
-}
-
-
-
 onMounted(() => {
-    getVM(); 
-    
+    populateMainTable(url, shipments, sortFunction);
 })
 
 </script>

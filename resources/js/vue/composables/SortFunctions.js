@@ -1,7 +1,8 @@
-export function sortTable(table, column, setting){
+export function sortTable(tableName, column, setting){
     let rows, switching, i, x, y, shouldSwitch; 
     let xSpan, ySpan; 
     let xNum, yNum;
+    let table = document.querySelector(`.${tableName}`);
 
     switching = true; 
 
@@ -9,7 +10,7 @@ export function sortTable(table, column, setting){
         switching = false; 
         // Removes rows that are "row-offset" from being counted. Example: totals/cost rows so they don't accidently get sorted
         rows = Array.from(table.rows).filter((row) => !row.classList.contains('row-offset'));
-        
+
         for (i = 2; i < rows.length - 1; i++){
             shouldSwitch = false; 
 

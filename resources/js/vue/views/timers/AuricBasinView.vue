@@ -45,7 +45,7 @@
 <script setup>
 import { ref } from 'vue'
 
-import Nav from '../../components/Nav.vue'
+import Nav from '@/js/vue/components/general/Nav.vue'
 
 import NavTimers from '@/js/vue/components/timers/NavTimers.vue'
 import MainTimers from '@/js/vue/components/timers/MainTimers.vue'

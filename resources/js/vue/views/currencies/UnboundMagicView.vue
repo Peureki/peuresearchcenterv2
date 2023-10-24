@@ -1,13 +1,13 @@
 <template>
     <Nav/>
-
     <main>
-        <h1>Peu Research Center</h1>
+        <Header page-name="Unbound Magic" />
+
     </main>
-    
 </template>
 
 <script setup>
 import Nav from '@/js/vue/components/general/Nav.vue'
+import Header from '@/js/vue/components/general/Header.vue'
 
 </script>

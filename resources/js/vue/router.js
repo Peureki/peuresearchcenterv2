@@ -4,6 +4,7 @@ import HomeView from './views/HomeView.vue'
 import BenchmarksMapsView from './views/benchmarks/MapsView.vue'
 import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
 
+import CurrenciesUnboundMagicView from '@/js/vue/views/currencies/UnboundMagicView.vue'
 import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagicView.vue'
 
 import TimersAuricBasinView from './views/timers/AuricBasinView.vue'
@@ -31,6 +32,12 @@ const routes = [
     // *
     // * CURRENCIES
     // *
+    // * LS3
+    {
+        path: '/currencies/unbound-magic',
+        component:  CurrenciesUnboundMagicView,
+        name: 'currencies-unbound-magic',
+    },
     // * LS4
     {
         path: '/currencies/volatile-magic',
