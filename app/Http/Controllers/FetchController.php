@@ -6,6 +6,7 @@ use App\Jobs\Fetches\FetchItems;
 use App\Jobs\Fetches\FetchPrices;
 use App\Models\Items;
 use App\Models\Bag;
+use App\Models\SampleSize;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -58,19 +59,32 @@ class FetchController extends Controller
     private function processBags($bag, $table){
         $ids = explode(",", $bag['id']);
         $drs = explode(",", $bag['dr']);
+
         $db = (new Bag)->setTable($table); 
+        // Set sample sizes for the table
+        SampleSize::updateOrCreate([
+                'name' => $table,
+            ],
+            [
+                'name' => $table,
+                'sample_size' => $bag['sampleSize'],
+            ]
+        );
 
         foreach ($ids as $key => $id){
-            $db->updateOrCreate(
-                [
-                    // Since item_id is always unique and not genaric like 'id', it can easily be tracked so no entries become repeated
-                    'item_id' => $id,
-                ],
-                [
-                    'item_id' => $id,
-                    'drop_rate' => $drs[$key],
-                ]
-            );
+            if ($id !== '#N/A'){
+                $db->updateOrCreate(
+                    [
+                        // Since item_id is always unique and not genaric like 'id', it can easily be tracked so no entries become repeated
+                        'item_id' => $id,
+                    ],
+                    [
+                        'item_id' => $id,
+                        'drop_rate' => $drs[$key],
+                    ]
+                );
+            }
+            
         }
           
     }

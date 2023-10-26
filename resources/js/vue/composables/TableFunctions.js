@@ -1,4 +1,4 @@
-import { nextTick, ref } from "vue";
+import { nextTick } from "vue";
 
 // Send a request to get VM
 // use the localStorage priceSetting and taxSetting as params 
@@ -28,6 +28,8 @@ export async function populateMainTable(url, ref, sortFunction){
 // 
 // This is because the ref variables aren't reactive when called from within the HTML??
 export async function populateCurrencyDetails(bag, refBag, sortFunction) {
+
+
     try{
         let response = await fetch(`../api/bags/${bag.dbName}/${localStorage.priceSetting}/${localStorage.taxSetting}`);
         let responseData = await response.json(); 

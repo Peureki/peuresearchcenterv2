@@ -415,6 +415,9 @@ table td img{
     transform: rotate(90deg);
 }
 
+.text-right{
+    text-align: right;
+}
 .float-right{
     float: right;
 }

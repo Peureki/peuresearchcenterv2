@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Items;
 use App\Models\Bag;
+use App\Models\SampleSize;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -65,25 +66,6 @@ class CurrencyController extends Controller
 
         return response()->json($shipments);
     }
-
-    private function processShipment($bag, $priceSetting, $tax){
-        $shipmentValue = 0;
-        $currencyValue = 0;
-
-        foreach ($bag as $mat){
-            // items is the foriegn key to access the main items table
-            $item = $mat->items; 
-            $shipmentValue += (($item[$priceSetting] * $tax) * $mat['drop_rate']);
-        }
-        // Cost to buy each shipment is 1g (10000) and 250VM 
-        $shipmentValue -= 10000; 
-        $currencyValue = ($shipmentValue)/250;
-
-        return [
-            'shipmentValue' => $shipmentValue, 
-            'currencyValue' => $currencyValue
-        ]; 
-    }
     // *
     // * UNBOUND MAGIC
     // *
@@ -105,6 +87,8 @@ class CurrencyController extends Controller
     private function processBags($bag, $priceSetting, $tax){
         // Get the table name
         $db = $bag[0]->getTable();
+        $sampleSize = SampleSize::where('name', $db)->get()[0]['sample_size']; 
+
         // Depending on the table name, switch cost and currency per bag purchase
         switch ($db){
             // *
@@ -131,27 +115,28 @@ class CurrencyController extends Controller
                 break;
         }
         // Initlize bag and currency values 
-        $bagSubValue = 0;
-        $bagValue = 0;
+        $bagTotal = 0;
+        $profitPerBag = 0;
         $currencyValue = 0; 
         
         // Go through each material using the $priceSetting and $tax 
         foreach ($bag as $mat){
             // ->items as the items db is a foreign key attached to the bags
             $item = $mat->items; 
-            $bagSubValue += (($item[$priceSetting] * $tax) * $mat['drop_rate']);
+            $bagTotal += (($item[$priceSetting] * $tax) * $mat['drop_rate']);
         }
         // Evaluate
-        $bagValue = $bagSubValue - $costPerBag; 
-        $currencyValue = $bagValue/$currencyPerBag;
+        $profitPerBag = $bagTotal - $costPerBag; 
+        $currencyValue = $profitPerBag/$currencyPerBag;
 
         return [
             'dbName' => $db,
             'costPerBag' => $costPerBag,
             'currencyPerBag' => $currencyPerBag,
-            'bagSubValue' => $bagSubValue,
-            'bagValue' => $bagValue,
-            'currencyValue' => $currencyValue
+            'total' => $bagTotal,
+            'profitPerBag' => $profitPerBag,
+            'currencyValue' => $currencyValue,
+            'sampleSize' => $sampleSize,
         ];
     }
 
