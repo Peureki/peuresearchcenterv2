@@ -8,6 +8,9 @@
                 * MAP CONTAINER
                 *
             -->
+            <slot name="nodeTrackerModal"></slot>
+
+
             <div class="map-container">
                 <img :src="map" :alt="alt" :title="alt">
                 <div v-for="(event, index) in events" :key="index">

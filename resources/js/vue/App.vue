@@ -51,6 +51,10 @@ h1{
     color: var(--color-h1);
     font-size: var(--font-size-h1);
 }
+h3{
+    color: var(--color-subheader);
+    font-size: var(--font-size-h3);
+}
 h4{
     color: var(--color-text);
     font-size: var(--font-size-h4);
@@ -494,6 +498,7 @@ table td img{
     --color-event-overdue: #EC004D; 
     --color-event-meta: #76E9E1;
     --color-table-header: #79eb94;
+    --color-subheader: #79EB94;
 
     --font-size-h1: clamp(2rem, 20vw, 6.25rem);
     --font-size-h3: clamp(1.3rem, 8vw, 2rem);
@@ -506,6 +511,7 @@ table td img{
 
     --border-general: 2px solid #5f6062;
     --border-bottom: 2px solid #5f6062;
+    --border-button-link: 2px solid #ffd12c;
     --border-bottom-link: 2px solid #ffd12c;
     --border-event-up: 4px solid #5ED625;
     --border-event-upcoming: 4px solid #FFB64A;
@@ -535,6 +541,7 @@ table td img{
     --padding-table-td: 10px 10px 10px 10px;
     --padding-gold-span: 0px 1px 0px 1px;
     --padding-article: 10px;
+    --padding-button: 5px;
 
     --margin-shortcuts-svg: 0 10px 0 10px;
     --margin-tooltip: 20px 0px 0px 0px;

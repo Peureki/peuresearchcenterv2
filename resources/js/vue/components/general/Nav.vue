@@ -44,10 +44,13 @@
                         <path d="M21.1532 1.4128C19.5698 0.754226 17.8554 0.276227 16.0697 4.88603e-05C16.054 -0.000397914 16.0385 0.00222374 16.0241 0.00772953C16.0097 0.0132353 15.9968 0.0214915 15.9863 0.0319157C15.7721 0.382449 15.522 0.839204 15.3554 1.18974C13.4613 0.934804 11.535 0.934804 9.64094 1.18974C9.47427 0.828582 9.22426 0.382449 8.99806 0.0319157C8.98616 0.0106713 8.95044 4.88603e-05 8.91473 4.88603e-05C7.12896 0.276227 5.42653 0.754226 3.83125 1.4128C3.81935 1.4128 3.80744 1.42343 3.79554 1.43405C0.557354 5.75729 -0.335528 9.96369 0.10496 14.1276C0.10496 14.1488 0.116865 14.1701 0.140675 14.1807C2.28359 15.5828 4.34317 16.4326 6.37894 16.9956C6.41466 17.0062 6.45037 16.9956 6.46228 16.9744C6.93848 16.3901 7.36706 15.774 7.73612 15.1261C7.75993 15.0836 7.73612 15.0411 7.6885 15.0305C7.00991 14.7968 6.36704 14.5206 5.73607 14.202C5.68845 14.1807 5.68845 14.117 5.72416 14.0851C5.85512 14.0001 5.98607 13.9045 6.11703 13.8196C6.14084 13.7983 6.17656 13.7983 6.20037 13.8089C10.2957 15.4766 14.7125 15.4766 18.7602 13.8089C18.784 13.7983 18.8198 13.7983 18.8436 13.8196C18.9745 13.9152 19.1055 14.0001 19.2364 14.0957C19.2841 14.1276 19.2841 14.1913 19.2245 14.2126C18.6055 14.5419 17.9507 14.8074 17.2721 15.0411C17.2245 15.0517 17.2126 15.1048 17.2245 15.1367C17.6054 15.7847 18.034 16.4008 18.4983 16.985C18.534 16.9956 18.5698 17.0062 18.6055 16.9956C20.6531 16.4326 22.7127 15.5828 24.8556 14.1807C24.8794 14.1701 24.8914 14.1488 24.8914 14.1276C25.4152 9.31573 24.0223 5.1412 21.2008 1.43405C21.1889 1.42343 21.177 1.4128 21.1532 1.4128ZM8.35519 11.5889C7.12896 11.5889 6.10512 10.5798 6.10512 9.33698C6.10512 8.09418 7.10515 7.08507 8.35519 7.08507C9.61713 7.08507 10.6172 8.1048 10.6052 9.33698C10.6052 10.5798 9.60522 11.5889 8.35519 11.5889ZM16.653 11.5889C15.4268 11.5889 14.403 10.5798 14.403 9.33698C14.403 8.09418 15.403 7.08507 16.653 7.08507C17.915 7.08507 18.915 8.1048 18.9031 9.33698C18.9031 10.5798 17.915 11.5889 16.653 11.5889Z" fill="#FFD12C"/>
                         <title>Discord</title>
                     </svg>
-                    <!-- REORDER  -->
-                    <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- MODAL  -->
+                    <svg 
+                        @click="nodeTrackerModalToggle = !nodeTrackerModalToggle; scrollTo('page-header');"
+                        width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    >
                         <path d="M0.125 0.125H8.45833V8.45833H0.125V0.125ZM10.5417 0.125H18.875V8.45833H10.5417V0.125ZM0.125 10.5417H8.45833V18.875H0.125V10.5417ZM13.6667 10.5417H15.75V13.6667H18.875V15.75H15.75V18.875H13.6667V15.75H10.5417V13.6667H13.6667V10.5417ZM12.625 2.20833V6.375H16.7917V2.20833H12.625ZM2.20833 2.20833V6.375H6.375V2.20833H2.20833ZM2.20833 12.625V16.7917H6.375V12.625H2.20833Z" fill="#FFD12C"/>
-                        <title>Customize this page</title>
+                        <title>Node Tracker Modal</title>
                     </svg>
                 </div>
             </div>
@@ -303,6 +306,11 @@
                     </div>
 
                     <div class="routes">
+                        <router-link to="/timers/domain-of-istan">
+                            <img src="@/imgs/icons/Kralkatite_Ore.png" alt="Mistborn Mote" title="timers/domain-of-istan">
+                            <h6>Domain of Istan</h6>
+                        </router-link>
+                        
                         <router-link to="/timers/dragonfall">
                             <img src="@/imgs/icons/Mistborn_Mote.png" alt="Mistborn Mote" title="timers/dragonfall">
                             <h6>Dragonfall</h6>
@@ -332,9 +340,10 @@
 </template>
 
 <script setup>
-import { ref, watch} from 'vue'
+import { ref, watch, provide } from 'vue'
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
+import { nodeTrackerModalToggle } from '@/js/vue/composables/Global';
 
 // For first time visitors
 // If there is no exisiting local stoarge property (like priceSetting), then make one by default
@@ -357,7 +366,6 @@ const settingsToggle = ref(true);
 
 const priceSetting = ref(localStorage.priceSetting),
     taxSetting = ref(parseFloat(localStorage.taxSetting));
-
 
 
 const changePrice = () => {

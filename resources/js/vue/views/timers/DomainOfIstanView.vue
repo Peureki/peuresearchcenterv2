@@ -14,9 +14,9 @@
 
 
     <MainTimers
-        map-name="Auric Basin Timers"
+        map-name="Domain of Istan Timers"
         :map="Map"
-        alt="Tangled Depths"
+        alt="Domain of Istan"
         :events="events"
     >
         <template v-slot:nodeTrackerModal>
@@ -67,7 +67,10 @@ import ElderWood from '@/imgs/icons/Elder_Wood_Log.png'
 import Mithril from '@/imgs/icons/Mithril_Ore.png'
 import Orichalcum from '@/imgs/icons/Orichalcum_Ore.png'
 import Flax from '@/imgs/icons/Pile_of_Flax_Seeds.png'
-import JunglePlant from '@/imgs/icons/Maguuma_Lily.png'
+import DesertHerb from '@/imgs/icons/Coriander_Seed.png'
+import DesertVeg from '@/imgs/icons/Head_of_Garlic.png'
+import Lentils from '@/imgs/icons/Handful_of_Red_Lentils.png'
+import Seaweed from '@/imgs/icons/Seaweed.png'
 import Mussel from '@/imgs/icons/Mussel.png'
 import SawgillMushroom from '@/imgs/icons/Sawgill_Mushroom.png'
 
@@ -75,8 +78,8 @@ import EventSwords from '@/imgs/icons/Event_Swords.png'
 import EventBoss from '@/imgs/icons/Event_Boss.png'
 import EventShield from '@/imgs/icons/Event_Shield.png'
 import EventRally from '@/imgs/icons/Event_Rally.png'
-
-import Map from '@/imgs/maps/Auric_Basin.jpg'
+// MAP
+import Map from '@/imgs/maps/Domain_of_Istan.jpg'
 
 // INPUT META AND PRE-META TIMES
 // name: [name of the event]
@@ -84,32 +87,16 @@ import Map from '@/imgs/maps/Auric_Basin.jpg'
 // If hour is odd UTC, do 3. If even, do 2
 let meta = [
     {
-        name: "Challenges",
-        starts: [2, 45],
+        name: "Palawadan",
+        starts: [3, 45],
         repeats: 2,
         cooldown: ref(0),
         progress: ref(0),
         status: ref(false),
     },
     {
-        name: "Mordrem Pre-event",
-        starts: [2, 48],
-        repeats: 2,
-        cooldown: ref(0),
-        progress: ref(0),
-        status: ref(false),
-    },
-    {
-        name: "Octovine",
-        starts: [3, 0],
-        repeats: 2,
-        cooldown: ref(0),
-        progress: ref(0),
-        status: ref(false),
-    },
-    {
-        name: "Pylons",
-        starts: [3, 30],
+        name: "Great Hall",
+        starts: [2, 20],
         repeats: 2,
         cooldown: ref(0),
         progress: ref(0),
@@ -156,18 +143,23 @@ let checkboxes = [
 ]
 
 let nodes = [
+{
+        name: "Baoba Sapling",
+        quantity: ref(0),
+        src: ElderWood,
+    },
     {
         name: "Ancient Sapling",
         quantity: ref(0),
         src: AncientWood,
     },
     {
-        name: "Palm Sapling",
+        name: "Mithril Ore",
         quantity: ref(0),
-        src: ElderWood,
+        src: Mithril, 
     },
     {
-        name: "Mithril Ore",
+        name: "Rich Mithril Ore",
         quantity: ref(0),
         src: Mithril, 
     },
@@ -177,9 +169,9 @@ let nodes = [
         src: Orichalcum,
     },
     {
-        name: "Jungle Plants",
+        name: "Rich Orichalcum Ore",
         quantity: ref(0),
-        src: JunglePlant,
+        src: Orichalcum,
     },
     {
         name: "Flax",
@@ -192,9 +184,24 @@ let nodes = [
         src: Mussel,
     },
     {
-        name: "Sawgill Mushrooms",
+        name: "Cluster of Desert Herbs",
         quantity: ref(0),
-        src: SawgillMushroom,
+        src: DesertHerb,
+    },
+    {
+        name: "Desert Vegetables",
+        quantity: ref(0),
+        src: DesertVeg,
+    },
+    {
+        name: "Seaweed",
+        quantity: ref(0),
+        src: Seaweed,
+    },
+    {
+        name: "Lentils",
+        quantity: ref(0),
+        src: Lentils,
     },
 ]
 
