@@ -26,25 +26,17 @@
         </template>
 
         <template v-slot:info>
-            <h4>How This Works</h4>
             <article class="info-content">
-                <p>Auric Basin is a unique map where there are pylon(outpost) events that need to be completed before some of the events listed on this page can begin. Each outpost will have a linear chain of events. </p>
+                <p>Istan has two metas and the best time to start a train is to start with Palawadan. While the Great Hall meta can spawn at any moment as long as you kill enough Mordent Cresent, it always will spawn at the xx:20 mark after Palawadan. This makes farming this map more structured and easier to manage.</p>
 
-                <p>On the navigation, there are <span><img src="@/imgs/icons/Outpost_Active.png">pylon events</span>(North, Souteast, etc). When you complete the final chain of meta-outpost events (the in-game pylon symbol will turn orange), click on the appropiate outpost to start all of that area's timers.</p>
-
-                <p>Since this map is unique, these events have two different kinds of timers. The initial spawn when you complete their meta-outpost events and their respawn timers. After completing an event for the first time, a new cooldown will initiate.</p>
-                <p>Priority pylons to complete: South &#x2192; Southeast &#x2192; West &#x2192; West-North &#x2192; North (if has progress already) &#x2192; Southwest &#x2192; East</p>
+                <p>In between metas, there should be enough time to do all the recommended events below at least once. If you're not doing a farm that should last an hour, then you can finish your farm after Great Hall.</p>
 
                 <p>Repeatable priority of events:</p>
                 <ul class="list-general">
-                    <li>1. Veteran Vinetooths</li>
-                    <li>2. Blighted Saplings (south)</li>
-                    <li>3. Wyvern (southeast)</li>
-                    <li>4. Golden Ooze (west)</li>
-                    <li>5. Gold Guzzler (west-north)</li>
-                    <li>6. Stalk (north)</li>
-                    <li>7. Stoneheads (southwest & if squad has great DPS/CC)</li>
-                    <li>8. Priory Escorts</li>
+                    <li>1. Metas</li>
+                    <li>2. Akali or Book Raid</li>
+                    <li>3. Pirates</li>
+                    <li>4. Graveyard</li>
                 </ul>
             </article>
         </template>
@@ -105,41 +97,10 @@ let meta = [
 ]
 // APPLY ONLY if the map has outposts or events that have start collectively when a certain area is completed
 let outposts = [
-    {
-        name: "North Pylon",
-        status: ref(true),
-    },
-    {
-        name: "Southeast Pylon",
-        status: ref(true),
-    },
-    {
-        name: "South Pylon",
-        status: ref(true),
-    },
-    {
-        name: "Southwest Pylon",
-        status: ref(true),
-    },
-    {
-        name: "West Pylon",
-        status: ref(true),
-    },
-    {
-        name: "West-North Pylon",
-        status: ref(true),
-    },
 ]
 
 let checkboxes = [
-    {
-        name: "Veteran Vinetooth",
-        toggle: ref(true),
-    },
-    {
-        name: "Priory Explorer",
-        toggle: ref(true),
-    },
+    
 ]
 
 let nodes = [
@@ -206,205 +167,16 @@ let nodes = [
 ]
 
 let events = [
-    /*
-     * NORTH PYLON
-     */
     {
-        name: "Jungle Stalk",
-        outpost: "North Pylon",
-        singleCooldown: ref(false),
-        initialCooldown: ref(60 * 11 + 25),
-        initialMin: 60 * 0 + 4,
-        initialMax: -(60 * 0 + 4),
-        respawnCooldown: ref(60 * 10 + 15), 
-        respawnMin: 60 * 1 + 0,
-        respawnMax: -(60 * 1 + 0),
-        active: ref(false),
-        respawnActive: ref(false),
-        toggleCheckbox: ref(true),
-        togglePlay: ref(true),
-        toggleInfo: ref(false),
-        toggleTooltip: ref(false),
-        chain: [
-            {
-                type: 'Boss',
-                img: EventBoss,
-            },
-        ],
-        info: 'Champ stalk. If DPS is meh, may need to CC. Otherwise, takes much longer to die',
-        waypointName: "Northwatch Waypoint",
-        waypointLink: "[&BN0HAAA=]",
-        top: `${8}%`,
-        left: `${65}%`, 
-    },
-    /*
-     * SOUTHEAST PYLON
-     */
-     {
-        name: "Wyvern",
-        outpost: "Southeast Pylon",
-        singleCooldown: ref(false),
-        initialCooldown: ref(60 * 9 + 35),
-        initialMin: 60 * 0 + 37,
-        initialMax: -(60 * 0 + 37),
-        respawnCooldown: ref(60 * 11 + 10), 
-        respawnMin: 60 * 0 + 38,
-        respawnMax: -(60 * 0 + 22),
-        active: ref(false),
-        respawnActive: ref(false),
-        toggleCheckbox: ref(true),
-        togglePlay: ref(true),
-        toggleInfo: ref(false),
-        toggleTooltip: ref(false),
-        chain: [
-            {
-                type: 'Boss',
-                img: EventBoss,
-            },
-        ],
-        info: 'Champ wyvern. CC when the bar is up, otherwise will become invulnerable and take much longer to die. Do not stand in front. Wyvern go brr',
-        waypointName: "Chak Hollow Waypoint",
-        waypointLink: "[&BEkIAAA=]",
-        top: `${73}%`,
-        left: `${102}%`, 
-    },
-    /*
-     * SOUTH PYLON
-     */
-    {
-        name: "Blighted Saplings",
-        outpost: "South Pylon",
-        singleCooldown: ref(false),
-        initialCooldown: ref(60 * 6 + 35),
-        initialMin: 60 * 1 + 0,
-        initialMax: -(60 * 1 + 0),
-        respawnCooldown: ref(60 * 8 + 35), 
-        respawnMin: 60 * 0 + 8,
-        respawnMax: -(60 * 0 + 15),
-        active: ref(false),
-        respawnActive: ref(false),
-        toggleCheckbox: ref(true),
-        togglePlay: ref(true),
-        toggleInfo: ref(false),
-        toggleTooltip: ref(false),
-        chain: [
-            {
-                type: 'Boss',
-                img: EventBoss,
-            },
-        ],
-        info: "This event repeats 3x AS LONG AS nobody completes the 'Prevent Blight Tendor Monocot' event. Blighted Saplings is the failed event of this. It needs to fail in order to spawn.",
-        waypointName: "Southwatch Waypoint",
-        waypointLink: "[&BAIIAAA=]",
-        top: `${85}%`,
-        left: `${65}%`, 
-    },
-    /*
-     * SOUTHWEST
-     */
-    {
-        name: "Stoneheads",
-        outpost: "Southwest Pylon",
-        singleCooldown: ref(false),
-        initialCooldown: ref(60 * 10 + 10),
-        initialMin: 60 * 0 + 58,
-        initialMax: -(60 * 0 + 49),
-        respawnCooldown: ref(60 * 10 + 15), 
-        respawnMin: 60 * 1 + 0,
-        respawnMax: -(60 * 1 + 0),
-        active: ref(false),
-        respawnActive: ref(false),
-        toggleCheckbox: ref(true),
-        togglePlay: ref(true),
-        toggleInfo: ref(false),
-        toggleTooltip: ref(false),
-        chain: [
-            {
-                type: 'Boss',
-                img: EventBoss,
-            },
-        ],
-        info: "Two champ stoneheads. When they reach 50%, they go invul and you need to kill rolling devils. Some could be champs if upscaled. This event is only recommended if you have a large DPS squad",
-        waypointName: "Southwatch Waypoint",
-        waypointLink: "[&BAIIAAA=]",
-        top: `${82}%`,
-        left: `${22}%`, 
-    },
-    /*
-     * WEST PYLON
-     */
-    {
-        name: "Golden Ooze",
-        outpost: "West Pylon",
-        singleCooldown: ref(false),
-        initialCooldown: ref(60 * 13 + 5),
-        initialMin: 60 * 0 + 26,
-        initialMax: -(60 * 0 + 25),
-        respawnCooldown: ref(60 * 13 + 55), 
-        respawnMin: 60 * 0 + 51,
-        respawnMax: -(60 * 0 + 30),
-        active: ref(false),
-        respawnActive: ref(false),
-        toggleCheckbox: ref(true),
-        togglePlay: ref(true),
-        toggleInfo: ref(false),
-        toggleTooltip: ref(false),
-        chain: [
-            {
-                type: 'Boss',
-                img: EventBoss,
-            },
-        ],
-        info: "Champ ooze. DPS and CC fairly quickly to avoid the smaller ooze from constantly healing it. Can bug when attacking too early before it officially spawns.",
-        waypointName: "Westwatch Waypoint",
-        waypointLink: "[&BAYIAAA=]",
-        top: `${38}%`,
-        left: `${10}%`, 
-    },
-    /*
-     * WEST-NORTH PYLON
-     */
-    {
-        name: "Gold Guzzler",
-        outpost: "West-North Pylon",
-        singleCooldown: ref(false),
-        initialCooldown: ref(60 * 9 + 20),
-        initialMin: 60 * 1 + 0,
-        initialMax: -(60 * 1 + 0),
-        respawnCooldown: ref(60 * 9 + 30), 
-        respawnMin: 60 * 1 + 0,
-        respawnMax: -(60 * 1 + 0),
-        active: ref(false),
-        respawnActive: ref(false),
-        toggleCheckbox: ref(true),
-        togglePlay: ref(true),
-        toggleInfo: ref(false),
-        toggleTooltip: ref(false),
-        chain: [
-            {
-                type: 'Boss',
-                img: EventBoss,
-            },
-        ],
-        info: "Throw rocks & CC to remove invul phase. Every CC break spawns arrowheads in the pit.",
-        waypointName: "Westwatch Waypoint",
-        waypointLink: "[&BAYIAAA=]",
-        top: `${20}%`,
-        left: `${40}%`, 
-    },
-    /*
-     * INDEPENDENT EVENTS
-     */
-    {
-        name: "Veteran Vinetooth (N)",
+        name: "Akili",
         outpost: "",
         singleCooldown: ref(true),
-        initialCooldown: ref(60 * 9 + 15),
-        initialMin: 60 * 1 + 9,
-        initialMax: -(60 * 0 + 40),
-        respawnCooldown: ref(60 * 9 + 15), 
-        respawnMin: 60 * 1 + 9,
-        respawnMax: -(60 * 0 + 40),
+        initialCooldown: ref(60 * 15 + 15),
+        initialMin: 60 * 1 + 59,
+        initialMax: -(60 * 0 + 58),
+        respawnCooldown: ref(60 * 15 + 15), 
+        respawnMin: 60 * 1 + 59,
+        respawnMax: -(60 * 0 + 58),
         active: ref(false),
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
@@ -413,26 +185,26 @@ let events = [
         toggleTooltip: ref(false),
         chain: [
             {
-                type: 'Boss',
-                img: EventBoss,
+                type: 'Escort',
+                img: EventShield,
             },
         ],
-        info: 'Veteran vinetooth. Depending on the squad size, will need to manage dps',
-        waypointName: "Northwatch Waypoint",
-        waypointLink: "[&BN0HAAA=]",
-        top: `${27}%`,
-        left: `${60}%`,
+        info: "NOTE: If this event is ongoing, then AKILI won't spawn. AKILI will spawn 6m 30s after a successful Book event. If AKILI is ongoing, then this event won't spawn. This event will spawn 2m 30s after a successful Akili event *unless* AKILI finished after 15m of the previous Book event. At that point, the respawn timer is unknown. --- There are 3 rounds of defenses. The mobs have a weird spawn where they spawn underground and can take damage. Can upscale to champs",
+        waypointName: "Astralarium Waypoint",
+        waypointLink: "[&BPoKAAA=]",
+        top: `${18}%`,
+        left: `${30}%`,
     },
     {
-        name: "Veteran Vinetooth (E)",
+        name: "Book Raid",
         outpost: "",
         singleCooldown: ref(true),
-        initialCooldown: ref(60 * 9 + 15),
-        initialMin: 60 * 1 + 9,
-        initialMax: -(60 * 0 + 40),
-        respawnCooldown: ref(60 * 9 + 15), 
-        respawnMin: 60 * 1 + 9,
-        respawnMax: -(60 * 0 + 40),
+        initialCooldown: ref(60 * 19 + 50),
+        initialMin: 60 * 2 + 27,
+        initialMax: -(60 * 1 + 7),
+        respawnCooldown: ref(60 * 19 + 50), 
+        respawnMin: 60 * 2 + 27,
+        respawnMax: -(60 * 1 + 7),
         active: ref(false),
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
@@ -441,82 +213,26 @@ let events = [
         toggleTooltip: ref(false),
         chain: [
             {
-                type: 'Boss',
-                img: EventBoss,
+                type: 'Defense',
+                img: EventShield,
             },
         ],
-        info: 'Veteran vinetooth. Depending on the squad size, will need to manage dps',
-        waypointName: "Eastwatch Waypoint",
-        waypointLink: "[&BGwIAAA=]",
-        top: `${45}%`,
-        left: `${100}%`,
-    },
-    {
-        name: "Veteran Vinetooth (S)",
-        outpost: "",
-        singleCooldown: ref(true),
-        initialCooldown: ref(60 * 9 + 15),
-        initialMin: 60 * 1 + 9,
-        initialMax: -(60 * 0 + 40),
-        respawnCooldown: ref(60 * 9 + 15), 
-        respawnMin: 60 * 1 + 9,
-        respawnMax: -(60 * 0 + 40),
-        active: ref(false),
-        respawnActive: ref(false),
-        toggleCheckbox: ref(true),
-        togglePlay: ref(true),
-        toggleInfo: ref(false),
-        toggleTooltip: ref(false),
-        chain: [
-            {
-                type: 'Boss',
-                img: EventBoss,
-            },
-        ],
-        info: 'Veteran vinetooth. Depending on the squad size, will need to manage dps',
-        waypointName: "Southwatch Waypoint",
-        waypointLink: "[&BAIIAAA=]",
-        top: `${68}%`,
-        left: `${63}%`,
-    },
-    {
-        name: "Veteran Vinetooth (W)",
-        outpost: "",
-        singleCooldown: ref(true),
-        initialCooldown: ref(60 * 9 + 15),
-        initialMin: 60 * 1 + 9,
-        initialMax: -(60 * 0 + 40),
-        respawnCooldown: ref(60 * 9 + 15), 
-        respawnMin: 60 * 1 + 9,
-        respawnMax: -(60 * 0 + 40),
-        active: ref(false),
-        respawnActive: ref(false),
-        toggleCheckbox: ref(true),
-        togglePlay: ref(true),
-        toggleInfo: ref(false),
-        toggleTooltip: ref(false),
-        chain: [
-            {
-                type: 'Boss',
-                img: EventBoss,
-            },
-        ],
-        info: 'Veteran vinetooth. Depending on the squad size, will need to manage dps',
-        waypointName: "Westwatch Waypoint",
-        waypointLink: "[&BAYIAAA=]",
-        top: `${53}%`,
+        info: "NOTE: If this event is ongoing, then AKILI won't spawn. AKILI will spawn 6m 30s after a successful Book event. If AKILI is ongoing, then this event won't spawn. This event will spawn 2m 30s after a successful Akili event *unless* AKILI finished after 15m of the previous Book event. At that point, the respawn timer is unknown. --- Tons of Awakened spawn at the southeast section of the area. Where they spawn is an area where you can camp mobs until the event is over. Can upscale to champs. ",
+        waypointName: "Astralarium Waypoint",
+        waypointLink: "[&BPoKAAA=]",
+        top: `${25}%`,
         left: `${20}%`,
     },
     {
-        name: "Priory Explorer (NE)",
+        name: "Pirates",
         outpost: "",
         singleCooldown: ref(true),
-        initialCooldown: ref(60 * 6 + 40),
-        initialMin: 60 * 0 + 29,
-        initialMax: -(60 * 0 + 27),
-        respawnCooldown: ref(60 * 6 + 40), 
-        respawnMin: 60 * 0 + 29,
-        respawnMax: -(60 * 0 + 27),
+        initialCooldown: ref(60 * 12 + 35),
+        initialMin: 60 * 1 + 30,
+        initialMax: -(60 * 1 + 56),
+        respawnCooldown: ref(60 * 12 + 35), 
+        respawnMin: 60 * 1 + 30,
+        respawnMax: -(60 * 1 + 56),
         active: ref(false),
         respawnActive: ref(false),
         toggleCheckbox: ref(true),
@@ -525,100 +241,63 @@ let events = [
         toggleTooltip: ref(false),
         chain: [
             {
-                type: 'Escort',
-                img: EventShield,
+                type: 'Skrimish',
+                img: EventSwords,
             },
-        ],
-        info: 'Small escort with a rally defense at the end',
-        waypointName: "Eastwatch Waypoint",
-        waypointLink: "[&BGwIAAA=]",
-        top: `${40}%`,
-        left: `${95}%`,
-    },
-    {
-        name: "Priory Explorer (SE)",
-        outpost: "",
-        singleCooldown: ref(true),
-        initialCooldown: ref(60 * 6 + 40),
-        initialMin: 60 * 0 + 29,
-        initialMax: -(60 * 0 + 27),
-        respawnCooldown: ref(60 * 6 + 40), 
-        respawnMin: 60 * 0 + 29,
-        respawnMax: -(60 * 0 + 27),
-        active: ref(false),
-        respawnActive: ref(false),
-        toggleCheckbox: ref(true),
-        togglePlay: ref(true),
-        toggleInfo: ref(false),
-        toggleTooltip: ref(false),
-        chain: [
             {
-                type: 'Escort',
-                img: EventShield,
+                type: 'Boss',
+                img: EventBoss,
             },
-        ],
-        info: 'Small escort with a rally defense at the end. This specific escort can spawn either south or north where the TM spawns',
-        waypointName: "Eastwatch Waypoint",
-        waypointLink: "[&BGwIAAA=]",
-        top: `${65}%`,
-        left: `${90}%`,
-    },
-    {
-        name: "Priory Explorer (W)",
-        outpost: "",
-        singleCooldown: ref(true),
-        initialCooldown: ref(60 * 6 + 40),
-        initialMin: 60 * 0 + 29,
-        initialMax: -(60 * 0 + 27),
-        respawnCooldown: ref(60 * 6 + 40), 
-        respawnMin: 60 * 0 + 29,
-        respawnMax: -(60 * 0 + 27),
-        active: ref(false),
-        respawnActive: ref(false),
-        toggleCheckbox: ref(true),
-        togglePlay: ref(true),
-        toggleInfo: ref(false),
-        toggleTooltip: ref(false),
-        chain: [
             {
-                type: 'Escort',
-                img: EventShield,
+                type: 'Skrimish',
+                img: EventSwords,
             },
-        ],
-        info: 'Small escort with a rally defense at the end',
-        waypointName: "Westwatch Waypoint",
-        waypointLink: "[&BAYIAAA=]",
-        top: `${62}%`,
-        left: `${25}%`,
-    },
-    {
-        name: "Treasure Mushroom",
-        outpost: "",
-        
-        singleCooldown: ref(true),
-        initialCooldown: ref(60 * 9 + 50),
-        initialMin: 60 * 0 + 6,
-        initialMax: -(60 * 0 + 5),
-        respawnCooldown: ref(60 * 9 + 50), 
-        respawnMin: 60 * 0 + 6,
-        respawnMax: -(60 * 0 + 5),
-        active: ref(false),
-        respawnActive: ref(false),
-        toggleCheckbox: ref(true),
-        togglePlay: ref(true),
-        toggleInfo: ref(false),
-        toggleTooltip: ref(false),
-        chain: [
+            {
+                type: 'Boss',
+                img: EventBoss,
+            },
+            {
+                type: 'Skrimish',
+                img: EventSwords,
+            },
             {
                 type: 'Boss',
                 img: EventBoss,
             },
         ],
-        info: 'Daily TM rewards guranteed rare, spirit shard once per day. But, can still be counted for map bonus rewards after.',
-        waypointName: "Eastwatch Waypoint",
-        waypointLink: "[&BGwIAAA=]",
-        top: `${60}%`,
-        left: `${100}%`,
+        info: "There are 6 events in this chain, meaing the first two repeat itself, but with different mobs and bosses. It always starts with a skirmish then a boss",
+        waypointName: "Astralarium Waypoint",
+        waypointLink: "[&BPoKAAA=]",
+        top: `${10}%`,
+        left: `${50}%`,
+    },
+    {
+        name: "Graveyard",
+        outpost: "",
+        singleCooldown: ref(true),
+        initialCooldown: ref(60 * 15 + 10),
+        initialMin: 60 * 1 + 6,
+        initialMax: -(60 * 1 + 18),
+        respawnCooldown: ref(60 * 15 + 10), 
+        respawnMin: 60 * 1 + 6,
+        respawnMax: -(60 * 1 + 18),
+        active: ref(false),
+        respawnActive: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
+        toggleInfo: ref(false),
+        toggleTooltip: ref(false),
+        chain: [
+            {
+                type: 'Skrimish',
+                img: EventSwords,
+            },
+        ],
+        info: "This is a failed outcome of a different event. It's more realistic to see this event than the previous (fails very quickly). Tons of Awakened mobs.",
+        waypointName: "Champion's Dawn Waypoint",
+        waypointLink: "[&BBoLAAA=]",
+        top: `${80}%`,
+        left: `${38}%`,
     },
 ];
 

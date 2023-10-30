@@ -26,7 +26,6 @@
         </template>
 
         <template v-slot:info>
-            <h4>How This Works</h4>
             <article class="info-content">
                 <p>Auric Basin is a unique map where there are pylon(outpost) events that need to be completed before some of the events listed on this page can begin. Each outpost will have a linear chain of events. </p>
 

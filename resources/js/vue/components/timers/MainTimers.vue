@@ -42,7 +42,7 @@
             -->
             <div class="info-container">
                 <div class="legend">
-                    <h4>Legend</h4>
+                    <h3>Legend</h3>
                     <span class="legend-item">
                         <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 10V0H10V10H0Z" fill="#76E9E1"/>
@@ -126,6 +126,7 @@
                 </div>
 
                 <div class="info">
+                    <h3>How This Works</h3>
                     <slot name="info"></slot>
                 </div>
             </div>
