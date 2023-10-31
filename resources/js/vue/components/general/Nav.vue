@@ -307,8 +307,13 @@
 
                     <div class="routes">
                         <router-link to="/timers/domain-of-istan">
-                            <img src="@/imgs/icons/Kralkatite_Ore.png" alt="Mistborn Mote" title="timers/domain-of-istan">
+                            <img src="@/imgs/icons/Kralkatite_Ore.png" alt="Kralkatite Ore" title="timers/domain-of-istan">
                             <h6>Domain of Istan</h6>
+                        </router-link>
+
+                        <router-link to="/timers/sandswept-isles">
+                            <img src="@/imgs/icons/Difluorite_Crystal.png" alt="Difluorite Crystal" title="timers/sandswept-isles">
+                            <h6>Sandswept Isles</h6>
                         </router-link>
                         
                         <router-link to="/timers/dragonfall">

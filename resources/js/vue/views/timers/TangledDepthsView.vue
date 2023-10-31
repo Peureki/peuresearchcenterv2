@@ -16,7 +16,6 @@
         :events="events"
     >
         <template v-slot:info>
-            <h4>How This Works</h4>
             <article class="info-content">
                 <p>Tangled Depths is a unique map where there are meta-outpost events that need to be completed before the events listed on this page can begin. Each outpost will have a linear chain of events. </p>
 

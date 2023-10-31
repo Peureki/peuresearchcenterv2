@@ -17,7 +17,6 @@
         :events="events"
     >
         <template v-slot:info>
-            <h4>How This Works</h4>
             <article class="info-content">
                 <p>The overall goal is to get to the meta as fast as possible. Complete each sector/outpost by doing events in their area. When you complete them, click on the <span><img src="@/imgs/icons/Outpost_Active.png"> ouposts</span> to start their timers.</p>
 
