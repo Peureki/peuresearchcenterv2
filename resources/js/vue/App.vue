@@ -90,6 +90,9 @@ table, th, td{
     border: var(--border-general);
     border-collapse: collapse;
 }
+button {
+    cursor: pointer;
+}
 
 nav h6{
     white-space: nowrap;

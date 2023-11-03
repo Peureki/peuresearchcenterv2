@@ -69,11 +69,26 @@
         -->
         <Transition name="fade-right">
             <section v-if="settingsToggle">
-                <div class="settings-container">
-                    <button type="button" @click="changePrice">{{ priceSetting }}</button>
+                <article class="settings-container">
+                    <div class="settings-button-container">
+                        <span>
+                            <p>Buy Order:</p>
+                            <button>
+                                <p>Buy Price</p>
+                                <p>Sell Price</p>
+                            </button>
+                        </span>
+                    </div>
+
+                    <div class="settings-button-container">
+                        <span>
+                            <p>Sell Order:</p>
+                            <button class="buy-order-button" @click="changePrice">{{ sellOrderSetting }}</button>
+                        </span>
+                    </div>
                     <br>
                     <label for="tax">Tax:</label><input type="text" id="tax" name="tax" v-model="taxSetting">
-                </div>
+                </article>
             
             </section>
         </Transition>
@@ -351,11 +366,14 @@ import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
 import { nodeTrackerModalToggle } from '@/js/vue/composables/Global';
 
 // For first time visitors
-// If there is no exisiting local stoarge property (like priceSetting), then make one by default
+// If there is no exisiting local stoarge property (like sellOrderSetting), then make one by default
 // Otherwise, don't do anything
 const setDefaultLocalStorage = () => {
-    if (!localStorage.priceSetting){
-        localStorage.setItem('priceSetting', 'sell_price'); 
+    if (!localStorage.buyOrderSetting){
+        localStorage.setItem('buyOrderSetting', 'buy_price');
+    }
+    if (!localStorage.sellOrderSetting){
+        localStorage.setItem('sellOrderSetting', 'sell_price'); 
     }
     if (!localStorage.taxSetting){
         localStorage.setItem('taxSetting', 0.85);
@@ -369,18 +387,19 @@ const benchmarksToggle = ref(true),
 
 const settingsToggle = ref(true);
 
-const priceSetting = ref(localStorage.priceSetting),
+const buyOrderSetting = ref(localStorage.buyOrderSetting),
+    sellOrderSetting = ref(localStorage.sellOrderSetting),
     taxSetting = ref(parseFloat(localStorage.taxSetting));
 
 
 const changePrice = () => {
-    if (priceSetting.value == 'sell_price'){
-        priceSetting.value = 'buy_price';
+    if (sellOrderSetting.value == 'sell_price'){
+        sellOrderSetting.value = 'buy_price';
         
     } else {
-        priceSetting.value = 'sell_price';
+        sellOrderSetting.value = 'sell_price';
     }
-    localStorage.setItem('priceSetting', priceSetting.value);
+    localStorage.setItem('sellOrderSetting', sellOrderSetting.value);
     console.log(localStorage);
 }
 
@@ -392,3 +411,33 @@ watch(taxSetting, (newTaxSetting) => {
 })
 
 </script>
+
+<style scoped>
+.settings-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+.settings-button-container span{
+    display: flex;
+    flex-direction: column;
+}
+.settings-button-container button{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    background-color: transparent;
+    border: var(--border-general);
+}
+.toggle-block {
+    position: absolute;
+    z-index: 1000;
+    width: 50%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: blue;
+}
+
+</style>

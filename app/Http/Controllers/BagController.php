@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class BagController extends Controller
 {
-    public function getTable($table, $priceSetting, $tax){
+    public function getTable($table, $sellOrderSetting, $tax){
         $returnArray = []; 
 
         $data = DB::table($table)
@@ -19,9 +19,9 @@ class BagController extends Controller
             $entry = [
                 'name' => $item->name,
                 'icon' => $item->icon,
-                'priceSetting' => $item->$priceSetting,
+                'returnPriceSetting' => $item->$sellOrderSetting,
                 'dropRate' => $item->drop_rate,
-                'value' => ($item->$priceSetting * $item->drop_rate) * $tax,
+                'value' => ($item->$sellOrderSetting * $item->drop_rate) * $tax,
             ];
             $returnArray[] = $entry;
 

@@ -14,9 +14,9 @@
 
 
     <MainTimers
-        map-name="Domain of Istan Timers"
+        map-name="Sandswept Isles Timers"
         :map="Map"
-        alt="Domain of Istan"
+        alt="Sandswept Isles"
         :events="events"
     >
         <template v-slot:nodeTrackerModal>

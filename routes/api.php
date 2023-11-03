@@ -30,10 +30,10 @@ Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 // * CURRENCIES
 // *
 // VOLATILE MAGIC
-Route::get('/currencies/volatile-magic/{priceSetting}/{tax}', [CurrencyController::class, 'volatileMagic']);
+Route::get('/currencies/volatile-magic/{returnPriceSetting}/{tax}', [CurrencyController::class, 'volatileMagic']);
 // UNBOUND MAGIC
-Route::get('/currencies/unbound-magic/{priceSetting}/{tax}', [CurrencyController::class, 'unboundMagic']);
+Route::get('/currencies/unbound-magic/{returnPriceSetting}/{tax}', [CurrencyController::class, 'unboundMagic']);
 
 
 // BAG DETAILS
-Route::get('/bags/{table}/{priceSetting}/{tax}', [BagController::class, 'getTable']);
+Route::get('/bags/{table}/{returnPriceSetting}/{tax}', [BagController::class, 'getTable']);

@@ -54,7 +54,7 @@ const currencyName = ref('Volatile Magic');
 const detailsToggle = ref(false);
 
 // Initalize for main table 
-const url = `../api/currencies/volatile-magic/${localStorage.priceSetting}/${localStorage.taxSetting}`,
+const url = `../api/currencies/volatile-magic/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`,
     bags = ref(null),
     sortFunction = () => sortTable('currency-table', 2, 'gold');
 
