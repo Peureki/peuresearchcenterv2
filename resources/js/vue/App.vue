@@ -41,10 +41,16 @@ html, body{
     height: 100%;
 }
 
-h1, h2, h3, h4, h5, h6, p, label{
+h1, h2, h3, h4, h5, h6, p, label, button, input, span{
     font-family: var(--font-family);
     color: var(--color-text);
     margin: 0;
+}
+input {
+    color: var(--color-black);
+    background-color: var(--color-input-bkg);
+    border: none;
+    padding: var(--padding-input);
 }
 
 h1{
@@ -74,7 +80,7 @@ h6{
     margin: 0;
     font-weight: normal;
 }
-p, label {
+p, label, input, button {
     font-size: var(--font-size-p);
 }
 ul {
@@ -91,6 +97,8 @@ table, th, td{
     border-collapse: collapse;
 }
 button {
+    color: var(--color-black);
+    border: var(--border-general);
     cursor: pointer;
 }
 
@@ -495,6 +503,7 @@ table td img{
     --color-pof: #ec004d;
     --color-ls4: #AF3CC9;
     --color-soto: #d3a049;
+    --color-input-bkg: #ebebeb;
     --color-scrollbar-thumb: #88888a;
     --color-event-up: #5ED625;
     --color-event-upcoming: #FFB64A;
@@ -545,6 +554,8 @@ table td img{
     --padding-gold-span: 0px 1px 0px 1px;
     --padding-article: 10px;
     --padding-button: 5px;
+    --padding-settings: 5px 10px 5px 10px;
+    --padding-input: 5px;
 
     --margin-shortcuts-svg: 0 10px 0 10px;
     --margin-tooltip: 20px 0px 0px 0px;

@@ -71,23 +71,87 @@
             <section v-if="settingsToggle">
                 <article class="settings-container">
                     <div class="settings-button-container">
-                        <span>
-                            <p>Buy Order:</p>
-                            <button>
-                                <p>Buy Price</p>
-                                <p>Sell Price</p>
+                        <!-- 
+                            * SETTING BUTTONS
+                            *
+                            * BUY ORDER
+                            * Change the properties of the button depending on the buy/sell order settings
+                        -->
+                        <p>Buy Order </p>
+                            <div class="settings-button">
+                            <button
+                                @click="changeOrder('buy order')"
+                                :style="{
+                                    opacity: buyOrderSetting == 'buy_price' ? 1 : 0.2,
+                                    backgroundColor: buyOrderSetting == 'buy_price' ? 'var(--color-link)' : 'transparent',
+                                    color: buyOrderSetting == 'buy_price' ? 'var(--color-black)' : 'var(--color-text)',
+                                }"
+                            >
+                                Buy Price
                             </button>
-                        </span>
+                            <button
+                                @click="changeOrder('buy order')"
+                                :style="{
+                                    opacity: buyOrderSetting == 'sell_price' ? 1 : 0.2,
+                                    backgroundColor: buyOrderSetting == 'sell_price' ? 'var(--color-link)' : 'transparent',
+                                    color: buyOrderSetting == 'sell_price' ? 'var(--color-black)' : 'var(--color-text)',
+                                }"
+                            >
+                                Sell Price
+                            </button>
+                        </div>
                     </div>
 
                     <div class="settings-button-container">
-                        <span>
-                            <p>Sell Order:</p>
-                            <button class="buy-order-button" @click="changePrice">{{ sellOrderSetting }}</button>
-                        </span>
+                        <!-- 
+                            * SETTING BUTTONS
+                            *
+                            * SELL ORDER
+                            * Change the properties of the button depending on the buy/sell order settings
+                        -->
+                        <p>Sell Order </p>
+                            <div class="settings-button">
+                            <button
+                                @click="changeOrder('sell order')"
+                                :style="{
+                                    opacity: sellOrderSetting == 'buy_price' ? 1 : 0.2,
+                                    backgroundColor: sellOrderSetting == 'buy_price' ? 'var(--color-link)' : 'transparent',
+                                    color: sellOrderSetting == 'buy_price' ? 'var(--color-black)' : 'var(--color-text)',
+                                }"
+                            >
+                                Buy Price
+                            </button>
+                            <button
+                                @click="changeOrder('sell order')"
+                                :style="{
+                                    opacity: sellOrderSetting == 'sell_price' ? 1 : 0.2,
+                                    backgroundColor: sellOrderSetting == 'sell_price' ? 'var(--color-link)' : 'transparent',
+                                    color: sellOrderSetting == 'sell_price' ? 'var(--color-black)' : 'var(--color-text)',
+                                }"
+                            >
+                                Sell Price
+                            </button>
+                        </div>
                     </div>
-                    <br>
-                    <label for="tax">Tax:</label><input type="text" id="tax" name="tax" v-model="taxSetting">
+
+                    <div class="settings-button-container">
+                        <label for="tax">Tax</label>
+                        <span>
+                            <input type="text" id="tax" name="tax" v-model="taxSetting">
+                            <p>{{ convertToPercent(taxSetting) }}</p>
+                        </span>
+                        
+                    </div>
+
+                    <div class="settings-button-container">
+                        <button 
+                            @click="refreshPage"    
+                            class="settings-submit"
+                        >
+                            Refresh Page
+                        </button>
+                    </div>
+                    
                 </article>
             
             </section>
@@ -363,7 +427,8 @@
 import { ref, watch, provide } from 'vue'
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
-import { nodeTrackerModalToggle } from '@/js/vue/composables/Global';
+import { nodeTrackerModalToggle } from '@/js/vue/composables/Global.js';
+import { refreshPage, convertToPercent } from '@/js/vue/composables/BasicFunctions.js'
 
 // For first time visitors
 // If there is no exisiting local stoarge property (like sellOrderSetting), then make one by default
@@ -392,14 +457,24 @@ const buyOrderSetting = ref(localStorage.buyOrderSetting),
     taxSetting = ref(parseFloat(localStorage.taxSetting));
 
 
-const changePrice = () => {
-    if (sellOrderSetting.value == 'sell_price'){
-        sellOrderSetting.value = 'buy_price';
-        
-    } else {
-        sellOrderSetting.value = 'sell_price';
+const changeOrder = (order) => {
+    switch (order){
+        case 'sell order': 
+            if (sellOrderSetting.value == 'sell_price'){
+                sellOrderSetting.value = 'buy_price';
+            } else {
+                sellOrderSetting.value = 'sell_price';
+            }
+            break;
+        case 'buy order':
+            if (buyOrderSetting.value == 'buy_price'){
+                buyOrderSetting.value = 'sell_price';
+            } else {
+                buyOrderSetting.value = 'buy_price';
+            }
     }
     localStorage.setItem('sellOrderSetting', sellOrderSetting.value);
+    localStorage.setItem('buyOrderSetting', buyOrderSetting.value);
     console.log(localStorage);
 }
 
@@ -417,27 +492,32 @@ watch(taxSetting, (newTaxSetting) => {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 10px;
+}
+.settings-button-container{
+    display: flex;
+    flex-direction: column;
+    padding: var(--padding-settings);
+    gap: 5px;
+}
+.settings-button{
+    display: flex;
+}
+.settings-button button{
+    width: 50%;
+    background-color: transparent;
+    border: var(--border-general);
+    transition: var(--transition-all-03s-ease);
+}
+.settings-button-container input {
+    width: 50%;
 }
 .settings-button-container span{
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 5px;
 }
-.settings-button-container button{
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    background-color: transparent;
-    border: var(--border-general);
+.settings-submit{
+    background-color: var(--color-link);
+    width: fit-content;
 }
-.toggle-block {
-    position: absolute;
-    z-index: 1000;
-    width: 50%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: blue;
-}
-
 </style>
