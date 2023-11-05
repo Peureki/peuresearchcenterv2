@@ -3,6 +3,7 @@
 use App\Http\Controllers\BagController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\FetchController;
+use Illuminate\Auth\Events\CurrentDeviceLogout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,8 @@ Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 // *
 // * CURRENCIES
 // *
+// SPIRIT SHARDS
+Route::get('/curriences/spirit-shards/{array}', [CurrencyController::class, 'getSpiritShards']);
 // VOLATILE MAGIC
 Route::get('/currencies/volatile-magic/{returnPriceSetting}/{tax}', [CurrencyController::class, 'volatileMagic']);
 // UNBOUND MAGIC

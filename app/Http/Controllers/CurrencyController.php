@@ -140,5 +140,9 @@ class CurrencyController extends Controller
         ];
     }
 
+    public function getSpiritShards($array){
+        dd($array);
+    }
+
     
 }

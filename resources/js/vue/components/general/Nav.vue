@@ -11,10 +11,17 @@
                 <p>Created by: Peureki.3647</p>
             </div> -->
 
+            <!-- 
+                * SHORTCUTS
+                *
+                * Settings | Dark/Light mode | Nav | Discord | Other
+            -->
+
             <div class="shortcuts">
                 <div class="left">
                     <!-- COG  -->
-                    <svg 
+                    <svg
+                        @click="settingsToggle = !settingsToggle"
                         width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg"
                         id="cog"
                     >
@@ -70,6 +77,7 @@
         <Transition name="fade-right">
             <section v-if="settingsToggle">
                 <article class="settings-container">
+                    <h3>Settings</h3>
                     <div class="settings-button-container">
                         <!-- 
                             * SETTING BUTTONS
@@ -133,12 +141,27 @@
                             </button>
                         </div>
                     </div>
-
+                    <!-- 
+                            * 
+                            * TAX SETTINGS
+                            *
+                        -->
                     <div class="settings-button-container">
                         <label for="tax">Tax</label>
-                        <span>
+                        <span class="settings-tax-input">
                             <input type="text" id="tax" name="tax" v-model="taxSetting">
-                            <p>{{ convertToPercent(taxSetting) }}</p>
+                            <span class="settings-tax-model">
+                                <svg 
+                                    :style="{transform: `rotate(${taxSetting < 1 ? 90 : -90}deg)`}"
+                                    width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path 
+                                        :fill="taxSetting < 1 ? 'var(--color-down)' : 'var(--color-up)'"
+                                        d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
+                                    />
+                                </svg>
+                                <p>{{ convertTaxToPercent(taxSetting) }}</p>
+                            </span>
                         </span>
                         
                     </div>
@@ -148,7 +171,7 @@
                             @click="refreshPage"    
                             class="settings-submit"
                         >
-                            Refresh Page
+                            Submit
                         </button>
                     </div>
                     
@@ -225,7 +248,24 @@
             <section v-if="curriencesToggle">
                 <!--
                     *
-                    * LS4 CURRIENCES
+                    * CORE CURRIENCES
+                    *
+                -->
+                <div class="distinquish-section">
+                    <div class="label" id="core">
+                        <h6>Core</h6>
+                    </div>
+
+                    <div class="routes">
+                        <router-link to="/currencies/spirit-shards">
+                            <img src="@/imgs/icons/Spirit_Shard.png" alt="Spirit Shard" title="Spirit Shard">
+                            <h6>Spirit Shards</h6>
+                        </router-link>
+                    </div>   
+                </div>
+                <!--
+                    *
+                    * LS3 CURRIENCES
                     *
                 -->
                 <div class="distinquish-section">
@@ -240,6 +280,11 @@
                         </router-link>
                     </div>   
                 </div>
+                <!--
+                    *
+                    * LS4 CURRIENCES
+                    *
+                -->
                 <div class="distinquish-section">
                     <div class="label" id="ls4">
                         <h6>LS4</h6>
@@ -428,7 +473,7 @@ import { ref, watch, provide } from 'vue'
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
 import { nodeTrackerModalToggle } from '@/js/vue/composables/Global.js';
-import { refreshPage, convertToPercent } from '@/js/vue/composables/BasicFunctions.js'
+import { refreshPage, convertTaxToPercent } from '@/js/vue/composables/BasicFunctions.js'
 
 // For first time visitors
 // If there is no exisiting local stoarge property (like sellOrderSetting), then make one by default
@@ -450,7 +495,7 @@ const benchmarksToggle = ref(true),
     curriencesToggle = ref(true),
     timersToggle = ref(true);
 
-const settingsToggle = ref(true);
+const settingsToggle = ref(false);
 
 const buyOrderSetting = ref(localStorage.buyOrderSetting),
     sellOrderSetting = ref(localStorage.sellOrderSetting),
@@ -475,7 +520,6 @@ const changeOrder = (order) => {
     }
     localStorage.setItem('sellOrderSetting', sellOrderSetting.value);
     localStorage.setItem('buyOrderSetting', buyOrderSetting.value);
-    console.log(localStorage);
 }
 
 watch(taxSetting, (newTaxSetting) => {
@@ -492,11 +536,13 @@ watch(taxSetting, (newTaxSetting) => {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: var(--padding-settings);
+    gap: 10px;
+    border-bottom: var(--border-bottom);
 }
 .settings-button-container{
     display: flex;
     flex-direction: column;
-    padding: var(--padding-settings);
     gap: 5px;
 }
 .settings-button{
@@ -511,13 +557,23 @@ watch(taxSetting, (newTaxSetting) => {
 .settings-button-container input {
     width: 50%;
 }
-.settings-button-container span{
+.settings-tax-input{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+.settings-tax-model{
     display: flex;
     align-items: center;
     gap: 5px;
 }
+.settings-tax-model svg{
+    transition: var(--transition-all-03s-ease);
+}
 .settings-submit{
     background-color: var(--color-link);
+    margin-top: 10px;
     width: fit-content;
 }
 </style>

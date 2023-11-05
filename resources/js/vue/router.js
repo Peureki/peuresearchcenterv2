@@ -4,6 +4,7 @@ import HomeView from './views/HomeView.vue'
 import BenchmarksMapsView from './views/benchmarks/MapsView.vue'
 import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
 
+import CurrenciesSpiritShardsView from '@/js/vue/views/currencies/SpiritShardsView.vue'
 import CurrenciesUnboundMagicView from '@/js/vue/views/currencies/UnboundMagicView.vue'
 import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagicView.vue'
 
@@ -34,6 +35,11 @@ const routes = [
     // *
     // * CURRENCIES
     // *
+    {
+        path: '/currencies/spirit-shards',
+        component: CurrenciesSpiritShardsView,
+        name: 'currencies-spirit-shards',
+    },
     // * LS3
     {
         path: '/currencies/unbound-magic',

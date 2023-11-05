@@ -83,6 +83,9 @@ h6{
 p, label, input, button {
     font-size: var(--font-size-p);
 }
+p {
+    line-height: 1.3;
+}
 ul {
     margin: 0;
 }
@@ -226,6 +229,9 @@ nav section .distinquish-section .label{
 }
 nav section .distinquish-section .label h6{
     color: var(--color-black);
+}
+nav section .distinquish-section .label#core{
+    background-color: var(--color-core);
 }
 nav section .distinquish-section .label#hot{
     background-color: var(--color-hot);
@@ -422,14 +428,15 @@ table td img{
 .tooltip p{
     white-space: nowrap;
 }
-
+/* 
+ * ROTATION
+ */
 .rotate180 {
     transform: rotate(180deg);
 }
 .rotate-90{
     transform: rotate(90deg);
 }
-
 .text-right{
     text-align: right;
 }
@@ -441,10 +448,10 @@ table td img{
  * TRANSITIONS
  */
 .fade-right-enter-active {
-    transition: opacity 0.1s ease, transform 0.5s ease;
+    transition: opacity 0.2s ease, transform 0.5s ease;
 }
 .fade-right-leave-active{
-    transition: all 0.1s ease;
+    transition: all 0.2s ease;
 }
 
 .fade-right-enter-from,
@@ -498,6 +505,7 @@ table td img{
     --color-text: #ffffff;
     --color-link: #ffd12c;
     --color-black: #000000;
+    --color-core: #f8ebb7;
     --color-hot: #5ed625;
     --color-ls3: #f75277;
     --color-pof: #ec004d;
@@ -511,6 +519,8 @@ table td img{
     --color-event-meta: #76E9E1;
     --color-table-header: #79eb94;
     --color-subheader: #79EB94;
+    --color-up: #5ED625;
+    --color-down: #EC004D;
 
     --font-size-h1: clamp(2rem, 20vw, 6.25rem);
     --font-size-h3: clamp(1.3rem, 8vw, 2rem);
@@ -554,7 +564,7 @@ table td img{
     --padding-gold-span: 0px 1px 0px 1px;
     --padding-article: 10px;
     --padding-button: 5px;
-    --padding-settings: 5px 10px 5px 10px;
+    --padding-settings: 10px;
     --padding-input: 5px;
 
     --margin-shortcuts-svg: 0 10px 0 10px;
