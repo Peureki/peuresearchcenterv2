@@ -168,13 +168,18 @@ class CurrencyController extends Controller
 
         foreach ($data as &$outputMat){
             foreach ($outputMat as &$ingredients){
+                // Get more info out of the output items via Items table
                 $outputInfo = Items::where('id', $ingredients['id'])->get()[0];
 
+                // Set up a new property 'value' with the sellOrderSetting
                 $ingredients['value'] = $outputInfo->$sellOrderSetting; 
 
                 foreach ($ingredients['ingredients'] as $key => &$ingredient){
+                    // Get more info out of the individual ingredient items via Items table
                     $ingredientInfo = Items::where('id', $ingredient['id'])->get()[0]; 
 
+                    // Get the icon and set a new value property with the buyOrderSetting
+                    $ingredient['name'] = $ingredientInfo->name;
                     $ingredient['icon'] = $ingredientInfo->icon; 
                     $ingredient['value'] = $ingredientInfo->$buyOrderSetting;
                 }

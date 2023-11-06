@@ -528,6 +528,7 @@ table td img{
     --font-size-h5: clamp(1.1rem, 5vw, 1.2rem);
     --font-size-h6: clamp(0.8rem, 4vw, 1rem);
     --font-size-p: clamp(0.8rem, 4vw, 1rem);
+    --font-size-subtext: clamp(0.5rem, 3vw, 0.8rem);
 
     --font-family: 'Rubik', sans-serif;
 
