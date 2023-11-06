@@ -368,7 +368,7 @@ table td.cta span svg{
 table td img{
     vertical-align: middle;
     width: 20px;
-    height: 20px;
+    aspect-ratio: 1 / 1;
     margin-left: 2px;
 }
 

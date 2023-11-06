@@ -29,7 +29,7 @@ export async function populateMainTable(url, ref, sortFunction){
 // This is because the ref variables aren't reactive when called from within the HTML??
 export async function populateCurrencyDetails(bag, refBag, sortFunction) {
     try{
-        let response = await fetch(`../api/bags/${bag.dbName}/${localStorage.priceSetting}/${localStorage.taxSetting}`);
+        let response = await fetch(`../api/bags/${bag.dbName}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`);
         let responseData = await response.json(); 
         refBag.value = responseData; 
         
@@ -42,12 +42,12 @@ export async function populateCurrencyDetails(bag, refBag, sortFunction) {
     }
 }
 
-export async function getSpiritShards(array){
+export async function fetchSpiritShards(refRecipes){
     try{
-        let response = await fetch(`../api/currencies/spirit-shards/${array}`);
+        let response = await fetch(`../api/currencies/spirit-shards/${localStorage.buyOrderSetting}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`);
         let responseData = await response.json();
-        //console.log('response: ', responseData);
+        refRecipes.value = responseData;
     } catch (error){
-        console.log(error);
+        console.log("Error fetching data: ", error);
     }
 }

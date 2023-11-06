@@ -19,7 +19,7 @@ class BagController extends Controller
             $entry = [
                 'name' => $item->name,
                 'icon' => $item->icon,
-                'returnPriceSetting' => $item->$sellOrderSetting,
+                'sellOrderSetting' => $item->$sellOrderSetting,
                 'dropRate' => $item->drop_rate,
                 'value' => ($item->$sellOrderSetting * $item->drop_rate) * $tax,
             ];

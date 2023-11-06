@@ -24,6 +24,23 @@ class CurrencyController extends Controller
         }
     }
 
+    private function getBuyOrderSetting($buyOrderSetting){
+        // If the price setting exist, then be that
+        // Otherwise, default to buy_price
+        // sell_price and buy_price are going to be params for the items table to get their respective columns in the db
+        if ($buyOrderSetting){
+            if ($buyOrderSetting == 'sell_price'){
+                $buyOrderSetting == 'sell_price';
+            } 
+            if ($buyOrderSetting == 'buy_price'){
+                $buyOrderSetting == 'buy_price';
+            }
+        } else {
+            $buyOrderSetting = 'buy_price';
+        }
+        return $buyOrderSetting;
+    }
+
     private function getSellOrderSetting($sellOrderSetting){
         // If the price setting exist, then be that
         // Otherwise, default to sell_price
@@ -140,8 +157,31 @@ class CurrencyController extends Controller
         ];
     }
 
-    public function getSpiritShards($array){
-        dd($array);
+    public function getSpiritShards($buyOrderSetting, $sellOrderSetting, $tax){
+        $jsonFilePath = base_path("resources/js/vue/components/json/recipes.json");
+        $json = file_get_contents($jsonFilePath);
+        $data = json_decode($json, true);
+
+        $buyOrderSetting = $this->getBuyOrderSetting($buyOrderSetting); 
+        $sellOrderSetting = $this->getSellOrderSetting($sellOrderSetting);
+        $tax = $this->getTax($tax);
+
+        foreach ($data as &$outputMat){
+            foreach ($outputMat as &$ingredients){
+                $outputInfo = Items::where('id', $ingredients['id'])->get()[0];
+
+                $ingredients['value'] = $outputInfo->$sellOrderSetting; 
+
+                foreach ($ingredients['ingredients'] as $key => &$ingredient){
+                    $ingredientInfo = Items::where('id', $ingredient['id'])->get()[0]; 
+
+                    $ingredient['icon'] = $ingredientInfo->icon; 
+                    $ingredient['value'] = $ingredientInfo->$buyOrderSetting;
+                }
+            }
+        }
+
+        return response()->json($data);
     }
 
     

@@ -31,12 +31,12 @@ Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 // * CURRENCIES
 // *
 // SPIRIT SHARDS
-Route::get('/curriences/spirit-shards/{array}', [CurrencyController::class, 'getSpiritShards']);
+Route::get('/currencies/spirit-shards/{buyOrderSetting}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'getSpiritShards']);
 // VOLATILE MAGIC
-Route::get('/currencies/volatile-magic/{returnPriceSetting}/{tax}', [CurrencyController::class, 'volatileMagic']);
+Route::get('/currencies/volatile-magic/{sellOrderSetting}/{tax}', [CurrencyController::class, 'volatileMagic']);
 // UNBOUND MAGIC
-Route::get('/currencies/unbound-magic/{returnPriceSetting}/{tax}', [CurrencyController::class, 'unboundMagic']);
+Route::get('/currencies/unbound-magic/{sellOrderSetting}/{tax}', [CurrencyController::class, 'unboundMagic']);
 
 
 // BAG DETAILS
-Route::get('/bags/{table}/{returnPriceSetting}/{tax}', [BagController::class, 'getTable']);
+Route::get('/bags/{table}/{sellOrderSetting}/{tax}', [BagController::class, 'getTable']);
