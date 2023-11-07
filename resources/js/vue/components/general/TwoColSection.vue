@@ -21,7 +21,6 @@ section {
     border-bottom: var(--border-general);
 }
 article{
-    padding: var(--padding-article);
     border-right: var(--border-general);
 }
 

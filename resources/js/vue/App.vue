@@ -104,6 +104,9 @@ button {
     border: var(--border-general);
     cursor: pointer;
 }
+article {
+    padding: var(--padding-article);
+}
 
 nav h6{
     white-space: nowrap;
@@ -444,6 +447,10 @@ table td img{
     float: right;
 }
 
+.sub-gold-label, .gold-label, .profit-label{
+    padding-left: 3px;
+}
+
 /* 
  * TRANSITIONS
  */
@@ -498,6 +505,9 @@ table td img{
 .border-event-meta{
     border-right: var(--border-event-meta);
 }
+.border-left{
+    border-left: var(--border-general);
+}
 
 :root{
     --color-bkg: #2a2b2e;
@@ -521,6 +531,8 @@ table td img{
     --color-subheader: #79EB94;
     --color-up: #5ED625;
     --color-down: #EC004D;
+    --color-positive: #acdeb6;
+    --color-negative: #daa8a8;
 
     --font-size-h1: clamp(2rem, 20vw, 6.25rem);
     --font-size-h3: clamp(1.3rem, 8vw, 2rem);
@@ -541,6 +553,8 @@ table td img{
     --border-event-overdue: 4px solid #EC004D;
     --border-event-meta: 4px solid #76E9E1;
     --border-tooltip: 2px solid #5f6062;
+    --border-positive: 2px solid #5ED625;
+    --border-negative: 2px solid #EC004D;
 
     --nav-width: clamp(15rem, 15vw, 18rem);
     --nav-padding: 10px 0 10px 10px;

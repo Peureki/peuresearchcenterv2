@@ -47,6 +47,7 @@ export async function fetchSpiritShards(refRecipes){
         let response = await fetch(`../api/currencies/spirit-shards/${localStorage.buyOrderSetting}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`);
         let responseData = await response.json();
         refRecipes.value = responseData;
+
     } catch (error){
         console.log("Error fetching data: ", error);
     }

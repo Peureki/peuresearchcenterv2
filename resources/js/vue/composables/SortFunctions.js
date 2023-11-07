@@ -74,9 +74,7 @@ export function sortTable(tableName, column, setting){
                     shouldSwitch = true;
                     break;
                 }
-            }
-            
-            
+            }       
         }
         if (shouldSwitch){
             rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);

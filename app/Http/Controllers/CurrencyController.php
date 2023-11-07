@@ -166,26 +166,48 @@ class CurrencyController extends Controller
         $sellOrderSetting = $this->getSellOrderSetting($sellOrderSetting);
         $tax = $this->getTax($tax);
 
-        foreach ($data as &$outputMat){
-            foreach ($outputMat as &$ingredients){
+        // >> OUTPUT MATERIAL LIST
+        foreach ($data as &$outputList){
+
+            // >> OUTPUT MATERIAL
+            foreach ($outputList as &$outputMat){
+                // Initialize final values
+                $profitPerConversion = 0;
+                $profitPerSpiritShard = 0;
+                $philosopherStone = 0;
+                $mysticCrystal = 0;
                 // Get more info out of the output items via Items table
-                $outputInfo = Items::where('id', $ingredients['id'])->get()[0];
+                $outputInfo = Items::where('id', $outputMat['id'])->get()[0];
 
-                // Set up a new property 'value' with the sellOrderSetting
-                $ingredients['value'] = $outputInfo->$sellOrderSetting; 
+                // Set up a new property 'value' with the sellOrderSetting * output amount
+                $outputMat['value'] = $outputInfo->$sellOrderSetting * $outputMat['count'] * $tax; 
 
-                foreach ($ingredients['ingredients'] as $key => &$ingredient){
+                // >> INDIVIDUAL INGREDIENTS
+                foreach ($outputMat['ingredients'] as $key => &$ingredient){
                     // Get more info out of the individual ingredient items via Items table
                     $ingredientInfo = Items::where('id', $ingredient['id'])->get()[0]; 
-
+                    
                     // Get the icon and set a new value property with the buyOrderSetting
                     $ingredient['name'] = $ingredientInfo->name;
                     $ingredient['icon'] = $ingredientInfo->icon; 
-                    $ingredient['value'] = $ingredientInfo->$buyOrderSetting;
+                    $ingredient['value'] = $ingredientInfo->$buyOrderSetting * $ingredient['count'] * $tax;
+                    // For each ingredient, add each of their values for the profit/conversion
+                    $profitPerConversion += $ingredient['value']; 
+                    // Check if the ingredient is a spirit shard item
+                    if ($ingredient['name'] == "Philosopher's Stone"){
+                        $philosopherStone = $ingredient['count'] / 10; 
+                    }
+                    if ($ingredient['name'] == "Mystic Crystal"){
+                        $mysticCrystal = $ingredient['count'] * 0.6;
+                    }
                 }
+                $profitPerConversion = $outputMat['value'] - $profitPerConversion; 
+                $profitPerSpiritShard = $profitPerConversion / ($philosopherStone + $mysticCrystal);
+
+                $outputMat['profitPerConversion'] = $profitPerConversion; 
+                $outputMat['profitPerSpiritShard'] = $profitPerSpiritShard;
             }
         }
-
         return response()->json($data);
     }
 
