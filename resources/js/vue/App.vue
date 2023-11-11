@@ -312,12 +312,10 @@ table thead tr:first-child th{
     background-color: var(--color-table-header);
 }
 /* Prevents the main header of the table to look selectable */
-table tr:not(:first-child) th:hover{
-    color: var(--color-black);
+/* table tr:not(:first-child) th:hover{
     border-bottom: var(--border-bottom-link);
-}
+} */
 table tr:nth-child(odd){
-    /* background-color: #252629; */
     background-color: #303134;
 }
 
@@ -417,6 +415,11 @@ table td img{
     justify-content: center;
     align-items: center;
 }
+
+.cta-arrow{
+    opacity: 0.5;
+}
+
 /* 
  * TOOLTIP
  */
@@ -434,7 +437,7 @@ table td img{
 /* 
  * ROTATION
  */
-.rotate180 {
+.rotate-180 {
     transform: rotate(180deg);
 }
 .rotate-90{
@@ -449,6 +452,33 @@ table td img{
 
 .sub-gold-label, .gold-label, .profit-label{
     padding-left: 3px;
+}
+
+
+/* 
+ * ARROWS
+ */
+.sort-arrow{
+    opacity: 0.1;
+    transition: var(--transition-all-03s-ease);
+}
+/* 
+ * ACTIVE / INACTIVE
+ */
+ .active{
+    opacity: 1;
+}
+
+
+/* 
+ * HOVERABLE CONTAINERS
+ */
+.border-is-hoverable{
+    border-bottom: var(--hover-border-bottom);
+}
+.sortable-column{
+    display: flex;
+    align-items: center;
 }
 
 /* 

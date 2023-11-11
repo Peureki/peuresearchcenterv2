@@ -18,6 +18,9 @@ export function formatValue(value){
 
     let addNegative = '', 
         addLeadingZero = '';
+    // Round values to remove long decimals
+    // This also helps with the value.toString().length check properly
+    value = Math.round(value);
 
     if (value < 0){
         isNegative = true;

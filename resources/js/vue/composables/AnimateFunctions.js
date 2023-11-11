@@ -7,6 +7,32 @@ export function rotate90(index, targetClassName, refVar){
     const cta = document.querySelectorAll(`.${targetClassName}`);
     cta.forEach((button) => { 
         button.classList.remove('rotate-90'); 
+        button.classList.remove('active');
     });
     refVar[index].classList.add('rotate-90');
+    refVar[index].classList.add('active');
+}
+
+export function rotate180(index, targetClassName, refVar){
+    const cta = document.querySelectorAll(`.${targetClassName}`);
+    cta.forEach((button) => { 
+        button.classList.remove('rotate-180'); 
+    });
+    refVar[index].classList.add('rotate-180');
+}
+
+export function activeElement(index, targetClassName, refVar){
+    const element = document.querySelectorAll(`.${targetClassName}`);
+    console.log(element);
+    element.forEach((el) => {
+        el.classList.remove('active'); 
+    });
+    refVar[index].classList.add('active');
+}
+
+export function toggleActive(colIndex, refEl){
+    refEl.forEach((el => {
+        el.classList.remove('active');
+    }))
+    refEl[colIndex].classList.add('active'); 
 }

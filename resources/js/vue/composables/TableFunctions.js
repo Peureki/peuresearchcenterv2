@@ -52,3 +52,4 @@ export async function fetchSpiritShards(refRecipes){
         console.log("Error fetching data: ", error);
     }
 }
+

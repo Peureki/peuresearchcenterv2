@@ -1,9 +1,16 @@
-export function sortTable(tableName, column, setting){
+// If user is hovering a specific header column, match the index to show the border effect
+export function setHoverBorder(index, isHovering){
+    return isHovering ? index : null;
+}
+
+export function sortTable(tableName, column, setting, order){
     let rows, switching, i, x, y, shouldSwitch; 
     let xSpan, ySpan; 
     let xNum, yNum;
     let table = document.querySelector(`.${tableName}`);
     switching = true; 
+
+    console.log(table);
 
     while(switching){
         switching = false; 
@@ -20,18 +27,33 @@ export function sortTable(tableName, column, setting){
             // *
             // * Words, letters, alphabets, etc. This factors out an <img> if appliciable
             if (setting == 'string'){
-                if (x.textContent.toLowerCase() > y.textContent.toLowerCase()){
-                    shouldSwitch = true;
-                    break;
+                if (order == 'descending'){
+                    if (x.textContent.toLowerCase() > y.textContent.toLowerCase()){
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else {
+                    if (x.textContent.toLowerCase() < y.textContent.toLowerCase()){
+                        shouldSwitch = true;
+                        break;
+                    }
                 }
+                
             }
             // * FOR NUMBERS
             // *
             // * 
             if (setting == 'number'){
-                if (parseInt(x.textContent) < parseInt(y.textContent)){
-                    shouldSwitch = true;
-                    break;
+                if (order == 'descending'){
+                    if (parseInt(x.textContent) < parseInt(y.textContent)){
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else {
+                    if (parseInt(x.textContent) > parseInt(y.textContent)){
+                        shouldSwitch = true;
+                        break;
+                    }
                 }
             }
 
@@ -70,11 +92,19 @@ export function sortTable(tableName, column, setting){
                 if (isNaN(yNum))
                     yNum = 0;     
                 
-                if (xNum < yNum){
-                    shouldSwitch = true;
-                    break;
+                if (order == 'descending'){
+                    if (xNum < yNum){
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else {
+                    if (xNum > yNum){
+                        shouldSwitch = true;
+                        break;
+                    }
                 }
-            }       
+                
+            }   
         }
         if (shouldSwitch){
             rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);

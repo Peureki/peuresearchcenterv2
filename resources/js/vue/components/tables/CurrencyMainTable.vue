@@ -34,12 +34,12 @@
                         $emit('detailsToggle');
                         detailsToggle = true;
                         $emit('getPopulateBagDetails', bag);
-                        rotate90(index, 'ctaArrow', ctaDetails);
+                        rotate90(index, 'cta-arrow', ctaDetails);
                     "
                 >
                     <span>
                         <svg 
-                            class="ctaArrow"
+                            class="cta-arrow"
                             :ref="el => ctaDetails[index] = el" 
                             width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
                         >
