@@ -10,8 +10,6 @@ export function sortTable(tableName, column, setting, order){
     let table = document.querySelector(`.${tableName}`);
     switching = true; 
 
-    console.log(table);
-
     while(switching){
         switching = false; 
         // Removes rows that are "row-offset" from being counted. Example: totals/cost rows so they don't accidently get sorted

@@ -65,12 +65,15 @@
                 </Transition>
             </div>
 
-            <div class="checkbox-timer-container">
-                <input 
-                    type="checkbox" :id="`checkbox-timer-${event.name}-${parentViewId}`" :name="event.name" :checked="event.toggleCheckbox.value"
-                    @click="event.toggleCheckbox.value = !event.toggleCheckbox.value"
-                />
-                <label :for="`checkbox-timer-${event.name}-${parentViewId}`"></label>
+            <div class="checkbox-container">
+                <div class="checkbox">
+                    <input 
+                        type="checkbox" :id="`checkbox-${event.name}-${parentViewId}`" :name="event.name" :checked="event.toggleCheckbox.value"
+                        @click="event.toggleCheckbox.value = !event.toggleCheckbox.value"
+                    />
+                    <label :for="`checkbox-${event.name}-${parentViewId}`"></label>
+                </div>
+                
             </div>
 
             
@@ -209,6 +212,9 @@ const restartTimer = (index) => {
     height: 20px;
     vertical-align: middle;
     cursor: pointer;
+}
+.checkbox{
+    padding: 13px 0px 13px 0px;
 }
 
 </style>

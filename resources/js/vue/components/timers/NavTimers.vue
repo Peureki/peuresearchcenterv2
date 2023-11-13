@@ -173,7 +173,7 @@
             * CHECKBOX CONTAINERS
             *
         -->
-        <article class="checkbox-container">
+        <div class="checkbox-container">
             <!--
                 *
                 * GROUP CHECKBOXES
@@ -181,14 +181,14 @@
             -->
             <h5>Add/remove group</h5>
             <div 
-                class="checkbox-timer-container"
+                class="checkbox"
                 v-for="(event, index) in checkboxes" :key="event.name"
             >
                 <input 
-                    type="checkbox" :id="`checkbox-timer-group-${event.name}`" :name="event.name" :checked="event.toggle.value"
+                    type="checkbox" :id="`checkbox-group-${event.name}`" :name="event.name" :checked="event.toggle.value"
                     @click="event.toggle.value = !event.toggle.value; toggleCheckboxGroup(event.name)"
                 />
-                <label :for="`checkbox-timer-group-${event.name}`">{{ event.name }}</label>
+                <label :for="`checkbox-group-${event.name}`">{{ event.name }}</label>
             </div>
             <!--
                 *
@@ -197,16 +197,16 @@
             -->
             <h5>Individuals</h5>
             <div 
-                class="checkbox-timer-container"
+                class="checkbox"
                 v-for="event in events" :key="event.name"
             >
                 <input 
-                    type="checkbox" :id="`checkbox-timer-individual-${event.name}`" :name="event.name" :checked="event.toggleCheckbox.value"
+                    type="checkbox" :id="`checkbox-individual-${event.name}`" :name="event.name" :checked="event.toggleCheckbox.value"
                     @click="event.toggleCheckbox.value = !event.toggleCheckbox.value"
                 />
-                <label :for="`checkbox-timer-individual-${event.name}`">{{ event.name }}</label>
+                <label :for="`checkbox-individual-${event.name}`">{{ event.name }}</label>
             </div>
-        </article>
+        </div>
     </section>
 </template>
 
@@ -270,6 +270,38 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* nav section.nav-timer-container article{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--padding-timers);
+}
+nav section.nav-timer-container svg,
+nav section.nav-timer-container img{
+    width: 20px;
+    height: 20px;
+}
+nav section.nav-timer-container svg{
+    cursor: pointer;
+}
+nav section.nav-timer-container .hidden-timer{
+    display: none;
+} */
+article{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--padding-timers);
+}
+.nav-timer-container svg,
+.nav-timer-container img{
+    width: 20px;
+    height: 20px;
+}
+.hidden-timer{
+    display: none;
+}
+
 .icons{
     display: flex;
     align-items: center;
@@ -303,24 +335,6 @@ onMounted(() => {
     justify-content: space-between;
     text-align: right;
     width: 100%;
-}
-.checkbox-container{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 5px;
-    border-bottom: var(--border-bottom);
-}
-.checkbox{
-    display: flex;
-    gap: 5px;
-    align-items: center;
-}
-.checkbox label{
-    font-size: var(--font-size-p);
-    font-family: var(--font-family);
-    color: var(--color-text);
 }
 
 .progress-bar-container{

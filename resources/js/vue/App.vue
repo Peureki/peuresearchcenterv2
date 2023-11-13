@@ -39,6 +39,7 @@ body {
 }
 html, body{
     height: 100%;
+    scroll-behavior: smooth;
 }
 
 h1, h2, h3, h4, h5, h6, p, label, button, input, span{
@@ -204,13 +205,13 @@ nav a img{
     width: 20px;
     height: 20px;
 }
-nav a img,
-nav a h6{
+nav .routes a img,
+nav .routes a h6{
     transition: var(--transition-all-03s-ease);
 }
 
-nav a:hover img,
-nav a:hover h6{
+nav .routes a:hover img,
+nav .routes a:hover h6{
     transform: translateX(10px);
 }
 nav a:hover{
@@ -281,7 +282,7 @@ nav section.nav-timer-container .timer{
 .swap{
     opacity: 0.7;
 }
-nav section.nav-timer-container article{
+/* nav section.nav-timer-container article{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -297,7 +298,7 @@ nav section.nav-timer-container svg{
 }
 nav section.nav-timer-container .hidden-timer{
     display: none;
-}
+} */
 
 /* 
  *
@@ -383,7 +384,7 @@ table td img{
 /* 
  * GLOBAL CHECKBOXES
  */
-.checkbox-timer-container{
+.checkbox{
     display: flex;
     align-items: center;
     position: relative;
@@ -391,17 +392,17 @@ table td img{
     height: 15px;
     padding: var(--padding-checkboxes);
 }
-.checkbox-timer-container input[type="checkbox"]{
+.checkbox input[type="checkbox"]{
     opacity: 0;
     cursor: pointer;
     position: absolute;
 }
-.checkbox-timer-container label {
+.checkbox label {
     display: flex;
     white-space: nowrap;
     cursor: pointer;
 }
-.checkbox-timer-container label::before{
+.checkbox label::before{
     content: "";
     width: 20px;
     height: 20px;
@@ -409,7 +410,7 @@ table td img{
     color: var(--color-text);
     border: 1px solid var(--color-link);
 }
-.checkbox-timer-container input[type="checkbox"]:checked + label::before{
+.checkbox input[type="checkbox"]:checked + label::before{
     content: "\002714";
     display: flex;
     justify-content: center;
@@ -418,6 +419,31 @@ table td img{
 
 .cta-arrow{
     opacity: 0.5;
+}
+
+/* 
+ * BOOKMARKS
+ */
+.bookmark-container{
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+a.bookmark{
+    border-bottom: none;
+    padding: var(--padding-bookmark);
+}
+a.bookmark:hover{
+    border-bottom: none;
+}
+a.bookmark:hover p{
+    color: var(--color-link);
+}
+span.bookmark-label{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
 }
 
 /* 
@@ -602,7 +628,7 @@ table td img{
     --padding-p-inline: 0px 3px 0px 3px;
     --padding-ul-general: 0px 10px 0px 10px;
     --padding-li-general: 3px 10px 3px 10px;
-    --padding-checkboxes: 10px 5px 10px 5px;
+    --padding-checkboxes: 13px 5px 13px 5px;
     --padding-tooltip: 10px;
     --padding-table-header: 10px 10px 10px 10px;
     --padding-table-td: 10px 10px 10px 10px;
@@ -611,6 +637,7 @@ table td img{
     --padding-button: 5px;
     --padding-settings: 10px;
     --padding-input: 5px;
+    --padding-bookmark: 5px 0px 5px 0;
 
     --margin-shortcuts-svg: 0 10px 0 10px;
     --margin-tooltip: 20px 0px 0px 0px;
