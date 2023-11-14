@@ -1,7 +1,7 @@
 <template>
     <nav>
         <div class="top">
-            <router-link to="/">
+            <router-link class="page-link" to="/">
                 <div class="logo-container">
                     <img src="@/imgs/choyas/peu-choya.png" alt="Logo of Peu Research Center" title="Logo of Peu Research Center of a green pinata choya wearing a commander tag">
                 </div>
@@ -36,7 +36,7 @@
 
                     <!-- BOOKMARKS -->
                     <svg 
-                        @click="bookmarksToggle = !bookmarksToggle"
+                        @click="changeBookmarksToggle(bookmarksToggle)"
                         width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M0 18V0H14V18L7 15L0 18Z" fill="#FFD12C"/>
                         <title>Bookmarks</title>
@@ -84,8 +84,8 @@
         -->
         <Transition name="fade-right">
             <slot 
-            v-if="bookmarksToggle"
-            name="bookmarks"
+                v-if="bookmarksToggle"
+                name="bookmarks"
             ></slot>
         </Transition>
 
@@ -221,27 +221,27 @@
 
         <Transition name="fade-right">
             <section v-if="benchmarksToggle">
-                <router-link to="/benchmarks/maps">
+                <router-link class="page-link" to="/benchmarks/maps">
                     <img src="../../../imgs/icons/Commander_Icon.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                     <h6>Maps</h6>
                 </router-link>
 
-                <router-link to="/benchmarks/fishing">
+                <router-link class="page-link" to="/benchmarks/fishing">
                     <img src="../../../imgs/icons/Fishing.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                     <h6>Fishing</h6>
                 </router-link>
 
-                <router-link to="/benchmarks/fishing">
+                <router-link class="page-link" to="/benchmarks/fishing">
                     <img src="../../../imgs/icons/Gathering_UI_Icon.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                     <h6>Gathering</h6>
                 </router-link>
 
-                <router-link to="/benchmarks/fishing">
+                <router-link class="page-link" to="/benchmarks/fishing">
                     <img src="../../../imgs/icons/Red_Boss.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                     <h6>Metas</h6>
                 </router-link>
 
-                <router-link to="/benchmarks/fishing">
+                <router-link class="page-link" to="/benchmarks/fishing">
                     <img src="../../../imgs/icons/Guild_Armorer.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                     <h6>Alt Parking</h6>
                 </router-link>
@@ -277,7 +277,7 @@
                     </div>
 
                     <div class="routes">
-                        <router-link to="/currencies/spirit-shards">
+                        <router-link class="page-link" to="/currencies/spirit-shards">
                             <img src="@/imgs/icons/Spirit_Shard.png" alt="Spirit Shard" title="Spirit Shard">
                             <h6>Spirit Shards</h6>
                         </router-link>
@@ -294,7 +294,7 @@
                     </div>
 
                     <div class="routes">
-                        <router-link to="/currencies/unbound-magic">
+                        <router-link class="page-link" to="/currencies/unbound-magic">
                             <img src="@/imgs/icons/Unbound_Magic.png" alt="Unbound Magic" title="Unbound Magic">
                             <h6>Unbound Magic</h6>
                         </router-link>
@@ -311,7 +311,7 @@
                     </div>
 
                     <div class="routes">
-                        <router-link to="/currencies/volatile-magic">
+                        <router-link class="page-link" to="/currencies/volatile-magic">
                             <img src="@/imgs/icons/Volatile_Magic.png" alt="Volatile Magic" title="Volatile Magic">
                             <h6>Volatile Magic</h6>
                         </router-link>
@@ -349,17 +349,17 @@
                     </div>
 
                     <div class="routes">
-                        <!-- <router-link to="/benchmarks/maps">
+                        <!-- <router-link class="page-link" to="/benchmarks/maps">
                             <img src="../../../imgs/icons/Airship_Part.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Verdant Brink</h6>
                         </router-link> -->
 
-                        <router-link to="/timers/auric-basin">
+                        <router-link class="page-link" to="/timers/auric-basin">
                             <img src="@/imgs/icons/Lump_of_Aurillium.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Auric Basin</h6>
                         </router-link>
 
-                        <router-link to="/timers/tangled-depths">
+                        <router-link class="page-link" to="/timers/tangled-depths">
                             <img src="@/imgs/icons/Ley_Line_Crystal.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Tangled Depths</h6>
                         </router-link>
@@ -376,27 +376,27 @@
                     </div>
 
                     <div class="routes">
-                        <router-link to="/benchmarks/maps">
+                        <router-link class="page-link" to="/benchmarks/maps">
                             <img src="../../../imgs/icons/Blood_Ruby.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Bloodstone Fen</h6>
                         </router-link>
 
-                        <router-link to="/benchmarks/maps">
+                        <router-link class="page-link" to="/benchmarks/maps">
                             <img src="../../../imgs/icons/Petrified_Wood.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Ember Bay</h6>
                         </router-link>
 
-                        <router-link to="/benchmarks/maps">
+                        <router-link class="page-link" to="/benchmarks/maps">
                             <img src="../../../imgs/icons/Fresh_Winterberry.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Bitterfrost Frontier</h6>
                         </router-link>
 
-                        <router-link to="/benchmarks/maps">
+                        <router-link class="page-link" to="/benchmarks/maps">
                             <img src="../../../imgs/icons/Fire_Orchid_Blossom.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Draconis Mons</h6>
                         </router-link>
 
-                        <router-link to="/benchmarks/maps">
+                        <router-link class="page-link" to="/benchmarks/maps">
                             <img src="../../../imgs/icons/Orrian_Pearl.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Siren's Landing</h6>
                         </router-link>
@@ -413,27 +413,27 @@
                     </div>
 
                     <div class="routes">
-                        <router-link to="/benchmarks/maps">
+                        <router-link class="page-link" to="/benchmarks/maps">
                             <img src="../../../imgs/icons/Springer.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Desert Highlands</h6>
                         </router-link>
 
-                        <router-link to="/benchmarks/maps">
+                        <router-link class="page-link" to="/benchmarks/maps">
                             <img src="../../../imgs/icons/Raptor.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Crystal Oasis</h6>
                         </router-link>
 
-                        <router-link to="/benchmarks/maps">
+                        <router-link class="page-link" to="/benchmarks/maps">
                             <img src="../../../imgs/icons/Skimmer.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Elon Riverlands</h6>
                         </router-link>
 
-                        <router-link to="/benchmarks/maps">
+                        <router-link class="page-link" to="/benchmarks/maps">
                             <img src="../../../imgs/icons/Jackal.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Desolation</h6>
                         </router-link>
 
-                        <router-link to="/benchmarks/maps">
+                        <router-link class="page-link" to="/benchmarks/maps">
                             <img src="../../../imgs/icons/Griffon.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Domain of Vabbi</h6>
                         </router-link>
@@ -450,17 +450,17 @@
                     </div>
 
                     <div class="routes">
-                        <router-link to="/timers/domain-of-istan">
+                        <router-link class="page-link" to="/timers/domain-of-istan">
                             <img src="@/imgs/icons/Kralkatite_Ore.png" alt="Kralkatite Ore" title="timers/domain-of-istan">
                             <h6>Domain of Istan</h6>
                         </router-link>
 
-                        <router-link to="/timers/sandswept-isles">
+                        <router-link class="page-link" to="/timers/sandswept-isles">
                             <img src="@/imgs/icons/Difluorite_Crystal.png" alt="Difluorite Crystal" title="timers/sandswept-isles">
                             <h6>Sandswept Isles</h6>
                         </router-link>
                         
-                        <router-link to="/timers/dragonfall">
+                        <router-link class="page-link" to="/timers/dragonfall">
                             <img src="@/imgs/icons/Mistborn_Mote.png" alt="Mistborn Mote" title="timers/dragonfall">
                             <h6>Dragonfall</h6>
                         </router-link>
@@ -477,7 +477,7 @@
                     </div>
 
                     <div class="routes">
-                        <router-link to="/timers/skywatch-archipelago">
+                        <router-link class="page-link" to="/timers/skywatch-archipelago">
                             <img src="@/imgs/icons/Static_Charge.png" alt="Static Charge" title="timers/skywatch-archipelago">
                             <h6>Skywatch Archipelago</h6>
                         </router-link>
@@ -499,6 +499,9 @@ import { refreshPage, convertTaxToPercent } from '@/js/vue/composables/BasicFunc
 // If there is no exisiting local stoarge property (like sellOrderSetting), then make one by default
 // Otherwise, don't do anything
 const setDefaultLocalStorage = () => {
+    // * SETTINGS
+    // * 
+    // *
     if (!localStorage.buyOrderSetting){
         localStorage.setItem('buyOrderSetting', 'buy_price');
     }
@@ -508,6 +511,39 @@ const setDefaultLocalStorage = () => {
     if (!localStorage.taxSetting){
         localStorage.setItem('taxSetting', 0.85);
     }
+    // * BOOKMARKS
+    // * 
+    // * Set different bookmarks for different pages if applicable
+    if (!localStorage.bookmarks){
+        localStorage.setItem('bookmarks', true);
+    }
+    if (!localStorage.spiritShardsFineT2Table){
+        localStorage.setItem('spiritShardsFineT2Table', true);
+    }
+    if (!localStorage.spiritShardsFineT3Table){
+        localStorage.setItem('spiritShardsFineT3Table', true);
+    }
+    if (!localStorage.spiritShardsFineT4Table){
+        localStorage.setItem('spiritShardsFineT4Table', true);
+    }
+    if (!localStorage.spiritShardsFineT5Table){
+        localStorage.setItem('spiritShardsFineT5Table', true);
+    }
+    if (!localStorage.spiritShardsFineT6Table){
+        localStorage.setItem('spiritShardsFineT6Table', true);
+    }
+    if (!localStorage.spiritShardsRareT2Table){
+        localStorage.setItem('spiritShardsRareT2Table', true);
+    }
+    if (!localStorage.spiritShardsRareT3Table){
+        localStorage.setItem('spiritShardsRareT3Table', true);
+    }
+    if (!localStorage.spiritShardsRareT4Table){
+        localStorage.setItem('spiritShardsRareT4Table', true);
+    }
+    if (!localStorage.spiritShardsRareT5Table){
+        localStorage.setItem('spiritShardsRareT5Table', true);
+    }
 }
 setDefaultLocalStorage(); 
 
@@ -516,12 +552,12 @@ const benchmarksToggle = ref(true),
     timersToggle = ref(true);
 
 const settingsToggle = ref(false),
-    bookmarksToggle = ref(false);
+    bookmarksToggle = ref(JSON.parse(localStorage.bookmarks));
+    
 
 const buyOrderSetting = ref(localStorage.buyOrderSetting),
     sellOrderSetting = ref(localStorage.sellOrderSetting),
     taxSetting = ref(parseFloat(localStorage.taxSetting));
-
 
 const changeOrder = (order) => {
     switch (order){
@@ -541,6 +577,11 @@ const changeOrder = (order) => {
     }
     localStorage.setItem('sellOrderSetting', sellOrderSetting.value);
     localStorage.setItem('buyOrderSetting', buyOrderSetting.value);
+}
+
+const changeBookmarksToggle = (bookmarksToggle) => {
+    bookmarksToggle.value = !bookmarksToggle.value;
+    // localStorage.setItem('bookmarks', bookmarks.value);
 }
 
 watch(taxSetting, (newTaxSetting) => {

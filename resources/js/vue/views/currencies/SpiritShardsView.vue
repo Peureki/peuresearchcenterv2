@@ -15,13 +15,11 @@
                                 <input
                                     type="checkbox"
                                     :name="table.name"
-                                    :checked="table.checkboxToggle"
-                                    @click="table.checkboxToggle.value = !table.checkboxToggle.value"
+                                    :checked="table.checkboxToggle.value"
+                                    @click="showTableToggle(table.name, table.checkboxToggle)"
                                 >
-                                <label :for="table.name">{{ table.title }}</label>
+                                <label>{{ table.title}}</label>
                             </div>
-                            
-                            
                         </span>
                     </a>
                 </div>
@@ -72,6 +70,39 @@ import ChargedShard from '@/imgs/icons/Charged_Shard.png'
 import ChargedCore from '@/imgs/icons/Charged_Core.png'
 import ChargedLodestone from '@/imgs/icons/Charged_Lodestone.png'
 
+const showTableToggle = (tableName, checkboxToggle) => {
+    checkboxToggle.value = !checkboxToggle.value;
+    switch (tableName){
+        case "FineT2": 
+            localStorage.setItem('spiritShardsFineT2Table', checkboxToggle.value);
+            break;
+        case "FineT3": 
+            localStorage.setItem('spiritShardsFineT3Table', checkboxToggle.value);
+            break;
+        case "FineT4": 
+            localStorage.setItem('spiritShardsFineT4Table', checkboxToggle.value);
+            break;
+        case "FineT5": 
+            localStorage.setItem('spiritShardsFineT5Table', checkboxToggle.value);
+            break;
+        case "FineT6": 
+            localStorage.setItem('spiritShardsFineT6Table', checkboxToggle.value);
+            break;
+        case "RareT2": 
+            localStorage.setItem('spiritShardsRareT2Table', checkboxToggle.value);
+            break;
+        case "RareT3": 
+            localStorage.setItem('spiritShardsRareT3Table', checkboxToggle.value);
+            break;
+        case "RareT4": 
+            localStorage.setItem('spiritShardsRareT4Table', checkboxToggle.value);
+            break;
+        case "RareT5": 
+            localStorage.setItem('spiritShardsRareT5Table', checkboxToggle.value);
+            break;
+    }
+}
+
 
 const recipes = ref(null);
 const tables = [
@@ -82,7 +113,7 @@ const tables = [
         checkboxSrc: VialofThinBlood,
         checkboxAlt: "Vial of Thin Blood",
         checkboxTitle: "Jump to Fine T2 table",
-        checkboxToggle: ref(true), 
+        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsFineT2Table)), 
     },
     {
         name: "FineT3",
@@ -91,7 +122,7 @@ const tables = [
         checkboxSrc: VialofBlood,
         checkboxAlt: "Vial of Blood",
         checkboxTitle: "Jump to Fine T3 table",
-        checkboxToggle: ref(true), 
+        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsFineT3Table)), 
     },
     {
         name: "FineT4",
@@ -100,7 +131,7 @@ const tables = [
         checkboxSrc: VialofThickBlood,
         checkboxAlt: "Vial of Thick Blood",
         checkboxTitle: "Jump to Fine T4 table",
-        checkboxToggle: ref(true), 
+        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsFineT4Table)), 
     },
     {
         name: "FineT5",
@@ -109,7 +140,7 @@ const tables = [
         checkboxSrc: VialofPotentBlood,
         checkboxAlt: "Vial of Potent Blood",
         checkboxTitle: "Jump to Fine T5 table",
-        checkboxToggle: ref(true), 
+        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsFineT5Table)), 
     },
     {
         name: "FineT6",
@@ -118,7 +149,7 @@ const tables = [
         checkboxSrc: VialofPowerfulBlood,
         checkboxAlt: "Vial of Powerful Blood",
         checkboxTitle: "Jump to Fine T6 table",
-        checkboxToggle: ref(true), 
+        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsFineT6Table)), 
     },
     {
         name: "RareT2",
@@ -127,7 +158,7 @@ const tables = [
         checkboxSrc: ChargedSliver,
         checkboxAlt: "Charged Sliver",
         checkboxTitle: "Jump to Rare T2 table",
-        checkboxToggle: ref(true), 
+        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsRareT2Table)), 
     },
     {
         name: "RareT3",
@@ -136,7 +167,7 @@ const tables = [
         checkboxSrc: ChargedShard,
         checkboxAlt: "Charged Shared",
         checkboxTitle: "Jump to Rare T3 table",
-        checkboxToggle: ref(true), 
+        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsRareT3Table)), 
     },
     {
         name: "RareT4",
@@ -145,7 +176,7 @@ const tables = [
         checkboxSrc: ChargedCore,
         checkboxAlt: "Charged Core",
         checkboxTitle: "Jump to Rare T4 table",
-        checkboxToggle: ref(true), 
+        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsRareT4Table)), 
     },
     {
         name: "RareT5",
@@ -154,10 +185,9 @@ const tables = [
         checkboxSrc: ChargedLodestone,
         checkboxAlt: "Charged Lodestone",
         checkboxTitle: "Jump to Rare T5 table",
-        checkboxToggle: ref(true), 
+        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsRareT5Table)), 
     },
 ]
-
 fetchSpiritShards(tables);
 
 </script>

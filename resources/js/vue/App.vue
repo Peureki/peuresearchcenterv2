@@ -193,7 +193,7 @@ nav header:hover svg{
     transform: translate(0%, -50%);
 }
 
-nav a{
+a.page-link{
     display: flex;
     align-items: center;
     gap: 5px;
@@ -393,6 +393,8 @@ table td img{
     padding: var(--padding-checkboxes);
 }
 .checkbox input[type="checkbox"]{
+    width: 20px;
+    height: 20px;
     opacity: 0;
     cursor: pointer;
     position: absolute;
@@ -401,6 +403,9 @@ table td img{
     display: flex;
     white-space: nowrap;
     cursor: pointer;
+}
+.checkbox label:hover{
+    color: var(--color-link);
 }
 .checkbox label::before{
     content: "";
@@ -432,6 +437,7 @@ table td img{
 a.bookmark{
     border-bottom: none;
     padding: var(--padding-bookmark);
+    text-decoration: none;
 }
 a.bookmark:hover{
     border-bottom: none;
