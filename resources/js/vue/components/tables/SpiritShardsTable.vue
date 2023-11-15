@@ -216,7 +216,7 @@ span.gold-label img{
 }
 span.sub-gold-label{
     font-size: var(--font-size-subtext);
-    opacity: 0.7;
+    opacity: 0.8;
     font-style: italic;
 }
 img.item{

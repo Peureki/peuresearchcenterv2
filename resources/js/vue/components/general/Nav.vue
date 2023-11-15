@@ -36,11 +36,24 @@
 
                     <!-- BOOKMARKS -->
                     <svg 
-                        @click="changeBookmarksToggle(bookmarksToggle)"
+                        v-if="bookmarksToggle"
+                        @click="changeBookmarksToggle"
                         width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M0 18V0H14V18L7 15L0 18Z" fill="#FFD12C"/>
                         <title>Bookmarks</title>
                     </svg>
+                    <svg 
+                        v-if="!bookmarksToggle"
+                        @click="changeBookmarksToggle"
+                        width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path d="M1 16.4835V1H13V16.4835L7.39392 14.0809L7 13.912L6.60608 14.0809L1 16.4835Z" stroke="#FFD12C" stroke-width="2"/>
+                        <title>Bookmarks</title>
+                    </svg>
+
+
+
+
 
                 </div>
                 <div class="middle">
@@ -578,10 +591,10 @@ const changeOrder = (order) => {
     localStorage.setItem('sellOrderSetting', sellOrderSetting.value);
     localStorage.setItem('buyOrderSetting', buyOrderSetting.value);
 }
-
-const changeBookmarksToggle = (bookmarksToggle) => {
-    bookmarksToggle.value = !bookmarksToggle.value;
-    // localStorage.setItem('bookmarks', bookmarks.value);
+// Change the localStorage value of whether or not to have the bookmarks tab always open or not
+const changeBookmarksToggle = () => {
+    bookmarksToggle.value = !bookmarksToggle.value; 
+    localStorage.bookmarks = bookmarksToggle.value;
 }
 
 watch(taxSetting, (newTaxSetting) => {
