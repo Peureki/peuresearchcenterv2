@@ -43,9 +43,8 @@ import CurrencyMainTable from '@/js/vue/components/tables/CurrencyMainTable.vue'
 import CurrencyDetailsTable from '@/js/vue/components/tables/CurrencyDetailsTable.vue'
 
 import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
-import { sortTable } from '@/js/vue/composables/SortFunctions.js'
 
-import { populateMainTable, populateCurrencyDetails } from '@/js/vue/composables/TableFunctions'
+import { sortTable, populateMainTable, populateCurrencyDetails } from '@/js/vue/composables/TableFunctions'
 
 // Name of the currency
 const currencyName = ref('Volatile Magic');
@@ -55,22 +54,20 @@ const detailsToggle = ref(false);
 
 // Initalize for main table 
 const url = `../api/currencies/volatile-magic/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`,
-    bags = ref(null),
-    sortFunction = () => sortTable('currency-table', 2, 'gold');
+    bags = ref(null);
 
 // Initalize for bag details table
 const bag = ref(null),
-    bagContent = ref(null),
-    sortDetails = () => sortTable('currency-details-table', 2, 'gold');
+    bagContent = ref(null);
 // Emitted from the main table
 // Set the individual bag values to a ref and populate details table
 const getPopulateBagDetails = (individualBag) => {
     bag.value = individualBag;
-    populateCurrencyDetails(individualBag, bagContent, sortDetails); 
+    populateCurrencyDetails(individualBag, bagContent); 
 }
 
 onMounted(() => {
-    populateMainTable(url, bags, sortFunction);
+    populateMainTable(url, bags);
 })
 
 </script>

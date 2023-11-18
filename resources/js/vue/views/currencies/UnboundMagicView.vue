@@ -4,7 +4,10 @@
         <Header :page-name="currencyName"/>
     
         <TwoColSection>
-            <template v-slot:table1>
+            <template 
+                v-if="bags && bags != null"
+                v-slot:table1
+            >
                 <CurrencyMainTable
                     :bags="bags"
                     :currency-icon="CurrencyIcon" alt="Volatile Magic"
@@ -13,7 +16,10 @@
                 />
             </template>
 
-            <template v-slot:table2>
+            <template 
+                v-if="detailsToggle && bagContent && bagContent != null"
+                v-slot:table2
+            >
                 <CurrencyDetailsTable
                     :table-toggle="detailsToggle"
                     :currency-name="currencyName"
@@ -42,9 +48,8 @@ import CurrencyMainTable from '@/js/vue/components/tables/CurrencyMainTable.vue'
 import CurrencyDetailsTable from '@/js/vue/components/tables/CurrencyDetailsTable.vue'
 
 import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
-import { sortTable } from '@/js/vue/composables/SortFunctions.js'
 
-import { populateMainTable, populateCurrencyDetails } from '@/js/vue/composables/TableFunctions'
+import { sortTable, populateMainTable, populateCurrencyDetails } from '@/js/vue/composables/TableFunctions'
 
 // Name of the currency
 const currencyName = ref('Unbound Magic');
@@ -54,23 +59,19 @@ const detailsToggle = ref(false);
 
 // Initalize for main table 
 const url = `../api/currencies/unbound-magic/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`,
-    bags = ref(null),
-    sortFunction = () => sortTable('currency-table', 2, 'gold');
+    bags = ref(null);
 
 // Initalize for bag details table
 const bag = ref(null),
-    bagContent = ref(null),
-    sortDetails = () => sortTable('currency-details-table', 2, 'gold');
+    bagContent = ref(null);
 // Emitted from the main table
 // Set the individual bag values to a ref and populate details table
 const getPopulateBagDetails = (individualBag) => {
     bag.value = individualBag;
-    populateCurrencyDetails(individualBag, bagContent, sortDetails); 
+    populateCurrencyDetails(individualBag, bagContent); 
 }
 
-onMounted(() => {
-    populateMainTable(url, bags, sortFunction);
-})
+populateMainTable(url, bags);
 
 </script>
 

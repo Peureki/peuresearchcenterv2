@@ -18,7 +18,7 @@
                                     :checked="table.checkboxToggle.value"
                                     @click="showTableToggle(table.name, table.checkboxToggle)"
                                 >
-                                <label>{{ table.title}}</label>
+                                <label>{{ table.title }}</label>
                             </div>
                         </span>
                     </a>
@@ -54,8 +54,7 @@ import Header from '@/js/vue/components/general/Header.vue'
 
 import SpiritShardsTable from '@/js/vue/components/tables/SpiritShardsTable.vue'
 
-import { fetchSpiritShards } from '@/js/vue/composables/TableFunctions.js'
-import { sortTable } from '@/js/vue/composables/SortFunctions'
+import { sortTable, fetchSpiritShards } from '@/js/vue/composables/TableFunctions.js'
 
 // PICTURES
 // FINE T2->T6
@@ -102,9 +101,6 @@ const showTableToggle = (tableName, checkboxToggle) => {
             break;
     }
 }
-
-
-const recipes = ref(null);
 const tables = [
     {
         name: "FineT2",

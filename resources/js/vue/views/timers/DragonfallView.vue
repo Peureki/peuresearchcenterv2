@@ -16,6 +16,12 @@
         alt="Dragonfall"
         :events="events"
     >
+        <template v-slot:nodeTrackerModal>
+            <NodeTrackerModal
+                :nodes="nodes"
+            />
+        </template>
+
         <template v-slot:info>
             <article class="info-content">
                 <p>The overall goal is to get to the meta as fast as possible. Complete each sector/outpost by doing events in their area. When you complete them, click on the <span><img src="@/imgs/icons/Outpost_Active.png"> ouposts</span> to start their timers.</p>
@@ -41,9 +47,24 @@
 import { ref } from 'vue'
 
 import Nav from '@/js/vue/components/general/Nav.vue'
+import NodeTrackerModal from '@/js/vue/components/timers/NodeTrackerModal.vue'
 
 import NavTimers from '@/js/vue/components/timers/NavTimers.vue'
 import MainTimers from '@/js/vue/components/timers/MainTimers.vue'
+
+// NODES
+import AncientWood from '@/imgs/icons/Ancient_Wood_Log.png'
+import ElderWood from '@/imgs/icons/Elder_Wood_Log.png'
+import Mithril from '@/imgs/icons/Mithril_Ore.png'
+import Orichalcum from '@/imgs/icons/Orichalcum_Ore.png'
+import Flax from '@/imgs/icons/Pile_of_Flax_Seeds.png'
+import JunglePlant from '@/imgs/icons/Maguuma_Lily.png'
+import Mussel from '@/imgs/icons/Mussel.png'
+import BlackCrocus from '@/imgs/icons/Saffron_Thread.png'
+import VerdantHerbs from '@/imgs/icons/Coriander_Seed.png'
+import CayennePepper from '@/imgs/icons/Cayenne_Pepper.png'
+import GhostPepper from '@/imgs/icons/Ghost_Pepper.png'
+import Lentils from '@/imgs/icons/Handful_of_Red_Lentils.png'
 
 import EventSwords from '@/imgs/icons/Event_Swords.png'
 import EventBoss from '@/imgs/icons/Event_Boss.png'
@@ -119,6 +140,64 @@ let checkboxes = [
     {
         name: "Bridge",
         toggle: ref(true),
+    },
+]
+
+let nodes = [
+    {
+        name: "Ancient Sapling",
+        quantity: ref(0),
+        src: AncientWood,
+    },
+    {
+        name: "Elder Wood Nodes",
+        quantity: ref(0),
+        src: ElderWood,
+    },
+    {
+        name: "Mithril Ore",
+        quantity: ref(0),
+        src: Mithril, 
+    },
+    {
+        name: "Orichalcum Ore",
+        quantity: ref(0),
+        src: Orichalcum,
+    },
+    {
+        name: "Jungle Plants",
+        quantity: ref(0),
+        src: JunglePlant,
+    },
+    {
+        name: "Flax",
+        quantity: ref(0),
+        src: Flax,
+    },
+    {
+        name: "Mussels",
+        quantity: ref(0),
+        src: Mussel,
+    },
+    {
+        name: "Black Crocus",
+        quantity: ref(0),
+        src: BlackCrocus,
+    },
+    {
+        name: "Verdant Herbs",
+        quantity: ref(0),
+        src: VerdantHerbs,
+    },
+    {
+        name: "Cayenne Pepper",
+        quantity: ref(0),
+        src: CayennePepper,
+    },
+    {
+        name: "Lentils",
+        quantity: ref(0),
+        src: Lentils,
     },
 ]
 

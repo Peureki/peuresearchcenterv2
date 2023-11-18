@@ -18,7 +18,6 @@ export const share = {
     setMetas(index, value){
         this.metas[index] = value;
     }
-    
 }
 
 // CONVERT SECONDS TO NICE-LOOKING TIME 00:00

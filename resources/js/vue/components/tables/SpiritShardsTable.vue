@@ -24,8 +24,8 @@
                 <th 
                     @click="
                         toggleActive(5, sortActive);
-                        toggleSortOrder(5);
-                        sortTable(tableName, 5, 'gold', sortOrder[5]); 
+                        toggleSortOrder(5, sortOrder);
+                        sortTable(tableName, 5, 'gold', sortOrder); 
                     "
                     @mouseover="headerIndex = setHoverBorder(5, true)" 
                     @mouseout="headerIndex = setHoverBorder(5, false)"
@@ -47,8 +47,8 @@
                 <th 
                     @click="
                         toggleActive(6, sortActive);
-                        toggleSortOrder(6);
-                        sortTable(tableName, 6, 'gold', sortOrder[6]);
+                        toggleSortOrder(6, sortOrder);
+                        sortTable(tableName, 6, 'gold', sortOrder);
                     "
                     @mouseover="headerIndex = setHoverBorder(6, true)" 
                     @mouseout="headerIndex = setHoverBorder(6, false)"
@@ -149,8 +149,7 @@
 import { ref, onMounted } from 'vue'
 
 import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
-import { sortTable, setHoverBorder } from '@/js/vue/composables/SortFunctions.js'
-import { toggleActive } from '@/js/vue/composables/AnimateFunctions.js'
+import { sortTable, setHoverBorder, toggleSortOrder, toggleActive } from '@/js/vue/composables/TableFunctions.js'
 
 const props = defineProps({
     tableName: String,
@@ -162,32 +161,14 @@ const props = defineProps({
 const headerIndex = ref(null);
 
 const sortActive = ref([]), 
-    sortOrder = ref([]), 
-    sortArrows = ref([]);
-
-// When user sorts a column, by default, descend the order from greaters -> smallest
-// Otherwise, if user clicks again, switch order
-const toggleSortOrder = (colIndex) => {
-    if (sortOrder.value[colIndex] == undefined){
-        sortOrder.value[colIndex] = 'descending';
-    } else {
-        sortOrder.value[colIndex] = sortOrder.value[colIndex] == 'descending' ? 'ascending' : 'descending'; 
-    }
-}
-
-// const toggleActive = (colIndex, refEl) => {
-//     sortActive.value.forEach((el => {
-//         el.classList.remove('active');
-//     }))
-//     sortActive.value[colIndex].classList.add('active'); 
-// }
+    sortOrder = ref([]);
 
 // Sort table when loaded
 onMounted(() => {
     if (props.recipes){
-        sortActive[6]
+        sortActive.value[6];
         sortOrder.value[6] = 'descending';
-        sortTable(props.tableName, 6, 'gold', 'descending');
+        sortTable(props.tableName, 6, 'gold', sortOrder.value);
     }
 })
 

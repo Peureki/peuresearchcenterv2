@@ -510,6 +510,7 @@ span.bookmark-label{
 }
 .sortable-column{
     display: flex;
+    justify-content: center;
     align-items: center;
 }
 
