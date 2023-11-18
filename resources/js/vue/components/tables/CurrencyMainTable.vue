@@ -117,7 +117,6 @@
                     class="cta" 
                     @click="
                         $emit('detailsToggle');
-                        detailsToggle = true;
                         $emit('getPopulateBagDetails', bag);
                         rotate90(index, 'cta-arrow', ctaDetails);
                     "
@@ -160,7 +159,6 @@ const sortActive = ref([]),
 
 onMounted(() => {
     if (props.bags){
-        console.log('this is merp')
         toggleActive(2, sortActive.value);
         sortOrder.value[2] = 'descending';
         sortTable('currency-table', 2, 'gold', sortOrder.value);

@@ -11,6 +11,7 @@
                 <CurrencyMainTable
                     :bags="bags"
                     :currency-icon="CurrencyIcon" alt="Volatile Magic"
+                    :new-details-toggle="newDetailsToggle"
                     @details-toggle="detailsToggle = true"
                     @get-populate-bag-details="getPopulateBagDetails"
                 />
@@ -22,6 +23,7 @@
             >
                 <CurrencyDetailsTable
                     :table-toggle="detailsToggle"
+                    :new-details-toggle="newDetailsToggle"
                     :currency-name="currencyName"
                     :currency-icon="CurrencyIcon" alt="Volatile Magic"
                     :bag="bag"
@@ -55,7 +57,8 @@ import { sortTable, populateMainTable, populateCurrencyDetails } from '@/js/vue/
 const currencyName = ref('Unbound Magic');
 // Toggle for the details table
 // This gets triggered within the main table
-const detailsToggle = ref(false);
+const detailsToggle = ref(false),
+    newDetailsToggle = ref(false);
 
 // Initalize for main table 
 const url = `../api/currencies/unbound-magic/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`,
@@ -63,12 +66,13 @@ const url = `../api/currencies/unbound-magic/${localStorage.sellOrderSetting}/${
 
 // Initalize for bag details table
 const bag = ref(null),
-    bagContent = ref(null);
+    bagContent = ref(null),
+    sortDetails = () => sortTable('currency-details-table', 2, 'gold', 'descending');
 // Emitted from the main table
 // Set the individual bag values to a ref and populate details table
 const getPopulateBagDetails = (individualBag) => {
     bag.value = individualBag;
-    populateCurrencyDetails(individualBag, bagContent); 
+    populateCurrencyDetails(individualBag, bagContent, sortDetails); 
 }
 
 populateMainTable(url, bags);

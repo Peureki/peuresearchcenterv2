@@ -196,7 +196,7 @@ const sortActive = ref([]),
     sortOrder = ref([]);
 
 onMounted(() => {
-    if (props.bagContent){
+    if (props.tableToggle){
         toggleActive(2, sortActive.value);
         sortOrder.value[2] = 'descending'; 
         sortTable('currency-details-table', 2, 'gold', sortOrder.value);

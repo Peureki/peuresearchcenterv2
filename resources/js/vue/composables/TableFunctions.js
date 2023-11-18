@@ -5,10 +5,22 @@ export function setHoverBorder(index, isHovering){
     return isHovering ? index : null;
 }
 
-export function sortTable(tableName, column, setting, order){
+export function sortTable(tableName, column, setting, orderChoice){
     let rows, switching, i, x, y, shouldSwitch; 
     let xSpan, ySpan; 
     let xNum, yNum;
+    let order; 
+
+    // IF statement for the case when there's a 'details' table in addition to a main table that needs to be sorted for every new data set of the same componet
+    // Example: Unbound/Volatile magic tables -> details table for each container
+    // 
+    // If that's the case, then the sort parameter will be orderChoice == 'something' rather than sortArray[0]
+    if (orderChoice == 'descending' || orderChoice == 'ascending'){
+        order = orderChoice;
+    } else {
+        order = orderChoice[column];
+    }
+
     let table = document.querySelector(`.${tableName}`);
     switching = true; 
 
@@ -27,7 +39,7 @@ export function sortTable(tableName, column, setting, order){
             // *
             // * Words, letters, alphabets, etc. This factors out an <img> if appliciable
             if (setting == 'string'){
-                if (order[column] == 'descending'){
+                if (order == 'descending'){
                     if (x.textContent.toLowerCase() > y.textContent.toLowerCase()){
                         shouldSwitch = true;
                         break;
@@ -44,7 +56,7 @@ export function sortTable(tableName, column, setting, order){
             // *
             // * 
             if (setting == 'number'){
-                if (order[column] == 'descending'){
+                if (order == 'descending'){
                     if (parseInt(x.textContent) < parseInt(y.textContent)){
                         shouldSwitch = true;
                         break;
@@ -92,7 +104,7 @@ export function sortTable(tableName, column, setting, order){
                 if (isNaN(yNum))
                     yNum = 0;     
                 
-                if (order[column] == 'descending'){
+                if (order == 'descending'){
                     if (xNum < yNum){
                         shouldSwitch = true;
                         break;
@@ -136,11 +148,15 @@ export async function populateMainTable(url, ref){
 // }
 // 
 // This is because the ref variables aren't reactive when called from within the HTML??
-export async function populateCurrencyDetails(bag, refBag) {
+export async function populateCurrencyDetails(bag, refBag, sortDetails) {
     try{
         let response = await fetch(`../api/bags/${bag.dbName}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`);
         let responseData = await response.json(); 
         refBag.value = responseData; 
+
+        await nextTick(() => {
+            sortDetails();
+        })
     
     } catch (error){
         console.log("Error fetching data: ", error);
