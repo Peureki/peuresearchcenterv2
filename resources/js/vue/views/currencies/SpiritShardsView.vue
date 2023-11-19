@@ -32,6 +32,8 @@
             page-name="Spirit Shards"
         />
         <section v-for="table in tables">
+            <Loading v-if="!table.recipes || table.recipes.value == null && table.checkboxToggle.value"/>
+
             <article v-if="table.recipes && table.recipes.value != null && table.checkboxToggle.value">
                 <SpiritShardsTable
                     :table-name="table.name"
@@ -51,6 +53,7 @@ import { ref, onMounted } from 'vue'
 
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
+import Loading from '@/js/vue/components/general/Loading.vue'
 
 import SpiritShardsTable from '@/js/vue/components/tables/SpiritShardsTable.vue'
 

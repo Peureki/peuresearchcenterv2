@@ -3,18 +3,32 @@
     <main>
         <Header :page-name="currencyName"/>
     
+        
         <TwoColSection>
+            <template
+                v-slot:loading1
+                v-if="!bags || bags == null"
+            >
+                <Loading/>
+            </template>
+
             <template 
                 v-if="bags && bags != null"
                 v-slot:table1
             >
                 <CurrencyMainTable
                     :bags="bags"
-                    :currency-icon="CurrencyIcon" alt="Volatile Magic"
-                    :new-details-toggle="newDetailsToggle"
+                    :currency-icon="CurrencyIcon" alt="Unbound Magic"
                     @details-toggle="detailsToggle = true"
                     @get-populate-bag-details="getPopulateBagDetails"
                 />
+            </template>
+
+            <template
+                v-slot:loading2
+                v-if="detailsToggle && !bagContent"
+            >
+                <Loading/>
             </template>
 
             <template 
@@ -23,16 +37,17 @@
             >
                 <CurrencyDetailsTable
                     :table-toggle="detailsToggle"
-                    :new-details-toggle="newDetailsToggle"
                     :currency-name="currencyName"
-                    :currency-icon="CurrencyIcon" alt="Volatile Magic"
+                    :currency-icon="CurrencyIcon" alt="Unbound Magic"
                     :bag="bag"
                     :bag-content="bagContent"
                 />
             </template>
+            
+            
         </TwoColSection>
 
-        <p>Volatile Magic is a currency from and obtained mainly from LS4 maps. Shipments can be purchased at every LS4 map that has the VM symbol above their head. Istan, Sandswept, Kourna, and Dragonfall has their vendors when you spawn using their Teleport Scroll or from their main waypoint.</p>
+        <p>Unbound Magic is a currency from and obtained mainly from LS4 maps. Shipments can be purchased at every LS4 map that has the VM symbol above their head. Istan, Sandswept, Kourna, and Dragonfall has their vendors when you spawn using their Teleport Scroll or from their main waypoint.</p>
     </main>
     
 </template>
@@ -43,13 +58,12 @@ import { ref, onMounted, nextTick } from 'vue'
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import TwoColSection from '@/js/vue/components/general/TwoColSection.vue'
+import Loading from '@/js/vue/components/general/Loading.vue'
 // Get currency icons
 import CurrencyIcon from '@/imgs/icons/Unbound_Magic.png'
 
 import CurrencyMainTable from '@/js/vue/components/tables/CurrencyMainTable.vue'
 import CurrencyDetailsTable from '@/js/vue/components/tables/CurrencyDetailsTable.vue'
-
-import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
 
 import { sortTable, populateMainTable, populateCurrencyDetails } from '@/js/vue/composables/TableFunctions'
 
@@ -57,9 +71,7 @@ import { sortTable, populateMainTable, populateCurrencyDetails } from '@/js/vue/
 const currencyName = ref('Unbound Magic');
 // Toggle for the details table
 // This gets triggered within the main table
-const detailsToggle = ref(false),
-    newDetailsToggle = ref(false);
-
+const detailsToggle = ref(false);
 // Initalize for main table 
 const url = `../api/currencies/unbound-magic/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`,
     bags = ref(null);
