@@ -58,6 +58,7 @@ import ElderWood from '@/imgs/icons/Elder_Wood_Log.png'
 import Mithril from '@/imgs/icons/Mithril_Ore.png'
 import Orichalcum from '@/imgs/icons/Orichalcum_Ore.png'
 import Flax from '@/imgs/icons/Pile_of_Flax_Seeds.png'
+import Mistborn from '@/imgs/icons/Mistborn_Mote.png'
 import JunglePlant from '@/imgs/icons/Maguuma_Lily.png'
 import Mussel from '@/imgs/icons/Mussel.png'
 import BlackCrocus from '@/imgs/icons/Saffron_Thread.png'
@@ -163,6 +164,11 @@ let nodes = [
         name: "Orichalcum Ore",
         quantity: ref(0),
         src: Orichalcum,
+    },
+    {
+        name: "Mistborn Mote",
+        quantity: ref(0),
+        src: Mistborn,
     },
     {
         name: "Jungle Plants",

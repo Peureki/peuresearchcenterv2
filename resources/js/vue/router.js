@@ -12,6 +12,7 @@ import TimersAuricBasinView from './views/timers/AuricBasinView.vue'
 import TimersTangledDepthsView from './views/timers/TangledDepthsView.vue'
 import TimersDomainOfIstanView from './views/timers/DomainOfIstanView.vue'
 import TimersSandsweptIslesView from './views/timers/SandsweptIslesView.vue'
+import TimersDomainOfKournaView from '@/js/vue/views/timers/DomainOfKournaView.vue'
 import TimersDragonfallView from '@/js/vue/views/timers/DragonfallView.vue'
 
 import TimersSkywatchArchipelagoView from '@/js/vue/views/timers/SkywatchArchipelagoView.vue'
@@ -76,6 +77,11 @@ const routes = [
         path: '/timers/sandswept-isles',
         component: TimersSandsweptIslesView,
         name: 'timers-sandswept-isles',
+    },
+    {
+        path: '/timers/domain-of-kourna',
+        component: TimersDomainOfKournaView,
+        name: 'timers-domain-of-kourna',
     },
     {
         path: '/timers/dragonfall',

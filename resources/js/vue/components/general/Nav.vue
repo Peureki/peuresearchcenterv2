@@ -266,7 +266,7 @@
             * CURRENCIES
             *
         -->
-        <header @click="curriencesToggle = !curriencesToggle">
+        <header @click="curriencesToggle = !curriencesToggle" id="nav">
             <h5>Curriences</h5>
             <svg 
                 class="expand"
@@ -471,6 +471,11 @@
                         <router-link class="page-link" to="/timers/sandswept-isles">
                             <img src="@/imgs/icons/Difluorite_Crystal.png" alt="Difluorite Crystal" title="timers/sandswept-isles">
                             <h6>Sandswept Isles</h6>
+                        </router-link>
+
+                        <router-link class="page-link" to="/timers/domain-of-kourna">
+                            <img src="@/imgs/icons/Inscribed_Shard.png" alt="Inscribed Shard" title="timers/domain-of-kourna">
+                            <h6>Domain of Kourna</h6>
                         </router-link>
                         
                         <router-link class="page-link" to="/timers/dragonfall">
