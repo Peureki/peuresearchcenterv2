@@ -11,6 +11,7 @@ class SampleSize extends Model
 
     protected $fillable = [
         'name',
+        'icon',
         'sample_size',
     ];
 }

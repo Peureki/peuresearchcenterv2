@@ -24,17 +24,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/fetch-items', [FetchController::class, 'fetchItems']);
 Route::get('/fetch-prices', [FetchController::class, 'fetchPrices']);
+Route::get('/fetch-recipes', [FetchController::class, 'fetchRecipes']);
+Route::get('/fetch-recipes-test', [FetchController::class, 'fetchRecipesTest']);
 Route::get('/fetch-ss', [FetchController::class, 'fetchSS']);
 Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 
 // *
 // * CURRENCIES
 // *
-// SPIRIT SHARDS
+// * LAURELS
+Route::get('/currencies/laurel/{sellOrderSetting}/{tax}', [CurrencyController::class, 'laurel']);
+// * SPIRIT SHARDS
 Route::get('/currencies/spirit-shards/{buyOrderSetting}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'getSpiritShards']);
-// VOLATILE MAGIC
+// * TRADE CONTRACTS
+Route::get('/currencies/trade-contract/{sellOrderSetting}/{tax}', [CurrencyController::class, 'tradeContract']);
+// * VOLATILE MAGIC
 Route::get('/currencies/volatile-magic/{sellOrderSetting}/{tax}', [CurrencyController::class, 'volatileMagic']);
-// UNBOUND MAGIC
+// * UNBOUND MAGIC
 Route::get('/currencies/unbound-magic/{sellOrderSetting}/{tax}', [CurrencyController::class, 'unboundMagic']);
 
 

@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sample_sizes', function (Blueprint $table) {
+        Schema::create('cowrie_league_leather_crate', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name');
-            $table->integer('sample_size');
+            $table->unsignedBigInteger('item_id');
+            $table->decimal('drop_rate', 10, 8); 
+
+            $table->foreign('item_id')->references('id')->on('items')->onUpdate('cascade');
         });
     }
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sample_sizes');
+        Schema::dropIfExists('cowrie_league_leather_crate');
     }
 };

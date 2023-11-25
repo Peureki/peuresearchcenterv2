@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mist_warped_bundle', function (Blueprint $table) {
+        Schema::create('magic_warped_bundle', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('item_id');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mist_warped_bundle');
+        Schema::dropIfExists('magic_warped_bundle');
     }
 };

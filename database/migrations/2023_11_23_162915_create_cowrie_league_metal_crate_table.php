@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('leather_shipments', function (Blueprint $table) {
+        Schema::create('cowrie_league_metal_crate', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('item_id');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('leather_shipments');
+        Schema::dropIfExists('cowrie_league_metal_crate');
     }
 };

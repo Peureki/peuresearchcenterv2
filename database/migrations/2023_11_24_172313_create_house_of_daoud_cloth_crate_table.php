@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('metal_shipments', function (Blueprint $table) {
+        Schema::create('house_of_daoud_cloth_crate', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('item_id');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('metal_shipments');
+        Schema::dropIfExists('house_of_daoud_cloth_crate');
     }
 };

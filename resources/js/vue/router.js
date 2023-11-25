@@ -4,7 +4,9 @@ import HomeView from './views/HomeView.vue'
 import BenchmarksMapsView from './views/benchmarks/MapsView.vue'
 import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
 
+import CurrenciesLaurelView from '@/js/vue/views/currencies/LaurelView.vue'
 import CurrenciesSpiritShardsView from '@/js/vue/views/currencies/SpiritShardsView.vue'
+import CurrenciesTradeContractView from '@/js/vue/views/currencies/TradeContractView.vue'
 import CurrenciesUnboundMagicView from '@/js/vue/views/currencies/UnboundMagicView.vue'
 import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagicView.vue'
 
@@ -36,10 +38,22 @@ const routes = [
     // *
     // * CURRENCIES
     // *
+    // * CORE
+    {
+        path: '/currencies/laurel',
+        component: CurrenciesLaurelView,
+        name: 'currencies-laurel',
+    },
     {
         path: '/currencies/spirit-shards',
         component: CurrenciesSpiritShardsView,
         name: 'currencies-spirit-shards',
+    },
+    // * POF
+    {
+        path: '/currencies/trade-contract',
+        component: CurrenciesTradeContractView,
+        name: 'currencies-trade-contract',
     },
     // * LS3
     {

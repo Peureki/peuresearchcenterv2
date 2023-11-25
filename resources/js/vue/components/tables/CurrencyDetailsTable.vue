@@ -148,7 +148,7 @@
                 <td class="cost" colspan="100%">
                     <span>{{ currencyName }} per bag:</span>
                     <span class="float-right">
-                        -{{ bag.currencyPerBag }}<img :src="currencyIcon" :alt="alt" :title="alt">
+                        -{{ bag.costOfCurrencyPerBag }}<img :src="currencyIcon" :alt="alt" :title="alt">
                     </span> 
                 </td>
             </tr>
@@ -170,6 +170,37 @@
                     </span>
                 </td>
             </tr>
+            <!--
+                *
+                * OTHER CURRENCY PER BAG
+                *
+            -->
+            <tr v-if="otherCurrencyName" class="row-offset">
+                <td class="cost" colspan="100%">
+                    <span>{{ otherCurrencyName }} per bag:</span>
+                    <span class="float-right">
+                        -{{ bag.costOfOtherCurrencyPerBag }}<img :src="otherCurrencyIcon" :alt="otherAlt" :title="otherAlt">
+                    </span> 
+                </td>
+            </tr>
+            <!--
+                *
+                * CURRENCY VALUE
+                *
+            -->
+            <tr v-if="otherCurrencyName" class="row-offset">
+                <td class="total" colspan="100%">
+                    <span>
+                        Profit per {{ otherCurrencyName }}
+                        <img :src="otherCurrencyIcon" :alt="otherAlt" :title="otherAlt">:
+                    </span>
+                    <span class="float-right">
+                        <span v-for="gold in formatValue(bag.otherCurrencyValue)">
+                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                        </span>
+                    </span>
+                </td>
+            </tr>
         </tbody>
     </table>
 </template>
@@ -186,6 +217,9 @@ const props = defineProps({
     currencyName: String,
     currencyIcon: String,
     alt: String,
+    otherCurrencyName: String,
+    otherCurrencyIcon: String,
+    otherAlt: String,
     bag: Object,
     bagContent: Object,
 })

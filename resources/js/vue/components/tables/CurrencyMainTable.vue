@@ -90,6 +90,31 @@
                 </th>
                 <!-- 
                     *
+                    * OTHER CURRENCY HEADER
+                    * Apply only if it exists
+                -->
+                <th 
+                    v-if="otherCurrencyIcon"
+                    @click="
+                        toggleActive(3, sortActive);
+                        toggleSortOrder(3, sortOrder);
+                        sortTable('currency-table', 3, 'gold', sortOrder);
+                    "
+                >
+                    <span class="sortable-column">
+                        <img :src="otherCurrencyIcon" :alt="otherAlt" :title="otherAlt">
+                        <svg
+                            class="sort-arrow active" 
+                            :ref="el => sortActive[3] = el" 
+                            :style="{transform: sortOrder[3] == 'descending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
+                            width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
+                        </svg>
+                    </span> 
+                </th>
+                <!-- 
+                    *
                     * INFO HEADER
                     *
                 -->
@@ -102,17 +127,30 @@
         </thead>
         <tbody>
             <tr v-for="(bag, index) in bags">
-                <td>{{ bag.name }}</td>
+                <!-- Bag Name -->
+                <td><img :src="bag.icon" :alt="bag.name" :title="bag.name"> {{ bag.name }}</td>
+                <!-- Profits/Bag -->
                 <td class="gold">
                     <span class="gold-label" v-for="gold in formatValue(bag.profitPerBag)">
                         {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                     </span>
                 </td>
+                <!-- Currency Value -->
                 <td class="gold">
                     <span class="gold-label" v-for="gold in formatValue(bag.currencyValue)">
                         {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                     </span>
                 </td>
+                <!-- Other Currency Value -->
+                <td 
+                    v-if="otherCurrencyIcon"
+                    class="gold"
+                >
+                    <span class="gold-label" v-for="gold in formatValue(bag.otherCurrencyValue)">
+                        {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                    </span>
+                </td>
+                <!-- CTA to open details table -->
                 <td 
                     class="cta" 
                     @click="
@@ -149,6 +187,8 @@ const props = defineProps({
     bags: Object, 
     currencyIcon: String,
     alt: String,
+    otherCurrencyIcon: String,
+    otherAlt: String,
 })
 
 const ctaDetails = ref([]);

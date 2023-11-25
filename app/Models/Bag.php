@@ -18,11 +18,12 @@ class Bag extends Model
         'name',
         'drop_rate',
     ];
-
+    // Relationship between Bag <-> Items dbs
+    // Use BagDB->items (match the name) to access the item's id within the Items db 
     public function items(): BelongsTo {
         return $this->belongsTo(Items::class, 'item_id');
     }
-
+    // Since there are multiple bags with the same table params, set each individual table db 
     public function setTable($table){
         $this->table = $table; 
         return $this; 

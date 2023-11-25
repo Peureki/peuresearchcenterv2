@@ -290,9 +290,26 @@
                     </div>
 
                     <div class="routes">
+                        <router-link class="page-link" to="/currencies/laurel">
+                            <img src="@/imgs/icons/Laurel.png" alt="Laurel" title="Laurel">
+                            <h6>Laurel</h6>
+                        </router-link>
+                        
                         <router-link class="page-link" to="/currencies/spirit-shards">
                             <img src="@/imgs/icons/Spirit_Shard.png" alt="Spirit Shard" title="Spirit Shard">
                             <h6>Spirit Shards</h6>
+                        </router-link>
+                    </div>   
+                </div>
+                <div class="distinquish-section">
+                    <div class="label" id="pof">
+                        <h6>PoF</h6>
+                    </div>
+
+                    <div class="routes">
+                        <router-link class="page-link" to="/currencies/trade-contract">
+                            <img src="@/imgs/icons/Trade_Contract.png" alt="Trade Contract" title="Trade Contract">
+                            <h6>Trade Contract</h6>
                         </router-link>
                     </div>   
                 </div>
