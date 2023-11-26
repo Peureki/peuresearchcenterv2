@@ -44,13 +44,14 @@ class FetchRecipes implements ShouldQueue
             $totalPages = ceil($totalEntries / $perPage);
     
             $batch = array_chunk($idList, $perPage);
-            
-    
+
             while ($currentPage < $totalPages){
                 $apiBatch = Http::get('https://api.guildwars2.com/v2/recipes?ids='.implode(',', $batch[$currentPage]));
                 $batchList = $apiBatch->json(); 
     
                 foreach($batchList as $recipe){
+                    // For some reason, there are some output items that do not exist? 
+                    // Check for that
                     $itemsIDExists = Items::where('id', $recipe['output_item_id'])->exists();
                     if ($itemsIDExists){
                         Recipes::updateOrCreate(

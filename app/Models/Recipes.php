@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Recipes extends Model
 {
@@ -36,5 +37,9 @@ class Recipes extends Model
     // Use Recipes->outputItem (match the name) to access the item's id within the Items db 
     public function outputItem(): BelongsTo {
         return $this->belongsTo(Items::class, 'output_item_id');
+    }
+
+    public function researchNotes(): HasMany {
+        return $this->hasMany(ResearchNotes::class);
     }
 }

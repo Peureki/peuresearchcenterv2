@@ -24,8 +24,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/fetch-items', [FetchController::class, 'fetchItems']);
 Route::get('/fetch-prices', [FetchController::class, 'fetchPrices']);
+Route::get('/fetch-research-notes', [FetchController::class, 'fetchResearchNotes']);
 Route::get('/fetch-recipes', [FetchController::class, 'fetchRecipes']);
-Route::get('/fetch-recipes-test', [FetchController::class, 'fetchRecipesTest']);
 Route::get('/fetch-ss', [FetchController::class, 'fetchSS']);
 Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 
@@ -34,6 +34,8 @@ Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 // *
 // * LAURELS
 Route::get('/currencies/laurel/{sellOrderSetting}/{tax}', [CurrencyController::class, 'laurel']);
+// * RESEARCH NOTES
+Route::get('/currencies/research-note/{buyOrderSetting}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'researchNote']);
 // * SPIRIT SHARDS
 Route::get('/currencies/spirit-shards/{buyOrderSetting}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'getSpiritShards']);
 // * TRADE CONTRACTS
