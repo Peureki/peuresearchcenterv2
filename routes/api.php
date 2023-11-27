@@ -26,6 +26,7 @@ Route::get('/fetch-items', [FetchController::class, 'fetchItems']);
 Route::get('/fetch-prices', [FetchController::class, 'fetchPrices']);
 Route::get('/fetch-research-notes', [FetchController::class, 'fetchResearchNotes']);
 Route::get('/fetch-recipes', [FetchController::class, 'fetchRecipes']);
+Route::get('/fetch-recipes-test', [FetchController::class, 'fetchRecipesTest']);
 Route::get('/fetch-ss', [FetchController::class, 'fetchSS']);
 Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 

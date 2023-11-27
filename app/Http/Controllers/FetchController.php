@@ -31,6 +31,44 @@ class FetchController extends Controller
         return response()->json(['message' => 'Fetching recipes job has been queued']);
     }
 
+    public function fetchRecipesTest(){
+        $recipes = Recipes::find(12227); 
+        // Go through all recipes
+        //foreach ($recipes as $recipe){
+            // Go through each recipe's ingredients
+            foreach ($recipes['ingredients'] as $ingredient){
+                $nestedRecipe = $ingredient;
+                $this->checkRecipeTree($ingredient, $nestedRecipe);
+            }
+        //}
+    }
+    // Check if there is a nested recipe within the first ingredient list
+    private function checkRecipeTree($ingredient, &$nestedRecipe){
+        $recipe = Recipes::where('output_item_id', $ingredient['id']); 
+        // If yes, explore and use recursion on the ingredients to see how far the tree goes
+        if ($recipe->exists()){
+            $nestedRecipe['ingredients'] = $recipe->first()['ingredients'];
+            
+            $this->exploreRecipeTree($recipe->first(), $nestedRecipe);
+        }
+    }
+    private function exploreRecipeTree($recipe, &$nestedRecipe){
+        foreach ($recipe['ingredients'] as $index => $ingredient){
+            $component = Recipes::where('output_item_id', $ingredient['id']);
+    
+            if ($component->exists()){
+                // Update the nested ingredients at the specific index
+                $nestedRecipe['ingredients'][$index]['ingredients'] = $component->first()['ingredients'];
+                //dd($nestedRecipe);
+                // Recursively explore further nested recipes
+                $this->exploreRecipeTree($component->first(), $nestedRecipe['ingredients'][$index]);
+            }
+        }
+        
+        return $nestedRecipe;
+    }
+
+
     // Fetch all the bags
     // API = "Bags" Spreadsheet
     // Check Google Script for making the json into an api 
