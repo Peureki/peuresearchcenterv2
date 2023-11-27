@@ -12,6 +12,7 @@ import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagic
 
 import TimersAuricBasinView from './views/timers/AuricBasinView.vue'
 import TimersTangledDepthsView from './views/timers/TangledDepthsView.vue'
+import TimersEmberBayView from './views/timers/EmberBayView.vue'
 import TimersDomainOfIstanView from './views/timers/DomainOfIstanView.vue'
 import TimersSandsweptIslesView from './views/timers/SandsweptIslesView.vue'
 import TimersDomainOfKournaView from '@/js/vue/views/timers/DomainOfKournaView.vue'
@@ -81,7 +82,13 @@ const routes = [
         component: TimersTangledDepthsView,
         name: 'timers-tangled-depths',
     },
-    // LS4
+    // * LS3
+    {
+        path: '/timers/ember-bay',
+        component: TimersEmberBayView,
+        name: 'timers-ember-bay',
+    },
+    // * LS4
     {
         path: '/timers/domain-of-istan',
         component: TimersDomainOfIstanView,

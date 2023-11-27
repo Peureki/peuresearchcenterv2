@@ -400,38 +400,18 @@
                     * LS3 TIMERS
                     *
                 -->
-                <!-- <div class="distinquish-section">
+                <div class="distinquish-section">
                     <div class="label" id="ls3">
                         <h6>LS3</h6>
                     </div>
 
                     <div class="routes">
-                        <router-link class="page-link" to="/benchmarks/maps">
-                            <img src="../../../imgs/icons/Blood_Ruby.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                            <h6>Bloodstone Fen</h6>
-                        </router-link>
-
-                        <router-link class="page-link" to="/benchmarks/maps">
-                            <img src="../../../imgs/icons/Petrified_Wood.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
+                        <router-link class="page-link" to="/timers/ember-bay">
+                            <img src="@/imgs/icons/Petrified_Wood.png" alt="Petrified Wood" title="Timers - Ember Bay">
                             <h6>Ember Bay</h6>
                         </router-link>
-
-                        <router-link class="page-link" to="/benchmarks/maps">
-                            <img src="../../../imgs/icons/Fresh_Winterberry.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                            <h6>Bitterfrost Frontier</h6>
-                        </router-link>
-
-                        <router-link class="page-link" to="/benchmarks/maps">
-                            <img src="../../../imgs/icons/Fire_Orchid_Blossom.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                            <h6>Draconis Mons</h6>
-                        </router-link>
-
-                        <router-link class="page-link" to="/benchmarks/maps">
-                            <img src="../../../imgs/icons/Orrian_Pearl.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                            <h6>Siren's Landing</h6>
-                        </router-link>
                     </div>   
-                </div> -->
+                </div>
                 <!--
                     *
                     * POF TIMERS
