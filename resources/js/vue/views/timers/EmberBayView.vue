@@ -60,12 +60,17 @@ import MainTimers from '@/js/vue/components/timers/MainTimers.vue'
 // NODES
 import AncientWood from '@/imgs/icons/Ancient_Wood_Log.png'
 import ElderWood from '@/imgs/icons/Elder_Wood_Log.png'
+import PetrifiedWood from '@/imgs/icons/Petrified_Wood.png'
 import Mithril from '@/imgs/icons/Mithril_Ore.png'
 import Orichalcum from '@/imgs/icons/Orichalcum_Ore.png'
 import Flax from '@/imgs/icons/Pile_of_Flax_Seeds.png'
 import JunglePlant from '@/imgs/icons/Maguuma_Lily.png'
 import Mussel from '@/imgs/icons/Mussel.png'
 import SawgillMushroom from '@/imgs/icons/Sawgill_Mushroom.png'
+import Lotus from '@/imgs/icons/Lotus_Root.png'
+import Passiflora from '@/imgs/icons/Passion_Fruit.png'
+import BloomingPassiflora from '@/imgs/icons/Passion_Flower.png'
+
 
 import EventSwords from '@/imgs/icons/Event_Swords.png'
 import EventBoss from '@/imgs/icons/Event_Boss.png'
@@ -108,6 +113,11 @@ let nodes = [
         src: ElderWood,
     },
     {
+        name: "Petrified Wood",
+        quantity: ref(0),
+        src: PetrifiedWood,
+    },
+    {
         name: "Mithril Ore",
         quantity: ref(0),
         src: Mithril, 
@@ -133,9 +143,19 @@ let nodes = [
         src: Mussel,
     },
     {
-        name: "Sawgill Mushrooms",
+        name: "Lotus",
         quantity: ref(0),
-        src: SawgillMushroom,
+        src: Lotus,
+    },
+    {
+        name: "Passiflora",
+        quantity: ref(0),
+        src: Passiflora,
+    },
+    {
+        name: "Blooming Passiflora",
+        quantity: ref(0),
+        src: BloomingPassiflora,
     },
 ]
 

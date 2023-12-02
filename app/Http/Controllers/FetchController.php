@@ -32,18 +32,22 @@ class FetchController extends Controller
     }
 
     public function fetchRecipesTest(){
-        $recipes = Recipes::find(7309); 
-        $nestedRecipe = '';
+        //$recipes = Recipes::find(7309); 
+        $recipes = Recipes::get(); 
+        
         // Go through all recipes
-        //foreach ($recipes as $recipe){
+        foreach ($recipes as $recipe){
+            $nestedRecipe = '';
             // Go through each recipe's ingredients
-            foreach ($recipes['ingredients'] as $ingredient){
+            foreach ($recipe['ingredients'] as $ingredient){
+                //dd($recipe);
                 $this->checkRecipeTree($ingredient, $nestedRecipe);
             }
-        //}
-        dd($recipes, $nestedRecipe);
+            dd($nestedRecipe);
+        }
+
     }
-    // Check if there is a nested recipe within the first ingredient list
+    // Check if there is a nested recipe within the current ingredient
     private function checkRecipeTree($ingredient, &$nestedRecipe){
         $recipe = Recipes::where('output_item_id', $ingredient['id']); 
         // If yes, explore and use recursion on the ingredients to see how far the tree goes
