@@ -68,26 +68,24 @@ class CurrencyController extends Controller
         $tax = $this->getTax($tax);
 
         $recipes = Recipes::get(); 
-        $researchNotes = ResearchNotes::get(); 
 
+    }
+    // *
+    // * SALVAGING ITEMS FOR RESEARCH NOTES
+    // *
+    // * RETURN recipe value that are for research notes specifically
+    public function salvageResearchNotes($buyOrderSetting, $sellOrderSetting, $tax){
+        $buyOrderSetting = $this->getBuyOrderSetting($buyOrderSetting);
+        $sellOrderSetting = $this->getSellOrderSetting($sellOrderSetting);
+        $tax = $this->getTax($tax);
+
+        $recipes = Recipes::get(); 
 
         foreach ($recipes as $recipe){
-            foreach ($recipe['ingredients'] as $ingredient){
-                if ($ingredient['id'] == 61){           
-                    $researchNoteCount = $ingredient['count'];
-                } else {
-                    $itemValue = Items::where('id', $ingredient['id'])->first()[$buyOrderSetting] * $ingredient['count'];
-                    dd($itemValue);
-                }
-                
-                //$itemTotalValues += 
-            }
+            dd($recipe); 
         }
-
-        // foreach ($researchNotes as $salvagableItem){
-
-        // }
     }
+
 
     // *
     // * LAURELS

@@ -36,7 +36,7 @@ Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 // * LAURELS
 Route::get('/currencies/laurel/{sellOrderSetting}/{tax}', [CurrencyController::class, 'laurel']);
 // * RESEARCH NOTES
-Route::get('/currencies/research-note/{buyOrderSetting}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'researchNote']);
+Route::get('/currencies/salvage-research-notes/{buyOrderSetting}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'salvageResearchNotes']);
 // * SPIRIT SHARDS
 Route::get('/currencies/spirit-shards/{buyOrderSetting}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'getSpiritShards']);
 // * TRADE CONTRACTS
