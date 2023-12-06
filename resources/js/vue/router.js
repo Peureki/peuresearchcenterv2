@@ -10,6 +10,8 @@ import CurrenciesTradeContractView from '@/js/vue/views/currencies/TradeContract
 import CurrenciesUnboundMagicView from '@/js/vue/views/currencies/UnboundMagicView.vue'
 import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagicView.vue'
 
+import ToolsRecipeValueView from '@/js/vue/views/tools/RecipeValueView.vue'
+
 import TimersAuricBasinView from './views/timers/AuricBasinView.vue'
 import TimersTangledDepthsView from './views/timers/TangledDepthsView.vue'
 import TimersEmberBayView from './views/timers/EmberBayView.vue'
@@ -67,6 +69,21 @@ const routes = [
         path: '/currencies/volatile-magic',
         component:  CurrenciesVolatileMagicView,
         name: 'currencies-volatile-magic',
+    },
+    // *
+    // * TOOLS
+    // *
+    // * MERP
+    {
+        path: '/tools/recipe-value',
+        component: ToolsRecipeValueView,
+        name: 'tools-recipe-value',
+    },
+    {
+        path: '/:requestedRecipe',
+        component: ToolsRecipeValueView,
+        name: '/:requestedRecipe',
+        props: true
     },
     // *
     // * TIMERS

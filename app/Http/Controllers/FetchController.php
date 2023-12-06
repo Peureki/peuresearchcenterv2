@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\Fetches\FetchItems;
 use App\Jobs\Fetches\FetchPrices;
 use App\Jobs\Fetches\FetchRecipes;
+use App\Jobs\Fetches\FetchRecipeTrees;
 use App\Models\Items;
 use App\Models\Bag;
 use App\Models\Recipes;
@@ -29,6 +30,11 @@ class FetchController extends Controller
     public function fetchRecipes(){
         dispatch(new FetchRecipes());
         return response()->json(['message' => 'Fetching recipes job has been queued']);
+    }
+
+    public function fetchRecipeTrees(){
+        dispatch(new FetchRecipeTrees());
+        return response()->json(['message' => 'Fetching recipe trees job has been queued']);
     }
 
     // Fetch all the bags
@@ -155,8 +161,6 @@ class FetchController extends Controller
             [48597, 75],
             [10582, 75],
         ];
-
-        
 
         foreach ($salvagableItemIDs as $inputItem){
             $item = Items::find($inputItem[0]);

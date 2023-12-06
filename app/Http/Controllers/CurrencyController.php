@@ -79,10 +79,59 @@ class CurrencyController extends Controller
         $sellOrderSetting = $this->getSellOrderSetting($sellOrderSetting);
         $tax = $this->getTax($tax);
 
-        $recipes = Recipes::get(); 
+        //$recipes = ResearchNotes::get(); 
+        $recipe = ResearchNotes::find(1);
+        $returnArray = []; 
 
-        foreach ($recipes as $recipe){
-            dd($recipe); 
+        //foreach ($recipes as $recipe){
+            $this->recipeValue($recipe, $buyOrderSetting, $sellOrderSetting, $tax);
+            $entry = [
+                'id' => $recipe['item_id'],
+                'recipeId' => $recipe['id'],
+                'buyOrder' => $recipe[$buyOrderSetting],
+                'sellOrder' => $recipe[$sellOrderSetting],
+                'name' => $recipe['name'],
+                'avgOutput' => $recipe['avg_output'],
+            ];
+            $returnArray[] = $entry;
+        //}
+        //return response()->json($returnArray);
+    }
+
+    private function recipeValue($recipe, $buyOrderSetting, $sellOrderSetting, $tax){
+        $craftingValue = 0;
+        $tpValue = 0;
+        $bestValue = 0;
+        foreach ($recipe['ingredients'] as $ingredient){
+            $currentTpValue = (Items::where('id', $ingredient['id'])
+                ->first()[$sellOrderSetting] * $tax) * $ingredient['count']; 
+
+            $tpValue += $currentTpValue; 
+
+            $this->recipeTreeValue($ingredient, $craftingValue, $currentTpValue, $bestValue, $buyOrderSetting, $sellOrderSetting, $tax);
+            
+        }
+        
+        dd($recipe['ingredients'], 'craftingValue', $craftingValue, 'tpValue', $tpValue, 'bestValue', $bestValue);
+    }
+    
+    private function recipeTreeValue($ingredient, &$craftingValue, $currentTpValue, &$bestValue, $buyOrderSetting, $sellOrderSetting, $tax){
+        if (array_key_exists('ingredients', $ingredient)){
+            // go through recipe tree
+            foreach ($ingredient['ingredients'] as $subIngredient){
+                $this->recipeTreeValue($subIngredient, $craftingValue, $currentTpValue, $bestValue, $buyOrderSetting, $sellOrderSetting, $tax);
+            }
+        } else {
+            $currentCraftingValue = (Items::where('id', $ingredient['id'])
+                ->first()[$sellOrderSetting] * $tax) * $ingredient['count']; 
+
+            $craftingValue += $currentCraftingValue; 
+
+            if ($currentTpValue < $currentCraftingValue){
+                $bestValue += $currentTpValue; 
+            } else {
+                $bestValue += $craftingValue;
+            }
         }
     }
 
