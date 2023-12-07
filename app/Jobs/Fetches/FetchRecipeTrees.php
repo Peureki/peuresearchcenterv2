@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Fetches;
 
+use App\Models\Currencies;
 use App\Models\Items;
 use App\Models\Recipes;
 use Illuminate\Bus\Queueable;
@@ -78,9 +79,18 @@ class FetchRecipeTrees implements ShouldQueue
     private function checkRecipeTree($ingredient, &$nestedRecipe){
         $recipe = Recipes::where('output_item_id', $ingredient['id']); 
         $nestedRecipe = $ingredient;
-        $nestedRecipe['name'] = Items::where('id', $ingredient['id'])->first()['name']; 
+        // Check if the ingredient is an item or currency
+        switch ($ingredient['type']){
+            case "Item": 
+                $nestedRecipe['name'] = Items::where('id', $ingredient['id'])->first()['name'] ?? ""; 
+                $nestedRecipe['icon'] = Items::where('id', $ingredient['id'])->first()['icon'] ?? ""; 
+                break;
+            case "Currency":
+                $nestedRecipe['name'] = Currencies::where('id', $ingredient['id'])->first()['name'] ?? ""; 
+                $nestedRecipe['icon'] = Currencies::where('id', $ingredient['id'])->first()['icon'] ?? ""; 
+                break;
+        }
         
-
         // If yes, explore and use recursion on the ingredients to see how far the tree goes
         if ($recipe->exists()){
             $nestedRecipe['ingredients'] = $recipe->first()['ingredients'];
@@ -92,7 +102,17 @@ class FetchRecipeTrees implements ShouldQueue
     private function exploreRecipeTree($recipe, &$nestedRecipe){
         foreach ($recipe['ingredients'] as $index => $ingredient){
             $component = Recipes::where('output_item_id', $ingredient['id']);
-            $nestedRecipe['ingredients'][$index]['name'] = Items::where('id', $ingredient['id'])->first()['name']; 
+            // Check if the ingredient is an item or currency
+            switch ($ingredient['type']){
+                case "Item":
+                    $nestedRecipe['ingredients'][$index]['name'] = Items::where('id', $ingredient['id'])->first()['name'] ?? ""; 
+                    $nestedRecipe['ingredients'][$index]['icon'] = Items::where('id', $ingredient['id'])->first()['icon'] ?? "";
+                    break;
+                case "Currency":
+                    $nestedRecipe['ingredients'][$index]['name'] = Currencies::where('id', $ingredient['id'])->first()['name'] ?? ""; 
+                    $nestedRecipe['ingredients'][$index]['icon'] = Currencies::where('id', $ingredient['id'])->first()['icon'] ?? "";
+            }
+            
     
             if ($component->exists()){
                 // Update the nested ingredients at the specific index

@@ -118,7 +118,7 @@
                 <td class="cost" colspan="100%">
                     <span>Cost per bag:</span>
                     <span class="float-right">
-                        -<span v-for="gold in formatValue(bag.costPerBag)">
+                        <span v-for="gold in formatValue(bag.costPerBag)">
                             {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                         </span>
                     </span>

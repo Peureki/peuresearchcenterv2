@@ -12,53 +12,9 @@ use Illuminate\Support\Facades\Http;
 
 class CurrencyController extends Controller
 {
-    // * CURRENCY CONTROLLER
-    // * 
-    // * This controller is to RETURN a COLLECTION of specific bags while calculating costs/tax to get the currency
-    private function getTax($tax){
-        // If the tax param exist, then that will be the tax
-        // Otherwise, default to 0.85
-        if ($tax){
-            return $tax;
-        } else {
-            $tax = 0.85;
-            return $tax;
-        }
-    }
+    
 
-    private function getBuyOrderSetting($buyOrderSetting){
-        // If the price setting exist, then be that
-        // Otherwise, default to buy_price
-        // sell_price and buy_price are going to be params for the items table to get their respective columns in the db
-        if ($buyOrderSetting){
-            if ($buyOrderSetting == 'sell_price'){
-                $buyOrderSetting == 'sell_price';
-            } 
-            if ($buyOrderSetting == 'buy_price'){
-                $buyOrderSetting == 'buy_price';
-            }
-        } else {
-            $buyOrderSetting = 'buy_price';
-        }
-        return $buyOrderSetting;
-    }
 
-    private function getSellOrderSetting($sellOrderSetting){
-        // If the price setting exist, then be that
-        // Otherwise, default to sell_price
-        // sell_price and buy_price are going to be params for the items table to get their respective columns in the db
-        if ($sellOrderSetting){
-            if ($sellOrderSetting == 'sell_price'){
-                $sellOrderSetting == 'sell_price';
-            } 
-            if ($sellOrderSetting == 'buy_price'){
-                $sellOrderSetting == 'buy_price';
-            }
-        } else {
-            $sellOrderSetting = 'sell_price';
-        }
-        return $sellOrderSetting;
-    }
     // *
     // * RESEARCH NOTES
     // *

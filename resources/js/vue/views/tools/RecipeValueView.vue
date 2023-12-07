@@ -11,23 +11,10 @@
                     <button type="submit">Fetch Recipe</button>
                 </form>
 
-                <div 
-                    class="recipe-tree"
-                    v-if="calculatedRecipe"
-                >
-                    <div 
-                        class="ingredient"
-                        v-for="ingredient in calculatedRecipe.ingredients"
-                    >
-                        <span>
-                            <p>{{ ingredient.name }}</p>
-                            <p>{{ ingredient.tpValue }}</p>
-                            <p>{{ ingredient.craftingValue }}</p>
-                        </span>
-
-
-                    </div>
-                </div>
+                <RecipeTree 
+                    v-if="recipe"
+                    :recipe="recipe"  
+                />
             </article>
         </section>
 
@@ -44,10 +31,14 @@ import Header from '@/js/vue/components/general/Header.vue'
 import TwoColSection from '@/js/vue/components/general/TwoColSection.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
 
+import RecipeTree from '@/js/vue/components/general/RecipeTree.vue'
+
 const route = useRoute(),
     router = useRouter(); 
 
-const calculatedRecipe = ref(null);
+const recipe = ref(null);
+
+
 
 const handleRecipeRequest = () => {
     const requestedURL = route.params.requestedRecipe; 
@@ -66,9 +57,8 @@ const fetchRequestedRecipe = async (requestedRecipe) => {
             }});
 
         const response = await fetch(`../api/recipes/${requestedRecipe}/${localStorage.buyOrderSetting}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`);
-        console.log('response: ', response);
         const responseData = await response.json(); 
-        calculatedRecipe.value = responseData;
+        recipe.value = responseData;
 
     } catch (error){
         console.log('Error fetching data', error);
@@ -77,4 +67,7 @@ const fetchRequestedRecipe = async (requestedRecipe) => {
 </script>
 
 <style scoped>
+
+
+
 </style>

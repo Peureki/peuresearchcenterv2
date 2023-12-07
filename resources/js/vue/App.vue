@@ -541,6 +541,21 @@ span.bookmark-label{
 .fade-leave-to {
     opacity: 0;
 }
+/* 
+ * GOLD LABELS
+ */
+span.gold-label-container{
+    display: flex;
+    align-items: center;
+}
+span.gold-label{
+    display: flex;
+    align-items: flex-end;
+    padding-inline: 2px;
+}
+span.gold-label img{
+    width: 15px;
+}
 
 
 .event-up{

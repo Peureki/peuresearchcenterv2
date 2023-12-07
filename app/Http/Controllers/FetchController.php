@@ -8,6 +8,7 @@ use App\Jobs\Fetches\FetchRecipes;
 use App\Jobs\Fetches\FetchRecipeTrees;
 use App\Models\Items;
 use App\Models\Bag;
+use App\Models\Currencies;
 use App\Models\Recipes;
 use App\Models\ResearchNote;
 use App\Models\ResearchNotes;
@@ -35,6 +36,25 @@ class FetchController extends Controller
     public function fetchRecipeTrees(){
         dispatch(new FetchRecipeTrees());
         return response()->json(['message' => 'Fetching recipe trees job has been queued']);
+    }
+
+    public function fetchCurrencies(){
+        $apiIds = Http::get('https://api.guildwars2.com/v2/currencies?ids=all'); 
+        $idList = $apiIds->json(); 
+
+        foreach ($idList as $id){
+            Currencies::updateOrCreate(
+                [
+                    'id' => $id['id']
+                ],
+                [
+                    'name' => $id['name'] ?? "",
+                    'description' => $id['description'] ?? "",
+                    'order' => $id['order'] ?? "",
+                    'icon' => $id['icon'] ?? "",
+                ],
+            );
+        }
     }
 
     // Fetch all the bags
