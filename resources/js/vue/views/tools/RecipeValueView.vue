@@ -11,6 +11,8 @@
                     <button type="submit">Fetch Recipe</button>
                 </form>
 
+                <button @click="merp">merp</button>
+
                 <RecipeTree 
                     v-if="recipe"
                     :recipe="recipe"  
@@ -38,7 +40,9 @@ const route = useRoute(),
 
 const recipe = ref(null);
 
-
+const merp = () => {
+    
+}
 
 const handleRecipeRequest = () => {
     const requestedURL = route.params.requestedRecipe; 

@@ -58,25 +58,25 @@ class FetchRecipeTrees implements ShouldQueue
             $itemsIDExists = Items::where('id', $recipe['output_item_id'])->exists();
             // Check if the output item exist and check if it's a high agony
             if ($itemsIDExists && !in_array($recipe['output_item_id'], $restrictedIDs)){
-                $this->fetchRecipeTree($recipe);
+                $this->fetchRecipeTree($recipe, $recipe['output_item_count']);
             } 
         }
     }
 
-    private function fetchRecipeTree($recipe){
+    private function fetchRecipeTree($recipe, $parentCount){
         // Create an empty array to replace regular recipes with the nested recipe
         $nestedRecipe = [];
 
         // For each recipe ingredient -> check if there's a recipe tree
         foreach ($recipe['ingredients'] as $index => $ingredient){
-            $this->checkRecipeTree($ingredient, $nestedRecipe[$index]);
+            $this->checkRecipeTree($ingredient, $parentCount, $nestedRecipe[$index]);
         }
         // After returning the $nestedRecipe, add it to the db
         Recipes::where('id', $recipe['id'])
             ->update(['ingredients' => $nestedRecipe]);
     }
     // Check if there is a nested recipe within the current ingredient
-    private function checkRecipeTree($ingredient, &$nestedRecipe){
+    private function checkRecipeTree($ingredient, $parentCount, &$nestedRecipe){
         $recipe = Recipes::where('output_item_id', $ingredient['id']); 
         $nestedRecipe = $ingredient;
         // Check if the ingredient is an item or currency
@@ -90,16 +90,17 @@ class FetchRecipeTrees implements ShouldQueue
                 $nestedRecipe['icon'] = Currencies::where('id', $ingredient['id'])->first()['icon'] ?? ""; 
                 break;
         }
+        $nestedRecipe['count'] *= $parentCount; 
         
         // If yes, explore and use recursion on the ingredients to see how far the tree goes
         if ($recipe->exists()){
             $nestedRecipe['ingredients'] = $recipe->first()['ingredients'];
-            $this->exploreRecipeTree($recipe->first(), $nestedRecipe);
+            $this->exploreRecipeTree($recipe->first(), $nestedRecipe['count'], $nestedRecipe);
         }
 
         return $nestedRecipe;
     }
-    private function exploreRecipeTree($recipe, &$nestedRecipe){
+    private function exploreRecipeTree($recipe, $parentCount, &$nestedRecipe){
         foreach ($recipe['ingredients'] as $index => $ingredient){
             $component = Recipes::where('output_item_id', $ingredient['id']);
             // Check if the ingredient is an item or currency
@@ -112,13 +113,14 @@ class FetchRecipeTrees implements ShouldQueue
                     $nestedRecipe['ingredients'][$index]['name'] = Currencies::where('id', $ingredient['id'])->first()['name'] ?? ""; 
                     $nestedRecipe['ingredients'][$index]['icon'] = Currencies::where('id', $ingredient['id'])->first()['icon'] ?? "";
             }
+            $nestedRecipe['ingredients'][$index]['count'] *= $parentCount; 
             
     
             if ($component->exists()){
                 // Update the nested ingredients at the specific index
                 $nestedRecipe['ingredients'][$index]['ingredients'] = $component->first()['ingredients'];
                 // Recursively explore further nested recipes
-                $this->exploreRecipeTree($component->first(), $nestedRecipe['ingredients'][$index]);
+                $this->exploreRecipeTree($component->first(), $nestedRecipe['ingredients'][$index]['count'], $nestedRecipe['ingredients'][$index]);
             }
         }
         return $nestedRecipe;

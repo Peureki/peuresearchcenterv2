@@ -23,7 +23,7 @@
                 <div class="price-container">
                     <span 
                         class="gold-label-container"
-                        :style="{border: recipeTreeToggle[index] === `tp` ? `var(--border-positive)` : `var(--border-general)`}"
+                        :style="{backgroundColor: recipeTreeToggle[index] === `tp` ? `var(--color-positive-faded)` : `var(--border-general)`}"
                     >
                         <input 
                             type="radio" 
@@ -45,7 +45,7 @@
                     <span 
                         class="gold-label-container"
                         v-if="ingredient.craftingValue != 0"
-                        :style="{border: recipeTreeToggle[index] === `crafting` ? `var(--border-positive)` : `var(--border-general)`}"
+                        :style="{backgroundColor: recipeTreeToggle[index] === `crafting` ? `var(--color-positive-faded)` : `var(--border-general)`}"
                     >
                         <input 
                             type="radio" 
@@ -69,6 +69,7 @@
             <RecipeTree 
                 v-if="ingredient.ingredients && recipeTreeToggle[index] === 'crafting'"
                 :recipe="ingredient.ingredients"
+                :parent-ingredient="ingredient"
                 :recursion-level="recursionLevel + 1"
             />
         </div>
@@ -81,6 +82,7 @@ import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
 
 const props = defineProps({
     recipe: Object, 
+    parentIngredient: Object,
     recursionLevel: {
         type: Number,
         default: 0,
@@ -89,16 +91,31 @@ const props = defineProps({
 
 const recipeTreeToggle = ref([]);
 
+const updateRecipeTree = () => {
+
+}
+
 onMounted(() => {
+    console.log(props.recipe, props.recipe.length);
     if (props.recipe){
-        props.recipe.forEach((ingredient) => {
-            if (ingredient.buy_price > ingredient.craftingValue){
+        for (let i = 0; i < props.recipe.length; i++){
+            if (props.recipe[i].buy_price > props.recipe[i].craftingValue){
                 recipeTreeToggle.value.push('crafting');
             } else {
                 recipeTreeToggle.value.push('tp');
             }
-        })
+        }
+        // props.recipe.forEach((ingredient, index) => {
+        //     if (ingredient.buy_price > ingredient.craftingValue){
+        //         recipeTreeToggle.value.push('crafting');
+        //         console.log(ingredient.craftingValue, index);
+        //     } else {
+        //         recipeTreeToggle.value.push('tp');
+        //     }
+        // })
     }
+
+    
 })
 
 

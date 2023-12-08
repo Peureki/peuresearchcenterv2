@@ -611,6 +611,8 @@ span.gold-label img{
     --color-down: #EC004D;
     --color-positive: #acdeb6;
     --color-negative: #daa8a8;
+    --color-positive-faded: rgb(82, 255, 0, 0.2);
+    --color-negative-faded:rgb(255, 0, 0, 0.2);
 
     --font-size-h1: clamp(2rem, 20vw, 6.25rem);
     --font-size-h3: clamp(1.3rem, 8vw, 2rem);
@@ -633,6 +635,7 @@ span.gold-label img{
     --border-tooltip: 2px solid #5f6062;
     --border-positive: 2px solid #5ED625;
     --border-negative: 2px solid #EC004D;
+    
 
     --nav-width: clamp(15rem, 15vw, 18rem);
     --nav-padding: 10px 0 10px 10px;
