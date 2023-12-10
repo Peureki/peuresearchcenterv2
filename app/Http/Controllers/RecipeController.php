@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 
 class RecipeController extends Controller
 {
+
+    public function getAllRecipes(){
+        // Combine the Recipes db and the Items db to get more info
+        $recipes = Recipes::join('items', 'recipes.output_item_id', '=', 'items.id')
+            ->select("recipes.*", 'items.*')
+            ->get();
+
+        dd($recipes);
+    }
+
     public function getRecipeValues($request, $buyOrderSetting, $sellOrderSetting, $tax){
         // Decode the $request 
         // When users type in a request, it comes out as Sigil20%of20%Blood or something 
@@ -26,6 +36,7 @@ class RecipeController extends Controller
             "sell_price" => $recipe['sell_price'],
             "count" => $recipe['output_item_count'],
             "icon" => $recipe['icon'],
+            "type" => $recipe['type'],
         ];
 
         

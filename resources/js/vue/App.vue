@@ -453,6 +453,18 @@ span.bookmark-label{
 }
 
 /* 
+ * FORM BUTTONS
+ */
+input[type="text"]{
+    width: 300px;
+}
+button.submit {
+    background-color: var(--color-link);
+    margin-top: 10px;
+    width: fit-content;
+}
+
+/* 
  * TOOLTIP
  */
 .tooltip{

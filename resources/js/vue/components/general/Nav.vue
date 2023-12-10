@@ -202,7 +202,7 @@
                     <div class="settings-button-container">
                         <button 
                             @click="refreshPage"    
-                            class="settings-submit"
+                            class="submit"
                         >
                             Submit
                         </button>
@@ -686,10 +686,5 @@ watch(taxSetting, (newTaxSetting) => {
 }
 .settings-tax-model svg{
     transition: var(--transition-all-03s-ease);
-}
-.settings-submit{
-    background-color: var(--color-link);
-    margin-top: 10px;
-    width: fit-content;
 }
 </style>

@@ -21,20 +21,25 @@
                 </span>
 
                 <div class="price-container">
+
+                    <!-- TP LABEL -->
                     <span 
                         class="gold-label-container"
-                        :style="{backgroundColor: recipeTreeToggle[index] === `tp` ? `var(--color-positive-faded)` : `var(--border-general)`}"
+                        v-if="ingredient.buy_price != 0 || ingredient.sell_price != 0"
+                        :style="{backgroundColor: ingredient.preference === `tp` ? `var(--color-positive-faded)` : `var(--border-general)`}"
                     >
                         <input 
+                            v-if="ingredient.craftingValue != 0"
                             type="radio" 
                             :id="`${ingredient.name}-tp-radio`" 
                             value="tp" 
-                            v-model="recipeTreeToggle[index]"
+                            @change="emitChildIngredient(ingredient, 'tp')"
+                            v-model="ingredient.preference"
                         >
                         <span 
                             class="gold-label" 
                             v-for="gold in formatValue(
-                                ingredient.buy_price != 0 ? ingredient.buy_price : ingredient.sell_price
+                                buyOrderSetting == 'buy_price' ? ingredient.buy_price : ingredient.sell_price
                             )"
                         >
                             {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
@@ -42,16 +47,20 @@
                         <label :for="`${ingredient.name}-tp-radio`">TP</label>
                     </span>
 
+                    <!-- CRAFTING LABEL -->
                     <span 
                         class="gold-label-container"
-                        v-if="ingredient.craftingValue != 0"
-                        :style="{backgroundColor: recipeTreeToggle[index] === `crafting` ? `var(--color-positive-faded)` : `var(--border-general)`}"
+                        v-if="(ingredient.craftingValue != 0 || ingredient.buy_price == 0) 
+                            && (ingredient.type != 'Currency')
+                            && (ingredient.hasOwnProperty('ingredients'))"
+                        :style="{backgroundColor: ingredient.preference === `crafting` ? `var(--color-positive-faded)` : `var(--border-general)`}"
                     >
                         <input 
                             type="radio" 
                             :id="`${ingredient.name}-crafting-radio`" 
                             value="crafting" 
-                            v-model="recipeTreeToggle[index]"
+                            @change="emitChildIngredient(ingredient, 'crafting')"
+                            v-model="ingredient.preference"
                         >
                         <span 
                             class="gold-label" 
@@ -63,15 +72,27 @@
                         </span>
                         <label :for="`${ingredient.name}-crafting-radio`">Crafting</label>
                     </span>
+                    
+                    <!-- LABEL WHEN THE ITEM CANNOT BE SOLD ON THE TP-->
+                    <span 
+                        class="gold-label-container"
+                        v-if="(ingredient.craftingValue == 0 && ingredient.buy_price == 0 && ingredient.sell_price == 0)
+                            && !ingredient.hasOwnProperty('ingredients')"
+                    >
+                        <p v-if="ingredient.type != 'Item'">{{ ingredient.type }}</p>
+                        <p v-else>Cannot be bought or crafted</p>
+                    </span>
                 </div>
             </span>
 
-            <RecipeTree 
-                v-if="ingredient.ingredients && recipeTreeToggle[index] === 'crafting'"
-                :recipe="ingredient.ingredients"
-                :parent-ingredient="ingredient"
-                :recursion-level="recursionLevel + 1"
-            />
+            <Transition name="fade">
+                <RecipeTree 
+                    v-if="ingredient.ingredients && ingredient.preference === 'crafting'"
+                    :recipe="ingredient.ingredients"
+                    :recursion-level="recursionLevel + 1"
+                    @update-recipe="emitChildIngredient"
+                />
+            </Transition>
         </div>
     </div>
 </template>
@@ -82,39 +103,39 @@ import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
 
 const props = defineProps({
     recipe: Object, 
-    parentIngredient: Object,
     recursionLevel: {
         type: Number,
         default: 0,
     },
 })
 
+const taxSetting = ref(localStorage.taxSetting),
+    buyOrderSetting = ref(localStorage.buyOrderSetting),
+    sellOrderSetting = ref(localStorage.sellOrderSetting);
+
+
+const emit = defineEmits(['updateRecipe']);
+
 const recipeTreeToggle = ref([]);
 
-const updateRecipeTree = () => {
-
+const emitChildIngredient = (selectedIngredient, userPreference) => {
+    emit('updateRecipe', selectedIngredient, userPreference);
 }
 
-onMounted(() => {
-    console.log(props.recipe, props.recipe.length);
-    if (props.recipe){
-        for (let i = 0; i < props.recipe.length; i++){
-            if (props.recipe[i].buy_price > props.recipe[i].craftingValue){
-                recipeTreeToggle.value.push('crafting');
-            } else {
-                recipeTreeToggle.value.push('tp');
-            }
-        }
-        // props.recipe.forEach((ingredient, index) => {
-        //     if (ingredient.buy_price > ingredient.craftingValue){
-        //         recipeTreeToggle.value.push('crafting');
-        //         console.log(ingredient.craftingValue, index);
-        //     } else {
-        //         recipeTreeToggle.value.push('tp');
-        //     }
-        // })
-    }
 
+onMounted(() => {
+    // if (props.recipe){
+
+    //     props.recipe.forEach((ingredient, index) => {
+    //         if (ingredient.buy_price > ingredient.craftingValue){
+    //             recipeTreeToggle.value.push('crafting');
+                
+    //         } else {
+    //             recipeTreeToggle.value.push('tp');
+    //         }
+    //     })
+        
+    // }
     
 })
 

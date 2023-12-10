@@ -33,7 +33,7 @@ class Controller extends BaseController
         return $dbName;
     }
 
-    private function getTax($tax){
+    protected function getTax($tax){
         // If the tax param exist, then that will be the tax
         // Otherwise, default to 0.85
         if ($tax){
@@ -44,7 +44,7 @@ class Controller extends BaseController
         }
     }
 
-    private function getBuyOrderSetting($buyOrderSetting){
+    protected function getBuyOrderSetting($buyOrderSetting){
         // If the price setting exist, then be that
         // Otherwise, default to buy_price
         // sell_price and buy_price are going to be params for the items table to get their respective columns in the db
@@ -61,7 +61,7 @@ class Controller extends BaseController
         return $buyOrderSetting;
     }
 
-    private function getSellOrderSetting($sellOrderSetting){
+    protected function getSellOrderSetting($sellOrderSetting){
         // If the price setting exist, then be that
         // Otherwise, default to sell_price
         // sell_price and buy_price are going to be params for the items table to get their respective columns in the db

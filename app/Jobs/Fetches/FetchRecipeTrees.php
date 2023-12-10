@@ -56,7 +56,7 @@ class FetchRecipeTrees implements ShouldQueue
         // Go through each recipe and fetch any recipe trees
         foreach ($recipes as $recipe){
             $itemsIDExists = Items::where('id', $recipe['output_item_id'])->exists();
-            // Check if the output item exist and check if it's a high agony
+            // Check if the output item exist and check if it's restricted
             if ($itemsIDExists && !in_array($recipe['output_item_id'], $restrictedIDs)){
                 $this->fetchRecipeTree($recipe, $recipe['output_item_count']);
             } 
