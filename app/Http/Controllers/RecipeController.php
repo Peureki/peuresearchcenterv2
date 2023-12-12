@@ -9,13 +9,27 @@ use Illuminate\Http\Request;
 class RecipeController extends Controller
 {
 
-    public function getAllRecipes(){
+    public function searchRecipes(Request $request){
         // Combine the Recipes db and the Items db to get more info
-        $recipes = Recipes::join('items', 'recipes.output_item_id', '=', 'items.id')
-            ->select("recipes.*", 'items.*')
-            ->get();
+        // $recipes = Recipes::join('items', 'recipes.output_item_id', '=', 'items.id')
+        //     ->select("recipes.*", 'items.*')
+        //     ->get();
+        
 
-        dd($recipes);
+        $query = $request->input('request');
+
+        $recipes = Recipes::join('items', 'recipes.output_item_id', '=', 'items.id')
+            ->where('name', 'like', '%'.$query.'%')
+            ->pluck('name', 'icon')
+            ->map(function ($name, $icon){
+                return [
+                    'name' => $name,
+                    'icon' => $icon,
+                ];
+            })
+            ->toArray();
+
+        return response()->json($recipes);
     }
 
     public function getRecipeValues($request, $buyOrderSetting, $sellOrderSetting, $tax){

@@ -53,6 +53,9 @@ input {
     border: none;
     padding: var(--padding-input);
 }
+a {
+    cursor: pointer;
+}
 
 h1{
     color: var(--color-h1);
@@ -675,14 +678,18 @@ span.gold-label img{
     --padding-settings: 10px;
     --padding-input: 5px;
     --padding-bookmark: 5px 0px 5px 0;
+    --padding-search-li: 5px 0px 5px 0;
+    
 
     --margin-shortcuts-svg: 0 10px 0 10px;
     --margin-tooltip: 20px 0px 0px 0px;
     --margin-gold-span: 0px 2px 0px 2px;
+    --margin-block-general: 10px 0px 10px 0px;
 
     --transition-all-03s-ease: all 0.3s ease;
 
     --hover-border-bottom: 2px solid #ffd12c;
+    --hover-bkg-fade: rgba(255, 209, 44, 0.2); 
 
     --img-timer-map-w: clamp(62.5rem, 115vw, 300rem);
 }

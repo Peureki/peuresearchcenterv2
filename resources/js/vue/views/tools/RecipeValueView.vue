@@ -4,17 +4,34 @@
         <Header page-name="Recipe Value"/>
         <TwoColSection>
             <template v-slot:content1>
+                <!-- * RECIPE FORM
+                     * 
+                     * SEARCH BAR => SENDS REQUEST TO RECEIVE RECIPE INFO AND CALCULATIONS
+                -->
                 <form 
                     class="recipe-form"
                     @submit.prevent="handleRecipeRequest"
                 >
+                    <!-- SEARCH BAR -->
                     <input 
                         type="text" 
-                        id="recipe-name" 
                         placeholder="Item Name"
-                        v-model="route.params.requestedRecipe"
+                        v-model="searchQuery"
                     >
-                    
+                    <Transition name="fade">
+                        <!-- LIST IF SEARCH BAR HAS CONTENT -->
+                        <ul class="search-query-container" v-if="searchQuery && searchQuery.length > 3">
+                            <a 
+                                v-for="recipe in searchResults"
+                                @click="searchQuery = recipe.name; handleRecipeRequest();"
+                            >
+                                <li>
+                                    <img :src="recipe.icon" :alt="recipe.name" :title="recipe.name">
+                                    {{ recipe.name }}
+                                </li> 
+                            </a>
+                        </ul>
+                    </Transition>
                     <button class="submit" type="submit">Fetch Recipe</button>
                 </form>
 
@@ -113,8 +130,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+
+import { debounce } from 'lodash'
 
 import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
 
@@ -131,6 +150,9 @@ import RecipeTree from '@/js/vue/components/general/RecipeTree.vue'
 
 const route = useRoute(),
     router = useRouter(); 
+
+const searchQuery = ref(null),
+    searchResults = ref(null);
 
 const recipe = ref(null);
 const currency = ref(0),
@@ -218,9 +240,23 @@ const profit = (recipe, priceType) => {
     
 }
 
+watch(searchQuery, debounce(async (query) => {
+    if (query.length > 3){
+        try {
+            const response = await fetch(`../api/recipes/search-recipes?request=${query}`);
+            const responseData = await response.json(); 
+            searchResults.value = responseData; 
+
+        } catch (error) {
+            console.log("Trouble with search query: ", error); 
+        }
+    }
+}, 500));
+
 
 const handleRecipeRequest = () => {
-    const requestedURL = route.params.requestedRecipe; 
+    const requestedURL = searchQuery.value; 
+    console.log(requestedURL);
     
     if (requestedURL){
         fetchRequestedRecipe(requestedURL);
@@ -255,6 +291,26 @@ const fetchRequestedRecipe = async (requestedRecipe) => {
 </script>
 
 <style scoped>
+.search-query-container{
+    margin: var(--margin-block-general);
+    padding: 0;
+    height: fit-content;
+    max-height: 200px;
+    overflow-y: auto;
+}
+.search-query-container li:hover{
+    background-color: var(--hover-bkg-fade);
+}
+.search-query-container li{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: var(--padding-search-li);
+}
+.search-query-container li img{
+    width: 20px;
+    height: 20px;
+}
 .recipe-form{
     display: flex;
     justify-content: center;

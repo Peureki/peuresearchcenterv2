@@ -37,7 +37,7 @@ Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 // * TOOLS
 // *
 Route::get('/recipes/{request}/{buyOrderSetting}/{sellOrderSetting}/{tax}', [RecipeController::class, 'getRecipeValues']);
-Route::get('/recipes/get-all-recipes', [RecipeController::class, 'getAllRecipes']);
+Route::get('/recipes/search-recipes', [RecipeController::class, 'searchRecipes']);
 // *
 // * CURRENCIES
 // *
