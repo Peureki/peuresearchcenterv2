@@ -76,9 +76,11 @@
                 <td><img :src="mat.icon" :alt="mat.name" :title="mat.name"> {{ mat.name }}</td>
                 <td class="text-right">{{ formatPercentage(mat.dropRate) }}</td>
                 <td class="gold">
-                    <span class="gold-label" v-for="gold in formatValue(mat.value)">
-                        {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                    </span>
+                    <span class="gold-label-container">
+                        <span class="gold-label" v-for="gold in formatValue(mat.value)">
+                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                        </span>
+                    </span>   
                 </td>
             </tr>
             <!--

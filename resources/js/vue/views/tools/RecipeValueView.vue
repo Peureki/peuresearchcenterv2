@@ -32,7 +32,25 @@
                             </a>
                         </ul>
                     </Transition>
-                    <button class="submit" type="submit">Fetch Recipe</button>
+                    <div class="flex-row-space-btw">
+                        <input
+                            type="number"
+                            min="1"
+                            v-model="quantityRequest"
+                        >
+                        <span class="input-radio">
+                            <input 
+                                type="radio" 
+                                id="own-ingredients" 
+                                value="true" 
+                                @change="updateRecipeToOwned()"
+                                v-model="ownIngredientsToggle"
+                            >
+                            <label for="own-ingredients">Own Ingredients</label>
+                        </span>
+                        <button class="submit" type="submit">Fetch Recipe</button>
+                        
+                    </div>
                 </form>
 
                 <Loading v-if="loadingToggle"/>
@@ -69,12 +87,23 @@
                     </span>   
                     
                     <span class="output">
-                        <h6>Profit (Buy Price, Tax @ {{ taxSetting }}): </h6>
+                        <h6>
+                            <svg 
+                                :style="{transform: `rotate(${profit(recipe[0], 'buy_price') < 0 ? 90 : -90}deg)`}"
+                                width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path 
+                                    :fill="profit(recipe[0], 'buy_price') < 0 ? `var(--color-down)` : `var(--color-up)`"
+                                    d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
+                                />
+                            </svg>
+                            Profit (Buy Price, Tax @ {{ taxSetting }}): 
+                        </h6>
                         <span class="gold-label-container">
                             <span 
                                 class="gold-label" 
                                 v-for="gold in formatValue(
-                                    profit(recipe[0], 'buy price')
+                                    profit(recipe[0], 'buy_price')
                                 )"
                             >
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
@@ -83,12 +112,23 @@
                     </span>  
 
                     <span class="output">
-                        <h6>Profit (Sell Price, Tax @ {{ taxSetting }}): </h6>
+                        <h6>
+                            <svg 
+                                :style="{transform: `rotate(${profit(recipe[0], 'sell_price') < 0 ? 90 : -90}deg)`}"
+                                width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path 
+                                    :fill="profit(recipe[0], 'sell_price') < 0 ? `var(--color-down)` : `var(--color-up)`"
+                                    d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
+                                />
+                            </svg>
+                            Profit (Sell Price, Tax @ {{ taxSetting }}): 
+                        </h6>
                         <span class="gold-label-container">
                             <span 
                                 class="gold-label" 
                                 v-for="gold in formatValue(
-                                    profit(recipe[0], 'sell price')
+                                    profit(recipe[0], 'sell_price')
                                 )"
                             >
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
@@ -100,12 +140,12 @@
                         class="output"
                         v-if="currency != 0"
                     >
-                        <h6>Currency Value (per {{ currencyName }}s): </h6>
+                        <h6><img :src="currencyIcon" :alt="currencyName" :title="currencyName">Currency Value (per {{ currencyName }}s): </h6>
                         <span class="gold-label-container">
                             <span 
                                 class="gold-label" 
                                 v-for="gold in formatValue(
-                                    buyOrderSetting == 'buy_price' ? profit(recipe[0], 'buy price') / currency : profit(recipe[0], 'sell price') / currency
+                                    buyOrderSetting == 'buy_price' ? profit(recipe[0], 'buy_price') / currency : profit(recipe[0], 'sell price') / currency
                                 )"
                             >
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
@@ -154,6 +194,8 @@ const route = useRoute(),
 const searchQuery = ref(null),
     searchResults = ref(null);
 
+const quantityRequest = ref(1);
+
 const recipe = ref(null);
 const currency = ref(0),
     currencyName = ref(null),
@@ -161,11 +203,17 @@ const currency = ref(0),
 
 const recipesDB = ref(null);
 
-const loadingToggle = ref(false);
+const loadingToggle = ref(false),
+    ownIngredientsToggle = ref(false);
 
 const taxSetting = ref(localStorage.taxSetting),
     buyOrderSetting = ref(localStorage.buyOrderSetting),
     sellOrderSetting = ref(localStorage.sellOrderSetting);
+
+
+const updateRecipeToOwned = () => {
+    
+}
 
 // * UPDATE ENTIRE RECIPE TREE
 // *
@@ -185,14 +233,15 @@ const updateRecipeTree = (selectedIngredient, userPreference) => {
 // * By having a preferences, the recipe tree will choose the best and cheapest path
 const choosePreference = (currentIngredient, selectedIngredient, userPreference) => {
     if (selectedIngredient){
-        console.log(currentIngredient, selectedIngredient, userPreference);
-        if (currentIngredient == selectedIngredient){
-            
+        if (currentIngredient == selectedIngredient){ 
+            console.log('this happened')
             switch (userPreference){
                 case 'crafting':
                     return currentIngredient['preference'] = 'crafting';
                 case 'tp':
                     return currentIngredient['preference'] = 'tp';
+                case 'owned':
+                    return currentIngredient['preference'] = 'owned';
             }
         } 
     } else if (currentIngredient.craftingValue < currentIngredient.buy_price || currentIngredient.buy_price == 0){
@@ -216,6 +265,10 @@ const updatePrices = (recipe, selectedIngredient, userPreference) => {
                 case "crafting":
                     tempValue += updatePrices(ingredient, selectedIngredient, userPreference);
                     break;
+                case "owned":
+                    tempValue += 0;
+                    updatePrices(ingredient, selectedIngredient, userPreference);
+                    break;
             }
         } else {
             tempValue += buyOrderSetting.value == 'buy_price' ? ingredient.buy_price : ingredient.sell_price;
@@ -232,9 +285,9 @@ const updatePrices = (recipe, selectedIngredient, userPreference) => {
 
 const profit = (recipe, priceType) => {
     switch (priceType){
-        case "buy price":
+        case "buy_price":
             return (recipe.buy_price - recipe.craftingValue) * localStorage.taxSetting; 
-        case "sell price":
+        case "sell_price":
             return (recipe.sell_price - recipe.craftingValue) * localStorage.taxSetting; 
     }
     
@@ -255,15 +308,15 @@ watch(searchQuery, debounce(async (query) => {
 
 
 const handleRecipeRequest = () => {
-    const requestedURL = searchQuery.value; 
-    console.log(requestedURL);
+    const requestedURL = searchQuery.value,
+        requestedQuantity = quantityRequest.value; 
     
     if (requestedURL){
-        fetchRequestedRecipe(requestedURL);
+        fetchRequestedRecipe(requestedURL, requestedQuantity);
     }
 }
 
-const fetchRequestedRecipe = async (requestedRecipe) => {
+const fetchRequestedRecipe = async (requestedRecipe, requestedQuantity) => {
     try{
         loadingToggle.value = true; 
         const encodedRecipe = encodeURIComponent(requestedRecipe);
@@ -272,7 +325,7 @@ const fetchRequestedRecipe = async (requestedRecipe) => {
                 requestedRecipe: encodedRecipe
             }});
 
-        const response = await fetch(`../api/recipes/${requestedRecipe}/${localStorage.buyOrderSetting}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`);
+        const response = await fetch(`../api/recipes/${requestedRecipe}/${requestedQuantity}`);
         const responseData = await response.json(); 
         recipe.value = responseData;
 

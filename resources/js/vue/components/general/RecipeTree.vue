@@ -36,6 +36,7 @@
                             @change="emitChildIngredient(ingredient, 'tp')"
                             v-model="ingredient.preference"
                         >
+                        <label :for="`${ingredient.name}-tp-radio`">TP</label>
                         <span 
                             class="gold-label" 
                             v-for="gold in formatValue(
@@ -44,7 +45,7 @@
                         >
                             {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                         </span>
-                        <label :for="`${ingredient.name}-tp-radio`">TP</label>
+                        
                     </span>
 
                     <!-- CRAFTING LABEL -->
@@ -62,6 +63,7 @@
                             @change="emitChildIngredient(ingredient, 'crafting')"
                             v-model="ingredient.preference"
                         >
+                        <label :for="`${ingredient.name}-crafting-radio`">Crafting</label>
                         <span 
                             class="gold-label" 
                             v-for="gold in formatValue(
@@ -70,7 +72,25 @@
                         >
                             {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                         </span>
-                        <label :for="`${ingredient.name}-crafting-radio`">Crafting</label>
+                        
+                    </span>
+
+                    <!-- "HAVE ITEM" LABEL -->
+                    <span 
+                        class="gold-label-container"
+                        v-if="(ingredient.craftingValue != 0 || ingredient.buy_price == 0) 
+                            && (ingredient.type != 'Currency')
+                            && (ingredient.hasOwnProperty('ingredients'))"
+                        :style="{backgroundColor: ingredient.preference === `owned` ? `var(--color-positive-faded)` : `var(--border-general)`}"
+                    >
+                        <input 
+                            type="radio" 
+                            :id="`${ingredient.name}-owned-radio`" 
+                            value="owned" 
+                            @change="emitChildIngredient(ingredient, 'owned')"
+                            v-model="ingredient.preference"
+                        >
+                        <label :for="`${ingredient.name}-owned-radio`">Owned</label>
                     </span>
                     
                     <!-- LABEL WHEN THE ITEM CANNOT BE SOLD ON THE TP-->

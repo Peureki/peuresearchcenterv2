@@ -69,7 +69,11 @@
             </tr>
         </thead>
         <tbody>
-            <!-- RECIPE ROW -->
+            <!-- 
+                * 
+                * RECIPE ROW
+                * 
+            -->
             <tr v-for="recipe in recipes.value">
                 <!-- INGREDIENTS -->
                 <td v-for="ingredient in recipe.ingredients">
@@ -127,8 +131,10 @@
                     style="border-left: var(--border-general)"
                     :style="{borderRight: recipe.profitPerConversion > 0 ? `var(--border-positive)` : `var(--border-negative)`}"
                 >
-                    <span class="gold-label" v-for="gold in formatValue(recipe.profitPerConversion)">
-                        {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                    <span class="gold-label-container">
+                        <span class="gold-label" v-for="gold in formatValue(recipe.profitPerConversion)">
+                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                        </span>
                     </span>
                 </td>
                 <!-- PROFIT/SPIRIT SHARD -->
@@ -136,8 +142,10 @@
                     class="text-right"
                     :style="{borderRight: recipe.profitPerConversion > 0 ? `var(--border-positive)` : `var(--border-negative)`}"    
                 >
-                    <span class="gold-label" v-for="gold in formatValue(recipe.profitPerSpiritShard)">
-                        {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                    <span class="gold-label-container">
+                        <span class="gold-label" v-for="gold in formatValue(recipe.profitPerSpiritShard)">
+                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                        </span>
                     </span>
                 </td>
             </tr>

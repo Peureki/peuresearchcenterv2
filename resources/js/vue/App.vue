@@ -347,12 +347,6 @@ table td{
     padding: var(--padding-table-td);
     vertical-align: middle;
 }
-table td.gold{
-    text-align: right;
-}
-table td.gold span{
-    margin: var(--margin-gold-span);
-}
 
 table svg{
     width: 20px;
@@ -456,10 +450,32 @@ span.bookmark-label{
 }
 
 /* 
+ * GENERAL FLEX DIVS
+ */
+.flex-row-space-btw{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+/* 
  * FORM BUTTONS
  */
-input[type="text"]{
+span.input-radio{
+    display: flex;
+    gap: 5px;
+    background-color: var(--color-link);
+    padding: var(--padding-button);
+}
+span.input-radio label{
+    color: var(--color-black);
+}
+/* input[type="text"]{
     width: 300px;
+} */
+input[type="number"] {
+    width: fit-content;
 }
 button.submit {
     background-color: var(--color-link);
@@ -562,6 +578,7 @@ button.submit {
 span.gold-label-container{
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 }
 span.gold-label{
     display: flex;

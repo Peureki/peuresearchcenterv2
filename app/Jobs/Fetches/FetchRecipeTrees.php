@@ -35,6 +35,7 @@ class FetchRecipeTrees implements ShouldQueue
     public function handle()
     {
         $recipes = Recipes::get();
+        //$recipe = Recipes::find(3099);
         // AGONY RESISTATANCE beyond +10
         // Because Agony has a recipe on top of a recipe the higher you go, by +17, it broke mySQL
         $restrictedIDs = [
@@ -58,7 +59,16 @@ class FetchRecipeTrees implements ShouldQueue
             $itemsIDExists = Items::where('id', $recipe['output_item_id'])->exists();
             // Check if the output item exist and check if it's restricted
             if ($itemsIDExists && !in_array($recipe['output_item_id'], $restrictedIDs)){
-                $this->fetchRecipeTree($recipe, $recipe['output_item_count']);
+                // Check if the OUTPUT_ITEM_COUNT is > 1 
+                // If not, this causes recipe counts to be squared/grow expo for each recipe tree
+                // This still keeps the main item output at the appropiate amount though, without change the ingredients
+                // Ex: Super Veggie Pizza
+                if ($recipe['output_item_count'] > 1){
+                    $this->fetchRecipeTree($recipe, 1);
+                } else {
+                    $this->fetchRecipeTree($recipe, $recipe['output_item_count']);
+                }
+                
             } 
         }
     }

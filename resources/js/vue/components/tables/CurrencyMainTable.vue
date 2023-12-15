@@ -131,14 +131,19 @@
                 <td><img :src="bag.icon" :alt="bag.name" :title="bag.name"> {{ bag.name }}</td>
                 <!-- Profits/Bag -->
                 <td class="gold">
-                    <span class="gold-label" v-for="gold in formatValue(bag.profitPerBag)">
-                        {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                    <span class="gold-label-container">
+                        <span class="gold-label" v-for="gold in formatValue(bag.profitPerBag)">
+                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                        </span>
                     </span>
+                    
                 </td>
                 <!-- Currency Value -->
                 <td class="gold">
-                    <span class="gold-label" v-for="gold in formatValue(bag.currencyValue)">
-                        {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                    <span class="gold-label-container">
+                        <span class="gold-label" v-for="gold in formatValue(bag.currencyValue)">
+                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                        </span>
                     </span>
                 </td>
                 <!-- Other Currency Value -->
@@ -146,8 +151,10 @@
                     v-if="otherCurrencyIcon"
                     class="gold"
                 >
-                    <span class="gold-label" v-for="gold in formatValue(bag.otherCurrencyValue)">
-                        {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                    <span class="gold-label-container">
+                        <span class="gold-label" v-for="gold in formatValue(bag.otherCurrencyValue)">
+                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                        </span>
                     </span>
                 </td>
                 <!-- CTA to open details table -->
