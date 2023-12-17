@@ -105,7 +105,8 @@ table, th, td{
 }
 button {
     color: var(--color-black);
-    border: var(--border-general);
+    border: none;
+    /* border: var(--border-general); */
     cursor: pointer;
 }
 article {
@@ -458,6 +459,18 @@ span.bookmark-label{
     align-items: flex-end;
     gap: 10px;
 }
+.flex-row-flex-start{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+.flex-row-flex-start img, 
+.flex-row-flex-start svg{
+    width: 20px;
+    height: 20px;
+    transition: var(--transition-all-03s-ease);
+}
 
 /* 
  * FORM BUTTONS
@@ -479,8 +492,8 @@ input[type="number"] {
 }
 button.submit {
     background-color: var(--color-link);
-    margin-top: 10px;
     width: fit-content;
+    padding: var(--padding-button);
 }
 
 /* 
@@ -695,7 +708,7 @@ span.gold-label img{
     --padding-settings: 10px;
     --padding-input: 5px;
     --padding-bookmark: 5px 0px 5px 0;
-    --padding-search-li: 5px 0px 5px 0;
+    --padding-search-li: 5px 0px 5px 10px;
     
 
     --margin-shortcuts-svg: 0 10px 0 10px;

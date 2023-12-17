@@ -48,8 +48,8 @@ class RecipeController extends Controller
         // Start with index of 0 so that the output item is the first of the recipe tree displayed
         $returnArray[] = [
             "name" => $recipe['name'],
-            "buy_price" => $recipe['buy_price'] * $quantity,
-            "sell_price" => $recipe['sell_price'] * $quantity,
+            "buy_price" => $recipe['buy_price'] * $recipe['output_item_count'] * $quantity,
+            "sell_price" => $recipe['sell_price'] * $recipe['output_item_count'] * $quantity,
             "count" => $recipe['output_item_count'] * $quantity,
             "icon" => $recipe['icon'],
             "type" => $recipe['type'],

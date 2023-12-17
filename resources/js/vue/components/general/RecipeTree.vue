@@ -1,4 +1,10 @@
 <template>
+    <!--
+        *
+        * RECIPE TREE
+        *
+        * Add padding for each new recursion of the tree
+    -->
     <div 
         class="recipe-tree"
         :style="{
@@ -6,20 +12,33 @@
             paddingRight: recursionLevel > 0 ? 'unset' : `${50}px`,
             width: recursionLevel > 0 ? `unset` : `fit-content`,
             borderLeft: recursionLevel > 0 ? `var(--border-general)` : `none`
-
         }"
     >
+        <!--
+            *
+            * INGREDIENTS
+            *
+        -->
         <div 
             class="ingredients"
             v-for="(ingredient, index) in recipe"
         >
             <span class="ingredient-details">
+                <!-- 
+                    *
+                    * INGREDIENT INFO
+                    *
+                -->
                 <span class="ingredient-info-container">
                     <img class="ingredient-icon" :src="ingredient.icon" :alt="ingredient.name" :title="ingredient.name">
                     <p>{{ ingredient.count }}</p>
                     <p>{{ ingredient.name }}</p>
                 </span>
-
+                <!-- 
+                    *
+                    * PRICE CONTAINER
+                    *
+                -->
                 <div class="price-container">
 
                     <!-- TP LABEL -->
@@ -29,7 +48,6 @@
                         :style="{backgroundColor: ingredient.preference === `tp` ? `var(--color-positive-faded)` : `var(--border-general)`}"
                     >
                         <input 
-                            v-if="ingredient.craftingValue != 0"
                             type="radio" 
                             :id="`${ingredient.name}-tp-radio`" 
                             value="tp" 
@@ -51,8 +69,7 @@
                     <!-- CRAFTING LABEL -->
                     <span 
                         class="gold-label-container"
-                        v-if="(ingredient.craftingValue != 0 || ingredient.buy_price == 0) 
-                            && (ingredient.type != 'Currency')
+                        v-if="(ingredient.type != 'Currency')
                             && (ingredient.hasOwnProperty('ingredients'))"
                         :style="{backgroundColor: ingredient.preference === `crafting` ? `var(--color-positive-faded)` : `var(--border-general)`}"
                     >
@@ -78,9 +95,9 @@
                     <!-- "HAVE ITEM" LABEL -->
                     <span 
                         class="gold-label-container"
-                        v-if="(ingredient.craftingValue != 0 || ingredient.buy_price == 0) 
+                        v-if="(ingredient.craftingValue != 0 || ingredient.buy_price != 0) 
                             && (ingredient.type != 'Currency')
-                            && (ingredient.hasOwnProperty('ingredients'))"
+                            && recursionLevel != 0"
                         :style="{backgroundColor: ingredient.preference === `owned` ? `var(--color-positive-faded)` : `var(--border-general)`}"
                     >
                         <input 
@@ -129,36 +146,16 @@ const props = defineProps({
     },
 })
 
+const emit = defineEmits(['updateRecipe']);
+
 const taxSetting = ref(localStorage.taxSetting),
     buyOrderSetting = ref(localStorage.buyOrderSetting),
     sellOrderSetting = ref(localStorage.sellOrderSetting);
 
 
-const emit = defineEmits(['updateRecipe']);
-
-const recipeTreeToggle = ref([]);
-
 const emitChildIngredient = (selectedIngredient, userPreference) => {
     emit('updateRecipe', selectedIngredient, userPreference);
 }
-
-
-onMounted(() => {
-    // if (props.recipe){
-
-    //     props.recipe.forEach((ingredient, index) => {
-    //         if (ingredient.buy_price > ingredient.craftingValue){
-    //             recipeTreeToggle.value.push('crafting');
-                
-    //         } else {
-    //             recipeTreeToggle.value.push('tp');
-    //         }
-    //     })
-        
-    // }
-    
-})
-
 
 </script>
 

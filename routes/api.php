@@ -38,6 +38,7 @@ Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 // *
 Route::get('/recipes/{request}/{quantity}', [RecipeController::class, 'getRecipeValues']);
 Route::get('/recipes/search-recipes', [RecipeController::class, 'searchRecipes']);
+
 // *
 // * CURRENCIES
 // *
@@ -53,6 +54,8 @@ Route::get('/currencies/trade-contract/{sellOrderSetting}/{tax}', [CurrencyContr
 Route::get('/currencies/volatile-magic/{sellOrderSetting}/{tax}', [CurrencyController::class, 'volatileMagic']);
 // * UNBOUND MAGIC
 Route::get('/currencies/unbound-magic/{sellOrderSetting}/{tax}', [CurrencyController::class, 'unboundMagic']);
+
+Route::get('/currencies/research-note', [CurrencyController::class, 'researchNote']);
 
 
 // BAG DETAILS

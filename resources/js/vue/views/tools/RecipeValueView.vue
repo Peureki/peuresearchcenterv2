@@ -4,9 +4,10 @@
         <Header page-name="Recipe Value"/>
         <TwoColSection>
             <template v-slot:content1>
-                <!-- * RECIPE FORM
-                     * 
-                     * SEARCH BAR => SENDS REQUEST TO RECEIVE RECIPE INFO AND CALCULATIONS
+                <!-- 
+                    * RECIPE FORM
+                    * 
+                    * SEARCH BAR => SENDS REQUEST TO RECEIVE RECIPE INFO AND CALCULATIONS
                 -->
                 <form 
                     class="recipe-form"
@@ -21,7 +22,7 @@
                     <Transition name="fade">
                         <!-- LIST IF SEARCH BAR HAS CONTENT -->
                         <ul class="search-query-container" v-if="searchQuery && searchQuery.length > 3">
-                            <a 
+                            <button 
                                 v-for="recipe in searchResults"
                                 @click="searchQuery = recipe.name; handleRecipeRequest();"
                             >
@@ -29,16 +30,20 @@
                                     <img :src="recipe.icon" :alt="recipe.name" :title="recipe.name">
                                     {{ recipe.name }}
                                 </li> 
-                            </a>
+                            </button>
                         </ul>
                     </Transition>
+                    <!-- 
+                        * INPUT - QUANTITY
+                        * SUBMIT RECIPE
+                    -->
                     <div class="flex-row-space-btw">
                         <input
                             type="number"
                             min="1"
                             v-model="quantityRequest"
                         >
-                        <span class="input-radio">
+                        <!-- <span class="input-radio">
                             <input 
                                 type="radio" 
                                 id="own-ingredients" 
@@ -47,7 +52,7 @@
                                 v-model="ownIngredientsToggle"
                             >
                             <label for="own-ingredients">Own Ingredients</label>
-                        </span>
+                        </span> -->
                         <button class="submit" type="submit">Fetch Recipe</button>
                         
                     </div>
@@ -56,10 +61,21 @@
                 <Loading v-if="loadingToggle"/>
             </template>
 
+            <!-- 
+                *
+                * OUTPUT CONTAINER
+                *
+                * Display the TP prices, crafting costs, and profit in one section
+            -->
             <template v-slot:content2 v-if="recipe">
                 <div class="display-output-container">
+
+                    <!-- TP BUY PRICE -->
                     <span class="output">
-                        <h6><img :src="TradingPost" alt="Trading Post" title="Trading Post"> Trading Post</h6>
+                        <span class="flex-row-flex-start">
+                            <img :src="TradingPost" alt="Trading Post" title="Trading Post"> 
+                            <h6>Trading Post (Buy Price): </h6>
+                        </span>
                         <span class="gold-label-container">
                             <span 
                                 class="gold-label" 
@@ -72,8 +88,30 @@
                         </span>
                     </span> 
 
+                    <!-- TP SELL PRICE -->
                     <span class="output">
-                        <h6><img :src="Armor" alt="Crafting" title="Crafting"> Crafting Costs: </h6>
+                        <span class="flex-row-flex-start">
+                            <img :src="TradingPost" alt="Trading Post" title="Trading Post"> 
+                            <h6>Trading Post (Sell Price): </h6>
+                        </span>
+                        <span class="gold-label-container">
+                            <span 
+                                class="gold-label" 
+                                v-for="gold in formatValue(
+                                    buyOrderSetting == 'sell_price' ? recipe[0].buy_price : recipe[0].sell_price
+                                )"
+                            >
+                                {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                            </span>
+                        </span>
+                    </span> 
+
+                    <!-- CRAFTING COSTS -->
+                    <span class="output">
+                        <span class="flex-row-flex-start">
+                            <img :src="Armor" alt="Crafting" title="Crafting"> 
+                            <h6>Crafting Costs: </h6>
+                        </span>
                         <span class="gold-label-container">
                             <span 
                                 class="gold-label" 
@@ -86,8 +124,9 @@
                         </span>
                     </span>   
                     
+                    <!-- PROFIT (BUY PRICE) -->
                     <span class="output">
-                        <h6>
+                        <span class="flex-row-flex-start">
                             <svg 
                                 :style="{transform: `rotate(${profit(recipe[0], 'buy_price') < 0 ? 90 : -90}deg)`}"
                                 width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -97,8 +136,8 @@
                                     d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
                                 />
                             </svg>
-                            Profit (Buy Price, Tax @ {{ taxSetting }}): 
-                        </h6>
+                            <h6>Profit (Buy Price, Tax @ {{ taxSetting }}): </h6>
+                        </span>
                         <span class="gold-label-container">
                             <span 
                                 class="gold-label" 
@@ -111,8 +150,9 @@
                         </span>
                     </span>  
 
+                    <!-- PROFIT (SELL PRICE) -->
                     <span class="output">
-                        <h6>
+                        <span class="flex-row-flex-start">
                             <svg 
                                 :style="{transform: `rotate(${profit(recipe[0], 'sell_price') < 0 ? 90 : -90}deg)`}"
                                 width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -122,8 +162,8 @@
                                     d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
                                 />
                             </svg>
-                            Profit (Sell Price, Tax @ {{ taxSetting }}): 
-                        </h6>
+                            <h6>Profit (Sell Price, Tax @ {{ taxSetting }}): </h6>
+                        </span>
                         <span class="gold-label-container">
                             <span 
                                 class="gold-label" 
@@ -136,16 +176,20 @@
                         </span>
                     </span> 
 
+                    <!-- CURRENCY (if applicable) -->
                     <span 
                         class="output"
                         v-if="currency != 0"
                     >
-                        <h6><img :src="currencyIcon" :alt="currencyName" :title="currencyName">Currency Value (per {{ currencyName }}s): </h6>
+                        <span class="flex-row-flex-start">
+                            <img :src="currencyIcon" :alt="currencyName" :title="currencyName">
+                            <h6>Currency Value (per {{ currencyName }}s): </h6>
+                        </span>
                         <span class="gold-label-container">
                             <span 
                                 class="gold-label" 
                                 v-for="gold in formatValue(
-                                    buyOrderSetting == 'buy_price' ? profit(recipe[0], 'buy_price') / currency : profit(recipe[0], 'sell price') / currency
+                                    buyOrderSetting == 'buy_price' ? profit(recipe[0], 'buy_price') / currency : profit(recipe[0], 'sell_price') / currency
                                 )"
                             >
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
@@ -155,6 +199,12 @@
                 </div>
             </template>
         </TwoColSection>
+        <!-- 
+            * 
+            * RECIPE TREE
+            *
+            * Semeantics here because the <RecipeTree/> uses recursion 
+        -->
         <section>
             <article>
                 <Transition name="fade">
@@ -201,10 +251,7 @@ const currency = ref(0),
     currencyName = ref(null),
     currencyIcon = ref(null);
 
-const recipesDB = ref(null);
-
-const loadingToggle = ref(false),
-    ownIngredientsToggle = ref(false);
+const loadingToggle = ref(false);
 
 const taxSetting = ref(localStorage.taxSetting),
     buyOrderSetting = ref(localStorage.buyOrderSetting),
@@ -212,7 +259,7 @@ const taxSetting = ref(localStorage.taxSetting),
 
 
 const updateRecipeToOwned = () => {
-    
+    console.log(recipe.value[0]);
 }
 
 // * UPDATE ENTIRE RECIPE TREE
@@ -228,13 +275,13 @@ const updateRecipeTree = (selectedIngredient, userPreference) => {
     // Update prices on all ingredients 
     updatePrices(recipe.value[0], selectedIngredient, userPreference);
 }
-// * CHOOSE ITEM PREFERENCES 'tp' or 'crafting'
+// * CHOOSE ITEM PREFERENCES 'tp' or 'crafting' etc
 // *
 // * By having a preferences, the recipe tree will choose the best and cheapest path
 const choosePreference = (currentIngredient, selectedIngredient, userPreference) => {
+    // If the user selected a specific ingredient
     if (selectedIngredient){
         if (currentIngredient == selectedIngredient){ 
-            console.log('this happened')
             switch (userPreference){
                 case 'crafting':
                     return currentIngredient['preference'] = 'crafting';
@@ -244,19 +291,27 @@ const choosePreference = (currentIngredient, selectedIngredient, userPreference)
                     return currentIngredient['preference'] = 'owned';
             }
         } 
+    // If func is called without specifing an ingredient
+    // Check if it's better to craft or to buy from TP
     } else if (currentIngredient.craftingValue < currentIngredient.buy_price || currentIngredient.buy_price == 0){
         return currentIngredient['preference'] = 'crafting';
     } else {
         return currentIngredient['preference'] = 'tp';
     }
 }
-
+// *
+// * UPDATE PRICES 
+// *
+// * Updates the prices of the buy order of each ingredient depending on their preferences
 const updatePrices = (recipe, selectedIngredient, userPreference) => {
     let tempValue = 0
+    // Go through each recipe in the recipe tree
     recipe.ingredients.forEach((ingredient) => {
+        // If another recipe exists => 
         if (ingredient.hasOwnProperty('ingredients')){
+            // Check preferences first, then decide if it's better to buy or craft
             choosePreference(ingredient, selectedIngredient, userPreference);
-            
+            // Then with the preferences, update the prices
             switch (ingredient.preference){
                 case "tp":
                     tempValue += buyOrderSetting.value == 'buy_price' ? ingredient.buy_price : ingredient.sell_price;
@@ -270,9 +325,13 @@ const updatePrices = (recipe, selectedIngredient, userPreference) => {
                     updatePrices(ingredient, selectedIngredient, userPreference);
                     break;
             }
+            // Unless the user has specified this ingredient is owned
+        } else if (ingredient.preference == 'owned'){
+            tempValue += 0; 
+            //updatePrices(ingredient, selectedIngredient, userPreference);
         } else {
             tempValue += buyOrderSetting.value == 'buy_price' ? ingredient.buy_price : ingredient.sell_price;
-
+            // Check if the ingredietn is a Currency
             if (ingredient.type == "Currency"){
                 currency.value += ingredient.count; 
                 currencyIcon.value = ingredient.icon;
@@ -282,17 +341,20 @@ const updatePrices = (recipe, selectedIngredient, userPreference) => {
     })
     return recipe.craftingValue = tempValue; 
 }
-
+// To display the profits of a recipe
 const profit = (recipe, priceType) => {
     switch (priceType){
         case "buy_price":
-            return (recipe.buy_price - recipe.craftingValue) * localStorage.taxSetting; 
+            return (recipe.buy_price * localStorage.taxSetting ) - recipe.craftingValue ; 
         case "sell_price":
-            return (recipe.sell_price - recipe.craftingValue) * localStorage.taxSetting; 
+            return (recipe.sell_price * localStorage.taxSetting ) - recipe.craftingValue; 
     }
     
 }
-
+// Watch ths search bar 
+// If character lenghth > 3 => apply search results
+// Use debounce so the func does not get called every character change
+// Without debounce, breaks website due to too many requests at once
 watch(searchQuery, debounce(async (query) => {
     if (query.length > 3){
         try {
@@ -345,6 +407,8 @@ const fetchRequestedRecipe = async (requestedRecipe, requestedQuantity) => {
 
 <style scoped>
 .search-query-container{
+    display: flex;
+    flex-direction: column;
     margin: var(--margin-block-general);
     padding: 0;
     height: fit-content;
@@ -364,10 +428,20 @@ const fetchRequestedRecipe = async (requestedRecipe, requestedQuantity) => {
     width: 20px;
     height: 20px;
 }
+.search-query-container button{
+    border: none;
+    background-color: unset;
+    padding: 0;
+}
+.search-query-container button:focus{
+    outline: none;
+    background-color: var(--hover-bkg-fade);
+}
 .recipe-form{
     display: flex;
     justify-content: center;
     flex-direction: column;
+    gap: 5px;
     width: fit-content;
 }
 .display-output-container{

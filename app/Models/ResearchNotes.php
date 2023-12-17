@@ -32,7 +32,7 @@ class ResearchNotes extends Model
     // * RELATIONSHIPS
     // *
     public function items(){
-        return $this->belongsTo(Item::class, 'item_id', 'id');
+        return $this->belongsTo(Items::class, 'item_id', 'id');
     }
 
     public function recipes(){

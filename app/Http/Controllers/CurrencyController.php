@@ -19,11 +19,15 @@ class CurrencyController extends Controller
     // * RESEARCH NOTES
     // *
     // * RETURN recipe value and research note value
-    public function researchNote($buyOrderSetting, $sellOrderSetting, $tax){
-        $sellOrderSetting = $this->getSellOrderSetting($sellOrderSetting);
-        $tax = $this->getTax($tax);
+    public function researchNote(){
+        // $buyOrderSetting = $this->getBuyOrderSetting($buyOrderSetting);
+        // $sellOrderSetting = $this->getSellOrderSetting($sellOrderSetting);
+        // $tax = $this->getTax($tax);
 
-        $recipes = Recipes::get(); 
+        //$recipes = Recipes::get(); 
+        $researchNotes = ResearchNotes::get();
+
+        return response()->json($researchNotes);
 
     }
     // *

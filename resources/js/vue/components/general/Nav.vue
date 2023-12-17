@@ -379,10 +379,19 @@
                     </div>
 
                     <div class="routes">
+                        
+
                         <router-link class="page-link" to="/tools/recipe-value">
                             <img src="@/imgs/icons/Ley_Line_Crystal.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                             <h6>Recipe Value</h6>
                         </router-link>
+
+                        <router-link class="page-link" to="/tools/research-notes">
+                            <img src="@/imgs/icons/Research_Note.png" alt="Research Notes" title="Tools - Research Notes">
+                            <h6>Research Notes</h6>
+                        </router-link>
+
+                        
                     </div>   
                 </div>
             </section>
