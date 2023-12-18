@@ -71,11 +71,13 @@ class RecipeController extends Controller
     }
     // First ingredients of recipe
     private function addRecipeTreePrices($ingredient, &$returnArray, $quantity){
-        
+        // Get ingredient info from the Items db
+        $itemInfo = Items::where('id', $ingredient['id'])->first();
+
         $returnArray = $ingredient;
         $returnArray['count'] = $ingredient['count'] * $quantity; 
-        $returnArray['buy_price'] = Items::where('id', $ingredient['id'])->first()['buy_price'] * $ingredient['count'] * $quantity;
-        $returnArray['sell_price'] = Items::where('id', $ingredient['id'])->first()['sell_price'] * $ingredient['count'] * $quantity;
+        $returnArray['buy_price'] = $itemInfo['buy_price'] * $ingredient['count'] * $quantity;
+        $returnArray['sell_price'] = $itemInfo['sell_price'] * $ingredient['count'] * $quantity;
 
         $this->exploreRecipeTreePrices($ingredient, $returnArray, $quantity); 
     }
@@ -83,24 +85,30 @@ class RecipeController extends Controller
     private function exploreRecipeTreePrices($ingredients, &$returnArray, $quantity){
         if (array_key_exists('ingredients', $ingredients)){
             foreach ($ingredients['ingredients'] as $index => $ingredient){
+                // Get ingredient info from the Items db
+                $itemInfo = Items::where('id', $ingredient['id'])->first();
+
                 $returnArray['ingredients'][$index] = $ingredient;
                 $returnArray['ingredients'][$index]['count'] = $ingredient['count'] * $quantity; 
-                $returnArray['ingredients'][$index]['buy_price'] = Items::where('id', $ingredient['id'])->first()['buy_price'] * $ingredient['count'] * $quantity;
-                $returnArray['ingredients'][$index]['sell_price'] = Items::where('id', $ingredient['id'])->first()['sell_price'] * $ingredient['count'] * $quantity;
+                $returnArray['ingredients'][$index]['buy_price'] = $itemInfo['buy_price'] * $ingredient['count'] * $quantity;
+                $returnArray['ingredients'][$index]['sell_price'] = $itemInfo['sell_price'] * $ingredient['count'] * $quantity;
                 // Recusion if the recipe tree is greater than 2 levels
                 $this->exploreRecipeTreePrices($ingredient, $returnArray['ingredients'][$index], $quantity);
             }
         } else {
+            // Get ingredient info from the Items db
+            $itemInfo = Items::where('id', $ingredients['id'])->first();
+
             $returnArray = $ingredients;
             $returnArray['count'] = $ingredients['count'] * $quantity; 
-            $returnArray['buy_price'] = Items::where('id', $ingredients['id'])->first()['buy_price'] * $ingredients['count'] * $quantity;
-            $returnArray['sell_price'] = Items::where('id', $ingredients['id'])->first()['sell_price'] * $ingredients['count'] * $quantity;
+            $returnArray['buy_price'] = $itemInfo['buy_price'] * $ingredients['count'] * $quantity;
+            $returnArray['sell_price'] = $itemInfo['sell_price'] * $ingredients['count'] * $quantity;
         }
     }
     // * CALCULATE RECIPE **TREE**
     // *
     // *
-    private function calculateRecipeTree(&$returnArray){
+    public function calculateRecipeTree(&$returnArray){
         // Check if the current ingredient has a tree
         if (array_key_exists('ingredients', $returnArray)){
             // If yes => calculate crafting value from the tree
@@ -117,7 +125,7 @@ class RecipeController extends Controller
     // * CALCULATE RECIPE **INDIVIDUAL LEVEL**
     // *
     // *
-    private function calculateRecipeLevel($recipeLevel){
+    public function calculateRecipeLevel($recipeLevel){
         $value = 0;
         // Go through each ingredient under the tree and add values
         foreach ($recipeLevel as $ingredient){

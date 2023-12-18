@@ -6,6 +6,7 @@ use App\Jobs\Fetches\FetchItems;
 use App\Jobs\Fetches\FetchPrices;
 use App\Jobs\Fetches\FetchRecipes;
 use App\Jobs\Fetches\FetchRecipeTrees;
+use App\Jobs\Fetches\FetchRecipeValues;
 use App\Models\Items;
 use App\Models\Bag;
 use App\Models\Currencies;
@@ -36,6 +37,11 @@ class FetchController extends Controller
     public function fetchRecipeTrees(){
         dispatch(new FetchRecipeTrees());
         return response()->json(['message' => 'Fetching recipe trees job has been queued']);
+    }
+
+    public function fetchRecipeValues(){
+        dispatch(new FetchRecipeValues());
+        return response()->json(['message' => 'Fetching recipe tree values job has been queued']);
     }
 
     public function fetchCurrencies(){
