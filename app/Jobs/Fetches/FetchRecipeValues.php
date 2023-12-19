@@ -49,9 +49,9 @@ class FetchRecipeValues implements ShouldQueue
             $updateTreeWithValues = []; 
             $updateTreeWithValues = $recipeController->getRecipeValues($recipe['name'], 1); 
             $merp = json_decode($updateTreeWithValues->getContent());
-
+            
             ResearchNotes::where('id', $recipe['research_note_id'])
-                ->update(['ingredients' => $merp[0]->ingredients]);
+                ->update(['crafting_value' => $merp[0]->crafting_value]);
             
             
         }

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('min_rating')->nullable(); 
             $table->integer('avg_output')->nullable(); 
             $table->json('ingredients')->nullable(); 
+            $table->integer('crafting_value')->nullable();
             $table->integer('buy_price')->nullable();
             $table->integer('sell_price')->nullable();
 

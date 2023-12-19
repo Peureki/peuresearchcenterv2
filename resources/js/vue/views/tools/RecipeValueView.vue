@@ -304,7 +304,7 @@ const choosePreference = (currentIngredient, selectedIngredient, userPreference)
 // *
 // * Updates the prices of the buy order of each ingredient depending on their preferences
 const updatePrices = (recipe, selectedIngredient, userPreference) => {
-    let tempValue = 0
+    let tempValue = 0;
     // Go through each recipe in the recipe tree
     recipe.ingredients.forEach((ingredient) => {
         // If another recipe exists => 

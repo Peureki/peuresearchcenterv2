@@ -19,6 +19,7 @@ class ResearchNotes extends Model
         'min_rating',
         'avg_output',
         'ingredients',
+        'crafting_value',
         'buy_price',
         'sell_price',
     ];

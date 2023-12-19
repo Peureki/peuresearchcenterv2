@@ -53,6 +53,7 @@ class RecipeController extends Controller
             "count" => $recipe['output_item_count'] * $quantity,
             "icon" => $recipe['icon'],
             "type" => $recipe['type'],
+            "crafting_value" => 0,
         ];
 
         
@@ -63,7 +64,7 @@ class RecipeController extends Controller
 
         // After getting the whole recipe tree
         // CALCULATE each level of the tree by their crafting
-        $this->calculateRecipeTree($returnArray[0]);
+        $this->calculateRecipeTree($returnArray[0], $returnArray[0]['crafting_value']);
 
         //dd($returnArray);
         
@@ -108,19 +109,21 @@ class RecipeController extends Controller
     // * CALCULATE RECIPE **TREE**
     // *
     // *
-    public function calculateRecipeTree(&$returnArray){
+    public function calculateRecipeTree(&$returnArray, &$crafting_value){
+        //dd($returnArray);
         // Check if the current ingredient has a tree
         if (array_key_exists('ingredients', $returnArray)){
             // If yes => calculate crafting value from the tree
-            $returnArray['craftingValue'] = $this->calculateRecipeLevel($returnArray['ingredients']);
+            $crafting_value += $this->calculateRecipeLevel($returnArray['ingredients']);
             // Go through the tree and repeat process until the tree line stops
             foreach ($returnArray['ingredients'] as $index => $ingredient){
-                $this->calculateRecipeTree($returnArray['ingredients'][$index]);
+                $this->calculateRecipeTree($returnArray['ingredients'][$index], $crafting_value);
             }
         // If no tree => return 0
         } else {
-            $returnArray['craftingValue'] = 0;
+            $crafting_value += 0;
         }
+        
     }
     // * CALCULATE RECIPE **INDIVIDUAL LEVEL**
     // *
