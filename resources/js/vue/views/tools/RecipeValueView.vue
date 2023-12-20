@@ -279,6 +279,9 @@ const updateRecipeTree = (selectedIngredient, userPreference) => {
 // *
 // * By having a preferences, the recipe tree will choose the best and cheapest path
 const choosePreference = (currentIngredient, selectedIngredient, userPreference) => {
+    if (currentIngredient.name == "Bolt of Damask"){
+        console.log(currentIngredient, currentIngredient.craftingValue);
+    }
     // If the user selected a specific ingredient
     if (selectedIngredient){
         if (currentIngredient == selectedIngredient){ 
@@ -390,13 +393,14 @@ const fetchRequestedRecipe = async (requestedRecipe, requestedQuantity) => {
         const response = await fetch(`../api/recipes/${requestedRecipe}/${requestedQuantity}`);
         const responseData = await response.json(); 
         recipe.value = responseData;
+        console.log(recipe.value);
 
         // Loading choya disappears once data is received
         if (recipe.value){
             loadingToggle.value = false; 
         }
         // Review prices and adjust according to the best tree path
-        updateRecipeTree();
+        //updateRecipeTree();
 
     } catch (error){
         console.log('Error fetching data', error);

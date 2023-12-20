@@ -53,7 +53,8 @@ class RecipeController extends Controller
             "count" => $recipe['output_item_count'] * $quantity,
             "icon" => $recipe['icon'],
             "type" => $recipe['type'],
-            "crafting_value" => 0,
+            "craftingValue" => 0,
+            "preference" => null,
         ];
 
         
@@ -64,7 +65,10 @@ class RecipeController extends Controller
 
         // After getting the whole recipe tree
         // CALCULATE each level of the tree by their crafting
-        $this->calculateRecipeTree($returnArray[0], $returnArray[0]['crafting_value']);
+        $this->calculateCraftingValue($returnArray[0]);
+        $this->preferences($returnArray[0]);
+
+        $this->bestTreePath($returnArray[0]);
 
         //dd($returnArray);
         
@@ -109,36 +113,99 @@ class RecipeController extends Controller
     // * CALCULATE RECIPE **TREE**
     // *
     // *
-    public function calculateRecipeTree(&$returnArray, &$crafting_value){
-        //dd($returnArray);
-        // Check if the current ingredient has a tree
-        if (array_key_exists('ingredients', $returnArray)){
-            // If yes => calculate crafting value from the tree
-            $crafting_value += $this->calculateRecipeLevel($returnArray['ingredients']);
-            // Go through the tree and repeat process until the tree line stops
-            foreach ($returnArray['ingredients'] as $index => $ingredient){
-                $this->calculateRecipeTree($returnArray['ingredients'][$index], $crafting_value);
+    // public function calculateCraftingValue(&$returnArray){
+    //     dd($returnArray);
+    //     // Check if the current ingredient has a tree
+    //     if (array_key_exists('ingredients', $returnArray)){
+    //         // If yes => calculate crafting value from the tree
+    //         $returnArray['craftingValue'] = $this->calculateRecipeLevel($returnArray['ingredients']);
+    //         // Go through the tree and repeat process until the tree line stops
+    //         foreach ($returnArray['ingredients'] as $index => $ingredient){
+    //             $this->calculateCraftingValue($returnArray['ingredients'][$index]);
+    //         }
+    //     // If no tree => return 0
+    //     } else {
+    //         $returnArray['craftingValue'] = 0;
+    //     }
+    // }
+    // // * CALCULATE RECIPE **INDIVIDUAL LEVEL**
+    // // *
+    // // *
+    // public function calculateRecipeLevel($recipeLevel){
+    //     $value = 0;
+    //     // Go through each ingredient under the tree and add values
+    //     foreach ($recipeLevel as $ingredient){
+    //         if ($ingredient['buy_price'] != 0){
+    //             $value += $ingredient['buy_price'];
+    //         } else {
+    //             $value += $ingredient['sell_price'];
+    //         }
+    //     }
+    //     return $value; 
+    // }
+
+
+    public function calculateCraftingValue(&$returnArray){
+        $tempValue = 0; 
+
+        foreach ($returnArray['ingredients'] as &$ingredient){
+            if (array_key_exists('ingredients', $ingredient)){
+                $tempValue += $this->calculateCraftingValue($ingredient);
+                $this->preferences($ingredient);
+            } else {
+                if ($ingredient['buy_price'] < $ingredient['sell_price']){
+                    $tempValue += $ingredient['buy_price'];
+                } else if ($ingredient['buy_price'] > $ingredient['sell_price']) {
+                    $tempValue += $ingredient['sell_price'];
+                } else {
+                    $tempValue += 0;
+                }
             }
-        // If no tree => return 0
-        } else {
-            $crafting_value += 0;
         }
         
+        return $returnArray['craftingValue'] = $tempValue;
     }
-    // * CALCULATE RECIPE **INDIVIDUAL LEVEL**
-    // *
-    // *
-    public function calculateRecipeLevel($recipeLevel){
-        $value = 0;
-        // Go through each ingredient under the tree and add values
-        foreach ($recipeLevel as $ingredient){
-            if ($ingredient['buy_price'] != 0){
-                $value += $ingredient['buy_price'];
-            } else {
-                $value += $ingredient['sell_price'];
-            }
+
+    public function preferences(&$ingredient){
+        if ($ingredient['craftingValue'] < $ingredient['buy_price'] || $ingredient['buy_price'] == 0){
+            $ingredient['preference'] = 'crafting';
+        } else {
+            $ingredient['preference'] = 'tp';
         }
-        return $value; 
+    }
+
+    public function bestTreePath(&$returnArray){
+        $tempValue = 0; 
+
+        foreach ($returnArray['ingredients'] as $ingredient){
+            if (array_key_exists('ingredients', $ingredient)){
+                switch ($ingredient['preference']){
+                    case "tp":
+                        if ($ingredient['buy_price'] < $ingredient['sell_price']){
+                            $tempValue += $ingredient['buy_price'];
+                        } else if ($ingredient['buy_price'] > $ingredient['sell_price']) {
+                            $tempValue += $ingredient['sell_price'];
+                        } else {
+                            $tempValue += 0;
+                        }
+                        $this->bestTreePath($ingredient);
+                        break;
+                    case "crafting":
+                        $tempValue += $this->bestTreePath($ingredient);
+                        break;
+                }
+            } else {
+                if ($ingredient['buy_price'] < $ingredient['sell_price']){
+                    $tempValue += $ingredient['buy_price'];
+                } else if ($ingredient['buy_price'] > $ingredient['sell_price']) {
+                    $tempValue += $ingredient['sell_price'];
+                } else {
+                    $tempValue += 0;
+                }
+            }
+            
+        }
+        return $returnArray['craftingValue'] = $tempValue; 
     }
 
     

@@ -7,8 +7,8 @@
             <tr>
                 <th><h5>Name</h5></th>
                 <th><h5>Total Cost</h5></th>
-                <th><h5>Cost/Note</h5></th>
                 <th><h5>Avg Output</h5></th>
+                <th><h5>Cost/Note</h5></th>
                 <th><h5>Recipe Tree</h5></th>
             </tr>
         </thead>
@@ -22,6 +22,7 @@
                         </span>
                     </span>
                 </td>
+                <td>{{ notes.avg_output }}</td>
                 <td class="gold">
                     <span class="gold-label-container">
                         <span class="gold-label" v-for="gold in formatValue(notes.crafting_value/notes.avg_output)">
@@ -29,7 +30,7 @@
                         </span>
                     </span>
                 </td>
-                <td>{{ notes.avg_output }}</td>
+                
             </tr>
         </tbody>
     </table>
