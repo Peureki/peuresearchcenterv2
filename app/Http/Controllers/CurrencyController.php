@@ -24,8 +24,12 @@ class CurrencyController extends Controller
         // $sellOrderSetting = $this->getSellOrderSetting($sellOrderSetting);
         // $tax = $this->getTax($tax);
 
-        //$recipes = Recipes::get(); 
-        $researchNotes = ResearchNotes::get();
+        // Return Research Notes db 
+        // Calculate crafting_value / avg_output and sort by that (cost/note column)
+        $researchNotes = ResearchNotes::
+            select('*')
+            ->orderByRaw('crafting_value / avg_output')
+            ->get();
 
         return response()->json($researchNotes);
 
