@@ -403,9 +403,10 @@ class FetchController extends Controller
             ["Bronze Sword", 1],
             ["Bronze Mace", 1],
             ["Bronze Spear", 1],
+        ];
 
-
-
+        $restrictedCategories = [
+            "Plaguedoctor's",
         ];
 
         foreach ($salvagableItemCategories as $items){

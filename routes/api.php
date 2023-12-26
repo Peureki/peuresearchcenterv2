@@ -55,7 +55,7 @@ Route::get('/currencies/volatile-magic/{sellOrderSetting}/{tax}', [CurrencyContr
 // * UNBOUND MAGIC
 Route::get('/currencies/unbound-magic/{sellOrderSetting}/{tax}', [CurrencyController::class, 'unboundMagic']);
 
-Route::get('/currencies/research-note', [CurrencyController::class, 'researchNote']);
+Route::get('/currencies/research-note/{buyOrderSetting}', [CurrencyController::class, 'researchNote']);
 
 
 // BAG DETAILS

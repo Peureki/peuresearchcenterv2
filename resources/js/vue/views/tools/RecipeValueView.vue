@@ -24,7 +24,7 @@
                         <ul class="search-query-container" v-if="searchQuery && searchQuery.length > 3">
                             <button 
                                 v-for="recipe in searchResults"
-                                @click="searchQuery = recipe.name; handleRecipeRequest();"
+                                @click="searchQuery = recipe.name; "
                             >
                                 <li>
                                     <img :src="recipe.icon" :alt="recipe.name" :title="recipe.name">
@@ -242,7 +242,8 @@ const route = useRoute(),
     router = useRouter(); 
 
 const searchQuery = ref(null),
-    searchResults = ref(null);
+    searchResults = ref(null),
+    url = ref(null);
 
 const quantityRequest = ref(1);
 
@@ -385,27 +386,42 @@ const fetchRequestedRecipe = async (requestedRecipe, requestedQuantity) => {
     try{
         loadingToggle.value = true; 
         const encodedRecipe = encodeURIComponent(requestedRecipe);
+        console.log('merp')
         router.replace({
             query: {
                 requestedRecipe: encodedRecipe
             }});
 
-        const response = await fetch(`../api/recipes/${requestedRecipe}/${requestedQuantity}`);
+        const response = await fetch(`../api/recipes/${encodedRecipe}/${requestedQuantity}`);
         const responseData = await response.json(); 
         recipe.value = responseData;
-        console.log(recipe.value);
 
         // Loading choya disappears once data is received
         if (recipe.value){
             loadingToggle.value = false; 
         }
-        // Review prices and adjust according to the best tree path
-        //updateRecipeTree();
+        // Review prices and adjust according to the best treSe path
+        updateRecipeTree();
 
     } catch (error){
         console.log('Error fetching data', error);
     }
 }
+/*
+ * WHEN LOADING
+ * 1. Check if there's a requestedRecipe in the URL. Ex: tools/recipe-value?requestedRecipe=Jeweled%2520Damask%2520Patch
+ * 2. If yes => decode and request that recipe
+ * This is for when a user copied the URL from when they searched or from another page (ie research notes) 
+ */
+onMounted(() => {
+    if (route.query.requestedRecipe){
+        url.value = decodeURIComponent(route.query.requestedRecipe);
+    }
+    
+    if (url.value){
+        fetchRequestedRecipe(url.value, quantityRequest.value);
+    }
+})
 
 </script>
 

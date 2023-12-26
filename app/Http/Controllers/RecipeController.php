@@ -110,39 +110,6 @@ class RecipeController extends Controller
             $returnArray['sell_price'] = $itemInfo['sell_price'] * $ingredients['count'] * $quantity;
         }
     }
-    // * CALCULATE RECIPE **TREE**
-    // *
-    // *
-    // public function calculateCraftingValue(&$returnArray){
-    //     dd($returnArray);
-    //     // Check if the current ingredient has a tree
-    //     if (array_key_exists('ingredients', $returnArray)){
-    //         // If yes => calculate crafting value from the tree
-    //         $returnArray['craftingValue'] = $this->calculateRecipeLevel($returnArray['ingredients']);
-    //         // Go through the tree and repeat process until the tree line stops
-    //         foreach ($returnArray['ingredients'] as $index => $ingredient){
-    //             $this->calculateCraftingValue($returnArray['ingredients'][$index]);
-    //         }
-    //     // If no tree => return 0
-    //     } else {
-    //         $returnArray['craftingValue'] = 0;
-    //     }
-    // }
-    // // * CALCULATE RECIPE **INDIVIDUAL LEVEL**
-    // // *
-    // // *
-    // public function calculateRecipeLevel($recipeLevel){
-    //     $value = 0;
-    //     // Go through each ingredient under the tree and add values
-    //     foreach ($recipeLevel as $ingredient){
-    //         if ($ingredient['buy_price'] != 0){
-    //             $value += $ingredient['buy_price'];
-    //         } else {
-    //             $value += $ingredient['sell_price'];
-    //         }
-    //     }
-    //     return $value; 
-    // }
 
 
     public function calculateCraftingValue(&$returnArray){

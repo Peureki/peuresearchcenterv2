@@ -19,8 +19,8 @@ class CurrencyController extends Controller
     // * RESEARCH NOTES
     // *
     // * RETURN recipe value and research note value
-    public function researchNote(){
-        // $buyOrderSetting = $this->getBuyOrderSetting($buyOrderSetting);
+    public function researchNote($buyOrderSetting){
+        $buyOrderSetting = $this->getBuyOrderSetting($buyOrderSetting);
         // $sellOrderSetting = $this->getSellOrderSetting($sellOrderSetting);
         // $tax = $this->getTax($tax);
 
@@ -28,9 +28,12 @@ class CurrencyController extends Controller
         // Calculate crafting_value / avg_output and sort by that (cost/note column)
         $researchNotes = ResearchNotes::
             select('*')
+            ->join('items', 'research_note.item_id', '=', 'items.id')
+            ->where('research_note.name', 'not like', '%Plaguedoctor%')
             ->orderByRaw('crafting_value / avg_output')
             ->get();
 
+        
         return response()->json($researchNotes);
 
     }
