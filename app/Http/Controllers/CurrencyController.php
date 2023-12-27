@@ -30,7 +30,26 @@ class CurrencyController extends Controller
             select('*')
             ->join('items', 'research_note.item_id', '=', 'items.id')
             ->where('research_note.name', 'not like', '%Plaguedoctor%')
-            ->orderByRaw('crafting_value / avg_output')
+            ->orderByRaw("
+                CASE 
+                WHEN (research_note.buy_price = 0 AND research_note.sell_price = 0) OR (research_note.buy_price IS NULL OR research_note.sell_price IS NULL)
+                    THEN crafting_value / avg_output
+                WHEN '$buyOrderSetting' = 'buy_price' AND research_note.buy_price = 0
+                    THEN crafting_value / avg_output
+                WHEN '$buyOrderSetting' = 'buy_price' THEN
+                    CASE 
+                    WHEN research_note.buy_price < crafting_value 
+                        THEN research_note.buy_price / avg_output
+                        ELSE crafting_value / avg_output
+                    END
+                WHEN '$buyOrderSetting' = 'sell_price' THEN
+                    CASE 
+                    WHEN research_note.sell_price < crafting_value
+                        THEN research_note.sell_price / avg_output
+                        ELSE crafting_value / avg_output
+                    END
+                END
+            ")
             ->get();
 
         

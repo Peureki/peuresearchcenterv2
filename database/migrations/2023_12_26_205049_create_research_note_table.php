@@ -19,17 +19,14 @@ return new class extends Migration
 
             $table->unsignedBigInteger('item_id')->nullable();
             $table->unsignedBigInteger('recipe_id')->nullable();
-            $table->string('name')->nullable();
-            $table->json('disciplines')->nullable(); 
-            $table->integer('min_rating')->nullable(); 
-            $table->integer('avg_output')->nullable(); 
-            $table->json('ingredients')->nullable(); 
-            $table->integer('crafting_value')->nullable();
-            $table->integer('buy_price')->nullable();
-            $table->integer('sell_price')->nullable();
 
             $table->foreign('item_id')->references('id')->on('items')->onUpdate('cascade');
             $table->foreign('recipe_id')->references('id')->on('recipes')->onUpdate('cascade');
+
+            $table->integer('avg_output')->nullable(); 
+            $table->json('ingredients')->nullable(); 
+            $table->integer('crafting_value')->nullable();
+            $table->string('preference')->nullable();
         });
     }
 
