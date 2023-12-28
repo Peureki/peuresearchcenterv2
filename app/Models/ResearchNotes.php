@@ -14,14 +14,10 @@ class ResearchNotes extends Model
     protected $fillable = [
         'item_id',
         'recipe_id',
-        'name',
-        'disciplines',
-        'min_rating',
         'avg_output',
         'ingredients',
         'crafting_value',
-        'buy_price',
-        'sell_price',
+        'preference',
     ];
 
     protected $casts = [

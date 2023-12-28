@@ -29,28 +29,28 @@ class CurrencyController extends Controller
         $researchNotes = ResearchNotes::
             select('*')
             ->join('items', 'research_note.item_id', '=', 'items.id')
-            ->where('research_note.name', 'not like', '%Plaguedoctor%')
+            ->where('items.name', 'not like', '%Plaguedoctor%')
             ->orderByRaw("
                 CASE 
-                WHEN (research_note.buy_price = 0 AND research_note.sell_price = 0) OR (research_note.buy_price IS NULL OR research_note.sell_price IS NULL)
+                WHEN (items.buy_price = 0 AND items.sell_price = 0) OR (items.buy_price IS NULL OR items.sell_price IS NULL)
                     THEN crafting_value / avg_output
-                WHEN '$buyOrderSetting' = 'buy_price' AND research_note.buy_price = 0
+                WHEN '$buyOrderSetting' = 'buy_price' AND items.buy_price = 0
                     THEN crafting_value / avg_output
                 WHEN '$buyOrderSetting' = 'buy_price' THEN
                     CASE 
-                    WHEN research_note.buy_price < crafting_value 
-                        THEN research_note.buy_price / avg_output
+                    WHEN items.buy_price < crafting_value 
+                        THEN items.buy_price / avg_output
                         ELSE crafting_value / avg_output
                     END
                 WHEN '$buyOrderSetting' = 'sell_price' THEN
                     CASE 
-                    WHEN research_note.sell_price < crafting_value
-                        THEN research_note.sell_price / avg_output
+                    WHEN items.sell_price < crafting_value
+                        THEN items.sell_price / avg_output
                         ELSE crafting_value / avg_output
                     END
                 END
             ")
-            ->get();
+            ->paginate(100);
 
         
         return response()->json($researchNotes);

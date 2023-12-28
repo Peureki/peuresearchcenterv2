@@ -1,4 +1,16 @@
 <template>
+
+    <div class="page-button-container">
+        <button @click="getNextOrPrevPage(researchNotes.prev_page_url)"> Prev </button>
+        <button>{{ researchNotes.current_page + 1 }}</button>
+        <button>{{ researchNotes.current_page + 2 }}</button>
+        <button>{{ researchNotes.current_page + 3 }}</button>
+        <button @click="getNextOrPrevPage(researchNotes.next_page_url)"> Next </button>
+        <!-- <div class="page-buttons" v-for="page">
+
+        </div> -->
+    </div>
+
     <table class="currency-table">
         <thead>
             <tr>
@@ -31,7 +43,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="notes in researchNotes">
+            <tr v-for="notes in researchNotes.data">
                 <!-- NAME -->
                 <td><img :src="notes.icon" :alt="notes.name" :title="notes.name"> {{ notes.name }}</td>
 
@@ -77,7 +89,8 @@ import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
 import { compareBuyOrderAndCraftingValues } from '@/js/vue/composables/BasicFunctions.js'
 import { sortTable, toggleSortOrder, toggleActive } from '@/js/vue/composables/TableFunctions.js'
 
-const researchNotes = ref(null); 
+// Initialize with {data: []} due to pagination
+const researchNotes = ref({data: []}); 
 
 const getResearchNotes = async () => {
     try {
@@ -115,6 +128,17 @@ const getRecipeValue = (recipeName) => {
     const url = `../tools/recipe-value?requestedRecipe=${recipeName}`;
     window.open(url, '_blank');
 
+}
+
+const getNextOrPrevPage = async (url) => {
+    try{
+        const response = await fetch(url);
+        const responseData = await response.json(); 
+        researchNotes.value = responseData; 
+        console.log(researchNotes.value);
+    } catch (error) {
+        console.log("Error fetching next page: ", error);
+    }
 }
 
 onMounted(() => {

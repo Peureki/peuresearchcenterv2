@@ -202,13 +202,8 @@ class FetchController extends Controller
                     ],
                     [
                         'item_id' => $researchNote['id'],
-                        'name' => $researchNote['name'],
-                        'disciplines' => $recipe['disciplines'],
-                        'min_rating' => $recipe['min_rating'],
                         'avg_output' => $items[1],
                         'ingredients' => $recipe['ingredients'],
-                        'buy_price' => $researchNote['buy_price'],
-                        'sell_price' => $researchNote['sell_price'],
                     ]);
                 }
                 

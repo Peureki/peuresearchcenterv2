@@ -135,9 +135,9 @@ class RecipeController extends Controller
 
     public function preferences(&$ingredient){
         if ($ingredient['craftingValue'] < $ingredient['buy_price'] || $ingredient['buy_price'] == 0){
-            $ingredient['preference'] = 'crafting';
+            $ingredient['preference'] = 'Crafting';
         } else {
-            $ingredient['preference'] = 'tp';
+            $ingredient['preference'] = 'TP';
         }
     }
 
