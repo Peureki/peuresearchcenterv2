@@ -1,15 +1,10 @@
 <template>
 
-    <div class="page-button-container">
-        <button @click="getNextOrPrevPage(researchNotes.prev_page_url)"> Prev </button>
-        <button>{{ researchNotes.current_page + 1 }}</button>
-        <button>{{ researchNotes.current_page + 2 }}</button>
-        <button>{{ researchNotes.current_page + 3 }}</button>
-        <button @click="getNextOrPrevPage(researchNotes.next_page_url)"> Next </button>
-        <!-- <div class="page-buttons" v-for="page">
-
-        </div> -->
-    </div>
+    <PageButtons
+        v-if="researchNotesToggle"
+        :data-array="researchNotesRef"
+        @get-last-page="getPage"
+    />
 
     <table class="currency-table">
         <thead>
@@ -82,15 +77,20 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+
+import PageButtons from '@/js/vue/components/general/PageButtons.vue'
 
 import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
 import { compareBuyOrderAndCraftingValues } from '@/js/vue/composables/BasicFunctions.js'
-import { sortTable, toggleSortOrder, toggleActive } from '@/js/vue/composables/TableFunctions.js'
+import { sortTable, toggleSortOrder, toggleActive, getPage } from '@/js/vue/composables/TableFunctions.js'
 
 // Initialize with {data: []} due to pagination
-const researchNotes = ref({data: []}); 
+const researchNotes = ref({data: []}),
+    researchNotesToggle = ref(null); 
+
+const researchNotesRef = computed(()  => researchNotes);
 
 const getResearchNotes = async () => {
     try {
@@ -99,6 +99,7 @@ const getResearchNotes = async () => {
         researchNotes.value = responseData;
 
         console.log('notes: ', researchNotes.value);
+        researchNotesToggle.value = true;
 
         // if (researchNotes.value){
         //     toggleActive(3, sortActive.value);
@@ -130,16 +131,7 @@ const getRecipeValue = (recipeName) => {
 
 }
 
-const getNextOrPrevPage = async (url) => {
-    try{
-        const response = await fetch(url);
-        const responseData = await response.json(); 
-        researchNotes.value = responseData; 
-        console.log(researchNotes.value);
-    } catch (error) {
-        console.log("Error fetching next page: ", error);
-    }
-}
+
 
 onMounted(() => {
     getResearchNotes();

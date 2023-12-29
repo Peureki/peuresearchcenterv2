@@ -222,6 +222,7 @@ const props = defineProps({
     meta: Object,
     checkboxes: Object,
 })
+
 const toggleOutpost = props.outposts;
 
 const toggleCheckboxGroup = (targetName) => {

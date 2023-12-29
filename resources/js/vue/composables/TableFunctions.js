@@ -200,4 +200,16 @@ export function toggleSortOrder(colIndex, refEl){
     }
 }
 
+export async function getPage(url, dataArray){
+    try{
+        console.log('get page: ', dataArray);
+        const response = await fetch(url);
+        const responseData = await response.json(); 
+        dataArray.value = responseData;
+
+    } catch (error) {
+        console.log("Error fetching next page: ", error);
+    }
+}
+
 

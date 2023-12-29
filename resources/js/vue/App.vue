@@ -425,6 +425,36 @@ table td img{
 }
 
 /* 
+ * PAGE BUTTONS
+ */
+.page-button-container{
+    display: flex;
+    gap: 10px;
+}
+.page-button-list{
+    display: flex;
+    gap: 10px;
+}
+.page-button-container button{
+    display: flex;
+    align-items: center;
+    color: var(--color-text);
+    background-color: transparent;
+}
+.page-button-prev svg,
+.page-button-next svg{
+    width: 18px;
+    height: 18px;
+}
+.page-button-prev svg{
+    transform: rotate(180deg);
+}
+button.page-button-current {
+    background-color: var(--color-link);
+    color: var(--color-bkg);
+}
+
+/* 
  * BOOKMARKS
  */
 .bookmark-container{

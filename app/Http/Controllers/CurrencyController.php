@@ -50,7 +50,7 @@ class CurrencyController extends Controller
                     END
                 END
             ")
-            ->paginate(100);
+            ->paginate(50);
 
         
         return response()->json($researchNotes);
