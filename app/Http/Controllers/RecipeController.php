@@ -8,23 +8,24 @@ use Illuminate\Http\Request;
 
 class RecipeController extends Controller
 {
-
+    // *
+    // * GET SEARCH REQUESTS
+    // *
+    // * When users type in a search bar, it sends a request to find recipes that contain the name/keywords 
+    // * Returns => array of search results
     public function searchRecipes(Request $request){
-        // Combine the Recipes db and the Items db to get more info
-        // $recipes = Recipes::join('items', 'recipes.output_item_id', '=', 'items.id')
-        //     ->select("recipes.*", 'items.*')
-        //     ->get();
-        
-
         $query = $request->input('request');
-
+        // Combine the Recipes db and the Items db to get more info
         $recipes = Recipes::join('items', 'recipes.output_item_id', '=', 'items.id')
             ->where('name', 'like', '%'.$query.'%')
-            ->pluck('name', 'icon')
-            ->map(function ($name, $icon){
+            ->select('name', 'icon', 'items.id', 'rarity')
+            ->get()
+            ->map(function ($recipe){
                 return [
-                    'name' => $name,
-                    'icon' => $icon,
+                    'name' => $recipe->name,
+                    'icon' => $recipe->icon,
+                    'id' => $recipe->id,
+                    'rarity' => $recipe->rarity,
                 ];
             })
             ->toArray();
@@ -34,7 +35,7 @@ class RecipeController extends Controller
     // * CALLED AS A REQUEST FROM THE USER VIA RECIPE FORMS
     // *
     // * Request = Name of the recipe => return recipe tree array
-    public function getRecipeValues($request, $quantity){
+    public function getRecipeValues($request, $id, $quantity){
         // Decode the $request 
         // When users type in a request, it comes out as Sigil20%of20%Blood or something 
         $requestName = urldecode($request);
@@ -42,6 +43,7 @@ class RecipeController extends Controller
         // Combine the Recipes db and the Items db to get more info
         $recipe = Recipes::join('items', 'recipes.output_item_id', '=', 'items.id')
             ->where('items.name', $requestName)
+            ->where('items.id', $id)
             ->first(); 
 
         // To be returned
@@ -53,16 +55,19 @@ class RecipeController extends Controller
             "count" => $recipe['output_item_count'] * $quantity,
             "icon" => $recipe['icon'],
             "type" => $recipe['type'],
+            "rarity" => $recipe['rarity'],
             "craftingValue" => 0,
             "preference" => null,
         ];
 
         
         // Foreach ingredient in a recipe, add their values, icons
+        // This is the start of the recipe tree
         foreach ($recipe['ingredients'] as $index => $ingredient){
             $this->addRecipeTreePrices($ingredient, $returnArray[0]['ingredients'][$index], $quantity);  
         }
 
+        //dd($returnArray);
         // After getting the whole recipe tree
         // CALCULATE each level of the tree by their crafting
         $this->calculateCraftingValue($returnArray[0]);
@@ -129,7 +134,6 @@ class RecipeController extends Controller
                 }
             }
         }
-        
         return $returnArray['craftingValue'] = $tempValue;
     }
 
@@ -144,10 +148,10 @@ class RecipeController extends Controller
     public function bestTreePath(&$returnArray){
         $tempValue = 0; 
 
-        foreach ($returnArray['ingredients'] as $ingredient){
+        foreach ($returnArray['ingredients'] as &$ingredient){
             if (array_key_exists('ingredients', $ingredient)){
                 switch ($ingredient['preference']){
-                    case "tp":
+                    case "TP":
                         if ($ingredient['buy_price'] < $ingredient['sell_price']){
                             $tempValue += $ingredient['buy_price'];
                         } else if ($ingredient['buy_price'] > $ingredient['sell_price']) {
@@ -157,7 +161,7 @@ class RecipeController extends Controller
                         }
                         $this->bestTreePath($ingredient);
                         break;
-                    case "crafting":
+                    case "Crafting":
                         $tempValue += $this->bestTreePath($ingredient);
                         break;
                 }

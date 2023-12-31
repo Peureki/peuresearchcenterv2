@@ -1,18 +1,28 @@
 <template>
-    <img class="loading-icon" :src="LoadingIcon" alt="Rolling Choya Loading" title="Loading data...">
+    <img 
+        class="loading-icon" 
+        :src="LoadingIcon" alt="Rolling Choya Loading" title="Loading data..."
+        :style="{width: `${width}px`, height: `${height}px`}"
+    >
 </template>
 
 <script setup>
 
 import LoadingIcon from '@/imgs/icons/Rolling_Choya.png'
+import { onMounted } from 'vue';
+
+const props = defineProps({
+    width: Number,
+    height: Number,
+})
+
+console.log('choya: ', props.width, props.height);
 
 </script>
 
 <style scoped>
 
 img.loading-icon{
-    width: 200px;
-    height: 200px;
     animation: roll 1s linear infinite;
 }
 @keyframes roll{

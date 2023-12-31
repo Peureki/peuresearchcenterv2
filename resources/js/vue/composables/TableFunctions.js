@@ -199,17 +199,27 @@ export function toggleSortOrder(colIndex, refEl){
         refEl[colIndex] = refEl[colIndex] == 'descending' ? 'ascending' : 'descending';
     }
 }
-
-export async function getPage(url, dataArray){
+// * FOR PAGINATION
+// * 
+// * Get specific, next, prev page 
+// * Param: 
+// * url = The target url
+// * dataArray = the ref data array used to showcase the data 
+export async function getPage(url, dataArray, refLoading){
     try{
-        console.log('get page: ', dataArray);
+        console.log(refLoading);
+        refLoading.value = true;
+
         const response = await fetch(url);
         const responseData = await response.json(); 
         dataArray.value = responseData;
+
+        if (responseData){
+            refLoading.value = false; 
+        }
 
     } catch (error) {
         console.log("Error fetching next page: ", error);
     }
 }
-
 

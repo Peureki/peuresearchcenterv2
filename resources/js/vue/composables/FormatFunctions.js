@@ -79,3 +79,14 @@ export function formatPercentage(value){
     return `${parseFloat(value * 100).toFixed(2)}%`;
     
 }
+
+export function showRarityColor(rarity) {
+    switch (rarity){
+        case 'Fine': return `var(--color-rarity-fine)`;
+        case 'Masterwork': return `var(--color-rarity-masterwork)`;
+        case 'Rare': return `var(--color-rarity-rare)`;
+        case 'Exotic': return `var(--color-rarity-exotic)`;
+        case 'Ascended': return `var(--color-rarity-ascended)`;
+        case 'Legendary': return `var(--color-rarity-legendary)`;
+    }
+}

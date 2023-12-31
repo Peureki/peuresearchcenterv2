@@ -429,7 +429,9 @@ table td img{
  */
 .page-button-container{
     display: flex;
+    align-items: center;
     gap: 10px;
+    padding: var(--padding-block-general);
 }
 .page-button-list{
     display: flex;
@@ -441,6 +443,9 @@ table td img{
     color: var(--color-text);
     background-color: transparent;
 }
+.page-button-container button:hover{
+    color: var(--color-link);
+}
 .page-button-prev svg,
 .page-button-next svg{
     width: 18px;
@@ -450,8 +455,10 @@ table td img{
     transform: rotate(180deg);
 }
 button.page-button-current {
-    background-color: var(--color-link);
-    color: var(--color-bkg);
+    border-bottom: var(--border-bottom-link);
+}
+input[type="number"].specific-page{
+    width: 100px;
 }
 
 /* 
@@ -688,6 +695,12 @@ span.gold-label img{
     --color-negative: #daa8a8;
     --color-positive-faded: rgb(82, 255, 0, 0.2);
     --color-negative-faded:rgb(255, 0, 0, 0.2);
+    --color-rarity-fine: #4f9dfe;
+    --color-rarity-masterwork: #2dc50e;
+    --color-rarity-rare: #ffe51f;
+    --color-rarity-exotic: #fda500;
+    --color-rarity-ascended: #ff4488;
+    --color-rarity-legendary: #9930e8;
 
     --font-size-h1: clamp(2rem, 20vw, 6.25rem);
     --font-size-h3: clamp(1.3rem, 8vw, 2rem);
@@ -739,6 +752,7 @@ span.gold-label img{
     --padding-input: 5px;
     --padding-bookmark: 5px 0px 5px 0;
     --padding-search-li: 5px 0px 5px 10px;
+    --padding-block-general: 10px 0px 10px 0px;
     
 
     --margin-shortcuts-svg: 0 10px 0 10px;

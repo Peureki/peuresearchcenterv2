@@ -24,11 +24,14 @@
                         <ul class="search-query-container" v-if="searchQuery && searchQuery.length > 3">
                             <button 
                                 v-for="recipe in searchResults"
-                                @click="searchQuery = recipe.name; "
+                                @click="searchQuery = recipe.name; idRequest = recipe.id"
                             >
                                 <li>
                                     <img :src="recipe.icon" :alt="recipe.name" :title="recipe.name">
-                                    {{ recipe.name }}
+                                    <span class="flex-row-space-btw">
+                                        <p :style="{color: showRarityColor(recipe.rarity)}">{{ recipe.name }}</p> 
+                                        <p>({{ recipe.id}})</p> 
+                                    </span>
                                 </li> 
                             </button>
                         </ul>
@@ -58,7 +61,10 @@
                     </div>
                 </form>
 
-                <Loading v-if="loadingToggle"/>
+                <Loading 
+                    v-if="loadingToggle"
+                    :width="200" :height="200"    
+                />
             </template>
 
             <!-- 
@@ -220,12 +226,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import { debounce } from 'lodash'
 
-import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
+import { formatValue, showRarityColor } from '@/js/vue/composables/FormatFunctions.js'
 
 // IMAGES
 import TradingPost from '@/imgs/icons/Trading_Post.png'
@@ -242,6 +248,7 @@ const route = useRoute(),
     router = useRouter(); 
 
 const searchQuery = ref(null),
+    idRequest = ref(null),
     searchResults = ref(null),
     url = ref(null);
 
@@ -259,9 +266,6 @@ const taxSetting = ref(localStorage.taxSetting),
     sellOrderSetting = ref(localStorage.sellOrderSetting);
 
 
-const updateRecipeToOwned = () => {
-    console.log(recipe.value[0]);
-}
 
 // * UPDATE ENTIRE RECIPE TREE
 // *
@@ -280,9 +284,6 @@ const updateRecipeTree = (selectedIngredient, userPreference) => {
 // *
 // * By having a preferences, the recipe tree will choose the best and cheapest path
 const choosePreference = (currentIngredient, selectedIngredient, userPreference) => {
-    if (currentIngredient.name == "Bolt of Damask"){
-        console.log(currentIngredient, currentIngredient.craftingValue);
-    }
     // If the user selected a specific ingredient
     if (selectedIngredient){
         if (currentIngredient == selectedIngredient){ 
@@ -298,6 +299,7 @@ const choosePreference = (currentIngredient, selectedIngredient, userPreference)
     // If func is called without specifing an ingredient
     // Check if it's better to craft or to buy from TP
     } else if (currentIngredient.craftingValue < currentIngredient.buy_price || currentIngredient.buy_price == 0){
+        console.log(currentIngredient, currentIngredient.craftingValue, currentIngredient.buy_price);
         return currentIngredient['preference'] = 'crafting';
     } else {
         return currentIngredient['preference'] = 'tp';
@@ -375,26 +377,31 @@ watch(searchQuery, debounce(async (query) => {
 
 const handleRecipeRequest = () => {
     const requestedURL = searchQuery.value,
+        requestedID = idRequest.value,
         requestedQuantity = quantityRequest.value; 
     
     if (requestedURL){
-        fetchRequestedRecipe(requestedURL, requestedQuantity);
+        fetchRequestedRecipe(requestedURL, requestedID, requestedQuantity);
     }
 }
 
-const fetchRequestedRecipe = async (requestedRecipe, requestedQuantity) => {
+const fetchRequestedRecipe = async (requestedRecipe, requestedID, requestedQuantity) => {
     try{
         loadingToggle.value = true; 
         const encodedRecipe = encodeURIComponent(requestedRecipe);
-        console.log('merp')
+
         router.replace({
             query: {
-                requestedRecipe: encodedRecipe
+                requestedRecipe: encodedRecipe,
+                id: requestedID,
+                qty: requestedQuantity,
             }});
 
-        const response = await fetch(`../api/recipes/${encodedRecipe}/${requestedQuantity}`);
+        const response = await fetch(`../api/recipes/${encodedRecipe}/${requestedID}/${requestedQuantity}`);
         const responseData = await response.json(); 
         recipe.value = responseData;
+
+        console.log(recipe.value);
 
         // Loading choya disappears once data is received
         if (recipe.value){
@@ -416,10 +423,12 @@ const fetchRequestedRecipe = async (requestedRecipe, requestedQuantity) => {
 onMounted(() => {
     if (route.query.requestedRecipe){
         url.value = decodeURIComponent(route.query.requestedRecipe);
+        idRequest.value = route.query.id;
+        quantityRequest.value = route.query.qty; 
     }
     
     if (url.value){
-        fetchRequestedRecipe(url.value, quantityRequest.value);
+        fetchRequestedRecipe(url.value, idRequest.value, quantityRequest.value);
     }
 })
 

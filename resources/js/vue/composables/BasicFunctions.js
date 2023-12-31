@@ -2,8 +2,8 @@ export function addSingleQuantity(num){
     return num.value += 1;
 }
 
-export function refreshPage(){
-    location.reload();
+export function refreshPage(router){
+    router.go(); 
 }
 
 export function convertTaxToPercent(num){

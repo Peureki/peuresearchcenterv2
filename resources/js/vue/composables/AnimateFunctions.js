@@ -30,9 +30,3 @@ export function activeElement(index, targetClassName, refVar){
     refVar[index].classList.add('active');
 }
 
-export function toggleActive(colIndex, refEl){
-    refEl.forEach((el => {
-        el.classList.remove('active');
-    }))
-    refEl[colIndex].classList.add('active'); 
-}

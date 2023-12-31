@@ -204,7 +204,7 @@
                             @click="refreshPage"    
                             class="submit"
                         >
-                            Submit
+                            Refresh
                         </button>
                     </div>
                     
@@ -552,10 +552,11 @@
 
 <script setup>
 import { ref, watch, provide } from 'vue'
+import { useRouter } from 'vue-router'
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
 import { nodeTrackerModalToggle } from '@/js/vue/composables/Global.js';
-import { refreshPage, convertTaxToPercent } from '@/js/vue/composables/BasicFunctions.js'
+import { convertTaxToPercent } from '@/js/vue/composables/BasicFunctions.js'
 
 // For first time visitors
 // If there is no exisiting local stoarge property (like sellOrderSetting), then make one by default
@@ -622,6 +623,8 @@ const buyOrderSetting = ref(localStorage.buyOrderSetting),
     sellOrderSetting = ref(localStorage.sellOrderSetting),
     taxSetting = ref(parseFloat(localStorage.taxSetting));
 
+const router = useRouter();
+
 const changeOrder = (order) => {
     switch (order){
         case 'sell order': 
@@ -645,6 +648,10 @@ const changeOrder = (order) => {
 const changeBookmarksToggle = () => {
     bookmarksToggle.value = !bookmarksToggle.value; 
     localStorage.bookmarks = bookmarksToggle.value;
+}
+
+const refreshPage = () => {
+    router.go(); 
 }
 
 watch(taxSetting, (newTaxSetting) => {

@@ -9,7 +9,7 @@
                 v-slot:loading1
                 v-if="!bags || bags == null"
             >
-                <Loading/>
+                <Loading :width="200" :height="200"/>
             </template>
 
             <template 
@@ -29,7 +29,7 @@
                 v-slot:loading2
                 v-if="detailsToggle && !bagContent"
             >
-                <Loading/>
+                <Loading :width="200" :height="200"/>
             </template>
 
             <template 

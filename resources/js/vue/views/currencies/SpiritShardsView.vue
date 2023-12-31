@@ -32,7 +32,10 @@
             page-name="Spirit Shards"
         />
         <section v-for="table in tables">
-            <Loading v-if="!table.recipes || table.recipes.value == null && table.checkboxToggle.value"/>
+            <Loading 
+                v-if="!table.recipes || table.recipes.value == null && table.checkboxToggle.value"
+                :width="200" :height="200"
+            />
 
             <article v-if="table.recipes && table.recipes.value != null && table.checkboxToggle.value">
                 <SpiritShardsTable

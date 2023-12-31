@@ -32,7 +32,8 @@
                 <span class="ingredient-info-container">
                     <img class="ingredient-icon" :src="ingredient.icon" :alt="ingredient.name" :title="ingredient.name">
                     <p>{{ ingredient.count }}</p>
-                    <p>{{ ingredient.name }}</p>
+                    <p v-if="recursionLevel == 0" :style="{color: showRarityColor(ingredient.rarity)}">{{ ingredient.name }}</p>
+                    <p v-else>{{ ingredient.name }}</p>
                 </span>
                 <!-- 
                     *
@@ -136,7 +137,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
+import { formatValue, showRarityColor } from '@/js/vue/composables/FormatFunctions.js'
 
 const props = defineProps({
     recipe: Object, 
