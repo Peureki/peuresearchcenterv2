@@ -115,19 +115,14 @@ const researchNotes = ref({data: []}),
 const researchNotesRef = computed(()  => researchNotes);
 
 const getResearchNotes = async () => {
+    const filters = JSON.parse(localStorage.filterResearchNotes);
+
     try {
-        const response = await fetch(`../api/currencies/research-note/${localStorage.buyOrderSetting}`);
+        const response = await fetch(`../api/currencies/research-note/${localStorage.buyOrderSetting}/${filters}`);
         const responseData = await response.json();
         researchNotes.value = responseData;
 
-        console.log('notes: ', researchNotes.value);
         researchNotesToggle.value = true;
-
-        // if (researchNotes.value){
-        //     toggleActive(3, sortActive.value);
-        //     sortOrder.value[3] = 'descending';
-        //     sortTable('currency-table', 3, 'gold', sortOrder.value);
-        // }
     } catch (error){
         console.log('Error fetching data: ', error);
     }
@@ -141,16 +136,8 @@ const sortActive = ref([]),
 const router = useRouter();
 
 const getRecipeValue = (recipeName, recipeId, recipeQty) => {
-    // router.push({
-    //     path: '/tools/recipe-value',
-    //     query: {
-    //         requestedRecipe: recipeName
-    //     }
-    // });
-
     const url = `../tools/recipe-value?requestedRecipe=${recipeName}&id=${recipeId}&qty=${recipeQty}`;
     window.open(url, '_blank');
-
 }
 
 

@@ -16,8 +16,6 @@ const props = defineProps({
     height: Number,
 })
 
-console.log('choya: ', props.width, props.height);
-
 </script>
 
 <style scoped>

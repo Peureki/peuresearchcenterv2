@@ -12,24 +12,25 @@ use Illuminate\Support\Facades\Http;
 
 class CurrencyController extends Controller
 {
-    
-
-
     // *
     // * RESEARCH NOTES
     // *
     // * RETURN recipe value and research note value
-    public function researchNote($buyOrderSetting){
+    public function researchNote($buyOrderSetting, $filter){
         $buyOrderSetting = $this->getBuyOrderSetting($buyOrderSetting);
+        $filteredArray = explode(',', $filter);
         // $sellOrderSetting = $this->getSellOrderSetting($sellOrderSetting);
         // $tax = $this->getTax($tax);
 
+        $filteredQuery = ResearchNotes::select('*')
+            ->join('items', 'research_note.item_id', '=', 'items.id')
+            ->where('items.name', 'not like', '%Plaguedoctor%');
+            
+        $filteredQuery->whereIn('preference', $filteredArray);
+ 
         // Return Research Notes db 
         // Calculate crafting_value / avg_output and sort by that (cost/note column)
-        $researchNotes = ResearchNotes::
-            select('*')
-            ->join('items', 'research_note.item_id', '=', 'items.id')
-            ->where('items.name', 'not like', '%Plaguedoctor%')
+        $researchNotes = $filteredQuery
             ->orderByRaw("
                 CASE 
                 WHEN (items.buy_price = 0 AND items.sell_price = 0) OR (items.buy_price IS NULL OR items.sell_price IS NULL)
@@ -51,6 +52,7 @@ class CurrencyController extends Controller
                 END
             ")
             ->paginate(50);
+
         return response()->json($researchNotes);
 
     }

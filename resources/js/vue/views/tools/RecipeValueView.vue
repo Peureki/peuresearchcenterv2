@@ -30,7 +30,6 @@
                                     <img :src="recipe.icon" :alt="recipe.name" :title="recipe.name">
                                     <span class="flex-row-space-btw">
                                         <p :style="{color: showRarityColor(recipe.rarity)}">{{ recipe.name }}</p> 
-                                        <p>({{ recipe.id}})</p> 
                                     </span>
                                 </li> 
                             </button>

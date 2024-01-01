@@ -106,8 +106,9 @@ table, th, td{
 button {
     color: var(--color-black);
     border: none;
-    /* border: var(--border-general); */
     cursor: pointer;
+    background-color: var(--color-link);
+    padding: var(--padding-button);
 }
 article {
     padding: var(--padding-article);
@@ -508,6 +509,16 @@ span.bookmark-label{
     height: 20px;
     transition: var(--transition-all-03s-ease);
 }
+/* 
+    =================================================
+    * FILTER CONTAINERS 
+    =================================================
+*/
+.filter-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
 
 /* 
  * FORM BUTTONS
@@ -638,6 +649,23 @@ span.gold-label{
 span.gold-label img{
     width: 15px;
 }
+/* 
+    =================================================
+    * DYNAMIC CLASSES
+    =================================================
+*/
+.active-button {
+    opacity: 1;
+    background-color: var(--color-link);
+    color: var(--color-black);
+    border: var(--border-hidden);
+}
+.inactive-button{
+    opacity: 0.2;
+    background-color: transparent;
+    color: var(--color-text);
+    border: var(--border-general);
+}
 
 
 .event-up{
@@ -713,6 +741,7 @@ span.gold-label img{
     --font-family: 'Rubik', sans-serif;
 
     --border-general: 2px solid #5f6062;
+    --border-hidden: 2px solid rgb(95, 96, 98, 0);
     --border-bottom: 2px solid #5f6062;
     --border-button-link: 2px solid #ffd12c;
     --border-bottom-link: 2px solid #ffd12c;
