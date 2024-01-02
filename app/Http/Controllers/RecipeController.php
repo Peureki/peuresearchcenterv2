@@ -46,6 +46,8 @@ class RecipeController extends Controller
             ->where('items.id', $id)
             ->first(); 
 
+        //dd($recipe);
+
         // To be returned
         // Start with index of 0 so that the output item is the first of the recipe tree displayed
         $returnArray[] = [

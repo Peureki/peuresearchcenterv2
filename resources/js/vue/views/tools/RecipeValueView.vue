@@ -397,6 +397,7 @@ const fetchRequestedRecipe = async (requestedRecipe, requestedID, requestedQuant
             }});
 
         const response = await fetch(`../api/recipes/${encodedRecipe}/${requestedID}/${requestedQuantity}`);
+        console.log(`../api/recipes/${encodedRecipe}/${requestedID}/${requestedQuantity}`);
         const responseData = await response.json(); 
         recipe.value = responseData;
 

@@ -1,18 +1,25 @@
 <template>
     <Nav>
         <template v-slot:filters>
-            <article>
+            <article class="shortcut-container">
                 <h3>Filters</h3>
+                <p>Preferences</p>
                 <div class="filter-container">
+                    
                     <button 
-                        @click="toggleFilter('filterResearchNotes', 'TP', toggles[0].status)"
-                        :class="toggles[0].status.value == true ? 'active-button' : 'inactive-button'"
+                        @click="
+                            toggleFilter('filterResearchNotes', 'TP', tpToggleRef);
+                            handlePageRefresh();
+                        "
+                        :class="tpToggle == true ? 'active-button' : 'inactive-button'"
                     >
                         TP
                     </button>
                     <button 
-                        @click="toggleFilter('filterResearchNotes', 'Crafting', toggles[1].status)"
-                        :class="toggles[1].status.value == true ? 'active-button' : 'inactive-button'"
+                        @click="
+                            toggleFilter('filterResearchNotes', 'Crafting', craftingToggleRef);
+                            handlePageRefresh();"
+                        :class="craftingToggle == true ? 'active-button' : 'inactive-button'"
                     >
                         Crafting
                     </button>
@@ -31,23 +38,30 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 
 import ResearchNotesTable from '@/js/vue/components/tables/ResearchNotesTable.vue'
 
-const toggles = [
-    {
-        name: "TP",
-        status: ref(true),
-    },
-    {
-        name: "Crafting",
-        status: ref(true),
-    },
-]
-console.log(toggles);
+import { checkLocalStorageArray } from '@/js/vue/composables/FormatFunctions.js'
+import { pageRefresh } from '@/js/vue/composables/BasicFunctions'
+
+
+
+const craftingToggle = ref(checkLocalStorageArray('filterResearchNotes', 'Crafting')),
+    tpToggle = ref(checkLocalStorageArray('filterResearchNotes', 'TP'));
+
+const craftingToggleRef = computed(() => craftingToggle),
+    tpToggleRef = computed(() => tpToggle);
+
+const router = useRouter(),
+    route = useRoute();
+
+const handlePageRefresh = () => {
+    pageRefresh(router, route); 
+}
 
 const toggleFilter = (localStorageProperty, filter, toggle) => {
     let filteredArray = []; 

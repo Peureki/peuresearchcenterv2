@@ -125,37 +125,13 @@
         <slot name="timer"></slot>
 
         <!--
-            * SLOT - FILTERS
-            * 
-            * This changes depending on what page the website is currently on
-        -->
-        <Transition name="fade-right">
-            <slot 
-                v-if="filtersToggle"
-                name="filters"
-            ></slot>
-        </Transition>
-
-        <!--
-            * SLOT - BOOKMARKS
-            * 
-            * This changes depending on what page the website is currently on
-        -->
-        <Transition name="fade-right">
-            <slot 
-                v-if="bookmarksToggle"
-                name="bookmarks"
-            ></slot>
-        </Transition>
-
-        <!--
             * 
             * SETTINGS / OPTIONS
             * 
         -->
         <Transition name="fade-right">
             <section v-if="settingsToggle">
-                <article class="settings-container">
+                <article class="shortcut-container">
                     <h3>Settings</h3>
                     <div class="settings-button-container">
                         <!-- 
@@ -239,7 +215,7 @@
 
                     <div class="settings-button-container">
                         <button 
-                            @click="refreshPage"    
+                            @click="handlePageRefresh()"    
                             class="submit"
                         >
                             Refresh
@@ -250,6 +226,32 @@
             
             </section>
         </Transition>
+
+        <!--
+            * SLOT - FILTERS
+            * 
+            * This changes depending on what page the website is currently on
+        -->
+        <Transition name="fade-right">
+            <slot 
+                v-if="filtersToggle"
+                name="filters"
+            ></slot>
+        </Transition>
+
+        <!--
+            * SLOT - BOOKMARKS
+            * 
+            * This changes depending on what page the website is currently on
+        -->
+        <Transition name="fade-right">
+            <slot 
+                v-if="bookmarksToggle"
+                name="bookmarks"
+            ></slot>
+        </Transition>
+
+        
 
         <!--
             *
@@ -595,6 +597,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
 import { nodeTrackerModalToggle } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent } from '@/js/vue/composables/BasicFunctions.js'
+import { pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
 
 // For first time visitors
 // If there is no exisiting local stoarge property (like sellOrderSetting), then make one by default
@@ -680,6 +683,10 @@ const buyOrderSetting = ref(localStorage.buyOrderSetting),
 const route = useRoute(),
     router = useRouter();
 
+const handlePageRefresh = () => {
+    pageRefresh(router, route);
+}
+
 const changeOrder = (order) => {
     switch (order){
         case 'sell order': 
@@ -712,16 +719,7 @@ const changeFiltersToggle = () => {
     filtersToggle.value = !filtersToggle.value;
     localStorage.filters = filtersToggle.value;
 }
-// * 
-// * REFRESH PAGE
-// * 
-// * Refresh without reloading
-const refreshPage = () => {
-    const currentPath = route.path; 
-    router.replace({path: '/'}).then(() => {
-        router.replace({path: currentPath});
-    })
-}
+
 
 watch(taxSetting, (newTaxSetting) => {
     if (newTaxSetting == ''){
@@ -733,7 +731,7 @@ watch(taxSetting, (newTaxSetting) => {
 </script>
 
 <style scoped>
-.settings-container{
+.shortcut-container{
     display: flex;
     flex-direction: column;
     justify-content: center;

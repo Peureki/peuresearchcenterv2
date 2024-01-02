@@ -90,3 +90,15 @@ export function showRarityColor(rarity) {
         case 'Legendary': return `var(--color-rarity-legendary)`;
     }
 }
+// *
+// * CHECK LOCALSTORAGE FOR SPECIFIC ARRAY
+// *
+// * Use this function for ex: filters to find a specific filter in an array that is saved on the localStorage
+export function checkLocalStorageArray(array, key) {
+    const targetArray = JSON.parse(localStorage.getItem(array)); 
+    if (targetArray.includes(key)){
+        return true;
+    } else {
+        return false;
+    }
+}

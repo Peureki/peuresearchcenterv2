@@ -23,6 +23,7 @@ class CurrencyController extends Controller
         // $tax = $this->getTax($tax);
 
         $filteredQuery = ResearchNotes::select('*')
+            ->join('recipes', 'research_note.recipe_id', '=', 'recipes.id')
             ->join('items', 'research_note.item_id', '=', 'items.id')
             ->where('items.name', 'not like', '%Plaguedoctor%');
             
