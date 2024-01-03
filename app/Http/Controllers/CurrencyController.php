@@ -28,6 +28,14 @@ class CurrencyController extends Controller
             ->where('items.name', 'not like', '%Plaguedoctor%');
             
         $filteredQuery->whereIn('preference', $filteredArray);
+        $filteredQuery->where(function ($query) use ($filteredArray){
+            foreach ($filteredArray as $item){
+                $query->orWhereJsonContains('disciplines', $item);
+            }
+        });
+
+        $filteredQuery->whereIn('items.type', $filteredArray);
+
  
         // Return Research Notes db 
         // Calculate crafting_value / avg_output and sort by that (cost/note column)

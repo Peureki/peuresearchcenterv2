@@ -628,6 +628,17 @@ const setDefaultLocalStorage = () => {
         localStorage.setItem('filterResearchNotes', JSON.stringify([
             "TP", 
             "Crafting",
+            "Armorsmith",
+            "Artifier",
+            "Chef",
+            "Huntsman",
+            "Jeweler",
+            "Leatherworker",
+            "Scribe",
+            "Tailor",
+            "Weaponsmith",
+            "Consumable",
+            "Weapon",
         ])); 
     }
     // * BOOKMARKS

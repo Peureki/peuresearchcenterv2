@@ -666,7 +666,9 @@ span.gold-label img{
     color: var(--color-text);
     border: var(--border-general);
 }
-
+.error-message{
+    color: var(--color-down);
+}
 
 .event-up{
     color: var(--color-event-up);

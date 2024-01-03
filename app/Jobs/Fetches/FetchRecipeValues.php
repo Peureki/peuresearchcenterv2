@@ -37,21 +37,24 @@ class FetchRecipeValues implements ShouldQueue
     {
         // Combine the Recipes db and the Items db to get more info
         $recipes = ResearchNotes::join('items', 'research_note.item_id', '=', 'items.id')
+            ->join('recipes', 'research_note.recipe_id', '=', 'recipes.id')
             ->select(
                 'research_note.id as research_note_id',
                 'research_note.*',
-                'items.*'
+                'items.*',
+                'recipes.*'
             )
             ->get();
         $recipeController = new RecipeController();
 
         foreach ($recipes as $index => $recipe){
+            //dd($recipe);
             $updateTreeWithValues = []; 
-            $updateTreeWithValues = $recipeController->getRecipeValues($recipe['name'], $recipe['id'], 1); 
+            $updateTreeWithValues = $recipeController->getRecipeValues($recipe['name'], $recipe['item_id'], 1); 
             $merp = json_decode($updateTreeWithValues->getContent());
             ResearchNotes::where('id', $recipe['research_note_id'])
                 ->update([
-                    'crafting_value' => $merp[0]->craftingValue,
+                    'crafting_value' => $merp[0]->craftingValue / $recipe['output_item_count'],
                     'preference' => $merp[0]->preference
                 ]);
             
