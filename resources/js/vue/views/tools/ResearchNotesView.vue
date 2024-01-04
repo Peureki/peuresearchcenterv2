@@ -10,7 +10,6 @@
                     *
                 -->
                 <p>Preferences</p>
-                <Transition name="fade"><p v-if="preferenceError" class="error-message">Needs 1+ active</p></Transition>
                 <div class="filter-container">
                     <button
                         v-for="(toggle, index) in preferenceToggles" 
@@ -22,6 +21,7 @@
                         {{ toggle.name }}
                     </button>
                 </div>
+                <Transition name="fade"><p v-if="preferenceError" class="error-message">Needs 1+ active</p></Transition>
 
                 <!-- 
                     *
@@ -30,71 +30,17 @@
                 -->
                 <p>Disciplines</p>
                 <div class="filter-container">
-                    
-                    <button 
+                    <button
+                        v-for="(toggle, index) in disciplineToggles" 
                         @click="
-                            toggleFilter('filterResearchNotes', 'Armorsmith', armorsmithToggleRef);"
-                        :class="armorsmithToggle == true ? 'active-button' : 'inactive-button'"
+                            toggleFilter('filterResearchNotes', index, disciplineToggles, disciplineErrorRef)
+                        "
+                        :class="toggle.status.value == true ? 'active-button' : 'inactive-button'"
                     >
-                        Armorsmith
-                    </button>
-                    <button 
-                        @click="
-                            toggleFilter('filterResearchNotes', 'Artificer', artificerToggleRef);"
-                        :class="artificerToggle == true ? 'active-button' : 'inactive-button'"
-                    >
-                        Artificer
-                    </button>
-                    <button 
-                        @click="
-                            toggleFilter('filterResearchNotes', 'Chef', chefToggleRef);"
-                        :class="chefToggle == true ? 'active-button' : 'inactive-button'"
-                    >
-                        Chef
-                    </button>
-                    <button 
-                        @click="
-                            toggleFilter('filterResearchNotes', 'Huntsman', huntsmanToggleRef);"
-                        :class="huntsmanToggle == true ? 'active-button' : 'inactive-button'"
-                    >
-                        Huntsman
-                    </button>
-                    <button 
-                        @click="
-                            toggleFilter('filterResearchNotes', 'Jeweler', jewelerToggleRef);"
-                        :class="jewelerToggle == true ? 'active-button' : 'inactive-button'"
-                    >
-                        Jeweler
-                    </button>
-                    <button 
-                        @click="
-                            toggleFilter('filterResearchNotes', 'Leatherworker', leatherworkerToggleRef);"
-                        :class="leatherworkerToggle == true ? 'active-button' : 'inactive-button'"
-                    >
-                        Leatherworker
-                    </button>
-                    <button 
-                        @click="
-                            toggleFilter('filterResearchNotes', 'Scribe', scribeToggleRef);"
-                        :class="scribeToggle == true ? 'active-button' : 'inactive-button'"
-                    >
-                        Scribe
-                    </button>
-                    <button 
-                        @click="
-                            toggleFilter('filterResearchNotes', 'Tailor', tailorToggleRef);"
-                        :class="tailorToggle == true ? 'active-button' : 'inactive-button'"
-                    >
-                        Tailor
-                    </button>
-                    <button 
-                        @click="
-                            toggleFilter('filterResearchNotes', 'Weaponsmith', weaponsmithToggleRef);"
-                        :class="weaponsmithToggle == true ? 'active-button' : 'inactive-button'"
-                    >
-                        Weaponsmith
+                        {{ toggle.name }}
                     </button>
                 </div>
+                <Transition name="fade"><p v-if="disciplineError" class="error-message">Needs 1+ active</p></Transition>
 
                 <!-- 
                     *
@@ -103,23 +49,17 @@
                 -->
                 <p>Item Types</p>
                 <div class="filter-container">
-                    
-                    <button 
+                    <button
+                        v-for="(toggle, index) in typeToggles" 
                         @click="
-                            toggleFilter('filterResearchNotes', 'Consumable', consumableToggleRef);"
-                        :class="consumableToggle == true ? 'active-button' : 'inactive-button'"
+                            toggleFilter('filterResearchNotes', index, typeToggles, typeErrorRef)
+                        "
+                        :class="toggle.status.value == true ? 'active-button' : 'inactive-button'"
                     >
-                        Consumables
+                        {{ toggle.name }}
                     </button>
-                    <button 
-                        @click="
-                            toggleFilter('filterResearchNotes', 'Weapon', weaponToggleRef);"
-                        :class="weaponToggle == true ? 'active-button' : 'inactive-button'"
-                    >
-                        Weapons
-                    </button>
-
                 </div>
+                <Transition name="fade"><p v-if="typeError" class="error-message">Needs 1+ active</p></Transition>
 
                 <p>Set new filters</p>
                 <div class="filter-container">
@@ -155,6 +95,9 @@ import ResearchNotesTable from '@/js/vue/components/tables/ResearchNotesTable.vu
 import { checkLocalStorageArray } from '@/js/vue/composables/FormatFunctions.js'
 import { pageRefresh } from '@/js/vue/composables/BasicFunctions'
 
+// *
+// * PREFERENCE TOGGLES
+// *
 const preferenceToggles = [
     {
         name: "Crafting",
@@ -165,29 +108,89 @@ const preferenceToggles = [
         status: ref(checkLocalStorageArray('filterResearchNotes', 'TP')),
     }
 ]
+// *
+// * DISCIPLINE TOGGLES
+// *
+const disciplineToggles = [
+    {
+        name: "Armorsmith",
+        status: ref(checkLocalStorageArray('filterResearchNotes', 'Armorsmith')),
+    },
+    {
+        name: "Artificer",
+        status: ref(checkLocalStorageArray('filterResearchNotes', 'Artificer')),
+    },
+    {
+        name: "Chef",
+        status: ref(checkLocalStorageArray('filterResearchNotes', 'Chef')),
+    },
+    {
+        name: "Huntsman",
+        status: ref(checkLocalStorageArray('filterResearchNotes', 'Huntsman')),
+    },
+    {
+        name: "Jeweler",
+        status: ref(checkLocalStorageArray('filterResearchNotes', 'Jeweler')),
+    },
+    {
+        name: "Leatherworker",
+        status: ref(checkLocalStorageArray('filterResearchNotes', 'Leatherworker')),
+    },
+    {
+        name: "Scribe",
+        status: ref(checkLocalStorageArray('filterResearchNotes', 'Scribe')),
+    },
+    {
+        name: "Tailor",
+        status: ref(checkLocalStorageArray('filterResearchNotes', 'Tailor')),
+    },
+    {
+        name: "Weaponsmith",
+        status: ref(checkLocalStorageArray('filterResearchNotes', 'Weaponsmith')),
+    }
+]
+// *
+// * TYPE TOGGLES
+// *
+const typeToggles = [
+    {
+        name: "Consumable",
+        status: ref(checkLocalStorageArray('filterResearchNotes', 'Consumable')),
+    },
+    {
+        name: "Weapon",
+        status: ref(checkLocalStorageArray('filterResearchNotes', 'Weapon')),
+    },
+    {
+        name: "Armor",
+        status: ref(checkLocalStorageArray('filterResearchNotes', 'Armor')),
+    },
+    {
+        name: "Back",
+        status: ref(checkLocalStorageArray('filterResearchNotes', 'Back')),
+    },
+    {
+        name: "Trinket",
+        status: ref(checkLocalStorageArray('filterResearchNotes', 'Trinket')),
+    },
+    {
+        name: "UpgradeComponent",
+        status: ref(checkLocalStorageArray('filterResearchNotes', 'UpgradeComponent')),
+    },
+]
 
-const preferenceError = ref(false);
+const preferenceError = ref(false),
+    disciplineError = ref(false),
+    typeError = ref(false);
 
-const preferenceErrorRef = computed(() => preferenceError);
-
-console.log('pref toggles: ', preferenceToggles);
+const preferenceErrorRef = computed(() => preferenceError),
+    disciplineErrorRef = computed(() => disciplineError),
+    typeErrorRef = computed(() => typeError);
 
 // Initialize toggles and computed refs 
 // Computed refs will be used to dynamically toggle the filter if users opt in or out
-const craftingToggle = ref(checkLocalStorageArray('filterResearchNotes', 'Crafting')),
-    tpToggle = ref(checkLocalStorageArray('filterResearchNotes', 'TP')),
-    //  *
-    //  * DISCIPLINES
-    //  *
-    armorsmithToggle = ref(checkLocalStorageArray('filterResearchNotes', 'Armorsmith')),
-    artificerToggle = ref(checkLocalStorageArray('filterResearchNotes', 'Artificer')),
-    chefToggle = ref(checkLocalStorageArray('filterResearchNotes', 'Chef')),
-    huntsmanToggle = ref(checkLocalStorageArray('filterResearchNotes', 'Huntsman')),
-    jewelerToggle = ref(checkLocalStorageArray('filterResearchNotes', 'Jeweler')),
-    leatherworkerToggle = ref(checkLocalStorageArray('filterResearchNotes', 'Leatherworker')),
-    scribeToggle = ref(checkLocalStorageArray('filterResearchNotes', 'Scribe')),
-    tailorToggle = ref(checkLocalStorageArray('filterResearchNotes', 'Tailor')),
-    weaponsmithToggle = ref(checkLocalStorageArray('filterResearchNotes', 'Weaponsmith')),
+const 
+
     //  *
     //  * TYPES
     //  *
@@ -198,31 +201,13 @@ const craftingToggle = ref(checkLocalStorageArray('filterResearchNotes', 'Crafti
 //  * COMPUTED TOGGLES
 //  *
 //  * Keep the ref of the toggles and use them for toggleFilter() when toggling a filter
-const craftingToggleRef = computed(() => craftingToggle),
-    tpToggleRef = computed(() => tpToggle),
-    //  *
-    //  * DISCIPLINES
-    //  *
-    armorsmithToggleRef = computed(() => armorsmithToggle),
-    artificerToggleRef = computed(() => artificerToggle),
-    chefToggleRef = computed(() => chefToggle),
-    huntsmanToggleRef = computed(() => huntsmanToggle),
-    jewelerToggleRef = computed(() => jewelerToggle),
-    leatherworkerToggleRef = computed(() => leatherworkerToggle),
-    scribeToggleRef = computed(() => scribeToggle),
-    tailorToggleRef = computed(() => tailorToggle),
-    weaponsmithToggleRef = computed(() => weaponsmithToggle),
+const 
     //  *
     //  * TYPE
     //  *
     consumableToggleRef = computed(() => consumableToggle),
     weaponToggleRef = computed(() => weaponToggle);
 
-
-
-const checkArrayIfAllFalse = (array) => {
-    return array.every(element => false);
-}
 // *
 // * Go through array of toggles and check on their statuses
 // * 
@@ -248,35 +233,54 @@ const router = useRouter(),
 const handlePageRefresh = () => {
     pageRefresh(router, route); 
 }
-
-const toggleFilter = (localStorageProperty, index, array, refError) => {
+// * 
+// * TOGGLE FILTERS
+// * 
+// * Check localStorage if property includes filter 
+// * 1. Check if all other filters are not active
+// * 2. Include or delete filter in localStorage
+const toggleFilter = (localStorageProperty, arrayIndex, array, refError) => {
     let filteredArray = [],
+        lastActive = false,
         allFalse = true; 
 
-    array.forEach((toggle) => {
-        if (toggle.status.value){
-            allFalse = false;
+    // Check all other filters in said category except for the current one that was clicked on
+    // If any other filters in that category is still active, allFalse is false
+    array.forEach((toggle, index) => {
+        if (index != arrayIndex){
+            if (toggle.status.value){
+                allFalse = false;
+            }
         }
+        
     });
-
+    // If all other filters in category are false => keep current filter active and display error message to user
     if (allFalse){
-        array[index].status.value = true;
+        array[arrayIndex].status.value = true;
         refError.value = true; 
+        // Remove error message after 1s
+        setTimeout(() => {
+            refError.value = false;
+        }, 1000)
+    // Otherwise change status of filter 
     } else {
-        array[index].status.value = !array[index].status.value;
+        array[arrayIndex].status.value = !array[arrayIndex].status.value;
         refError.value = false; 
     }
-
+    // Based on what localStorageProperty is being called on => add or remove filters
     switch (localStorageProperty){
         case 'filterResearchNotes': 
+            // If there's a filter in category that is still active besides the current one, do this
             if (!allFalse){
                 filteredArray = JSON.parse(localStorage.getItem('filterResearchNotes'));
-
-                const i = filteredArray.indexOf(array[index].name); 
+                // Check if property array contains the target string/filter
+                // If yes => remove
+                // If no => add
+                const i = filteredArray.indexOf(array[arrayIndex].name); 
                 if (i !== -1){
                     filteredArray.splice(i, 1); 
                 } else {
-                    filteredArray.push(array[index].name); 
+                    filteredArray.push(array[arrayIndex].name); 
                 }
                 localStorage.setItem('filterResearchNotes', JSON.stringify(filteredArray));
             }

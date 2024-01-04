@@ -166,23 +166,15 @@
                         -->
                         <p>Sell Order </p>
                             <div class="settings-button">
-                            <button
+                                <button
                                 @click="changeOrder('sell order')"
-                                :style="{
-                                    opacity: sellOrderSetting == 'buy_price' ? 1 : 0.2,
-                                    backgroundColor: sellOrderSetting == 'buy_price' ? 'var(--color-link)' : 'transparent',
-                                    color: sellOrderSetting == 'buy_price' ? 'var(--color-black)' : 'var(--color-text)',
-                                }"
+                                :class="sellOrderSetting == 'buy_price' ? 'active-button' : 'inactive-button'"
                             >
                                 Buy Price
                             </button>
                             <button
                                 @click="changeOrder('sell order')"
-                                :style="{
-                                    opacity: sellOrderSetting == 'sell_price' ? 1 : 0.2,
-                                    backgroundColor: sellOrderSetting == 'sell_price' ? 'var(--color-link)' : 'transparent',
-                                    color: sellOrderSetting == 'sell_price' ? 'var(--color-black)' : 'var(--color-text)',
-                                }"
+                                :class="sellOrderSetting == 'sell_price' ? 'active-button' : 'inactive-button'"
                             >
                                 Sell Price
                             </button>
@@ -618,12 +610,15 @@ const setDefaultLocalStorage = () => {
     if (!localStorage.taxSetting){
         localStorage.setItem('taxSetting', 0.85);
     }
+    // * 
     // * FILTERS
-    // *
     // *
     if (!localStorage.filtersToggle){
         localStorage.setItem('filters', false);
     }
+    // * 
+    // * FILTER RESEARCH NOTES
+    // *
     if (!localStorage.filterResearchNotes){
         localStorage.setItem('filterResearchNotes', JSON.stringify([
             "TP", 
@@ -639,6 +634,10 @@ const setDefaultLocalStorage = () => {
             "Weaponsmith",
             "Consumable",
             "Weapon",
+            "Armor",
+            "Back",
+            "Trinket",
+            "UpgradeComponent",
         ])); 
     }
     // * BOOKMARKS
@@ -750,6 +749,7 @@ watch(taxSetting, (newTaxSetting) => {
     gap: 10px;
     border-bottom: var(--border-bottom);
 }
+
 .settings-button-container{
     display: flex;
     flex-direction: column;

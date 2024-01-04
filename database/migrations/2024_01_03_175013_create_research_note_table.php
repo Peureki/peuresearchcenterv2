@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreign('item_id')->references('id')->on('items')->onUpdate('cascade');
             $table->foreign('recipe_id')->references('id')->on('recipes')->onUpdate('cascade');
 
-            $table->integer('avg_output')->nullable(); 
+            $table->decimal('avg_output', 8, 2)->nullable(); 
             $table->json('ingredients')->nullable(); 
             $table->integer('crafting_value')->nullable();
             $table->string('preference')->nullable();

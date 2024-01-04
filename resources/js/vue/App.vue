@@ -659,12 +659,16 @@ span.gold-label img{
     background-color: var(--color-link);
     color: var(--color-black);
     border: var(--border-hidden);
+    transition: var(--transition-all-03s-ease);
+    border-radius: 10px;
 }
 .inactive-button{
     opacity: 0.2;
     background-color: transparent;
     color: var(--color-text);
     border: var(--border-general);
+    transition: var(--transition-all-03s-ease);
+    border-radius: 10px;
 }
 .error-message{
     color: var(--color-down);
