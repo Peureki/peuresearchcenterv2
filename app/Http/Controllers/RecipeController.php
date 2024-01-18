@@ -127,9 +127,9 @@ class RecipeController extends Controller
                 $tempValue += $this->calculateCraftingValue($ingredient);
                 $this->preferences($ingredient);
             } else {
-                if ($ingredient['buy_price'] < $ingredient['sell_price']){
+                if ($ingredient['buy_price'] < $ingredient['sell_price'] && $ingredient['buy_price'] != 0){
                     $tempValue += $ingredient['buy_price'];
-                } else if ($ingredient['buy_price'] > $ingredient['sell_price']) {
+                } else if ($ingredient['buy_price'] > $ingredient['sell_price'] || ($ingredient['buy_price'] == 0 && $ingredient['sell_price'] != 0)) {
                     $tempValue += $ingredient['sell_price'];
                 } else {
                     $tempValue += 0;
@@ -140,7 +140,7 @@ class RecipeController extends Controller
     }
 
     public function preferences(&$ingredient){
-        if ($ingredient['craftingValue'] < $ingredient['buy_price'] || $ingredient['buy_price'] == 0){
+        if ($ingredient['craftingValue'] < $ingredient['buy_price'] || ($ingredient['buy_price'] == 0 && $ingredient['sell_price'] == 0)){
             $ingredient['preference'] = 'Crafting';
         } else {
             $ingredient['preference'] = 'TP';
@@ -154,9 +154,9 @@ class RecipeController extends Controller
             if (array_key_exists('ingredients', $ingredient)){
                 switch ($ingredient['preference']){
                     case "TP":
-                        if ($ingredient['buy_price'] < $ingredient['sell_price']){
+                        if ($ingredient['buy_price'] < $ingredient['sell_price'] && $ingredient['buy_price'] != 0){
                             $tempValue += $ingredient['buy_price'];
-                        } else if ($ingredient['buy_price'] > $ingredient['sell_price']) {
+                        } else if ($ingredient['buy_price'] > $ingredient['sell_price'] || ($ingredient['buy_price'] == 0 && $ingredient['sell_price'] != 0)) {
                             $tempValue += $ingredient['sell_price'];
                         } else {
                             $tempValue += 0;
@@ -168,9 +168,9 @@ class RecipeController extends Controller
                         break;
                 }
             } else {
-                if ($ingredient['buy_price'] < $ingredient['sell_price']){
+                if ($ingredient['buy_price'] < $ingredient['sell_price'] && $ingredient['buy_price'] != 0){
                     $tempValue += $ingredient['buy_price'];
-                } else if ($ingredient['buy_price'] > $ingredient['sell_price']) {
+                } else if ($ingredient['buy_price'] > $ingredient['sell_price'] || ($ingredient['buy_price'] == 0 && $ingredient['sell_price'] != 0)) {
                     $tempValue += $ingredient['sell_price'];
                 } else {
                     $tempValue += 0;
