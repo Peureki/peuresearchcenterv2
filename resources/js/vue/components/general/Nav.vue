@@ -61,12 +61,6 @@
                         />
                     </svg>
 
-                    <!-- SUN  -->
-                    <!-- <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.7188 3.90625V1.5625C11.7188 1.3553 11.8011 1.15659 11.9476 1.01007C12.0941 0.86356 12.2928 0.78125 12.5 0.78125C12.7072 0.78125 12.9059 0.86356 13.0524 1.01007C13.1989 1.15659 13.2812 1.3553 13.2812 1.5625V3.90625C13.2812 4.11345 13.1989 4.31216 13.0524 4.45868C12.9059 4.60519 12.7072 4.6875 12.5 4.6875C12.2928 4.6875 12.0941 4.60519 11.9476 4.45868C11.8011 4.31216 11.7188 4.11345 11.7188 3.90625ZM12.5 6.25C11.2639 6.25 10.0555 6.61656 9.02769 7.30331C7.99988 7.99007 7.1988 8.96619 6.72575 10.1082C6.25271 11.2503 6.12893 12.5069 6.37009 13.7193C6.61125 14.9317 7.2065 16.0453 8.08058 16.9194C8.95466 17.7935 10.0683 18.3888 11.2807 18.6299C12.4931 18.8711 13.7497 18.7473 14.8918 18.2742C16.0338 17.8012 17.0099 17.0001 17.6967 15.9723C18.3834 14.9445 18.75 13.7361 18.75 12.5C18.7482 10.843 18.0891 9.25429 16.9174 8.08258C15.7457 6.91087 14.157 6.25181 12.5 6.25ZM5.69727 6.80273C5.84386 6.94933 6.04268 7.03168 6.25 7.03168C6.45732 7.03168 6.65614 6.94933 6.80273 6.80273C6.94933 6.65614 7.03168 6.45732 7.03168 6.25C7.03168 6.04268 6.94933 5.84386 6.80273 5.69727L5.24023 4.13477C5.09364 3.98817 4.89482 3.90582 4.6875 3.90582C4.48018 3.90582 4.28136 3.98817 4.13477 4.13477C3.98817 4.28136 3.90582 4.48018 3.90582 4.6875C3.90582 4.89482 3.98817 5.09364 4.13477 5.24023L5.69727 6.80273ZM5.69727 18.1973L4.13477 19.7598C3.98817 19.9064 3.90582 20.1052 3.90582 20.3125C3.90582 20.5198 3.98817 20.7186 4.13477 20.8652C4.28136 21.0118 4.48018 21.0942 4.6875 21.0942C4.89482 21.0942 5.09364 21.0118 5.24023 20.8652L6.80273 19.3027C6.87532 19.2301 6.9329 19.144 6.97218 19.0491C7.01147 18.9543 7.03168 18.8527 7.03168 18.75C7.03168 18.6473 7.01147 18.5457 6.97218 18.4509C6.9329 18.356 6.87532 18.2699 6.80273 18.1973C6.73015 18.1247 6.64398 18.0671 6.54914 18.0278C6.4543 17.9885 6.35265 17.9683 6.25 17.9683C6.14735 17.9683 6.0457 17.9885 5.95086 18.0278C5.85602 18.0671 5.76985 18.1247 5.69727 18.1973ZM18.75 7.03125C18.8526 7.03133 18.9543 7.01119 19.0491 6.97198C19.1439 6.93277 19.2301 6.87526 19.3027 6.80273L20.8652 5.24023C21.0118 5.09364 21.0942 4.89482 21.0942 4.6875C21.0942 4.48018 21.0118 4.28136 20.8652 4.13477C20.7186 3.98817 20.5198 3.90582 20.3125 3.90582C20.1052 3.90582 19.9064 3.98817 19.7598 4.13477L18.1973 5.69727C18.0879 5.80653 18.0134 5.94579 17.9832 6.09742C17.953 6.24905 17.9685 6.40622 18.0276 6.54906C18.0868 6.69189 18.187 6.81394 18.3156 6.89978C18.4442 6.98562 18.5954 7.03137 18.75 7.03125ZM19.3027 18.1973C19.1561 18.0507 18.9573 17.9683 18.75 17.9683C18.5427 17.9683 18.3439 18.0507 18.1973 18.1973C18.0507 18.3439 17.9683 18.5427 17.9683 18.75C17.9683 18.9573 18.0507 19.1561 18.1973 19.3027L19.7598 20.8652C19.8324 20.9378 19.9185 20.9954 20.0134 21.0347C20.1082 21.074 20.2098 21.0942 20.3125 21.0942C20.4152 21.0942 20.5168 21.074 20.6116 21.0347C20.7065 20.9954 20.7926 20.9378 20.8652 20.8652C20.9378 20.7926 20.9954 20.7065 21.0347 20.6116C21.074 20.5168 21.0942 20.4152 21.0942 20.3125C21.0942 20.2098 21.074 20.1082 21.0347 20.0134C20.9954 19.9185 20.9378 19.8324 20.8652 19.7598L19.3027 18.1973ZM4.6875 12.5C4.6875 12.2928 4.60519 12.0941 4.45868 11.9476C4.31216 11.8011 4.11345 11.7188 3.90625 11.7188H1.5625C1.3553 11.7188 1.15659 11.8011 1.01007 11.9476C0.86356 12.0941 0.78125 12.2928 0.78125 12.5C0.78125 12.7072 0.86356 12.9059 1.01007 13.0524C1.15659 13.1989 1.3553 13.2812 1.5625 13.2812H3.90625C4.11345 13.2812 4.31216 13.1989 4.45868 13.0524C4.60519 12.9059 4.6875 12.7072 4.6875 12.5ZM12.5 20.3125C12.2928 20.3125 12.0941 20.3948 11.9476 20.5413C11.8011 20.6878 11.7188 20.8865 11.7188 21.0938V23.4375C11.7188 23.6447 11.8011 23.8434 11.9476 23.9899C12.0941 24.1364 12.2928 24.2188 12.5 24.2188C12.7072 24.2188 12.9059 24.1364 13.0524 23.9899C13.1989 23.8434 13.2812 23.6447 13.2812 23.4375V21.0938C13.2812 20.8865 13.1989 20.6878 13.0524 20.5413C12.9059 20.3948 12.7072 20.3125 12.5 20.3125ZM23.4375 11.7188H21.0938C20.8865 11.7188 20.6878 11.8011 20.5413 11.9476C20.3948 12.0941 20.3125 12.2928 20.3125 12.5C20.3125 12.7072 20.3948 12.9059 20.5413 13.0524C20.6878 13.1989 20.8865 13.2812 21.0938 13.2812H23.4375C23.6447 13.2812 23.8434 13.1989 23.9899 13.0524C24.1364 12.9059 24.2188 12.7072 24.2188 12.5C24.2188 12.2928 24.1364 12.0941 23.9899 11.9476C23.8434 11.8011 23.6447 11.7188 23.4375 11.7188Z" fill="#FFD12C"/>
-                        <title>Toggle dark/light mode</title>
-                    </svg> -->
-
                     <!-- BOOKMARKS -->
                     <svg 
                         v-if="bookmarksToggle"
@@ -83,11 +77,6 @@
                         <path d="M1 16.4835V1H13V16.4835L7.39392 14.0809L7 13.912L6.60608 14.0809L1 16.4835Z" stroke="#FFD12C" stroke-width="2"/>
                         <title>Bookmarks</title>
                     </svg>
-
-                    
-
-
-
                 </div>
                 <div class="middle">
                     <!-- HAMBURGER -->
@@ -101,6 +90,15 @@
                 </div>
 
                 <div class="right">
+                    <!-- USER LOGIN -->
+                    <svg 
+                        @click="loginToggle = !loginToggle"
+                        width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 8C15 9.06087 14.5786 10.0783 13.8284 10.8284C13.0783 11.5786 12.0609 12 11 12C9.93913 12 8.92172 11.5786 8.17157 10.8284C7.42143 10.0783 7 9.06087 7 8C7 6.93913 7.42143 5.92172 8.17157 5.17157C8.92172 4.42143 9.93913 4 11 4C12.0609 4 13.0783 4.42143 13.8284 5.17157C14.5786 5.92172 15 6.93913 15 8ZM13 8C13 8.53043 12.7893 9.03914 12.4142 9.41421C12.0391 9.78929 11.5304 10 11 10C10.4696 10 9.96086 9.78929 9.58579 9.41421C9.21071 9.03914 9 8.53043 9 8C9 7.46957 9.21071 6.96086 9.58579 6.58579C9.96086 6.21071 10.4696 6 11 6C11.5304 6 12.0391 6.21071 12.4142 6.58579C12.7893 6.96086 13 7.46957 13 8Z" fill="#FFD12C"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M11 0C4.925 0 0 4.925 0 11C0 17.075 4.925 22 11 22C17.075 22 22 17.075 22 11C22 4.925 17.075 0 11 0ZM2 11C2 13.09 2.713 15.014 3.908 16.542C4.74723 15.4399 5.8299 14.5467 7.07143 13.9323C8.31297 13.3179 9.67974 12.9988 11.065 13C12.4323 12.9987 13.7819 13.3095 15.0109 13.9088C16.2399 14.508 17.316 15.3799 18.157 16.458C19.0234 15.3216 19.6068 13.9952 19.8589 12.5886C20.111 11.182 20.0244 9.73553 19.6065 8.36898C19.1886 7.00243 18.4512 5.75505 17.4555 4.73004C16.4598 3.70503 15.2343 2.93186 13.8804 2.47451C12.5265 2.01716 11.0832 1.88877 9.66986 2.09997C8.25652 2.31117 6.91379 2.85589 5.75277 3.68905C4.59175 4.52222 3.64581 5.61987 2.99323 6.8912C2.34065 8.16252 2.00018 9.57097 2 11ZM11 20C8.93395 20.0031 6.93027 19.2923 5.328 17.988C5.97293 17.0647 6.83134 16.3109 7.83019 15.7907C8.82905 15.2705 9.93879 14.9992 11.065 15C12.1772 14.9991 13.2735 15.2636 14.2629 15.7714C15.2524 16.2793 16.1064 17.0159 16.754 17.92C15.1393 19.2667 13.1026 20.0029 11 20Z" fill="#FFD12C"/>
+                    </svg>
+
                     <!-- DISCORD  -->
                     <svg width="25" height="17" viewBox="0 0 25 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M21.1532 1.4128C19.5698 0.754226 17.8554 0.276227 16.0697 4.88603e-05C16.054 -0.000397914 16.0385 0.00222374 16.0241 0.00772953C16.0097 0.0132353 15.9968 0.0214915 15.9863 0.0319157C15.7721 0.382449 15.522 0.839204 15.3554 1.18974C13.4613 0.934804 11.535 0.934804 9.64094 1.18974C9.47427 0.828582 9.22426 0.382449 8.99806 0.0319157C8.98616 0.0106713 8.95044 4.88603e-05 8.91473 4.88603e-05C7.12896 0.276227 5.42653 0.754226 3.83125 1.4128C3.81935 1.4128 3.80744 1.42343 3.79554 1.43405C0.557354 5.75729 -0.335528 9.96369 0.10496 14.1276C0.10496 14.1488 0.116865 14.1701 0.140675 14.1807C2.28359 15.5828 4.34317 16.4326 6.37894 16.9956C6.41466 17.0062 6.45037 16.9956 6.46228 16.9744C6.93848 16.3901 7.36706 15.774 7.73612 15.1261C7.75993 15.0836 7.73612 15.0411 7.6885 15.0305C7.00991 14.7968 6.36704 14.5206 5.73607 14.202C5.68845 14.1807 5.68845 14.117 5.72416 14.0851C5.85512 14.0001 5.98607 13.9045 6.11703 13.8196C6.14084 13.7983 6.17656 13.7983 6.20037 13.8089C10.2957 15.4766 14.7125 15.4766 18.7602 13.8089C18.784 13.7983 18.8198 13.7983 18.8436 13.8196C18.9745 13.9152 19.1055 14.0001 19.2364 14.0957C19.2841 14.1276 19.2841 14.1913 19.2245 14.2126C18.6055 14.5419 17.9507 14.8074 17.2721 15.0411C17.2245 15.0517 17.2126 15.1048 17.2245 15.1367C17.6054 15.7847 18.034 16.4008 18.4983 16.985C18.534 16.9956 18.5698 17.0062 18.6055 16.9956C20.6531 16.4326 22.7127 15.5828 24.8556 14.1807C24.8794 14.1701 24.8914 14.1488 24.8914 14.1276C25.4152 9.31573 24.0223 5.1412 21.2008 1.43405C21.1889 1.42343 21.177 1.4128 21.1532 1.4128ZM8.35519 11.5889C7.12896 11.5889 6.10512 10.5798 6.10512 9.33698C6.10512 8.09418 7.10515 7.08507 8.35519 7.08507C9.61713 7.08507 10.6172 8.1048 10.6052 9.33698C10.6052 10.5798 9.60522 11.5889 8.35519 11.5889ZM16.653 11.5889C15.4268 11.5889 14.403 10.5798 14.403 9.33698C14.403 8.09418 15.403 7.08507 16.653 7.08507C17.915 7.08507 18.915 8.1048 18.9031 9.33698C18.9031 10.5798 17.915 11.5889 16.653 11.5889Z" fill="#FFD12C"/>
@@ -117,6 +115,20 @@
                 </div>
             </div>
         </div>
+
+        <!--
+            *
+            *   "HELLO" MESSAGE TO USERS IF THEY ARE LOGGED IN
+            *
+        -->
+        <Transition name="fade-right">
+            <div v-if="user">
+                <p>Welcome {{ user.name }}</p>
+            </div>
+        </Transition>
+        
+
+
         <!--
             * SLOT - TIMERS
             * 
@@ -127,7 +139,7 @@
         <!--
             * 
             * SETTINGS / OPTIONS
-            * 
+            *
         -->
         <Transition name="fade-right">
             <section v-if="settingsToggle">
@@ -241,6 +253,38 @@
                 v-if="bookmarksToggle"
                 name="bookmarks"
             ></slot>
+        </Transition>
+
+        <!-- 
+            *
+            * LOGIN POPUP
+            * Users will be able to login or logout 
+            * Username
+            * Email
+            * Password
+        -->
+
+        <Transition name="fade-right">
+            <div class="login-form-container" v-if="loginToggle">
+                <form @submit.prevent="login">
+                    <label for="name">Username</label>
+                    <input type="text" name="name" id="name" v-model="name">
+
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" v-model="email">
+
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" v-model="password">
+
+                    <div class="form-button-container">
+                        <button type="submit">Login</button>
+                        
+                        <button type="button" @click="logout">Logout</button>
+
+                        <button type="button" @click="register">Register</button>
+                    </div>
+                </form>
+            </div>
         </Transition>
 
         
@@ -583,13 +627,107 @@
 </template>
 
 <script setup>
-import { ref, watch, provide } from 'vue'
+import { ref, watch, provide, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
 import { nodeTrackerModalToggle } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent } from '@/js/vue/composables/BasicFunctions.js'
 import { pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
+import axios from 'axios';
+
+// Initialize form fields
+const name = ref(''), 
+    email = ref(''),
+    password = ref('');
+// Auth user
+const user = ref(null);
+// *
+// * LOGIN
+// * Assuming a completed form with username, email, password => login into a new session 
+// * Refresh page if successful
+const login = async () => {
+    try {
+        // Get unique cookie? 
+        await axios.get('../sanctum/csrf-cookie');
+        // Send POST to /login via web.php route: 
+        // LoginController.php, authenticate(); 
+        // Use the v-model form values to verify registered user
+        const response = await axios.post('../login', {
+            name: name.value,
+            email: email.value,
+            password: password.value,
+        }, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        });
+        // If sucessful, page refresh
+        if (response){
+            console.log("Login successful!");
+            handlePageRefresh();
+        } 
+    } catch (error) {
+        console.log('Login error: ', error);
+    }
+}
+
+const logout = async () => {
+    try {
+        const response = await axios.post('../logout');
+
+        if (response){
+            console.log('Logout successful!');
+            handlePageRefresh();
+        }
+    } catch (error){
+        console.log('Logout failed: ', error);
+    }
+}
+
+const register = async () => {
+  try {
+        const response = await fetch('../register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+            body: JSON.stringify({
+                name: name.value,
+                email: email.value,
+                password: password.value,
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Registration failed');
+        }
+
+    // Redirect or handle success as needed
+    } catch (error) {
+        console.error('Registration error:', error);
+        // Handle error (e.g., show error message)
+    }
+};
+// *
+// * GET LOGGED USER AFTER MOUNTED
+// * 
+const getAuthUser = async () => {
+    try {
+        const response = await fetch('../api/user');
+        if (!response.ok){
+            throw new Error('Failed to fetch user data');
+        }
+        user.value = await response.json(); 
+    } catch (error){
+        console.log(error); 
+    }
+}
+
+onMounted( async () => {
+    getAuthUser(); 
+})
 
 // For first time visitors
 // If there is no exisiting local stoarge property (like sellOrderSetting), then make one by default
@@ -684,7 +822,8 @@ const benchmarksToggle = ref(true),
 
 const settingsToggle = ref(JSON.parse(localStorage.settings)),
     filtersToggle = ref(JSON.parse(localStorage.filters)),
-    bookmarksToggle = ref(JSON.parse(localStorage.bookmarks));
+    bookmarksToggle = ref(JSON.parse(localStorage.bookmarks)),
+    loginToggle = ref(false);
 
 const buyOrderSetting = ref(localStorage.buyOrderSetting),
     sellOrderSetting = ref(localStorage.sellOrderSetting),
@@ -741,6 +880,22 @@ watch(taxSetting, (newTaxSetting) => {
 </script>
 
 <style scoped>
+.login-form-container{
+    padding: var(--padding-settings);
+}
+.login-form-container input{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.form-button-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 10px;
+}
+
+
 .shortcut-container{
     display: flex;
     flex-direction: column;

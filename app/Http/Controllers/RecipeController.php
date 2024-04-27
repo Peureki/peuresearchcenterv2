@@ -62,6 +62,14 @@ class RecipeController extends Controller
             "preference" => null,
         ];
 
+        $returnArray[] = [
+            "name" => $recipe['name'],
+            "buy_price" => $recipe['buy_price'] * $recipe['output_item_count'] * $quantity, 
+            "sell_price" => $recipe['sell_price'] * $recipe['output_item_count'] * $quantity,
+            "count" => $recipe['output_item_count'] * $quantity,
+            "icon" => $recipe['icon']
+        ];
+
         
         // Foreach ingredient in a recipe, add their values, icons
         // This is the start of the recipe tree
