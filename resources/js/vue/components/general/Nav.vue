@@ -100,9 +100,12 @@
                     </svg>
 
                     <!-- DISCORD  -->
-                    <svg width="25" height="17" viewBox="0 0 25 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21.1532 1.4128C19.5698 0.754226 17.8554 0.276227 16.0697 4.88603e-05C16.054 -0.000397914 16.0385 0.00222374 16.0241 0.00772953C16.0097 0.0132353 15.9968 0.0214915 15.9863 0.0319157C15.7721 0.382449 15.522 0.839204 15.3554 1.18974C13.4613 0.934804 11.535 0.934804 9.64094 1.18974C9.47427 0.828582 9.22426 0.382449 8.99806 0.0319157C8.98616 0.0106713 8.95044 4.88603e-05 8.91473 4.88603e-05C7.12896 0.276227 5.42653 0.754226 3.83125 1.4128C3.81935 1.4128 3.80744 1.42343 3.79554 1.43405C0.557354 5.75729 -0.335528 9.96369 0.10496 14.1276C0.10496 14.1488 0.116865 14.1701 0.140675 14.1807C2.28359 15.5828 4.34317 16.4326 6.37894 16.9956C6.41466 17.0062 6.45037 16.9956 6.46228 16.9744C6.93848 16.3901 7.36706 15.774 7.73612 15.1261C7.75993 15.0836 7.73612 15.0411 7.6885 15.0305C7.00991 14.7968 6.36704 14.5206 5.73607 14.202C5.68845 14.1807 5.68845 14.117 5.72416 14.0851C5.85512 14.0001 5.98607 13.9045 6.11703 13.8196C6.14084 13.7983 6.17656 13.7983 6.20037 13.8089C10.2957 15.4766 14.7125 15.4766 18.7602 13.8089C18.784 13.7983 18.8198 13.7983 18.8436 13.8196C18.9745 13.9152 19.1055 14.0001 19.2364 14.0957C19.2841 14.1276 19.2841 14.1913 19.2245 14.2126C18.6055 14.5419 17.9507 14.8074 17.2721 15.0411C17.2245 15.0517 17.2126 15.1048 17.2245 15.1367C17.6054 15.7847 18.034 16.4008 18.4983 16.985C18.534 16.9956 18.5698 17.0062 18.6055 16.9956C20.6531 16.4326 22.7127 15.5828 24.8556 14.1807C24.8794 14.1701 24.8914 14.1488 24.8914 14.1276C25.4152 9.31573 24.0223 5.1412 21.2008 1.43405C21.1889 1.42343 21.177 1.4128 21.1532 1.4128ZM8.35519 11.5889C7.12896 11.5889 6.10512 10.5798 6.10512 9.33698C6.10512 8.09418 7.10515 7.08507 8.35519 7.08507C9.61713 7.08507 10.6172 8.1048 10.6052 9.33698C10.6052 10.5798 9.60522 11.5889 8.35519 11.5889ZM16.653 11.5889C15.4268 11.5889 14.403 10.5798 14.403 9.33698C14.403 8.09418 15.403 7.08507 16.653 7.08507C17.915 7.08507 18.915 8.1048 18.9031 9.33698C18.9031 10.5798 17.915 11.5889 16.653 11.5889Z" fill="#FFD12C"/>
-                        <title>Discord</title>
+                    <svg 
+                        @click="apiKeyToggle = !apiKeyToggle"
+                        width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M20 6.293C20 9.769 17.17 12.587 13.68 12.587C13.044 12.587 11.594 12.441 10.889 11.855L10.007 12.733C9.48796 13.25 9.62796 13.402 9.85896 13.652C9.95496 13.757 10.067 13.878 10.154 14.051C10.154 14.051 10.889 15.075 10.154 16.1C9.71296 16.685 8.47796 17.504 7.06796 16.1L6.77396 16.392C6.77396 16.392 7.65496 17.417 6.92096 18.442C6.47996 19.027 5.30396 19.612 4.27496 18.588L3.24696 19.612C2.54096 20.315 1.67896 19.905 1.33696 19.612L0.453957 18.734C-0.369043 17.914 0.110957 17.026 0.453957 16.684L8.09596 9.074C8.09596 9.074 7.36096 7.904 7.36096 6.294C7.36096 2.818 10.191 0 13.681 0C17.171 0 20 2.818 20 6.293ZM13.681 8.489C14.2643 8.49006 14.8241 8.25943 15.2374 7.84782C15.6507 7.4362 15.8836 6.8773 15.885 6.294C15.8844 6.00509 15.827 5.71912 15.716 5.4524C15.6049 5.18568 15.4424 4.94345 15.2378 4.73954C15.0331 4.53562 14.7903 4.37401 14.5232 4.26393C14.256 4.15386 13.9699 4.09747 13.681 4.098C13.392 4.09747 13.1059 4.15386 12.8387 4.26393C12.5716 4.37401 12.3288 4.53562 12.1241 4.73954C11.9195 4.94345 11.757 5.18568 11.646 5.4524C11.5349 5.71912 11.4775 6.00509 11.477 6.294C11.4783 6.8773 11.7112 7.4362 12.1245 7.84782C12.5378 8.25943 13.0977 8.49006 13.681 8.489Z" fill="#FFD12C"/>
+                        <title>Enter API Key</title>
                     </svg>
                     <!-- MODAL  -->
                     <svg 
@@ -126,9 +129,6 @@
                 <p>Welcome {{ user.name }}</p>
             </div>
         </Transition>
-        
-
-
         <!--
             * SLOT - TIMERS
             * 
@@ -257,7 +257,7 @@
 
         <!-- 
             *
-            * LOGIN POPUP
+            * LOGIN CONTAINER
             * Users will be able to login or logout 
             * Username
             * Email
@@ -265,7 +265,7 @@
         -->
 
         <Transition name="fade-right">
-            <div class="login-form-container" v-if="loginToggle">
+            <div class="form-container" v-if="loginToggle">
                 <form @submit.prevent="login">
                     <label for="name">Username</label>
                     <input type="text" name="name" id="name" v-model="name">
@@ -275,6 +275,12 @@
 
                     <label for="password">Password</label>
                     <input type="password" name="password" id="password" v-model="password">
+
+                    <span class="remember-container">
+                        <label for="remember">Remember Me</label>
+                        <input type="checkbox" name="remember" v-model="remember">
+                    </span>
+                    
 
                     <div class="form-button-container">
                         <button type="submit">Login</button>
@@ -286,8 +292,23 @@
                 </form>
             </div>
         </Transition>
+        <!--
+            *
+            * ENTER API KEY CONTAINER
+            *
+        -->
+        <Transition name="fade-right">
+            <div class="form-container"  v-if="apiKeyToggle">
+                <form @submit.prevent="enterAPIKey">
+                    <label for="apiKey">Enter API Key</label>
+                    <input type="text" name="apiKey" v-model="apiKey">
 
-        
+                    <button type="submit">Submit</button>
+                </form>
+
+                <button v-if="user" @click="getWizardsVault(user.api_key)">Test API Key</button>
+            </div>
+        </Transition>
 
         <!--
             *
@@ -639,9 +660,26 @@ import axios from 'axios';
 // Initialize form fields
 const name = ref(''), 
     email = ref(''),
-    password = ref('');
+    password = ref(''),
+    remember = ref(null);
 // Auth user
 const user = ref(null);
+
+const wv = ref(null); 
+
+const getWizardsVault = async (key) => {
+    try {
+        console.log(key); 
+        const response = await fetch(`https://api.guildwars2.com/v2/account/achievements?access_token=${key}&ids=6250`);
+
+        wv.value = await response.json(); 
+        console.log(wv.value);
+        
+    } catch (error){
+        console.log("Error retreiving Wizard's Vault info: ", error); 
+    }
+}
+
 // *
 // * LOGIN
 // * Assuming a completed form with username, email, password => login into a new session 
@@ -657,6 +695,7 @@ const login = async () => {
             name: name.value,
             email: email.value,
             password: password.value,
+            remember: remember.value,
         }, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -723,6 +762,23 @@ const getAuthUser = async () => {
     } catch (error){
         console.log(error); 
     }
+}
+
+const enterAPIKey = async () => {
+    try{
+        const response = await axios.post('../api/user/enterAPIKey', {
+            apiKey: apiKey.value,
+        })
+
+        // If sucessful, page refresh
+        if (response){
+            console.log("API key successful!");
+            //handlePageRefresh();
+        } 
+    } catch (error){
+        console.log("API key failure: ", error); 
+    }
+    
 }
 
 onMounted( async () => {
@@ -823,11 +879,13 @@ const benchmarksToggle = ref(true),
 const settingsToggle = ref(JSON.parse(localStorage.settings)),
     filtersToggle = ref(JSON.parse(localStorage.filters)),
     bookmarksToggle = ref(JSON.parse(localStorage.bookmarks)),
-    loginToggle = ref(false);
+    loginToggle = ref(false),
+    apiKeyToggle = ref(false);
 
 const buyOrderSetting = ref(localStorage.buyOrderSetting),
     sellOrderSetting = ref(localStorage.sellOrderSetting),
-    taxSetting = ref(parseFloat(localStorage.taxSetting));
+    taxSetting = ref(parseFloat(localStorage.taxSetting)),
+    apiKey = ref(null);
 
 const route = useRoute(),
     router = useRouter();
@@ -880,19 +938,29 @@ watch(taxSetting, (newTaxSetting) => {
 </script>
 
 <style scoped>
-.login-form-container{
+.form-container{
     padding: var(--padding-settings);
 }
-.login-form-container input{
+.form-container input{
     width: 100%;
     margin-bottom: 10px;
 }
 
-.form-button-container{
+form .form-button-container{
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     padding-top: 10px;
+}
+form .remember-container{
+    display: flex;
+    align-items: center;
+}
+form .remember-container label{
+    white-space: nowrap;
+}
+form .remember-container input{
+    margin-bottom: unset;
 }
 
 

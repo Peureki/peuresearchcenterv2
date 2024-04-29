@@ -21,11 +21,14 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
+        // Initialize and fill remember_token in user database 
+        $remember = $request->filled('remember');
  
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate(); 
             return response()->json(Auth::user(), 200);
         }
+
  
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',

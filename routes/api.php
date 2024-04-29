@@ -5,6 +5,7 @@ use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\FetchController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Auth\Events\CurrentDeviceLogout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/user/enterAPIKey', [UserController::class, 'enterAPIKey']);
 
 Route::get('/fetch-items', [FetchController::class, 'fetchItems']);
 Route::get('/fetch-currencies', [FetchController::class, 'fetchCurrencies']);
