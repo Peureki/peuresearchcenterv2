@@ -24,6 +24,9 @@ class Bag extends Model
         return $this->belongsTo(Items::class, 'item_id');
     }
     // Since there are multiple bags with the same table params, set each individual table db 
+    // Example use: 
+    // $nameOfBagVariable = (new Bag)->setTable('NAME_OF_DB_TABLE')->get(); 
+    // $heavyCraftingBag = (new Bag)->setTable('heavy_crafting_bag')->get(); 
     public function setTable($table){
         $this->table = $table; 
         return $this; 

@@ -9,12 +9,14 @@ use App\Jobs\Fetches\FetchRecipeTrees;
 use App\Jobs\Fetches\FetchRecipeValues;
 use App\Models\Items;
 use App\Models\Bag;
+use App\Models\Benchmarks;
 use App\Models\Currencies;
 use App\Models\Recipes;
 use App\Models\ResearchNote;
 use App\Models\ResearchNotes;
 use App\Models\SampleSize;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class FetchController extends Controller
@@ -79,6 +81,43 @@ class FetchController extends Controller
         foreach ($bags as $bag){
             $bagName = $this->stringToDBFormat($bag['name']);
             $this->processBags($bag, $bagName);
+        }
+    }
+
+    public function fetchBenchmarks(){
+        // Spreadsheet API
+        $apiURL = Http::get("https://script.google.com/macros/s/AKfycbx5VDf5zzAuZf5h38BLuvLN_KD3Gu0A1CKWm19zg-YVeC1COBrYVONmvxqkJr_ANasJ/exec");
+        // Turn API into a JSON so it's easier to work with
+        $api = $apiURL->json(); 
+        // Array in spreadsheet is labeled 'benchmarks' from the App Script
+        $benchmarksSS = $api['benchmarks'];
+        
+        // Populate $benchmarks array and set each benchmark with their own database table (assuming the tables have already been migrated)
+        foreach ($benchmarksSS as $benchmark){
+            if ($benchmark['map'] != NULL){
+                // Example: map_benchmark_auric_basin
+                $db = (new Benchmarks)->setTable($benchmark['map']); 
+
+                // 1. explode => From the SS, it returns a long string full of drops like "Merp1, Merp2, Merp3". Seperate each merp to be it's own cell in an array
+                // 2. array_filter => Remove any empty cells in the array
+                // 3. array_values => Reindex the array to avoid indexes such as 0, 4, 60. Now it should be 0, 1, 2
+                $drops = array_values(array_filter(explode(",", $benchmark['drops']), 'strlen'));
+                $dropRates = array_values(array_filter(explode(",", $benchmark['dropRates']), 'strlen'));
+
+                // For each drop (using it as an index really), populate the database 
+                foreach ($drops as $index => $drop){
+                    $db->updateOrCreate(
+                        [
+                            // +1 because the $drop starts at index 0, but databases only count their IDs starting at 1
+                            'id' => $index + 1,
+                        ],
+                        [
+                            'drop' => $drops[$index],
+                            'drop_rate' => floatval($dropRates[$index]),
+                        ]
+                    );
+                }
+            }      
         }
     }
 

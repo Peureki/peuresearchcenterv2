@@ -315,7 +315,7 @@
             * BENCHMARKS
             *
         -->
-        <!-- <header 
+        <header 
             id="nav"
             @click="benchmarksToggle = !benchmarksToggle"
         >
@@ -332,11 +332,11 @@
         <Transition name="fade-right">
             <section v-if="benchmarksToggle">
                 <router-link class="page-link" to="/benchmarks/maps">
-                    <img src="../../../imgs/icons/Commander_Icon.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
+                    <img src="@/imgs/icons/Commander_Icon.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                     <h6>Maps</h6>
                 </router-link>
 
-                <router-link class="page-link" to="/benchmarks/fishing">
+                <!-- <router-link class="page-link" to="/benchmarks/fishing">
                     <img src="../../../imgs/icons/Fishing.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                     <h6>Fishing</h6>
                 </router-link>
@@ -354,9 +354,9 @@
                 <router-link class="page-link" to="/benchmarks/fishing">
                     <img src="../../../imgs/icons/Guild_Armorer.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                     <h6>Alt Parking</h6>
-                </router-link>
+                </router-link> -->
             </section>
-        </Transition> -->
+        </Transition>
 
         <!--
             *
@@ -670,7 +670,7 @@ const wv = ref(null);
 const getWizardsVault = async (key) => {
     try {
         console.log(key); 
-        const response = await fetch(`https://api.guildwars2.com/v2/account/achievements?access_token=${key}&ids=6250`);
+        const response = await fetch(`https://api.guildwars2.com/v2/account/wizardsvault/daily?access_token=${key}`);
 
         wv.value = await response.json(); 
         console.log(wv.value);

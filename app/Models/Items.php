@@ -27,10 +27,6 @@ class Items extends Model
         'sell_price',
     ];
 
-    public function trophyShipments(): HasOne {
-        return $this->hasOne(TrophyShipment::class, 'item_id');
-    }
-
     public function researchNotes(): HasMany {
         return $this->hasMany(ResearchNotes::class);
     }

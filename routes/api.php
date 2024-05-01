@@ -28,6 +28,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('/user/enterAPIKey', [UserController::class, 'enterAPIKey']);
 
+// *
+// * BENCHMARKS
+// *
+Route::get('/fetch-benchmarks', [FetchController::class, 'fetchBenchmarks']);
+
 Route::get('/fetch-items', [FetchController::class, 'fetchItems']);
 Route::get('/fetch-currencies', [FetchController::class, 'fetchCurrencies']);
 Route::get('/fetch-prices', [FetchController::class, 'fetchPrices']);

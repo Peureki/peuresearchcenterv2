@@ -68,7 +68,7 @@ class CurrencyController extends Controller
     // *
     // * LAURELS
     // *
-    // * RETURN each crafint bags's value and laurels per bag
+    // * RETURN each crafting bags's value and laurels per bag
     public function laurel($sellOrderSetting, $tax){
         $heavyCraftingBag = (new Bag)->setTable('heavy_crafting_bag')->get();
         $largeCraftingBag = (new Bag)->setTable('large_crafting_bag')->get();
