@@ -27,6 +27,17 @@ class Items extends Model
         'sell_price',
     ];
 
+    // *
+    // * RELATIONSHIPS
+    // * 
+    public function bag(){
+        return $this->hasMany(Bag::class); 
+    }
+
+    public function bagDropRate(){
+        return $this->hasMany(BagDropRate::class); 
+    }
+
     public function researchNotes(): HasMany {
         return $this->hasMany(ResearchNotes::class);
     }

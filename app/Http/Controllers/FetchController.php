@@ -11,6 +11,7 @@ use App\Models\Items;
 use App\Models\Bag;
 use App\Models\Benchmarks;
 use App\Models\Currencies;
+use App\Models\CurrencyBagDropRates;
 use App\Models\Recipes;
 use App\Models\ResearchNote;
 use App\Models\ResearchNotes;
@@ -46,6 +47,49 @@ class FetchController extends Controller
         return response()->json(['message' => 'Fetching recipe tree values job has been queued']);
     }
 
+    public function fetchBags(){
+        $api = Http::get('https://script.google.com/macros/s/AKfycbzJGJVi_2GPMaLubmRzKx3WAuDvbo2rWnekz2t6luNCBTRfOIelSPDsac0Vemobobi8eQ/exec'); 
+        $spreadsheet = $api->json(); 
+
+
+        foreach ($spreadsheet['bags'] as $index => $bag){
+            Bag::updateOrCreate(
+                [
+                    'id' => $bag['id'],
+                ],
+                [
+                    'name' => $bag['name'],
+                    'category' => $bag['category'],
+                    'sample_size' => $bag['sampleSize'],
+                ]
+            ); 
+
+            $ids = explode(",", $bag['item']); 
+            $dropRates = explode(",", $bag['dr']); 
+
+            foreach ($ids as $key => $id){
+                CurrencyBagDropRates::updateOrCreate(
+                    [
+                        'bag_id' => $bag['id'], 
+                        'item_id' => $id,
+                    ],
+                    [
+                        'drop_rate' => $dropRates[$key],
+                    ]
+                );
+            }
+        }
+    }
+
+    public function fetchBagDropRates(){
+        $api = Http::get('https://script.google.com/macros/s/AKfycbzJGJVi_2GPMaLubmRzKx3WAuDvbo2rWnekz2t6luNCBTRfOIelSPDsac0Vemobobi8eQ/exec'); 
+        $spreadsheet = $api->json(); 
+
+        foreach ($spreadsheet['bags'] as $index => $bag){
+
+        }
+    }
+
     public function fetchCurrencies(){
         $apiIds = Http::get('https://api.guildwars2.com/v2/currencies?ids=all'); 
         $idList = $apiIds->json(); 
@@ -71,18 +115,18 @@ class FetchController extends Controller
     // 
     // Grabs list of bags, their NAME, ID, and DROP RATE
     // Goes through the list of bags and processes each specific table
-    public function fetchBags(){
-        $apiURL = Http::get('https://script.google.com/macros/s/AKfycbzJGJVi_2GPMaLubmRzKx3WAuDvbo2rWnekz2t6luNCBTRfOIelSPDsac0Vemobobi8eQ/exec');
+    // public function fetchBags(){
+    //     $apiURL = Http::get('https://script.google.com/macros/s/AKfycbzJGJVi_2GPMaLubmRzKx3WAuDvbo2rWnekz2t6luNCBTRfOIelSPDsac0Vemobobi8eQ/exec');
 
-        $api = $apiURL->json(); 
-        $bags = $api['bags'];
-        // For each bag => change the name from the spreadsheet to a db name 
-        // => process bags into the db
-        foreach ($bags as $bag){
-            $bagName = $this->stringToDBFormat($bag['name']);
-            $this->processBags($bag, $bagName);
-        }
-    }
+    //     $api = $apiURL->json(); 
+    //     $bags = $api['bags'];
+    //     // For each bag => change the name from the spreadsheet to a db name 
+    //     // => process bags into the db
+    //     foreach ($bags as $bag){
+    //         $bagName = $this->stringToDBFormat($bag['name']);
+    //         $this->processBags($bag, $bagName);
+    //     }
+    // }
 
     public function fetchBenchmarks(){
         // Spreadsheet API

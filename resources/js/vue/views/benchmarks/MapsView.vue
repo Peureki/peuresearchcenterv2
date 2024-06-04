@@ -20,4 +20,17 @@ const getBenchmarks = async () => {
     }
 }
 
+const filter = ['Volatile Magic'],
+    encodedFilter = encodeURIComponent(JSON.stringify(filter));
+
+const merp = `../api/currencies/${encodedFilter}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
+
+const getTable = async () => {
+    const response = await fetch(merp); 
+    const data = await response.json(); 
+    console.log('merp: ', data);
+}
+
+getTable(); 
+
 </script>

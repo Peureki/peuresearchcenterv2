@@ -61,3 +61,7 @@ export function pageRefresh(router, route) {
         router.replace({path: currentPath});
     })
 }
+
+export function encodeArray(array){
+    return encodeURIComponent(JSON.stringify(array));
+}

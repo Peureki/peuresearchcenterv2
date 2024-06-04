@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Items;
 use App\Models\Bag;
+use App\Models\Bags;
+use App\Models\CurrencyBagDropRates;
 use App\Models\Recipes;
 use App\Models\ResearchNotes;
 use App\Models\SampleSize;
@@ -65,6 +67,91 @@ class CurrencyController extends Controller
         return response()->json($researchNotes);
 
     }
+
+
+
+    public function currencies($filter, $sellOrderSetting, $tax){
+        // Goal
+        // Get value of volatile magic 
+        // 
+        // Calculate from currency_bag_drop_rates table of each Bag 
+        // Get value of each Bag into bags table
+        // ie Trophy Shipments 
+
+        // GET CURRENCY DROP RATES
+        // Join tables: currency_drop_rates + bags + items
+        // Group by bag_id to separate 
+        $filter = json_decode(urldecode($filter), true);
+    
+        $currencyDropRatesTable = CurrencyBagDropRates::join('bags', 'currency_bag_drop_rates.bag_id', '=', 'bags.id')
+        ->join('items as item', 'currency_bag_drop_rates.item_id', '=', 'item.id')
+        ->join('items as bag_item', 'bags.id', '=', 'bag_item.id')
+        ->select(
+            'currency_bag_drop_rates.*', 
+            'bags.*', 
+            'item.icon as item_icon',
+            'item.name as item_name', 
+            'item.*', 
+            'bag_item.icon as bag_icon',
+            'bag_item.name as bag_name'
+        )
+        ->whereIn('bags.category', $filter)
+        ->get()
+        ->groupBy('bag_id');
+
+        $bag = []; 
+
+        foreach ($currencyDropRatesTable as $group){
+            $value = 0;
+            $total = 0;
+            $bagName = '';
+            $icon = '';
+            $profitPerBag = 0; 
+            $currencyPerBag = 0;
+
+            foreach ($group as $item){
+                
+                $value = ($item->$sellOrderSetting * $tax) * ($item->drop_rate); 
+                $item->value = $value; 
+
+                $total += $value; 
+                $bagName = $item->bag_name; 
+                $icon = $item->bag_icon; 
+
+                
+            }  
+            switch (true){
+                case in_array('Volatile Magic', $filter):
+                    $profitPerBag = $total - 10000; 
+                    $currencyPerBag = $profitPerBag / 250; 
+                    break;
+            }
+
+            array_push($bag, [
+                'total' => $total,
+                'name' => $bagName,
+                'icon' => $icon,
+                'profitPerBag' => $profitPerBag,
+                'currencyPerBag' => $currencyPerBag,
+            ]);
+        }
+        // Reindex array otherwise it would start at bag_id 
+        // ie Unbound Magic's bag id's are 6, 7
+        // dropRates's indexes would be 6, 7 instead of 0, 1
+        $currencyDropRatesTable = $currencyDropRatesTable->values();
+
+        $response = [
+            'dropRates' => $currencyDropRatesTable,
+            'bag' => $bag,
+        ];
+        
+        return response()->json($response);
+    }
+
+    public function getBags(){
+
+    }
+
     // *
     // * LAURELS
     // *

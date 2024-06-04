@@ -6,6 +6,7 @@ use App\Http\Controllers\FetchController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\UserController;
+use App\Models\Currencies;
 use Illuminate\Auth\Events\CurrentDeviceLogout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +52,9 @@ Route::get('/recipes/search-recipes', [RecipeController::class, 'searchRecipes']
 // *
 // * CURRENCIES
 // *
+Route::get('/currencies/{filter}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'currencies']);
+
+
 // * LAURELS
 Route::get('/currencies/laurel/{sellOrderSetting}/{tax}', [CurrencyController::class, 'laurel']);
 // * RESEARCH NOTES
