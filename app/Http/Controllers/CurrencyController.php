@@ -100,14 +100,28 @@ class CurrencyController extends Controller
         ->groupBy('bag_id');
 
         $bag = []; 
+        $multipleCurrencies = false; 
+
+        // Check if $filter has two or more currencies attached
+        // If yes => create a new $filter array separating the two 
+        // If no => continue
+        if (strpos($filter[0], ',') == true){
+            $filter = explode(",", $filter[0]); 
+            $multipleCurrencies = true; 
+        }
 
         foreach ($currencyDropRatesTable as $group){
+            // Variables pushed into $bag array to display additional info for the frontend
             $value = 0;
             $total = 0;
             $bagName = '';
             $icon = '';
+            $fee = 0;
             $profitPerBag = 0; 
-            $currencyPerBag = 0;
+            $currency = '';
+
+            $currencyPerBag = [0];
+            $costOfCurrencyPerBag = [-1]; 
 
             foreach ($group as $item){
                 
@@ -117,22 +131,53 @@ class CurrencyController extends Controller
                 $total += $value; 
                 $bagName = $item->bag_name; 
                 $icon = $item->bag_icon; 
-
+                $currency = $filter;
                 
             }  
+            // Change $fee and/or $costofCurrencyPerBag based on bag category
             switch (true){
                 case in_array('Volatile Magic', $filter):
-                    $profitPerBag = $total - 10000; 
-                    $currencyPerBag = $profitPerBag / 250; 
+                    $fee = 10000; 
+                    $costOfCurrencyPerBag[0] = 250;
+                    
+                    break;
+                
+                case in_array('Unbound Magic', $filter): 
+                    if ($bagName == 'Magic-Warped Packet'){
+                        $fee = 5000;
+                        $costOfCurrencyPerBag[0] = 250; 
+                    }
+                    if ($bagName == 'Magic-Warped Bundle'){
+                        $fee = 4000;
+                        $costOfCurrencyPerBag[0] = 1250; 
+                    }
+                    break;
+
+                case in_array('Trade Contract', $filter):
+                    $costOfCurrencyPerBag[0] = 50;
+
+                    if (in_array('Karma', $filter)){
+                        $costOfCurrencyPerBag[1] = 630; 
+                    }
                     break;
             }
+            // Final calculations per bag
+            $profitPerBag = $total - $fee; 
+
+            foreach ($costOfCurrencyPerBag as $index => $currencyCost){
+                $currencyPerBag[$index] = $profitPerBag / $currencyCost; 
+            }
+            
 
             array_push($bag, [
                 'total' => $total,
                 'name' => $bagName,
                 'icon' => $icon,
+                'fee' => $fee,
                 'profitPerBag' => $profitPerBag,
+                'currency' => $currency,
                 'currencyPerBag' => $currencyPerBag,
+                'costOfCurrencyPerBag' => $costOfCurrencyPerBag,  
             ]);
         }
         // Reindex array otherwise it would start at bag_id 

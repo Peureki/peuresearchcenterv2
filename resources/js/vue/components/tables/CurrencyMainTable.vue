@@ -70,18 +70,19 @@
                     *
                 -->
                 <th 
+                    v-for="(currency, index) in bags[0].currency"
                     @click="
-                        toggleActive(2, sortActive);
-                        toggleSortOrder(2, sortOrder);
-                        sortTable('currency-table', 2, 'gold', sortOrder);
+                        toggleActive(index + 2, sortActive);
+                        toggleSortOrder(index + 2, sortOrder);
+                        sortTable('currency-table', index + 2, 'gold', sortOrder);
                     "
                 >
                     <span class="sortable-column">
-                        <img :src="currencyIcon" :alt="alt" :title="alt">
+                        <img :src="currencyIcon" :alt="currency" :title="currency">
                         <svg
                             class="sort-arrow active" 
-                            :ref="el => sortActive[2] = el" 
-                            :style="{transform: sortOrder[2] == 'descending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
+                            :ref="el => sortActive[index + 2] = el" 
+                            :style="{transform: sortOrder[index + 2] == 'descending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
                             width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
                         >
                             <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
@@ -119,7 +120,10 @@
             <tr v-for="(bag, index) in bags">
                 <!-- Bag Name -->
                 <td
+                    class="bag-name"
+                    :ref="el => detailsActive[index] = el"
                     @click="
+                        toggleActive(index, detailsActive);
                         $emit('detailsToggle');
                         $emit('getDetails', index)
                     "
@@ -136,9 +140,12 @@
                     
                 </td>
                 <!-- Currency Value -->
-                <td class="gold">
+                <td 
+                    v-for="(currencyPerBag, index) in bag.currencyPerBag"
+                    class="gold"
+                >
                     <span class="gold-label-container">
-                        <span class="gold-label" v-for="gold in formatValue(bag.currencyPerBag)">
+                        <span class="gold-label" v-for="gold in formatValue(currencyPerBag)">
                             {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                         </span>
                     </span>
@@ -163,8 +170,7 @@
 import { ref, onMounted, nextTick, watch } from 'vue'
 
 import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
-import { rotate90 } from '@/js/vue/composables/AnimateFunctions.js'
-import { sortTable, setHoverBorder, toggleSortOrder, toggleActive } from '@/js/vue/composables/TableFunctions.js'
+import { sortTable, toggleSortOrder, toggleActive } from '@/js/vue/composables/TableFunctions.js'
 
 
 const props = defineProps({
@@ -175,26 +181,45 @@ const props = defineProps({
     otherAlt: String,
 })
 
-const sortActive = ref([]), 
+const detailsActive = ref([]),
+    sortActive = ref([]), 
     sortOrder = ref([]);
 
+console.log('main table: ', props.bags[0].currency);
 
-// onMounted(() => {
-//     setTimeout(() => {
-//         if (props.bags){
-//             toggleActive(2, sortActive.value);
-//             sortOrder.value[2] = 'descending';
-//             sortTable('currency-table', 2, 'gold', sortOrder.value);
-//         }
-//     }, 2000)
-// })
-
-watch(() => props.bags, (newVal, oldVal) => {
+watch(() => props.bags, async (newVal, oldVal) => {
     if (newVal) {
+        await nextTick(); 
         toggleActive(2, sortActive.value);
         sortOrder.value[2] = 'descending';
         sortTable('currency-table', 2, 'gold', sortOrder.value);
     }
 });
 
+
+
+
+
 </script>
+
+<style scoped>
+
+.bag-name{
+    cursor: pointer;
+    position: relative;
+}
+.bag-name.active::before{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-width: 0 0 10px 10px;
+    border-style: solid;
+    border-color: transparent transparent transparent var(--color-link);
+    transform: rotate(180deg);
+    z-index: 1000;
+}
+
+</style>

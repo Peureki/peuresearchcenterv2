@@ -1,10 +1,8 @@
 <template>
-    <table 
-        class="currency-details-table"
-    >
+    <table class="currency-details-table">
         <thead>
             <tr>
-                <th colspan="100%"><h4>{{ bag.name }} Details </h4></th>
+                <th colspan="100%"><h4>Details</h4></th>
             </tr>
             <tr>
                 <th 
@@ -72,9 +70,9 @@
                 * BAG CONTENT
                 *
             -->
-            <tr v-for="mat in bagContent">
+            <tr v-for="mat in bag">
                 <td><img :src="mat.icon" :alt="mat.name" :title="mat.name"> {{ mat.name }}</td>
-                <td class="text-right">{{ formatPercentage(mat.dropRate) }}</td>
+                <td class="text-right">{{ formatPercentage(mat.drop_rate) }}</td>
                 <td class="gold">
                     <span class="gold-label-container">
                         <span class="gold-label" v-for="gold in formatValue(mat.value)">
@@ -92,7 +90,7 @@
                 <td class="total" colspan="100%">
                     <span>Sample size: </span>
                     <span class="float-right">
-                        {{ bag.sampleSize }}
+                        {{ bag[0].sample_size }}
                     </span>
                 </td>
             </tr>
@@ -105,7 +103,7 @@
                 <td class="total" colspan="100%">
                     <span>Total: </span>
                     <span class="float-right">
-                        <span v-for="gold in formatValue(bag.total)">
+                        <span v-for="gold in formatValue(bags.total)">
                             {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                         </span>
                     </span>
@@ -113,14 +111,14 @@
             </tr>
             <!--
                 *
-                * COST PER BAG
+                * FEE
                 *
             -->
             <tr class="row-offset">
                 <td class="cost" colspan="100%">
-                    <span>Cost per bag:</span>
+                    <span>Fee:</span>
                     <span class="float-right">
-                        <span v-for="gold in formatValue(bag.costPerBag)">
+                        <span v-for="gold in formatValue(bags.fee)">
                             {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                         </span>
                     </span>
@@ -135,7 +133,7 @@
                 <td class="total" colspan="100%">
                     <span>Profit per bag:</span>
                     <span class="float-right">
-                        <span v-for="gold in formatValue(bag.profitPerBag)">
+                        <span v-for="gold in formatValue(bags.profitPerBag)">
                             {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                         </span>
                     </span>
@@ -148,9 +146,9 @@
             -->
             <tr class="row-offset">
                 <td class="cost" colspan="100%">
-                    <span>{{ currencyName }} per bag:</span>
+                    <span>{{ bags.currency }} per bag:</span>
                     <span class="float-right">
-                        -{{ bag.costOfCurrencyPerBag }}<img :src="currencyIcon" :alt="alt" :title="alt">
+                        -{{ bags.costOfCurrencyPerBag }}<img :src="currencyIcon" :alt="alt" :title="alt">
                     </span> 
                 </td>
             </tr>
@@ -162,11 +160,11 @@
             <tr class="row-offset">
                 <td class="total" colspan="100%">
                     <span>
-                        Profit per {{ currencyName }}
+                        Profit per {{ bags.currency }}
                         <img :src="currencyIcon" :alt="alt" :title="alt">:
                     </span>
                     <span class="float-right">
-                        <span v-for="gold in formatValue(bag.currencyValue)">
+                        <span v-for="gold in formatValue(bags.currencyPerBag)">
                             {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                         </span>
                     </span>
@@ -208,14 +206,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, nextTick } from 'vue'
 
 import { formatValue, formatPercentage } from '@/js/vue/composables/FormatFunctions.js'
 import { sortTable, setHoverBorder, toggleSortOrder, toggleActive } from '@/js/vue/composables/TableFunctions.js'
 
 const props = defineProps({
     tableToggle: Boolean,
-    tableName: Object,
     currencyName: String,
     currencyIcon: String,
     alt: String,
@@ -223,20 +220,31 @@ const props = defineProps({
     otherCurrencyIcon: String,
     otherAlt: String,
     bag: Object,
-    bagContent: Object,
+    bags: Object,
 })
-
-const currencyDetails = ref(null);
 
 const sortActive = ref([]), 
     sortOrder = ref([]);
 
+const triggleSort = async () => {
+    await nextTick(); 
+    toggleActive(2, sortActive.value);
+    sortOrder.value[2] = 'descending'; 
+    sortTable('currency-details-table', 2, 'gold', sortOrder.value);
+}
+
 onMounted(() => {
     if (props.tableToggle){
-        toggleActive(2, sortActive.value);
-        sortOrder.value[2] = 'descending'; 
-        sortTable('currency-details-table', 2, 'gold', sortOrder.value);
+        triggleSort(); 
     }  
 })
+
+watch(() => props.bag, async (newVal, oldVal) => {
+    if (newVal){
+        triggleSort(); 
+    }
+})
+
+
 
 </script>

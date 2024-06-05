@@ -1,9 +1,8 @@
 <template>
     <Nav/>
     <main>
-        <Header :page-name="currencyName"/>
+        <Header page-name="Unbound Magic"/>
     
-        
         <TwoColSection>
             <template
                 v-slot:loading1
@@ -12,39 +11,29 @@
                 <Loading :width="200" :height="200"/>
             </template>
 
-            <template 
-                v-if="bags && bags != null"
+            <template
                 v-slot:table1
+                v-if="bags || bags == null"
             >
                 <CurrencyMainTable
                     :bags="bags"
-                    :currency-icon="CurrencyIcon" alt="Unbound Magic"
+                    :currency-icon="CurrencyIcon"
                     @details-toggle="detailsToggle = true"
-                    @get-populate-bag-details="getPopulateBagDetails"
+                    @get-details="getBagDetails"
                 />
             </template>
 
             <template
-                v-slot:loading2
-                v-if="detailsToggle && !bagContent"
-            >
-                <Loading :width="200" :height="200"/>
-            </template>
-
-            <template 
-                v-if="detailsToggle && bagContent && bagContent != null"
                 v-slot:table2
+                v-if="detailsToggle"
             >
                 <CurrencyDetailsTable
                     :table-toggle="detailsToggle"
-                    :currency-name="currencyName"
-                    :currency-icon="CurrencyIcon" alt="Unbound Magic"
-                    :bag="bag"
-                    :bag-content="bagContent"
+                    :bag="bagDetails"
+                    :bags="bags[bagIndex]"
+                    :currency-icon="CurrencyIcon"
                 />
             </template>
-            
-            
         </TwoColSection>
 
         <p>Unbound Magic is a currency from and obtained mainly from LS4 maps. Shipments can be purchased at every LS4 map that has the VM symbol above their head. Istan, Sandswept, Kourna, and Dragonfall has their vendors when you spawn using their Teleport Scroll or from their main waypoint.</p>
@@ -65,29 +54,38 @@ import CurrencyIcon from '@/imgs/icons/Unbound_Magic.png'
 import CurrencyMainTable from '@/js/vue/components/tables/CurrencyMainTable.vue'
 import CurrencyDetailsTable from '@/js/vue/components/tables/CurrencyDetailsTable.vue'
 
-import { sortTable, populateMainTable, populateCurrencyDetails } from '@/js/vue/composables/TableFunctions'
+import { encodeArray } from '@/js/vue/composables/BasicFunctions'
 
-// Name of the currency
-const currencyName = ref('Unbound Magic');
-// Toggle for the details table
-// This gets triggered within the main table
-const detailsToggle = ref(false);
-// Initalize for main table 
-const url = `../api/currencies/unbound-magic/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`,
-    bags = ref(null);
+// Initialize which bag to showcase + url to fetch data
+const targetBag = ['Unbound Magic'];
+const url = `../api/currencies/${encodeArray(targetBag)}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
 
-// Initalize for bag details table
-const bag = ref(null),
-    bagContent = ref(null),
-    sortDetails = () => sortTable('currency-details-table', 2, 'gold', 'descending');
-// Emitted from the main table
-// Set the individual bag values to a ref and populate details table
-const getPopulateBagDetails = (individualBag) => {
-    bag.value = individualBag;
-    populateCurrencyDetails(individualBag, bagContent, sortDetails); 
+// Initialize data storage
+const bags = ref(null),
+    dropRates = ref(null); 
+
+// Initialize details table variables
+const detailsToggle = ref(false),
+    bagDetails = ref(null),
+    bagIndex = ref(null); 
+
+// Get bags from Currency Controller via currencies() 
+const getBags = async () => {
+    const response = await fetch(url); 
+    const data = await response.json(); 
+
+    bags.value = data.bag; 
+    dropRates.value = data.dropRates; 
+}
+// Emitted from clicking on one of the bags
+// Returned index of the bag from the index of response.json() 
+// Use that same index of bags.value for dropRates.value to get respective drops 
+const getBagDetails = (index) => {
+    bagDetails.value = dropRates.value[index]; 
+    bagIndex.value = index; 
 }
 
-populateMainTable(url, bags);
+getBags(); 
 
 </script>
 
