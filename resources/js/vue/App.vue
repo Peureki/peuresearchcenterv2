@@ -128,6 +128,7 @@ nav{
     overflow-x: hidden;
     overflow-y: scroll;
     width: var(--nav-width);
+    background-color: var(--color-bkg);
     /* padding-left: var(--nav-padding); */
     z-index: 100000;
 }
@@ -725,8 +726,8 @@ span.gold-label img{
     --color-subheader: #79EB94;
     --color-up: #5ED625;
     --color-down: #EC004D;
-    --color-positive: #acdeb6;
-    --color-negative: #daa8a8;
+    --color-positive: #11BC1E;
+    --color-negative: #A56464;
     --color-positive-faded: rgb(82, 255, 0, 0.2);
     --color-negative-faded:rgb(255, 0, 0, 0.2);
     --color-rarity-fine: #4f9dfe;
@@ -746,16 +747,16 @@ span.gold-label img{
 
     --font-family: 'Rubik', sans-serif;
 
-    --border-general: 2px solid #5f6062;
+    --border-general: 2px solid #3D3F42;
     --border-hidden: 2px solid rgb(95, 96, 98, 0);
-    --border-bottom: 2px solid #5f6062;
+    --border-bottom: 2px solid #3D3F42;
     --border-button-link: 2px solid #ffd12c;
     --border-bottom-link: 2px solid #ffd12c;
     --border-event-up: 4px solid #5ED625;
     --border-event-upcoming: 4px solid #FFB64A;
     --border-event-overdue: 4px solid #EC004D;
     --border-event-meta: 4px solid #76E9E1;
-    --border-tooltip: 2px solid #5f6062;
+    --border-tooltip: 2px solid #3D3F42;
     --border-positive: 2px solid #5ED625;
     --border-negative: 2px solid #EC004D;
     

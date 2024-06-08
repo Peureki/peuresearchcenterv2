@@ -5,6 +5,7 @@ use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\FetchController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\SalvageableController;
 use App\Http\Controllers\UserController;
 use App\Models\Currencies;
 use Illuminate\Auth\Events\CurrentDeviceLogout;
@@ -42,12 +43,14 @@ Route::get('/fetch-recipes', [FetchController::class, 'fetchRecipes']);
 Route::get('/fetch-recipe-trees', [FetchController::class, 'fetchRecipeTrees']);
 Route::get('/fetch-recipe-values', [FetchController::class, 'fetchRecipeValues']);
 Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
+Route::get('/fetch-salvageables', [FetchController::class, 'fetchSalvageables']);
 
 // *
 // * TOOLS
 // *
 Route::get('/recipes/{request}/{id}/{quantity}', [RecipeController::class, 'getRecipeValues']);
 Route::get('/recipes/search-recipes', [RecipeController::class, 'searchRecipes']);
+Route::get('/tools/salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'salvageables']);
 
 // *
 // * CURRENCIES

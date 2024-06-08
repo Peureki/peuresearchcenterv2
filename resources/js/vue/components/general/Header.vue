@@ -1,6 +1,6 @@
 <template>
     <header>
-        <h1 id="page-header">{{ pageName }}</h1>
+        <h1>{{ pageName }}</h1>
     </header>
 </template>
 
@@ -11,3 +11,12 @@ const props = defineProps({
 })
 
 </script>
+
+<style scoped>
+
+header{
+    padding-left: var(--nav-width);
+    border-bottom: var(--border-general);
+}
+
+</style>

@@ -223,3 +223,11 @@ export async function getPage(url, dataArray, refLoading){
     }
 }
 
+export async function getBags(url, bags, dropRates){
+    const response = await fetch(url); 
+    const data = await response.json(); 
+
+    bags.value = data.bag; 
+    dropRates.value = data.dropRates; 
+}
+

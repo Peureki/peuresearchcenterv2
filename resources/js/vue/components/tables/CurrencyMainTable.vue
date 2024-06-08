@@ -78,36 +78,11 @@
                     "
                 >
                     <span class="sortable-column">
-                        <img :src="currencyIcon" :alt="currency" :title="currency">
+                        <img :src="currencyIcons[index]" :alt="currency" :title="currency">
                         <svg
                             class="sort-arrow active" 
                             :ref="el => sortActive[index + 2] = el" 
                             :style="{transform: sortOrder[index + 2] == 'descending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
-                            width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
-                        </svg>
-                    </span> 
-                </th>
-                <!-- 
-                    *
-                    * OTHER CURRENCY HEADER
-                    * Apply only if it exists
-                -->
-                <th 
-                    v-if="otherCurrencyIcon"
-                    @click="
-                        toggleActive(3, sortActive);
-                        toggleSortOrder(3, sortOrder);
-                        sortTable('currency-table', 3, 'gold', sortOrder);
-                    "
-                >
-                    <span class="sortable-column">
-                        <img :src="otherCurrencyIcon" :alt="otherAlt" :title="otherAlt">
-                        <svg
-                            class="sort-arrow active" 
-                            :ref="el => sortActive[3] = el" 
-                            :style="{transform: sortOrder[3] == 'descending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
                             width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
                         >
                             <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
@@ -175,26 +150,26 @@ import { sortTable, toggleSortOrder, toggleActive } from '@/js/vue/composables/T
 
 const props = defineProps({
     bags: Object, 
-    currencyIcon: String,
+    currencyIcons: Object, 
     alt: String,
     otherCurrencyIcon: String,
     otherAlt: String,
 })
 
+console.log(props.bags)
+
 const detailsActive = ref([]),
     sortActive = ref([]), 
     sortOrder = ref([]);
 
-console.log('main table: ', props.bags[0].currency);
-
-watch(() => props.bags, async (newVal, oldVal) => {
-    if (newVal) {
-        await nextTick(); 
+onMounted(() => {
+    if (props.bags){
         toggleActive(2, sortActive.value);
         sortOrder.value[2] = 'descending';
         sortTable('currency-table', 2, 'gold', sortOrder.value);
     }
-});
+})
+
 
 
 

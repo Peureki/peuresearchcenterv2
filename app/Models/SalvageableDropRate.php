@@ -5,19 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CurrencyBagDropRates extends Model
+class SalvageableDropRate extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'id',
-        'bag_id',
         'item_id',
+        'salvageable_id',
         'drop_rate',
     ];
 
-    public function bag(){
-        return $this->belongsTo(Bag::class);
+    // *
+    // * FOREIGN KEYS
+    // * 
+
+    public function salvageable(){
+        return $this->belongsTo(Salvageable::class);
     }
 
     public function item(){

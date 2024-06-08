@@ -136,6 +136,11 @@ class CurrencyController extends Controller
             }  
             // Change $fee and/or $costofCurrencyPerBag based on bag category
             switch (true){
+                case in_array('Laurel', $filter):
+                    $fee = 0;
+                    $costOfCurrencyPerBag[0] = 1;
+                    break;
+            
                 case in_array('Volatile Magic', $filter):
                     $fee = 10000; 
                     $costOfCurrencyPerBag[0] = 250;

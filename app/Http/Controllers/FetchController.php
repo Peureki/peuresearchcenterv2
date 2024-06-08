@@ -15,6 +15,8 @@ use App\Models\CurrencyBagDropRates;
 use App\Models\Recipes;
 use App\Models\ResearchNote;
 use App\Models\ResearchNotes;
+use App\Models\Salvageable;
+use App\Models\SalvageableDropRate;
 use App\Models\SampleSize;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -81,14 +83,54 @@ class FetchController extends Controller
         }
     }
 
-    public function fetchBagDropRates(){
-        $api = Http::get('https://script.google.com/macros/s/AKfycbzJGJVi_2GPMaLubmRzKx3WAuDvbo2rWnekz2t6luNCBTRfOIelSPDsac0Vemobobi8eQ/exec'); 
+    public function fetchSalvageables(){
+        $api = Http::get('https://script.google.com/macros/s/AKfycbz9eON6Mrcyib4o_2m9ZkH26ja3LAv0mogd7X3bmWw1iMyx6xn8lEY8-fCGISu4Iidz/exec');
+
         $spreadsheet = $api->json(); 
 
-        foreach ($spreadsheet['bags'] as $index => $bag){
 
+        foreach ($spreadsheet['salvageables'] as $index => $salvageable){
+            Salvageable::updateOrCreate(
+                [
+                    // Since dbs start ids at 1 instead of 0
+                    'id' => $index + 1,
+                    'item_id' => $salvageable['id'], 
+                ],
+                [
+                    'category' => $salvageable['category'],
+                    'sample_size' => $salvageable['sampleSize'],
+                ]
+            );
+
+            $ids = explode(",", $salvageable['item']);
+            $dropRates = explode(',', $salvageable['dr']);
+            
+            foreach ($ids as $key => $id){
+                SalvageableDropRate::updateOrCreate(
+                    [
+                        'item_id' => $id, 
+                        // Match salvageables id table 
+                        'salvageable_id' => $index + 1,
+                    ],
+                    [
+                        'drop_rate' => $dropRates[$key],
+                    ]
+                ); 
+            }
         }
+
     }
+
+    // public function fetchBagDropRates(){
+    //     $api = Http::get('https://script.google.com/macros/s/AKfycbzJGJVi_2GPMaLubmRzKx3WAuDvbo2rWnekz2t6luNCBTRfOIelSPDsac0Vemobobi8eQ/exec'); 
+    //     $spreadsheet = $api->json(); 
+
+    //     foreach ($spreadsheet['bags'] as $index => $bag){
+
+    //     }
+    // }
+
+    
 
     public function fetchCurrencies(){
         $apiIds = Http::get('https://api.guildwars2.com/v2/currencies?ids=all'); 

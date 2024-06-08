@@ -4,6 +4,12 @@ import HomeView from './views/HomeView.vue'
 import BenchmarksMapsView from './views/benchmarks/MapsView.vue'
 import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
 
+/*
+ * 
+ * CURRENCIES
+ * 
+ */
+
 import CurrenciesLaurelView from '@/js/vue/views/currencies/LaurelView.vue'
 import CurrenciesSpiritShardsView from '@/js/vue/views/currencies/SpiritShardsView.vue'
 import CurrenciesTradeContractView from '@/js/vue/views/currencies/TradeContractView.vue'
@@ -17,6 +23,7 @@ import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagic
  */
 import ToolsRecipeValueView from '@/js/vue/views/tools/RecipeValueView.vue'
 import ToolsResearchNotesView from '@/js/vue/views/tools/ResearchNotesView.vue'
+import ToolsSalvageablesView from '@/js/vue/views/tools/SalvageablesView.vue'
 
 
 import TimersAuricBasinView from './views/timers/AuricBasinView.vue'
@@ -95,6 +102,11 @@ const routes = [
         component: ToolsRecipeValueView,
         name: '/:requestedRecipe',
         props: true
+    },
+    {
+        path: '/tools/salvageables',
+        component: ToolsSalvageablesView,
+        name: 'tools-salvageables',
     },
     // *
     // * TIMERS

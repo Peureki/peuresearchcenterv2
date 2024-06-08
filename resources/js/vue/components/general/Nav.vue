@@ -488,6 +488,11 @@
                             <h6>Research Notes</h6>
                         </router-link>
 
+                        <router-link class="page-link" to="/tools/salvageables">
+                            <img src="@/imgs/icons/Piece_of_Unidentified_Gear.png" alt="Salvageables" title="Tools - Salvageables">
+                            <h6>Salvageables</h6>
+                        </router-link>
+
                         
                     </div>   
                 </div>
