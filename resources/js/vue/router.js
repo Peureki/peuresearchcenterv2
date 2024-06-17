@@ -9,7 +9,7 @@ import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
  * CURRENCIES
  * 
  */
-
+import CurrenciesImperialFavorView from '@/js/vue/views/currencies/ImperialFavorView.vue'
 import CurrenciesLaurelView from '@/js/vue/views/currencies/LaurelView.vue'
 import CurrenciesSpiritShardsView from '@/js/vue/views/currencies/SpiritShardsView.vue'
 import CurrenciesTradeContractView from '@/js/vue/views/currencies/TradeContractView.vue'
@@ -83,6 +83,12 @@ const routes = [
         path: '/currencies/volatile-magic',
         component:  CurrenciesVolatileMagicView,
         name: 'currencies-volatile-magic',
+    },
+    // * EOD
+    {
+        path: '/currencies/imperial-favor',
+        component:  CurrenciesImperialFavorView,
+        name: 'currencies-imperial-favor',
     },
     // *
     // * TOOLS

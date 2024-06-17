@@ -11,6 +11,7 @@ use App\Models\ResearchNotes;
 use App\Models\SampleSize;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use PDO;
 
 class CurrencyController extends Controller
 {
@@ -72,7 +73,7 @@ class CurrencyController extends Controller
 
     public function currencies($filter, $sellOrderSetting, $tax){
         // Goal
-        // Get value of volatile magic 
+        // Get value of currencies
         // 
         // Calculate from currency_bag_drop_rates table of each Bag 
         // Get value of each Bag into bags table
@@ -99,27 +100,44 @@ class CurrencyController extends Controller
         ->get()
         ->groupBy('bag_id');
 
+        if (in_array("Unbound Magic", $filter)){
+            foreach ($currencyDropRatesTable as $key => $bag){
+                if ($key == 79186){
+                    $bag->bag_name = "Magic-Warped Bundle (Ember Bay)";
+                    // Duplicate entry in collection
+                    $duplicatedBag = clone $bag; 
+                    $duplicatedBag->bag_name = "Magic-Warped Bundle (Rest)";
+                    $currencyDropRatesTable->push($duplicatedBag);
+                }
+            }
+        }
+
         $bag = []; 
-        $multipleCurrencies = false; 
 
         // Check if $filter has two or more currencies attached
         // If yes => create a new $filter array separating the two 
         // If no => continue
         if (strpos($filter[0], ',') == true){
             $filter = explode(",", $filter[0]); 
-            $multipleCurrencies = true; 
         }
 
-        foreach ($currencyDropRatesTable as $group){
+        foreach ($currencyDropRatesTable as $key => $group){
+            // Check if group contains the attribute "bag_name"
+            if (isset($group->bag_name)){
+                $bagName = $group->bag_name; 
+            } else {
+                $bagName = '';
+            }
             // Variables pushed into $bag array to display additional info for the frontend
             $value = 0;
             $total = 0;
-            $bagName = '';
             $icon = '';
             $fee = 0;
             $profitPerBag = 0; 
             $currency = '';
 
+            // Initialize as an array to potentially store more than 1 currency for a bag
+            // ie Trade Crates use Trade Contracts && Karma
             $currencyPerBag = [0];
             $costOfCurrencyPerBag = [-1]; 
 
@@ -129,13 +147,23 @@ class CurrencyController extends Controller
                 $item->value = $value; 
 
                 $total += $value; 
-                $bagName = $item->bag_name; 
+                // If it's not a specific bag, then declare the current bag name
+                if ($bagName == ''){
+                    $bagName = $item->bag_name; 
+                }
                 $icon = $item->bag_icon; 
                 $currency = $filter;
                 
             }  
-            // Change $fee and/or $costofCurrencyPerBag based on bag category
+
+            // * IMPORTANT
+            // THIS IS WHERE YOU ADD/UPDATE CURRENCY FEES OR COSTS FOR EACH BAG
             switch (true){
+                case in_array('Imperial Favor', $filter):
+                    $fee = 0;
+                    $costOfCurrencyPerBag[0] = 200;
+                    break;
+
                 case in_array('Laurel', $filter):
                     $fee = 0;
                     $costOfCurrencyPerBag[0] = 1;
@@ -152,9 +180,13 @@ class CurrencyController extends Controller
                         $fee = 5000;
                         $costOfCurrencyPerBag[0] = 250; 
                     }
-                    if ($bagName == 'Magic-Warped Bundle'){
+                    if ($bagName == 'Magic-Warped Bundle (Ember Bay)'){
                         $fee = 4000;
                         $costOfCurrencyPerBag[0] = 1250; 
+                    }
+                    if ($bagName == 'Magic-Warped Bundle (Rest)'){
+                        $fee = 10000;
+                        $costOfCurrencyPerBag[0] = 500;
                     }
                     break;
 
@@ -185,10 +217,12 @@ class CurrencyController extends Controller
                 'costOfCurrencyPerBag' => $costOfCurrencyPerBag,  
             ]);
         }
+
         // Reindex array otherwise it would start at bag_id 
         // ie Unbound Magic's bag id's are 6, 7
         // dropRates's indexes would be 6, 7 instead of 0, 1
         $currencyDropRatesTable = $currencyDropRatesTable->values();
+        
 
         $response = [
             'dropRates' => $currencyDropRatesTable,

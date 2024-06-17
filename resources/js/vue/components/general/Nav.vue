@@ -126,7 +126,7 @@
         -->
         <Transition name="fade-right">
             <div v-if="user">
-                <p>Welcome {{ user.name }}</p>
+                <!-- <p>Welcome {{ user.name }}</p> -->
             </div>
         </Transition>
         <!--
@@ -441,6 +441,24 @@
                         <router-link class="page-link" to="/currencies/volatile-magic">
                             <img src="@/imgs/icons/Volatile_Magic.png" alt="Volatile Magic" title="Volatile Magic">
                             <h6>Volatile Magic</h6>
+                        </router-link>
+                    </div>   
+                </div>
+
+                <!--
+                    *
+                    * EOD CURRIENCES
+                    *
+                -->
+                <div class="distinquish-section">
+                    <div class="label" id="eod">
+                        <h6>EOD</h6>
+                    </div>
+
+                    <div class="routes">
+                        <router-link class="page-link" to="/currencies/imperial-favor">
+                            <img src="@/imgs/icons/Imperial_Favor.png" alt="Imperial Favors" title="Imperial Favors">
+                            <h6>Imperial Favor</h6>
                         </router-link>
                     </div>   
                 </div>

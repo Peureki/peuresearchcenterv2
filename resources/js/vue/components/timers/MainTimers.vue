@@ -11,7 +11,7 @@
             <slot name="nodeTrackerModal"></slot>
 
 
-            <div class="map-container">
+            <div class="map-container" ref="mapContainer">
                 <img :src="map" :alt="alt" :title="alt">
                 <div v-for="(event, index) in events" :key="index">
                     <div
@@ -149,12 +149,14 @@ const props = defineProps({
     events: Object,
 })
 
+
 onMounted(() => {
     let scrollContainer = document.querySelector('.map-container'),
         isScrolling = false,
         startX, scrollLeft;
 
     scrollContainer.addEventListener('mousedown', (e) => {
+        e.preventDefault(); 
         isScrolling = true;
         scrollContainer.style.cursor = 'grabbing';
         startX = e.pageX - scrollContainer.offsetLeft;
@@ -175,7 +177,7 @@ onMounted(() => {
         if (!isScrolling) return;
         e.preventDefault();
         const x = e.pageX - scrollContainer.offsetLeft;
-        const walk = (x - startX) * 1.5; // Adjust the multiplier for faster or slower scrolling
+        const walk = (x - startX) * 1; // Adjust the multiplier for faster or slower scrolling
         scrollContainer.scrollLeft = scrollLeft - walk;
     });
 

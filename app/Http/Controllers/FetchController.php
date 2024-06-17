@@ -53,7 +53,6 @@ class FetchController extends Controller
         $api = Http::get('https://script.google.com/macros/s/AKfycbzJGJVi_2GPMaLubmRzKx3WAuDvbo2rWnekz2t6luNCBTRfOIelSPDsac0Vemobobi8eQ/exec'); 
         $spreadsheet = $api->json(); 
 
-
         foreach ($spreadsheet['bags'] as $index => $bag){
             Bag::updateOrCreate(
                 [
@@ -70,6 +69,11 @@ class FetchController extends Controller
             $dropRates = explode(",", $bag['dr']); 
 
             foreach ($ids as $key => $id){
+                $id = trim($id); 
+                if (empty($id)){
+                    continue; 
+                }
+
                 CurrencyBagDropRates::updateOrCreate(
                     [
                         'bag_id' => $bag['id'], 

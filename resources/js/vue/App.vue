@@ -258,6 +258,9 @@ nav section .distinquish-section .label#ls4{
 nav section .distinquish-section .label#soto{
     background-color: var(--color-soto);
 }
+nav section .distinquish-section .label#eod{
+    background-color: var(--color-eod);
+}
 nav section .distinquish-section .routes{
     width: 100%;
 }
@@ -715,6 +718,7 @@ span.gold-label img{
     --color-ls3: #f75277;
     --color-pof: #ec004d;
     --color-ls4: #AF3CC9;
+    --color-eod: #17cbb7;
     --color-soto: #d3a049;
     --color-input-bkg: #ebebeb;
     --color-scrollbar-thumb: #88888a;
