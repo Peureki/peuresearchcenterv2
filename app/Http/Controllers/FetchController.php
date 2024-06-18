@@ -10,6 +10,7 @@ use App\Jobs\Fetches\FetchRecipeValues;
 use App\Models\Items;
 use App\Models\Bag;
 use App\Models\Benchmarks;
+use App\Models\ContainerDropRate;
 use App\Models\Currencies;
 use App\Models\CurrencyBagDropRates;
 use App\Models\Recipes;
@@ -69,6 +70,8 @@ class FetchController extends Controller
             $dropRates = explode(",", $bag['dr']); 
 
             foreach ($ids as $key => $id){
+                // In the spreadsheet, there may be blank entries
+                // Trim them and skip if there is any
                 $id = trim($id); 
                 if (empty($id)){
                     continue; 
@@ -84,6 +87,64 @@ class FetchController extends Controller
                     ]
                 );
             }
+        }
+    }
+
+    public function fetchContainers(){
+        $api = Http::get('https://script.google.com/macros/s/AKfycbx7pz5kg1wGJZF938M9f7rjxfkHRV7b-DgpmGQcnm5MgPU-kgWA7umpcT_DKkVQkEpsKg/exec'); 
+        $spreadsheet = $api->json(); 
+
+        foreach ($spreadsheet['containers'] as $container){
+            Bag::updateOrCreate(
+                [
+                    'id' => $container['id'],
+                ],
+                [
+                    'category' => $container['category'],
+                    'sample_size' => $container['sampleSize'],
+                ]
+            ); 
+
+            $items = explode(",", $container['item']); 
+            $itemDrs = explode(",", $container['itemDr']); 
+
+            foreach ($items as $key => $item){
+                // In the spreadsheet, there may be blank entries
+                // Trim them and skip if there is any
+                $id = trim($item); 
+                if (empty($item)){
+                    continue; 
+                }
+
+                ContainerDropRate::updateOrCreate(
+                    [
+                        'bag_id' => $container['id'], 
+                        'item_id' => $id,
+                    ],
+                    [
+                        'drop_rate' => $itemDrs[$key],
+                    ]
+                );
+            }
+
+            if (!empty($container['currency'])){
+                $currencies = explode(",", $container['currency']);
+                $currenciesDrs = explode(",", $container['currencyDr']); 
+
+                foreach ($currencies as $key => $currency){
+                    ContainerDropRate::updateOrCreate(
+                        [
+                            'bag_id' => $container['id'],
+                            'currency_id' => $currency,
+                        ],
+                        [
+                            'drop_rate' => $currenciesDrs[$key],
+                        ]
+                    );
+                }
+            }
+
+            
         }
     }
 

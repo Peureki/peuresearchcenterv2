@@ -27,6 +27,8 @@ const targetBag = ['Imperial Favor'];
 const currencyIcons = [ImperialFavor];
 const url = `../api/currencies/${encodeArray(targetBag)}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
 
+console.log(url);
+
 // Initialize data storage
 const bags = ref(null),
     dropRates = ref(null); 

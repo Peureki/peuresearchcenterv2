@@ -44,6 +44,7 @@ Route::get('/fetch-recipe-trees', [FetchController::class, 'fetchRecipeTrees']);
 Route::get('/fetch-recipe-values', [FetchController::class, 'fetchRecipeValues']);
 Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 Route::get('/fetch-salvageables', [FetchController::class, 'fetchSalvageables']);
+Route::get('/fetch-containers', [FetchController::class, 'fetchContainers']);
 
 // *
 // * TOOLS

@@ -100,6 +100,12 @@ class CurrencyController extends Controller
         ->get()
         ->groupBy('bag_id');
 
+        // FOR BAGS THAT HAVE MULTIPLE CONVERSIONS
+        // Check specific bag that has the multiple conversions
+        // Get the ID of the bag 
+        // Add bag_name to the collection of the original bag
+        // Clone bag
+        // Add bag_name to the new one to differentiate 
         if (in_array("Unbound Magic", $filter)){
             foreach ($currencyDropRatesTable as $key => $bag){
                 if ($key == 79186){
@@ -122,7 +128,7 @@ class CurrencyController extends Controller
         }
 
         foreach ($currencyDropRatesTable as $key => $group){
-            // Check if group contains the attribute "bag_name"
+            // Check if group contains the attribute "bag_name" for bags with multiple conversions 
             if (isset($group->bag_name)){
                 $bagName = $group->bag_name; 
             } else {
@@ -142,10 +148,16 @@ class CurrencyController extends Controller
             $costOfCurrencyPerBag = [-1]; 
 
             foreach ($group as $item){
-                
-                $value = ($item->$sellOrderSetting * $tax) * ($item->drop_rate); 
-                $item->value = $value; 
 
+
+                if ($item->type == "Container" && strpos($item->description, 'Salvage') === false){
+                    $value = $this->getContainerValue($item->item_id, $sellOrderSetting, $tax); 
+                } else {
+                    $value = ($item->$sellOrderSetting * $tax) * ($item->drop_rate); 
+                }
+                
+                
+                $item->value = $value; 
                 $total += $value; 
                 // If it's not a specific bag, then declare the current bag name
                 if ($bagName == ''){

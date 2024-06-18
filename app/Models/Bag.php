@@ -15,8 +15,15 @@ class Bag extends Model
         'sample_size',
     ];
 
+    // *
+    // * RELATIONSHIPS
+    // * 
     public function bagDropRate(){
         return $this->hasOne(BagDropRate::class); 
+    }
+
+    public function containerDropRate(){
+        return $this->hasOne(ContainerDropRate::class); 
     }
 
     // *

@@ -16,4 +16,12 @@ class Currencies extends Model
         'order',
         'value',
     ];
+
+    // *
+    // * RELATIONSHIPS
+    // * 
+    public function containerDropRate(){
+        return $this->hasMany(ContainerDropRate::class); 
+    }
+
 }

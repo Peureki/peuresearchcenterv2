@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bag;
+use App\Models\CurrencyBagDropRates;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -76,5 +78,22 @@ class Controller extends BaseController
             $sellOrderSetting = 'sell_price';
         }
         return $sellOrderSetting;
+    }
+
+    protected function getContainerValue($containerID, $sellOrderSetting, $tax){
+        $dropRatesTable = CurrencyBagDropRates::
+        where('bag_id', $containerID)
+        ->join('items', 'currency_bag_drop_rates.item_id', '=', 'items.id')
+        ->get();
+        ; 
+
+        $value = 0; 
+
+        foreach ($dropRatesTable as $item){
+            $value += ($item->$sellOrderSetting * $tax) * ($item->drop_rate); 
+        }
+
+        return $value; 
+
     }
 }
