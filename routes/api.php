@@ -44,6 +44,7 @@ Route::get('/fetch-recipe-trees', [FetchController::class, 'fetchRecipeTrees']);
 Route::get('/fetch-recipe-values', [FetchController::class, 'fetchRecipeValues']);
 Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 Route::get('/fetch-salvageables', [FetchController::class, 'fetchSalvageables']);
+Route::get('/fetch-mixed-salvageables', [FetchController::class, 'fetchMixedSalvageables']);
 Route::get('/fetch-containers', [FetchController::class, 'fetchContainers']);
 
 // *
@@ -52,6 +53,7 @@ Route::get('/fetch-containers', [FetchController::class, 'fetchContainers']);
 Route::get('/recipes/{request}/{id}/{quantity}', [RecipeController::class, 'getRecipeValues']);
 Route::get('/recipes/search-recipes', [RecipeController::class, 'searchRecipes']);
 Route::get('/tools/salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'salvageables']);
+Route::get('/tools/mixed-salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'mixedSalvageables']);
 
 // *
 // * CURRENCIES

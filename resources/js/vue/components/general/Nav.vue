@@ -142,7 +142,7 @@
             *
         -->
         <Transition name="fade-right">
-            <section v-if="settingsToggle">
+            <div v-if="settingsToggle">
                 <article class="shortcut-container">
                     <h3>Settings</h3>
                     <div class="settings-button-container">
@@ -228,7 +228,7 @@
                     
                 </article>
             
-            </section>
+            </div>
         </Transition>
 
         <!--
@@ -330,7 +330,7 @@
         </header>
 
         <Transition name="fade-right">
-            <section v-if="benchmarksToggle">
+            <div v-if="benchmarksToggle">
                 <router-link class="page-link" to="/benchmarks/maps">
                     <img src="@/imgs/icons/Commander_Icon.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                     <h6>Maps</h6>
@@ -355,7 +355,7 @@
                     <img src="../../../imgs/icons/Guild_Armorer.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                     <h6>Alt Parking</h6>
                 </router-link> -->
-            </section>
+            </div>
         </Transition>
 
         <!--
@@ -375,7 +375,7 @@
         </header>
 
         <Transition name="fade-right">
-            <section v-if="curriencesToggle">
+            <div v-if="curriencesToggle">
                 <!--
                     *
                     * CORE CURRIENCES
@@ -462,7 +462,7 @@
                         </router-link>
                     </div>   
                 </div>
-            </section>
+            </div>
         </Transition>
 
         <!--
@@ -482,7 +482,7 @@
         </header>
 
         <Transition name="fade-right">
-            <section v-if="toolsToggle">
+            <div v-if="toolsToggle">
                 <!--
                     *
                     * HOT TIMERS
@@ -514,7 +514,7 @@
                         
                     </div>   
                 </div>
-            </section>
+            </div>
         </Transition>
 
         <!--
@@ -534,7 +534,7 @@
         </header>
 
         <Transition name="fade-right">
-            <section v-if="timersToggle">
+            <div v-if="timersToggle">
                 <!--
                     *
                     * HOT TIMERS
@@ -665,7 +665,7 @@
                         </router-link>
                     </div>   
                 </div>
-            </section>
+            </div>
         </Transition>
     </nav>
 </template>

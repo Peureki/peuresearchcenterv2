@@ -5,27 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Currencies extends Model
+class MixedSalvageable extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'id',
-        'name',
-        'description',
-        'icon',
-        'order',
-        'value',
+        'item_id',
+        'category',
+        'sample_size',
     ];
-
     // *
     // * RELATIONSHIPS
     // * 
-    public function containerDropRate(){
-        return $this->hasMany(ContainerDropRate::class); 
+    public function mixedSalvageableDropRate(){
+        return $this->hasOne(MixedSalvageableDropRate::class); 
+    }
+    // *
+    // * FOREIGN KEY
+    // * 
+    public function item(){
+        return $this->belongsTo(Items::class); 
     }
 
-    public function mixedSalvageableDropRate(){
-        return $this->hasMany(MixedSalvageableDropRate::class); 
-    }
 
 }

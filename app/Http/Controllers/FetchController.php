@@ -13,6 +13,8 @@ use App\Models\Benchmarks;
 use App\Models\ContainerDropRate;
 use App\Models\Currencies;
 use App\Models\CurrencyBagDropRates;
+use App\Models\MixedSalvageable;
+use App\Models\MixedSalvageableDropRate;
 use App\Models\Recipes;
 use App\Models\ResearchNote;
 use App\Models\ResearchNotes;
@@ -145,6 +147,63 @@ class FetchController extends Controller
             }
 
             
+        }
+    }
+
+    public function fetchMixedSalvageables(){
+        $api = Http::get('https://script.google.com/macros/s/AKfycbxaXtnCWj88LEF06AqHMYF9TM_UPZcJIi8wcfKDiWYJb0ablcsoJBiB5dkBQot5SnJ-/exec');
+
+        $spreadsheet = $api->json(); 
+
+        foreach ($spreadsheet['mixedSalvageables'] as $index => $salvageable){
+            MixedSalvageable::updateOrCreate(
+                [
+                    'item_id' => $salvageable['id'], 
+                ],
+                [
+                    'category' => $salvageable['category'],
+                    'sample_size' => $salvageable['sampleSize'],
+                ]
+            );
+
+            $items = explode(",", $salvageable['item']); 
+            $itemDrs = explode(",", $salvageable['itemDr']); 
+
+            foreach ($items as $key => $item){
+                // In the spreadsheet, there may be blank entries
+                // Trim them and skip if there is any
+                $id = trim($item); 
+                if (empty($item)){
+                    continue; 
+                }
+
+                MixedSalvageableDropRate::updateOrCreate(
+                    [
+                        'mixed_salvageable_id' => $index + 1, 
+                        'item_id' => $id,
+                    ],
+                    [
+                        'drop_rate' => $itemDrs[$key],
+                    ]
+                );
+            }
+
+            if (!empty($salvageable['currency'])){
+                $currencies = explode(",", $salvageable['currency']);
+                $currenciesDrs = explode(",", $salvageable['currencyDr']); 
+
+                foreach ($currencies as $key => $currency){
+                    MixedSalvageableDropRate::updateOrCreate(
+                        [
+                            'mixed_salvageable_id' => $index + 1,
+                            'currency_id' => $currency,
+                        ],
+                        [
+                            'drop_rate' => $currenciesDrs[$key],
+                        ]
+                    );
+                }
+            }
         }
     }
 

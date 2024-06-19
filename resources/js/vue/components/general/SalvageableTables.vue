@@ -27,8 +27,6 @@ const props = defineProps({
 </script>
 
 <style scoped>
-section{
-    padding-left: var(--nav-width);
-}
+
 
 </style>

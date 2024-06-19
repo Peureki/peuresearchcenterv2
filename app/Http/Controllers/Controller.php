@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bag;
+use App\Models\ContainerDropRate;
 use App\Models\CurrencyBagDropRates;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -80,10 +81,13 @@ class Controller extends BaseController
         return $sellOrderSetting;
     }
 
+    // GET CONTAINER VALUE
+    // ie. Bag of Fish in Bounty of New Kaineng City bag
+    // Get the value of a container that's within another bag since these container have their own drop tables and loot and not a straight up sell price
     protected function getContainerValue($containerID, $sellOrderSetting, $tax){
-        $dropRatesTable = CurrencyBagDropRates::
+        $dropRatesTable = ContainerDropRate::
         where('bag_id', $containerID)
-        ->join('items', 'currency_bag_drop_rates.item_id', '=', 'items.id')
+        ->join('items', 'container_drop_rates.item_id', '=', 'items.id')
         ->get();
         ; 
 
