@@ -40,10 +40,6 @@ class SalvageableController extends Controller
         foreach ($mixedSalvageableDropRates as $salvageable){
             //dd($salvageable);
 
-            $copperFedValue = 0; 
-            $runecraftersValue = 0;
-            $silverFedValue = 0; 
-
             $value = 0;
             $subTotal = 0; 
             $profit = 0;
@@ -77,7 +73,7 @@ class SalvageableController extends Controller
                 $icon = $item->salvageable_icon;  
             }
 
-            $profit = $subTotal - $salvageable[0][$salvageablePrice];
+            $profit = $subTotal - ($salvageable[0][$salvageablePrice] * $tax);
 
             array_push($salvageables, [
                 'name' => $name,

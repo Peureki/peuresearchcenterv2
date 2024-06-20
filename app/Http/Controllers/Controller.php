@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Bag;
 use App\Models\ContainerDropRate;
 use App\Models\CurrencyBagDropRates;
+use App\Models\MixedSalvageableDropRate;
+use App\Models\SalvageableDropRate;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -98,6 +100,51 @@ class Controller extends BaseController
         }
 
         return $value; 
+    }
 
+    protected function getUnidentifiedGearValue($gearID, $gearValue, $gearDR, $sellOrderSetting, $tax){
+        $salvageTable = MixedSalvageableDropRate::join('mixed_salvageables', 'mixed_salvageable_id', '=', 'mixed_salvageables.id')
+        ->where('mixed_salvageables.item_id', $gearID)
+        ->join('items', 'mixed_salvageable_drop_rates.item_id', '=', 'items.id')
+        ->get(); 
+
+        // Initialize original item with tax to compare later
+        $gearValue *= $tax; 
+
+        $value = 0;
+        $total = 0;
+        $fee = 0;
+        $profit = 0;
+
+        foreach ($salvageTable as $item){
+            switch ($item->name){
+                case "Copper-Fed Salvage-o-Matic":
+                    $fee = $item->drop_rate;
+                    break;
+
+                case "Runecrafter's Salvage-o-Matic":
+                    $fee = $item->drop_rate; 
+                    break;
+
+                case "Silver-Fed Salvage-o-Matic":
+                    $fee = $item->drop_rate; 
+                    break;
+
+                default: 
+                    $value = ($item->$sellOrderSetting * $tax) * ($item->drop_rate); 
+                    break; 
+            }
+
+            $total += $value - $fee; 
+        }
+
+        $profit = $total - $gearValue; 
+
+        if ($profit > 0){
+            return ($profit + $gearValue) * $gearDR; 
+        } 
+        else {
+            return $gearValue * $gearDR;
+        }
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <section class="nav-timer-container">
+    <div class="nav-timer-container">
         <!--
             *
             *   OUTPOST (if exist)
@@ -207,7 +207,7 @@
                 <label :for="`checkbox-individual-${event.name}`">{{ event.name }}</label>
             </div>
         </div>
-    </section>
+    </div>
 </template>
 
 <script setup>
@@ -318,6 +318,10 @@ article{
 .outposts h6{
     text-align: left;
     padding: var(--padding-outpost);
+}
+.timer{
+    padding-inline: var(--padding-timers);
+    border-bottom: var(--border-bottom);
 }
 .timer h6{
     white-space: wrap;

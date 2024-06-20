@@ -2,7 +2,7 @@
     <main>
         <Header :page-name="mapName"/>
 
-        <section class="content-container">
+        <div class="content-container">
             <!--
                 *
                 * MAP CONTAINER
@@ -130,7 +130,7 @@
                     <slot name="info"></slot>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 </template>
 

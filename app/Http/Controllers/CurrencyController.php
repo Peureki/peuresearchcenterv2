@@ -152,7 +152,11 @@ class CurrencyController extends Controller
 
                 if ($item->type == "Container" && strpos($item->description, 'Salvage') === false){
                     $value = $this->getContainerValue($item->item_id, $sellOrderSetting, $tax); 
-                } else {
+                } 
+                else if (strpos($item->name, "Unidentified Gear") !== false){
+                    $value = $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax); 
+                }
+                else {
                     $value = ($item->$sellOrderSetting * $tax) * ($item->drop_rate); 
                 }
                 
