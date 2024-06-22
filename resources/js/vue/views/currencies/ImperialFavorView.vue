@@ -25,7 +25,7 @@ import CurrencyTables from '@/js/vue/components/general/CurrencyTables.vue'
 // Initialize which bag to showcase + url to fetch data
 const targetBag = ['Imperial Favor'];
 const currencyIcons = [ImperialFavor];
-const url = `../api/currencies/${encodeArray(targetBag)}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
+const url = `../api/currencies/${encodeArray(targetBag)}/${localStorage.includes}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
 
 console.log(url);
 

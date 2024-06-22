@@ -58,7 +58,12 @@ Route::get('/tools/mixed-salvageables/{sellOrderSetting}/{tax}', [SalvageableCon
 // *
 // * CURRENCIES
 // *
-Route::get('/currencies/{filter}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'currencies']);
+Route::get('/currencies/{filter}/{includes}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'currencies']);
+
+// *
+// * EXCHANGEABLES
+// *
+Route::get('/exchangeables/{request}/{includes}/{sellOrderSetting}/{tax}', [BagController::class, 'dragoniteOre']);
 
 
 // * LAURELS

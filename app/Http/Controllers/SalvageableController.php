@@ -162,7 +162,7 @@ class SalvageableController extends Controller
                         break; 
                     case "Silver-Fed":
                         $fee = 60; 
-                        $silverFedValue = $subTotal - $fee - ($drops[0][$salvageablePrice] * $tax); 
+                        $silverFedValue = ($subTotal - $fee) - ($drops[0][$salvageablePrice] * $tax); 
                         break;
                 }
             }

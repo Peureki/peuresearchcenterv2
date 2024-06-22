@@ -28,7 +28,7 @@ import CurrencyTables from '@/js/vue/components/general/CurrencyTables.vue'
 // Initialize which bag to showcase + url to fetch data
 const targetBag = ['Trade Contract,Karma'];
 const currencyIcons = [TradeContract, Karma];
-const url = `../api/currencies/${encodeArray(targetBag)}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
+const url = `../api/currencies/${encodeArray(targetBag)}/${localStorage.includes}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
 
 // Initialize data storage
 const bags = ref(null),

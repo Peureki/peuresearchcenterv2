@@ -18,6 +18,13 @@ import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagic
 
 /*
  * 
+ * EXCHANGEABLES
+ * 
+ */
+import ExchangeablesDragoniteOreView from '@/js/vue/views/exchangeables/DragoniteOreView.vue'
+
+/*
+ * 
  * TOOLS
  * 
  */
@@ -35,6 +42,7 @@ import TimersDomainOfKournaView from '@/js/vue/views/timers/DomainOfKournaView.v
 import TimersDragonfallView from '@/js/vue/views/timers/DragonfallView.vue'
 
 import TimersSkywatchArchipelagoView from '@/js/vue/views/timers/SkywatchArchipelagoView.vue'
+import { compact } from 'lodash'
 
 const routes = [
     {
@@ -89,6 +97,14 @@ const routes = [
         path: '/currencies/imperial-favor',
         component:  CurrenciesImperialFavorView,
         name: 'currencies-imperial-favor',
+    },
+    // *
+    // * EXCHANGEABLES
+    // *
+    {
+        path: '/exchangeables/dragonite-ore',
+        component: ExchangeablesDragoniteOreView,
+        name: 'exchangeable-dragonite-ore',
     },
     // *
     // * TOOLS

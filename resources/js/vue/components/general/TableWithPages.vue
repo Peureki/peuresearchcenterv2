@@ -1,11 +1,9 @@
 <template>
-    <section>
-        <article>
-            <slot class="page-list" name="page-list-top"></slot>
-            <slot name="table"></slot>
-            <slot class="page-list" name="page-list-bottom"></slot>
-        </article>
-    </section>
+    <article>
+        <slot class="page-list" name="page-list-top"></slot>
+        <slot name="table"></slot>
+        <slot class="page-list" name="page-list-bottom"></slot>
+    </article>
 </template>
 
 <style scoped>

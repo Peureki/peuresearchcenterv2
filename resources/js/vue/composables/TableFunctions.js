@@ -229,5 +229,8 @@ export async function getBags(url, bags, dropRates){
 
     bags.value = data.bag; 
     dropRates.value = data.dropRates; 
+
+    console.log('bags: ', bags.value); 
+    console.log('drop rates: ', dropRates.value);
 }
 

@@ -71,7 +71,7 @@ class CurrencyController extends Controller
 
 
 
-    public function currencies($filter, $sellOrderSetting, $tax){
+    public function currencies($filter, $includes, $sellOrderSetting, $tax){
         // Goal
         // Get value of currencies
         // 
@@ -100,7 +100,10 @@ class CurrencyController extends Controller
         ->get()
         ->groupBy('bag_id');
 
-        // FOR BAGS THAT HAVE MULTIPLE CONVERSIONS
+        // Turn Includes into an array
+        $includes = json_decode($includes, true);
+
+        // FOR BAGS THAT HAVE MULTIPLE CONVERSIONS OF THE SAME BAG
         // Check specific bag that has the multiple conversions
         // Get the ID of the bag 
         // Add bag_name to the collection of the original bag
@@ -148,12 +151,10 @@ class CurrencyController extends Controller
             $costOfCurrencyPerBag = [-1]; 
 
             foreach ($group as $item){
-
-
                 if ($item->type == "Container" && strpos($item->description, 'Salvage') === false){
                     $value = $this->getContainerValue($item->item_id, $sellOrderSetting, $tax); 
                 } 
-                else if (strpos($item->name, "Unidentified Gear") !== false){
+                else if (strpos($item->name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
                     $value = $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax); 
                 }
                 else {
