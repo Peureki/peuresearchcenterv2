@@ -30,7 +30,7 @@ class BagController extends Controller
         return response()->json($returnArray);
     }
 
-    public function dragoniteOre($request, $includes, $sellOrderSetting, $tax){
+    public function exchangeables($request, $includes, $sellOrderSetting, $tax){
         // Make it a workable arrays
         $includes = json_decode($includes);
         $request = json_decode($request);
@@ -39,6 +39,9 @@ class BagController extends Controller
 
         foreach ($request as $exchangeable){
             switch ($exchangeable){
+                case "Empyreal Fragment":
+                    // Fluctuating Mass
+                    array_push($requestedBags, 79264);
                 case "Dragonite Ore":
                     // Fluctuating Mass
                     array_push($requestedBags, 79264);
@@ -65,7 +68,9 @@ class BagController extends Controller
         ->get()
         ->groupBy('bag_id');
 
-        if (in_array("Dragonite Ore", $request)){
+        if (in_array("Dragonite Ore", $request)
+            || in_array("Empyreal Fragment", $request)
+        ){
             foreach ($containerDropRatesTable as $id => $container){
                 // Fluctuating Mass
                 if ($id == 79264){
@@ -117,6 +122,21 @@ class BagController extends Controller
             }
 
             switch (true){
+                case in_array('Empyreal Fragment', $request):
+                    if ($group->order == 0){
+                        $currency[0] = 'Empyreal Fragment';
+                        $currency[1] = 'Dragonite Ore';
+                        $costOfCurrencyPerBag[0] = 25; 
+                        $costOfCurrencyPerBag[1] = 25;
+
+                    }
+                    if ($group->order == 1){
+                        $currency[0] = 'Empyreal Fragment';
+                        $currency[1] = 'Dragonite Ore';
+                        $costOfCurrencyPerBag[0] = 25;
+                        $costOfCurrencyPerBag[1] = 25; 
+                    }
+                    break; 
                 case in_array('Dragonite Ore', $request):
                     if ($group->order == 0){
                         $currency[0] = 'Dragonite Ore';
@@ -132,6 +152,7 @@ class BagController extends Controller
                         $costOfCurrencyPerBag[1] = 25; 
                     }
                     break; 
+                
             }
 
             $profitPerBag = $total - $fee; 

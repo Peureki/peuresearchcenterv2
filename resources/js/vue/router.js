@@ -22,6 +22,7 @@ import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagic
  * 
  */
 import ExchangeablesDragoniteOreView from '@/js/vue/views/exchangeables/DragoniteOreView.vue'
+import ExchangeablesEmpyrealFragmentView from '@/js/vue/views/exchangeables/EmpyrealFragmentView.vue'
 
 /*
  * 
@@ -105,6 +106,11 @@ const routes = [
         path: '/exchangeables/dragonite-ore',
         component: ExchangeablesDragoniteOreView,
         name: 'exchangeable-dragonite-ore',
+    },
+    {
+        path: '/exchangeables/empyreal-fragment',
+        component: ExchangeablesEmpyrealFragmentView,
+        name: 'exchangeable-empyreal-fragment',
     },
     // *
     // * TOOLS

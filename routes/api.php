@@ -55,23 +55,24 @@ Route::get('/recipes/search-recipes', [RecipeController::class, 'searchRecipes']
 Route::get('/tools/salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'salvageables']);
 Route::get('/tools/mixed-salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'mixedSalvageables']);
 
+// * SPIRIT SHARDS
+Route::get('/currencies/spirit-shards/{buyOrderSetting}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'getSpiritShards']);
 // *
-// * CURRENCIES
+// * GENERAL CURRENCIES
 // *
 Route::get('/currencies/{filter}/{includes}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'currencies']);
 
 // *
 // * EXCHANGEABLES
 // *
-Route::get('/exchangeables/{request}/{includes}/{sellOrderSetting}/{tax}', [BagController::class, 'dragoniteOre']);
+Route::get('/exchangeables/{request}/{includes}/{sellOrderSetting}/{tax}', [BagController::class, 'exchangeables']);
 
 
 // * LAURELS
 Route::get('/currencies/laurel/{sellOrderSetting}/{tax}', [CurrencyController::class, 'laurel']);
 // * RESEARCH NOTES
 Route::get('/currencies/salvage-research-notes/{buyOrderSetting}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'salvageResearchNotes']);
-// * SPIRIT SHARDS
-Route::get('/currencies/spirit-shards/{buyOrderSetting}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'getSpiritShards']);
+
 // * TRADE CONTRACTS
 Route::get('/currencies/trade-contract/{sellOrderSetting}/{tax}', [CurrencyController::class, 'tradeContract']);
 // * VOLATILE MAGIC

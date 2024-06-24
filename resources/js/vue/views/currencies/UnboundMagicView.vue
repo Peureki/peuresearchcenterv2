@@ -1,5 +1,6 @@
 <template>
     <Nav/>
+    <Header page-name="Unbound Magic"/>
     <CurrencyTables
         page-name="Unbound Magic"
         :bags="bags"
@@ -13,6 +14,8 @@
 import { ref } from 'vue'
 
 import Nav from '@/js/vue/components/general/Nav.vue'
+import Header from '@/js/vue/components/general/Header.vue'
+
 
 // INPUT ANY CURRENCY ICONS
 import UnboundMagic from '@/imgs/icons/Unbound_Magic.png'

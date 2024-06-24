@@ -1,7 +1,8 @@
 <template>
     <Nav/>
+    <Header page-name="Trade Contracts"/>
     <CurrencyTables
-        page-name="Unbound Magic"
+        page-name="Trade Contracts"
         :bags="bags"
         :drop-rates="dropRates"
         :currency-icons="currencyIcons"
@@ -13,6 +14,7 @@
 import { ref } from 'vue'
 
 import Nav from '@/js/vue/components/general/Nav.vue'
+import Header from '@/js/vue/components/general/Header.vue'
 
 // INPUT ANY CURRENCY ICONS
 import TradeContract from '@/imgs/icons/Trade_Contract.png'

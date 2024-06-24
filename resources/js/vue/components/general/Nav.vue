@@ -213,6 +213,20 @@
                             >
                             <label for="Salvageables">Salvageables</label>
                         </div>
+                        <div 
+                            class="checkbox" 
+                            @click="
+                                includesAscendedJunkCheckbox = !includesAscendedJunkCheckbox;
+                                setIncludes('AscendedJunk', includesAscendedJunkCheckbox);    
+                            "
+                        >
+                            <input 
+                                :checked="includesAscendedJunkCheckbox" 
+                                type="checkbox" 
+                                name="AscendedJunk"
+                            >
+                            <label for="AscendedJunk">Ascended Junk</label>
+                        </div>
                     </div>
                     
                     <!-- 
@@ -518,6 +532,10 @@
                     </div>
 
                     <div class="routes">
+                        <router-link class="page-link" to="/exchangeables/empyreal-fragment">
+                            <img src="@/imgs/icons/Empyreal_Fragment.png" alt="Laurel" title="Laurel">
+                            <h6>Empyreal Fragment</h6>
+                        </router-link>
                         <router-link class="page-link" to="/exchangeables/dragonite-ore">
                             <img src="@/imgs/icons/Dragonite_Ore.png" alt="Laurel" title="Laurel">
                             <h6>Dragonite Ore</h6>
@@ -926,7 +944,8 @@ const setDefaultLocalStorage = () => {
     // *
     if (!localStorage.includes){
         localStorage.setItem('includes', JSON.stringify([
-            "Salvageables"
+            "Salvageables",
+            "AscendedJunk"
         ]));
     }
     // * BOOKMARKS
@@ -982,7 +1001,8 @@ const buyOrderSetting = ref(localStorage.buyOrderSetting),
     taxSetting = ref(parseFloat(localStorage.taxSetting)),
     apiKey = ref(null);
 
-const includesSalvageablesCheckbox = ref(true); 
+const includesSalvageablesCheckbox = ref(true),
+    includesAscendedJunkCheckbox = ref(true); 
 
 const route = useRoute(),
     router = useRouter();
@@ -1029,6 +1049,7 @@ const changeFiltersToggle = () => {
 // * ie Salvageables
 // * ie Ascended Junk
 const setIncludes = (name, toggle) => {
+    
     // Get the includes into a workable array
     let includes = JSON.parse(localStorage.getItem('includes'));
     // If checkbox is true
@@ -1038,6 +1059,7 @@ const setIncludes = (name, toggle) => {
             includes.push(name);
         }
     } else {
+        console.log('includes name: ', name);
         // Remove Includes name
         includes = includes.filter(setting => setting !== name); 
     }
@@ -1058,6 +1080,7 @@ onMounted(() => {
     // Toggle on/off if a specific Includes in the array or not
     const includes = JSON.parse(localStorage.getItem('includes')) || []; 
     includesSalvageablesCheckbox.value = includes.includes('Salvageables');
+    includesAscendedJunkCheckbox.value = includes.includes('AscendedJunk');
 })
 
 </script>

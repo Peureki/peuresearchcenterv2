@@ -210,17 +210,15 @@
             *
             * Semeantics here because the <RecipeTree/> uses recursion 
         -->
-        <section>
-            <article>
-                <Transition name="fade">
-                    <RecipeTree 
-                        v-if="recipe"
-                        :recipe="recipe"  
-                        @update-recipe="updateRecipeTree"
-                    />
-                </Transition>
-            </article>
-        </section>
+        <article>
+            <Transition name="fade">
+                <RecipeTree 
+                    v-if="recipe"
+                    :recipe="recipe"  
+                    @update-recipe="updateRecipeTree"
+                />
+            </Transition>
+        </article>
     </main>
 </template>
 

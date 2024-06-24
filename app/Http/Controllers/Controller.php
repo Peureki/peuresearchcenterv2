@@ -102,6 +102,77 @@ class Controller extends BaseController
 
         return $value; 
     }
+
+    protected function getAscendedJunkValue($ascendedID, $ascendedValue, $ascendedDropRate, $includes, $sellOrderSetting, $tax){
+
+        $containerIDs = [];
+
+        switch ($ascendedID){
+            // DRAGONITE ORE
+            // List specific bags associated with dragonite ore conversions
+            case 46733:
+                array_push($containerIDs, 
+                    [
+                        // Fluctuating Mass
+                        'id' => 79264,
+                        'conversionRate' => 25
+                    ],
+                    [
+                        // Fluctuating Mass
+                        'id' => 79264,
+                        'conversionRate' => 25
+                    ],
+                ); 
+                break;
+        }
+        // Only grab the 'ids' from $containerIDs for the query
+        $containerIDQuery = array_column($containerIDs, 'id');
+
+        $containerTable = ContainerDropRate::join('bags', 'container_drop_rates.bag_id', '=', 'bags.id')
+        ->join('items as item', 'container_drop_rates.item_id', '=', 'item.id')
+        ->join('items as bag_item', 'bags.id', '=', 'bag_item.id')
+        ->select(
+            'container_drop_rates.*', 
+            'bags.*', 
+            'item.icon as item_icon',
+            'item.name as item_name', 
+            'item.*', 
+            'bag_item.icon as bag_icon',
+            'bag_item.name as bag_name'
+        )
+        ->whereIn('bag_id', $containerIDQuery)
+        ->get()
+        ->groupBy('bag_id');
+
+        $containerTable = $containerTable->values();
+
+        foreach ($containerTable as $index => $group){
+            $value = 0; 
+            $currencyPerContainer = 0;
+
+            foreach ($group as $item){
+                // Check if there's uni gear && if toggled in Includes settings
+                if (strpos($item->name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
+                    $value += $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+                    
+                } 
+                // Check if there's salvageables && if toggled in Includes settings
+                else if ($item->description === "Salvage Item" && in_array('Salvageables', $includes)){
+                    $value += $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+                }
+                // Everything else
+                else {
+                    $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+                }
+                
+            }
+            // Take total value and / by conversion rate of the container and ascended junk
+            $currencyValuePerContainer = $value / $containerIDs[$index]['conversionRate'];
+            
+        }
+        return $currencyValuePerContainer * $ascendedDropRate; 
+    }
+
     // GET SALVAGEABLE VALUE
     // Goal: 
     // Determine if salvging salvageable items is worth more than selling it straight to the tp

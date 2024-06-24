@@ -1,5 +1,6 @@
 <template>
     <Nav/>
+    <Header page-name="Laurels"/>
     <CurrencyTables
         page-name="Laurels"
         :bags="bags"
@@ -12,6 +13,7 @@
 import { ref } from 'vue'
 
 import Nav from '@/js/vue/components/general/Nav.vue'
+import Header from '@/js/vue/components/general/Header.vue'
 
 // INPUT ANY CURRENCY ICONS
 import Laurel from '@/imgs/icons/Laurel.png'

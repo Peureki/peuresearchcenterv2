@@ -1,5 +1,6 @@
 <template>
     <Nav/>
+    <Header page-name="Volatile Magic"/>
     <CurrencyTables
         page-name="Volatile Magic"
         :bags="bags"
@@ -13,6 +14,7 @@
 import { ref } from 'vue'
 
 import Nav from '@/js/vue/components/general/Nav.vue'
+import Header from '@/js/vue/components/general/Header.vue'
 
 // INPUT ANY CURRENCY ICONS
 import VolatileMagic from '@/imgs/icons/Volatile_Magic.png'
