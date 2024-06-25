@@ -51,6 +51,8 @@ Route::get('/fetch-containers', [FetchController::class, 'fetchContainers']);
 // * TOOLS
 // *
 Route::get('/recipes/{request}/{id}/{quantity}', [RecipeController::class, 'getRecipeValues']);
+Route::get('/recipes/{id}/{quantity}', [RecipeController::class, 'getRecipeTree']);
+
 Route::get('/recipes/search-recipes', [RecipeController::class, 'searchRecipes']);
 Route::get('/tools/salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'salvageables']);
 Route::get('/tools/mixed-salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'mixedSalvageables']);

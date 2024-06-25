@@ -425,6 +425,7 @@ onMounted(() => {
     }
     
     if (url.value){
+        console.log(url.value);
         fetchRequestedRecipe(url.value, idRequest.value, quantityRequest.value);
     }
 })

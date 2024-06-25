@@ -32,6 +32,18 @@ class RecipeController extends Controller
 
         return response()->json($recipes);
     }
+
+    // * GET RECIPE TREE
+    //
+    // 
+    public function getRecipeTree($id, $quantity){
+        $recipe = Recipes::where('output_item_id', $id)
+            ->get(); 
+
+        return response()->json($recipe);
+    }
+
+
     // * CALLED AS A REQUEST FROM THE USER VIA RECIPE FORMS
     // *
     // * Request = Name of the recipe => return recipe tree array
@@ -46,7 +58,7 @@ class RecipeController extends Controller
             ->where('items.id', $id)
             ->first(); 
 
-        //dd($recipe);
+        //dd($recipe['ingredients']);
 
         // To be returned
         // Start with index of 0 so that the output item is the first of the recipe tree displayed

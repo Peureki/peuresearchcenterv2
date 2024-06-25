@@ -592,7 +592,10 @@
                             <h6>Salvageables</h6>
                         </router-link>
 
-                        
+                        <router-link class="page-link" to="/tools/to-do-list">
+                            <img src="@/imgs/icons/Piece_of_Unidentified_Gear.png" alt="To-Do List" title="Tools - To-Do List">
+                            <h6>To-Do List</h6>
+                        </router-link>
                     </div>   
                 </div>
             </div>
