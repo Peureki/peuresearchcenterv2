@@ -115,7 +115,7 @@ article {
 }
 
 section{
-    padding-left: var(--nav-width);
+    padding-left: calc(var(--nav-width) + var(--padding-section-left));
     padding-block: var(--padding-section);
 }
 
@@ -777,6 +777,7 @@ span.gold-label img{
     --nav-img-w-and-h: clamp(3rem, 10vw, 10rem);
 
     --padding-section: clamp(0.5rem, 0.5vw, 1.5rem);
+    --padding-section-left: clamp(0.5rem, 1vw, 1.5rem);
     --padding-shortcuts: 10px;
     --padding-h5: 20px 10px 20px 10px;
     --padding-main: 0px 10px 0 10px;
@@ -799,6 +800,10 @@ span.gold-label img{
     --padding-bookmark: 5px 0px 5px 0;
     --padding-search-li: 5px 0px 5px 10px;
     --padding-block-general: 10px 0px 10px 0px;
+
+    --img-material-w: 20px;
+
+    --svg-expand: clamp(0.8rem, 0.9vw, 1.5rem);
     
 
     --margin-shortcuts-svg: 0 10px 0 10px;
