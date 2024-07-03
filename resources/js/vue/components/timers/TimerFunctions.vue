@@ -11,23 +11,49 @@
             <!-- PLAY -->
             <svg 
                 width="10" height="13" viewBox="0 0 10 13" fill="none" xmlns="http://www.w3.org/2000/svg"
-                v-if="event.togglePlay.value"
+                v-if="event.togglePlay.value && !event.sync"
                 @click="event.togglePlay.value = !event.togglePlay.value; startTimer(index);"    
+            >
+                <path d="M0 0V13L10 6.5L0 0Z" fill="#FFD12C"/>
+            </svg>
+            <!-- PLAY W/ MULTIPLE INSTANCES TO SYNC -->
+            <svg 
+                width="10" height="13" viewBox="0 0 10 13" fill="none" xmlns="http://www.w3.org/2000/svg"
+                v-if="event.togglePlay.value && event.sync"
+                @click="syncStartIcon(event.sync); startTimer(event.sync); "    
             >
                 <path d="M0 0V13L10 6.5L0 0Z" fill="#FFD12C"/>
             </svg>
             <!-- STOP -->
             <svg 
                 width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"
-                v-if="!event.togglePlay.value"
+                v-if="!event.togglePlay.value && !event.sync"
                 @click="event.togglePlay.value = !event.togglePlay.value; stopTimer(index);"    
+            >
+                <path d="M0 10V0H10V10H0Z" fill="#FFD12C"/>
+            </svg>
+            <!-- STOP WITH MULTIPLE INSTANCES TO SYNC -->
+            <svg 
+                width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"
+                v-if="!event.togglePlay.value && event.sync"
+                @click="syncStartIcon(event.sync); stopTimer(event.sync);"    
             >
                 <path d="M0 10V0H10V10H0Z" fill="#FFD12C"/>
             </svg>
             <!-- RESTART -->
             <svg 
                 width="19" height="16" viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                v-if="!event.sync"
                 @click="restartTimer(index); rotateSVG()"
+                :style="{transform: `rotate(${rotate}deg)`}"
+            >
+                <path d="M11.25 15.5C12.7334 15.5 14.1834 15.0601 15.4168 14.236C16.6501 13.4119 17.6114 12.2406 18.1791 10.8701C18.7468 9.49968 18.8953 7.99168 18.6059 6.53683C18.3165 5.08197 17.6022 3.7456 16.5533 2.6967C15.5044 1.64781 14.168 0.933503 12.7132 0.644114C11.2583 0.354725 9.75032 0.50325 8.37987 1.07091C7.00943 1.63856 5.83809 2.59986 5.01398 3.83323C4.18987 5.0666 3.75 6.51664 3.75 8V11.875L1.5 9.625L0.625 10.5L4.375 14.25L8.125 10.5L7.25 9.625L5 11.875V8C5 6.76387 5.36656 5.5555 6.05331 4.52769C6.74007 3.49988 7.71619 2.6988 8.85823 2.22576C10.0003 1.75271 11.2569 1.62894 12.4693 1.8701C13.6817 2.11125 14.7953 2.70651 15.6694 3.58059C16.5435 4.45466 17.1388 5.56831 17.3799 6.78069C17.6211 7.99307 17.4973 9.24974 17.0242 10.3918C16.5512 11.5338 15.7501 12.5099 14.7223 13.1967C13.6945 13.8834 12.4861 14.25 11.25 14.25V15.5Z" fill="#FFD12C"/>
+            </svg>
+            <!-- RESTART WITH MUILTPLE INSTANCES TO SYNC -->
+            <svg 
+                width="19" height="16" viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                v-if="event.sync"
+                @click="restartTimer(event.sync); rotateSVG()"
                 :style="{transform: `rotate(${rotate}deg)`}"
             >
                 <path d="M11.25 15.5C12.7334 15.5 14.1834 15.0601 15.4168 14.236C16.6501 13.4119 17.6114 12.2406 18.1791 10.8701C18.7468 9.49968 18.8953 7.99168 18.6059 6.53683C18.3165 5.08197 17.6022 3.7456 16.5533 2.6967C15.5044 1.64781 14.168 0.933503 12.7132 0.644114C11.2583 0.354725 9.75032 0.50325 8.37987 1.07091C7.00943 1.63856 5.83809 2.59986 5.01398 3.83323C4.18987 5.0666 3.75 6.51664 3.75 8V11.875L1.5 9.625L0.625 10.5L4.375 14.25L8.125 10.5L7.25 9.625L5 11.875V8C5 6.76387 5.36656 5.5555 6.05331 4.52769C6.74007 3.49988 7.71619 2.6988 8.85823 2.22576C10.0003 1.75271 11.2569 1.62894 12.4693 1.8701C13.6817 2.11125 14.7953 2.70651 15.6694 3.58059C16.5435 4.45466 17.1388 5.56831 17.3799 6.78069C17.6211 7.99307 17.4973 9.24974 17.0242 10.3918C16.5512 11.5338 15.7501 12.5099 14.7223 13.1967C13.6945 13.8834 12.4861 14.25 11.25 14.25V15.5Z" fill="#FFD12C"/>
@@ -96,6 +122,7 @@ import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
 import { toggleTooltip } from '@/js/vue/composables/MouseFunctions'
 
 const props = defineProps({
+    allEvents: Object,
     event: Object,
     index: Number,
 })
@@ -139,48 +166,114 @@ const rotateSVG = () => {
     rotate.value = -360;
 }
 
-// For start, stop, check if there is a shared timer
-// If yes => share the instance with timer[index] from share.timers[index]
-// If no => create a new Timer class
+const syncStartIcon = (index) => {
+    console.log(props.allEvents);
+    index.forEach(i => {
+        props.allEvents[i].togglePlay.value = !props.allEvents[i].togglePlay.value; 
+    })
+}
+
 const startTimer = (index) => {
-    if (!timer[index]){
-        if (!share.timers[index]){
-            timer[index] = new Timer(
-                props.event.initialCooldown, 
-                props.event.respawnCooldown, 
-                props.event.active, 
-                props.event.respawnActive,
-                props.event.outpost
-            );
-            share.setTimer(index, timer[index]);
-        } else {
-            timer[index] = share.timers[index];
-        }
-        timer[index].start();
+    // Check if INDEX is an array or not
+    // If yes, that means there are multiple events that are in sync
+    // If no, start the individual event
+    if (Array.isArray(index)){
+        // Iterate over each element in the array
+        index.forEach(i => {
+            // For start, stop, check if there is a shared timer
+            // If yes => share the instance with timer[i] from share.timers[i]
+            // If no => create a new Timer class
+            if (!timer[i]) {
+                if (!share.timers[i]) {
+                    timer[i] = new Timer(
+                        props.event.initialCooldown, 
+                        props.event.respawnCooldown, 
+                        props.event.active, 
+                        props.event.respawnActive,
+                        props.event.outpost
+                    );
+                    share.setTimer(i, timer[i]);
+                } else {
+                    timer[i] = share.timers[i];
+                }
+                timer[i].start();
+            } else {
+                timer[i].start();
+            }
+        });
     } else {
-        timer[index].start();
+        // For start, stop, check if there is a shared timer
+        // If yes => share the instance with timer[index] from share.timers[index]
+        // If no => create a new Timer class
+        if (!timer[index]){
+            if (!share.timers[index]){
+                timer[index] = new Timer(
+                    props.event.initialCooldown, 
+                    props.event.respawnCooldown, 
+                    props.event.active, 
+                    props.event.respawnActive,
+                    props.event.outpost
+                );
+                share.setTimer(index, timer[index]);
+            } else {
+                timer[index] = share.timers[index];
+            }
+            timer[index].start();
+        } else {
+            timer[index].start();
+        }
     }
+    
 }
 const stopTimer = (index) => {
-    if (!timer[index]){
-        timer[index] = share.timers[index];
-        timer[index].stop();
+    if (Array.isArray(index)){
+        index.forEach(i => {
+            if (!timer[i]){
+                timer[i] = share.timers[i];
+                timer[i].stop();
+            } else {
+                timer[i].stop();
+            }
+        })
     } else {
-        timer[index].stop();
+        if (!timer[index]){
+            timer[index] = share.timers[index];
+            timer[index].stop();
+        } else {
+            timer[index].stop();
+        }
     }
+
+    
 }
 
 const restartTimer = (index) => {
-    if (!timer[index]){
-        try {
-            timer[index] = share.timers[index];
-            timer[index].restart();
-        } catch (error) {
-            console.log('This timer has not started yet and cannot be reset');
-        }
+    if (Array.isArray(index)){
+        index.forEach(i => {
+            if (!timer[i]){
+                try {
+                    timer[i] = share.timers[i];
+                    timer[i].restart();
+                } catch (error) {
+                    console.log('This timer has not started yet and cannot be reset');
+                }
+            } else {
+                timer[i].restart();
+            }
+        })
     } else {
-        timer[index].restart();
+        if (!timer[index]){
+            try {
+                timer[index] = share.timers[index];
+                timer[index].restart();
+            } catch (error) {
+                console.log('This timer has not started yet and cannot be reset');
+            }
+        } else {
+            timer[index].restart();
+        }
     }
+    
 }
 
 </script>

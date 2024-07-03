@@ -1,4 +1,8 @@
 <template>
+    <!-- 
+        * PRIMARY ITEM 
+        * Display only on the first iteration, before any recursion so it can display at the top
+    -->
     <div 
         v-if="recursionLevel == 0"
         class="primary-item"
@@ -9,27 +13,36 @@
 
         <label :for="requestedItem.name">{{ requestedItem.name }}</label>
 
-        <img 
-            :src="Expand" :alt="`Expand ${requestedItem.name}`" :title="`Expand ${requestedItem.name}`"
-            @click="expandOrShrink"
-            :class="`expand ${rotate}`"
-        >
+        <!-- Expand/Hide ingredients -->
+        <button @click="expandOrShrink">
+            <img 
+                :src="Expand" :alt="`Expand ${requestedItem.name}`" :title="`Expand ${requestedItem.name}`"
+                :class="`expand ${rotate}`"
+            >
+        </button>
+        
     </div>
 
     <div 
-        v-if="itemToggle"
+        v-if="ingredientsToggle"
         v-for="(item, index) in data.ingredients"
         :class="`todo-item ` + requestedItem.name.split(' ').join('-')"
     >
         <div class="item">
-            <input type="checkbox" :name="item.id">
+            <input 
+                type="checkbox" 
+                :name="checkboxName(data.name, item.id)" 
+                @change="checkSubBoxes(checkboxName(data.name, item.id))"
+            >
             <img :src="item.icon" :alt="item.name" :title="item.name">
             <p>{{ item.count }}</p>
             
-            <label :for="item.id">{{ item.name }}</label>
+            <label :for="checkboxName(data.name, item.id)">{{ item.name }}</label>
         </div>
 
-        
+        <!--
+            * IF the item contains more 'ingredients', start recursion
+        -->
         <List
             v-if="item.ingredients"
             :data="item"
@@ -54,20 +67,37 @@ const props = defineProps({
     },
 })
 
-const itemToggle = ref(true);
+const ingredientsToggle = ref(true);
 
 const expandOrShrink = () => {
     // const className = name.split(' ').join('-')
     // const items = document.querySelectorAll(`.todo-item.${className}`);
     // console.log(items);
+    ingredientsToggle.value = !ingredientsToggle.value; 
+}
 
-    itemToggle.value = !itemToggle.value; 
+const checkSubBoxes = (item) => {
+    console.log(item);
+    if (item.ingredients){
+        item.ingredients.forEach((ingredient) => {
+            console.log(ingredient);
+        })
+    }
+}
+
+const checkboxName = (dataName, itemID) => {
+    return htmlify(dataName) + '-' + itemID;   
+}
+
+const htmlify = (name) => {
+    if (name){
+        return name.split(' ').join('-');
+    }
 }
 
 
-
 const rotate = computed(() => {
-    return itemToggle.value == true ? '' : 'rotate';
+    return ingredientsToggle.value == true ? '' : 'rotate';
 })
 
 </script>
@@ -92,6 +122,9 @@ const rotate = computed(() => {
 .primary-item img,
 .item img{
     width: var(--img-material-w);
+}
+button {
+    background-color: unset;
 }
 .primary-item .expand{
     width: var(--svg-expand);

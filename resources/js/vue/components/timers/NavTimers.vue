@@ -79,7 +79,18 @@
                     <p class="hidden-timer">{{ event.initialCooldown }}</p>
                     <article>
                         
-                        <h6 class="event-name">{{ event.name }}</h6>
+                        <div class="event-name">
+                            <p>{{ event.name }}</p>
+                            <svg 
+                                class="event-sync"
+                                v-if="event.sync"
+                                width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M5 19H16C17.8565 19 19.637 18.2625 20.9497 16.9497C22.2625 15.637 23 13.8565 23 12V9M8 15L4 19L8 23M19 5H8C6.14348 5 4.36301 5.7375 3.05025 7.05025C1.7375 8.36301 1 10.1435 1 12V15M16 1L20 5L16 9" stroke="#FFD12C" stroke-width="2"/>
+                                <title>This event timer is in sync with another</title>
+                            </svg>
+                        </div>
+                        <!-- <h6 class="event-name">{{ event.name }}</h6> -->
                         <div class="icons">
                             <img 
                                 v-for="chain in event.chain"
@@ -88,6 +99,7 @@
                         </div>
                     </article>
                     <TimerFunctions
+                        :all-events="events"
                         :event="event"
                         :index="index"
                     />
@@ -294,10 +306,25 @@ article{
     align-items: center;
     padding: var(--padding-timers);
 }
+/* 
+    =================================================
+    * TIMER EVENTS
+    =================================================
+*/
+
 .nav-timer-container svg,
 .nav-timer-container img{
     width: 20px;
     height: 20px;
+}
+.event-name{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+svg.event-sync{
+    width: 13px;
+    height: 13px;
 }
 .hidden-timer{
     display: none;

@@ -29,6 +29,7 @@
                             </div>
                         </article>
                         <TimerFunctions
+                            :all-events="events"
                             :event="event"
                             :index="index"
                         />

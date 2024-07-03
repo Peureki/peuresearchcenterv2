@@ -107,8 +107,9 @@ class BagController extends Controller
                 else if ($item->description === "Salvage Item" && in_array('Salvageables', $includes)){
                     $value = $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
                 }
-                
-                
+                else if ($item->rarity === "Junk"){
+                    $value = $item->vendor_value * $item->drop_rate; 
+                }
                 else {
                     $value = ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
                 }
