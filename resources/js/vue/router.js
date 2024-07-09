@@ -34,7 +34,11 @@ import ToolsResearchNotesView from '@/js/vue/views/tools/ResearchNotesView.vue'
 import ToolsSalvageablesView from '@/js/vue/views/tools/SalvageablesView.vue'
 import ToolsToDoListView from '@/js/vue/views/tools/ToDoListView.vue'
 
-
+/*
+ * 
+ * TIMERS
+ * 
+ */
 import TimersAuricBasinView from './views/timers/AuricBasinView.vue'
 import TimersTangledDepthsView from './views/timers/TangledDepthsView.vue'
 import TimersEmberBayView from './views/timers/EmberBayView.vue'
@@ -42,6 +46,7 @@ import TimersDomainOfIstanView from './views/timers/DomainOfIstanView.vue'
 import TimersSandsweptIslesView from './views/timers/SandsweptIslesView.vue'
 import TimersDomainOfKournaView from '@/js/vue/views/timers/DomainOfKournaView.vue'
 import TimersDragonfallView from '@/js/vue/views/timers/DragonfallView.vue'
+import TimersLakeDoricView from '@/js/vue/views/timers/LakeDoricView.vue'
 
 import TimersSkywatchArchipelagoView from '@/js/vue/views/timers/SkywatchArchipelagoView.vue'
 import { compact } from 'lodash'
@@ -161,6 +166,11 @@ const routes = [
         path: '/timers/ember-bay',
         component: TimersEmberBayView,
         name: 'timers-ember-bay',
+    },
+    {
+        path: '/timers/lake-doric',
+        component: TimersLakeDoricView,
+        name: 'timers-lake-doric',
     },
     // * LS4
     {

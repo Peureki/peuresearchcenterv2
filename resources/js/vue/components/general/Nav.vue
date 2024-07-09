@@ -661,6 +661,11 @@
                             <img src="@/imgs/icons/Petrified_Wood.png" alt="Petrified Wood" title="Timers - Ember Bay">
                             <h6>Ember Bay</h6>
                         </router-link>
+
+                        <router-link class="page-link" to="/timers/lake-doric">
+                            <img src="@/imgs/icons/Jade_Shard.png" alt="Jade Shard" title="Timers - Lake Doric">
+                            <h6>Lake Doric</h6>
+                        </router-link>
                     </div>   
                 </div>
                 <!--

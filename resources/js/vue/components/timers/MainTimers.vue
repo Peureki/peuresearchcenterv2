@@ -198,10 +198,8 @@ onMounted(() => {
     position: absolute;
     background-color: var(--color-bkg);
     border: var(--border-general);
+    width: clamp(150px, 20vw, 200px);
     transition: all 0.2s ease;
-}
-.map-timer article h6{
-    white-space: nowrap;
 }
 .map-container{
     position: relative;
