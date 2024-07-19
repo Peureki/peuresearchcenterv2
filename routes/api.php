@@ -46,6 +46,7 @@ Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 Route::get('/fetch-salvageables', [FetchController::class, 'fetchSalvageables']);
 Route::get('/fetch-mixed-salvageables', [FetchController::class, 'fetchMixedSalvageables']);
 Route::get('/fetch-containers', [FetchController::class, 'fetchContainers']);
+Route::get('/fetch-fishes', [FetchController::class, 'fetchFishes']);
 
 // *
 // * TOOLS

@@ -13,6 +13,8 @@ use App\Models\Benchmarks;
 use App\Models\ContainerDropRate;
 use App\Models\Currencies;
 use App\Models\CurrencyBagDropRates;
+use App\Models\Fish;
+use App\Models\FishDropRate;
 use App\Models\MixedSalvageable;
 use App\Models\MixedSalvageableDropRate;
 use App\Models\Recipes;
@@ -50,6 +52,63 @@ class FetchController extends Controller
     public function fetchRecipeValues(){
         dispatch(new FetchRecipeValues());
         return response()->json(['message' => 'Fetching recipe tree values job has been queued']);
+    }
+
+    public function fetchFishes(){
+        $api = Http::get('https://script.google.com/macros/s/AKfycbzKaZLCCMeg__chUZC7q4rVkQnYPMwb8uInwXn-ktomkZkeNxFayDhAZo6VfCIQ_rjfjw/exec');
+        $spreadsheet = $api->json(); 
+
+        foreach ($spreadsheet['fishes'] as $index => $fish){
+            
+            Fish::updateOrCreate(
+                [
+                    'id' => $fish['id'],
+                ],
+                [
+                    'map' => $fish['map'],
+                    'fishing_hole' => $fish['fishingHole'],
+                    'bait' => $fish['bait'],
+                    'time' => $fish['time'],
+                    'sample_size' => $fish['sampleSize'],
+                ]
+            );
+
+            if ($fish['sampleSize'] == null){
+                FishDropRate::updateOrCreate(
+                    [
+                        'fish_id' => $fish['id'],
+                        'currency_id' => $fish['materialID']
+                    ],
+                    [
+                        'drop_rate' => 1500,
+                    ]
+                );
+            } else {
+                $ids = explode(",", $fish['materialID']); 
+                $dropRates = explode(",", $fish['dropRate']); 
+
+                foreach ($ids as $key => $id){
+                    // In the spreadsheet, there may be blank entries
+                    // Trim them and skip if there is any
+                    $id = trim($id); 
+                    if (empty($id)){
+                        continue; 
+                    }
+
+                    FishDropRate::updateOrCreate(
+                        [
+                            'fish_id' => $fish['id'], 
+                            'item_id' => $id,
+                        ],
+                        [
+                            'drop_rate' => $dropRates[$key],
+                        ]
+                    );
+                }
+            }
+
+            
+        }
     }
 
     public function fetchBags(){

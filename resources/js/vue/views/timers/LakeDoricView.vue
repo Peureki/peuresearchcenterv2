@@ -665,6 +665,38 @@ let events = [
         top: `${69}%`,
         left: `${75}%`,
     },
+    {
+        name: "Priest",
+        outpost: "",
+        singleCooldown: ref(true),
+        initialCooldown: ref(60 * 14 + 55),
+        initialMin: 60 * 0 + 1,
+        initialMax: -(60 * 1 + 0),
+        respawnCooldown: ref(60 * 14 + 55), 
+        respawnMin: 60 * 0 + 1,
+        respawnMax: -(60 * 1 + 0),
+        active: ref(false),
+        respawnActive: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
+        toggleInfo: ref(false),
+        toggleTooltip: ref(false),
+        chain: [
+            {
+                type: 'Escort',
+                img: EventShield,
+            },
+            {
+                type: 'Defense',
+                img: EventShield,
+            },
+        ],
+        info: '1) Escort an NPC with 3 spots, 2 waves of White Mantle each. 2) Then a defense event',
+        waypointName: "Lakeside Bazaar Waypoint",
+        waypointLink: "[&BLQJAAA=]",
+        top: `${64}%`,
+        left: `${95}%`,
+    },
     
 ];
 
