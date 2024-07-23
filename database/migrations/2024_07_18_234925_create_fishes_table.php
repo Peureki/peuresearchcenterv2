@@ -17,11 +17,13 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             
+            $table->unsignedBigInteger('bait_id')->nullable();
+
             $table->foreign('id')->references('id')->on('items')->onUpdate('cascade');
+            $table->foreign('bait_id')->references('id')->on('items')->onUpdate('cascade');
 
             $table->string('map')->nullable();
             $table->string('fishing_hole')->nullable();
-            $table->string('bait')->nullable();
             $table->string('time')->nullable();
             $table->integer('sample_size')->nullable();
         });

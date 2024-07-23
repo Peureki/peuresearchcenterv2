@@ -12,7 +12,7 @@ class FishingHole extends Model
     protected $fillable = [
         'id',
         'name',
-        'bait',
+        'bait_id',
         'region',
         'time',
         'fishing_power',
@@ -27,6 +27,13 @@ class FishingHole extends Model
     }
     public function fishingHoleDropRate(){
         return $this->hasMany(FishingHoleDropRate::class); 
+    }
+
+    // *
+    // * FOREIGN KEYS
+    // * 
+    public function bait(){
+        return $this->belongsTo(Items::class);
     }
     
 }

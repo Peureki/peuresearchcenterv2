@@ -63,17 +63,17 @@ class FetchController extends Controller
         *
     */
     public function fetchFishingHoles(){
-        $api = Http::get('https://script.google.com/macros/s/AKfycbzwHBOUwRwNwKLfyMBVjdj-Ji1l5psid87cqtn-GgSQHABkJO8oviSHBi4z9_-3ILV1kw/exec?endpoint=fishingHoles');
+        $api = Http::get('https://script.google.com/macros/s/AKfycbyusqQd274FeAyE_8vP7fRgO0Nu9rTy8Bb1O8-uQdvp-qBQ3TLpjQJr58djFcm9louiTw/exec?endpoint=fishingHoles');
         $spreadsheet = $api->json(); 
 
         foreach ($spreadsheet['fishingHoles'] as $index => $hole){
             FishingHole::updateOrCreate(
                 [
                     'id' => $index + 1,
+                    'bait_id' => is_numeric($hole['baitID']) ? $hole['baitID'] : null,
                 ],
                 [
                     'name' => $hole['map'],
-                    'bait' => $hole['bait'],
                     'region' => $hole['region'],
                     'time' => $hole['time'],
                     'fishing_power' => $hole['fishingPower'],
@@ -126,7 +126,7 @@ class FetchController extends Controller
     }
 
     public function fetchFishes(){
-        $api = Http::get('https://script.google.com/macros/s/AKfycbzwHBOUwRwNwKLfyMBVjdj-Ji1l5psid87cqtn-GgSQHABkJO8oviSHBi4z9_-3ILV1kw/exec?endpoint=fishes');
+        $api = Http::get('https://script.google.com/macros/s/AKfycbyusqQd274FeAyE_8vP7fRgO0Nu9rTy8Bb1O8-uQdvp-qBQ3TLpjQJr58djFcm9louiTw/exec?endpoint=fishes');
         $spreadsheet = $api->json(); 
 
         foreach ($spreadsheet['fishes'] as $index => $fish){
@@ -138,11 +138,11 @@ class FetchController extends Controller
             Fish::updateOrCreate(
                 [
                     'id' => $fish['id'],
+                    'bait_id' => is_numeric($fish['baitID']) ? $fish['baitID'] : null,
                 ],
                 [
                     'map' => $fish['map'],
                     'fishing_hole' => $fish['fishingHole'],
-                    'bait' => $fish['bait'],
                     'time' => $fish['time'],
                     'sample_size' => $sampleSize,
                 ]

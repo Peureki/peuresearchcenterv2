@@ -15,7 +15,7 @@ class Fish extends Model
         'id',
         'map',
         'fishing_hole',
-        'bait',
+        'bait_id',
         'time',
         'sample_size'
     ];
@@ -25,5 +25,12 @@ class Fish extends Model
     // * 
     public function fishDropRate(){
         return $this->hasMany(FishDropRate::class);
+    }
+
+    // *
+    // * FOREIGN KEYS
+    // * 
+    public function bait(){
+        return $this->belongsTo(Items::class); 
     }
 }

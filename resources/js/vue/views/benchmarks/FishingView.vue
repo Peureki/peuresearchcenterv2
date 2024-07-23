@@ -23,6 +23,9 @@
                     </span>
                     <span class="fishing-map-and-requirements">
                         <p class="map-and-region">{{ fishingHole.map}}, {{ fishingHole.region }}</p>
+                        <span class="requirements">
+                            
+                        </span>
                     </span>
                 </div>
             </div>

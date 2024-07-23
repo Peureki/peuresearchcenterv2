@@ -80,7 +80,7 @@ class BenchmarkController extends Controller
                 }
                 
                 $estimateValue = (($catchValue * $avgHoles) * 3) * $estimateVariable;
-                //dd($item);
+                dd($item);
             }         
 
             //dd($catchValue);
