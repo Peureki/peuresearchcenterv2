@@ -374,12 +374,12 @@
                     <h6>Maps</h6>
                 </router-link>
 
-                <!-- <router-link class="page-link" to="/benchmarks/fishing">
-                    <img src="../../../imgs/icons/Fishing.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
+                <router-link class="page-link" to="/benchmarks/fishing">
+                    <img src="@/imgs/icons/Fishing.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                     <h6>Fishing</h6>
                 </router-link>
 
-                <router-link class="page-link" to="/benchmarks/fishing">
+                <!-- <router-link class="page-link" to="/benchmarks/fishing">
                     <img src="../../../imgs/icons/Gathering_UI_Icon.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                     <h6>Gathering</h6>
                 </router-link>
@@ -392,7 +392,7 @@
                 <router-link class="page-link" to="/benchmarks/fishing">
                     <img src="../../../imgs/icons/Guild_Armorer.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
                     <h6>Alt Parking</h6>
-                </router-link> -->
+                </router-link>  -->
             </div>
         </Transition>
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bag;
 use App\Models\ContainerDropRate;
 use App\Models\CurrencyBagDropRates;
+use App\Models\FishDropRate;
 use App\Models\MixedSalvageableDropRate;
 use App\Models\Salvageable;
 use App\Models\SalvageableDropRate;
@@ -101,6 +102,21 @@ class Controller extends BaseController
         }
 
         return $value; 
+    }
+
+    protected function getFishValue($fishID, $sellOrderSetting, $tax){
+        $fishDropRates = FishDropRate::
+        where('fish_id', $fishID)
+        ->join('items', 'fish_drop_rates.item_id', '=', 'items.id')
+        ->get(); 
+
+        $value = 0;
+
+        foreach ($fishDropRates as $item){
+            $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate;
+        }
+
+        return $value;
     }
 
     protected function getAscendedJunkValue($ascendedID, $ascendedValue, $ascendedDropRate, $includes, $sellOrderSetting, $tax){

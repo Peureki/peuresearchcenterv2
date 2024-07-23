@@ -13,16 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('fishes', function (Blueprint $table) {
+        Schema::create('fishing_holes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            
-            $table->foreign('id')->references('id')->on('items')->onUpdate('cascade');
 
-            $table->string('map')->nullable();
-            $table->string('fishing_hole')->nullable();
+            $table->string('name')->nullable();
             $table->string('bait')->nullable();
+            $table->string('region')->nullable();
             $table->string('time')->nullable();
+            $table->integer('fishing_power')->nullable();
             $table->integer('sample_size')->nullable();
         });
     }
@@ -34,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fishes');
+        Schema::dropIfExists('fishing_holes');
     }
 };

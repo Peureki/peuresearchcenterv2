@@ -15,6 +15,9 @@ use App\Models\Currencies;
 use App\Models\CurrencyBagDropRates;
 use App\Models\Fish;
 use App\Models\FishDropRate;
+use App\Models\FishingEstimate;
+use App\Models\FishingHole;
+use App\Models\FishingHoleDropRate;
 use App\Models\MixedSalvageable;
 use App\Models\MixedSalvageableDropRate;
 use App\Models\Recipes;
@@ -54,11 +57,83 @@ class FetchController extends Controller
         return response()->json(['message' => 'Fetching recipe tree values job has been queued']);
     }
 
+    /*
+        *
+        * FISHING HOLES AND ESTIMATES 
+        *
+    */
+    public function fetchFishingHoles(){
+        $api = Http::get('https://script.google.com/macros/s/AKfycbzwHBOUwRwNwKLfyMBVjdj-Ji1l5psid87cqtn-GgSQHABkJO8oviSHBi4z9_-3ILV1kw/exec?endpoint=fishingHoles');
+        $spreadsheet = $api->json(); 
+
+        foreach ($spreadsheet['fishingHoles'] as $index => $hole){
+            FishingHole::updateOrCreate(
+                [
+                    'id' => $index + 1,
+                ],
+                [
+                    'name' => $hole['map'],
+                    'bait' => $hole['bait'],
+                    'region' => $hole['region'],
+                    'time' => $hole['time'],
+                    'fishing_power' => $hole['fishingPower'],
+                    'sample_size' => $hole['sampleSize'],
+                ]
+            );
+            // For some routes, they may not have sufficient data or optimal route so the spreadsheet is empty for map, avgholes, etc
+            FishingEstimate::updateOrCreate(
+                [
+                    'fishing_hole_id' => $index + 1,
+                ],
+                [
+                    'map' => $hole['map'],
+                    'average_fishing_holes' => !empty($hole['avgHoles']) ? $hole['avgHoles'] : null,
+                    'average_time' => !empty($hole['avgTime']) ? $hole['avgTime'] : null,
+                    'time_variable' => !empty($hole['timeVar']) ? $hole['timeVar'] : null,
+                    'estimate_variable' => !empty($hole['estVar']) ? $hole['estVar'] : null,
+                ]
+            );
+
+            $ids = explode(",", $hole['materialID']); 
+            $dropRates = explode(",", $hole['dropRate']); 
+
+            foreach ($ids as $key => $id){
+                $fish = null;
+                $bag = null;
+
+                // For $fish and $bag, check to see if they exist
+                // This check is to ensure these foreign keys will be implemented into db
+                if (Fish::find($id)){
+                    $fish = $id;
+                }
+                if (Bag::find($id)){
+                    $bag = $id;
+                }
+
+                FishingHoleDropRate::updateOrCreate(
+                    [
+                        'fishing_hole_id' => $index + 1,
+                        'item_id' => $id,
+                        'fish_id' => $fish,
+                        'bag_id' => $bag,
+                    ],
+                    [
+                        'drop_rate' => $dropRates[$key],
+                    ]
+                );
+            }
+        }
+    }
+
     public function fetchFishes(){
-        $api = Http::get('https://script.google.com/macros/s/AKfycbzKaZLCCMeg__chUZC7q4rVkQnYPMwb8uInwXn-ktomkZkeNxFayDhAZo6VfCIQ_rjfjw/exec');
+        $api = Http::get('https://script.google.com/macros/s/AKfycbzwHBOUwRwNwKLfyMBVjdj-Ji1l5psid87cqtn-GgSQHABkJO8oviSHBi4z9_-3ILV1kw/exec?endpoint=fishes');
         $spreadsheet = $api->json(); 
 
         foreach ($spreadsheet['fishes'] as $index => $fish){
+
+            // For fish samples that are Karma based
+            // On the spreadsheet, their sampleSize = 0
+            $sampleSize = isset($fish['sampleSize']) ? $fish['sampleSize'] : 0; 
             
             Fish::updateOrCreate(
                 [
@@ -69,11 +144,12 @@ class FetchController extends Controller
                     'fishing_hole' => $fish['fishingHole'],
                     'bait' => $fish['bait'],
                     'time' => $fish['time'],
-                    'sample_size' => $fish['sampleSize'],
+                    'sample_size' => $sampleSize,
                 ]
             );
 
-            if ($fish['sampleSize'] == null){
+            if ($sampleSize == 0){
+                // If karma fish => update the currency ID of karma
                 FishDropRate::updateOrCreate(
                     [
                         'fish_id' => $fish['id'],

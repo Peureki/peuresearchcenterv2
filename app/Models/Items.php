@@ -45,4 +45,16 @@ class Items extends Model
     public function researchNotes(): HasMany {
         return $this->hasMany(ResearchNotes::class);
     }
+
+    public function fish(){
+        return $this->hasMany(Fish::class);
+    }
+
+    public function fishDropRate(){
+        return $this->hasMany(FishDropRate::class);
+    }
+
+    public function fishingHoleDropRate(){
+        return $this->hasMany(FishingHoleDropRate::class);
+    }
 }

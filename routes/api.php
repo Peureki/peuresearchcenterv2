@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BagController;
+use App\Http\Controllers\BenchmarkController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\FetchController;
 use App\Http\Controllers\LoginController;
@@ -47,6 +48,12 @@ Route::get('/fetch-salvageables', [FetchController::class, 'fetchSalvageables'])
 Route::get('/fetch-mixed-salvageables', [FetchController::class, 'fetchMixedSalvageables']);
 Route::get('/fetch-containers', [FetchController::class, 'fetchContainers']);
 Route::get('/fetch-fishes', [FetchController::class, 'fetchFishes']);
+Route::get('/fetch-fishing-holes', [FetchController::class, 'fetchFishingHoles']);
+
+// *
+// * BENCHMARKS
+// *
+Route::get('/benchmarks/fishing/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'fishing']);
 
 // *
 // * TOOLS
