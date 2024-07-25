@@ -13,6 +13,7 @@ class BenchmarkController extends Controller
         ->leftjoin('items', 'fishing_hole_drop_rates.item_id', '=', 'items.id')
         ->leftjoin('fishing_estimates', 'fishing_estimates.fishing_hole_id', '=', 'holes.id')
         ->leftjoin('fishes', 'fishing_hole_drop_rates.fish_id', '=', 'fishes.id')
+        ->leftjoin('items as bait_items', 'holes.bait_id', '=', 'bait_items.id')
         ->select(
             'fishing_hole_drop_rates.*',
             'holes.name as fishing_hole_name',
@@ -20,7 +21,9 @@ class BenchmarkController extends Controller
             'items.id as item_id',
             'items.*',
             'fishes.id as fish_id',
-            'fishing_estimates.*'
+            'fishing_estimates.*',
+            'bait_items.icon as bait_icon',
+            'bait_items.name as bait_name'
         )
         ->get()
         ->groupBy('fishing_hole_id');
@@ -35,11 +38,19 @@ class BenchmarkController extends Controller
         foreach ($fishingHoleDropRates as $group){
             $estimateValue = 0; 
             $catchValue = 0;
+            // Get the most valued item while iterating through the drop rates
+            
+            $currentItemValue = 0;
+            $currentHighestValue = 0;
+            $mostValuedItem = '';
+            $mostValuedIcon = '';
 
+            $name = $group[0]->fishing_hole_name;
             $fishingPower = $group[0]->fishing_power; 
-            $bait = $group[0]->bait; 
             $time = $group[0]->time;
             $region = $group[0]->region;
+            $bait = $group[0]->bait_name; 
+            $baitIcon = $group[0]->bait_icon;
             $map = $group[0]->map;
             $avgHoles = $group[0]->average_fishing_holes;
             $avgTime = $group[0]->average_time;
@@ -48,40 +59,58 @@ class BenchmarkController extends Controller
             $sampleSize = $group[0]->sample_size;
 
             //dd($group);
-
-            foreach ($group as $item){
-                // IF drop rate > 0 => calculate values : otherwise skip
-                if ($item->drop_rate != 0){
-                    // Junk items
-                    if ($item->rarity == 'Junk'){
-                        $catchValue += $item->vendor_value * $item->drop_rate; 
-                    } 
-                    // Containers (fish or champion bags)
-                    else if ($item->type == 'Container'){
-                        switch ($item->name){
-                            // WORMS
-                            case "Can of Worms": break; 
-                            case "Can of Glow Worms": break; 
-    
-                            // CHAMPION BAGS
-                            case "Watertight Bag": 
-                                $catchValue += ($this->getContainerValue($item->bag_id, $sellOrderSetting, $tax)) * $item->drop_rate; 
-                                break;
-    
-                            case "Partially Chewed Box":
-                                // getChampionBagValue
-                                break;
-    
-                            default: 
-                                $catchValue += ($this->getFishValue($item->fish_id, $sellOrderSetting, $tax)) * $item->drop_rate; 
-                                break; 
+            // Check if there's a benchmark or route made for this in the spreadsheet
+            // If no, skip
+            if ($group[0]->map == '' || $group[0]->map == null){
+                continue; 
+            } else {
+                foreach ($group as $item){
+                    // Reset comparison of current item value vs. most valued
+                    $currentItemValue = 0;
+                    // IF drop rate > 0 => calculate values : otherwise skip
+                    if ($item->drop_rate == 0){
+                        continue;
+                    } else {
+                        // Junk items
+                        if ($item->rarity == 'Junk'){
+                            $currentItemValue = $item->vendor_value * $item->drop_rate; 
+                            $catchValue += $currentItemValue; 
+                        } 
+                        // Containers (fish or champion bags)
+                        else if ($item->type == 'Container'){
+                            switch ($item->name){
+                                // WORMS
+                                case "Can of Worms": break; 
+                                case "Can of Glow Worms": break; 
+        
+                                // CHAMPION BAGS
+                                case "Watertight Bag":
+                                case "Partially Chewed Box": 
+                                    $currentItemValue = ($this->getContainerValue($item->bag_id, $sellOrderSetting, $tax)) * $item->drop_rate;
+                                    $catchValue += $currentItemValue; 
+                                    break;
+        
+                                default: 
+                                    $currentItemValue = ($this->getFishValue($item->fish_id, $sellOrderSetting, $tax)) * $item->drop_rate; 
+                                    $catchValue += $currentItemValue;
+                                    break; 
+                            }
                         }
                     }
+
+                    if ($currentItemValue > $currentHighestValue){
+                        $currentHighestValue = $currentItemValue;
+                        $mostValuedItem = $item->name;
+                        $mostValuedIcon = $item->icon;
+                    }
+                    
+                    
+                    $estimateValue = (($catchValue * $avgHoles) * 3) * $estimateVariable;
+                    //dd($item);
                 }
-                
-                $estimateValue = (($catchValue * $avgHoles) * 3) * $estimateVariable;
-                dd($item);
-            }         
+            }
+            //dd($currentHighestValue, $mostValuedItem, $mostValuedIcon);
+                     
 
             //dd($catchValue);
 
@@ -89,12 +118,16 @@ class BenchmarkController extends Controller
                 'estimateValue' => $estimateValue,  
                 'catchValue' => $catchValue,
                 'fishingPower' => $fishingPower, 
-                'bait' => $bait, 
+                'name' => $name,
+                'bait' => $bait,
+                'baitIcon' => $baitIcon,
                 'time' => $time,
                 'region' => $region,
                 'map' => $map,
                 'avgHoles' => $avgHoles,
                 'avgTime' => $avgTime, 
+                'mostValuedItem' => $mostValuedItem,
+                'mostValuedIcon' => $mostValuedIcon
             ]);
         }
 

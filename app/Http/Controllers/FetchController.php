@@ -73,7 +73,8 @@ class FetchController extends Controller
                     'bait_id' => is_numeric($hole['baitID']) ? $hole['baitID'] : null,
                 ],
                 [
-                    'name' => $hole['map'],
+                    'name' => $hole['fishingHole'],
+                    'map' => $hole['map'],
                     'region' => $hole['region'],
                     'time' => $hole['time'],
                     'fishing_power' => $hole['fishingPower'],

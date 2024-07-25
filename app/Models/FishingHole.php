@@ -12,6 +12,7 @@ class FishingHole extends Model
     protected $fillable = [
         'id',
         'name',
+        'map',
         'bait_id',
         'region',
         'time',

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreign('bait_id')->references('id')->on('items')->onUpdate('cascade');
 
             $table->string('name')->nullable();
+            $table->string('map')->nullable();
             $table->string('region')->nullable();
             $table->string('time')->nullable();
             $table->integer('fishing_power')->nullable();

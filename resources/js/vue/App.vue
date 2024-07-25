@@ -576,6 +576,12 @@ button.submit {
 .rotate-90{
     transform: rotate(90deg);
 }
+.rotate-neg-45 {
+    transform: rotate(-45deg);
+}
+.rotate-45{
+    transform: rotate(45deg);
+}
 .text-right{
     text-align: right;
 }
@@ -658,20 +664,7 @@ span.gold-label{
 span.gold-label img{
     width: 15px;
 }
-/* 
-    =================================================
-    * TIMER EVENTS
-    =================================================
-*/
-.event-name{
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-.event-sync{
-    width: 16px;
-    height: 16px;
-}
+
 /* 
     =================================================
     * DYNAMIC CLASSES
@@ -728,6 +721,7 @@ span.gold-label img{
 
 :root{
     --color-bkg: #2a2b2e;
+    --color-bkg-fade: #2F3034;
     --color-h1: #ff391b;
     --color-text: #ffffff;
     --color-link: #ffd12c;
@@ -792,6 +786,7 @@ span.gold-label img{
 
     --padding-section: clamp(0.5rem, 0.5vw, 1.5rem);
     --padding-section-left: clamp(0.5rem, 1vw, 1.5rem);
+    --padding-benchmark-container: clamp(0.2rem, 1vw, 1rem);
     --padding-shortcuts: 10px;
     --padding-h5: 20px 10px 20px 10px;
     --padding-main: 0px 10px 0 10px;
