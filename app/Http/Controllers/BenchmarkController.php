@@ -27,6 +27,10 @@ class BenchmarkController extends Controller
         )
         ->get()
         ->groupBy('fishing_hole_id');
+
+        // Drop rates that don't include the empty ones
+        // Push the actual drop rates onto this array
+        $dropRates = [];
         
         // 1) Get drop rates for each fishing hole
         // 2) Get estimate variables
@@ -64,6 +68,8 @@ class BenchmarkController extends Controller
             if ($group[0]->map == '' || $group[0]->map == null){
                 continue; 
             } else {
+                array_push($dropRates, $group);
+
                 foreach ($group as $item){
                     // Reset comparison of current item value vs. most valued
                     $currentItemValue = 0;
@@ -96,6 +102,7 @@ class BenchmarkController extends Controller
                                     break; 
                             }
                         }
+                        $item->value = $currentItemValue;
                     }
 
                     if ($currentItemValue > $currentHighestValue){
@@ -126,6 +133,7 @@ class BenchmarkController extends Controller
                 'map' => $map,
                 'avgHoles' => $avgHoles,
                 'avgTime' => $avgTime, 
+                'timeVariable' => $timeVariable,
                 'mostValuedItem' => $mostValuedItem,
                 'mostValuedIcon' => $mostValuedIcon
             ]);
@@ -135,7 +143,7 @@ class BenchmarkController extends Controller
         $fishingHoleDropRates = $fishingHoleDropRates->values();
 
         $response = [
-            'dropRates' => $fishingHoleDropRates,
+            'dropRates' => $dropRates,
             'fishingHoles' => $fishingHoles,
         ];
 

@@ -582,6 +582,10 @@ button.submit {
 .rotate-45{
     transform: rotate(45deg);
 }
+.text-left{
+    display: flex;
+    gap: 5px;
+}
 .text-right{
     text-align: right;
 }
@@ -663,6 +667,16 @@ span.gold-label{
 }
 span.gold-label img{
     width: 15px;
+}
+/* 
+    =================================================
+    * CHARTS AND GRAPHS
+    =================================================
+*/
+.pie-chart {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-content);
 }
 
 /* 
@@ -747,6 +761,7 @@ span.gold-label img{
     --color-negative: #A56464;
     --color-positive-faded: rgb(82, 255, 0, 0.2);
     --color-negative-faded:rgb(255, 0, 0, 0.2);
+    --color-rarity-junk: #aaaaaa;
     --color-rarity-fine: #4f9dfe;
     --color-rarity-masterwork: #2dc50e;
     --color-rarity-rare: #ffe51f;
@@ -761,6 +776,9 @@ span.gold-label img{
     --font-size-h6: clamp(0.8rem, 4vw, 1rem);
     --font-size-p: clamp(0.8rem, 4vw, 1rem);
     --font-size-subtext: clamp(0.5rem, 3vw, 0.8rem);
+
+    --gap-general: clamp(0.6rem, 0.7vw, 1rem);
+    --gap-content: clamp(0.8rem, 2vw, 4rem);
 
     --font-family: 'Rubik', sans-serif;
 

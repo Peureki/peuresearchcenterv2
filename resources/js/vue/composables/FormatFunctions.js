@@ -77,11 +77,19 @@ export function formatValue(value){
 
 export function formatPercentage(value){
     return `${parseFloat(value * 100).toFixed(2)}%`;
-    
+}
+
+export function variableToTime(num){
+    const minutes = Math.floor(num),
+        decimal = num - minutes,
+        seconds = Math.round(decimal * 60); 
+
+    return `${minutes}m ${seconds}s`;
 }
 
 export function showRarityColor(rarity) {
     switch (rarity){
+        case 'Junk': return `var(--color-rarity-junk)`;
         case 'Fine': return `var(--color-rarity-fine)`;
         case 'Masterwork': return `var(--color-rarity-masterwork)`;
         case 'Rare': return `var(--color-rarity-rare)`;
@@ -101,4 +109,8 @@ export function checkLocalStorageArray(array, key) {
     } else {
         return false;
     }
+}
+
+export function getCSSVariable(variable){
+    return getComputedStyle(document.documentElement).getPropertyValue(variable).trim(); 
 }
