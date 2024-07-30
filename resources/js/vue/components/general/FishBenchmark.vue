@@ -13,7 +13,13 @@
                         *
                     -->
                     <span class="fishing-title-and-estimate">
-                        <p class="title" :class="changeTimeBackground(fishingHole.time)">{{ fishingHole.name }}</p>
+                        <span class="title-container">
+                            <p class="title" :class="changeTimeBackground(fishingHole.time)">{{ fishingHole.name }}</p>
+                            <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="5" cy="5" r="5" stroke="black" stroke-width="1" :fill="matchTyrianTime(fishingHole.time)" />
+                            </svg>
+                        </span>
+                        
                         <span class="gold-label-container">
                             <span 
                                 class="gold-label"
@@ -101,13 +107,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
 
 import FishTable from '@/js/vue/components/tables/FishTable.vue'
 import FishProofs from '@/js/vue/components/general/FishProofs.vue'
 import PieChart from '@/js/vue/components/general/PieChart.vue'
+
+import { tyrianCurrentPeriod } from '@/js/vue/composables/Global.js'
 
 import GreenHook from '@/imgs/icons/fishes/Green_Hook.png'
 import MaddenedMackerel from '@/imgs/icons/fishes/Unholy_Mackerel.png'
@@ -133,6 +141,14 @@ const changeTimeBackground = (time) => {
         day: time === 'Daytime',
         night: time !== 'Daytime',
     }
+}
+
+// const matchTyrianTime = computed(() => {
+//     return tyrianCurrentPeriod.value === 'Daytime' ? 'var(--color-up)' : 'var(--color-down)';
+// })
+
+const matchTyrianTime = (benchmarkTime) => {
+    return tyrianCurrentPeriod.value === benchmarkTime ? 'var(--color-up)' : 'var(--color-down)';
 }
 
 
@@ -180,6 +196,11 @@ img.legendary-fish{
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.title-container{
+    display: flex;
+    align-items: center;
+    gap: var(--gap-general);
 }
 .title {
     font-size: var(--font-size-h4);
