@@ -34,7 +34,6 @@ const bags = ref(null),
     dropRates = ref(null); 
 
 getBags(url, bags, dropRates); 
-
 </script>
 
 <style scoped>

@@ -778,6 +778,8 @@ span.gold-label img{
     --color-rarity-exotic: #fda500;
     --color-rarity-ascended: #ff4488;
     --color-rarity-legendary: #9930e8;
+    --color-dusk: #db8b9d;
+    --color-dawn: #db8b9d;
 
     --font-size-h1: clamp(2rem, 20vw, 6.25rem);
     --font-size-h3: clamp(1.3rem, 8vw, 2rem);
@@ -837,6 +839,7 @@ span.gold-label img{
     --padding-bookmark: 5px 0px 5px 0;
     --padding-search-li: 5px 0px 5px 10px;
     --padding-block-general: 10px 0px 10px 0px;
+    --padding-inline: clamp(0.2rem, 0.4vw, 1rem);
 
     --img-material-w: 20px;
 

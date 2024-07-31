@@ -16,7 +16,7 @@
                         <span class="title-container">
                             <p class="title" :class="changeTimeBackground(fishingHole.time)">{{ fishingHole.name }}</p>
                             <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="5" cy="5" r="5" stroke="black" stroke-width="1" :fill="matchTyrianTime(fishingHole.time)" />
+                                <circle cx="5" cy="5" r="5" stroke="black" stroke-width="1" :fill="matchTyrianTime(fishingHole.time, fishingHole.region)" />
                             </svg>
                         </span>
                         
@@ -107,7 +107,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
 
@@ -115,7 +115,7 @@ import FishTable from '@/js/vue/components/tables/FishTable.vue'
 import FishProofs from '@/js/vue/components/general/FishProofs.vue'
 import PieChart from '@/js/vue/components/general/PieChart.vue'
 
-import { tyrianCurrentPeriod } from '@/js/vue/composables/Global.js'
+import { tyrianCurrentPeriod, canthanCurrentPeriod } from '@/js/vue/composables/Global.js'
 
 import GreenHook from '@/imgs/icons/fishes/Green_Hook.png'
 import MaddenedMackerel from '@/imgs/icons/fishes/Unholy_Mackerel.png'
@@ -130,10 +130,9 @@ const props = defineProps({
     fishingHoles: Object,
     dropRates: Object,
 })
-
+// Individually allow each card to be expanded or not
+// By default, have each card not expanded
 const expand = ref(props.fishingHoles.map(() => false));
-
-
 
 // Depending on if the farm is daytime or nighttime, change the background of the card
 const changeTimeBackground = (time) => {
@@ -142,15 +141,41 @@ const changeTimeBackground = (time) => {
         night: time !== 'Daytime',
     }
 }
+// Reactively change the color of the 'active' and 'inactive' circle depending on what the time is
+// const matchTyrianTime = (benchmarkTime) => {
+//     return computed(() => tyrianCurrentPeriod.value === benchmarkTime ? 'var(--color-up)' : 'var(--color-down)').value; 
+// }
 
-// const matchTyrianTime = computed(() => {
-//     return tyrianCurrentPeriod.value === 'Daytime' ? 'var(--color-up)' : 'var(--color-down)';
-// })
-
-const matchTyrianTime = (benchmarkTime) => {
-    return tyrianCurrentPeriod.value === benchmarkTime ? 'var(--color-up)' : 'var(--color-down)';
+const matchTyrianTime = (benchmarkTime, region) => {
+    return computed(() => {
+        // If fishing benchmark is CANTHAN
+        if (region === 'Seitung Province' || 
+            region === 'New Kaineng City' || 
+            region === 'Echovald Wilds' || 
+            region === "Dragon's End" || 
+            region === 'Gyala Delves'
+        ){
+            if (canthanCurrentPeriod.value === benchmarkTime ||
+                canthanCurrentPeriod.value === 'Dusk' || 
+                canthanCurrentPeriod.value === 'Dawn'
+            ){
+                return 'var(--color-up)'
+            } else {
+                return 'var(--color-down)'
+            }
+        // else if fishing benchmark is TYRIAN
+        } else {
+            if (tyrianCurrentPeriod.value === benchmarkTime ||
+                tyrianCurrentPeriod.value === 'Dusk' || 
+                tyrianCurrentPeriod.value === 'Dawn'
+            ){
+                return 'var(--color-up)'
+            } else {
+                return 'var(--color-down)'
+            }
+        }
+    }).value; 
 }
-
 
 </script>
 
