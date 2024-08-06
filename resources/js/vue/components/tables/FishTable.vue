@@ -4,6 +4,34 @@
             <tr>
                 <th colspan="100%"><h4>Details</h4></th>
             </tr>
+            <!--
+                *
+                * SAMPLE SIZE
+                *
+            -->
+            <tr class="row-offset">
+                <td class="total" colspan="100%">
+                    <span>Sample size: </span>
+                    <span class="float-right">
+                        {{ fishingHole.sampleSize }}
+                    </span>
+                </td>
+            </tr>
+            <!--
+                *
+                * TOTAL
+                *
+            -->
+            <tr class="row-offset">
+                <td class="total" colspan="100%">
+                    <span>Total: </span>
+                    <span class="float-right">
+                        <span v-for="gold in formatValue(fishingHole.catchValue)">
+                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                        </span>
+                    </span>
+                </td>
+            </tr>
             <tr>
                 <th 
                     @click="
@@ -91,34 +119,7 @@
                     </span>   
                 </td>
             </tr>
-            <!--
-                *
-                * SAMPLE SIZE
-                *
-            -->
-            <tr class="row-offset">
-                <td class="total" colspan="100%">
-                    <span>Sample size: </span>
-                    <span class="float-right">
-                        {{ fishingHole.sample_size }}
-                    </span>
-                </td>
-            </tr>
-            <!--
-                *
-                * TOTAL
-                *
-            -->
-            <tr class="row-offset">
-                <td class="total" colspan="100%">
-                    <span>Total: </span>
-                    <span class="float-right">
-                        <span v-for="gold in formatValue(fishingHole.estimate)">
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                        </span>
-                    </span>
-                </td>
-            </tr>
+            
         </tbody>
     </table>
 </template>

@@ -114,3 +114,18 @@ export function checkLocalStorageArray(array, key) {
 export function getCSSVariable(variable){
     return getComputedStyle(document.documentElement).getPropertyValue(variable).trim(); 
 }
+
+// Format time in seconds
+// Example 1hr, 30mins, 25seconds would be 01:30:25
+export function formatTime (seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+
+    // Remove hours if it's less than 60minutes
+    if (hours > 0){
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    } else {
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+};

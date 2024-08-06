@@ -18,6 +18,8 @@ use App\Models\FishDropRate;
 use App\Models\FishingEstimate;
 use App\Models\FishingHole;
 use App\Models\FishingHoleDropRate;
+use App\Models\MapBenchmark;
+use App\Models\MapBenchmarkDropRate;
 use App\Models\MixedSalvageable;
 use App\Models\MixedSalvageableDropRate;
 use App\Models\Recipes;
@@ -26,6 +28,7 @@ use App\Models\ResearchNotes;
 use App\Models\Salvageable;
 use App\Models\SalvageableDropRate;
 use App\Models\SampleSize;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -122,6 +125,53 @@ class FetchController extends Controller
                         'drop_rate' => $dropRates[$key],
                     ]
                 );
+            }
+        }
+    }
+
+    public function fetchMapBenchmarks(){
+        $api = Http::get('https://script.google.com/macros/s/AKfycbyzWrCVxCsN_eCAaOrLG-dae6H5IjZJsyFpvrCr-cJK66R05Cyc0cOsbkKlpGPcX6A/exec'); 
+        $spreadsheet = $api->json(); 
+
+        foreach ($spreadsheet['benchmarks'] as $index => $benchmark){
+            $latestRun = Carbon::parse($benchmark['latestRun'])->format('Y-m-d H:i:s');
+
+            MapBenchmark::updateOrCreate(
+                [
+                    'id' => $index + 1
+                ],
+                [
+                    'name' => $benchmark['name'],
+                    'type' => $benchmark['type'],
+                    'sample_size' => $benchmark['sampleSize'],
+                    'latest_run' => $latestRun,
+                ]
+            );
+
+            $ids = explode(",", $benchmark['itemID']); 
+            $dropRates = explode(",", $benchmark['itemDropRate']); 
+
+            //dd($ids);
+
+            foreach ($ids as $key => $id){
+                if ($id === 'Exotic'){
+                    dd($id);
+                } else {
+                    MapBenchmarkDropRate::updateOrCreate(
+                        [
+                            'id' => $index + 1,    
+                            'item_id' => $id,
+                            'salvageable_id' => $id,
+                            'mixed_salvageable_id' => $id,
+                            'bag_id' => $id,
+                            'fish_id' => $id,
+                        ],
+                        [
+                            'drop_rate' => $dropRates[$key],
+                        ]
+                    );
+                }
+                
             }
         }
     }

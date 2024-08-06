@@ -1,36 +1,61 @@
 <template>
     <Nav/>
-    <main>  
-        <Header page-name="Map Benchmarks"/>
-        <button @click="getBenchmarks">Get Benchmarks</button>
-    </main>
-    
+    <Header page-name="Fishing Benchmarks"/>
+
+    <section>
+        <FishBenchmark
+            v-if="fishingHoleToggle"
+            :fishing-holes="fishingHoles"
+            :drop-rates="dropRates"
+        />
+    </section>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
+
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
-import axios from 'axios';
+import FishBenchmark from '@/js/vue/components/general/FishBenchmark.vue'
 
-const getBenchmarks = async () => {
-    try {
-        const response = await axios.get(`../api/fetch-benchmarks`);
-    } catch (error){
-        console.log('Error getting benchmarks: ', error);
+
+const fishingHoles = ref([]),
+    dropRates = ref([]),
+    fishingHoleToggle = ref(false);
+
+const sortBenchmarks = (benchmarks) => {
+    if (benchmarks){
+        // Create an array of indexes
+        const indexes = benchmarks.map((_, index) => index);
+
+        // Sort the indexes based on the estimatedValue
+        indexes.sort((a, b) => benchmarks[b].estimateValue - benchmarks[a].estimateValue);
+
+        // Use the sorted indexes to sort benchmarks and dropRates
+        const sortedBenchmarks = indexes.map(index => benchmarks[index]);
+        const sortedDropRates = indexes.map(index => dropRates.value[index]);
+
+        // Update the ref values with sorted data
+        fishingHoles.value = sortedBenchmarks;
+        dropRates.value = sortedDropRates;
+
+        //console.log('sorted: ', fishingHoles.value, dropRates.value);
+        fishingHoleToggle.value = true; 
     }
 }
 
-const filter = ['Volatile Magic'],
-    encodedFilter = encodeURIComponent(JSON.stringify(filter));
 
-const merp = `../api/currencies/${encodedFilter}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
 
-const getTable = async () => {
-    const response = await fetch(merp); 
-    const data = await response.json(); 
-    console.log('merp: ', data);
+const getFishes = async () => {
+    const response = await fetch(`../api/benchmarks/fishing/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`);
+    const responseData = await response.json(); 
+    
+    fishingHoles.value = responseData.fishingHoles; 
+    dropRates.value = responseData.dropRates;
+    sortBenchmarks(fishingHoles.value);
 }
 
-getTable(); 
+getFishes();
 
 </script>

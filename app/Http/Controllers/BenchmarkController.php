@@ -131,6 +131,7 @@ class BenchmarkController extends Controller
                 'time' => $time,
                 'region' => $region,
                 'map' => $map,
+                'sampleSize' => $sampleSize,
                 'avgHoles' => $avgHoles,
                 'avgTime' => $avgTime, 
                 'timeVariable' => $timeVariable,

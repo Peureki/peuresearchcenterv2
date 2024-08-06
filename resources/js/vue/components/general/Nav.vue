@@ -824,8 +824,8 @@ import { useRoute, useRouter } from 'vue-router'
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
 import { nodeTrackerModalToggle } from '@/js/vue/composables/Global.js';
-import { convertTaxToPercent } from '@/js/vue/composables/BasicFunctions.js'
-import { pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
+import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
+import { formatTime } from '@/js/vue/composables/FormatFunctions.js';
 
 import ProgressBar from '@/js/vue/components/general/ProgressBar.vue'
 
@@ -867,20 +867,7 @@ const canthanPeriods = [
 const startTyrianTime = 18 * 3600 + 30 * 60,
     startCanthanTime = 18 * 3600 + 40 * 60;
 
-// Format time in seconds
-// Example 1hr, 30mins, 25seconds would be 01:30:25
-const formatTime = (seconds) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
 
-    // Remove hours if it's less than 60minutes
-    if (hours > 0){
-        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    } else {
-        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    }
-};
 
 
 
@@ -908,7 +895,8 @@ const updateTimer = (regionStartTime, regionPeriods, regionCurrentPeriod, region
     }
 };
 
-
+// Get background color of current time period
+// Computed so that it will reactively change depending on the period
 const getBackgroundColor = (currentPeriod) => {
     return computed(() => {
         switch (currentPeriod.value){
@@ -924,27 +912,8 @@ const backgroundColorTyrianTime = getBackgroundColor(tyrianCurrentPeriod),
     backgroundColorCanthanTime = getBackgroundColor(canthanCurrentPeriod);
 
 
-const getLuminance = (color) => {
-    const rgb = color.match(/\d+/g).map(Number);
-    const [r, g, b] = rgb;
-    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-};
-
-const getTextColor = (backgroundColor) => {
-    const luminance = getLuminance(backgroundColor);
-    return luminance > 128 ? 'black' : 'white';
-};
-
-// const getTextColorForPeriod = (currentPeriod) => {
-//     return computed(() => {
-//         const bgColor = getBackgroundColor(currentPeriod).value;
-//         return getTextColor(bgColor);
-//     });
-// }
-
-
-
 onMounted(() => {
+    // Start region timers for both Tyria and Cantha
     updateTimer(startTyrianTime, tyrianPeriods, tyrianCurrentPeriod, tyrianTimeTilNext, tyrianProgressBarWidth);
 
     updateTimer(startCanthanTime, canthanPeriods, canthanCurrentPeriod, canthanTimeTilNext, canthanProgressBarWidth);
