@@ -11,7 +11,6 @@ class MixedSalvageableDropRate extends Model
 
     protected $fillable = [
         'id',
-        'item_id',
         'currency_id',
         'mixed_salvageable_id',
         'drop_rate',
@@ -26,9 +25,5 @@ class MixedSalvageableDropRate extends Model
 
     public function mixedSalvageable(){
         return $this->belongsTo(MixedSalvageable::class, 'mixed_salvageable_id', 'id'); 
-    }
-
-    public function item(){
-        return $this->belongsTo(Items::class); 
     }
 }

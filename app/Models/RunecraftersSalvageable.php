@@ -5,27 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MixedSalvageable extends Model
+class RunecraftersSalvageable extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'id',
-        'category',
-        'sample_size',
+        'sample_size'
     ];
-    // *
-    // * RELATIONSHIPS
-    // * 
-    public function mixedSalvageableDropRate(){
-        return $this->hasOne(MixedSalvageableDropRate::class); 
-    }
-    // *
-    // * FOREIGN KEY
-    // * 
+
+    /*
+     * RELATIONSHIPS
+     */
     public function item(){
         return $this->belongsTo(Items::class, 'id', 'id'); 
     }
-
-
+    /*
+     * FOREIGN KEYS
+     */
+    public function dropRate(){
+        return $this->hasMany(RunecraftersSalvageableDropRate::class);
+    }
 }

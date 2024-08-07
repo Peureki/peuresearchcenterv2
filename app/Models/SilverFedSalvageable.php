@@ -5,27 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MixedSalvageable extends Model
+class SilverFedSalvageable extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'id',
-        'category',
-        'sample_size',
+        'sample_size'
     ];
-    // *
-    // * RELATIONSHIPS
-    // * 
-    public function mixedSalvageableDropRate(){
-        return $this->hasOne(MixedSalvageableDropRate::class); 
+
+    /*
+     * RELATIONSHIPS
+     */
+    public function dropRate(){
+        return $this->hasMany(SilverFedSalvageableDropRate::class);
     }
-    // *
-    // * FOREIGN KEY
-    // * 
+    /*
+     * FOREIGN KEYS
+     */
+    
     public function item(){
         return $this->belongsTo(Items::class, 'id', 'id'); 
     }
-
-
 }

@@ -17,14 +17,20 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->unsignedBigInteger('item_id')->nullable(); 
             $table->unsignedBigInteger('currency_id')->nullable();
-            $table->unsignedBigInteger('mixed_salvageable_id')->nullable(); 
-            $table->decimal('drop_rate', 15, 8)->nullable();
+            $table->unsignedBigInteger('mixed_salvageable_id')->nullable();
 
-            $table->foreign('item_id')->references('id')->on('items')->onUpdate('cascade');
-            $table->foreign('currency_id')->references('id')->on('currencies')->onUpdate('cascade');
-            $table->foreign('mixed_salvageable_id')->references('id')->on('mixed_salvageables')->onUpdate('cascade');
+            $table->foreign('curency_id')
+                ->references('id')
+                ->on('currencies')
+                ->onUpdate('cascade');
+
+            $table->foreign('mixed_salvageable_id')
+                ->references('id')
+                ->on('mixed_salvageables')
+                ->onUpdate('cascade');
+
+            $table->decimal('drop_rate', 15, 8)->nullable();
         });
     }
 

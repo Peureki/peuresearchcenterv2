@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mixed_salvageables', function (Blueprint $table) {
+        Schema::create('silver_fed_salvageables', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
 
-            $table->unsignedBigInteger('item_id')->nullable(); 
-            $table->string('category')->nullable();
-            $table->integer('sample_size')->nullable();
+            $table->foreign('id')->references('id')->on('items')->onUpdate('cascade');
 
-            $table->foreign('item_id')->references('id')->on('items')->onUpdate('cascade');
+            $table->integer('sample_size')->nullable();
         });
     }
 
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mixed_salvageables');
+        Schema::dropIfExists('silver_fed_salvageables');
     }
 };
