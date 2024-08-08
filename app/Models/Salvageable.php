@@ -15,7 +15,9 @@ class Salvageable extends Model
         'category',
         'sample_size',
     ];
-
+    // *
+    // * RELATIONSHIPS
+    // * 
     public function salvageableDropRate(){
         return $this->hasOne(SalvageableDropRate::class); 
     }

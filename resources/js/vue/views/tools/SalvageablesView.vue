@@ -25,7 +25,7 @@ import { ref } from 'vue'
 import Nav from '@/js/vue/components/general/Nav.vue';
 import Header from '@/js/vue/components/general/Header.vue'
 import GeneralTable from '@/js/vue/components/general/GeneralTable.vue';
-import SalvageableTables from '@/js/vue/components/general/SalvageableTables.vue'
+import SalvageableTables from '@/js/vue/components/tables/SalvageableTables.vue'
 
 const salvageableURL = `../api/tools/salvageables/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
 

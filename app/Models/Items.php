@@ -57,4 +57,40 @@ class Items extends Model
     public function fishingHoleDropRate(){
         return $this->hasMany(FishingHoleDropRate::class);
     }
+
+    /*
+     * SALVAGEABLES
+     */
+
+    public function copperFedSalvageable(){
+        return $this->hasMany(CopperFedSalvageable::class); 
+    }
+
+    public function copperFedSalvageableDropRate(){
+        return $this->hasMany(CopperFedSalvageableDropRate::class); 
+    }
+
+    public function runecraftersSalvageable(){
+        return $this->hasMany(runecraftersSalvageable::class); 
+    }
+
+    public function runecraftersSalvageableDropRate(){
+        return $this->hasMany(runecraftersSalvageableDropRate::class);
+    }
+
+    public function silverFedSalvageable(){
+        return $this->hasMany(SilverFedSalvageable::class);
+    }
+
+    public function silverFedSalvageableDropRate(){
+        return $this->hasMany(SilverFedSalvageableDropRate::class); 
+    }
+
+    public function mixedSalvageable(){
+        return $this->hasMany(MixedSalvageable::class);
+    }
+
+    public function mixedSalvageableDropRate(){
+        return $this->hasMany(MixedSalvageableDropRate::class); 
+    }
 }

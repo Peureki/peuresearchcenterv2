@@ -11,6 +11,7 @@ class MixedSalvageableDropRate extends Model
 
     protected $fillable = [
         'id',
+        'item_id',
         'currency_id',
         'mixed_salvageable_id',
         'drop_rate',
@@ -19,6 +20,10 @@ class MixedSalvageableDropRate extends Model
     //  *
     //  * FOREIGN KEYS
     //  * 
+    public function item(){
+        return $this->belongsTo(Items::class);
+    }
+
     public function currency(){
         return $this->belongsTo(Currencies::class); 
     }

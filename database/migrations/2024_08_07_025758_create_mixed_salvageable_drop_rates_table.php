@@ -17,10 +17,16 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
 
+            $table->unsignedBigInteger('item_id')->nullable();
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->unsignedBigInteger('mixed_salvageable_id')->nullable();
 
-            $table->foreign('curency_id')
+            $table->foreign('item_id')
+                ->references('id')
+                ->on('items')
+                ->onUpdate('cascade');
+
+            $table->foreign('currency_id')
                 ->references('id')
                 ->on('currencies')
                 ->onUpdate('cascade');

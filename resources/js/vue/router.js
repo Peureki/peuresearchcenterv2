@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from './views/HomeView.vue'
 
-import BenchmarksMapsView from './views/benchmarks/MapsView.vue'
+import BenchmarksMapsView from './views/benchmarks/MapsViewMerp.vue'
 import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
 
 /*

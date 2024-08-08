@@ -11,6 +11,8 @@ use App\Models\Items;
 use App\Models\Bag;
 use App\Models\Benchmarks;
 use App\Models\ContainerDropRate;
+use App\Models\CopperFedSalvageable;
+use App\Models\CopperFedSalvageableDropRate;
 use App\Models\Currencies;
 use App\Models\CurrencyBagDropRates;
 use App\Models\Fish;
@@ -25,9 +27,13 @@ use App\Models\MixedSalvageableDropRate;
 use App\Models\Recipes;
 use App\Models\ResearchNote;
 use App\Models\ResearchNotes;
+use App\Models\RunecraftersSalvageable;
+use App\Models\RunecraftersSalvageableDropRate;
 use App\Models\Salvageable;
 use App\Models\SalvageableDropRate;
 use App\Models\SampleSize;
+use App\Models\SilverFedSalvageable;
+use App\Models\SilverFedSalvageableDropRate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -336,111 +342,174 @@ class FetchController extends Controller
         }
     }
 
-    public function fetchMixedSalvageables(){
-        $api = Http::get('https://script.google.com/macros/s/AKfycbxaXtnCWj88LEF06AqHMYF9TM_UPZcJIi8wcfKDiWYJb0ablcsoJBiB5dkBQot5SnJ-/exec');
+    public function fetchSalvageables(){
+        // Get all salvageable apis from the spreadsheet
+        // COPPERFED
+        // RUNECRAFTERS
+        // SILVERFED
+        // MIXED
+        $apis = array(
+            "https://script.google.com/macros/s/AKfycbzNLFImc6N-uGhnXo_Po3GTEzLkivpOQ0jI-bYXbxvV9KwCv5V2ZS_msnZB1kFDr_3N/exec?endpoint=copperFed",
 
-        $spreadsheet = $api->json(); 
+            "https://script.google.com/macros/s/AKfycbzNLFImc6N-uGhnXo_Po3GTEzLkivpOQ0jI-bYXbxvV9KwCv5V2ZS_msnZB1kFDr_3N/exec?endpoint=runecrafters",
 
-        foreach ($spreadsheet['mixedSalvageables'] as $index => $salvageable){
-            MixedSalvageable::updateOrCreate(
-                [
-                    'item_id' => $salvageable['id'], 
-                ],
-                [
-                    'category' => $salvageable['category'],
-                    'sample_size' => $salvageable['sampleSize'],
-                ]
-            );
+            "https://script.google.com/macros/s/AKfycbzNLFImc6N-uGhnXo_Po3GTEzLkivpOQ0jI-bYXbxvV9KwCv5V2ZS_msnZB1kFDr_3N/exec?endpoint=silverFed",
 
-            $items = explode(",", $salvageable['item']); 
-            $itemDrs = explode(",", $salvageable['itemDr']); 
+            "https://script.google.com/macros/s/AKfycbzNLFImc6N-uGhnXo_Po3GTEzLkivpOQ0jI-bYXbxvV9KwCv5V2ZS_msnZB1kFDr_3N/exec?endpoint=mixed"
 
-            foreach ($items as $key => $item){
-                // In the spreadsheet, there may be blank entries
-                // Trim them and skip if there is any
-                $id = trim($item); 
-                if (empty($item)){
-                    continue; 
-                }
+        );
 
-                MixedSalvageableDropRate::updateOrCreate(
-                    [
-                        'mixed_salvageable_id' => $index + 1, 
-                        'item_id' => $id,
-                    ],
-                    [
-                        'drop_rate' => $itemDrs[$key],
-                    ]
-                );
-            }
+        foreach ($apis as $apiIndex => $api){
+            $spreadsheet = Http::get($api)->json(); 
+            // Get the first index of a named key array
+            $spreadsheet = reset($spreadsheet); 
 
-            if (!empty($salvageable['currency'])){
-                $currencies = explode(",", $salvageable['currency']);
-                $currenciesDrs = explode(",", $salvageable['currencyDr']); 
-
-                foreach ($currencies as $key => $currency){
-                    MixedSalvageableDropRate::updateOrCreate(
+            //  *
+            //  * COPPERFED SALVAGEABLES
+            //  *
+            if ($apiIndex == 0){
+                foreach ($spreadsheet as $salvageable){
+                    CopperFedSalvageable::updateOrCreate(
                         [
-                            'mixed_salvageable_id' => $index + 1,
-                            'currency_id' => $currency,
+                            'id' => $salvageable['id'],
                         ],
                         [
-                            'drop_rate' => $currenciesDrs[$key],
+                            'sample_size' => $salvageable['sampleSize'],
                         ]
                     );
+
+                    $ids = explode(",", $salvageable['dropID']);
+                    $dropRates = explode(',', $salvageable['dropRate']);
+
+                    foreach ($ids as $key => $id){
+                        CopperFedSalvageableDropRate::updateOrCreate(
+                            [
+                                'item_id' => $id,
+                                'copper_fed_salvageable_id' => $salvageable['id'],
+                            ],
+                            [
+                                'drop_rate' => $dropRates[$key], 
+                            ]
+                        );
+                    }
+                }
+            //  *
+            //  * RUNECRAFTERS SALVAGEABLES
+            //  *
+            } else if ($apiIndex == 1){
+                foreach ($spreadsheet as $salvageable){
+                    RunecraftersSalvageable::updateOrCreate(
+                        [
+                            'id' => $salvageable['id'],
+                        ],
+                        [
+                            'sample_size' => $salvageable['sampleSize'],
+                        ]
+                    );
+
+                    $ids = explode(",", $salvageable['dropID']);
+                    $dropRates = explode(',', $salvageable['dropRate']);
+
+                    foreach ($ids as $key => $id){
+                        RunecraftersSalvageableDropRate::updateOrCreate(
+                            [
+                                'item_id' => $id,
+                                'runecrafters_salvageable_id' => $salvageable['id'],
+                            ],
+                            [
+                                'drop_rate' => $dropRates[$key], 
+                            ]
+                        );
+                    }
+                }
+            //  *
+            //  * SILVER FED SALVAGEABLES
+            //  *
+            } else if ($apiIndex == 2){
+                foreach ($spreadsheet as $salvageable){
+                    SilverFedSalvageable::updateOrCreate(
+                        [
+                            'id' => $salvageable['id'],
+                        ],
+                        [
+                            'sample_size' => $salvageable['sampleSize'],
+                        ]
+                    );
+
+                    $ids = explode(",", $salvageable['dropID']);
+                    $dropRates = explode(',', $salvageable['dropRate']);
+
+                    foreach ($ids as $key => $id){
+                        SilverFedSalvageableDropRate::updateOrCreate(
+                            [
+                                'item_id' => $id,
+                                'silver_fed_salvageable_id' => $salvageable['id'],
+                            ],
+                            [
+                                'drop_rate' => $dropRates[$key], 
+                            ]
+                        );
+                    }
+                }
+            //  *
+            //  * MIXED SALVAGEABLES
+            //  *
+            } else if ($apiIndex == 3){
+                foreach ($spreadsheet as $salvageable){
+                    MixedSalvageable::updateOrCreate(
+                        [
+                            'id' => $salvageable['id'], 
+                        ],
+                        [
+                            'category' => $salvageable['category'],
+                            'sample_size' => $salvageable['sampleSize'],
+                        ]
+                    );
+        
+                    $items = explode(",", $salvageable['dropID']); 
+                    $itemDrs = explode(",", $salvageable['dropRate']); 
+        
+                    foreach ($items as $key => $item){
+                        // In the spreadsheet, there may be blank entries
+                        // Trim them and skip if there is any
+                        $id = trim($item); 
+                        if (empty($item)){
+                            continue; 
+                        }
+        
+                        MixedSalvageableDropRate::updateOrCreate(
+                            [ 
+                                'item_id' => $id,
+                                'mixed_salvageable_id' => $salvageable['id'],
+                            ],
+                            [
+                                'drop_rate' => $itemDrs[$key],
+                            ]
+                        );
+                    }
+        
+                    if (!empty($salvageable['currencyID'])){
+                        $currencies = explode(",", $salvageable['currencyID']);
+                        $currenciesDrs = explode(",", $salvageable['currencyDropRate']); 
+        
+                        foreach ($currencies as $key => $currency){
+                            MixedSalvageableDropRate::updateOrCreate(
+                                [
+                                    'currency_id' => $currency,
+                                    'mixed_salvageable_id' => $salvageable['id'],
+                                ],
+                                [
+                                    'drop_rate' => $currenciesDrs[$key],
+                                ]
+                            );
+                        }
+                    }
                 }
             }
+
+
         }
     }
-
-    public function fetchSalvageables(){
-        $api = Http::get('https://script.google.com/macros/s/AKfycbz9eON6Mrcyib4o_2m9ZkH26ja3LAv0mogd7X3bmWw1iMyx6xn8lEY8-fCGISu4Iidz/exec');
-
-        $spreadsheet = $api->json(); 
-
-
-        foreach ($spreadsheet['salvageables'] as $index => $salvageable){
-            Salvageable::updateOrCreate(
-                [
-                    // Since dbs start ids at 1 instead of 0
-                    'id' => $index + 1,
-                    'item_id' => $salvageable['id'], 
-                ],
-                [
-                    'category' => $salvageable['category'],
-                    'sample_size' => $salvageable['sampleSize'],
-                ]
-            );
-
-            $ids = explode(",", $salvageable['item']);
-            $dropRates = explode(',', $salvageable['dr']);
-            
-            foreach ($ids as $key => $id){
-                SalvageableDropRate::updateOrCreate(
-                    [
-                        'item_id' => $id, 
-                        // Match salvageables id table 
-                        'salvageable_id' => $index + 1,
-                    ],
-                    [
-                        'drop_rate' => $dropRates[$key],
-                    ]
-                ); 
-            }
-        }
-
-    }
-
-    // public function fetchBagDropRates(){
-    //     $api = Http::get('https://script.google.com/macros/s/AKfycbzJGJVi_2GPMaLubmRzKx3WAuDvbo2rWnekz2t6luNCBTRfOIelSPDsac0Vemobobi8eQ/exec'); 
-    //     $spreadsheet = $api->json(); 
-
-    //     foreach ($spreadsheet['bags'] as $index => $bag){
-
-    //     }
-    // }
-
-    
 
     public function fetchCurrencies(){
         $apiIds = Http::get('https://api.guildwars2.com/v2/currencies?ids=all'); 
@@ -480,45 +549,8 @@ class FetchController extends Controller
     //     }
     // }
 
-    public function fetchBenchmarks(){
-        // Spreadsheet API
-        $apiURL = Http::get("https://script.google.com/macros/s/AKfycbx5VDf5zzAuZf5h38BLuvLN_KD3Gu0A1CKWm19zg-YVeC1COBrYVONmvxqkJr_ANasJ/exec");
-        // Turn API into a JSON so it's easier to work with
-        $api = $apiURL->json(); 
-        // Array in spreadsheet is labeled 'benchmarks' from the App Script
-        $benchmarksSS = $api['benchmarks'];
-        
-        // Populate $benchmarks array and set each benchmark with their own database table (assuming the tables have already been migrated)
-        foreach ($benchmarksSS as $benchmark){
-            if ($benchmark['map'] != NULL){
-                // Example: map_benchmark_auric_basin
-                $db = (new Benchmarks)->setTable($benchmark['map']); 
-
-                // 1. explode => From the SS, it returns a long string full of drops like "Merp1, Merp2, Merp3". Seperate each merp to be it's own cell in an array
-                // 2. array_filter => Remove any empty cells in the array
-                // 3. array_values => Reindex the array to avoid indexes such as 0, 4, 60. Now it should be 0, 1, 2
-                $drops = array_values(array_filter(explode(",", $benchmark['drops']), 'strlen'));
-                $dropRates = array_values(array_filter(explode(",", $benchmark['dropRates']), 'strlen'));
-
-                // For each drop (using it as an index really), populate the database 
-                foreach ($drops as $index => $drop){
-                    $db->updateOrCreate(
-                        [
-                            // +1 because the $drop starts at index 0, but databases only count their IDs starting at 1
-                            'id' => $index + 1,
-                        ],
-                        [
-                            'drop' => $drops[$index],
-                            'drop_rate' => floatval($dropRates[$index]),
-                        ]
-                    );
-                }
-            }      
-        }
-    }
-
     public function fetchResearchNotes(){
-        $salvagableItemCategories = [
+        $salvageableItemCategories = [
             ["Draconic", 5.5],
             ["Tempered Scale", 6],
             ["Barbaric", 5.5],
@@ -733,7 +765,7 @@ class FetchController extends Controller
             "Bowl of Blackberry Pear Compote"
         ];
 
-        foreach ($salvagableItemCategories as $items){
+        foreach ($salvageableItemCategories as $items){
             $item = Items::where('name', 'like', '%'.$items[0].'%')
                 ->where('level', '!=', 0)
                 ->where('vendor_value', '!=', 0)

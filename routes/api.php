@@ -8,6 +8,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\SalvageableController;
 use App\Http\Controllers\UserController;
+use App\Jobs\Fetches\FetchItems;
 use App\Models\Currencies;
 use Illuminate\Auth\Events\CurrentDeviceLogout;
 use Illuminate\Http\Request;
@@ -65,6 +66,11 @@ Route::get('/recipes/{id}/{quantity}', [RecipeController::class, 'getRecipeTree'
 Route::get('/recipes/search-recipes', [RecipeController::class, 'searchRecipes']);
 Route::get('/tools/salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'salvageables']);
 Route::get('/tools/mixed-salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'mixedSalvageables']);
+
+
+// * SALVAGE
+Route::get('/tools/merp/{sellOrderSetting}/{tax}', [SalvageableController::class, 'merp']);
+
 
 // * SPIRIT SHARDS
 Route::get('/currencies/spirit-shards/{buyOrderSetting}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'getSpiritShards']);
