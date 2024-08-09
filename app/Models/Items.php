@@ -93,4 +93,8 @@ class Items extends Model
     public function mixedSalvageableDropRate(){
         return $this->hasMany(MixedSalvageableDropRate::class); 
     }
+
+    public function exotic(){
+        return $this->hasMany(Exotic::class); 
+    }
 }

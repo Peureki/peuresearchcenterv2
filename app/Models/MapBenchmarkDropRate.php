@@ -12,7 +12,10 @@ class MapBenchmarkDropRate extends Model
 
     protected $fillable = [
         'id',
-        'salvageable_id',
+        'map_benchmark_id',
+        'copper_fed_salvageable_id',
+        'runecrafters_salvageable_id',
+        'silver_fed_salvageable_id',
         'mixed_salvageable_id',
         'bag_id',
         'fish_id',
@@ -24,9 +27,22 @@ class MapBenchmarkDropRate extends Model
     /*  
      * FOREIGN KEYS
      */
-    public function salvageable(){
-        return $this->belongsTo(Salvageable::class); 
+    public function mapBenchmark(){
+        return $this->belongsTo(MapBenchmark::class);
     }
+
+    public function copperFedSalvageable(){
+        return $this->belongsTo(CopperFedSalvageable::class);
+    }
+
+    public function runecraftersSalvageable(){
+        return $this->belongsTo(RunecraftersSalvageable::class); 
+    }
+
+    public function silverFedSalvageable(){
+        return $this->belongsTo(SilverFedSalvageable::class); 
+    }
+
     public function mixedSalvageable(){
         return $this->belongsTo(MixedSalvageable::class); 
     }

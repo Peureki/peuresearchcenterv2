@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Bag;
 use App\Models\ContainerDropRate;
+use App\Models\CopperFedSalvageableDropRate;
 use App\Models\CurrencyBagDropRates;
 use App\Models\FishDropRate;
 use App\Models\MixedSalvageableDropRate;
+use App\Models\RunecraftersSalvageableDropRate;
 use App\Models\Salvageable;
 use App\Models\SalvageableDropRate;
+use App\Models\SilverFedSalvageableDropRate;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -198,28 +201,46 @@ class Controller extends BaseController
     // 
     // This function is used to determine of salvageable gear value dropped in bags or other sources 
     protected function getSalvageableValue($salvageableID, $salvageableValue, $salvageableDropRate, $sellOrderSetting, $tax){
-        $salvageTable = SalvageableDropRate::join('salvageables', 'salvageable_id', '=', 'salvageables.id')
-        ->where('salvageables.item_id', $salvageableID)
-        ->join('items', 'salvageable_drop_rates.item_id', '=', 'items.id')
-        ->get();
-    
+        $copperFedDropRates = CopperFedSalvageableDropRate::join('copper_fed_salvageables', 'copper_fed_salvageable_drop_rates.copper_fed_salvageable_id', '=', 'copper_fed_salvageables.id')
+        ->where('copper_fed_salvageables.id', $salvageableID)
+        ->join('items', 'copper_fed_salvageable_drop_rates.item_id', '=', 'items.id')
+        ->get(); 
+
+        $runecraftersDropRates = RunecraftersSalvageableDropRate::join('runecrafters_salvageables', 'runecrafters_salvageable_drop_rates.runecrafters_salvageable_id', '=', 'runecrafters_salvageables.id')
+        ->where('runecrafters_salvageables.id', $salvageableID)
+        ->join('items', 'runecrafters_salvageable_drop_rates.item_id', '=', 'items.id')
+        ->get(); 
+
+        $silverFedDropRates = SilverFedSalvageableDropRate::join('silver_fed_salvageables', 'silver_fed_salvageable_drop_rates.silver_fed_salvageable_id', '=', 'silver_fed_salvageables.id')
+        ->where('silver_fed_salvageables.id', $salvageableID)
+        ->join('items', 'silver_fed_salvageable_drop_rates.item_id', '=', 'items.id')
+        ->get(); 
+
         $salvageableValue *= $tax; 
+
+        $salvageKitData = array($copperFedDropRates, $runecraftersDropRates, $silverFedDropRates); 
 
         $copperFedValue = 0;
         $runecraftersValue = 0;
         $silverFedValue = 0; 
 
-        foreach ($salvageTable as $item){
-            switch ($item->category){
-                case "Copper-Fed":
-                    $copperFedValue += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
-                    break;
-                case "Runecrafter's":
-                    $runecraftersValue += ($item->$sellOrderSetting * $tax) * $item->drop_rate;
-                    break;
-                case "Silver-Fed":
-                    $silverFedValue += ($item->$sellOrderSetting * $tax) * $item->drop_rate;
-                    break; 
+        foreach ($salvageKitData as $kitIndex => $kit){
+            foreach ($kit as $item){
+                // Compare each kit
+                // 0 == Copper
+                // 1 == Runecrafters
+                // 2 = Silver
+                switch ($kitIndex){
+                    case 0: 
+                        $copperFedValue += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+                        break;
+                    case 1:
+                        $runecraftersValue += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+                        break;
+                    case 2: 
+                        $silverFedValue += ($item->$sellOrderSetting * $tax) * $item->drop_rate;
+                        break;  
+                }
             }
         }
 
@@ -244,6 +265,7 @@ class Controller extends BaseController
                 $bestValue = $silverFedValue; 
             }
         }
+
         // If any of the 3 salvage kit values are > 0
         // => return that value 
         // => else return value without salvaging
@@ -253,6 +275,64 @@ class Controller extends BaseController
             return $salvageableValue * $salvageableDropRate; 
         }
     }
+
+
+    // protected function getMerp($salvageableID, $salvageableValue, $salvageableDropRate, $sellOrderSetting, $tax){
+    //     $salvageTable = SalvageableDropRate::join('salvageables', 'salvageable_id', '=', 'salvageables.id')
+    //     ->where('salvageables.item_id', $salvageableID)
+    //     ->join('items', 'salvageable_drop_rates.item_id', '=', 'items.id')
+    //     ->get();
+    
+    //     $salvageableValue *= $tax; 
+
+    //     $copperFedValue = 0;
+    //     $runecraftersValue = 0;
+    //     $silverFedValue = 0; 
+
+    //     foreach ($salvageTable as $item){
+    //         switch ($item->category){
+    //             case "Copper-Fed":
+    //                 $copperFedValue += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+    //                 break;
+    //             case "Runecrafter's":
+    //                 $runecraftersValue += ($item->$sellOrderSetting * $tax) * $item->drop_rate;
+    //                 break;
+    //             case "Silver-Fed":
+    //                 $silverFedValue += ($item->$sellOrderSetting * $tax) * $item->drop_rate;
+    //                 break; 
+    //         }
+    //     }
+
+    //     // Profit values for each salvage kit
+    //     $copperFedValue = ($copperFedValue - $salvageableValue) - 3; 
+    //     $runecraftersValue = ($runecraftersValue - $salvageableValue) - 30; 
+    //     $silverFedValue = ($silverFedValue - $salvageableValue) - 60; 
+    //     // Input the best out of the 3 into this
+    //     $bestValue = 0;
+
+    //     // Check if any of the salvage values are above 0
+    //     // If yes => do checks to see which is the highest value
+    //     if ($copperFedValue > 0 || $runecraftersValue > 0 || $silverFedValue > 0){
+    //         // Check copperfed
+    //         if ($copperFedValue > $runecraftersValue && $copperFedValue > $silverFedValue) {
+    //             $bestValue = $copperFedValue; 
+    //         // Check runecrafter's
+    //         } else if ($runecraftersValue > $copperFedValue && $runecraftersValue > $silverFedValue) {
+    //             $bestValue = $runecraftersValue;
+    //         // Otherwise silverfed
+    //         } else {
+    //             $bestValue = $silverFedValue; 
+    //         }
+    //     }
+    //     // If any of the 3 salvage kit values are > 0
+    //     // => return that value 
+    //     // => else return value without salvaging
+    //     if ($bestValue > 0){
+    //         return ($bestValue + $salvageableValue) * $salvageableDropRate; 
+    //     } else {
+    //         return $salvageableValue * $salvageableDropRate; 
+    //     }
+    // }
 
     // GET UNI GEAR SALVAGE VALUE
     // Goal: 
@@ -264,7 +344,7 @@ class Controller extends BaseController
     // This function is used to determine of uni gear value dropped in bags or other sources 
     protected function getUnidentifiedGearValue($gearID, $gearValue, $gearDR, $sellOrderSetting, $tax){
         $salvageTable = MixedSalvageableDropRate::join('mixed_salvageables', 'mixed_salvageable_id', '=', 'mixed_salvageables.id')
-        ->where('mixed_salvageables.item_id', $gearID)
+        ->where('mixed_salvageables.id', $gearID)
         ->join('items', 'mixed_salvageable_drop_rates.item_id', '=', 'items.id')
         ->get(); 
 

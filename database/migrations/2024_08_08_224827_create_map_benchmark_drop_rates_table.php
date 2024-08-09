@@ -17,14 +17,21 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->unsignedBigInteger('salvageable_id')->nullable();
+            $table->unsignedBigInteger('map_benchmark_id')->nullable();
+            $table->unsignedBigInteger('copper_fed_salvageable_id')->nullable();
+            $table->unsignedBigInteger('runecrafters_salvageable_id')->nullable();
+            $table->unsignedBigInteger('silver_fed_salvageable_id')->nullable();
             $table->unsignedBigInteger('mixed_salvageable_id')->nullable();
             $table->unsignedBigInteger('bag_id')->nullable();
             $table->unsignedBigInteger('fish_id')->nullable();
             $table->unsignedBigInteger('item_id')->nullable();
             $table->unsignedBigInteger('currency_id')->nullable();
 
-            $table->foreign('salvageable_id')->references('id')->on('salvageables')->onUpdate('cascade');
+
+            $table->foreign('map_benchmark_id')->references('id')->on('map_benchmarks')->onUpdate('cascade');
+            $table->foreign('copper_fed_salvageable_id')->references('id')->on('copper_fed_salvageables')->onUpdate('cascade');
+            $table->foreign('runecrafters_salvageable_id')->references('id')->on('runecrafters_salvageables')->onUpdate('cascade');
+            $table->foreign('silver_fed_salvageable_id')->references('id')->on('silver_fed_salvageables')->onUpdate('cascade');
             $table->foreign('mixed_salvageable_id')->references('id')->on('mixed_salvageables')->onUpdate('cascade');
             $table->foreign('bag_id')->references('id')->on('bags')->onUpdate('cascade');
             $table->foreign('fish_id')->references('id')->on('fishes')->onUpdate('cascade');

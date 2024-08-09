@@ -15,6 +15,7 @@ use App\Models\CopperFedSalvageable;
 use App\Models\CopperFedSalvageableDropRate;
 use App\Models\Currencies;
 use App\Models\CurrencyBagDropRates;
+use App\Models\Exotic;
 use App\Models\Fish;
 use App\Models\FishDropRate;
 use App\Models\FishingEstimate;
@@ -135,6 +136,29 @@ class FetchController extends Controller
         }
     }
 
+    /*
+        *
+        * EXOTICS
+        * 
+    */
+    public function fetchExotics(){
+        $api = Http::get('https://script.google.com/macros/s/AKfycbzNLFImc6N-uGhnXo_Po3GTEzLkivpOQ0jI-bYXbxvV9KwCv5V2ZS_msnZB1kFDr_3N/exec?endpoint=exotic'); 
+
+        $spreadsheet = $api->json(); 
+
+        foreach ($spreadsheet['exotic'] as $exotic){
+            Exotic::updateOrCreate(
+                [
+                    'id' => $exotic['id'],
+                ],
+                [
+                    'id' => $exotic['id'],
+                ]
+            );
+        }
+    }
+
+
     public function fetchMapBenchmarks(){
         $api = Http::get('https://script.google.com/macros/s/AKfycbyzWrCVxCsN_eCAaOrLG-dae6H5IjZJsyFpvrCr-cJK66R05Cyc0cOsbkKlpGPcX6A/exec'); 
         $spreadsheet = $api->json(); 
@@ -161,16 +185,51 @@ class FetchController extends Controller
 
             foreach ($ids as $key => $id){
                 if ($id === 'Exotic'){
-                    dd($id);
-                } else {
                     MapBenchmarkDropRate::updateOrCreate(
                         [
-                            'id' => $index + 1,    
+                            'map_benchmark_id' => $index + 1, 
+                        ],
+                        [
+                            'drop_rate' => $dropRates[$key],
+                        ]
+                    );
+                } else {
+                    $copperFed = null;
+                    $runecrafters = null;
+                    $silverFed = null;
+                    $mixed = null;
+                    $bag = null;
+                    $fish = null; 
+
+                    if (CopperFedSalvageable::find($id)){
+                        $copperFed = $id; 
+                    }
+                    if (RunecraftersSalvageable::find($id)){
+                        $runecrafters = $id;
+                    }
+                    if (SilverFedSalvageable::find($id)){
+                        $silverFed = $id;
+                    }
+                    if (MixedSalvageable::find($id)){
+                        $mixed = $id;
+                    }
+                    if (Bag::find($id)){
+                        $bag = $id;
+                    }
+                    if (Fish::find($id)){
+                        $fish = $id; 
+                    }
+
+                    MapBenchmarkDropRate::updateOrCreate(
+                        [
+                            'map_benchmark_id' => $index + 1,    
                             'item_id' => $id,
-                            'salvageable_id' => $id,
-                            'mixed_salvageable_id' => $id,
-                            'bag_id' => $id,
-                            'fish_id' => $id,
+                            'copper_fed_salvageable_id' => $copperFed,
+                            'runecrafters_salvageable_id' => $runecrafters,
+                            'silver_fed_salvageable_id' => $silverFed,
+                            'mixed_salvageable_id' => $mixed,
+                            'bag_id' => $bag,
+                            'fish_id' => $fish,
                         ],
                         [
                             'drop_rate' => $dropRates[$key],
