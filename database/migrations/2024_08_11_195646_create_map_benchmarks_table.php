@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('type')->nullable();
             $table->integer('sample_size')->nullable();
             $table->dateTime('latest_run')->nullable();
+            $table->decimal('time', 15, 8)->nullable();
         });
     }
 

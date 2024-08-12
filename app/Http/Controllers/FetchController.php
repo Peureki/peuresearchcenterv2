@@ -175,6 +175,7 @@ class FetchController extends Controller
                     'type' => $benchmark['type'],
                     'sample_size' => $benchmark['sampleSize'],
                     'latest_run' => $latestRun,
+                    'time' => $benchmark['time'],
                 ]
             );
 

@@ -15,6 +15,7 @@ class MapBenchmark extends Model
         'type',
         'sample_size',
         'latest_run',
+        'time'
     ];
 
     public function dropRates(){
