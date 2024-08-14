@@ -39,6 +39,7 @@ return new class extends Migration
             $table->foreign('currency_id')->references('id')->on('currencies')->onUpdate('cascade');
 
             $table->decimal('drop_rate', 15, 8)->nullable();
+            $table->boolean('exotic')->nullable();
         });
     }
 

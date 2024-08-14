@@ -13,11 +13,17 @@ class BagDropRate extends Model
         'id',
         'bag_id',
         'item_id',
+        'currency_id',
         'drop_rate',
+        'exotic',
     ];
 
     public function bag(){
         return $this->belongsTo(Bag::class); 
+    }
+
+    public function currency(){
+        return $this->belongsTo(Currencies::class);
     }
 
     public function item(){

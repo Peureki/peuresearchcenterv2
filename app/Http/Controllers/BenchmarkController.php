@@ -4,10 +4,167 @@ namespace App\Http\Controllers;
 
 use App\Models\FishingHole;
 use App\Models\FishingHoleDropRate;
+use App\Models\MapBenchmarkDropRate;
 use Illuminate\Http\Request;
 
 class BenchmarkController extends Controller
 {
+    public function maps($includes, $sellOrderSetting, $tax){
+        // Make it a workable arrays
+        $includes = json_decode($includes); 
+
+        $mapDropRates = MapBenchmarkDropRate::join('map_benchmarks as map', 'map_benchmark_drop_rates.map_benchmark_id', '=', 'map.id')
+        ->leftjoin('items as item', 'map_benchmark_drop_rates.item_id', '=', 'item.id')
+        ->leftjoin('currencies as currency', 'map_benchmark_drop_rates.currency_id', '=', 'currency.id')
+        ->select(
+            'map.*',
+            'map.name as map_name',
+            'map.type as map_type',
+            'item.*',
+            'item.description as item_description',
+            'item.id as item_id',
+            'item.name as item_name',
+            'item.icon as item_icon',
+            'currency.*',
+            'currency.icon as currency_icon',
+            'currency.name as currency_name',
+            'map_benchmark_drop_rates.*',
+        )
+        ->get()
+        ->groupBy('map_benchmark_id'); 
+
+        //dd($mapDropRates);
+
+        $mapBenchmark = []; 
+        $response = []; 
+
+        foreach ($mapDropRates as $group){
+
+            //dd($group);
+
+            $gph = 0;
+            $time = $group[0]->time;
+            $type = $group[0]->map_type;
+            $map = $group[0]->map_name;
+            $sampleSize = $group[0]->sample_size;
+            $latestRun = $group[0]->latest_run;
+
+            $itemValue = 0;
+            $currentHighestValue = 0; 
+            $mostValuedItem = '';
+            $mostValuedIcon = '';
+
+            $total = 0;
+
+            foreach ($group as $item){
+                //dd($item);
+                
+
+                // if ($item->item_name == 'Dragonite Ore'){
+                //     dd($item);
+                // }
+
+                
+                // If the drop rate is 0, then skip to the next item
+                if ($item->drop_rate == 0){
+                    continue;
+                } 
+                // RAW CURRENCIES
+                else if ($item->currency_id) {
+                    $itemValue = $this->getCurrencyValue($item->currency_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                }
+                // CONSUMABLES
+                else if ($item->type === 'Consumable' && strpos($item->item_description, 'volatile magic') || strpos($item->item_description, 'unbound magic')){
+                    $itemValue = $this->getConsumableValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
+                }
+
+                else {
+                    // JUNK ITEMS
+                    if ($item->rarity == 'Junk'){
+                        $itemValue = $item->vendor_value * $item->drop_rate;   
+                    }
+                    // UNIDENTIFIED GEAR
+                    else if (strpos($item->item_name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
+                        $itemValue = $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+                    } 
+                    // CHAMP BAGS, CONTAINERS
+                    else if ($item->type == "Container" && strpos($item->item_description, 'Salvage') === false){
+                        $itemValue = ($this->getContainerValue($item->item_id, $sellOrderSetting, $tax)) * $item->drop_rate; 
+                    } 
+                    // SALVAGEABLES (exclu uni gear)
+                    else if ($item->item_description === "Salvage Item" && in_array('Salvageables', $includes)){
+                        $itemValue = $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+                    }
+                    // ASCENDED JUNK
+                    else if ($item->rarity == 'Ascended' && $item->type == 'CraftingMaterial' && in_array('AscendedJunk', $includes)) {
+                        // There's a lot of ascended and crafteringMaterials so switch the $item->name to check for specifically the ascended junk
+                        switch ($item->item_name){
+                            case 'Dragonite Ore':
+                                $itemValue = $this->getAscendedJunkValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                                break;
+
+                            case 'Empyreal Fragment':
+                                $itemValue = $this->getAscendedJunkValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                                break;
+
+                            case 'Pile of Bloodstone Dust':
+                                $itemValue = $this->getAscendedJunkValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                                break;
+                        }
+                    }
+                    // ANYTHING ELSE NOT FROM ABOVE 
+                    else {
+                        $itemValue = ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+                    }                            
+                }
+                $item->value = $itemValue;
+
+                if ($itemValue > $currentHighestValue){
+                    $currentHighestValue = $itemValue;
+                    if ($item->currency_id){
+                        $mostValuedItem = $item->currency_name;
+                        $mostValuedIcon = $item->currency_icon;
+                    } else {
+                        $mostValuedItem = $item->item_name;
+                        $mostValuedIcon = $item->item_icon;
+                    }
+                    
+                }
+                
+                $total += $itemValue; 
+                
+
+            } // End of foreach $items
+            $gph = $total / $time; 
+            //dd($total, $time);
+            
+            //dd($total);
+
+            array_push($mapBenchmark, [
+                'gph' => $gph,
+                'total' => $total,
+                'type' => $type,
+                'time' => $time,
+                'map' => $map,
+                'sampleSize' => $sampleSize,
+                'latestRun' => $latestRun,
+                'mostValuedItem' => $mostValuedItem, 
+                'mostValuedIcon' => $mostValuedIcon,
+            ]);
+        }
+
+        $mapDropRates = $mapDropRates->values();
+
+        $response = [
+            'dropRates' => $mapDropRates,
+            'benchmarks' => $mapBenchmark
+        ];
+
+        return response()->json($response); 
+
+
+    }
+
     public function fishing($sellOrderSetting, $tax){
         $fishingHoleDropRates = FishingHoleDropRate::join('fishing_holes as holes', 'fishing_hole_drop_rates.fishing_hole_id', '=', 'holes.id')
         ->leftjoin('items', 'fishing_hole_drop_rates.item_id', '=', 'items.id')
@@ -151,8 +308,5 @@ class BenchmarkController extends Controller
         //dd($response);
 
         return response()->json($response);
-
-
-        
     }
 }

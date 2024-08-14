@@ -582,21 +582,30 @@
             <div v-if="curriencesToggle">
                 <!--
                     *
-                    * CORE CURRIENCES
+                    * EXCHANGEABLES
                     *
                 -->
                 <div class="distinquish-section">
+                    <!--
+                        *
+                        * ASCENDED JUNK
+                        *
+                    -->
                     <div class="label" id="core">
                         <h6>Ascended</h6>
                     </div>
 
                     <div class="routes">
+                        <router-link class="page-link" to="/exchangeables/pile-of-bloodstone-dust">
+                            <img src="@/imgs/icons/Pile_of_Bloodstone_Dust.png" alt="Pile of Bloodstone Dust" title="Pile of Bloodstone Dust">
+                            <h6>Bloodstone Dust</h6>
+                        </router-link>
                         <router-link class="page-link" to="/exchangeables/empyreal-fragment">
-                            <img src="@/imgs/icons/Empyreal_Fragment.png" alt="Laurel" title="Laurel">
+                            <img src="@/imgs/icons/Empyreal_Fragment.png" alt="Empyreal Fragment" title="Empyreal Fragment">
                             <h6>Empyreal Fragment</h6>
                         </router-link>
                         <router-link class="page-link" to="/exchangeables/dragonite-ore">
-                            <img src="@/imgs/icons/Dragonite_Ore.png" alt="Laurel" title="Laurel">
+                            <img src="@/imgs/icons/Dragonite_Ore.png" alt="Dragonite Ore" title="Dragonite Ore">
                             <h6>Dragonite Ore</h6>
                         </router-link>
                     

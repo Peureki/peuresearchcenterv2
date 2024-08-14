@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from './views/HomeView.vue'
 
-import BenchmarksMapsView from './views/benchmarks/MapsViewMerp.vue'
+import BenchmarksMapsView from './views/benchmarks/MapsView.vue'
 import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
 
 /*
@@ -21,6 +21,7 @@ import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagic
  * EXCHANGEABLES
  * 
  */
+import ExchangeableBloodstoneDustView from '@/js/vue/views/exchangeables/BloodstoneDustView.vue'
 import ExchangeablesDragoniteOreView from '@/js/vue/views/exchangeables/DragoniteOreView.vue'
 import ExchangeablesEmpyrealFragmentView from '@/js/vue/views/exchangeables/EmpyrealFragmentView.vue'
 
@@ -108,6 +109,11 @@ const routes = [
     // *
     // * EXCHANGEABLES
     // *
+    {
+        path: '/exchangeables/pile-of-bloodstone-dust',
+        component: ExchangeableBloodstoneDustView,
+        name: 'exchangeable-pile-of-bloodstone-dust',
+    },
     {
         path: '/exchangeables/dragonite-ore',
         component: ExchangeablesDragoniteOreView,

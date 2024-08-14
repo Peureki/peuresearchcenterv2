@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bags', function (Blueprint $table) {
+        Schema::create('consumables', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('category')->nullable();
-            $table->integer('sample_size')->nullable();
 
             $table->foreign('id')->references('id')->on('items')->onUpdate('cascade');
+
+            $table->integer('sample_size')->nullable(); 
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bags');
+        Schema::dropIfExists('consumables');
     }
 };

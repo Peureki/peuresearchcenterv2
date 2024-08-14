@@ -748,6 +748,7 @@ span.gold-label img{
     --color-bkg-fade: #2F3034;
     --color-h1: #ff391b;
     --color-text: #ffffff;
+    --color-text-fade: #d1d1d1;
     --color-link: #ffd12c;
     --color-black: #000000;
     --color-core: #f8ebb7;
@@ -772,16 +773,22 @@ span.gold-label img{
     --color-positive-faded: rgb(82, 255, 0, 0.2);
     --color-negative-faded:rgb(255, 0, 0, 0.2);
     --color-rarity-junk: #aaaaaa;
+    --color-rarity-basic: #ffffff; 
     --color-rarity-fine: #4f9dfe;
     --color-rarity-masterwork: #2dc50e;
     --color-rarity-rare: #ffe51f;
     --color-rarity-exotic: #fda500;
     --color-rarity-ascended: #ff4488;
     --color-rarity-legendary: #9930e8;
+    --color-type-repeatable: #dd55da;
+    --color-type-daily: #7be393;
+    --color-type-node: #ef9a1f;
+    --color-type-solo: #42b0f3;
     --color-dusk: #db8b9d;
     --color-dawn: #db8b9d;
 
     --font-size-h1: clamp(2rem, 20vw, 6.25rem);
+    --font-size-h2: clamp(1.8rem, 15vw, 4rem);
     --font-size-h3: clamp(1.3rem, 8vw, 2rem);
     --font-size-h4: clamp(1.2rem, 7vw, 1.5rem);
     --font-size-h5: clamp(1.1rem, 5vw, 1.2rem);

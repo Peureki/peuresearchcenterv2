@@ -22,6 +22,7 @@ class MapBenchmarkDropRate extends Model
         'item_id',
         'currency_id',
         'drop_rate',
+        'exotic',
     ];
 
     /*  

@@ -51,6 +51,7 @@ Route::get('/fetch-containers', [FetchController::class, 'fetchContainers']);
 Route::get('/fetch-fishes', [FetchController::class, 'fetchFishes']);
 Route::get('/fetch-fishing-holes', [FetchController::class, 'fetchFishingHoles']);
 
+Route::get('/fetch-consumables', [FetchController::class, 'fetchConsumables']);
 Route::get('/fetch-exotics', [FetchController::class, 'fetchExotics']);
 
 Route::get('/fetch-map-benchmarks', [FetchController::class, 'fetchMapBenchmarks']);
@@ -59,6 +60,7 @@ Route::get('/fetch-map-benchmarks', [FetchController::class, 'fetchMapBenchmarks
 // * BENCHMARKS
 // *
 Route::get('/benchmarks/fishing/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'fishing']);
+Route::get('/benchmarks/maps/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'maps']);
 
 // *
 // * TOOLS

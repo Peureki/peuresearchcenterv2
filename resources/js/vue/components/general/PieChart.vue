@@ -31,6 +31,7 @@ const uniqueRarities = ref([]);
 const colorsData = ref([]);
 const rarityColors = ref({
     "Junk": getCSSVariable('--color-rarity-junk'),
+    "Basic": getCSSVariable('--color-rarity-basic'),
     "Fine": getCSSVariable('--color-rarity-fine'),
     "Masterwork": getCSSVariable('--color-rarity-masterwork'),
     "Rare": getCSSVariable('--color-rarity-rare'),
@@ -55,7 +56,9 @@ const chartOptions = ref({
 const setLabels = (drops) => {
     const set = new Set(); 
     drops.forEach(item => {
-        set.add(item.rarity); 
+        if (item.rarity){
+            set.add(item.rarity); 
+        }
     })
     return Array.from(set); 
 }

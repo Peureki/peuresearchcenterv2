@@ -1,11 +1,11 @@
 <template>
     <Nav/>
-    <Header page-name="Fishing Benchmarks"/>
+    <Header page-name="Map Benchmarks"/>
 
     <section>
-        <FishBenchmark
-            v-if="fishingHoleToggle"
-            :fishing-holes="fishingHoles"
+        <Benchmark
+            v-if="benchmarkToggle"
+            :benchmarks="mapBenchmarks"
             :drop-rates="dropRates"
         />
     </section>
@@ -17,12 +17,14 @@ import { ref } from 'vue'
 
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
-import FishBenchmark from '@/js/vue/components/general/FishBenchmark.vue'
+import Benchmark from '@/js/vue/components/general/Benchmark.vue'
 
 
-const fishingHoles = ref([]),
+const mapBenchmarks = ref([]),
     dropRates = ref([]),
-    fishingHoleToggle = ref(false);
+    benchmarkToggle = ref(false);
+
+const currencies = ref([]);
 
 const sortBenchmarks = (benchmarks) => {
     if (benchmarks){
@@ -30,32 +32,39 @@ const sortBenchmarks = (benchmarks) => {
         const indexes = benchmarks.map((_, index) => index);
 
         // Sort the indexes based on the estimatedValue
-        indexes.sort((a, b) => benchmarks[b].estimateValue - benchmarks[a].estimateValue);
+        indexes.sort((a, b) => benchmarks[b].gph - benchmarks[a].gph);
 
         // Use the sorted indexes to sort benchmarks and dropRates
         const sortedBenchmarks = indexes.map(index => benchmarks[index]);
         const sortedDropRates = indexes.map(index => dropRates.value[index]);
 
         // Update the ref values with sorted data
-        fishingHoles.value = sortedBenchmarks;
+        mapBenchmarks.value = sortedBenchmarks;
         dropRates.value = sortedDropRates;
 
         //console.log('sorted: ', fishingHoles.value, dropRates.value);
-        fishingHoleToggle.value = true; 
+        benchmarkToggle.value = true; 
     }
 }
 
+const url = `../api/benchmarks/maps/${localStorage.includes}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
 
+console.log(url);
 
-const getFishes = async () => {
-    const response = await fetch(`../api/benchmarks/fishing/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`);
+const getMapBenchmarks = async () => {
+    const response = await fetch(url);
     const responseData = await response.json(); 
     
-    fishingHoles.value = responseData.fishingHoles; 
-    dropRates.value = responseData.dropRates;
-    sortBenchmarks(fishingHoles.value);
+    console.log('map benchmarks: ', responseData);
+    if (responseData){
+        mapBenchmarks.value = responseData.benchmarks;
+        dropRates.value = responseData.dropRates; 
+        
+        sortBenchmarks(mapBenchmarks.value); 
+    }
+
 }
 
-getFishes();
+getMapBenchmarks();
 
 </script>

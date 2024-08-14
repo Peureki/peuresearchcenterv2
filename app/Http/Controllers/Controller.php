@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bag;
+use App\Models\BagDropRate;
+use App\Models\ConsumableDropRate;
 use App\Models\ContainerDropRate;
 use App\Models\CopperFedSalvageableDropRate;
 use App\Models\CurrencyBagDropRates;
@@ -16,6 +18,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use PDO;
 
 class Controller extends BaseController
 {
@@ -92,9 +95,9 @@ class Controller extends BaseController
     // ie. Bag of Fish in Bounty of New Kaineng City bag
     // Get the value of a container that's within another bag since these container have their own drop tables and loot and not a straight up sell price
     protected function getContainerValue($containerID, $sellOrderSetting, $tax){
-        $dropRatesTable = ContainerDropRate::
+        $dropRatesTable = BagDropRate::
         where('bag_id', $containerID)
-        ->join('items', 'container_drop_rates.item_id', '=', 'items.id')
+        ->join('items', 'bag_drop_rates.item_id', '=', 'items.id')
         ->get();
         ; 
 
@@ -122,6 +125,99 @@ class Controller extends BaseController
         return $value;
     }
 
+    protected function getCurrencyValue($currencyID, $currencyDropRate, $includes, $sellOrderSetting, $tax){
+        
+        $containerIDs = [];
+
+        switch ($currencyID){
+            // GOLD
+            case 1: 
+                return 1 * $currencyDropRate;
+            //UNBOUND MAGIC
+            case 32:
+                $containerIDs = array_merge($containerIDs, [79114, 79186]);
+                $conversionRate = 1250; 
+                $fee = 4000;
+                break;
+
+            // TRADE CONTRACTS
+            case 34:
+                $containerIDs = array_merge($containerIDs, [84783, 83352, 84254, 83265, 82825, 82564, 83419, 83298, 83462, 82946, 82219, 83554, 83582, 84668, 82969]);
+                $conversionRate = 50;
+                $fee = 0;
+                break;
+
+            // VOLATILE MAGIC
+            case 45:
+                $containerIDs = array_merge($containerIDs, [85873, 86231, 85725, 86053, 85990]);
+                $conversionRate = 250; 
+                $fee = 10000;
+                break;
+            default: return; 
+        }
+
+        $containerTable = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
+        ->join('items as item', 'bag_drop_rates.item_id', '=', 'item.id')
+        ->join('items as bag_item', 'bags.id', '=', 'bag_item.id')
+        ->select(
+            'bag_drop_rates.*', 
+            'bags.*', 
+            'item.icon as item_icon',
+            'item.name as item_name', 
+            'item.*', 
+            'bag_item.icon as bag_icon',
+            'bag_item.name as bag_name'
+        )
+        ->whereIn('bag_id', $containerIDs)
+        ->get()
+        ->groupBy('bag_id');
+
+        //dd('container table: ', $containerTable);
+
+        $containerTable = $containerTable->values();
+
+        $allValues = []; 
+
+        foreach ($containerTable as $group){
+            $value = 0;
+            foreach ($group as $item){
+                // Check if there's uni gear && if toggled in Includes settings
+                if (strpos($item->name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
+                    $value += $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+                    
+                } 
+                // Check if there's salvageables && if toggled in Includes settings
+                else if ($item->description === "Salvage Item" && in_array('Salvageables', $includes)){
+                    $value += $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+                }
+                // Junk items
+                else if ($item->rarity === 'Junk'){
+                    $value += $item->vendor_value * $item->drop_rate;
+                }
+                // Everything else
+                else {
+                    $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+                }
+            }
+            array_push($allValues, $value); 
+        }
+        
+            $currencyValue = (max($allValues) - $fee) / $conversionRate; 
+        
+
+        return $currencyValue * $currencyDropRate; 
+
+        
+    }
+
+    protected function getConsumableValue($consumableID, $consumableDropRate, $includes, $sellOrderSetting, $tax){
+        $consumableTable = ConsumableDropRate::where('consumable_id', $consumableID)->get(); 
+
+        $value = $this->getCurrencyValue($consumableTable[0]->currency_id, $consumableTable[0]->drop_rate, $includes, $sellOrderSetting, $tax); 
+
+        return $value * $consumableDropRate; 
+    }
+
     protected function getAscendedJunkValue($ascendedID, $ascendedValue, $ascendedDropRate, $includes, $sellOrderSetting, $tax){
 
         $containerIDs = [];
@@ -136,6 +232,21 @@ class Controller extends BaseController
                         'id' => 79264,
                         'conversionRate' => 25
                     ],
+                ); 
+                break;
+            // EMPYREAL FRAGMENTS
+            case 46735:
+                array_push($containerIDs, 
+                    [
+                        // Fluctuating Mass
+                        'id' => 79264,
+                        'conversionRate' => 25
+                    ],
+                ); 
+                break;
+            // PILE OF BLOODSTONE DUST
+            case 46731:
+                array_push($containerIDs, 
                     [
                         // Fluctuating Mass
                         'id' => 79264,
@@ -147,11 +258,11 @@ class Controller extends BaseController
         // Only grab the 'ids' from $containerIDs for the query
         $containerIDQuery = array_column($containerIDs, 'id');
 
-        $containerTable = ContainerDropRate::join('bags', 'container_drop_rates.bag_id', '=', 'bags.id')
-        ->join('items as item', 'container_drop_rates.item_id', '=', 'item.id')
+        $containerTable = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
+        ->join('items as item', 'bag_drop_rates.item_id', '=', 'item.id')
         ->join('items as bag_item', 'bags.id', '=', 'bag_item.id')
         ->select(
-            'container_drop_rates.*', 
+            'bag_drop_rates.*', 
             'bags.*', 
             'item.icon as item_icon',
             'item.name as item_name', 
@@ -178,6 +289,10 @@ class Controller extends BaseController
                 // Check if there's salvageables && if toggled in Includes settings
                 else if ($item->description === "Salvage Item" && in_array('Salvageables', $includes)){
                     $value += $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+                }
+                // Junk items
+                else if ($item->rarity === 'Junk'){
+                    $value += $item->vendor_value * $item->drop_rate;
                 }
                 // Everything else
                 else {

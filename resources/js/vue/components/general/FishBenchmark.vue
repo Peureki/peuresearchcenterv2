@@ -134,6 +134,8 @@ const props = defineProps({
 // By default, have each card not expanded
 const expand = ref(props.fishingHoles.map(() => false));
 
+console.log('drop rates: ', props.dropRates)
+
 // Depending on if the farm is daytime or nighttime, change the background of the card
 const changeTimeBackground = (time) => {
     return {
