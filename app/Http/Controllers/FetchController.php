@@ -11,6 +11,7 @@ use App\Models\Items;
 use App\Models\Bag;
 use App\Models\BagDropRate;
 use App\Models\Benchmarks;
+use App\Models\ChoiceChest;
 use App\Models\Consumable;
 use App\Models\ConsumableDropRate;
 use App\Models\ContainerDropRate;
@@ -39,6 +40,7 @@ use App\Models\SampleSize;
 use App\Models\SilverFedSalvageable;
 use App\Models\SilverFedSalvageableDropRate;
 use Carbon\Carbon;
+use Illuminate\Console\View\Components\Choice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -361,8 +363,20 @@ class FetchController extends Controller
         }
     }
 
+    public function fetchChoiceChests(){
+        $api = Http::get('https://script.google.com/macros/s/AKfycbwRZ5MH8MQ80kyvPV-WoZFh0z1OzKkktF_AW_AEcpNDGXWyQ5wOksILO6OfWO6Fxvk9gQ/exec?endpoint=choiceChests');
+        $spreadsheet = $api->json(); 
+
+        //dd($spreadsheet);
+
+        ChoiceChest::upsert(
+            $spreadsheet['choiceChests'],
+            ['id'],
+        );
+    }
+
     public function fetchBags(){
-        $api = Http::get('https://script.google.com/macros/s/AKfycbwRZ5MH8MQ80kyvPV-WoZFh0z1OzKkktF_AW_AEcpNDGXWyQ5wOksILO6OfWO6Fxvk9gQ/exec'); 
+        $api = Http::get('https://script.google.com/macros/s/AKfycbwRZ5MH8MQ80kyvPV-WoZFh0z1OzKkktF_AW_AEcpNDGXWyQ5wOksILO6OfWO6Fxvk9gQ/exec?endpoint=bags'); 
         $spreadsheet = $api->json(); 
 
         foreach ($spreadsheet['bags'] as $bag){

@@ -147,7 +147,7 @@ class BagController extends Controller
                 } 
                 // CHAMP BAGS, CONTAINERS
                 else if ($item->type == "Container" && strpos($item->description, 'Salvage') === false){
-                    $value = $this->getContainerValue($item->item_id, $sellOrderSetting, $tax); 
+                    $value = $this->getContainerValue($item->item_id, $includes,$sellOrderSetting, $tax); 
                 } 
                 // SALVAGEABLES (exclu uni gear)
                 else if ($item->description === "Salvage Item" && in_array('Salvageables', $includes)){

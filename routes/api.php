@@ -44,7 +44,10 @@ Route::get('/fetch-research-notes', [FetchController::class, 'fetchResearchNotes
 Route::get('/fetch-recipes', [FetchController::class, 'fetchRecipes']);
 Route::get('/fetch-recipe-trees', [FetchController::class, 'fetchRecipeTrees']);
 Route::get('/fetch-recipe-values', [FetchController::class, 'fetchRecipeValues']);
+
 Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
+Route::get('/fetch-choice-chests', [FetchController::class, 'fetchChoiceChests']);
+
 Route::get('/fetch-salvageables', [FetchController::class, 'fetchSalvageables']);
 Route::get('/fetch-mixed-salvageables', [FetchController::class, 'fetchMixedSalvageables']);
 Route::get('/fetch-containers', [FetchController::class, 'fetchContainers']);
@@ -59,7 +62,7 @@ Route::get('/fetch-map-benchmarks', [FetchController::class, 'fetchMapBenchmarks
 // *
 // * BENCHMARKS
 // *
-Route::get('/benchmarks/fishing/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'fishing']);
+Route::get('/benchmarks/fishing/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'fishing']);
 Route::get('/benchmarks/maps/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'maps']);
 
 // *

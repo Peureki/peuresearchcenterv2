@@ -48,7 +48,11 @@ const sortBenchmarks = (benchmarks) => {
 
 
 const getFishes = async () => {
-    const response = await fetch(`../api/benchmarks/fishing/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`);
+    const url = `../api/benchmarks/fishing/${localStorage.includes}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
+
+    console.log('url: ', url);
+
+    const response = await fetch(url);
     const responseData = await response.json(); 
     
     fishingHoles.value = responseData.fishingHoles; 

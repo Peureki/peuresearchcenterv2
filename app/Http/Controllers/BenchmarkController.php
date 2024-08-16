@@ -74,7 +74,9 @@ class BenchmarkController extends Controller
                     $itemValue = $this->getCurrencyValue($item->currency_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
                 }
                 // CONSUMABLES
-                else if ($item->type === 'Consumable' && strpos($item->item_description, 'volatile magic') || strpos($item->item_description, 'unbound magic')){
+                else if ($item->type === 'Consumable' && strpos($item->item_description, 'volatile magic') 
+                || strpos($item->item_description, 'Volatile Magic')
+                || strpos($item->item_description, 'unbound magic')){
                     $itemValue = $this->getConsumableValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
                 }
 
@@ -89,7 +91,7 @@ class BenchmarkController extends Controller
                     } 
                     // CHAMP BAGS, CONTAINERS
                     else if ($item->type == "Container" && strpos($item->item_description, 'Salvage') === false){
-                        $itemValue = ($this->getContainerValue($item->item_id, $sellOrderSetting, $tax)) * $item->drop_rate; 
+                        $itemValue = ($this->getContainerValue($item->item_id, $includes, $sellOrderSetting, $tax)) * $item->drop_rate; 
                     } 
                     // SALVAGEABLES (exclu uni gear)
                     else if ($item->item_description === "Salvage Item" && in_array('Salvageables', $includes)){
@@ -165,7 +167,10 @@ class BenchmarkController extends Controller
 
     }
 
-    public function fishing($sellOrderSetting, $tax){
+    public function fishing($includes, $sellOrderSetting, $tax){
+        // Make it a workable arrays
+        $includes = json_decode($includes); 
+        
         $fishingHoleDropRates = FishingHoleDropRate::join('fishing_holes as holes', 'fishing_hole_drop_rates.fishing_hole_id', '=', 'holes.id')
         ->leftjoin('items', 'fishing_hole_drop_rates.item_id', '=', 'items.id')
         ->leftjoin('fishing_estimates', 'fishing_estimates.fishing_hole_id', '=', 'holes.id')
@@ -249,7 +254,7 @@ class BenchmarkController extends Controller
                                 // CHAMPION BAGS
                                 case "Watertight Bag":
                                 case "Partially Chewed Box": 
-                                    $currentItemValue = ($this->getContainerValue($item->bag_id, $sellOrderSetting, $tax)) * $item->drop_rate;
+                                    $currentItemValue = ($this->getContainerValue($item->bag_id, $includes, $sellOrderSetting, $tax)) * $item->drop_rate;
                                     $catchValue += $currentItemValue; 
                                     break;
         

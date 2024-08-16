@@ -94,7 +94,7 @@ class Controller extends BaseController
     // GET CONTAINER VALUE
     // ie. Bag of Fish in Bounty of New Kaineng City bag
     // Get the value of a container that's within another bag since these container have their own drop tables and loot and not a straight up sell price
-    protected function getContainerValue($containerID, $sellOrderSetting, $tax){
+    protected function getContainerValue($containerID, $includes, $sellOrderSetting, $tax){
         $dropRatesTable = BagDropRate::
         where('bag_id', $containerID)
         ->join('items', 'bag_drop_rates.item_id', '=', 'items.id')
@@ -104,7 +104,34 @@ class Controller extends BaseController
         $value = 0; 
 
         foreach ($dropRatesTable as $item){
-            $value += ($item->$sellOrderSetting * $tax) * ($item->drop_rate); 
+            if (strpos($item->name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
+                $value += $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+            } 
+            // CHAMP BAGS, CONTAINERS
+            else if ($item->type == "Container" && strpos($item->description, 'Salvage') === false){
+                $value += $this->getContainerValue($item->item_id, $includes,$sellOrderSetting, $tax); 
+            } 
+            // SALVAGEABLES (exclu uni gear)
+            else if ($item->description === "Salvage Item" && in_array('Salvageables', $includes)){
+                $value += $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+            }
+            // ASCENDED JUNK
+            else if ($item->rarity == 'Ascended' && $item->type == 'CraftingMaterial' && in_array('AscendedJunk', $includes)) {
+                // There's a lot of ascended and crafteringMaterials so switch the $item->name to check for specifically the ascended junk
+                switch ($item->name){
+                    case 'Dragonite Ore':
+                        $value += $this->getAscendedJunkValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                        break;
+                }
+            }
+            // JUNK
+            else if ($item->rarity === "Junk"){
+                $value += $item->vendor_value * $item->drop_rate; 
+            }
+            // ANYTHING ELSE NOT FROM ABOVE 
+            else {
+                $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+            }
         }
 
         return $value; 
