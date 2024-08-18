@@ -55,17 +55,12 @@ const getBagDetails = (index) => {
 
 <style scoped>
 
-section{
-    padding-left: var(--nav-width);
-}
-
 .two-col-section{
     display: flex;
     align-items: flex-start;
     justify-items: flex-start;
     flex-wrap: wrap;
     gap: 10px;
-    border-bottom: var(--border-general);
 }
 
 </style>

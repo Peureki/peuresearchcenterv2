@@ -1,42 +1,32 @@
 <template>
-    <Nav/>
-    <Header page-name="Imperial Favors"/>
-    <CurrencyTables
-        page-name="Laurels"
-        :bags="bags"
-        :drop-rates="dropRates"
+    <CurrencyPage
+        :page-name="targetCurrencies[0]"
+        :target-currencies="targetCurrencies"
         :currency-icons="currencyIcons"
     />
 </template>
 
 <script setup>
-import { ref } from 'vue'
+/* 
+    * 
+    * INSTRUCTIONS
+    * Import desired currency icon
+    * Ex: import VolatileMagic from []
+    * 
+    * Make variables of targetted currencies and icons
+    * Ex: 
+    * const targetCurrencies = ['Volatile Magic']
+    * const currnecyIcons = [VolatileMagic]
+    * 
+    * Make as array in case there are multiple currencies for a conversion
+    * 
+*/
 
-import Nav from '@/js/vue/components/general/Nav.vue'
-import Header from '@/js/vue/components/general/Header.vue'
-
-
-// INPUT ANY CURRENCY ICONS
 import ImperialFavor from '@/imgs/icons/Imperial_Favor.png'
+import CurrencyPage from '@/js/vue/components/general/CurrencyPage.vue'
 
-import { encodeArray } from '@/js/vue/composables/BasicFunctions'
-
-import { getBags } from '@/js/vue/composables/TableFunctions'
-
-import CurrencyTables from '@/js/vue/components/general/CurrencyTables.vue'
-
-// Initialize which bag to showcase + url to fetch data
-const request = ['Imperial Favor'];
+const targetCurrencies = ['Imperial Favor'];
 const currencyIcons = [ImperialFavor];
-const url = `../api/exchangeables/${encodeArray(request)}/${localStorage.includes}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
-
-console.log(url);
-
-// Initialize data storage
-const bags = ref(null),
-    dropRates = ref(null); 
-
-getBags(url, bags, dropRates); 
 
 </script>
 

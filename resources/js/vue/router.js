@@ -9,8 +9,12 @@ import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
  * CURRENCIES
  * 
  */
+import CurrenciesBanditCrestView from '@/js/vue/views/currencies/BanditCrestView.vue'
+import CurrenciesGeodeView  from '@/js/vue/views/currencies/GeodeView.vue'
 import CurrenciesImperialFavorView from '@/js/vue/views/currencies/ImperialFavorView.vue'
+import CurrenciesJadeSliverView from '@/js/vue/views/currencies/JadeSliverView.vue'
 import CurrenciesLaurelView from '@/js/vue/views/currencies/LaurelView.vue'
+import CurrenciesLeyLineCrystalView  from '@/js/vue/views/currencies/LeyLineCrystalView.vue'
 import CurrenciesSpiritShardsView from '@/js/vue/views/currencies/SpiritShardsView.vue'
 import CurrenciesTradeContractView from '@/js/vue/views/currencies/TradeContractView.vue'
 import CurrenciesUnboundMagicView from '@/js/vue/views/currencies/UnboundMagicView.vue'
@@ -73,6 +77,16 @@ const routes = [
     // *
     // * CORE
     {
+        path: '/currencies/bandit-crest',
+        component: CurrenciesBanditCrestView,
+        name: 'currencies-bandit-crest',
+    },
+    {
+        path: '/currencies/geodge',
+        component: CurrenciesGeodeView,
+        name: 'currencies-geodge',
+    },
+    {
         path: '/currencies/laurel',
         component: CurrenciesLaurelView,
         name: 'currencies-laurel',
@@ -81,6 +95,12 @@ const routes = [
         path: '/currencies/spirit-shards',
         component: CurrenciesSpiritShardsView,
         name: 'currencies-spirit-shards',
+    },
+    // * POF
+    {
+        path: '/currencies/ley-line-crystal',
+        component: CurrenciesLeyLineCrystalView,
+        name: 'currencies-ley-line-crystal',
     },
     // * POF
     {
@@ -101,6 +121,11 @@ const routes = [
         name: 'currencies-volatile-magic',
     },
     // * EOD
+    {
+        path: '/currencies/jade-sliver',
+        component: CurrenciesJadeSliverView,
+        name: 'currencies-jade-sliver'
+    },
     {
         path: '/currencies/imperial-favor',
         component:  CurrenciesImperialFavorView,

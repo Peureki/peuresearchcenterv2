@@ -73,6 +73,10 @@ class BenchmarkController extends Controller
                 else if ($item->currency_id) {
                     $itemValue = $this->getCurrencyValue($item->currency_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
                 }
+                // COMMENDATIONS (DWC)
+                else if ($item->type == 'Trophy' && strpos($item->item_name, 'Commendation')){
+                    $itemValue = $this->getCommendationValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                }
                 // CONSUMABLES
                 else if ($item->type === 'Consumable' && strpos($item->item_description, 'volatile magic') 
                 || strpos($item->item_description, 'Volatile Magic')
@@ -170,7 +174,7 @@ class BenchmarkController extends Controller
     public function fishing($includes, $sellOrderSetting, $tax){
         // Make it a workable arrays
         $includes = json_decode($includes); 
-        
+
         $fishingHoleDropRates = FishingHoleDropRate::join('fishing_holes as holes', 'fishing_hole_drop_rates.fishing_hole_id', '=', 'holes.id')
         ->leftjoin('items', 'fishing_hole_drop_rates.item_id', '=', 'items.id')
         ->leftjoin('fishing_estimates', 'fishing_estimates.fishing_hole_id', '=', 'holes.id')

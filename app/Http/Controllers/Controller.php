@@ -23,6 +23,14 @@ use PDO;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    // *
+    // * PREMADE BAG EXCHANGES
+    // * 
+    // LEY ENERGY MATTER CONVERTER
+    // Use for: Airship Parts, Aurillium, Ley Line Crystals
+    protected $leyEnergyMatter = [
+        67259, 67249, 67250, 67264, 67263, 67266, 67265, 67260, 67261, 67253, 67251, 50027, 67246, 67269, 67268, 67267, 9257, 67247, 39119, 39120, 39121, 39123, 39122, 39124
+    ];
 
     // Convert regular strings into db name formats 
     // Ex: Trophy Shipments => trophy_shipments
@@ -151,6 +159,13 @@ class Controller extends BaseController
 
         return $value;
     }
+    // *
+    // * DRIZZLEWOOD COAST COMMENDATIONS
+    // * EX: ASH LEGION COMMENDATION
+    protected function getCommendationValue($commendationID, $commendationDropRate, $includes, $sellOrderSetting, $tax){
+        $value = 0;
+        return $value * $commendationDropRate;
+    }
 
     protected function getCurrencyValue($currencyID, $currencyDropRate, $includes, $sellOrderSetting, $tax){
         
@@ -179,6 +194,14 @@ class Controller extends BaseController
                 $containerIDs = array_merge($containerIDs, [85873, 86231, 85725, 86053, 85990]);
                 $conversionRate = 250; 
                 $fee = 10000;
+                break;
+
+            // *
+            // * COMMENDATIONS
+            // *
+            // ASH LEGION
+            case 93525:
+                dd($currencyID);
                 break;
             default: return; 
         }
@@ -417,64 +440,6 @@ class Controller extends BaseController
             return $salvageableValue * $salvageableDropRate; 
         }
     }
-
-
-    // protected function getMerp($salvageableID, $salvageableValue, $salvageableDropRate, $sellOrderSetting, $tax){
-    //     $salvageTable = SalvageableDropRate::join('salvageables', 'salvageable_id', '=', 'salvageables.id')
-    //     ->where('salvageables.item_id', $salvageableID)
-    //     ->join('items', 'salvageable_drop_rates.item_id', '=', 'items.id')
-    //     ->get();
-    
-    //     $salvageableValue *= $tax; 
-
-    //     $copperFedValue = 0;
-    //     $runecraftersValue = 0;
-    //     $silverFedValue = 0; 
-
-    //     foreach ($salvageTable as $item){
-    //         switch ($item->category){
-    //             case "Copper-Fed":
-    //                 $copperFedValue += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
-    //                 break;
-    //             case "Runecrafter's":
-    //                 $runecraftersValue += ($item->$sellOrderSetting * $tax) * $item->drop_rate;
-    //                 break;
-    //             case "Silver-Fed":
-    //                 $silverFedValue += ($item->$sellOrderSetting * $tax) * $item->drop_rate;
-    //                 break; 
-    //         }
-    //     }
-
-    //     // Profit values for each salvage kit
-    //     $copperFedValue = ($copperFedValue - $salvageableValue) - 3; 
-    //     $runecraftersValue = ($runecraftersValue - $salvageableValue) - 30; 
-    //     $silverFedValue = ($silverFedValue - $salvageableValue) - 60; 
-    //     // Input the best out of the 3 into this
-    //     $bestValue = 0;
-
-    //     // Check if any of the salvage values are above 0
-    //     // If yes => do checks to see which is the highest value
-    //     if ($copperFedValue > 0 || $runecraftersValue > 0 || $silverFedValue > 0){
-    //         // Check copperfed
-    //         if ($copperFedValue > $runecraftersValue && $copperFedValue > $silverFedValue) {
-    //             $bestValue = $copperFedValue; 
-    //         // Check runecrafter's
-    //         } else if ($runecraftersValue > $copperFedValue && $runecraftersValue > $silverFedValue) {
-    //             $bestValue = $runecraftersValue;
-    //         // Otherwise silverfed
-    //         } else {
-    //             $bestValue = $silverFedValue; 
-    //         }
-    //     }
-    //     // If any of the 3 salvage kit values are > 0
-    //     // => return that value 
-    //     // => else return value without salvaging
-    //     if ($bestValue > 0){
-    //         return ($bestValue + $salvageableValue) * $salvageableDropRate; 
-    //     } else {
-    //         return $salvageableValue * $salvageableDropRate; 
-    //     }
-    // }
 
     // GET UNI GEAR SALVAGE VALUE
     // Goal: 

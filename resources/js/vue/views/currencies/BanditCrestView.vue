@@ -4,7 +4,6 @@
         :target-currencies="targetCurrencies"
         :currency-icons="currencyIcons"
     />
-    
 </template>
 
 <script setup>
@@ -23,12 +22,11 @@
     * 
 */
 
-import TradeContract from '@/imgs/icons/Trade_Contract.png'
-import Karma from '@/imgs/icons/Karma.png'
+import BanditCrest from '@/imgs/icons/Bandit_Crest.png'
 import CurrencyPage from '@/js/vue/components/general/CurrencyPage.vue'
 
-const targetCurrencies = ['Trade Contract'];
-const currencyIcons = [TradeContract, Karma];
+const targetCurrencies = ['Bandit Crest'];
+const currencyIcons = [BanditCrest];
 
 </script>
 

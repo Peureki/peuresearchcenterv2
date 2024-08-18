@@ -484,6 +484,16 @@
                     </div>
 
                     <div class="routes">
+                        <router-link class="page-link" to="/currencies/bandit-crest">
+                            <img src="@/imgs/icons/Bandit_Crest.png" alt="Bandit Crest" title="Bandit Crest">
+                            <h6>Bandit Crest</h6>
+                        </router-link>
+
+                        <router-link class="page-link" to="/currencies/geode">
+                            <img src="@/imgs/icons/Geode.png" alt="Geode" title="Geode">
+                            <h6>Geode</h6>
+                        </router-link>
+
                         <router-link class="page-link" to="/currencies/laurel">
                             <img src="@/imgs/icons/Laurel.png" alt="Laurel" title="Laurel">
                             <h6>Laurel</h6>
@@ -495,6 +505,20 @@
                         </router-link>
                     </div>   
                 </div>
+
+                <div class="distinquish-section">
+                    <div class="label" id="hot">
+                        <h6>HoT</h6>
+                    </div>
+
+                    <div class="routes">
+                        <router-link class="page-link" to="/currencies/ley-line-crystal">
+                            <img src="@/imgs/icons/Ley_Line_Crystal.png" alt="Ley Line Crystals" title="Ley Line Crystals">
+                            <h6>Ley Line Crystal</h6>
+                        </router-link>
+                    </div>   
+                </div>
+
                 <div class="distinquish-section">
                     <div class="label" id="pof">
                         <h6>PoF</h6>
@@ -552,7 +576,14 @@
                         <h6>EOD</h6>
                     </div>
 
+        
                     <div class="routes">
+
+                        <router-link class="page-link" to="/currencies/jade-sliver">
+                            <img src="@/imgs/icons/Jade_Sliver.png" alt="Jade Slivers" title="Jade Slivers">
+                            <h6>Jade Sliver</h6>
+                        </router-link>
+
                         <router-link class="page-link" to="/currencies/imperial-favor">
                             <img src="@/imgs/icons/Imperial_Favor.png" alt="Imperial Favors" title="Imperial Favors">
                             <h6>Imperial Favor</h6>

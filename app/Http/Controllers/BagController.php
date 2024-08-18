@@ -6,6 +6,7 @@ use App\Models\BagDropRate;
 use App\Models\ContainerDropRate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PgSql\Lob;
 
 class BagController extends Controller
 {
@@ -41,6 +42,12 @@ class BagController extends Controller
         // Input IDs of bags that are related to the exchangebles/currencies
         foreach ($request as $exchangeable){
             switch ($exchangeable){
+                case "Bandit Crest":
+                    // Sandy Bag of Gear
+                    // Bag of Rare Gear
+                    $requestedBags = array_merge($requestedBags, [66399, 67261]);
+                    break;
+
                 case "Empyreal Fragment":
                     // Fluctuating Mass
                     array_push($requestedBags, 79264);
@@ -49,16 +56,30 @@ class BagController extends Controller
                     array_push($requestedBags, 79264);
                     break;
 
+                case "Geode":
+                    // Sandy Bag of Gear
+                    $requestedBags = array_merge($requestedBags, [66399]);
+                    break;
+
                 case "Imperial Favor":
                     // Bounty of Dragon's End
                     // Bounty of Echovald Wilds
                     // Bounty of New Kaineng City
                     // Bounty of Seitung Province
-                    $requestedBags = array_merge($requestedBags, [95796, 97797, 95771, 96345]);
+                    $requestedBags = array_merge($requestedBags, [95796, 97797, 95771, 96345, 96978]);
                     break;
+
+                case "Jade Sliver":
+                    
+                    break;
+
                     // Crafting Bags
                 case "Laurel":
                     $requestedBags = array_merge($requestedBags, [39124, 39123, 39121, 39122, 39119]);
+                    break;
+
+                case "Ley Line Crystal":
+                    $requestedBags = array_merge($requestedBags, $this->leyEnergyMatter);
                     break;
 
                 case "Pile of Bloodstone Dust":
@@ -185,6 +206,18 @@ class BagController extends Controller
             // => $costOfCurrencyPerBag[0] => [cost of exchangeable]
             // etc
             switch (true){
+                case in_array('Bandit Crest', $request):
+                    $currency[0] = 'Bandit Crest';
+                    if ($item->bag_name == 'Bag of Rare Gear'){
+                        $costOfCurrencyPerBag[0] = 250;
+                        $fee = 2000;
+                    }
+                    if ($item->bag_name == 'Sandy Bag of Gear'){
+                        $costOfCurrencyPerBag[0] = 15;
+                        $fee = 80;
+                    }
+                    break;
+
                 case in_array('Empyreal Fragment', $request):
                     if ($group->order == 0){
                         $currency[0] = 'Empyreal Fragment';
@@ -216,14 +249,32 @@ class BagController extends Controller
                     }
                     break; 
 
+                case in_array('Geode', $request):
+                    $currency[0] = 'Geode';
+                    if ($item->bag_name == 'Sandy Bag of Gear'){
+                        $costOfCurrencyPerBag[0] = 28;
+                        $fee = 1024;
+                    }
+                    break;
+
                 case in_array('Imperial Favor', $request):
                     $currency[0] = 'Imperial Favor';
-                    $costOfCurrencyPerBag[0] = 200;
+
+                    if ($item->name === 'Antique Summoning Stone'){
+                        $costOfCurrencyPerBag[0] = 100;
+                    } else {
+                        $costOfCurrencyPerBag[0] = 200;
+                    }  
                     break;
 
                 case in_array('Laurel', $request):
                     $currency[0] = 'Laurel';
                     $costOfCurrencyPerBag[0] = 1; 
+                    break;
+
+                case in_array('Ley Line Crystal', $request):
+                    $currency[0] = 'Ley Line Crystal';
+                    $costOfCurrencyPerBag[0] = 25;
                     break;
 
                 case in_array('Pile of Bloodstone Dust', $request):

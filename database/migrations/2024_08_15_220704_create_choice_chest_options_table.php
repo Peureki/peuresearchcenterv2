@@ -22,6 +22,26 @@ return new class extends Migration
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->unsignedBigInteger('choice_chest_id')->nullable();
 
+            $table->foreign('item_id')
+                ->references('id')
+                ->on('items')
+                ->onUpdate('cascade');
+
+            $table->foreign('bag_id')
+                ->references('id')
+                ->on('bags')
+                ->onUpdate('cascade');
+
+            $table->foreign('currency_id')
+                ->references('id')
+                ->on('currencies')
+                ->onUpdate('cascade');
+
+            $table->foreign('choice_chest_id')
+                ->references('id')
+                ->on('choice_chests')
+                ->onUpdate('cascade');
+
             $table->string('option')->nullable();
             $table->integer('quantity')->nullable();
             $table->integer('currency_quantity')->nullable();

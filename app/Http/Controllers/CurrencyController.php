@@ -155,7 +155,7 @@ class CurrencyController extends Controller
 
             foreach ($group as $item){
                 if ($item->type == "Container" && strpos($item->description, 'Salvage') === false){
-                    $value = $this->getContainerValue($item->item_id, $sellOrderSetting, $tax); 
+                    $value = $this->getContainerValue($item->item_id, $includes, $sellOrderSetting, $tax); 
                 } 
                 else if (strpos($item->name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
                     $value = $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax); 
