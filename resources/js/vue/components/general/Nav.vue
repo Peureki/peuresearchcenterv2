@@ -512,9 +512,19 @@
                     </div>
 
                     <div class="routes">
+                        <router-link class="page-link" to="/currencies/airship-part">
+                            <img src="@/imgs/icons/Airship_Part.png" alt="Airship Part" title="Airship Part">
+                            <h6>Airship Part</h6>
+                        </router-link>
+
                         <router-link class="page-link" to="/currencies/ley-line-crystal">
                             <img src="@/imgs/icons/Ley_Line_Crystal.png" alt="Ley Line Crystals" title="Ley Line Crystals">
                             <h6>Ley Line Crystal</h6>
+                        </router-link>
+
+                        <router-link class="page-link" to="/currencies/lump-of-aurillium">
+                            <img src="@/imgs/icons/Lump_of_Aurillium.png" alt="Lump of Aurillium" title="Lump of Aurillium">
+                            <h6>Lump of Aurillium</h6>
                         </router-link>
                     </div>   
                 </div>

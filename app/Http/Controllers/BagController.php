@@ -79,6 +79,8 @@ class BagController extends Controller
                     break;
 
                 case "Ley Line Crystal":
+                case "Lump of Aurillium": 
+                case "Airship Part":
                     $requestedBags = array_merge($requestedBags, $this->leyEnergyMatter);
                     break;
 
@@ -273,6 +275,8 @@ class BagController extends Controller
                     break;
 
                 case in_array('Ley Line Crystal', $request):
+                case in_array('Lump of Aurillium', $request):
+                case in_array('Airship Part', $request):
                     $currency[0] = 'Ley Line Crystal';
                     $costOfCurrencyPerBag[0] = 25;
                     break;
