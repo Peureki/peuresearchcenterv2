@@ -258,20 +258,30 @@
                     -->
                     <div class="settings-button-container">
                         <p>Include</p>
+                        <!-- 
+                            * 
+                            * INCLUDE AIRSHIP PARTS
+                            * 
+                        -->
                         <div 
                             class="checkbox" 
                             @click="
-                                includesSalvageablesCheckbox = !includesSalvageablesCheckbox;
-                                setIncludes('Salvageables', includesSalvageablesCheckbox);    
+                                includesAirshipPartCheckbox = !includesAirshipPartCheckbox;
+                                setIncludes('AirshipPart', includesAirshipPartCheckbox);    
                             "
                         >
                             <input 
-                                :checked="includesSalvageablesCheckbox" 
+                                :checked="includesAirshipPartCheckbox" 
                                 type="checkbox" 
-                                name="Salvageables"
+                                name="AirshipPart"
                             >
-                            <label for="Salvageables">Salvageables</label>
+                            <label for="AirshipPart">Airship Parts</label>
                         </div>
+                        <!-- 
+                            * 
+                            * INCLUDE ASCENDEDJUNK
+                            * 
+                        -->
                         <div 
                             class="checkbox" 
                             @click="
@@ -286,6 +296,64 @@
                             >
                             <label for="AscendedJunk">Ascended Junk</label>
                         </div>
+                        <!-- 
+                            * 
+                            * INCLUDE LEY LINE CRYSTALS
+                            * 
+                        -->
+                        <div 
+                            class="checkbox" 
+                            @click="
+                                includesLeyLineCrystalCheckbox = !includesLeyLineCrystalCheckbox;
+                                setIncludes('LeyLineCrystal', includesLeyLineCrystalCheckbox);    
+                            "
+                        >
+                            <input 
+                                :checked="includesLeyLineCrystalCheckbox" 
+                                type="checkbox" 
+                                name="LeyLineCrystal"
+                            >
+                            <label for="LeyLineCrystal">Ley Line Crystal</label>
+                        </div>
+                        <!-- 
+                            * 
+                            * INCLUDE LUMP OF AURILLIUM
+                            * 
+                        -->
+                        <div 
+                            class="checkbox" 
+                            @click="
+                                includesLumpOfAurilliumCheckbox = !includesLumpOfAurilliumCheckbox;
+                                setIncludes('LumpOfAurillium', includesLumpOfAurilliumCheckbox);    
+                            "
+                        >
+                            <input 
+                                :checked="includesLumpOfAurilliumCheckbox" 
+                                type="checkbox" 
+                                name="LumpOfAurillium"
+                            >
+                            <label for="LumpOfAurillium">Lump of Aurillium</label>
+                        </div>
+                        <!-- 
+                            * 
+                            * INCLUDE SALVAGEABLES
+                            * 
+                        -->
+                        <div 
+                            class="checkbox" 
+                            @click="
+                                includesSalvageablesCheckbox = !includesSalvageablesCheckbox;
+                                setIncludes('Salvageables', includesSalvageablesCheckbox);    
+                            "
+                        >
+                            <input 
+                                :checked="includesSalvageablesCheckbox" 
+                                type="checkbox" 
+                                name="Salvageables"
+                            >
+                            <label for="Salvageables">Salvageables</label>
+                        </div>
+                        
                     </div>
                     
                     <!-- 
@@ -1154,8 +1222,8 @@ const setDefaultLocalStorage = () => {
     // *
     if (!localStorage.includes){
         localStorage.setItem('includes', JSON.stringify([
+            "AscendedJunk",
             "Salvageables",
-            "AscendedJunk"
         ]));
     }
     // * BOOKMARKS
@@ -1211,7 +1279,10 @@ const buyOrderSetting = ref(localStorage.buyOrderSetting),
     taxSetting = ref(parseFloat(localStorage.taxSetting)),
     apiKey = ref(null);
 
-const includesSalvageablesCheckbox = ref(true),
+const includesAirshipPartCheckbox = ref(false),
+    includesSalvageablesCheckbox = ref(true),
+    includesLeyLineCrystalCheckbox = ref(false),
+    includesLumpOfAurilliumCheckbox = ref(false),
     includesAscendedJunkCheckbox = ref(true); 
 
 const route = useRoute(),
@@ -1289,8 +1360,11 @@ onMounted(() => {
     // Check localStorage.includes to see what settings are in the Includes array
     // Toggle on/off if a specific Includes in the array or not
     const includes = JSON.parse(localStorage.getItem('includes')) || []; 
-    includesSalvageablesCheckbox.value = includes.includes('Salvageables');
+    includesAirshipPartCheckbox.value = includes.includes('AirshipPart');
     includesAscendedJunkCheckbox.value = includes.includes('AscendedJunk');
+    includesLeyLineCrystalCheckbox.value = includes.includes('LeyLineCrystal');
+    includesLumpOfAurilliumCheckbox.value = includes.includes('LumpOfAurillium');
+    includesSalvageablesCheckbox.value = includes.includes('Salvageables');
 })
 
 </script>

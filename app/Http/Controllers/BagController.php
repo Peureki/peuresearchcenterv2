@@ -45,20 +45,18 @@ class BagController extends Controller
                 case "Bandit Crest":
                     // Sandy Bag of Gear
                     // Bag of Rare Gear
-                    $requestedBags = array_merge($requestedBags, [66399, 67261]);
+                    $requestedBags = array_merge($requestedBags, $this->banditCrest['id']);
                     break;
 
                 case "Empyreal Fragment":
-                    // Fluctuating Mass
-                    array_push($requestedBags, 79264);
+                    $requestedBags = array_merge($requestedBags, $this->ascendedJunk['id']);
                 case "Dragonite Ore":
-                    // Fluctuating Mass
-                    array_push($requestedBags, 79264);
+                    $requestedBags = array_merge($requestedBags, $this->ascendedJunk['id']);
                     break;
 
                 case "Geode":
                     // Sandy Bag of Gear
-                    $requestedBags = array_merge($requestedBags, [66399]);
+                    $requestedBags = array_merge($requestedBags, $this->geode['id']);
                     break;
 
                 case "Imperial Favor":
@@ -66,7 +64,7 @@ class BagController extends Controller
                     // Bounty of Echovald Wilds
                     // Bounty of New Kaineng City
                     // Bounty of Seitung Province
-                    $requestedBags = array_merge($requestedBags, [95796, 97797, 95771, 96345, 96978]);
+                    $requestedBags = array_merge($requestedBags, $this->imperialFavor['id']);
                     break;
 
                 case "Jade Sliver":
@@ -75,31 +73,31 @@ class BagController extends Controller
 
                     // Crafting Bags
                 case "Laurel":
-                    $requestedBags = array_merge($requestedBags, [39124, 39123, 39121, 39122, 39119]);
+                    $requestedBags = array_merge($requestedBags, $this->laurel['id']);
                     break;
 
                 case "Ley Line Crystal":
                 case "Lump of Aurillium": 
                 case "Airship Part":
-                    $requestedBags = array_merge($requestedBags, $this->leyEnergyMatter);
+                    $requestedBags = array_merge($requestedBags, $this->leyEnergyMatter['id']);
                     break;
 
                 case "Pile of Bloodstone Dust":
-                    // Fluctuating Mass
-                    $requestedBags = array_merge($requestedBags, [79264]);
+                    
+                    $requestedBags = array_merge($requestedBags, $this->ascendedJunk['id']);
                     break;
 
                     // Trade Crates
                 case "Trade Contract":
-                    $requestedBags = array_merge($requestedBags, [84783, 83352, 84254, 83265, 82825, 82564, 83419, 83298, 83462, 82946, 82219, 83554, 83582, 84668, 82969]);
+                    $requestedBags = array_merge($requestedBags, $this->tradeContract['id']);
                     break;
                     // Magic Warped Packet
                     // Magic Warped Bundle
                 case "Unbound Magic":
-                    $requestedBags = array_merge($requestedBags, [79114, 79186]);
+                    $requestedBags = array_merge($requestedBags, $this->unboundMagic['id']);
                     break;
                 case "Volatile Magic":
-                    $requestedBags = array_merge($requestedBags, [85873, 86231, 85725, 86053, 85990]);
+                    $requestedBags = array_merge($requestedBags, $this->volatileMagic['id']);
                     break;
             }
         }

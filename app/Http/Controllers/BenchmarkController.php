@@ -30,6 +30,7 @@ class BenchmarkController extends Controller
             'currency.name as currency_name',
             'map_benchmark_drop_rates.*',
         )
+        //->where('map_benchmark_id', 51)
         ->get()
         ->groupBy('map_benchmark_id'); 
 

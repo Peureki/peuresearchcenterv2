@@ -25,12 +25,82 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     // *
     // * PREMADE BAG EXCHANGES
-    // * 
-    // LEY ENERGY MATTER CONVERTER
-    // Use for: Airship Parts, Aurillium, Ley Line Crystals
-    protected $leyEnergyMatter = [
-        67259, 67249, 67250, 67264, 67263, 67266, 67265, 67260, 67261, 67253, 67251, 50027, 67246, 67269, 67268, 67267, 9257, 67247, 39119, 39120, 39121, 39123, 39122, 39124
-    ];
+    // * Use key names
+    // * 'id' => array of ids of bags or items needed to find the value of currency or target
+    // * 'conversionRate' => match index array of 'id'. Associate the conversion rate specific to an index
+    // * 'fee' => same as 'conversionRate' 
+    protected $ascendedJunk; 
+    protected $banditCrest;
+    protected $geode;
+    protected $imperialFavor;
+    protected $laurel;
+    protected $leyEnergyMatter;
+    protected $tradeContract;
+    protected $unboundMagic;
+    protected $volatileMagic; 
+
+    public function __construct()
+    {
+        // Fluctuating Mass
+        $this->ascendedJunk = [
+            'id' => [79264],
+            'conversionRate' => [25],
+            'fee' => [0],
+        ];
+
+        $this->banditCrest = [
+            'id' => [66399, 67261],
+            'conversionRate' => [15, 250],
+            'fee' => [80, 2000],
+        ];
+
+        $this->geode = [
+            'id' => [66399],
+            'conversionRate' => [28],
+            'fee' => [1024],
+        ];
+
+        // Antique Summoning Stone
+        // Bounty of [city]
+        $this->imperialFavor = [
+            'id' => [95796, 97797, 95771, 96345, 96978],
+            'conversionRate' => [100, 200, 200, 200, 200],
+            'fee' => array_fill(0, 5, 0),
+        ];
+
+        // Crafting Bags
+        $this->laurel = [
+            'id' => [39124, 39123, 39121, 39122, 39119],
+            'conversionRate' => array_fill(0, 5, 1),
+            'fee' => array_fill(0, 5, 0),
+        ];
+        // EX: LEY ENERGY MATTER CONVERTER
+        // Use for: Airship Parts, Aurillium, Ley Line Crystals
+        $this->leyEnergyMatter = [
+            'id' => [67259, 67249, 67250, 67264, 67263, 67266, 67265, 67260, 67261, 67253, 67251, 50027, 67246, 67269, 67268, 67267, 9257, 67247, 39119, 39120, 39121, 39123, 39122, 39124],
+            'conversionRate' => array_fill(0, 24, 25),
+            'fee' => array_fill(0, 25, 0),
+        ];
+        // Trade Crates
+        $this->tradeContract = [
+            'id' => [84783, 83352, 84254, 83265, 82825, 82564, 83419, 83298, 83462, 82946, 82219, 83554, 83582, 84668, 82969],
+            'conversionRate' => array_fill(0, 15, 50),
+            'fee' => array_fill(0, 15, 0),
+        ];
+        // Magic Warped Packet
+        // Magic Warped Bundle
+        $this->unboundMagic = [
+            'id' => [79114, 79186],
+            'conversionRate' =>  [1250, 500],
+            'fee' => [4000, 10000]
+        ];
+        // Shipments
+        $this->volatileMagic = [
+            'id' => [85873, 86231, 85725, 86053, 85990],
+            'conversionRate' => array_fill(0, 5, 250),
+            'fee' => array_fill(0, 5, 10000),
+        ];
+    }
 
     // Convert regular strings into db name formats 
     // Ex: Trophy Shipments => trophy_shipments
@@ -175,25 +245,67 @@ class Controller extends BaseController
             // GOLD
             case 1: 
                 return 1 * $currencyDropRate;
+
+            // Airship Parts
+            case 19:
+                if (!in_array('AirshipPart', $includes)){
+                    return 0; 
+                } else {
+                    $containerIDs = array_merge($containerIDs, $this->leyEnergyMatter['id']);
+                    $conversionRate = $this->leyEnergyMatter['conversionRate'];
+                    $fee = $this->leyEnergyMatter['fee'];
+                }
+                break;
+
+            // Ley Line Crystals
+            case 20:
+                if (!in_array('LeyLineCrystal', $includes)){
+                    return 0; 
+                } else {
+                    $containerIDs = array_merge($containerIDs, $this->leyEnergyMatter['id']);
+                    $conversionRate = $this->leyEnergyMatter['conversionRate'];
+                    $fee = $this->leyEnergyMatter['fee'];
+                }
+                break;
+
+
+            // Ley Line Crystals
+            case 22:
+                if (!in_array('LumpOfAurillium', $includes)){
+                    return 0; 
+                } else {
+                    $containerIDs = array_merge($containerIDs, $this->leyEnergyMatter['id']);
+                    $conversionRate = $this->leyEnergyMatter['conversionRate'];
+                    $fee = $this->leyEnergyMatter['fee'];
+                }
+                break;
+
+            // BANDIT CREST
+            case 27:
+                $containerIDs = array_merge($containerIDs, $this->banditCrest['id']);
+                $conversionRate = $this->banditCrest['conversionRate'];
+                $fee = $this->banditCrest['fee']; 
+                break;
+
             //UNBOUND MAGIC
             case 32:
-                $containerIDs = array_merge($containerIDs, [79114, 79186]);
-                $conversionRate = 1250; 
-                $fee = 4000;
+                $containerIDs = array_merge($containerIDs, $this->unboundMagic['id']);
+                $conversionRate = $this->unboundMagic['conversionRate']; 
+                $fee = $this->unboundMagic['fee'];
                 break;
 
             // TRADE CONTRACTS
             case 34:
-                $containerIDs = array_merge($containerIDs, [84783, 83352, 84254, 83265, 82825, 82564, 83419, 83298, 83462, 82946, 82219, 83554, 83582, 84668, 82969]);
-                $conversionRate = 50;
-                $fee = 0;
+                $containerIDs = array_merge($containerIDs, $this->tradeContract['id']);
+                $conversionRate = $this->tradeContract['conversionRate'];
+                $fee = $this->tradeContract['fee'];
                 break;
 
             // VOLATILE MAGIC
             case 45:
-                $containerIDs = array_merge($containerIDs, [85873, 86231, 85725, 86053, 85990]);
-                $conversionRate = 250; 
-                $fee = 10000;
+                $containerIDs = array_merge($containerIDs, $this->volatileMagic['id']);
+                $conversionRate = $this->volatileMagic['conversionRate']; 
+                $fee = $this->volatileMagic['fee'];
                 break;
 
             // *
@@ -201,7 +313,7 @@ class Controller extends BaseController
             // *
             // ASH LEGION
             case 93525:
-                dd($currencyID);
+                //dd($currencyID);
                 break;
             default: return; 
         }
@@ -228,13 +340,12 @@ class Controller extends BaseController
 
         $allValues = []; 
 
-        foreach ($containerTable as $group){
+        foreach ($containerTable as $index => $group){
             $value = 0;
             foreach ($group as $item){
                 // Check if there's uni gear && if toggled in Includes settings
                 if (strpos($item->name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
                     $value += $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
-                    
                 } 
                 // Check if there's salvageables && if toggled in Includes settings
                 else if ($item->description === "Salvage Item" && in_array('Salvageables', $includes)){
@@ -248,11 +359,16 @@ class Controller extends BaseController
                 else {
                     $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
                 }
+
+                
             }
+            $value = ($value - $fee[$index]) / $conversionRate[$index]; 
             array_push($allValues, $value); 
         }
-        
-            $currencyValue = (max($allValues) - $fee) / $conversionRate; 
+            //dd($allValues);
+            $currencyValue = max($allValues);
+            //dd($currencyValue);
+            //$currencyValue = (max($allValues) - $fee) / $conversionRate; 
         
 
         return $currencyValue * $currencyDropRate; 
