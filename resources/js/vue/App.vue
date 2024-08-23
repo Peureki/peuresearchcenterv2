@@ -668,6 +668,16 @@ span.gold-label{
 span.gold-label img{
     width: 15px;
 }
+span.label-and-subtitle{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.small-subtitle{
+    font-size: var(--font-size-subtext);
+    font-style: italic;
+    color: var(--color-text-fade);
+}
 /* 
     =================================================
     * GENERAL CLASSES
@@ -687,6 +697,49 @@ span.gold-label img{
     display: flex;
     flex-direction: column;
     gap: var(--gap-content);
+}
+/* 
+    =================================================
+    * DETAILS CONTAINER
+    =================================================
+*/
+.details-container{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-content);
+}
+/* 
+    =================================================
+    * PROOF CONTAINERS
+    * Showcase proofs of drops or data
+    =================================================
+*/
+.proof-container{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-content);
+}
+.proof{
+    display: flex;
+    justify-content: space-between;
+    gap: var(--gap-general);
+}
+.calculations{
+    display: flex;
+    align-items: flex-start;
+    gap: var(--gap-general);
+}
+.written-calculations{
+    display: flex;
+    flex-direction: column;
+}
+span.currency{
+    display: flex;
+    gap: var(--gap-general);
+}
+span.currency img{
+    width: 20px;
+    height: 20px;
 }
 
 /* 

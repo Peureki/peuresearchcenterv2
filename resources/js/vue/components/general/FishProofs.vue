@@ -44,20 +44,7 @@ console.log('fishing hole: ', props.fishingHole);
 </script>
 
 <style scoped>
-.proof-container{
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-content);
-}
-.proof{
-    display: flex;
-    justify-content: space-between;
-    gap: var(--gap-general);
-}
-.written-calculations{
-    display: flex;
-    flex-direction: column;
-}
+
 
 
 </style>

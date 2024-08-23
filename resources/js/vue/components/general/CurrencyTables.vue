@@ -9,7 +9,7 @@
             <CurrencyMainTable
                 v-if="bags && bags != null"
                 :bags="bags"
-                :currency-icons="currencyIcons"
+                :currency-icon="currencyIcon"
                 @details-toggle="detailsToggle = true"
                 @get-details="getBagDetails"
             />
@@ -19,7 +19,7 @@
                 :table-toggle="detailsToggle"
                 :bag="bagDetails"
                 :bags="bags[bagIndex]"
-                :currency-icons="currencyIcons"
+                :currency-icon="currencyIcon"
             />
         </div>
         
@@ -39,7 +39,7 @@ const props = defineProps({
     pageName: String, 
     bags: Object, 
     dropRates: Object,
-    currencyIcons: Object, 
+    currencyIcon: String, 
 })
 
 const detailsToggle = ref(false),
@@ -60,7 +60,7 @@ const getBagDetails = (index) => {
     align-items: flex-start;
     justify-items: flex-start;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: var(--gap-content);
 }
 
 </style>

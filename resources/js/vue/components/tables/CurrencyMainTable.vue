@@ -70,19 +70,17 @@
                     *
                 -->
                 <th 
-                    v-for="(currency, index) in bags[0].currency"
                     @click="
-                        toggleActive(index + 2, sortActive);
-                        toggleSortOrder(index + 2, sortOrder);
-                        sortTable('currency-table', index + 2, 'gold', sortOrder);
-                    "
+                        toggleActive(2, sortActive);
+                        toggleSortOrder(2, sortOrder);
+                        sortTable('currency-table', 2, 'gold', sortOrder);   "
                 >
                     <span class="sortable-column">
-                        <img :src="currencyIcons[index]" :alt="currency" :title="currency">
+                        <img :src="currencyIcon" :alt="bags[0].currency" :title="bags[0].currency">
                         <svg
                             class="sort-arrow active" 
-                            :ref="el => sortActive[index + 2] = el" 
-                            :style="{transform: sortOrder[index + 2] == 'descending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
+                            :ref="el => sortActive[2] = el" 
+                            :style="{transform: sortOrder[2] == 'descending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
                             width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
                         >
                             <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
@@ -115,23 +113,9 @@
                     
                 </td>
                 <!-- Currency Value -->
-                <td 
-                    v-for="(currencyPerBag, index) in bag.currencyPerBag"
-                    class="gold"
-                >
+                <td class="gold">
                     <span class="gold-label-container">
-                        <span class="gold-label" v-for="gold in formatValue(currencyPerBag)">
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                        </span>
-                    </span>
-                </td>
-                <!-- Other Currency Value -->
-                <td 
-                    v-if="otherCurrencyIcon"
-                    class="gold"
-                >
-                    <span class="gold-label-container">
-                        <span class="gold-label" v-for="gold in formatValue(bag.otherCurrencyValue)">
+                        <span class="gold-label" v-for="gold in formatValue(bag.currencyPerBag)">
                             {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                         </span>
                     </span>
@@ -150,10 +134,8 @@ import { sortTable, toggleSortOrder, toggleActive } from '@/js/vue/composables/T
 
 const props = defineProps({
     bags: Object, 
-    currencyIcons: Object, 
+    currencyIcon: String, 
     alt: String,
-    otherCurrencyIcon: String,
-    otherAlt: String,
 })
 
 console.log(props.bags)

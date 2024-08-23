@@ -33,6 +33,7 @@ class Controller extends BaseController
     protected $banditCrest;
     protected $geode;
     protected $imperialFavor;
+    protected $jadeSliver;
     protected $laurel;
     protected $leyEnergyMatter;
     protected $tradeContract;
@@ -60,12 +61,42 @@ class Controller extends BaseController
             'fee' => [1024],
         ];
 
-        // Antique Summoning Stone
-        // Bounty of [city]
+        
+        
         $this->imperialFavor = [
-            'id' => [95796, 97797, 95771, 96345, 96978],
-            'conversionRate' => [100, 200, 200, 200, 200],
+            'id' => [
+                // Antique Summoning Stone
+                96978, 
+                // Bounty of [city]
+                95796, 97797, 95771, 96345
+            ],
+            'conversionRate' => [
+                100, 
+                200, 200, 200, 200
+            ],
             'fee' => array_fill(0, 5, 0),
+        ];
+
+        $this->jadeSliver = [
+            'id' => [
+                // Airship Part, Bag of Aurillium, Bag of Ley Line, Bandit Crest, Geode, Tyrian Defense Seal
+                74494, 73020, 73616, 69985, 66593, 94228,
+                // Cloth Shipment, Leather Shipment, Metal Shipment, Wood Shipment
+                85873, 86231, 85990, 86053,
+                 // Season 4 Currency Box
+                92311,
+                // Writ of Dragon, Writ of Echovald, Writ of Kaineng, Writ of Seitung
+                95692, 96561, 96533, 96680
+            ],
+            'conversionRate' => [
+                10, 10, 20, 10, 10, 10,
+                600, 1600, 600, 600,
+                100,
+                50, 50, 50, 50
+            ],
+            'fee' => [
+                array_fill(0, 15, 0),
+            ]
         ];
 
         // Crafting Bags
@@ -237,6 +268,11 @@ class Controller extends BaseController
         return $value * $commendationDropRate;
     }
 
+    protected function getJadeSliverValue($junkID, $junkDropRate, $includes, $sellOrderSetting, $tax){
+        $value = 0;
+        return $value * $junkDropRate; 
+    }
+
     protected function getCurrencyValue($currencyID, $currencyDropRate, $includes, $sellOrderSetting, $tax){
         
         $containerIDs = [];
@@ -269,7 +305,7 @@ class Controller extends BaseController
                 break;
 
 
-            // Ley Line Crystals
+            // Lump of Aurillium
             case 22:
                 if (!in_array('LumpOfAurillium', $includes)){
                     return 0; 

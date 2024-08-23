@@ -6,7 +6,7 @@
         :page-name="pageName"
         :bags="bags"
         :drop-rates="dropRates"
-        :currency-icons="currencyIcons"
+        :currency-icon="currencyIcon"
     />
 </template>
 
@@ -21,15 +21,15 @@ import { getBags } from '@/js/vue/composables/TableFunctions'
 
 const props = defineProps({
     pageName: String, 
-    targetCurrencies: Object,
-    currencyIcons: Object,
+    targetCurrency: String,
+    currencyIcon: String,
 })
 
 const bags = ref(null),
     dropRates = ref(null);
 
 onMounted(() => {
-    const url = `../api/exchangeables/${encodeArray(props.targetCurrencies)}/${localStorage.includes}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
+    const url = `../api/exchangeables/${encodeURIComponent(props.targetCurrency)}/${localStorage.includes}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
 
     console.log(url);
     getBags(url, bags, dropRates); 

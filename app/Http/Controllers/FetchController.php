@@ -448,8 +448,30 @@ class FetchController extends Controller
                 ]
             ); 
 
-            $items = explode(",", $bag['itemID']); 
-            $itemDrs = explode(",", $bag['itemDropRate']); 
+            if ($bag['itemID']){
+                $items = explode(",", $bag['itemID']); 
+                $itemDrs = explode(",", $bag['itemDropRate']); 
+            }
+            // NO ITEMS, ONLY CURRENCIES AS DROPS 
+            else {
+                $currencies = explode(",", $bag['currencyID']);
+                $currenciesDrs = explode(",", $bag['currencyDropRate']); 
+
+                foreach ($currencies as $key => $currency){
+                    //dd($currency, $bag['id']);
+                    BagDropRate::updateOrCreate(
+                        [
+                            'bag_id' => $bag['id'],
+                            'currency_id' => $currency,
+                        ],
+                        [
+                            'drop_rate' => $currenciesDrs[$key],
+                        ]
+                    );
+                }
+                continue; 
+            }
+            
 
             foreach ($items as $key => $item){
                 // In the spreadsheet, there may be blank entries
