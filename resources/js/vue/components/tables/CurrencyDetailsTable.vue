@@ -129,6 +129,44 @@
                     <p class="small-subtitle">Fee</p>
                 </span>
             </div>
+            <!--
+                *
+                * BAG VALUE
+                * 
+            -->
+            <div class="calculations">
+                <span class="label-and-subtitle">
+                    <span class="gold-label-container">
+                        <span class="gold-label" v-for="gold in formatValue(bags.profitPerBag)">
+                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                        </span>
+                    </span>
+                    <p class="small-subtitle">Bag Value</p>
+                </span>
+
+                <p> = </p>
+
+                <span class="label-and-subtitle">
+                    <span class="gold-label-container">
+                        <span class="gold-label" v-for="gold in formatValue(bags.total)">
+                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                        </span>
+                    </span>
+                    <p class="small-subtitle">Sum of Drops</p>
+                </span>
+                
+
+                <p> - </p>
+
+                <span class="label-and-subtitle">
+                    <span class="gold-label-container">
+                        <span class="gold-label" v-for="gold in formatValue(bags.fee)">
+                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                        </span>
+                    </span>
+                    <p class="small-subtitle">Fee</p>
+                </span>
+            </div>
 
             <!--
                 *
@@ -137,13 +175,10 @@
             -->
             <div class="calculations">
                 <span class="label-and-subtitle">
-                    <span class="currency">
-                        <span class="gold-label-container">
-                            <span class="gold-label" v-for="gold in formatValue(bags.currencyPerBag)">
-                                {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                            </span>
+                    <span class="gold-label-container">
+                        <span class="gold-label" v-for="gold in formatValue(bags.currencyPerBag)">
+                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                         </span>
-                        <img :src="currencyIcon" :alt="bags.currency" :title="bags.currency">
                     </span>
                     <p class="small-subtitle">Currency Value</p>
                 </span>
@@ -163,7 +198,11 @@
                 <p> / </p>
 
                 <span class="label-and-subtitle">
-                    <p>{{ bags.costOfCurrencyPerBag }}</p>
+                    <span class="currency">
+                        <p>{{ bags.costOfCurrencyPerBag }}</p>
+                        <img :src="currencyIcon" :alt="bags.currency" :title="bags.currency">
+                    </span>
+                    
                     <p class="small-subtitle">Conversion Rate</p>
                 </span>
             </div>

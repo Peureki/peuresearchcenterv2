@@ -118,12 +118,13 @@ class Controller extends BaseController
             'conversionRate' => array_fill(0, 15, 50),
             'fee' => array_fill(0, 15, 0),
         ];
-        // Magic Warped Packet
+        // Magic Warped Bundle (Ember Bay)
         // Magic Warped Bundle
+        // Magic Warped Packet
         $this->unboundMagic = [
-            'id' => [79114, 79186],
-            'conversionRate' =>  [1250, 500],
-            'fee' => [4000, 10000]
+            'id' => [79186, 79186, 79114],
+            'conversionRate' =>  [1250,  500, 250],
+            'fee' => [4000, 10000, 5000],
         ];
         // Shipments
         $this->volatileMagic = [

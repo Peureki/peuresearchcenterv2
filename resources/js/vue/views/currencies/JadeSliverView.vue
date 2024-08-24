@@ -1,8 +1,8 @@
 <template>
     <CurrencyPage
-        :page-name="targetCurrencies[0]"
-        :target-currencies="targetCurrencies"
-        :currency-icons="currencyIcons"
+        :page-name="targetCurrency"
+        :target-currency="targetCurrency"
+        :currency-icon="currencyIcon"
     />
 </template>
 
@@ -15,7 +15,7 @@
     * 
     * Make variables of targetted currencies and icons
     * Ex: 
-    * const targetCurrencies = ['Volatile Magic']
+    * const targetCurrency = ['Volatile Magic']
     * const currnecyIcons = [VolatileMagic]
     * 
     * Make as array in case there are multiple currencies for a conversion
@@ -25,8 +25,8 @@
 import JadeSliver from '@/imgs/icons/Jade_Sliver.png'
 import CurrencyPage from '@/js/vue/components/general/CurrencyPage.vue'
 
-const targetCurrencies = ['Jade Sliver'];
-const currencyIcons = [JadeSliver];
+const targetCurrency = 'Jade Sliver';
+const currencyIcon = JadeSliver;
 
 </script>
 
