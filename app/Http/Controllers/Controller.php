@@ -32,12 +32,13 @@ class Controller extends BaseController
     protected $ascendedJunk; 
     protected $banditCrest;
     protected $currencyBags;
-    protected $fineRiftEssence;
+    protected $fineAndMasterworkRiftEssences;
     protected $geode;
     protected $imperialFavor;
     protected $jadeSliver;
     protected $laurel;
     protected $leyEnergyMatter;
+    protected $rareRiftEssence; 
     protected $tradeContract;
     protected $unboundMagic;
     protected $volatileMagic; 
@@ -49,6 +50,7 @@ class Controller extends BaseController
             'id' => [79264],
             'conversionRate' => [25],
             'fee' => [0],
+            'outputQty' => [1], 
         ];
 
         $this->banditCrest = [
@@ -69,7 +71,7 @@ class Controller extends BaseController
             69985, // Bandit Crest 
         ];
 
-        $this->fineRiftEssence = [
+        $this->fineAndMasterworkRiftEssences = [
             'id' => [
                 101727, // Astral Fluc Mass
                 73711, // Bag of Aurillum (10)
@@ -128,10 +130,9 @@ class Controller extends BaseController
             'id' => [66399],
             'conversionRate' => [28],
             'fee' => [1024],
+            'outputQty' => [1],
         ];
 
-        
-        
         $this->imperialFavor = [
             'id' => [
                 // Antique Summoning Stone
@@ -144,6 +145,10 @@ class Controller extends BaseController
                 200, 200, 200, 200
             ],
             'fee' => array_fill(0, 5, 0),
+            'outputQty' => [
+                1,
+                1, 1, 1, 1
+            ],
         ];
 
         $this->jadeSliver = [
@@ -163,9 +168,8 @@ class Controller extends BaseController
                 100,
                 50, 50, 50, 50
             ],
-            'fee' => [
-                array_fill(0, 15, 0),
-            ]
+            'fee' => array_fill(0, 15, 0),
+            'outputQty' => array_fill(0, 15, 1),
         ];
 
         // Crafting Bags
@@ -173,6 +177,7 @@ class Controller extends BaseController
             'id' => [39124, 39123, 39121, 39122, 39119],
             'conversionRate' => array_fill(0, 5, 1),
             'fee' => array_fill(0, 5, 0),
+            'outputQty' => array_fill(0, 5, 1),
         ];
         // EX: LEY ENERGY MATTER CONVERTER
         // Use for: Airship Parts, Aurillium, Ley Line Crystals
@@ -180,12 +185,91 @@ class Controller extends BaseController
             'id' => [67259, 67249, 67250, 67264, 67263, 67266, 67265, 67260, 67261, 67253, 67251, 50027, 67246, 67269, 67268, 67267, 9257, 67247, 39119, 39120, 39121, 39123, 39122, 39124],
             'conversionRate' => array_fill(0, 25, 25),
             'fee' => array_fill(0, 25, 0),
+            'outputQty' => array_fill(0, 25, 1),
         ];
+
+        $this->rareRiftEssence = [
+            'id' => [
+                101727, // Astral Fluc Mass
+                73711, // Bag of Aurillum (10)
+                74212, // Bag of Leyline Crystals (10)
+                69985, // Bandit Crest
+                101870, // Extra-Large Calcified Gasp
+                101862, // Extra-Large Pinch of Stardust
+                101797, // Extra-Large Static Charge
+                66593, // Geode
+                74249, // Large Bag of Airship Parts
+                83878, // Pile of Elonian Trade Contracts
+                94228, // Tyrian Defense Seal
+                95692, // Writ of Dragon's End
+                96561, // Writ of Echovald Wilds
+                96533, // Writ of New Kaineng City
+                96680, // Writ of Seitung Province
+                92311, // Season 4 Currency Box
+                86053, // Wood Shipment
+                85725, // Trophy Shipment
+                85873, // Cloth Shipment
+                85990, // Metal Shipment
+                86231, // Leather Shipment
+            ],
+            'conversionRate' => [
+                25, 
+                35,
+                35,
+                35, 
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                50,
+                50,
+                50,
+                50,
+                50,
+                50,
+            ],
+            'fee' => array_merge(
+                array_fill(0, 16, 0), 
+                array_fill(16, 5, 10000), // Shipments
+            ),
+            'outputQty' => [
+                1, 
+                1,
+                1,
+                10,
+                1,
+                1,
+                1,
+                10,
+                1,
+                10,
+                10,
+                2,
+                2,
+                2,
+                2,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+            ],
+        ];
+
         // Trade Crates
         $this->tradeContract = [
             'id' => [84783, 83352, 84254, 83265, 82825, 82564, 83419, 83298, 83462, 82946, 82219, 83554, 83582, 84668, 82969],
             'conversionRate' => array_fill(0, 15, 50),
             'fee' => array_fill(0, 15, 0),
+            'outputQty' => array_fill(0, 15, 1),
         ];
         // Magic Warped Bundle
         // Magic Warped Bundle (Ember Bay)
@@ -194,12 +278,14 @@ class Controller extends BaseController
             'id' => [79186, 79186, 79114],
             'conversionRate' =>  [500,  1250, 250],
             'fee' => [10000, 4000, 5000],
+            'outputQty' => array_fill(0, 3, 1),
         ];
         // Shipments
         $this->volatileMagic = [
             'id' => [85873, 86231, 85725, 86053, 85990],
             'conversionRate' => array_fill(0, 5, 250),
             'fee' => array_fill(0, 5, 10000),
+            'outputQty' => array_fill(0, 5, 1),
         ];
     }
 
@@ -386,6 +472,13 @@ class Controller extends BaseController
                 }
                 break;
 
+            // GEODE
+            case 25: 
+                $containerIDs = array_merge($containerIDs, $this->geode['id']);
+                $conversionRate = $this->geode['conversionRate'];
+                $fee = $this->geode['fee']; 
+                break;
+
             // BANDIT CREST
             case 27:
                 $containerIDs = array_merge($containerIDs, $this->banditCrest['id']);
@@ -412,6 +505,13 @@ class Controller extends BaseController
                 $containerIDs = array_merge($containerIDs, $this->volatileMagic['id']);
                 $conversionRate = $this->volatileMagic['conversionRate']; 
                 $fee = $this->volatileMagic['fee'];
+                break;
+
+            // IMEPRIAL FAVORS
+            case 68:
+                $containerIDs = array_merge($containerIDs, $this->imperialFavor['id']);
+                $conversionRate = $this->imperialFavor['conversionRate']; 
+                $fee = $this->imperialFavor['fee'];
                 break;
 
             // *

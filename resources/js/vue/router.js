@@ -31,6 +31,8 @@ import ExchangeableBloodstoneDustView from '@/js/vue/views/exchangeables/Bloodst
 import ExchangeablesDragoniteOreView from '@/js/vue/views/exchangeables/DragoniteOreView.vue'
 import ExchangeablesEmpyrealFragmentView from '@/js/vue/views/exchangeables/EmpyrealFragmentView.vue'
 import ExchangeableFineRiftEssenceView from '@/js/vue/views/exchangeables/FineRiftEssenceView.vue'
+import ExchangeableMasterworkRiftEssenceView from '@/js/vue/views/exchangeables/MasterworkRiftEssenceView.vue'
+import ExchangeableRareRiftEssenceView from '@/js/vue/views/exchangeables/RareRiftEssenceView.vue'
 
 /*
  * 
@@ -166,6 +168,16 @@ const routes = [
         path: '/exchangeables/fine-rift-essence',
         component: ExchangeableFineRiftEssenceView,
         name: 'exchangeable-fine-rift-essence',
+    },
+    {
+        path: '/exchangeables/masterwork-rift-essence',
+        component: ExchangeableMasterworkRiftEssenceView,
+        name: 'exchangeable-masterwork-rift-essence',
+    },
+    {
+        path: '/exchangeables/rare-rift-essence',
+        component: ExchangeableRareRiftEssenceView,
+        name: 'exchangeable-rare-rift-essence',
     },
     // *
     // * TOOLS

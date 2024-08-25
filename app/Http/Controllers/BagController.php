@@ -47,6 +47,7 @@ class BagController extends Controller
                 $requestedBags = array_merge($requestedBags, $this->leyEnergyMatter['id']);
                 $conversionRate = $this->leyEnergyMatter['conversionRate'];
                 $fee = $this->leyEnergyMatter['fee'];
+                $outputQty = $this->leyEnergyMatter['outputQty'];
                 break;
 
             case "Bandit Crest":
@@ -62,19 +63,22 @@ class BagController extends Controller
                 $requestedBags = array_merge($requestedBags, $this->ascendedJunk['id']);
                 $conversionRate = $this->ascendedJunk['conversionRate'];
                 $fee = $this->ascendedJunk['fee'];
-
+                $outputQty = $this->ascendedJunk['outputQty'];
+                break;
 
             case "Dragonite Ore":
                 $requestedBags = array_merge($requestedBags, $this->ascendedJunk['id']);
                 $conversionRate = $this->ascendedJunk['conversionRate'];
                 $fee = $this->ascendedJunk['fee'];
+                $outputQty = $this->ascendedJunk['outputQty'];
                 break;
 
             case "Fine Rift Essence":
-                $requestedBags = array_merge($requestedBags, $this->fineRiftEssence['id']);
-                $conversionRate = $this->fineRiftEssence['conversionRate'];
-                $fee = $this->fineRiftEssence['fee'];
-                $outputQty = $this->fineRiftEssence['outputQty'];
+            case "Masterwork Rift Essence":
+                $requestedBags = array_merge($requestedBags, $this->fineAndMasterworkRiftEssences['id']);
+                $conversionRate = $this->fineAndMasterworkRiftEssences['conversionRate'];
+                $fee = $this->fineAndMasterworkRiftEssences['fee'];
+                $outputQty = $this->fineAndMasterworkRiftEssences['outputQty'];
                 break;
 
 
@@ -83,55 +87,63 @@ class BagController extends Controller
                 $requestedBags = array_merge($requestedBags, $this->geode['id']);
                 $conversionRate = $this->geode['conversionRate'];
                 $fee = $this->geode['fee'];
+                $outputQty = $this->geode['outputQty'];
                 break;
 
             case "Imperial Favor":
-                // Bounty of Dragon's End
-                // Bounty of Echovald Wilds
-                // Bounty of New Kaineng City
-                // Bounty of Seitung Province
                 $requestedBags = array_merge($requestedBags, $this->imperialFavor['id']);
                 $conversionRate = $this->imperialFavor['conversionRate'];
                 $fee = $this->imperialFavor['fee'];
-
-                //dd($requestedBags, $conversionRate, $fee);
+                $outputQty = $this->imperialFavor['outputQty'];
                 break;
 
             case "Jade Sliver":
                 $requestedBags = array_merge($requestedBags, $this->jadeSliver['id']);
                 $conversionRate = $this->jadeSliver['conversionRate'];
                 $fee = $this->jadeSliver['fee'];
+                $outputQty = $this->jadeSliver['outputQty'];
                 break;
 
             case "Laurel":
                 $requestedBags = array_merge($requestedBags, $this->laurel['id']);
                 $conversionRate = $this->laurel['conversionRate'];
                 $fee = $this->laurel['fee'];
+                $outputQty = $this->laurel['outputQty'];
                 break;
 
             case "Pile of Bloodstone Dust":
                 $requestedBags = array_merge($requestedBags, $this->ascendedJunk['id']);
                 $conversionRate = $this->ascendedJunk['conversionRate'];
                 $fee = $this->ascendedJunk['fee'];
+                $outputQty = $this->ascendedJunk['outputQty'];
                 break;
 
+            case "Rare Rift Essence":
+                $requestedBags = array_merge($requestedBags, $this->rareRiftEssence['id']);
+                $conversionRate = $this->rareRiftEssence['conversionRate'];
+                $fee = $this->rareRiftEssence['fee'];
+                $outputQty = $this->rareRiftEssence['outputQty'];
+                break;
 
             case "Trade Contract":
                 $requestedBags = array_merge($requestedBags, $this->tradeContract['id']);
                 $conversionRate = $this->tradeContract['conversionRate'];
                 $fee = $this->tradeContract['fee'];
+                $outputQty = $this->tradeContract['outputQty'];
                 break;
    
             case "Unbound Magic":
                 $requestedBags = array_merge($requestedBags, $this->unboundMagic['id']);
                 $conversionRate = $this->unboundMagic['conversionRate'];
                 $fee = $this->unboundMagic['fee'];
+                $outputQty = $this->unboundMagic['outputQty'];
                 break;
 
             case "Volatile Magic":
                 $requestedBags = array_merge($requestedBags, $this->volatileMagic['id']);
                 $conversionRate = $this->volatileMagic['conversionRate'];
                 $fee = $this->volatileMagic['fee'];
+                $outputQty = $this->volatileMagic['outputQty'];
                 break;
         }
 
@@ -191,32 +203,6 @@ class BagController extends Controller
                 }
             }
         }
-
-        //dd($bagDropRates);
-
-        // if ($request == 'Dragonite Ore'
-        //     || $request == 'Empyreal Fragment'
-        //     || $request == 'Bloodstone Dust'
-        //     || $request == 'Unbound Magic'
-        // ){
-        //     foreach ($bagDropRates as $id => $tempBag){
-        //         // Fluctuating Mass
-        //         if ($id == 79264){
-        //             // ORDER is to distinquish each bag with different conversions of the same Exchangeable
-        //             $tempBag->order = 0; 
-        //             $duplicateBag = clone $tempBag;
-        //             $duplicateBag->order = 1;
-        //             $bagDropRates->push($duplicateBag);
-        //         }
-        //         // Magic Warped Bundle
-        //         if ($id == 79186){
-        //             $tempBag->order = 0; 
-        //             $duplicateBag = clone $tempBag;
-        //             $duplicateBag->order = 1;
-        //             $bagDropRates->push($duplicateBag);
-        //         }
-        //     }
-        // }
 
         //dd($bagDropRates, $requestedBags);
 
@@ -283,7 +269,7 @@ class BagController extends Controller
             if (isset($group->duplicated)){
                 $bagName = $group->duplicated_name; 
             }
- 
+
             $profitPerBag = ($total - $fee[$index]) * $outputQty[$index]; 
             $currencyPerBag = $profitPerBag / $conversionRate[$index]; 
             //dd($profitPerBag);

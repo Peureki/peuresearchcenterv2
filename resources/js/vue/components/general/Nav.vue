@@ -714,6 +714,16 @@
                         <img src="@/imgs/icons/Fine_Rift_Essence.png" alt="Fine Rift Essence" title="Fine Rift Essence">
                         <h6>Fine Rift Essence</h6>
                     </router-link>
+
+                    <router-link class="page-link" to="/exchangeables/masterwork-rift-essence">
+                        <img src="@/imgs/icons/Masterwork_Rift_Essence.png" alt="Masterwork Rift Essence" title="Masterwork Rift Essence">
+                        <h6>Masterwork Rift Essence</h6>
+                    </router-link>
+
+                    <router-link class="page-link" to="/exchangeables/rare-rift-essence">
+                        <img src="@/imgs/icons/Rare_Rift_Essence.png" alt="Rare Rift Essence" title="Rare Rift Essence">
+                        <h6>Rare Rift Essence</h6>
+                    </router-link>
                 </div>   
             </div>
         </Transition>
