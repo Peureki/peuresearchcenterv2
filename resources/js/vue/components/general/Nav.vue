@@ -109,7 +109,7 @@
                     </svg>
                     <!-- MODAL  -->
                     <svg 
-                        @click="nodeTrackerModalToggle = !nodeTrackerModalToggle; scrollTo('page-header');"
+                        @click="nodeTrackerModalToggle = !nodeTrackerModalToggle; scrollTo('page-div');"
                         width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg"
                     >
                         <path d="M0.125 0.125H8.45833V8.45833H0.125V0.125ZM10.5417 0.125H18.875V8.45833H10.5417V0.125ZM0.125 10.5417H8.45833V18.875H0.125V10.5417ZM13.6667 10.5417H15.75V13.6667H18.875V15.75H15.75V18.875H13.6667V15.75H10.5417V13.6667H13.6667V10.5417ZM12.625 2.20833V6.375H16.7917V2.20833H12.625ZM2.20833 2.20833V6.375H6.375V2.20833H2.20833ZM2.20833 12.625V16.7917H6.375V12.625H2.20833Z" fill="#FFD12C"/>
@@ -257,7 +257,7 @@
                         *
                     -->
                     <div class="settings-button-container">
-                        <p>Include</p>
+                        <h4>Include</h4>
                         <!-- 
                             * 
                             * INCLUDE AIRSHIP PARTS
@@ -295,6 +295,21 @@
                                 name="AscendedJunk"
                             >
                             <label for="AscendedJunk">Ascended Junk</label>
+                        </div>
+
+                        <div 
+                            class="checkbox" 
+                            @click="
+                                includesImperialFavorCheckbox = !includesImperialFavorCheckbox;
+                                setIncludes('ImperialFavor', includesImperialFavorCheckbox);    
+                            "
+                        >
+                            <input 
+                                :checked="includesImperialFavorCheckbox" 
+                                type="checkbox" 
+                                name="ImperialFavor"
+                            >
+                            <label for="ImperialFavor">Imperial Favors</label>
                         </div>
                         <!-- 
                             * 
@@ -352,6 +367,66 @@
                                 name="Salvageables"
                             >
                             <label for="Salvageables">Salvageables</label>
+                        </div>
+
+                        <!-- 
+                            * 
+                            * INCLUDE TRADE CONTRACTS
+                            * 
+                        -->
+                        <div 
+                            class="checkbox" 
+                            @click="
+                                includesTradeContractCheckbox = !includesTradeContractCheckbox;
+                                setIncludes('TradeContract', includesTradeContractCheckbox);    
+                            "
+                        >
+                            <input 
+                                :checked="includesTradeContractCheckbox" 
+                                type="checkbox" 
+                                name="TradeContract"
+                            >
+                            <label for="TradeContract">Trade Contracts</label>
+                        </div>
+
+                        <!-- 
+                            * 
+                            * INCLUDE UNBOUND MAGIC
+                            * 
+                        -->
+                        <div 
+                            class="checkbox" 
+                            @click="
+                                includesUnboundMagicCheckbox = !includesUnboundMagicCheckbox;
+                                setIncludes('UnboundMagic', includesUnboundMagicCheckbox);    
+                            "
+                        >
+                            <input 
+                                :checked="includesUnboundMagicCheckbox" 
+                                type="checkbox" 
+                                name="UnboundMagic"
+                            >
+                            <label for="UnboundMagic">Unbound Magic</label>
+                        </div>
+
+                        <!-- 
+                            * 
+                            * INCLUDE VOLATILE MAGIC
+                            * 
+                        -->
+                        <div 
+                            class="checkbox" 
+                            @click="
+                                includesVolatileMagicCheckbox = !includesVolatileMagicCheckbox;
+                                setIncludes('VolatileMagic', includesVolatileMagicCheckbox);    
+                            "
+                        >
+                            <input 
+                                :checked="includesVolatileMagicCheckbox" 
+                                type="checkbox" 
+                                name="VolatileMagic"
+                            >
+                            <label for="VolatileMagic">Volatile Magic</label>
                         </div>
                         
                     </div>
@@ -480,7 +555,8 @@
             * BENCHMARKS
             *
         -->
-        <header 
+        <div 
+            class="nav-section-container"
             id="nav"
             @click="benchmarksToggle = !benchmarksToggle"
         >
@@ -492,7 +568,7 @@
             >
                 <path d="M8.81372 0.397634C8.6944 0.280464 8.5326 0.214642 8.36389 0.214642C8.19519 0.214642 8.03339 0.280464 7.91407 0.397634L4.76468 3.49138L1.61529 0.397634C1.49529 0.283785 1.33457 0.220788 1.16775 0.222212C1.00093 0.223636 0.841356 0.289367 0.723392 0.405247C0.605428 0.521127 0.538516 0.677885 0.537066 0.841758C0.535617 1.00563 0.599746 1.16351 0.715642 1.28138L4.31486 4.81701C4.43417 4.93418 4.59597 5 4.76468 5C4.93339 5 5.09519 4.93418 5.2145 4.81701L8.81372 1.28138C8.93299 1.16418 9 1.00524 9 0.839509C9 0.673781 8.93299 0.514838 8.81372 0.397634Z" fill="#FFD12C"/>
             </svg>
-        </header>
+        </div>
 
         <Transition name="fade-right">
             <div v-if="benchmarksToggle">
@@ -528,7 +604,7 @@
             * CURRENCIES
             *
         -->
-        <header @click="curriencesToggle = !curriencesToggle" id="nav">
+        <div class="nav-section-container" @click="curriencesToggle = !curriencesToggle">
             <h5>Curriences</h5>
             <svg 
                 class="expand"
@@ -537,138 +613,72 @@
             >
                 <path d="M8.81372 0.397634C8.6944 0.280464 8.5326 0.214642 8.36389 0.214642C8.19519 0.214642 8.03339 0.280464 7.91407 0.397634L4.76468 3.49138L1.61529 0.397634C1.49529 0.283785 1.33457 0.220788 1.16775 0.222212C1.00093 0.223636 0.841356 0.289367 0.723392 0.405247C0.605428 0.521127 0.538516 0.677885 0.537066 0.841758C0.535617 1.00563 0.599746 1.16351 0.715642 1.28138L4.31486 4.81701C4.43417 4.93418 4.59597 5 4.76468 5C4.93339 5 5.09519 4.93418 5.2145 4.81701L8.81372 1.28138C8.93299 1.16418 9 1.00524 9 0.839509C9 0.673781 8.93299 0.514838 8.81372 0.397634Z" fill="#FFD12C"/>
             </svg>
-        </header>
+        </div>
 
         <Transition name="fade-right">
             <div v-if="curriencesToggle">
-                <!--
-                    *
-                    * CORE CURRIENCES
-                    *
-                -->
-                <div class="distinquish-section">
-                    <div class="label" id="core">
-                        <h6>Core</h6>
-                    </div>
+                <div class="routes">
+                    <router-link class="page-link" to="/currencies/airship-part">
+                        <img src="@/imgs/icons/Airship_Part.png" alt="Airship Part" title="Airship Part">
+                        <h6>Airship Part</h6>
+                    </router-link>
 
-                    <div class="routes">
-                        <router-link class="page-link" to="/currencies/bandit-crest">
-                            <img src="@/imgs/icons/Bandit_Crest.png" alt="Bandit Crest" title="Bandit Crest">
-                            <h6>Bandit Crest</h6>
-                        </router-link>
+                    <router-link class="page-link" to="/currencies/bandit-crest">
+                        <img src="@/imgs/icons/Bandit_Crest.png" alt="Bandit Crest" title="Bandit Crest">
+                        <h6>Bandit Crest</h6>
+                    </router-link>
 
-                        <router-link class="page-link" to="/currencies/geode">
-                            <img src="@/imgs/icons/Geode.png" alt="Geode" title="Geode">
-                            <h6>Geode</h6>
-                        </router-link>
+                    <router-link class="page-link" to="/currencies/geode">
+                        <img src="@/imgs/icons/Geode.png" alt="Geode" title="Geode">
+                        <h6>Geode</h6>
+                    </router-link>
 
-                        <router-link class="page-link" to="/currencies/laurel">
-                            <img src="@/imgs/icons/Laurel.png" alt="Laurel" title="Laurel">
-                            <h6>Laurel</h6>
-                        </router-link>
-                        
-                        <router-link class="page-link" to="/currencies/spirit-shards">
-                            <img src="@/imgs/icons/Spirit_Shard.png" alt="Spirit Shard" title="Spirit Shard">
-                            <h6>Spirit Shards</h6>
-                        </router-link>
-                    </div>   
-                </div>
+                    <router-link class="page-link" to="/currencies/imperial-favor">
+                        <img src="@/imgs/icons/Imperial_Favor.png" alt="Imperial Favors" title="Imperial Favors">
+                        <h6>Imperial Favor</h6>
+                    </router-link>
 
-                <div class="distinquish-section">
-                    <div class="label" id="hot">
-                        <h6>HoT</h6>
-                    </div>
+                    <router-link class="page-link" to="/currencies/jade-sliver">
+                        <img src="@/imgs/icons/Jade_Sliver.png" alt="Jade Slivers" title="Jade Slivers">
+                        <h6>Jade Sliver</h6>
+                    </router-link>
 
-                    <div class="routes">
-                        <router-link class="page-link" to="/currencies/airship-part">
-                            <img src="@/imgs/icons/Airship_Part.png" alt="Airship Part" title="Airship Part">
-                            <h6>Airship Part</h6>
-                        </router-link>
+                    <router-link class="page-link" to="/currencies/laurel">
+                        <img src="@/imgs/icons/Laurel.png" alt="Laurel" title="Laurel">
+                        <h6>Laurel</h6>
+                    </router-link>
 
-                        <router-link class="page-link" to="/currencies/ley-line-crystal">
-                            <img src="@/imgs/icons/Ley_Line_Crystal.png" alt="Ley Line Crystals" title="Ley Line Crystals">
-                            <h6>Ley Line Crystal</h6>
-                        </router-link>
+                    <router-link class="page-link" to="/currencies/ley-line-crystal">
+                        <img src="@/imgs/icons/Ley_Line_Crystal.png" alt="Ley Line Crystals" title="Ley Line Crystals">
+                        <h6>Ley Line Crystal</h6>
+                    </router-link>
 
-                        <router-link class="page-link" to="/currencies/lump-of-aurillium">
-                            <img src="@/imgs/icons/Lump_of_Aurillium.png" alt="Lump of Aurillium" title="Lump of Aurillium">
-                            <h6>Lump of Aurillium</h6>
-                        </router-link>
-                    </div>   
-                </div>
+                    <router-link class="page-link" to="/currencies/lump-of-aurillium">
+                        <img src="@/imgs/icons/Lump_of_Aurillium.png" alt="Lump of Aurillium" title="Lump of Aurillium">
+                        <h6>Lump of Aurillium</h6>
+                    </router-link>
+                    
+                    <router-link class="page-link" to="/currencies/spirit-shards">
+                        <img src="@/imgs/icons/Spirit_Shard.png" alt="Spirit Shard" title="Spirit Shard">
+                        <h6>Spirit Shards</h6>
+                    </router-link>
 
-                <div class="distinquish-section">
-                    <div class="label" id="pof">
-                        <h6>PoF</h6>
-                    </div>
+                    <router-link class="page-link" to="/currencies/trade-contract">
+                        <img src="@/imgs/icons/Trade_Contract.png" alt="Trade Contract" title="Trade Contract">
+                        <h6>Trade Contract</h6>
+                    </router-link>
 
-                    <div class="routes">
-                        <router-link class="page-link" to="/currencies/trade-contract">
-                            <img src="@/imgs/icons/Trade_Contract.png" alt="Trade Contract" title="Trade Contract">
-                            <h6>Trade Contract</h6>
-                        </router-link>
-                    </div>   
-                </div>
-                <!--
-                    *
-                    * LS3 CURRIENCES
-                    *
-                -->
-                <div class="distinquish-section">
-                    <div class="label" id="ls3">
-                        <h6>LS3</h6>
-                    </div>
+                    <router-link class="page-link" to="/currencies/unbound-magic">
+                        <img src="@/imgs/icons/Unbound_Magic.png" alt="Unbound Magic" title="Unbound Magic">
+                        <h6>Unbound Magic</h6>
+                    </router-link>
 
-                    <div class="routes">
-                        <router-link class="page-link" to="/currencies/unbound-magic">
-                            <img src="@/imgs/icons/Unbound_Magic.png" alt="Unbound Magic" title="Unbound Magic">
-                            <h6>Unbound Magic</h6>
-                        </router-link>
-                    </div>   
-                </div>
-                <!--
-                    *
-                    * LS4 CURRIENCES
-                    *
-                -->
-                <div class="distinquish-section">
-                    <div class="label" id="ls4">
-                        <h6>LS4</h6>
-                    </div>
-
-                    <div class="routes">
-                        <router-link class="page-link" to="/currencies/volatile-magic">
-                            <img src="@/imgs/icons/Volatile_Magic.png" alt="Volatile Magic" title="Volatile Magic">
-                            <h6>Volatile Magic</h6>
-                        </router-link>
-                    </div>   
-                </div>
-
-                <!--
-                    *
-                    * EOD CURRIENCES
-                    *
-                -->
-                <div class="distinquish-section">
-                    <div class="label" id="eod">
-                        <h6>EOD</h6>
-                    </div>
-
-        
-                    <div class="routes">
-
-                        <router-link class="page-link" to="/currencies/jade-sliver">
-                            <img src="@/imgs/icons/Jade_Sliver.png" alt="Jade Slivers" title="Jade Slivers">
-                            <h6>Jade Sliver</h6>
-                        </router-link>
-
-                        <router-link class="page-link" to="/currencies/imperial-favor">
-                            <img src="@/imgs/icons/Imperial_Favor.png" alt="Imperial Favors" title="Imperial Favors">
-                            <h6>Imperial Favor</h6>
-                        </router-link>
-                    </div>   
-                </div>
-            </div>
+                    <router-link class="page-link" to="/currencies/volatile-magic">
+                        <img src="@/imgs/icons/Volatile_Magic.png" alt="Volatile Magic" title="Volatile Magic">
+                        <h6>Volatile Magic</h6>
+                    </router-link>
+                </div>   
+            </div> 
         </Transition>
 
         <!--
@@ -676,7 +686,7 @@
             * EXCHANGEABLES
             *
         -->
-        <header @click="exchangeablesToggle = !exchangeablesToggle" id="nav">
+        <div class="nav-section-container" @click="exchangeablesToggle = !exchangeablesToggle" id="nav">
             <h5>Exchangeables</h5>
             <svg 
                 class="expand"
@@ -685,7 +695,7 @@
             >
                 <path d="M8.81372 0.397634C8.6944 0.280464 8.5326 0.214642 8.36389 0.214642C8.19519 0.214642 8.03339 0.280464 7.91407 0.397634L4.76468 3.49138L1.61529 0.397634C1.49529 0.283785 1.33457 0.220788 1.16775 0.222212C1.00093 0.223636 0.841356 0.289367 0.723392 0.405247C0.605428 0.521127 0.538516 0.677885 0.537066 0.841758C0.535617 1.00563 0.599746 1.16351 0.715642 1.28138L4.31486 4.81701C4.43417 4.93418 4.59597 5 4.76468 5C4.93339 5 5.09519 4.93418 5.2145 4.81701L8.81372 1.28138C8.93299 1.16418 9 1.00524 9 0.839509C9 0.673781 8.93299 0.514838 8.81372 0.397634Z" fill="#FFD12C"/>
             </svg>
-        </header>
+        </div>
 
         <Transition name="fade-right">
             <div v-if="exchangeablesToggle">
@@ -724,6 +734,11 @@
                         <img src="@/imgs/icons/Rare_Rift_Essence.png" alt="Rare Rift Essence" title="Rare Rift Essence">
                         <h6>Rare Rift Essence</h6>
                     </router-link>
+
+                    <router-link class="page-link" to="/exchangeables/writ-of-new-kaineng-city">
+                        <img src="@/imgs/icons/Writ_of_New_Kaineng_City.png" alt="Writ of New Kaineng City" title="Writ of New Kaineng City">
+                        <h6>Writ of New Kaineng City</h6>
+                    </router-link>
                 </div>   
             </div>
         </Transition>
@@ -733,7 +748,7 @@
             * TOOLS
             *
         -->
-        <header @click="toolsToggle = !toolsToggle">
+        <div class="nav-section-container" @click="toolsToggle = !toolsToggle">
             <h5>Tools</h5>
             <svg 
                 class="expand"
@@ -742,7 +757,7 @@
             >
                 <path d="M8.81372 0.397634C8.6944 0.280464 8.5326 0.214642 8.36389 0.214642C8.19519 0.214642 8.03339 0.280464 7.91407 0.397634L4.76468 3.49138L1.61529 0.397634C1.49529 0.283785 1.33457 0.220788 1.16775 0.222212C1.00093 0.223636 0.841356 0.289367 0.723392 0.405247C0.605428 0.521127 0.538516 0.677885 0.537066 0.841758C0.535617 1.00563 0.599746 1.16351 0.715642 1.28138L4.31486 4.81701C4.43417 4.93418 4.59597 5 4.76468 5C4.93339 5 5.09519 4.93418 5.2145 4.81701L8.81372 1.28138C8.93299 1.16418 9 1.00524 9 0.839509C9 0.673781 8.93299 0.514838 8.81372 0.397634Z" fill="#FFD12C"/>
             </svg>
-        </header>
+        </div>
 
         <Transition name="fade-right">
             <div v-if="toolsToggle">
@@ -751,35 +766,32 @@
                     * HOT TIMERS
                     *
                 -->
-                <div class="distinquish-section">
-                    <div class="label" id="hot">
-                        <h6>Merp</h6>
-                    </div>
+                <div class="routes">
+                    <router-link class="page-link" to="/tools/homestead">
+                        <img src="@/imgs/icons/Homestead.png" alt="Homesteads" title="Homesteads">
+                        <h6>Homestead</h6>
+                    </router-link>
 
-                    <div class="routes">
-                        
+                    <router-link class="page-link" to="/tools/recipe-value">
+                        <img src="@/imgs/icons/Ley_Line_Crystal.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
+                        <h6>Recipe Value</h6>
+                    </router-link>
 
-                        <router-link class="page-link" to="/tools/recipe-value">
-                            <img src="@/imgs/icons/Ley_Line_Crystal.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                            <h6>Recipe Value</h6>
-                        </router-link>
+                    <router-link class="page-link" to="/tools/research-notes">
+                        <img src="@/imgs/icons/Research_Note.png" alt="Research Notes" title="Tools - Research Notes">
+                        <h6>Research Notes</h6>
+                    </router-link>
 
-                        <router-link class="page-link" to="/tools/research-notes">
-                            <img src="@/imgs/icons/Research_Note.png" alt="Research Notes" title="Tools - Research Notes">
-                            <h6>Research Notes</h6>
-                        </router-link>
+                    <router-link class="page-link" to="/tools/salvageables">
+                        <img src="@/imgs/icons/Piece_of_Unidentified_Gear.png" alt="Salvageables" title="Tools - Salvageables">
+                        <h6>Salvageables</h6>
+                    </router-link>
 
-                        <router-link class="page-link" to="/tools/salvageables">
-                            <img src="@/imgs/icons/Piece_of_Unidentified_Gear.png" alt="Salvageables" title="Tools - Salvageables">
-                            <h6>Salvageables</h6>
-                        </router-link>
-
-                        <router-link class="page-link" to="/tools/to-do-list">
-                            <img src="@/imgs/icons/Piece_of_Unidentified_Gear.png" alt="To-Do List" title="Tools - To-Do List">
-                            <h6>To-Do List</h6>
-                        </router-link>
-                    </div>   
-                </div>
+                    <router-link class="page-link" to="/tools/to-do-list">
+                        <img src="@/imgs/icons/Piece_of_Unidentified_Gear.png" alt="To-Do List" title="Tools - To-Do List">
+                        <h6>To-Do List</h6>
+                    </router-link>
+                </div>   
             </div>
         </Transition>
 
@@ -788,7 +800,7 @@
             * TIMERS
             *
         -->
-        <header @click="timersToggle = !timersToggle">
+        <div class="nav-section-container" @click="timersToggle = !timersToggle">
             <h5>Timers</h5>
             <svg 
                 class="expand"
@@ -797,7 +809,7 @@
             >
                 <path d="M8.81372 0.397634C8.6944 0.280464 8.5326 0.214642 8.36389 0.214642C8.19519 0.214642 8.03339 0.280464 7.91407 0.397634L4.76468 3.49138L1.61529 0.397634C1.49529 0.283785 1.33457 0.220788 1.16775 0.222212C1.00093 0.223636 0.841356 0.289367 0.723392 0.405247C0.605428 0.521127 0.538516 0.677885 0.537066 0.841758C0.535617 1.00563 0.599746 1.16351 0.715642 1.28138L4.31486 4.81701C4.43417 4.93418 4.59597 5 4.76468 5C4.93339 5 5.09519 4.93418 5.2145 4.81701L8.81372 1.28138C8.93299 1.16418 9 1.00524 9 0.839509C9 0.673781 8.93299 0.514838 8.81372 0.397634Z" fill="#FFD12C"/>
             </svg>
-        </header>
+        </div>
 
         <Transition name="fade-right">
             <div v-if="timersToggle">
@@ -1082,7 +1094,7 @@ const login = async () => {
             password: password.value,
             remember: remember.value,
         }, {
-            headers: {
+            divs: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         });
@@ -1113,7 +1125,7 @@ const register = async () => {
   try {
         const response = await fetch('../register', {
             method: 'POST',
-            headers: {
+            divs: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             },
@@ -1287,9 +1299,13 @@ const buyOrderSetting = ref(localStorage.buyOrderSetting),
 
 const includesAirshipPartCheckbox = ref(false),
     includesSalvageablesCheckbox = ref(true),
+    includesImperialFavorCheckbox = ref(false),
     includesLeyLineCrystalCheckbox = ref(false),
     includesLumpOfAurilliumCheckbox = ref(false),
-    includesAscendedJunkCheckbox = ref(true); 
+    includesAscendedJunkCheckbox = ref(true),
+    includesTradeContractCheckbox = ref(false),
+    includesUnboundMagicCheckbox = ref(false),
+    includesVolatileMagicCheckbox = ref(false); 
 
 const route = useRoute(),
     router = useRouter();
@@ -1368,9 +1384,13 @@ onMounted(() => {
     const includes = JSON.parse(localStorage.getItem('includes')) || []; 
     includesAirshipPartCheckbox.value = includes.includes('AirshipPart');
     includesAscendedJunkCheckbox.value = includes.includes('AscendedJunk');
+    includesImperialFavorCheckbox.value = includes.includes('ImperialFavor');
     includesLeyLineCrystalCheckbox.value = includes.includes('LeyLineCrystal');
     includesLumpOfAurilliumCheckbox.value = includes.includes('LumpOfAurillium');
     includesSalvageablesCheckbox.value = includes.includes('Salvageables');
+    includesTradeContractCheckbox.value = includes.includes('TradeContract');
+    includesUnboundMagicCheckbox.value = includes.includes('UnboundMagic');
+    includesVolatileMagicCheckbox.value = includes.includes('VolatileMagic');
 })
 
 </script>

@@ -185,23 +185,26 @@ nav .shortcuts #cog:hover{
     transform: rotate(180deg);
     transition: all 0.5s ease;
 }
-nav header {
+.nav-section-container {
     position: relative;
     cursor: pointer;
     border-bottom: var(--border-bottom);
 }
-nav header svg{
+.nav-section-container h5{
+    color: var(--color-subheader);
+}
+.nav-section-container svg{
     position: absolute;
-    bottom: 5%;
+    bottom: 0%;
     left: 50%;
-    transform: translate(-5%, -50%);
+    transform: translate(-0%, -50%);
     width: 10px;
     height: 10px;
     transition: var(--transition-all-03s-ease);
 }
-nav header:hover svg{
-    bottom: 0%;
-    transform: translate(0%, -50%);
+.nav-section-container:hover svg{
+    bottom: -5%;
+    transform: translate(5%, -50%);
 }
 
 a.page-link{

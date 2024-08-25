@@ -33,12 +33,14 @@ import ExchangeablesEmpyrealFragmentView from '@/js/vue/views/exchangeables/Empy
 import ExchangeableFineRiftEssenceView from '@/js/vue/views/exchangeables/FineRiftEssenceView.vue'
 import ExchangeableMasterworkRiftEssenceView from '@/js/vue/views/exchangeables/MasterworkRiftEssenceView.vue'
 import ExchangeableRareRiftEssenceView from '@/js/vue/views/exchangeables/RareRiftEssenceView.vue'
+import ExchangeableWritOfNewKainengCityView from '@/js/vue/views/exchangeables/WritOfNewKainengCityView.vue'
 
 /*
  * 
  * TOOLS
  * 
  */
+import ToolsHomesteadView from '@/js/vue/views/tools/HomesteadView.vue'
 import ToolsRecipeValueView from '@/js/vue/views/tools/RecipeValueView.vue'
 import ToolsResearchNotesView from '@/js/vue/views/tools/ResearchNotesView.vue'
 import ToolsSalvageablesView from '@/js/vue/views/tools/SalvageablesView.vue'
@@ -179,9 +181,19 @@ const routes = [
         component: ExchangeableRareRiftEssenceView,
         name: 'exchangeable-rare-rift-essence',
     },
+    {
+        path: '/exchangeables/writ-of-new-kaineng-city',
+        component: ExchangeableWritOfNewKainengCityView,
+        name: 'exchangeable-writ-of-new-kaineng-city',
+    },
     // *
     // * TOOLS
     // *
+    {
+        path: '/tools/homestead',
+        component: ToolsHomesteadView,
+        name: 'tools-homestead',
+    },
     {
         path: '/tools/recipe-value',
         component: ToolsRecipeValueView,

@@ -32,121 +32,47 @@ class BagController extends Controller
         return response()->json($returnArray);
     }
 
+    public function refinement($request, $includes, $sellOrderSetting, $tax){
+        
+    }
+
     public function exchangeables($request, $includes, $sellOrderSetting, $tax){
         // Make it a workable arrays
         $includes = json_decode($includes);
         // This is where bag_ids will be pushed depending on what exchangable item is being exchanged
         $requestedBags = []; 
 
-
-        // Input IDs of bags that are related to the exchangebles/currencies
-        switch ($request){
-            case "Airship Part":
-            case "Lump of Aurillium": 
-            case "Ley Line Crystal":
-                $requestedBags = array_merge($requestedBags, $this->leyEnergyMatter['id']);
-                $conversionRate = $this->leyEnergyMatter['conversionRate'];
-                $fee = $this->leyEnergyMatter['fee'];
-                $outputQty = $this->leyEnergyMatter['outputQty'];
-                break;
-
-            case "Bandit Crest":
-                // Sandy Bag of Gear
-                // Bag of Rare Gear
-                $requestedBags = array_merge($requestedBags, $this->banditCrest['id']);
-                $conversionRate = $this->banditCrest['conversionRate'];
-                $fee = $this->banditCrest['fee'];
-                $outputQty = $this->banditCrest['outputQty'];
-                break;
-
-            case "Empyreal Fragment":
-                $requestedBags = array_merge($requestedBags, $this->ascendedJunk['id']);
-                $conversionRate = $this->ascendedJunk['conversionRate'];
-                $fee = $this->ascendedJunk['fee'];
-                $outputQty = $this->ascendedJunk['outputQty'];
-                break;
-
-            case "Dragonite Ore":
-                $requestedBags = array_merge($requestedBags, $this->ascendedJunk['id']);
-                $conversionRate = $this->ascendedJunk['conversionRate'];
-                $fee = $this->ascendedJunk['fee'];
-                $outputQty = $this->ascendedJunk['outputQty'];
-                break;
-
-            case "Fine Rift Essence":
-            case "Masterwork Rift Essence":
-                $requestedBags = array_merge($requestedBags, $this->fineAndMasterworkRiftEssences['id']);
-                $conversionRate = $this->fineAndMasterworkRiftEssences['conversionRate'];
-                $fee = $this->fineAndMasterworkRiftEssences['fee'];
-                $outputQty = $this->fineAndMasterworkRiftEssences['outputQty'];
-                break;
-
-
-            case "Geode":
-                // Sandy Bag of Gear
-                $requestedBags = array_merge($requestedBags, $this->geode['id']);
-                $conversionRate = $this->geode['conversionRate'];
-                $fee = $this->geode['fee'];
-                $outputQty = $this->geode['outputQty'];
-                break;
-
-            case "Imperial Favor":
-                $requestedBags = array_merge($requestedBags, $this->imperialFavor['id']);
-                $conversionRate = $this->imperialFavor['conversionRate'];
-                $fee = $this->imperialFavor['fee'];
-                $outputQty = $this->imperialFavor['outputQty'];
-                break;
-
-            case "Jade Sliver":
-                $requestedBags = array_merge($requestedBags, $this->jadeSliver['id']);
-                $conversionRate = $this->jadeSliver['conversionRate'];
-                $fee = $this->jadeSliver['fee'];
-                $outputQty = $this->jadeSliver['outputQty'];
-                break;
-
-            case "Laurel":
-                $requestedBags = array_merge($requestedBags, $this->laurel['id']);
-                $conversionRate = $this->laurel['conversionRate'];
-                $fee = $this->laurel['fee'];
-                $outputQty = $this->laurel['outputQty'];
-                break;
-
-            case "Pile of Bloodstone Dust":
-                $requestedBags = array_merge($requestedBags, $this->ascendedJunk['id']);
-                $conversionRate = $this->ascendedJunk['conversionRate'];
-                $fee = $this->ascendedJunk['fee'];
-                $outputQty = $this->ascendedJunk['outputQty'];
-                break;
-
-            case "Rare Rift Essence":
-                $requestedBags = array_merge($requestedBags, $this->rareRiftEssence['id']);
-                $conversionRate = $this->rareRiftEssence['conversionRate'];
-                $fee = $this->rareRiftEssence['fee'];
-                $outputQty = $this->rareRiftEssence['outputQty'];
-                break;
-
-            case "Trade Contract":
-                $requestedBags = array_merge($requestedBags, $this->tradeContract['id']);
-                $conversionRate = $this->tradeContract['conversionRate'];
-                $fee = $this->tradeContract['fee'];
-                $outputQty = $this->tradeContract['outputQty'];
-                break;
-   
-            case "Unbound Magic":
-                $requestedBags = array_merge($requestedBags, $this->unboundMagic['id']);
-                $conversionRate = $this->unboundMagic['conversionRate'];
-                $fee = $this->unboundMagic['fee'];
-                $outputQty = $this->unboundMagic['outputQty'];
-                break;
-
-            case "Volatile Magic":
-                $requestedBags = array_merge($requestedBags, $this->volatileMagic['id']);
-                $conversionRate = $this->volatileMagic['conversionRate'];
-                $fee = $this->volatileMagic['fee'];
-                $outputQty = $this->volatileMagic['outputQty'];
-                break;
+        // MAP out every currency or exchangeable that could be used for calculations
+        // References Controller initializations
+        $map = [
+            "Airship Part" => $this->leyEnergyMatter,
+            "Lump of Aurillium" => $this->leyEnergyMatter,
+            "Ley Line Crystal" => $this->leyEnergyMatter,
+            "Bandit Crest" => $this->banditCrest,
+            "Empyreal Fragment" => $this->ascendedJunk,
+            "Dragonite Ore" => $this->ascendedJunk,
+            "Fine Rift Essence" => $this->fineAndMasterworkRiftEssences,
+            "Masterwork Rift Essence" => $this->fineAndMasterworkRiftEssences,
+            "Geode" => $this->geode,
+            "Imperial Favor" => $this->imperialFavor,
+            "Jade Sliver" => $this->jadeSliver,
+            "Laurel" => $this->laurel,
+            "Pile of Bloodstone Dust" => $this->ascendedJunk,
+            "Rare Rift Essence" => $this->rareRiftEssence,
+            "Trade Contract" => $this->tradeContract,
+            "Unbound Magic" => $this->unboundMagic,
+            "Volatile Magic" => $this->volatileMagic,
+            "Writ of New Kaineng City" => $this->writs,
+        ];
+        // Check if $request matches with one of the $map
+        // Populate arrays
+        if (isset($map[$request])){
+            $data = $map[$request]; 
+            $requestedBags = array_merge($requestedBags, $data['id']);
+            $conversionRate = $data['conversionRate'];
+            $fee = $data['fee'];
+            $outputQty = $data['outputQty'];
         }
-
         //dd('requested bags: ', $requestedBags);
 
         $response = []; 
@@ -243,6 +169,8 @@ class BagController extends Controller
                     // There's a lot of ascended and crafteringMaterials so switch the $item->name to check for specifically the ascended junk
                     switch ($item->name){
                         case 'Dragonite Ore':
+                        case 'Pile of Bloodstone Dust':
+                        case 'Empyreal Fragment':
                             $value = $this->getAscendedJunkValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $includes, $sellOrderSetting, $tax);
                             break;
                     }
@@ -260,9 +188,6 @@ class BagController extends Controller
                 }
                 // Insert 'value' into $items collection
                 $item->value = $value;
-
-                
-                
                 $total += $value;
             }
             // Check if there's a duplicated bag

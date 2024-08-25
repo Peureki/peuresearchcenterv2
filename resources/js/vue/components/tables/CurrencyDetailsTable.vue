@@ -102,35 +102,21 @@
             -->
             <div class="calculations">
                 <span class="label-and-subtitle">
-                    <span class="gold-label-container">
-                        <span class="gold-label" v-for="gold in formatValue(bags.profitPerBag)">
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                        </span>
+                    <span class="currency">
+                        <img :src="bags.icon" :alt="bags.name" :title="bags.name">
+                        <p>{{ bags.outputQty }}</p>
                     </span>
-                    <p class="small-subtitle">Bag Value</p>
+                    <p class="small-subtitle">Output</p>
                 </span>
 
-                <p> = </p>
+                <p> ⇐ </p>
 
                 <span class="label-and-subtitle">
-                    <span class="gold-label-container">
-                        <span class="gold-label" v-for="gold in formatValue(bags.total)">
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                        </span>
+                    <span class="currency">
+                        <img :src="currencyIcon" :alt="bags.currency" :title="bags.currency">
+                        <p>{{ bags.costOfCurrencyPerBag }}</p>
                     </span>
-                    <p class="small-subtitle">Sum of Drops</p>
-                </span>
-                
-
-                <p> - </p>
-
-                <span class="label-and-subtitle">
-                    <span class="gold-label-container">
-                        <span class="gold-label" v-for="gold in formatValue(bags.fee)">
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                        </span>
-                    </span>
-                    <p class="small-subtitle">Fee</p>
+                    <p class="small-subtitle">Exchangeable</p>
                 </span>
             </div>
             <!--

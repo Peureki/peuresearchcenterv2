@@ -32,6 +32,7 @@ class Controller extends BaseController
     protected $ascendedJunk; 
     protected $banditCrest;
     protected $currencyBags;
+    protected $exchangeableIDs;
     protected $fineAndMasterworkRiftEssences;
     protected $geode;
     protected $imperialFavor;
@@ -42,6 +43,12 @@ class Controller extends BaseController
     protected $tradeContract;
     protected $unboundMagic;
     protected $volatileMagic; 
+    protected $writs;
+
+    // NON-MONETIZABLE EXCHANGEABLES
+    // Example:
+    // Homested materials
+    protected $homesteadWood;
 
     public function __construct()
     {
@@ -69,6 +76,20 @@ class Controller extends BaseController
             73711, // Bag of Aurillium (10)
             74212,  // Bag of Ley-line crystals (10)
             69985, // Bandit Crest 
+        ];
+
+        // LIST OF EXCHANGEABLE IDS
+        // Use this list to find if a drop contains an Exchangeable and get their values
+        // Example: 
+        // Bloodstone Dust
+        // Rift Essences
+        $this->exchangeableIDs = [
+            46731, // Pile of Bloodstone Dust
+            46735, // Empyreal Fragment
+            46733, // Dragonite Ore
+            100078, // Fine Rift Essence
+            100414, // Masterwork Rift Essence
+            100055, // Rare Rift Essence
         ];
 
         $this->fineAndMasterworkRiftEssences = [
@@ -287,6 +308,45 @@ class Controller extends BaseController
             'fee' => array_fill(0, 5, 10000),
             'outputQty' => array_fill(0, 5, 1),
         ];
+
+        // Writs of [EOD City]
+        $this->writs = [
+            'id' => [
+                97233, // Imperial Favor
+                101727, // Astral Fluc Mass
+            ],
+            'conversionRate' => [1, 2],
+            'fee' => [0, 0],
+            'outputQty' => [5, 1],
+        ];
+
+
+
+
+
+        $this->homesteadWood = [
+            'id' => [
+                19723, // Green Wood Logs
+                19726, // Soft Wood Logs
+                19727, // Seasoned Wood Logs
+                19724, // Hard Wood Logs
+                19722, // Elder Wood Logs
+                19725, // Ancient Wood Logs
+            ],
+            'conversionRate' => [
+                5,
+                3,
+                1,
+                1,
+                1,
+                1,
+            ],
+            'fee' => array_fill(0, 6, 0),
+            'outputQty' => array_merge(
+                array_fill(0, 5, 1), 
+                array_fill(5, 1, 2)
+            ),
+        ];
     }
 
     // Convert regular strings into db name formats 
@@ -424,11 +484,6 @@ class Controller extends BaseController
         return $value * $commendationDropRate;
     }
 
-    protected function getJadeSliverValue($junkID, $junkDropRate, $includes, $sellOrderSetting, $tax){
-        $value = 0;
-        return $value * $junkDropRate; 
-    }
-
     protected function getCurrencyValue($currencyID, $currencyDropRate, $includes, $sellOrderSetting, $tax){
         
         $containerIDs = [];
@@ -488,31 +543,51 @@ class Controller extends BaseController
 
             //UNBOUND MAGIC
             case 32:
-                $containerIDs = array_merge($containerIDs, $this->unboundMagic['id']);
-                $conversionRate = $this->unboundMagic['conversionRate']; 
-                $fee = $this->unboundMagic['fee'];
-                break;
+                if (!in_array('UnboundMagic', $includes)){
+                    return 0; 
+                } else {
+                    $containerIDs = array_merge($containerIDs, $this->unboundMagic['id']);
+                    $conversionRate = $this->unboundMagic['conversionRate']; 
+                    $fee = $this->unboundMagic['fee'];
+                    break;
+                }
+                
 
             // TRADE CONTRACTS
             case 34:
-                $containerIDs = array_merge($containerIDs, $this->tradeContract['id']);
-                $conversionRate = $this->tradeContract['conversionRate'];
-                $fee = $this->tradeContract['fee'];
-                break;
+                if (!in_array('TradeContract', $includes)){
+                    return 0;
+                } else {
+                    $containerIDs = array_merge($containerIDs, $this->tradeContract['id']);
+                    $conversionRate = $this->tradeContract['conversionRate'];
+                    $fee = $this->tradeContract['fee'];
+                    break;
+                }
+               
 
             // VOLATILE MAGIC
             case 45:
-                $containerIDs = array_merge($containerIDs, $this->volatileMagic['id']);
-                $conversionRate = $this->volatileMagic['conversionRate']; 
-                $fee = $this->volatileMagic['fee'];
-                break;
+                if (!in_array('VolatileMagic', $includes)){
+                    return 0;
+                } else {
+                    $containerIDs = array_merge($containerIDs, $this->volatileMagic['id']);
+                    $conversionRate = $this->volatileMagic['conversionRate']; 
+                    $fee = $this->volatileMagic['fee'];
+                    break;
+                }
+                
 
             // IMEPRIAL FAVORS
             case 68:
-                $containerIDs = array_merge($containerIDs, $this->imperialFavor['id']);
-                $conversionRate = $this->imperialFavor['conversionRate']; 
-                $fee = $this->imperialFavor['fee'];
-                break;
+                if (!in_array('ImperialFavor', $includes)){
+                    return 0; 
+                } else {
+                    $containerIDs = array_merge($containerIDs, $this->imperialFavor['id']);
+                    $conversionRate = $this->imperialFavor['conversionRate']; 
+                    $fee = $this->imperialFavor['fee'];
+                    break;
+                }
+                
 
             // *
             // * COMMENDATIONS
@@ -525,30 +600,45 @@ class Controller extends BaseController
         }
 
         $containerTable = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
-        ->join('items as item', 'bag_drop_rates.item_id', '=', 'item.id')
-        ->join('items as bag_item', 'bags.id', '=', 'bag_item.id')
+        ->leftjoin('items as item', 'bag_drop_rates.item_id', '=', 'item.id')
+        ->leftjoin('items as bag_item', 'bags.id', '=', 'bag_item.id')
+        ->leftjoin('currencies as currency', 'bag_drop_rates.currency_id', '=', 'currency.id')
         ->select(
             'bag_drop_rates.*', 
             'bags.*', 
+            'currency.*',
+            'currency.name as currency_name',
+            'currency.icon as currency_icon',
+            'currency.icon as item_icon',
             'item.icon as item_icon',
             'item.name as item_name', 
             'item.*', 
             'bag_item.icon as bag_icon',
-            'bag_item.name as bag_name'
+            'bag_item.name as bag_name',
+            
         )
         ->whereIn('bag_id', $containerIDs)
         ->get()
         ->groupBy('bag_id');
 
         //dd('container table: ', $containerTable);
+        $orderedResults = [];
+        // Since the query reorders the indexes based on smallest to largest IDs, reorder the index to match the original set
+        // This is to match the conversionRates and fees
+        foreach ($containerIDs as $id){
+            if (isset($containerTable[$id])){
+                $orderedResults[$id] = $containerTable[$id];
+            }
+        }
 
-        $containerTable = $containerTable->values();
+        $containerTable = array_values($orderedResults);
 
         $allValues = []; 
 
         foreach ($containerTable as $index => $group){
             $value = 0;
             foreach ($group as $item){
+                
                 // Check if there's uni gear && if toggled in Includes settings
                 if (strpos($item->name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
                     $value += $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
@@ -567,6 +657,9 @@ class Controller extends BaseController
                 }
 
                 
+            }
+            if ($item->item_name == 'Antique Summoning Stone'){
+                //dd($item, $value, $fee[$index], $conversionRate[$index]);
             }
             $value = ($value - $fee[$index]) / $conversionRate[$index]; 
             array_push($allValues, $value); 
