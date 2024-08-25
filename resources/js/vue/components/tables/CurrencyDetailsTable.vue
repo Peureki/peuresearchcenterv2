@@ -72,7 +72,11 @@
                     *
                 -->
                 <tr v-for="mat in bag">
-                    <td><img :src="mat.icon" :alt="mat.name" :title="mat.name"> {{ mat.name }}</td>
+                    <td>
+                        <img v-if="mat.icon" :src="mat.icon" :alt="mat.name" :title="mat.name"> 
+                        <img v-else="mat.currency_icon" :src="mat.currency_icon" :alt="mat.currency_name" :title="mat.currency_name"> 
+                        {{ mat.name }}
+                    </td>
                     <td class="text-right">{{ formatPercentage(mat.drop_rate) }}</td>
                     <td class="gold">
                         <span class="gold-label-container">
@@ -146,6 +150,8 @@
 
                 <p> = </p>
 
+                <p> ( </p>
+
                 <span class="label-and-subtitle">
                     <span class="gold-label-container">
                         <span class="gold-label" v-for="gold in formatValue(bags.total)">
@@ -165,6 +171,13 @@
                         </span>
                     </span>
                     <p class="small-subtitle">Fee</p>
+                </span>
+
+                <p> ) *</p>
+
+                <span class="label-and-subtitle">
+                    <p>{{ bags.outputQty }}</p>
+                    <p class="small-subtitle">Output Quantity</p>
                 </span>
             </div>
 

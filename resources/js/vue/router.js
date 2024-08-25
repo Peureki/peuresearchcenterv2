@@ -30,6 +30,7 @@ import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagic
 import ExchangeableBloodstoneDustView from '@/js/vue/views/exchangeables/BloodstoneDustView.vue'
 import ExchangeablesDragoniteOreView from '@/js/vue/views/exchangeables/DragoniteOreView.vue'
 import ExchangeablesEmpyrealFragmentView from '@/js/vue/views/exchangeables/EmpyrealFragmentView.vue'
+import ExchangeableFineRiftEssenceView from '@/js/vue/views/exchangeables/FineRiftEssenceView.vue'
 
 /*
  * 
@@ -160,6 +161,11 @@ const routes = [
         path: '/exchangeables/empyreal-fragment',
         component: ExchangeablesEmpyrealFragmentView,
         name: 'exchangeable-empyreal-fragment',
+    },
+    {
+        path: '/exchangeables/fine-rift-essence',
+        component: ExchangeableFineRiftEssenceView,
+        name: 'exchangeable-fine-rift-essence',
     },
     // *
     // * TOOLS

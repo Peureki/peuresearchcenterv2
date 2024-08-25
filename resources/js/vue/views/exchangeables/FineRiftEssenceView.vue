@@ -16,17 +16,17 @@
     * Make variables of targetted currencies and icons
     * Ex: 
     * const targetCurrency = ['Volatile Magic']
-    * const currnecyIcon = [VolatileMagic]
+    * const currnecyIcons = [VolatileMagic]
     * 
     * Make as array in case there are multiple currencies for a conversion
     * 
 */
 
-import LeyLineCrystal from '@/imgs/icons/Ley_Line_Crystal.png'
+import FineRiftEssence from '@/imgs/icons/Fine_Rift_Essence.png'
 import CurrencyPage from '@/js/vue/components/general/CurrencyPage.vue'
 
-const targetCurrency = 'Ley Line Crystal';
-const currencyIcon = LeyLineCrystal;
+const targetCurrency = 'Fine Rift Essence';
+const currencyIcon = FineRiftEssence;
 
 </script>
 

@@ -55,6 +55,7 @@ class BagController extends Controller
                 $requestedBags = array_merge($requestedBags, $this->banditCrest['id']);
                 $conversionRate = $this->banditCrest['conversionRate'];
                 $fee = $this->banditCrest['fee'];
+                $outputQty = $this->banditCrest['outputQty'];
                 break;
 
             case "Empyreal Fragment":
@@ -66,8 +67,16 @@ class BagController extends Controller
             case "Dragonite Ore":
                 $requestedBags = array_merge($requestedBags, $this->ascendedJunk['id']);
                 $conversionRate = $this->ascendedJunk['conversionRate'];
-                $fee = $this->ascendedJunk['conversionRate'];
+                $fee = $this->ascendedJunk['fee'];
                 break;
+
+            case "Fine Rift Essence":
+                $requestedBags = array_merge($requestedBags, $this->fineRiftEssence['id']);
+                $conversionRate = $this->fineRiftEssence['conversionRate'];
+                $fee = $this->fineRiftEssence['fee'];
+                $outputQty = $this->fineRiftEssence['outputQty'];
+                break;
+
 
             case "Geode":
                 // Sandy Bag of Gear
@@ -132,22 +141,28 @@ class BagController extends Controller
         $bag = [];
 
         $bagDropRates = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
-        ->join('items as item', 'bag_drop_rates.item_id', '=', 'item.id')
-        ->join('items as bag_item', 'bags.id', '=', 'bag_item.id')
+        ->leftjoin('items as item', 'bag_drop_rates.item_id', '=', 'item.id')
+        ->leftjoin('items as bag_item', 'bags.id', '=', 'bag_item.id')
+        ->leftjoin('currencies as currency', 'bag_drop_rates.currency_id', '=', 'currency.id')
         ->select(
             'bag_drop_rates.*', 
             'bags.*', 
+            'currency.*',
+            'currency.name as currency_name',
+            'currency.icon as currency_icon',
+            'currency.icon as item_icon',
             'item.icon as item_icon',
             'item.name as item_name', 
             'item.*', 
             'bag_item.icon as bag_icon',
-            'bag_item.name as bag_name'
+            'bag_item.name as bag_name',
+            
         )
         ->whereIn('bag_id', $requestedBags)
         ->get()
         ->groupBy('bag_id');
 
-        //dd('bag drop rates: ', $bagDropRates);
+        //dd('bag drop rates: ', $bagDropRates, $requestedBags);
 
         $orderedResults = [];
 
@@ -155,23 +170,55 @@ class BagController extends Controller
         // This is to match the conversionRates and fees
         foreach ($requestedBags as $id){
             if (isset($bagDropRates[$id])){
-                if ($request == 'Unbound Magic' && $id == 79186){
-                    // Signal that this particular bag has been duplicated
-                    // Use this signal to differientiate 
-                    $duplicatedBag = clone $bagDropRates[$id];
-                    $duplicatedBag->duplicated = true;
-                    $duplicatedBag->duplicated_name = 'Magic-Warped Bundle (Ember Bay)';
-                    $orderedResults[] = $duplicatedBag;
-                    continue;
-                }
                 $orderedResults[$id] = $bagDropRates[$id];
             }
         }
 
+        //dd($orderedResults); 
         // Make the indexes reset to 0, 1, 2, etc instead of the item IDs
         $bagDropRates = array_values($orderedResults);
 
-        dd($bagDropRates);
+        //dd($bagDropRates);
+
+        if ($request == 'Unbound Magic'){
+            foreach ($bagDropRates as $index => $targetBag){
+                if ($targetBag[0]->bag_id == 79186){
+                    $duplicatedBag = clone $targetBag; 
+                    $duplicatedBag->duplicated = true; 
+                    $duplicatedBag->duplicated_name = 'Magic-Warped Bundle (Ember Bay)'; 
+
+                    array_splice($bagDropRates, $index + 1, 0, [$duplicatedBag]);
+                }
+            }
+        }
+
+        //dd($bagDropRates);
+
+        // if ($request == 'Dragonite Ore'
+        //     || $request == 'Empyreal Fragment'
+        //     || $request == 'Bloodstone Dust'
+        //     || $request == 'Unbound Magic'
+        // ){
+        //     foreach ($bagDropRates as $id => $tempBag){
+        //         // Fluctuating Mass
+        //         if ($id == 79264){
+        //             // ORDER is to distinquish each bag with different conversions of the same Exchangeable
+        //             $tempBag->order = 0; 
+        //             $duplicateBag = clone $tempBag;
+        //             $duplicateBag->order = 1;
+        //             $bagDropRates->push($duplicateBag);
+        //         }
+        //         // Magic Warped Bundle
+        //         if ($id == 79186){
+        //             $tempBag->order = 0; 
+        //             $duplicateBag = clone $tempBag;
+        //             $duplicateBag->order = 1;
+        //             $bagDropRates->push($duplicateBag);
+        //         }
+        //     }
+        // }
+
+        //dd($bagDropRates, $requestedBags);
 
         foreach ($bagDropRates as $index => $group){
             //dd($group);
@@ -185,6 +232,13 @@ class BagController extends Controller
             $currencyPerBag = 0;
 
             foreach ($group as $item){
+                $bagName = $item->bag_name;
+                $icon = $item->bag_icon;
+
+                if ($index == 1){
+                    //dd($group);
+                }
+                //dd($item);
                 // Check if there's uni gear && if toggled in Includes settings
                 // UNIDENTIFIED GEAR
                 if (strpos($item->name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
@@ -206,6 +260,9 @@ class BagController extends Controller
                             $value = $this->getAscendedJunkValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $includes, $sellOrderSetting, $tax);
                             break;
                     }
+                } else if ($item->currency_id){
+                    //dd($item->item_id);
+                    $value = $this->getCurrencyValue($item->currency_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
                 }
                 // JUNK
                 else if ($item->rarity === "Junk"){
@@ -218,20 +275,16 @@ class BagController extends Controller
                 // Insert 'value' into $items collection
                 $item->value = $value;
 
-                $bagName = $item->bag_name;
-                $icon = $item->bag_icon;
+                
                 
                 $total += $value;
             }
-
-            //dd($group);
+            // Check if there's a duplicated bag
             if (isset($group->duplicated)){
-                // Override $bagName
                 $bagName = $group->duplicated_name; 
             }
-
-            //dd('total: ', $total, 'fee: ', $fee[$index]);
-            $profitPerBag = $total - $fee[$index]; 
+ 
+            $profitPerBag = ($total - $fee[$index]) * $outputQty[$index]; 
             $currencyPerBag = $profitPerBag / $conversionRate[$index]; 
             //dd($profitPerBag);
 
@@ -244,6 +297,7 @@ class BagController extends Controller
                 'currency' => $currency,
                 'currencyPerBag' => $currencyPerBag,
                 'costOfCurrencyPerBag' => $conversionRate[$index],  
+                'outputQty' => $outputQty[$index],
             ]);
         }
 

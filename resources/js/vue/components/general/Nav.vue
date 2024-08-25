@@ -676,11 +676,11 @@
             * EXCHANGEABLES
             *
         -->
-        <header @click="curriencesToggle = !curriencesToggle" id="nav">
+        <header @click="exchangeablesToggle = !exchangeablesToggle" id="nav">
             <h5>Exchangeables</h5>
             <svg 
                 class="expand"
-                :class="{rotate180: curriencesToggle}" 
+                :class="{rotate180: exchangeablesToggle}" 
                 width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg"
             >
                 <path d="M8.81372 0.397634C8.6944 0.280464 8.5326 0.214642 8.36389 0.214642C8.19519 0.214642 8.03339 0.280464 7.91407 0.397634L4.76468 3.49138L1.61529 0.397634C1.49529 0.283785 1.33457 0.220788 1.16775 0.222212C1.00093 0.223636 0.841356 0.289367 0.723392 0.405247C0.605428 0.521127 0.538516 0.677885 0.537066 0.841758C0.535617 1.00563 0.599746 1.16351 0.715642 1.28138L4.31486 4.81701C4.43417 4.93418 4.59597 5 4.76468 5C4.93339 5 5.09519 4.93418 5.2145 4.81701L8.81372 1.28138C8.93299 1.16418 9 1.00524 9 0.839509C9 0.673781 8.93299 0.514838 8.81372 0.397634Z" fill="#FFD12C"/>
@@ -688,38 +688,33 @@
         </header>
 
         <Transition name="fade-right">
-            <div v-if="curriencesToggle">
+            <div v-if="exchangeablesToggle">
                 <!--
                     *
                     * EXCHANGEABLES
                     *
                 -->
-                <div class="distinquish-section">
-                    <!--
-                        *
-                        * ASCENDED JUNK
-                        *
-                    -->
-                    <div class="label" id="core">
-                        <h6>Ascended</h6>
-                    </div>
+                <div class="routes">
+                    <router-link class="page-link" to="/exchangeables/pile-of-bloodstone-dust">
+                        <img src="@/imgs/icons/Pile_of_Bloodstone_Dust.png" alt="Pile of Bloodstone Dust" title="Pile of Bloodstone Dust">
+                        <h6>Bloodstone Dust</h6>
+                    </router-link>
 
-                    <div class="routes">
-                        <router-link class="page-link" to="/exchangeables/pile-of-bloodstone-dust">
-                            <img src="@/imgs/icons/Pile_of_Bloodstone_Dust.png" alt="Pile of Bloodstone Dust" title="Pile of Bloodstone Dust">
-                            <h6>Bloodstone Dust</h6>
-                        </router-link>
-                        <router-link class="page-link" to="/exchangeables/empyreal-fragment">
-                            <img src="@/imgs/icons/Empyreal_Fragment.png" alt="Empyreal Fragment" title="Empyreal Fragment">
-                            <h6>Empyreal Fragment</h6>
-                        </router-link>
-                        <router-link class="page-link" to="/exchangeables/dragonite-ore">
-                            <img src="@/imgs/icons/Dragonite_Ore.png" alt="Dragonite Ore" title="Dragonite Ore">
-                            <h6>Dragonite Ore</h6>
-                        </router-link>
-                    
-                    </div>   
-                </div>
+                    <router-link class="page-link" to="/exchangeables/dragonite-ore">
+                        <img src="@/imgs/icons/Dragonite_Ore.png" alt="Dragonite Ore" title="Dragonite Ore">
+                        <h6>Dragonite Ore</h6>
+                    </router-link>
+
+                    <router-link class="page-link" to="/exchangeables/empyreal-fragment">
+                        <img src="@/imgs/icons/Empyreal_Fragment.png" alt="Empyreal Fragment" title="Empyreal Fragment">
+                        <h6>Empyreal Fragment</h6>
+                    </router-link>
+
+                    <router-link class="page-link" to="/exchangeables/fine-rift-essence">
+                        <img src="@/imgs/icons/Fine_Rift_Essence.png" alt="Fine Rift Essence" title="Fine Rift Essence">
+                        <h6>Fine Rift Essence</h6>
+                    </router-link>
+                </div>   
             </div>
         </Transition>
 
@@ -1265,6 +1260,7 @@ setDefaultLocalStorage();
 
 const benchmarksToggle = ref(true),
     curriencesToggle = ref(true),
+    exchangeablesToggle = ref(true),
     toolsToggle = ref(true),
     timersToggle = ref(true);
 

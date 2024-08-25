@@ -42,7 +42,7 @@
                 </th>
                 <!-- 
                     *
-                    * PROFIT/BAG HEADER
+                    * BAG VALUE HEADER
                     *
                 -->
                 <th 
@@ -53,7 +53,7 @@
                     "
                 >
                     <span class="sortable-column">
-                        <h5>Profit/Bag</h5>
+                        <h5>Bag Value</h5>
                         <svg
                             class="sort-arrow active" 
                             :ref="el => sortActive[1] = el" 
@@ -101,7 +101,7 @@
                         $emit('getDetails', index)
                     "
                 >
-                    <img :src="bag.icon" :alt="bag.name" :title="bag.name"> {{ bag.name }}
+                    <img :src="bag.icon" :alt="bag.name" :title="bag.name"> {{ bag.outputQty }} {{ bag.name }}
                 </td>
                 <!-- Profits/Bag -->
                 <td class="gold">

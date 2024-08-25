@@ -31,6 +31,8 @@ class Controller extends BaseController
     // * 'fee' => same as 'conversionRate' 
     protected $ascendedJunk; 
     protected $banditCrest;
+    protected $currencyBags;
+    protected $fineRiftEssence;
     protected $geode;
     protected $imperialFavor;
     protected $jadeSliver;
@@ -53,6 +55,73 @@ class Controller extends BaseController
             'id' => [66399, 67261],
             'conversionRate' => [15, 250],
             'fee' => [80, 2000],
+            'outputQty' => [1, 1],
+        ];
+
+        // This is a list of currencies contained in bags that need to be defined specifically to get their values exchanged or to find their values in other bags that otherwise can't be defined by various methods such as:
+        // $item->type, $item->description, etc
+        //
+        // Example items:
+        // Bag of Aurillium, 73711
+        $this->currencyBags = [
+            73711, // Bag of Aurillium (10)
+            74212,  // Bag of Ley-line crystals (10)
+            69985, // Bandit Crest 
+        ];
+
+        $this->fineRiftEssence = [
+            'id' => [
+                101727, // Astral Fluc Mass
+                73711, // Bag of Aurillum (10)
+                74212, // Bag of Leyline Crystals (10)
+                69985, // Bandit Crest
+                101870, // Extra-Large Calcified Gasp
+                101862, // Extra-Large Pinch of Stardust
+                101797, // Extra-Large Static Charge
+                66593, // Geode
+                74249, // Large Bag of Airship Parts
+                83878, // Pile of Elonian Trade Contracts
+                94228, // Tyrian Defense Seal
+                95692, // Writ of Dragon's End
+                96561, // Writ of Echovald Wilds
+                96533, // Writ of New Kaineng City
+                96680, // Writ of Seitung Province
+            ],
+            'conversionRate' => [
+                25, 
+                35,
+                35,
+                35, 
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                35
+            ],
+            'fee' => array_fill(0, 15, 0),
+            'outputQty' => [
+                1, 
+                1,
+                1,
+                10,
+                1,
+                1,
+                1,
+                10,
+                1,
+                10,
+                10,
+                2,
+                2,
+                2,
+                2,
+            ],
         ];
 
         $this->geode = [
@@ -109,7 +178,7 @@ class Controller extends BaseController
         // Use for: Airship Parts, Aurillium, Ley Line Crystals
         $this->leyEnergyMatter = [
             'id' => [67259, 67249, 67250, 67264, 67263, 67266, 67265, 67260, 67261, 67253, 67251, 50027, 67246, 67269, 67268, 67267, 9257, 67247, 39119, 39120, 39121, 39123, 39122, 39124],
-            'conversionRate' => array_fill(0, 24, 25),
+            'conversionRate' => array_fill(0, 25, 25),
             'fee' => array_fill(0, 25, 0),
         ];
         // Trade Crates
@@ -118,13 +187,13 @@ class Controller extends BaseController
             'conversionRate' => array_fill(0, 15, 50),
             'fee' => array_fill(0, 15, 0),
         ];
-        // Magic Warped Bundle (Ember Bay)
         // Magic Warped Bundle
+        // Magic Warped Bundle (Ember Bay)
         // Magic Warped Packet
         $this->unboundMagic = [
             'id' => [79186, 79186, 79114],
-            'conversionRate' =>  [1250,  500, 250],
-            'fee' => [4000, 10000, 5000],
+            'conversionRate' =>  [500,  1250, 250],
+            'fee' => [10000, 4000, 5000],
         ];
         // Shipments
         $this->volatileMagic = [
