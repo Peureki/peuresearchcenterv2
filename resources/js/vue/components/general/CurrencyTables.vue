@@ -8,6 +8,7 @@
 
             <CurrencyMainTable
                 v-if="bags && bags != null"
+                :target-currency="targetCurrency"
                 :bags="bags"
                 :currency-icon="currencyIcon"
                 @details-toggle="detailsToggle = true"
@@ -37,6 +38,7 @@ import CurrenencyDetailsTable from '@/js/vue/components/tables/CurrencyDetailsTa
 
 const props = defineProps({
     pageName: String, 
+    targetCurrency: String,
     bags: Object, 
     dropRates: Object,
     currencyIcon: String, 

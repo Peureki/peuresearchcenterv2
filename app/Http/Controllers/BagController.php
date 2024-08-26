@@ -62,7 +62,10 @@ class BagController extends Controller
             "Trade Contract" => $this->tradeContract,
             "Unbound Magic" => $this->unboundMagic,
             "Volatile Magic" => $this->volatileMagic,
+            "Writ of Seitung Province" => $this->writs,
             "Writ of New Kaineng City" => $this->writs,
+            "Writ of Echovald Wilds" => $this->writs,
+            "Writ of Dragon's End" => $this->writs,
         ];
         // Check if $request matches with one of the $map
         // Populate arrays

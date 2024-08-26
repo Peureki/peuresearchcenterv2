@@ -2,7 +2,10 @@
     <table class="currency-table">
         <thead>
             <tr>
-                <th colspan="100%"><h4>Best Value</h4></th>
+                <th colspan="100%">
+                    <h4 v-if="targetCurrency">{{ targetCurrency }}</h4>
+                    <h4 v-else>Best Value</h4>
+                </th>
             </tr>
             <tr>
                 <!-- 
@@ -133,6 +136,7 @@ import { sortTable, toggleSortOrder, toggleActive } from '@/js/vue/composables/T
 
 
 const props = defineProps({
+    targetCurrency: String,
     bags: Object, 
     currencyIcon: String, 
     alt: String,

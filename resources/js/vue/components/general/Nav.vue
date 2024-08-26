@@ -735,9 +735,9 @@
                         <h6>Rare Rift Essence</h6>
                     </router-link>
 
-                    <router-link class="page-link" to="/exchangeables/writ-of-new-kaineng-city">
+                    <router-link class="page-link" to="/exchangeables/writs">
                         <img src="@/imgs/icons/Writ_of_New_Kaineng_City.png" alt="Writ of New Kaineng City" title="Writ of New Kaineng City">
-                        <h6>Writ of New Kaineng City</h6>
+                        <h6>Writs</h6>
                     </router-link>
                 </div>   
             </div>

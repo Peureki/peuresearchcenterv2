@@ -33,7 +33,7 @@ import ExchangeablesEmpyrealFragmentView from '@/js/vue/views/exchangeables/Empy
 import ExchangeableFineRiftEssenceView from '@/js/vue/views/exchangeables/FineRiftEssenceView.vue'
 import ExchangeableMasterworkRiftEssenceView from '@/js/vue/views/exchangeables/MasterworkRiftEssenceView.vue'
 import ExchangeableRareRiftEssenceView from '@/js/vue/views/exchangeables/RareRiftEssenceView.vue'
-import ExchangeableWritOfNewKainengCityView from '@/js/vue/views/exchangeables/WritOfNewKainengCityView.vue'
+import ExchangeableWritsView from '@/js/vue/views/exchangeables/WritsView.vue'
 
 /*
  * 
@@ -182,9 +182,9 @@ const routes = [
         name: 'exchangeable-rare-rift-essence',
     },
     {
-        path: '/exchangeables/writ-of-new-kaineng-city',
-        component: ExchangeableWritOfNewKainengCityView,
-        name: 'exchangeable-writ-of-new-kaineng-city',
+        path: '/exchangeables/writs',
+        component: ExchangeableWritsView,
+        name: 'exchangeable-writs',
     },
     // *
     // * TOOLS
