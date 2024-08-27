@@ -842,6 +842,7 @@ span.currency img{
     --color-type-solo: #42b0f3;
     --color-dusk: #db8b9d;
     --color-dawn: #db8b9d;
+    --color-anytime: #e15e6c;
 
     --font-size-h1: clamp(2rem, 20vw, 6.25rem);
     --font-size-h2: clamp(1.8rem, 15vw, 4rem);

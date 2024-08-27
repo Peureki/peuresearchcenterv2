@@ -48,7 +48,7 @@ const sortBenchmarks = (benchmarks) => {
 
 
 const getFishes = async () => {
-    const url = `../api/benchmarks/fishing/${localStorage.includes}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
+    const url = `../api/benchmarks/fishing/${localStorage.includes}/${localStorage.buyOrderSetting}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
 
     console.log('url: ', url);
 

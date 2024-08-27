@@ -62,7 +62,7 @@ Route::get('/fetch-map-benchmarks', [FetchController::class, 'fetchMapBenchmarks
 // *
 // * BENCHMARKS
 // *
-Route::get('/benchmarks/fishing/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'fishing']);
+Route::get('/benchmarks/fishing/{includes}/{buyOrderSetting}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'fishing']);
 Route::get('/benchmarks/maps/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'maps']);
 
 // *

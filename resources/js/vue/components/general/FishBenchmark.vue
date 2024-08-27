@@ -15,8 +15,12 @@
                     <span class="fishing-title-and-estimate">
                         <span class="title-container">
                             <p class="title" :class="changeTimeBackground(fishingHole.time)">{{ fishingHole.name }}</p>
-                            <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg">
+                            <svg v-if="fishingHole.name !== 'Deep World-Class Fish'" width="10" height="10" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="5" cy="5" r="5" stroke="black" stroke-width="1" :fill="matchTyrianTime(fishingHole.time, fishingHole.region)" />
+                            </svg>
+                            <!-- DEEP WORLD CLASS FISH ONLY -->
+                            <svg v-else width="10" height="10" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="5" cy="5" r="5" stroke="black" stroke-width="1" fill="var(--color-up)" />
                             </svg>
                         </span>
                         
@@ -140,7 +144,8 @@ console.log('drop rates: ', props.dropRates)
 const changeTimeBackground = (time) => {
     return {
         day: time === 'Daytime',
-        night: time !== 'Daytime',
+        night: time === 'Nighttime',
+        any: time === 'Anytime',
     }
 }
 // Reactively change the color of the 'active' and 'inactive' circle depending on what the time is
@@ -284,6 +289,9 @@ svg.arrow path{
 }
 .night{
     color: var(--color-rarity-legendary);
+}
+.any{
+    color: var(--color-anytime); 
 }
 
 </style>

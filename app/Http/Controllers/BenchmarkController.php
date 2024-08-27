@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FishingHole;
 use App\Models\FishingHoleDropRate;
+use App\Models\Items;
 use App\Models\MapBenchmarkDropRate;
 use Illuminate\Http\Request;
 
@@ -172,7 +173,7 @@ class BenchmarkController extends Controller
 
     }
 
-    public function fishing($includes, $sellOrderSetting, $tax){
+    public function fishing($includes, $buyOrderSetting, $sellOrderSetting, $tax){
         // Make it a workable arrays
         $includes = json_decode($includes); 
 
@@ -215,6 +216,7 @@ class BenchmarkController extends Controller
             $currentHighestValue = 0;
             $mostValuedItem = '';
             $mostValuedIcon = '';
+            $fishJerkyFee = 0;
 
             $name = $group[0]->fishing_hole_name;
             $fishingPower = $group[0]->fishing_power; 
@@ -278,8 +280,21 @@ class BenchmarkController extends Controller
                         $mostValuedIcon = $item->icon;
                     }
                     
+                    if ($name == 'Deep World-Class Fish'){
+                        // 10 = amount of catches it takes to finish a fishing hole
+                        $estimateValue = (($catchValue * $avgHoles) * 10) * $estimateVariable;
+
+                        // Rate of how many times a user has to consume another set of jerky
+                        $fishJerkyRate = 60 / $timeVariable; 
+                        // Cost of using Jerky per hour'
+                        // 4 = amount you need to get 99 stacks
+                        $fishJerkyFee = $fishJerkyRate * ((Items::find(99955)->$buyOrderSetting) * 4); 
+
+                        $estimateValue -= $fishJerkyFee; 
+                    } else {
+                        $estimateValue = (($catchValue * $avgHoles) * 3) * $estimateVariable;
+                    }
                     
-                    $estimateValue = (($catchValue * $avgHoles) * 3) * $estimateVariable;
                     //dd($item);
                 }
             }
