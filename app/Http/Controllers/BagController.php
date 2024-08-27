@@ -41,36 +41,10 @@ class BagController extends Controller
         $includes = json_decode($includes);
         // This is where bag_ids will be pushed depending on what exchangable item is being exchanged
         $requestedBags = []; 
-
-        // MAP out every currency or exchangeable that could be used for calculations
-        // References Controller initializations
-        $map = [
-            "Airship Part" => $this->leyEnergyMatter,
-            "Lump of Aurillium" => $this->leyEnergyMatter,
-            "Ley Line Crystal" => $this->leyEnergyMatter,
-            "Bandit Crest" => $this->banditCrest,
-            "Empyreal Fragment" => $this->ascendedJunk,
-            "Dragonite Ore" => $this->ascendedJunk,
-            "Fine Rift Essence" => $this->fineAndMasterworkRiftEssences,
-            "Masterwork Rift Essence" => $this->fineAndMasterworkRiftEssences,
-            "Geode" => $this->geode,
-            "Imperial Favor" => $this->imperialFavor,
-            "Jade Sliver" => $this->jadeSliver,
-            "Laurel" => $this->laurel,
-            "Pile of Bloodstone Dust" => $this->ascendedJunk,
-            "Rare Rift Essence" => $this->rareRiftEssence,
-            "Trade Contract" => $this->tradeContract,
-            "Unbound Magic" => $this->unboundMagic,
-            "Volatile Magic" => $this->volatileMagic,
-            "Writ of Seitung Province" => $this->writs,
-            "Writ of New Kaineng City" => $this->writs,
-            "Writ of Echovald Wilds" => $this->writs,
-            "Writ of Dragon's End" => $this->writs,
-        ];
         // Check if $request matches with one of the $map
         // Populate arrays
-        if (isset($map[$request])){
-            $data = $map[$request]; 
+        if (isset($this->exchangeableMap[$request])){
+            $data = $this->exchangeableMap[$request]; 
             $requestedBags = array_merge($requestedBags, $data['id']);
             $conversionRate = $data['conversionRate'];
             $fee = $data['fee'];
@@ -121,16 +95,15 @@ class BagController extends Controller
 
         //dd($bagDropRates);
 
-        if ($request == 'Unbound Magic'){
-            foreach ($bagDropRates as $index => $targetBag){
-                if ($targetBag[0]->bag_id == 79186){
-                    $duplicatedBag = clone $targetBag; 
-                    $duplicatedBag->duplicated = true; 
-                    $duplicatedBag->duplicated_name = 'Magic-Warped Bundle (Ember Bay)'; 
+        // FOR DUPLICATED OUTPUTS WITH DIFFERENT CONVERSIONS OR CONDITIONS
+        switch ($request){
+            case 'Dragonite Ore': 
+                $this->duplicate_and_splice_bag(101727, $bagDropRates, 'Astral Fluctuating Mass');
+                break;
 
-                    array_splice($bagDropRates, $index + 1, 0, [$duplicatedBag]);
-                }
-            }
+            case 'Unbound Magic': 
+                $this->duplicate_and_splice_bag(79186, $bagDropRates, 'Magic-Warped Bundle (Ember Bay)');
+                break;
         }
 
         //dd($bagDropRates, $requestedBags);
@@ -174,12 +147,12 @@ class BagController extends Controller
                         case 'Dragonite Ore':
                         case 'Pile of Bloodstone Dust':
                         case 'Empyreal Fragment':
-                            $value = $this->getAscendedJunkValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                            $value = $this->getExchangeableValue($item->name, $item->$sellOrderSetting, $item->drop_rate, $includes, $sellOrderSetting, $tax);
                             break;
                     }
                 } else if ($item->currency_id){
                     //dd($item->item_id);
-                    $value = $this->getCurrencyValue($item->currency_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
+                    $value = $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
                 }
                 // JUNK
                 else if ($item->rarity === "Junk"){

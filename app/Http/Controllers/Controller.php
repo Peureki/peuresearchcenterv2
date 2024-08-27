@@ -32,7 +32,9 @@ class Controller extends BaseController
     protected $ascendedJunk; 
     protected $banditCrest;
     protected $currencyBags;
+    protected $dragoniteOre; 
     protected $exchangeableIDs;
+    
     protected $fineAndMasterworkRiftEssences;
     protected $geode;
     protected $imperialFavor;
@@ -49,6 +51,8 @@ class Controller extends BaseController
     // Example:
     // Homested materials
     protected $homesteadWood;
+
+    protected $exchangeableMap; 
 
     public function __construct()
     {
@@ -78,6 +82,29 @@ class Controller extends BaseController
             69985, // Bandit Crest 
         ];
 
+        $this->dragoniteOre = [
+            'id' => [
+                79264, // Fluctuating Mass
+                101727, // Astral Fluctuating Mass (60 conversion)
+                101727, // Astral Fluctuating Mass (25 conversion)
+            ],
+            'conversionRate' => [
+                25,
+                60,
+                25,
+            ],
+            'fee' => [
+                0,
+                0,
+                0,
+            ],
+            'outputQty' => [
+                1,
+                1,
+                1,
+            ],
+        ];
+
         // LIST OF EXCHANGEABLE IDS
         // Use this list to find if a drop contains an Exchangeable and get their values
         // Example: 
@@ -91,6 +118,8 @@ class Controller extends BaseController
             100414, // Masterwork Rift Essence
             100055, // Rare Rift Essence
         ];
+
+        
 
         $this->fineAndMasterworkRiftEssences = [
             'id' => [
@@ -347,6 +376,46 @@ class Controller extends BaseController
                 array_fill(5, 1, 2)
             ),
         ];
+
+        // MAP out every currency or exchangeable that could be used for calculations
+        // References Controller initializations
+        // USE this for functions that use any of these exchangeables to find their values thru their drop rates
+        $this->exchangeableMap = [
+            "Airship Part" => $this->leyEnergyMatter,
+            "Bandit Crest" => $this->banditCrest,
+            "Lump of Aurillium" => $this->leyEnergyMatter,
+            "Ley Line Crystal" => $this->leyEnergyMatter,
+            "Empyreal Fragment" => $this->ascendedJunk,
+            "Dragonite Ore" => $this->dragoniteOre,
+            "Fine Rift Essence" => $this->fineAndMasterworkRiftEssences,
+            "Masterwork Rift Essence" => $this->fineAndMasterworkRiftEssences,
+            "Geode" => $this->geode,
+            "Imperial Favor" => $this->imperialFavor,
+            "Jade Sliver" => $this->jadeSliver,
+            "Laurel" => $this->laurel,
+            "Pile of Bloodstone Dust" => $this->ascendedJunk,
+            "Rare Rift Essence" => $this->rareRiftEssence,
+            "Trade Contract" => $this->tradeContract,
+            "Unbound Magic" => $this->unboundMagic,
+            "Volatile Magic" => $this->volatileMagic,
+            "Writ of Seitung Province" => $this->writs,
+            "Writ of New Kaineng City" => $this->writs,
+            "Writ of Echovald Wilds" => $this->writs,
+            "Writ of Dragon's End" => $this->writs,
+        ];
+    }
+
+    protected function duplicate_and_splice_bag($targetID, &$dropRates, $duplicatedName){
+        foreach ($dropRates as $index => $targetBag){
+            if ($targetBag[0]->bag_id == $targetID){
+                $duplicatedBag = clone $targetBag; 
+                $duplicatedBag->duplicated = true; 
+                $duplicatedBag->duplicated_name = $duplicatedName; 
+
+                array_splice($dropRates, $index + 1, 0, [$duplicatedBag]);
+                return; 
+            }
+        }
     }
 
     // Convert regular strings into db name formats 
@@ -482,6 +551,99 @@ class Controller extends BaseController
     protected function getCommendationValue($commendationID, $commendationDropRate, $includes, $sellOrderSetting, $tax){
         $value = 0;
         return $value * $commendationDropRate;
+    }
+    // GET AND RETURN VALUE OF ANY EXCHANGEABLE OR CURRENCY VALUE
+    // Ex: 
+    // Dragonite Ore
+    // Volatile Magic
+    // Eyes of Kormir
+    protected function getExchangeableValue($itemName, $itemDropRate, $includes, $sellOrderSetting, $tax){
+        
+        $requestedBags = [];
+
+        // Check if $request matches with one of the $map
+        // Populate arrays
+        if (isset($this->exchangeableMap[$itemName])){
+            $data = $this->exchangeableMap[$itemName]; 
+            $requestedBags = array_merge($requestedBags, $data['id']);
+            $conversionRate = $data['conversionRate'];
+            $fee = $data['fee'];
+        }
+
+        $containerTable = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
+        ->leftjoin('items as item', 'bag_drop_rates.item_id', '=', 'item.id')
+        ->leftjoin('items as bag_item', 'bags.id', '=', 'bag_item.id')
+        ->leftjoin('currencies as currency', 'bag_drop_rates.currency_id', '=', 'currency.id')
+        ->select(
+            'bag_drop_rates.*', 
+            'bags.*', 
+            'currency.*',
+            'currency.name as currency_name',
+            'currency.icon as currency_icon',
+            'currency.icon as item_icon',
+            'item.icon as item_icon',
+            'item.name as item_name', 
+            'item.*', 
+            'bag_item.icon as bag_icon',
+            'bag_item.name as bag_name',
+            
+        )
+        ->whereIn('bag_id', $requestedBags)
+        ->get()
+        ->groupBy('bag_id');
+
+        //dd('container table: ', $containerTable);
+        $orderedResults = [];
+        // Since the query reorders the indexes based on smallest to largest IDs, reorder the index to match the original set
+        // This is to match the conversionRates and fees
+        foreach ($requestedBags as $id){
+            if (isset($containerTable[$id])){
+                $orderedResults[$id] = $containerTable[$id];
+            }
+        }
+
+        $containerTable = array_values($orderedResults);
+
+        $allValues = []; 
+
+        foreach ($containerTable as $index => $group){
+            $value = 0;
+            foreach ($group as $item){
+                
+                // Check if there's uni gear && if toggled in Includes settings
+                if (strpos($item->name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
+                    $value += $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+                } 
+                // Check if there's salvageables && if toggled in Includes settings
+                else if ($item->description === "Salvage Item" && in_array('Salvageables', $includes)){
+                    $value += $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+                }
+                // Junk items
+                else if ($item->rarity === 'Junk'){
+                    $value += $item->vendor_value * $item->drop_rate;
+                }
+                // Everything else
+                else {
+                    $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+                }
+
+                
+            }
+            if ($item->item_name == 'Antique Summoning Stone'){
+                //dd($item, $value, $fee[$index], $conversionRate[$index]);
+            }
+            $value = ($value - $fee[$index]) / $conversionRate[$index]; 
+            array_push($allValues, $value); 
+        }
+            //dd($allValues);
+            $currencyValue = max($allValues);
+            //dd($currencyValue);
+            //$currencyValue = (max($allValues) - $fee) / $conversionRate; 
+        
+
+        return $currencyValue * $itemDropRate; 
+
+        
     }
 
     protected function getCurrencyValue($currencyID, $currencyDropRate, $includes, $sellOrderSetting, $tax){
