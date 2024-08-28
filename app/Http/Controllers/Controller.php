@@ -23,16 +23,24 @@ use PDO;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    
     // *
     // * PREMADE BAG EXCHANGES
     // * Use key names
     // * 'id' => array of ids of bags or items needed to find the value of currency or target
     // * 'conversionRate' => match index array of 'id'. Associate the conversion rate specific to an index
     // * 'fee' => same as 'conversionRate' 
+    // *
+    // * DAILY EXCHANGES VIA Ley Energy Matter, Wizard Tower, etc
+    // * These are the same with slight variations 1 or 2 items
+    protected $dailyExchanges;
+
+    protected $airshipPart;
     protected $ascendedJunk; 
     protected $banditCrest;
     protected $currencyBags;
     protected $dragoniteOre; 
+    protected $empyrealFragment;
     protected $exchangeableIDs;
     
     protected $fineAndMasterworkRiftEssences;
@@ -42,7 +50,9 @@ class Controller extends BaseController
     protected $laurel;
     protected $leyEnergyMatter;
     protected $rareRiftEssence; 
+    protected $pileOfBloodstoneDust;
     protected $tradeContract;
+    protected $tyrianDefenseSeal;
     protected $unboundMagic;
     protected $volatileMagic; 
     protected $writs;
@@ -56,12 +66,48 @@ class Controller extends BaseController
 
     public function __construct()
     {
-        // Fluctuating Mass
-        $this->ascendedJunk = [
-            'id' => [79264],
-            'conversionRate' => [25],
-            'fee' => [0],
-            'outputQty' => [1], 
+        // Use this for other daily material exchanges
+        // Static Charge
+        // Pinch of Stardust
+        // Calcified Gasp
+        // etc
+        // COUNT: 21 items
+        $this->dailyExchanges = [  
+            67259, // Bag of Obsidian 
+            67249, // Medium Bag of Obsidian
+            67250, // Large Bag of Obsidian
+            67264, // Rune Bag (Masterwork)
+            67263, // Rune Bag (Rare)
+            67266, // Sigil Bag (Masterwork)
+            67265, // Sigil Bag (Rare)
+            67260, // Bag of Masterwork Gear
+            67261, // Bag of Rare Gear
+            39124, // Heavy Crafting Bag
+            39123, // Large Crafting Bag
+            39121, // Light Crafting Bag
+            39122, // Medium Crafting Bag
+            39120, // Small Crafting Bag
+            39119, // Tiny Crafting Bag
+            67246, // Bag of Scrap
+            67269, // Trophy Bag (Fine)
+            67268, // Tropy Bag (Masterwork),
+            67267, // Trophy Bag (Rare),
+            9257, // Bag of Jewels
+            67247, // Bag of Educational Supplies
+        ];
+
+        $this->airshipPart = [
+            'id' => 
+                array_merge($this->dailyExchanges, [
+                67253, // Bag of Bloodstone
+                67251, // Bag of Dragonite Ore
+                50027, // Bag of Empyreal Fragment
+                73711, // Bag of Aurillium (10)
+                74212, // Bag of Leyline (10)
+            ]),
+            'conversionRate' => array_fill(0, 26, 25),
+            'fee' => array_fill(0, 26, 0),
+            'outputQty' => array_fill(0, 26, 1),
         ];
 
         $this->banditCrest = [
@@ -83,26 +129,31 @@ class Controller extends BaseController
         ];
 
         $this->dragoniteOre = [
-            'id' => [
+            'id' => 
+                array_merge($this->dailyExchanges, [
+                //67253, // Bag of Bloodstone
+                //50027, // Bag of Empyreal Fragment
                 79264, // Fluctuating Mass
                 101727, // Astral Fluctuating Mass (60 conversion)
                 101727, // Astral Fluctuating Mass (25 conversion)
-            ],
-            'conversionRate' => [
-                25,
-                60,
-                25,
-            ],
-            'fee' => [
-                0,
-                0,
-                0,
-            ],
-            'outputQty' => [
-                1,
-                1,
-                1,
-            ],
+            ]),
+            'conversionRate' => array_fill(0, 24, 25),
+            'fee' => array_fill(0, 24, 0),
+            'outputQty' => array_fill(0, 24, 1),
+        ];
+
+        $this->empyrealFragment = [
+            'id' => 
+                array_merge($this->dailyExchanges, [
+                //67253, // Bag of Bloodstone
+                //67251, // Bag of Dragonite Ore
+                79264, // Fluctuating Mass
+                101727, // Astral Fluctuating Mass (60 conversion)
+                101727, // Astral Fluctuating Mass (25 conversion)
+            ]),
+            'conversionRate' => array_fill(0, 24, 25),
+            'fee' => array_fill(0, 24, 0),
+            'outputQty' => array_fill(0, 24, 1),
         ];
 
         // LIST OF EXCHANGEABLE IDS
@@ -314,6 +365,20 @@ class Controller extends BaseController
             ],
         ];
 
+        $this->pileOfBloodstoneDust = [
+            'id' => 
+                array_merge($this->dailyExchanges, [
+                //46735, // Empyreal Fragment
+                //67251, // Bag of Dragonite Ore
+                79264, // Fluctuating Mass
+                101727, // Astral Fluctuating Mass (60 conversion)
+                101727, // Astral Fluctuating Mass (25 conversion)
+            ]),
+            'conversionRate' => array_fill(0, 24, 25),
+            'fee' => array_fill(0, 24, 0),
+            'outputQty' => array_fill(0, 24, 1),
+        ];
+
         // Trade Crates
         $this->tradeContract = [
             'id' => [84783, 83352, 84254, 83265, 82825, 82564, 83419, 83298, 83462, 82946, 82219, 83554, 83582, 84668, 82969],
@@ -321,6 +386,28 @@ class Controller extends BaseController
             'fee' => array_fill(0, 15, 0),
             'outputQty' => array_fill(0, 15, 1),
         ];
+
+        $this->tyrianDefenseSeal = [
+            'id' => [
+                94265, // Ebon Vanguard Supply Box
+                94318, // Crystal Bloom Supply Box
+                94605, // Exalted Supply Box
+                94741, // Tengu Supply Box
+                94860, // Olmakhan Supply Box
+                94710, // Skritt Supply Box
+            ],
+            'conversionRate' => [
+                15,
+                15,
+                20,
+                25,
+                25,
+                25
+            ],
+            'fee' => array_fill(0, 6, 0),
+            'outputQty' => array_fill(0, 6, 1),
+        ];
+
         // Magic Warped Bundle
         // Magic Warped Bundle (Ember Bay)
         // Magic Warped Packet
@@ -381,11 +468,11 @@ class Controller extends BaseController
         // References Controller initializations
         // USE this for functions that use any of these exchangeables to find their values thru their drop rates
         $this->exchangeableMap = [
-            "Airship Part" => $this->leyEnergyMatter,
+            "Airship Part" => $this->airshipPart,
             "Bandit Crest" => $this->banditCrest,
             "Lump of Aurillium" => $this->leyEnergyMatter,
             "Ley Line Crystal" => $this->leyEnergyMatter,
-            "Empyreal Fragment" => $this->ascendedJunk,
+            "Empyreal Fragment" => $this->empyrealFragment,
             "Dragonite Ore" => $this->dragoniteOre,
             "Fine Rift Essence" => $this->fineAndMasterworkRiftEssences,
             "Masterwork Rift Essence" => $this->fineAndMasterworkRiftEssences,
@@ -393,9 +480,10 @@ class Controller extends BaseController
             "Imperial Favor" => $this->imperialFavor,
             "Jade Sliver" => $this->jadeSliver,
             "Laurel" => $this->laurel,
-            "Pile of Bloodstone Dust" => $this->ascendedJunk,
+            "Pile of Bloodstone Dust" => $this->pileOfBloodstoneDust,
             "Rare Rift Essence" => $this->rareRiftEssence,
             "Trade Contract" => $this->tradeContract,
+            "Tyrian Defense Seal" => $this->tyrianDefenseSeal,
             "Unbound Magic" => $this->unboundMagic,
             "Volatile Magic" => $this->volatileMagic,
             "Writ of Seitung Province" => $this->writs,
@@ -514,7 +602,9 @@ class Controller extends BaseController
                 // There's a lot of ascended and crafteringMaterials so switch the $item->name to check for specifically the ascended junk
                 switch ($item->name){
                     case 'Dragonite Ore':
-                        $value += $this->getAscendedJunkValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                    case 'Pile of Bloodstone Dust':
+                    case 'Empyreal Fragment':
+                        $value = $this->getExchangeableValue($item->name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
                         break;
                 }
             }
@@ -558,6 +648,11 @@ class Controller extends BaseController
     // Volatile Magic
     // Eyes of Kormir
     protected function getExchangeableValue($itemName, $itemDropRate, $includes, $sellOrderSetting, $tax){
+
+        switch ($itemName){
+            case 'Coin': 
+                return 1 * $itemDropRate; 
+        }
         
         $requestedBags = [];
 
@@ -592,6 +687,8 @@ class Controller extends BaseController
         ->get()
         ->groupBy('bag_id');
 
+        //dd($containerTable, $requestedBags);
+
         //dd('container table: ', $containerTable);
         $orderedResults = [];
         // Since the query reorders the indexes based on smallest to largest IDs, reorder the index to match the original set
@@ -618,13 +715,35 @@ class Controller extends BaseController
                 else if ($item->description === "Salvage Item" && in_array('Salvageables', $includes)){
                     $value += $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
                 }
+                // ASCENDED JUNK
+                else if ($item->rarity == 'Ascended' && $item->type == 'CraftingMaterial' && in_array('AscendedJunk', $includes)) {
+                    // There's a lot of ascended and crafteringMaterials so switch the $item->name to check for specifically the ascended junk
+                    switch ($item->name){
+                        case 'Dragonite Ore':
+                        case 'Pile of Bloodstone Dust':
+                        case 'Empyreal Fragment':
+                            $value = $this->getExchangeableValue($item->name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                            break;
+                    }
+                }
                 // Junk items
                 else if ($item->rarity === 'Junk'){
                     $value += $item->vendor_value * $item->drop_rate;
                 }
                 // Everything else
                 else {
-                    $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+                    //dd($item);
+                    try {
+                        $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+                    } catch (\Exception $e){
+                        dd($e, $item, $sellOrderSetting);
+                    }
+                    if ($item->$sellOrderSetting){
+                        $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+                    } else {
+                        $value += $item->vendor_value * $item->drop_rate;
+                    }
+                    //$value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
                 }
 
                 

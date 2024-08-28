@@ -147,11 +147,11 @@ class BagController extends Controller
                         case 'Dragonite Ore':
                         case 'Pile of Bloodstone Dust':
                         case 'Empyreal Fragment':
-                            $value = $this->getExchangeableValue($item->name, $item->$sellOrderSetting, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                            $value = $this->getExchangeableValue($item->name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
                             break;
                     }
                 } else if ($item->currency_id){
-                    //dd($item->item_id);
+                    //dd($item->currency_name);
                     $value = $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
                 }
                 // JUNK

@@ -668,6 +668,11 @@
                         <h6>Trade Contract</h6>
                     </router-link>
 
+                    <router-link class="page-link" to="/currencies/tyrian-defense-seal">
+                        <img src="@/imgs/icons/Tyrian_Defense_Seal.png" alt="Tyrian Defense Seal" title="Tyrian Defense Seal">
+                        <h6>Tyrian Defense Seal</h6>
+                    </router-link>
+
                     <router-link class="page-link" to="/currencies/unbound-magic">
                         <img src="@/imgs/icons/Unbound_Magic.png" alt="Unbound Magic" title="Unbound Magic">
                         <h6>Unbound Magic</h6>

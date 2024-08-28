@@ -19,6 +19,7 @@ import CurrenciesLeyLineCrystalView  from '@/js/vue/views/currencies/LeyLineCrys
 import CurrenciesLumpOfAurilliumView from '@/js/vue/views/currencies/LumpOfAurilliumView.vue'
 import CurrenciesSpiritShardsView from '@/js/vue/views/currencies/SpiritShardsView.vue'
 import CurrenciesTradeContractView from '@/js/vue/views/currencies/TradeContractView.vue'
+import CurrenciesTyrianDefenseSealView from '@/js/vue/views/currencies/TyrianDefenseSealView.vue'
 import CurrenciesUnboundMagicView from '@/js/vue/views/currencies/UnboundMagicView.vue'
 import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagicView.vue'
 
@@ -119,25 +120,26 @@ const routes = [
         component: CurrenciesLumpOfAurilliumView,
         name: 'currencies-lump-of-aurillium',
     },
-    // * POF
     {
         path: '/currencies/trade-contract',
         component: CurrenciesTradeContractView,
         name: 'currencies-trade-contract',
     },
-    // * LS3
+    {
+        path: '/currencies/tyrian-defense-seal',
+        component: CurrenciesTyrianDefenseSealView,
+        name: 'currencies-tyrian-defense-seal',
+    },
     {
         path: '/currencies/unbound-magic',
         component:  CurrenciesUnboundMagicView,
         name: 'currencies-unbound-magic',
     },
-    // * LS4
     {
         path: '/currencies/volatile-magic',
         component:  CurrenciesVolatileMagicView,
         name: 'currencies-volatile-magic',
     },
-    // * EOD
     {
         path: '/currencies/jade-sliver',
         component: CurrenciesJadeSliverView,
