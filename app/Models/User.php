@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'api_key',
+        'checklist',
     ];
 
     /**
@@ -41,5 +42,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'checklist' => 'array',
     ];
 }

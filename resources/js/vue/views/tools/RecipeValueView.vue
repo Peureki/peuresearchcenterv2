@@ -1,7 +1,7 @@
 <template>
     <Nav/>
-    <main>
-        <Header page-name="Recipe Value"/>
+    <Header page-name="Recipe Value"/>
+    <section>
         <TwoColSection>
             <template v-slot:content1>
                 <!-- 
@@ -219,7 +219,7 @@
                 />
             </Transition>
         </article>
-    </main>
+    </section>
 </template>
 
 <script setup>
@@ -272,7 +272,7 @@ const taxSetting = ref(localStorage.taxSetting),
 const updateRecipeTree = (selectedIngredient, userPreference) => {
     console.log(recipe.value);
     currency.value = 0;
-    // For the main output item, choose the preferences of either tp or crafting to determine how the tree will be displayed
+    // For the section output item, choose the preferences of either tp or crafting to determine how the tree will be displayed
     choosePreference(recipe.value[0], selectedIngredient, userPreference);
     // Update prices on all ingredients 
     updatePrices(recipe.value[0], selectedIngredient, userPreference);
@@ -394,11 +394,14 @@ const fetchRequestedRecipe = async (requestedRecipe, requestedID, requestedQuant
                 qty: requestedQuantity,
             }});
 
-        const response = await fetch(`../api/recipes/${encodedRecipe}/${requestedID}/${requestedQuantity}`);
+        const url = `../api/recipes/${encodedRecipe}/${requestedID}/${requestedQuantity}`;
+
+        const response = await fetch(url);
         const responseData = await response.json(); 
         recipe.value = responseData;
 
-        console.log(recipe.value);
+        console.log('url: ', url);
+        console.log('recipe: ', recipe.value);
 
         // Loading choya disappears once data is received
         if (recipe.value){

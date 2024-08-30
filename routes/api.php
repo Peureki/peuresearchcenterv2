@@ -31,7 +31,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/user/enterAPIKey', [UserController::class, 'enterAPIKey']);
-
+Route::post('/user/saveChecklist', [UserController::class, 'saveChecklist']);
+Route::get('/user/getChecklist', [UserController::class, 'getChecklist']);
 // *
 // * BENCHMARKS
 // *

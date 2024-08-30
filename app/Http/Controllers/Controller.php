@@ -34,6 +34,8 @@ class Controller extends BaseController
     // * DAILY EXCHANGES VIA Ley Energy Matter, Wizard Tower, etc
     // * These are the same with slight variations 1 or 2 items
     protected $dailyExchanges;
+    // For Dragontie Ore, Bloodstone Dust, Emp Fragments
+    protected $dailyAscendedJunk;
 
     protected $airshipPart;
     protected $ascendedJunk; 
@@ -94,16 +96,36 @@ class Controller extends BaseController
             67267, // Trophy Bag (Rare),
             9257, // Bag of Jewels
             67247, // Bag of Educational Supplies
+            67253, // Bag of Bloodstone
+            67251, // Bag of Dragonite Ore
+            50027, // Bag of Empyreal Fragment
+        ];
+
+        // Dragonite Ore
+        // Empy Fragments
+        // Pile of Bloodstone
+        $this->ascendedJunk = [
+            'id' => [
+                79264, // Fluctuating Mass
+                101727, // Astral Fluctuating Mass
+                101727, // Astral Fluctuating Mass (60 conversion)
+            ],
+            'conversionRate' => array_merge(
+                array_fill(0, 2, 25),
+                [60]
+            ),
+            'fee' => array_fill(0, 3, 0),
+            'outputQty' => array_fill(0, 3, 1),
         ];
 
         $this->airshipPart = [
             'id' => 
                 array_merge($this->dailyExchanges, [
-                67253, // Bag of Bloodstone
-                67251, // Bag of Dragonite Ore
-                50027, // Bag of Empyreal Fragment
-                73711, // Bag of Aurillium (10)
-                74212, // Bag of Leyline (10)
+                // 67253, // Bag of Bloodstone
+                // 67251, // Bag of Dragonite Ore
+                // 50027, // Bag of Empyreal Fragment
+                // 73711, // Bag of Aurillium (10)
+                // 74212, // Bag of Leyline (10)
             ]),
             'conversionRate' => array_fill(0, 26, 25),
             'fee' => array_fill(0, 26, 0),
@@ -129,31 +151,17 @@ class Controller extends BaseController
         ];
 
         $this->dragoniteOre = [
-            'id' => 
-                array_merge($this->dailyExchanges, [
-                //67253, // Bag of Bloodstone
-                //50027, // Bag of Empyreal Fragment
-                79264, // Fluctuating Mass
-                101727, // Astral Fluctuating Mass (60 conversion)
-                101727, // Astral Fluctuating Mass (25 conversion)
-            ]),
-            'conversionRate' => array_fill(0, 24, 25),
-            'fee' => array_fill(0, 24, 0),
-            'outputQty' => array_fill(0, 24, 1),
+            'id' => $this->ascendedJunk['id'],
+            'conversionRate' => $this->ascendedJunk['conversionRate'],
+            'fee' => $this->ascendedJunk['fee'],
+            'outputQty' => $this->ascendedJunk['outputQty'],
         ];
 
         $this->empyrealFragment = [
-            'id' => 
-                array_merge($this->dailyExchanges, [
-                //67253, // Bag of Bloodstone
-                //67251, // Bag of Dragonite Ore
-                79264, // Fluctuating Mass
-                101727, // Astral Fluctuating Mass (60 conversion)
-                101727, // Astral Fluctuating Mass (25 conversion)
-            ]),
-            'conversionRate' => array_fill(0, 24, 25),
-            'fee' => array_fill(0, 24, 0),
-            'outputQty' => array_fill(0, 24, 1),
+            'id' => $this->ascendedJunk['id'],
+            'conversionRate' => $this->ascendedJunk['conversionRate'],
+            'fee' => $this->ascendedJunk['fee'],
+            'outputQty' => $this->ascendedJunk['outputQty'],
         ];
 
         // LIST OF EXCHANGEABLE IDS
@@ -366,17 +374,10 @@ class Controller extends BaseController
         ];
 
         $this->pileOfBloodstoneDust = [
-            'id' => 
-                array_merge($this->dailyExchanges, [
-                //46735, // Empyreal Fragment
-                //67251, // Bag of Dragonite Ore
-                79264, // Fluctuating Mass
-                101727, // Astral Fluctuating Mass (60 conversion)
-                101727, // Astral Fluctuating Mass (25 conversion)
-            ]),
-            'conversionRate' => array_fill(0, 24, 25),
-            'fee' => array_fill(0, 24, 0),
-            'outputQty' => array_fill(0, 24, 1),
+            'id' => $this->ascendedJunk['id'],
+            'conversionRate' => $this->ascendedJunk['conversionRate'],
+            'fee' => $this->ascendedJunk['fee'],
+            'outputQty' => $this->ascendedJunk['outputQty'],
         ];
 
         // Trade Crates

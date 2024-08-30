@@ -119,6 +119,10 @@
             </div>
         </div>
 
+        <div class="auth-welcome" v-if="user">
+            <p>Herro {{ user.name }}</p>
+        </div>
+
         <!-- 
             *
             * TYRIAN AND CANTHAN DAY/NIGHT CYCLE

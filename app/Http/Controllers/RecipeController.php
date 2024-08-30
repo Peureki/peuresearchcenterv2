@@ -38,7 +38,10 @@ class RecipeController extends Controller
     // 
     public function getRecipeTree($id, $quantity){
         $recipe = Recipes::where('output_item_id', $id)
-            ->get(); 
+        ->join('items', 'recipes.output_item_id', '=', 'items.id')
+        ->get(); 
+
+        //dd($recipe);
 
         return response()->json($recipe);
     }
@@ -58,6 +61,7 @@ class RecipeController extends Controller
             ->where('items.id', $id)
             ->first(); 
 
+        //dd($recipe);
         //dd($recipe['ingredients']);
 
         // To be returned
@@ -74,13 +78,15 @@ class RecipeController extends Controller
             "preference" => null,
         ];
 
-        $returnArray[] = [
-            "name" => $recipe['name'],
-            "buy_price" => $recipe['buy_price'] * $recipe['output_item_count'] * $quantity, 
-            "sell_price" => $recipe['sell_price'] * $recipe['output_item_count'] * $quantity,
-            "count" => $recipe['output_item_count'] * $quantity,
-            "icon" => $recipe['icon']
-        ];
+        // $returnArray[] = [
+        //     "name" => $recipe['name'],
+        //     "buy_price" => $recipe['buy_price'] * $recipe['output_item_count'] * $quantity, 
+        //     "sell_price" => $recipe['sell_price'] * $recipe['output_item_count'] * $quantity,
+        //     "count" => $recipe['output_item_count'] * $quantity,
+        //     "icon" => $recipe['icon']
+        // ];
+
+        //dd($returnArray);
 
         
         // Foreach ingredient in a recipe, add their values, icons

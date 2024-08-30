@@ -98,6 +98,8 @@ class BagController extends Controller
         // FOR DUPLICATED OUTPUTS WITH DIFFERENT CONVERSIONS OR CONDITIONS
         switch ($request){
             case 'Dragonite Ore': 
+            case 'Empyreal Fragment':
+            case 'Pile of Bloodstone Dust':
                 $this->duplicate_and_splice_bag(101727, $bagDropRates, 'Astral Fluctuating Mass');
                 break;
 

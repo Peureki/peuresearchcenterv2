@@ -7,37 +7,40 @@
         v-if="recursionLevel == 0"
         class="primary-item"
     >
-        <input type="checkbox" :name="requestedItem.name">
-        <img :src="requestedItem.icon" :alt="requestedItem.name" :title="requestedItem.name">
+        <input 
+            type="checkbox" 
+            :name="checklist.name" 
+            v-model="checklist.checked"
+            @change="checkSubBoxes(checklist, checklist.checked)">
+        <img :src="checklist.icon" :alt="checklist.name" :title="checklist.name">
         <p>{{ quantity }}</p>
 
-        <label :for="requestedItem.name">{{ requestedItem.name }}</label>
+        <label :for="checklist.name">{{ checklist.name }}</label>
 
         <!-- Expand/Hide ingredients -->
         <button @click="expandOrShrink">
             <img 
-                :src="Expand" :alt="`Expand ${requestedItem.name}`" :title="`Expand ${requestedItem.name}`"
+                :src="Expand" :alt="`Expand ${checklist.name}`" :title="`Expand ${checklist.name}`"
                 :class="`expand ${rotate}`"
             >
         </button>
-        
     </div>
 
     <div 
         v-if="ingredientsToggle"
-        v-for="(item, index) in data.ingredients"
-        :class="`todo-item ` + requestedItem.name.split(' ').join('-')"
+        v-for="(item, index) in checklist.ingredients"
+        class="todo-item"
     >
         <div class="item">
             <input 
                 type="checkbox" 
-                :name="checkboxName(data.name, item.id)" 
-                @change="checkSubBoxes(checkboxName(data.name, item.id))"
+                v-model="item.checked"
+                @change="checkSubBoxes(item, item.checked)"
             >
             <img :src="item.icon" :alt="item.name" :title="item.name">
             <p>{{ item.count }}</p>
             
-            <label :for="checkboxName(data.name, item.id)">{{ item.name }}</label>
+            <label :for="item.name">{{ item.name }}</label>
         </div>
 
         <!--
@@ -45,11 +48,9 @@
         -->
         <List
             v-if="item.ingredients"
-            :data="item"
-            :requested-item="requestedItem"
+            :checklist="item"
             :recursionLevel="recursionLevel + 1"
         />
-        
     </div>
 </template>
 
@@ -58,14 +59,16 @@ import { computed, ref } from 'vue'
 import Expand from '@/imgs/svgs/expand.svg'
 
 const props = defineProps({
-    requestedItem: Object,
     quantity: Number,
-    data: Object,
+    checklist: Object,
     recursionLevel: {
         type: Number,
         default: 0,
     },
 })
+
+
+console.log('list data: ', props.checklist);
 
 const ingredientsToggle = ref(true);
 
@@ -76,24 +79,19 @@ const expandOrShrink = () => {
     ingredientsToggle.value = !ingredientsToggle.value; 
 }
 
-const checkSubBoxes = (item) => {
-    console.log(item);
-    if (item.ingredients){
-        item.ingredients.forEach((ingredient) => {
-            console.log(ingredient);
-        })
+const checkSubBoxes = (data, isChecked) => {
+    //console.log('checked data: ', data, isChecked);
+    data.checked = isChecked;
+    if (data.ingredients){
+        data.ingredients.forEach(subItem => {
+            console.log('subItems: ', subItem);
+            subItem.checked = isChecked;
+            checkSubBoxes(subItem, isChecked);
+        });
+        console.log('data ingredients: ', data.ingredients);
     }
 }
 
-const checkboxName = (dataName, itemID) => {
-    return htmlify(dataName) + '-' + itemID;   
-}
-
-const htmlify = (name) => {
-    if (name){
-        return name.split(' ').join('-');
-    }
-}
 
 
 const rotate = computed(() => {

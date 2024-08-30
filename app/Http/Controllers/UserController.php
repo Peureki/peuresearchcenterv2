@@ -11,4 +11,27 @@ class UserController extends Controller
         $user = auth()->user();
         $user->update(['api_key' => $request->apiKey]);
     }
+
+    public function saveChecklist(Request $request){
+        $request->validate([
+            'checklist' => 'required|array',
+        ]);
+
+        $user = auth()->user(); 
+        
+        if ($user){
+            $user->update(['checklist' => $request->checklist]);
+            // $user->checklist = json_encode($request->checklist);
+            // $user->save();
+        }
+    }
+
+    public function getChecklist(Request $request){
+        $user = auth()->user(); 
+
+        if ($user){
+            $checklist = $user->checklist; 
+            return response()->json($checklist);
+        }
+    }
 }
