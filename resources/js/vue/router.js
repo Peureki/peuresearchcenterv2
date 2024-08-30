@@ -45,7 +45,7 @@ import ToolsHomesteadView from '@/js/vue/views/tools/HomesteadView.vue'
 import ToolsRecipeValueView from '@/js/vue/views/tools/RecipeValueView.vue'
 import ToolsResearchNotesView from '@/js/vue/views/tools/ResearchNotesView.vue'
 import ToolsSalvageablesView from '@/js/vue/views/tools/SalvageablesView.vue'
-import ToolsToDoListView from '@/js/vue/views/tools/ToDoListView.vue'
+import ToolsChecklistView from '@/js/vue/views/tools/ChecklistView.vue'
 
 /*
  * 
@@ -218,9 +218,9 @@ const routes = [
         name: 'tools-salvageables',
     },
     {
-        path: '/tools/to-do-list',
-        component: ToolsToDoListView,
-        name: 'tools-to-do-list',
+        path: '/tools/checklist',
+        component: ToolsChecklistView,
+        name: 'tools-checklist',
     },
     // *
     // * TIMERS

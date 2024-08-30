@@ -1,6 +1,6 @@
 <template>
     <Nav/>
-    <Header page-name="To-Do List"/>
+    <Header page-name="Checklist"/>
 
     <section>
         <SearchRecipe 
@@ -12,10 +12,24 @@
     </section>
 
     <section>
+        <form @submit.prevent="addCustomEntry(merp)">
+            <input
+                type="text"
+                placeholder="New Entry"
+                v-model="merp"
+            >
+
+            <button class="sumit" type="submit">Add Custom Entry</button>
+        </form>
+    </section>
+
+    <section>
         <List
             v-if="checklist"
-            v-for="entry in checklist"
-            :checklist="entry"
+            v-for="(entry, index) in checklist"
+            @pop-entry="popEntry"
+            :entry="entry"
+            :entry-index="index"
             :quantity="requestedQuantity"
         />
     </section>
@@ -34,6 +48,7 @@ import List from '@/js/vue/components/general/List.vue';
 
 const requestedItem = ref(null),
     requestedQuantity = ref(null),
+    merp = ref(null),
     checklist = ref([]);
 
 const handleRecipeRequest = async (searchResults, quantity) => {
@@ -48,6 +63,18 @@ const handleRecipeRequest = async (searchResults, quantity) => {
     checklist.value.push(responseData[0]);
 
     console.log('recipe response: ', checklist.value);
+}
+
+const popEntry = (entryIndex) => {
+    console.log('pop this entry: ', entryIndex);
+    checklist.value.splice(entryIndex, 1);
+}
+
+const addCustomEntry = (newEntry) => {
+    const newMerp = {
+        name: newEntry,
+    }
+    checklist.value.push(newMerp); 
 }
 
 const saveList = async (checklist) => {
@@ -78,8 +105,8 @@ const getSavedList = async () => {
     }
 }
 
-// onMounted( async () => {
-//     getSavedList(); 
-// })
+onMounted( async () => {
+    getSavedList(); 
+})
 
 </script>

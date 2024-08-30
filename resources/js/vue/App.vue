@@ -747,6 +747,17 @@ span.currency img{
 
 /* 
     =================================================
+    * SVGS
+    =================================================
+*/
+svg.close,
+svg.plus {
+    width: 20px;
+    cursor: pointer;
+}
+
+/* 
+    =================================================
     * DYNAMIC CLASSES
     =================================================
 */
@@ -908,6 +919,7 @@ span.currency img{
     --img-material-w: 20px;
 
     --svg-expand: clamp(0.8rem, 0.9vw, 1.5rem);
+    --svg-icon-size: clamp(1.2rem, 1.5vw, 1.30rem);
     
 
     --margin-shortcuts-svg: 0 10px 0 10px;
