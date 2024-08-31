@@ -399,7 +399,6 @@ table td img{
     display: flex;
     align-items: center;
     position: relative;
-    width: 15px;
     height: 15px;
     padding: var(--padding-checkboxes);
 }
@@ -413,6 +412,7 @@ table td img{
 .checkbox label {
     display: flex;
     white-space: nowrap;
+    gap: var(--gap-general);
     cursor: pointer;
 }
 .checkbox label:hover{
@@ -422,7 +422,6 @@ table td img{
     content: "";
     width: 20px;
     height: 20px;
-    margin-right: 10px;
     color: var(--color-text);
     border: 1px solid var(--color-link);
 }
@@ -550,6 +549,11 @@ span.input-radio label{
 input[type="number"] {
     width: fit-content;
 }
+input.small-number-field{
+    width: 75px;
+    max-width: 100px;
+}
+
 button.submit {
     background-color: var(--color-link);
     width: fit-content;
@@ -691,6 +695,11 @@ span.label-and-subtitle{
     align-items: center;
     gap: var(--gap-general);
 }
+.two-col-container{
+    display: flex;
+    align-items: flex-start;
+    gap: var(--gap-content);
+}
 /* 
     =================================================
     * CHARTS AND GRAPHS
@@ -747,20 +756,105 @@ span.currency img{
 
 /* 
     =================================================
+    * SEARCH QUERIES
+    =================================================
+*/
+
+.search-query-container{
+    display: flex;
+    flex-direction: column;
+    margin: var(--margin-block-general);
+    padding: 0;
+    height: fit-content;
+    max-height: 200px;
+    overflow-y: auto;
+}
+.search-query-container li:hover{
+    background-color: var(--hover-bkg-fade);
+}
+.search-query-container li{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: var(--padding-search-li);
+}
+.search-query-container li img{
+    width: 20px;
+    height: 20px;
+}
+.search-query-container button{
+    border: none;
+    background-color: unset;
+    padding: 0;
+}
+.search-query-container button:focus{
+    outline: none;
+    background-color: var(--hover-bkg-fade);
+}
+.recipe-form{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    width: fit-content;
+}
+.display-output-container{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    gap: 5px;
+
+}
+span.output{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+
+/* 
+    =================================================
     * SVGS
     =================================================
 */
-svg.close,
-svg.plus {
-    width: 20px;
-    cursor: pointer;
+.icons {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-general);
 }
+
+svg.close,
+svg.plus,
+svg.expand,
+svg.save,
+svg.import {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    transition: var(--transition-all-03s-ease);
+}
+
+svg.save,
+svg.import {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: var(--transition-all-03s-ease);
+}
+
+
 
 /* 
     =================================================
     * DYNAMIC CLASSES
     =================================================
 */
+.strikethrough{
+    text-decoration: line-through;
+    color: var(--color-text-fade);
+}
+
 .active-button {
     opacity: 1;
     background-color: var(--color-link);
@@ -816,6 +910,7 @@ svg.plus {
     --color-h1: #ff391b;
     --color-text: #ffffff;
     --color-text-fade: #d1d1d1;
+    --color-text-dark-fade: #9195a0;
     --color-link: #ffd12c;
     --color-black: #000000;
     --color-core: #f8ebb7;
@@ -882,7 +977,6 @@ svg.plus {
     --border-positive: 2px solid #5ED625;
     --border-negative: 2px solid #EC004D;
     
-
     --nav-width: clamp(15rem, 15vw, 18rem);
     --nav-padding: 10px 0 10px 10px;
     --nav-padding-left: 10px;

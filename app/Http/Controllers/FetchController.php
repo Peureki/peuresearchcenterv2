@@ -73,6 +73,33 @@ class FetchController extends Controller
         return response()->json(['message' => 'Fetching recipe tree values job has been queued']);
     }
 
+    // *
+    // * GET SEARCH ITEMS REQUEST
+    // *
+    // * When users type in a search bar, it sends a request to find recipes that contain the name/keywords 
+    // * Returns => array of search results
+    public function searchItems(Request $request, $quantity){
+        $query = $request->input('request');
+        // Combine the Recipes db and the Items db to get more info
+        $items = Items::where('name', 'like', '%'.$query.'%')
+            ->select('name', 'icon', 'id', 'rarity')
+            ->get()
+            ->map(function ($item) use ($quantity){
+                return [
+                    'name' => $item->name,
+                    'icon' => $item->icon,
+                    'id' => $item->id,
+                    'rarity' => $item->rarity,
+                    'count' => $quantity
+                ];
+            })
+            ->toArray();
+
+        //dd($items);
+
+        return response()->json($items);
+    }
+
     public function fetchConsumables(){
         $api = Http::get('https://script.google.com/macros/s/AKfycbyrf0hBgaLDMtUYIqQUZ4Gv2VTZAwU7vs1jXIVMbW9xge8Hdf1ft880nOjeULKJniQ7qg/exec');
         $spreadsheet = $api->json(); 

@@ -72,7 +72,9 @@ Route::get('/benchmarks/maps/{includes}/{sellOrderSetting}/{tax}', [BenchmarkCon
 Route::get('/recipes/{request}/{id}/{quantity}', [RecipeController::class, 'getRecipeValues']);
 Route::get('/recipes/{id}/{quantity}', [RecipeController::class, 'getRecipeTree']);
 
+Route::get('/tools/search-items/{quantity}', [FetchController::class, 'searchItems']);
 Route::get('/recipes/search-recipes', [RecipeController::class, 'searchRecipes']);
+
 Route::get('/tools/salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'salvageables']);
 Route::get('/tools/mixed-salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'mixedSalvageables']);
 

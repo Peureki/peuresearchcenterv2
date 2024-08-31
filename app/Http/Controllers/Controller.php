@@ -396,6 +396,7 @@ class Controller extends BaseController
                 94741, // Tengu Supply Box
                 94860, // Olmakhan Supply Box
                 94710, // Skritt Supply Box
+                94560, // Deldrimor Supply Box
             ],
             'conversionRate' => [
                 15,
@@ -403,10 +404,11 @@ class Controller extends BaseController
                 20,
                 25,
                 25,
-                25
+                25,
+                20
             ],
-            'fee' => array_fill(0, 6, 0),
-            'outputQty' => array_fill(0, 6, 1),
+            'fee' => array_fill(0, 7, 0),
+            'outputQty' => array_fill(0, 7, 1),
         ];
 
         // Magic Warped Bundle
