@@ -714,9 +714,11 @@
                     *
                 -->
                 <div class="routes">
-                    <router-link class="page-link" to="/exchangeables/pile-of-bloodstone-dust">
-                        <img src="@/imgs/icons/Pile_of_Bloodstone_Dust.png" alt="Pile of Bloodstone Dust" title="Pile of Bloodstone Dust">
-                        <h6>Bloodstone Dust</h6>
+                    
+
+                    <router-link class="page-link" to="/exchangeables/calcified-gasp">
+                        <img src="@/imgs/icons/Calcified_Gasp.png" alt="Calcified Gasp" title="Calcified Gasp">
+                        <h6>Calcified Gasp</h6>
                     </router-link>
 
                     <router-link class="page-link" to="/exchangeables/dragonite-ore">
@@ -739,9 +741,24 @@
                         <h6>Masterwork Rift Essence</h6>
                     </router-link>
 
+                    <router-link class="page-link" to="/exchangeables/pile-of-bloodstone-dust">
+                        <img src="@/imgs/icons/Pile_of_Bloodstone_Dust.png" alt="Pile of Bloodstone Dust" title="Pile of Bloodstone Dust">
+                        <h6>Pile of Bloodstone Dust</h6>
+                    </router-link>
+
+                    <router-link class="page-link" to="/exchangeables/pinch-of-stardust">
+                        <img src="@/imgs/icons/Pinch_of_Stardust.png" alt="Pinch of Stardust" title="Pinch of Stardust">
+                        <h6>Pinch of Stardust</h6>
+                    </router-link>
+
                     <router-link class="page-link" to="/exchangeables/rare-rift-essence">
                         <img src="@/imgs/icons/Rare_Rift_Essence.png" alt="Rare Rift Essence" title="Rare Rift Essence">
                         <h6>Rare Rift Essence</h6>
+                    </router-link>
+
+                    <router-link class="page-link" to="/exchangeables/static-charge">
+                        <img src="@/imgs/icons/Static_Charge.png" alt="Static Charge" title="Static Charge">
+                        <h6>Static Charge</h6>
                     </router-link>
 
                     <router-link class="page-link" to="/exchangeables/writs">

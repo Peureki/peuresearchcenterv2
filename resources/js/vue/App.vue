@@ -828,7 +828,8 @@ svg.close,
 svg.plus,
 svg.expand,
 svg.save,
-svg.import {
+svg.import,
+svg.wiki {
     width: 15px;
     height: 15px;
     cursor: pointer;

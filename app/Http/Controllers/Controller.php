@@ -14,11 +14,14 @@ use App\Models\RunecraftersSalvageableDropRate;
 use App\Models\Salvageable;
 use App\Models\SalvageableDropRate;
 use App\Models\SilverFedSalvageableDropRate;
+use Error;
+use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use PDO;
+use ValueError;
 
 class Controller extends BaseController
 {
@@ -40,11 +43,11 @@ class Controller extends BaseController
     protected $airshipPart;
     protected $ascendedJunk; 
     protected $banditCrest;
+    protected $calcifiedGasp;
     protected $currencyBags;
     protected $dragoniteOre; 
     protected $empyrealFragment;
     protected $exchangeableIDs;
-    
     protected $fineAndMasterworkRiftEssences;
     protected $geode;
     protected $imperialFavor;
@@ -53,6 +56,8 @@ class Controller extends BaseController
     protected $leyEnergyMatter;
     protected $rareRiftEssence; 
     protected $pileOfBloodstoneDust;
+    protected $pinchOfStardust;
+    protected $staticCharge;
     protected $tradeContract;
     protected $tyrianDefenseSeal;
     protected $unboundMagic;
@@ -72,33 +77,36 @@ class Controller extends BaseController
         // Static Charge
         // Pinch of Stardust
         // Calcified Gasp
-        // etc
-        // COUNT: 21 items
-        $this->dailyExchanges = [  
-            67259, // Bag of Obsidian 
-            67249, // Medium Bag of Obsidian
-            67250, // Large Bag of Obsidian
-            67264, // Rune Bag (Masterwork)
-            67263, // Rune Bag (Rare)
-            67266, // Sigil Bag (Masterwork)
-            67265, // Sigil Bag (Rare)
-            67260, // Bag of Masterwork Gear
-            67261, // Bag of Rare Gear
-            39124, // Heavy Crafting Bag
-            39123, // Large Crafting Bag
-            39121, // Light Crafting Bag
-            39122, // Medium Crafting Bag
-            39120, // Small Crafting Bag
-            39119, // Tiny Crafting Bag
-            67246, // Bag of Scrap
-            67269, // Trophy Bag (Fine)
-            67268, // Tropy Bag (Masterwork),
-            67267, // Trophy Bag (Rare),
-            9257, // Bag of Jewels
-            67247, // Bag of Educational Supplies
-            67253, // Bag of Bloodstone
-            67251, // Bag of Dragonite Ore
-            50027, // Bag of Empyreal Fragment
+        $this->dailyExchanges = [
+            'id' => [  
+                67259, // Bag of Obsidian 
+                67249, // Medium Bag of Obsidian
+                67250, // Large Bag of Obsidian
+                67264, // Rune Bag (Masterwork)
+                67263, // Rune Bag (Rare)
+                67266, // Sigil Bag (Masterwork)
+                67265, // Sigil Bag (Rare)
+                67260, // Bag of Masterwork Gear
+                67261, // Bag of Rare Gear
+                39124, // Heavy Crafting Bag
+                39123, // Large Crafting Bag
+                39121, // Light Crafting Bag
+                39122, // Medium Crafting Bag
+                39120, // Small Crafting Bag
+                39119, // Tiny Crafting Bag
+                67246, // Bag of Scrap
+                67269, // Trophy Bag (Fine)
+                67268, // Tropy Bag (Masterwork),
+                67267, // Trophy Bag (Rare),
+                9257, // Bag of Jewels
+                67247, // Bag of Educational Supplies
+                67253, // Bag of Bloodstone
+                67251, // Bag of Dragonite Ore
+                50027, // Bag of Empyreal Fragment
+            ],
+            'conversionRate' => array_fill(0, 24, 25),
+            'fee' => array_fill(0, 24, 0),
+            'outputQty' => array_fill(0, 24, 1),
         ];
 
         // Dragonite Ore
@@ -120,16 +128,13 @@ class Controller extends BaseController
 
         $this->airshipPart = [
             'id' => 
-                array_merge($this->dailyExchanges, [
-                // 67253, // Bag of Bloodstone
-                // 67251, // Bag of Dragonite Ore
-                // 50027, // Bag of Empyreal Fragment
+                array_merge($this->dailyExchanges['id'], [
                 // 73711, // Bag of Aurillium (10)
                 // 74212, // Bag of Leyline (10)
             ]),
-            'conversionRate' => array_fill(0, 26, 25),
-            'fee' => array_fill(0, 26, 0),
-            'outputQty' => array_fill(0, 26, 1),
+            'conversionRate' => array_fill(0, 24, 25),
+            'fee' => array_fill(0, 24, 0),
+            'outputQty' => array_fill(0, 24, 1),
         ];
 
         $this->banditCrest = [
@@ -137,6 +142,13 @@ class Controller extends BaseController
             'conversionRate' => [15, 250],
             'fee' => [80, 2000],
             'outputQty' => [1, 1],
+        ];
+
+        $this->calcifiedGasp = [
+            'id' => $this->dailyExchanges['id'],
+            'conversionRate' => $this->dailyExchanges['conversionRate'],
+            'fee' => $this->dailyExchanges['fee'],
+            'outputQty' => $this->dailyExchanges['outputQty'],
         ];
 
         // This is a list of currencies contained in bags that need to be defined specifically to get their values exchanged or to find their values in other bags that otherwise can't be defined by various methods such as:
@@ -380,6 +392,20 @@ class Controller extends BaseController
             'outputQty' => $this->ascendedJunk['outputQty'],
         ];
 
+        $this->pinchOfStardust = [
+            'id' => $this->dailyExchanges['id'],
+            'conversionRate' => $this->dailyExchanges['conversionRate'],
+            'fee' => $this->dailyExchanges['fee'],
+            'outputQty' => $this->dailyExchanges['outputQty'],
+        ];
+
+        $this->staticCharge = [
+            'id' => $this->dailyExchanges['id'],
+            'conversionRate' => $this->dailyExchanges['conversionRate'],
+            'fee' => $this->dailyExchanges['fee'],
+            'outputQty' => $this->dailyExchanges['outputQty'],
+        ];
+
         // Trade Crates
         $this->tradeContract = [
             'id' => [84783, 83352, 84254, 83265, 82825, 82564, 83419, 83298, 83462, 82946, 82219, 83554, 83582, 84668, 82969],
@@ -442,7 +468,6 @@ class Controller extends BaseController
 
 
 
-
         $this->homesteadWood = [
             'id' => [
                 19723, // Green Wood Logs
@@ -473,6 +498,7 @@ class Controller extends BaseController
         $this->exchangeableMap = [
             "Airship Part" => $this->airshipPart,
             "Bandit Crest" => $this->banditCrest,
+            "Calcified Gasp" => $this->calcifiedGasp,
             "Lump of Aurillium" => $this->leyEnergyMatter,
             "Ley Line Crystal" => $this->leyEnergyMatter,
             "Empyreal Fragment" => $this->empyrealFragment,
@@ -484,7 +510,9 @@ class Controller extends BaseController
             "Jade Sliver" => $this->jadeSliver,
             "Laurel" => $this->laurel,
             "Pile of Bloodstone Dust" => $this->pileOfBloodstoneDust,
+            "Pinch of Stardust" => $this->pinchOfStardust,
             "Rare Rift Essence" => $this->rareRiftEssence,
+            "Static Charge" => $this->staticCharge,
             "Trade Contract" => $this->tradeContract,
             "Tyrian Defense Seal" => $this->tyrianDefenseSeal,
             "Unbound Magic" => $this->unboundMagic,
@@ -708,6 +736,7 @@ class Controller extends BaseController
 
         foreach ($containerTable as $index => $group){
             $value = 0;
+            
             foreach ($group as $item){
                 
                 // Check if there's uni gear && if toggled in Includes settings
@@ -725,7 +754,7 @@ class Controller extends BaseController
                         case 'Dragonite Ore':
                         case 'Pile of Bloodstone Dust':
                         case 'Empyreal Fragment':
-                            $value = $this->getExchangeableValue($item->name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                            $value += $this->getExchangeableValue($item->name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
                             break;
                     }
                 }
@@ -736,11 +765,6 @@ class Controller extends BaseController
                 // Everything else
                 else {
                     //dd($item);
-                    try {
-                        $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
-                    } catch (\Exception $e){
-                        dd($e, $item, $sellOrderSetting);
-                    }
                     if ($item->$sellOrderSetting){
                         $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
                     } else {
@@ -757,8 +781,15 @@ class Controller extends BaseController
             $value = ($value - $fee[$index]) / $conversionRate[$index]; 
             array_push($allValues, $value); 
         }
+
             //dd($allValues);
-            $currencyValue = max($allValues);
+            //$currencyValue = max($allValues);
+            try {
+                $currencyValue = max($allValues);
+            } catch (ValueError $e){
+                dd($e, $allValues, $containerTable, $itemName);
+            }
+            
             //dd($currencyValue);
             //$currencyValue = (max($allValues) - $fee) / $conversionRate; 
         

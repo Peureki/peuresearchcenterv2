@@ -28,12 +28,15 @@ import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagic
  * EXCHANGEABLES
  * 
  */
-import ExchangeableBloodstoneDustView from '@/js/vue/views/exchangeables/BloodstoneDustView.vue'
+import ExchangeableCalcifiedGaspView from '@/js/vue/views/exchangeables/CalcifiedGaspView.vue'
 import ExchangeablesDragoniteOreView from '@/js/vue/views/exchangeables/DragoniteOreView.vue'
 import ExchangeablesEmpyrealFragmentView from '@/js/vue/views/exchangeables/EmpyrealFragmentView.vue'
 import ExchangeableFineRiftEssenceView from '@/js/vue/views/exchangeables/FineRiftEssenceView.vue'
 import ExchangeableMasterworkRiftEssenceView from '@/js/vue/views/exchangeables/MasterworkRiftEssenceView.vue'
+import ExchangeablePileOfBloodstoneDustView from '@/js/vue/views/exchangeables/PileOfBloodstoneDustView.vue'
+import ExchangeablePinchOfStardustView from '@/js/vue/views/exchangeables/PinchOfStardustView.vue'
 import ExchangeableRareRiftEssenceView from '@/js/vue/views/exchangeables/RareRiftEssenceView.vue'
+import ExchangeableStaticChargeView from '@/js/vue/views/exchangeables/StaticChargeView.vue'
 import ExchangeableWritsView from '@/js/vue/views/exchangeables/WritsView.vue'
 
 /*
@@ -154,9 +157,9 @@ const routes = [
     // * EXCHANGEABLES
     // *
     {
-        path: '/exchangeables/pile-of-bloodstone-dust',
-        component: ExchangeableBloodstoneDustView,
-        name: 'exchangeable-pile-of-bloodstone-dust',
+        path: '/exchangeables/calcified-gasp',
+        component: ExchangeableCalcifiedGaspView,
+        name: 'exchangeable-calcified-gasp',
     },
     {
         path: '/exchangeables/dragonite-ore',
@@ -179,9 +182,24 @@ const routes = [
         name: 'exchangeable-masterwork-rift-essence',
     },
     {
+        path: '/exchangeables/pile-of-bloodstone-dust',
+        component: ExchangeablePileOfBloodstoneDustView,
+        name: 'exchangeable-pile-of-bloodstone-dust',
+    },
+    {
+        path: '/exchangeables/pinch-of-stardust',
+        component: ExchangeablePinchOfStardustView,
+        name: 'exchangeable-pinch-of-stardust',
+    },
+    {
         path: '/exchangeables/rare-rift-essence',
         component: ExchangeableRareRiftEssenceView,
         name: 'exchangeable-rare-rift-essence',
+    },
+    {
+        path: '/exchangeables/static-charge',
+        component: ExchangeableStaticChargeView,
+        name: 'exchangeable-static-charge',
     },
     {
         path: '/exchangeables/writs',
