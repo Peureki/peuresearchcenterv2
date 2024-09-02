@@ -559,77 +559,33 @@
             * EXCHANGEABLES
             *
         -->
-        <div class="nav-section-container" @click="exchangeablesToggle = !exchangeablesToggle" id="nav">
-            <h5>Exchangeables</h5>
-            <svg 
-                class="expand"
-                :class="{rotate180: exchangeablesToggle}" 
-                width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg"
-            >
-                <path d="M8.81372 0.397634C8.6944 0.280464 8.5326 0.214642 8.36389 0.214642C8.19519 0.214642 8.03339 0.280464 7.91407 0.397634L4.76468 3.49138L1.61529 0.397634C1.49529 0.283785 1.33457 0.220788 1.16775 0.222212C1.00093 0.223636 0.841356 0.289367 0.723392 0.405247C0.605428 0.521127 0.538516 0.677885 0.537066 0.841758C0.535617 1.00563 0.599746 1.16351 0.715642 1.28138L4.31486 4.81701C4.43417 4.93418 4.59597 5 4.76468 5C4.93339 5 5.09519 4.93418 5.2145 4.81701L8.81372 1.28138C8.93299 1.16418 9 1.00524 9 0.839509C9 0.673781 8.93299 0.514838 8.81372 0.397634Z" fill="#FFD12C"/>
-            </svg>
-        </div>
+        <NavSection 
+            @click="exchangeablesToggle = !exchangeablesToggle" 
+            header="Exchangeables"
+            :toggle="exchangeablesToggle"
+        />
 
         <Transition name="fade-right">
             <div v-if="exchangeablesToggle">
-                <!--
-                    *
-                    * EXCHANGEABLES
-                    *
-                -->
-                <div class="routes">
-                    
+                <NavPage category="exchangeables" url="calcified-gasp" name="Calcified Gasp" :icon="CalcifiedGasp"/>
 
-                    <router-link class="page-link" to="/exchangeables/calcified-gasp">
-                        <img src="@/imgs/icons/Calcified_Gasp.png" alt="Calcified Gasp" title="Calcified Gasp">
-                        <h6>Calcified Gasp</h6>
-                    </router-link>
+                <NavPage category="exchangeables" url="dragonite-ore" name="Dragonite Ore" :icon="DragoniteOre"/>
 
-                    <router-link class="page-link" to="/exchangeables/dragonite-ore">
-                        <img src="@/imgs/icons/Dragonite_Ore.png" alt="Dragonite Ore" title="Dragonite Ore">
-                        <h6>Dragonite Ore</h6>
-                    </router-link>
+                <NavPage category="exchangeables" url="empyreal-fragment" name="Empyreal Fragment" :icon="EmpyrealFragment"/>
 
-                    <router-link class="page-link" to="/exchangeables/empyreal-fragment">
-                        <img src="@/imgs/icons/Empyreal_Fragment.png" alt="Empyreal Fragment" title="Empyreal Fragment">
-                        <h6>Empyreal Fragment</h6>
-                    </router-link>
+                <NavPage category="exchangeables" url="fine-rift-essence" name="Fine Rift Essence" :icon="FineRiftEssence"/>
 
-                    <router-link class="page-link" to="/exchangeables/fine-rift-essence">
-                        <img src="@/imgs/icons/Fine_Rift_Essence.png" alt="Fine Rift Essence" title="Fine Rift Essence">
-                        <h6>Fine Rift Essence</h6>
-                    </router-link>
+                <NavPage category="exchangeables" url="masterwork-rift-essence" name="Masterwork Rift Essence" :icon="MasterworkRiftEssence"/>
 
-                    <router-link class="page-link" to="/exchangeables/masterwork-rift-essence">
-                        <img src="@/imgs/icons/Masterwork_Rift_Essence.png" alt="Masterwork Rift Essence" title="Masterwork Rift Essence">
-                        <h6>Masterwork Rift Essence</h6>
-                    </router-link>
+                <NavPage category="exchangeables" url="pile-of-bloodstone-dust" name="Pile of Bloodstone Dust" :icon="PileOfBloodstoneDust"/>
 
-                    <router-link class="page-link" to="/exchangeables/pile-of-bloodstone-dust">
-                        <img src="@/imgs/icons/Pile_of_Bloodstone_Dust.png" alt="Pile of Bloodstone Dust" title="Pile of Bloodstone Dust">
-                        <h6>Pile of Bloodstone Dust</h6>
-                    </router-link>
+                <NavPage category="exchangeables" url="pinch-of-stardust" name="Pinch of Stardust" :icon="PinchOfStardust"/>
 
-                    <router-link class="page-link" to="/exchangeables/pinch-of-stardust">
-                        <img src="@/imgs/icons/Pinch_of_Stardust.png" alt="Pinch of Stardust" title="Pinch of Stardust">
-                        <h6>Pinch of Stardust</h6>
-                    </router-link>
+                <NavPage category="exchangeables" url="rare-rift-essence" name="Rare Rift Essence" :icon="RareRiftEssence"/>
 
-                    <router-link class="page-link" to="/exchangeables/rare-rift-essence">
-                        <img src="@/imgs/icons/Rare_Rift_Essence.png" alt="Rare Rift Essence" title="Rare Rift Essence">
-                        <h6>Rare Rift Essence</h6>
-                    </router-link>
+                <NavPage category="exchangeables" url="static-charge" name="Static Charge" :icon="StaticCharge"/>
 
-                    <router-link class="page-link" to="/exchangeables/static-charge">
-                        <img src="@/imgs/icons/Static_Charge.png" alt="Static Charge" title="Static Charge">
-                        <h6>Static Charge</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/exchangeables/writs">
-                        <img src="@/imgs/icons/Writ_of_New_Kaineng_City.png" alt="Writ of New Kaineng City" title="Writ of New Kaineng City">
-                        <h6>Writs</h6>
-                    </router-link>
-                </div>   
+                <NavPage category="exchangeables" url="writs" name="Writs" :icon="WritOfNewKainengCity"/>  
             </div>
         </Transition>
 
@@ -871,6 +827,17 @@ import TradeContract from '@/imgs/icons/Trade_Contract.png'
 import TyrianDefenseSeal from '@/imgs/icons/Tyrian_Defense_Seal.png'
 import UnboundMagic from '@/imgs/icons/Unbound_Magic.png'
 import VolatileMagic from '@/imgs/icons/Volatile_Magic.png'
+
+import CalcifiedGasp from '@/imgs/icons/Calcified_Gasp.png'
+import DragoniteOre from '@/imgs/icons/Dragonite_Ore.png'
+import EmpyrealFragment from '@/imgs/icons/Empyreal_Fragment.png'
+import FineRiftEssence from '@/imgs/icons/Fine_Rift_Essence.png'
+import MasterworkRiftEssence from '@/imgs/icons/Masterwork_Rift_Essence.png'
+import PinchOfStardust from '@/imgs/icons/Pinch_of_Stardust.png'
+import PileOfBloodstoneDust from '@/imgs/icons/Pile_of_Bloodstone_Dust.png'
+import RareRiftEssence from '@/imgs/icons/Rare_Rift_Essence.png'
+import StaticCharge from '@/imgs/icons/Static_Charge.png'
+import WritOfNewKainengCity from '@/imgs/icons/Writ_of_New_Kaineng_City.png'
 
 import axios from 'axios';
 import { update } from 'lodash';
