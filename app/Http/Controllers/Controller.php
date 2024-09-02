@@ -408,10 +408,27 @@ class Controller extends BaseController
 
         // Trade Crates
         $this->tradeContract = [
-            'id' => [84783, 83352, 84254, 83265, 82825, 82564, 83419, 83298, 83462, 82946, 82219, 83554, 83582, 84668, 82969],
-            'conversionRate' => array_fill(0, 15, 50),
-            'fee' => array_fill(0, 15, 0),
-            'outputQty' => array_fill(0, 15, 1),
+            'id' => array_merge(
+                $this->dailyExchanges['id'],
+                [84783, 83352, 84254, 83265, 82825, 82564, 83419, 83298, 83462, 82946, 82219, 83554, 83582, 84668, 82969, // TRADE CRATES
+                94228, // Tyrian Defense Seals
+                ]
+            ),
+            'conversionRate' => array_merge(
+                $this->dailyExchanges['conversionRate'],
+                array_fill(count($this->dailyExchanges['conversionRate']), 15, 50),
+                [25],
+            ),
+            'fee' => array_merge(
+                $this->dailyExchanges['fee'],
+                array_fill(count($this->dailyExchanges['fee']), 15, 0),
+                [0],
+            ),
+            'outputQty' => array_merge(
+                $this->dailyExchanges['outputQty'],
+                array_fill(count($this->dailyExchanges['outputQty']), 15, 1),
+                [10],
+            ),
         ];
 
         $this->tyrianDefenseSeal = [
@@ -682,7 +699,7 @@ class Controller extends BaseController
     // Eyes of Kormir
     protected function getExchangeableValue($itemName, $itemDropRate, $includes, $sellOrderSetting, $tax){
 
-        //dd('exchangeable map', $this->exchangeableMap, $itemName, $includes, in_array($itemName, $includes));
+        //dd('exchangeable map', $this->exchangeableMap, 'item name', $itemName, 'includes', $includes, in_array($itemName, $includes));
 
         switch ($itemName){
             case 'Coin': 
@@ -691,19 +708,22 @@ class Controller extends BaseController
         
         $requestedBags = [];
 
-        // Check if $request matches with one of the $map
-        // Populate arrays
-        foreach ($includes as $includeItem){
-            //dd($includeItem, $this->exchangeableMap[$includeItem]);
-            if (isset($this->exchangeableMap[$includeItem])){
-                $data = $this->exchangeableMap[$includeItem]; 
+        if (in_array($itemName, $includes)){
+            if (array_key_exists($itemName, $this->exchangeableMap)){
+                $data = $this->exchangeableMap[$itemName]; 
                 $requestedBags = array_merge($requestedBags, $data['id']);
                 $conversionRate = $data['conversionRate'];
                 $fee = $data['fee'];
-            } else {
-                return 0; 
+            } 
+            else {
+                return 0;
             }
+        } else {
+            return 0;
         }
+        
+
+
 
         // if (in_array($itemName, $includes)){
         //     if (isset($this->exchangeableMap[$itemName])){
@@ -717,6 +737,8 @@ class Controller extends BaseController
         // } else {
         //     return 0;
         // }
+
+        //dd($requestedBags, $itemName);
 
         $containerTable = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
         ->leftjoin('items as item', 'bag_drop_rates.item_id', '=', 'item.id')

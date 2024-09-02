@@ -144,16 +144,21 @@ class BagController extends Controller
                     $value = $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
                 }
                 // ASCENDED JUNK
-                else if ($item->rarity == 'Ascended' && $item->type == 'CraftingMaterial' && in_array('AscendedJunk', $includes)) {
-                    // There's a lot of ascended and crafteringMaterials so switch the $item->name to check for specifically the ascended junk
-                    switch ($item->name){
-                        case 'Dragonite Ore':
-                        case 'Pile of Bloodstone Dust':
-                        case 'Empyreal Fragment':
-                            $value = $this->getExchangeableValue($item->name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-                            break;
-                    }
-                } else if ($item->currency_id){
+                // else if ($item->rarity == 'Ascended' && $item->type == 'CraftingMaterial' && in_array('AscendedJunk', $includes)) {
+                //     // There's a lot of ascended and crafteringMaterials so switch the $item->name to check for specifically the ascended junk
+                //     switch ($item->name){
+                //         case 'Dragonite Ore':
+                //         case 'Pile of Bloodstone Dust':
+                //         case 'Empyreal Fragment':
+                //             $value = $this->getExchangeableValue($item->name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                //             break;
+                //     }
+                // } 
+                // GENERAL EXCHANGEABLES
+                else if (array_key_exists($item->name, $this->exchangeableMap)) {
+                    $value = $this->getExchangeableValue($item->name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                }
+                else if ($item->currency_id){
                     //dd($item->currency_name);
                     $value = $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
                 }

@@ -154,37 +154,7 @@ nav .logo-container{
 nav .credits p{
     padding-left: var(--nav-padding-left);
 }
-nav .shortcuts {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--padding-shortcuts);
-    border-bottom: var(--border-bottom);
-}
-nav .shortcuts .left,
-nav .shortcuts .middle,
-nav .shortcuts .right{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-nav .shortcuts .left{
-    justify-content: flex-start;
-}
-nav .shortcuts .middle{
-    justify-content: center;
-}
-nav .shortcuts .right{
-    justify-content: flex-end;
-}
-nav .shortcuts svg{
-    cursor: pointer;
-}
-nav .shortcuts #cog:hover{
-    transform: rotate(180deg);
-    transition: all 0.5s ease;
-}
+
 .nav-section-container {
     position: relative;
     cursor: pointer;
@@ -414,6 +384,9 @@ table td img{
     white-space: nowrap;
     gap: var(--gap-general);
     cursor: pointer;
+}
+.checkbox label img{
+    width: var(--img-material-w);
 }
 .checkbox label:hover{
     color: var(--color-link);

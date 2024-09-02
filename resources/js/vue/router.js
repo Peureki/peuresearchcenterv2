@@ -17,6 +17,7 @@ import CurrenciesJadeSliverView from '@/js/vue/views/currencies/JadeSliverView.v
 import CurrenciesLaurelView from '@/js/vue/views/currencies/LaurelView.vue'
 import CurrenciesLeyLineCrystalView  from '@/js/vue/views/currencies/LeyLineCrystalView.vue'
 import CurrenciesLumpOfAurilliumView from '@/js/vue/views/currencies/LumpOfAurilliumView.vue'
+import CurrenciesResearchNoteView from '@/js/vue/views/currencies/ResearchNoteView.vue'
 import CurrenciesSpiritShardsView from '@/js/vue/views/currencies/SpiritShardsView.vue'
 import CurrenciesTradeContractView from '@/js/vue/views/currencies/TradeContractView.vue'
 import CurrenciesTyrianDefenseSealView from '@/js/vue/views/currencies/TyrianDefenseSealView.vue'
@@ -46,7 +47,6 @@ import ExchangeableWritsView from '@/js/vue/views/exchangeables/WritsView.vue'
  */
 import ToolsHomesteadView from '@/js/vue/views/tools/HomesteadView.vue'
 import ToolsRecipeValueView from '@/js/vue/views/tools/RecipeValueView.vue'
-import ToolsResearchNotesView from '@/js/vue/views/tools/ResearchNotesView.vue'
 import ToolsSalvageablesView from '@/js/vue/views/tools/SalvageablesView.vue'
 import ToolsChecklistView from '@/js/vue/views/tools/ChecklistView.vue'
 
@@ -122,6 +122,11 @@ const routes = [
         path: '/currencies/lump-of-aurillium',
         component: CurrenciesLumpOfAurilliumView,
         name: 'currencies-lump-of-aurillium',
+    },
+    {
+        path: '/currencies/research-note',
+        component: CurrenciesResearchNoteView,
+        name: 'currencies-research-note',
     },
     {
         path: '/currencies/trade-contract',
@@ -218,11 +223,6 @@ const routes = [
         path: '/tools/recipe-value',
         component: ToolsRecipeValueView,
         name: 'tools-recipe-value',
-    },
-    {
-        path: '/tools/research-notes',
-        component: ToolsResearchNotesView,
-        name: 'tools-research-notes',
     },
     {
         path: '/:requestedRecipe',

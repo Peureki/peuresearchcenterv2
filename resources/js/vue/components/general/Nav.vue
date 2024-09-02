@@ -1,801 +1,505 @@
 <template>
     <nav>
-        <div class="top">
-            <router-link class="page-link" to="/">
-                <div class="logo-container">
-                    <img src="@/imgs/choyas/peu-choya.png" alt="Logo of Peu Research Center" title="Logo of Peu Research Center of a green pinata choya wearing a commander tag">
-                </div>
-            </router-link>
+        <div class="nav-container">
+            <div class="top">
+                <router-link class="page-link" to="/">
+                    <div class="logo-container">
+                        <img src="@/imgs/choyas/peu-choya.png" alt="Logo of Peu Research Center" title="Logo of Peu Research Center of a green pinata choya wearing a commander tag">
+                    </div>
+                </router-link>
 
-            <!-- <div class="credits">
-                <p>Created by: Peureki.3647</p>
-            </div> -->
+                <!-- <div class="credits">
+                    <p>Created by: Peureki.3647</p>
+                </div> -->
+
+                
+            </div>
 
             <!-- 
-                * SHORTCUTS
+                    * SHORTCUTS
+                    *
+                    * Settings | Dark/Light mode | Nav | Discord | Other
+                -->
+
+                <Shortcuts
+                    :settings-toggle="settingsToggle"
+                    :bookmarks-toggle="bookmarksToggle"
+                    :filters-toggle="filtersToggle"
+                    :login-toggle="loginToggle"
+                    :api-key-toggle="apiKeyToggle"
+                    @change-toggle-status="changeToggleStatus"
+                />
+
+            <div class="auth-welcome" v-if="user">
+                <p>Herro {{ user.name }}</p>
+            </div>
+
+            <!-- 
                 *
-                * Settings | Dark/Light mode | Nav | Discord | Other
+                * TYRIAN AND CANTHAN DAY/NIGHT CYCLE
+                *
+            -->
+            <DayAndNightTimers/>
+            <!--
+                *
+                *   "HELLO" MESSAGE TO USERS IF THEY ARE LOGGED IN
+                *
+            -->
+            <Transition name="fade-right">
+                <div v-if="user">
+                    <!-- <p>Welcome {{ user.name }}</p> -->
+                </div>
+            </Transition>
+            <!--
+                * SLOT - TIMERS
+                * 
+                * This changes depending on what timer page the website is currently on
+            -->
+            <slot name="timer"></slot>
+
+            <!--
+                * 
+                * SETTINGS / OPTIONS
+                *
+            -->
+            <Transition name="fade-right">
+                <div v-if="settingsToggle">
+                    <article class="shortcut-container">
+                        <h3>Settings</h3>
+                        <div class="settings-button-container">
+                            <!-- 
+                                * SETTING BUTTONS
+                                *
+                                * BUY ORDER
+                                * Change the properties of the button depending on the buy/sell order settings
+                            -->
+                            <p>Buy Order </p>
+                                <div class="settings-button">
+                                <button
+                                    @click="changeOrder('buy order')"
+                                    :class="buyOrderSetting == 'buy_price' ? 'active-button' : 'inactive-button'"
+                                >
+                                    Buy Price
+                                </button>
+                                <button
+                                    @click="changeOrder('buy order')"
+                                    :class="buyOrderSetting == 'sell_price' ? 'active-button' : 'inactive-button'"
+                                >
+                                    Sell Price
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="settings-button-container">
+                            <!-- 
+                                * SETTING BUTTONS
+                                *
+                                * SELL ORDER
+                                * Change the properties of the button depending on the buy/sell order settings
+                            -->
+                            <p>Sell Order </p>
+                                <div class="settings-button">
+                                    <button
+                                    @click="changeOrder('sell order')"
+                                    :class="sellOrderSetting == 'buy_price' ? 'active-button' : 'inactive-button'"
+                                >
+                                    Buy Price
+                                </button>
+                                <button
+                                    @click="changeOrder('sell order')"
+                                    :class="sellOrderSetting == 'sell_price' ? 'active-button' : 'inactive-button'"
+                                >
+                                    Sell Price
+                                </button>
+                            </div>
+                        </div>
+                        <!-- 
+                            * 
+                            * TAX SETTINGS
+                            *
+                        -->
+                        <div class="settings-button-container">
+                            <label for="tax">Tax</label>
+                            <span class="settings-tax-input">
+                                <input type="number" step="0.01" id="tax" name="tax" v-model="taxSetting">
+                                <span class="settings-tax-model">
+                                    <svg 
+                                        :style="{transform: `rotate(${taxSetting < 1 ? 90 : -90}deg)`}"
+                                        width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path 
+                                            :fill="taxSetting < 1 ? 'var(--color-down)' : 'var(--color-up)'"
+                                            d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
+                                        />
+                                    </svg>
+                                    <p>{{ convertTaxToPercent(taxSetting) }}</p>
+                                </span>
+                            </span>
+                        </div>
+
+                        <!-- 
+                            * 
+                            * INCLUDE SETTINGS
+                            *
+                        -->
+                        <div class="settings-button-container">
+                            <h4>Include</h4>
+                            <!-- 
+                                * 
+                                * INCLUDE AIRSHIP PARTS
+                                * 
+                            -->
+                            <!-- <div 
+                                class="checkbox" 
+                                @click="
+                                    includesAirshipPartCheckbox = !includesAirshipPartCheckbox;
+                                    setIncludes('Airship Part', includesAirshipPartCheckbox);    
+                                "
+                            >
+                                <input 
+                                    :checked="includesAirshipPartCheckbox" 
+                                    type="checkbox" 
+                                    name="AirshipPart"
+                                >
+                                <label for="AirshipPart">Airship Parts</label>
+                            </div> -->
+
+                            <IncludesCheckbox
+                                name="Airship Part"
+                                :icon="AirshipParts"
+                                label="AirshipPart"
+                            />
+
+                            <IncludesCheckbox
+                                name="Calcified Gasp"
+                                :icon="CalcifiedGasp"
+                                label="CalcifiedGasp"
+                            />
+
+                            <IncludesCheckbox
+                                name="Dragonite Ore"
+                                :icon="DragoniteOre"
+                                label="DragoniteOre"
+                            />
+
+                            <IncludesCheckbox
+                                name="Empyreal Fragment"
+                                :icon="EmpyrealFragment"
+                                label="EmpyrealFragment"
+                            />
+                            <IncludesCheckbox
+                                name="Imperial Favor"
+                                :icon="ImperialFavor"
+                                label="ImperialFavor"
+                            />
+
+                            <IncludesCheckbox
+                                name="Ley Line Crystal"
+                                :icon="LeyLineCrystal"
+                                label="LeyLineCrystal"
+                            />
+
+                            <IncludesCheckbox
+                                name="Lump of Aurillium"
+                                :icon="LumpOfAurillium"
+                                label="LumpOfAurillium"
+                            />
+
+                            <IncludesCheckbox
+                                name="Pile of Bloodstone Dust"
+                                :icon="PileOfBloodstoneDust"
+                                label="PileOfBloodstoneDust"
+                            />
+
+                            <IncludesCheckbox
+                                name="Pinch of Stardust"
+                                :icon="PinchOfStardust"
+                                label="PinchOfStardust"
+                            />
+
+                            <IncludesCheckbox
+                                name="Salvageables"
+                                :icon="UnidentifiedGear"
+                                label="Salvageables"
+                            />
+
+                            <IncludesCheckbox
+                                name="Static Charge"
+                                :icon="StaticCharge"
+                                label="StaticCharge"
+                            />
+
+                            <IncludesCheckbox
+                                name="Trade Contract"
+                                :icon="TradeContract"
+                                label="TradeContract"
+                            />
+
+                            <IncludesCheckbox
+                                name="Tyrian Defense Seal"
+                                :icon="TyrianDefenseSeal"
+                                label="TyrianDefenseSeal"
+                            />
+
+                            <IncludesCheckbox
+                                name="Unbound Magic"
+                                :icon="UnboundMagic"
+                                label="UnboundMagic"
+                            />
+
+                            <IncludesCheckbox
+                                name="Volatile Magic"
+                                :icon="VolatileMagic"
+                                label="VolatileMagic"
+                            />                      
+                        </div>
+
+                        <div class="settings-button-container">
+                            <button 
+                                @click="handlePageRefresh()"    
+                                class="submit"
+                            >
+                                Refresh
+                            </button>
+                        </div>
+                        
+                    </article>
+                
+                </div>
+            </Transition>
+
+            <!--
+                * SLOT - FILTERS
+                * 
+                * This changes depending on what page the website is currently on
+            -->
+            <Transition name="fade-right">
+                <slot 
+                    v-if="filtersToggle"
+                    name="filters"
+                ></slot>
+            </Transition>
+
+            <!--
+                * SLOT - BOOKMARKS
+                * 
+                * This changes depending on what page the website is currently on
+            -->
+            <Transition name="fade-right">
+                <slot 
+                    v-if="bookmarksToggle"
+                    name="bookmarks"
+                ></slot>
+            </Transition>
+
+            <!-- 
+                *
+                * LOGIN CONTAINER
+                * Users will be able to login or logout 
+                * Username
+                * Email
+                * Password
             -->
 
-            <div class="shortcuts">
-                <div class="left">
-                    <!-- COG  -->
-                    <svg
-                        v-if="settingsToggle"
-                        @click="changeSettingsToggle"
-                        width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        id="cog"
-                    >
-                        <path d="M10.5 14.146C9.53308 14.146 8.60575 13.7619 7.92202 13.0782C7.2383 12.3944 6.85418 11.4671 6.85418 10.5002C6.85418 9.53323 7.2383 8.6059 7.92202 7.92217C8.60575 7.23845 9.53308 6.85433 10.5 6.85433C11.467 6.85433 12.3943 7.23845 13.078 7.92217C13.7617 8.6059 14.1458 9.53323 14.1458 10.5002C14.1458 11.4671 13.7617 12.3944 13.078 13.0782C12.3943 13.7619 11.467 14.146 10.5 14.146ZM18.2396 11.5106C18.2813 11.1772 18.3125 10.8439 18.3125 10.5002C18.3125 10.1564 18.2813 9.81267 18.2396 9.4585L20.4375 7.76058C20.6354 7.60433 20.6875 7.32308 20.5625 7.09391L18.4792 3.48975C18.3542 3.26058 18.0729 3.16683 17.8438 3.26058L15.25 4.30225C14.7083 3.896 14.1458 3.54183 13.4896 3.28142L13.1042 0.520998C13.083 0.398308 13.0191 0.287068 12.9238 0.206989C12.8285 0.126911 12.7079 0.083163 12.5833 0.083498H8.41668C8.15627 0.083498 7.93752 0.270998 7.89585 0.520998L7.51043 3.28142C6.85418 3.54183 6.29168 3.896 5.75002 4.30225L3.15627 3.26058C2.9271 3.16683 2.64585 3.26058 2.52085 3.48975L0.437516 7.09391C0.302099 7.32308 0.364599 7.60433 0.562516 7.76058L2.76043 9.4585C2.71877 9.81267 2.68752 10.1564 2.68752 10.5002C2.68752 10.8439 2.71877 11.1772 2.76043 11.5106L0.562516 13.2397C0.364599 13.396 0.302099 13.6772 0.437516 13.9064L2.52085 17.5106C2.64585 17.7397 2.9271 17.8231 3.15627 17.7397L5.75002 16.6877C6.29168 17.1043 6.85418 17.4585 7.51043 17.7189L7.89585 20.4793C7.93752 20.7293 8.15627 20.9168 8.41668 20.9168H12.5833C12.8438 20.9168 13.0625 20.7293 13.1042 20.4793L13.4896 17.7189C14.1458 17.4481 14.7083 17.1043 15.25 16.6877L17.8438 17.7397C18.0729 17.8231 18.3542 17.7397 18.4792 17.5106L20.5625 13.9064C20.6875 13.6772 20.6354 13.396 20.4375 13.2397L18.2396 11.5106Z" fill="#FFD12C"/>
-                        <title>Toggle Settings</title>
-                    </svg>
+            <Transition name="fade-right">
+                <div class="form-container" v-if="loginToggle">
+                    <form @submit.prevent="login">
+                        <label for="name">Username</label>
+                        <input type="text" name="name" id="name" v-model="name">
 
-                    <svg
-                        v-if="!settingsToggle"
-                        @click="changeSettingsToggle"
-                        width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        id="cog"
-                    >
-                        <path 
-                            d="M10.5 14.146C9.53308 14.146 8.60575 13.7619 7.92202 13.0782C7.2383 12.3944 6.85418 11.4671 6.85418 10.5002C6.85418 9.53323 7.2383 8.6059 7.92202 7.92217C8.60575 7.23845 9.53308 6.85433 10.5 6.85433C11.467 6.85433 12.3943 7.23845 13.078 7.92217C13.7617 8.6059 14.1458 9.53323 14.1458 10.5002C14.1458 11.4671 13.7617 12.3944 13.078 13.0782C12.3943 13.7619 11.467 14.146 10.5 14.146ZM18.2396 11.5106C18.2813 11.1772 18.3125 10.8439 18.3125 10.5002C18.3125 10.1564 18.2813 9.81267 18.2396 9.4585L20.4375 7.76058C20.6354 7.60433 20.6875 7.32308 20.5625 7.09391L18.4792 3.48975C18.3542 3.26058 18.0729 3.16683 17.8438 3.26058L15.25 4.30225C14.7083 3.896 14.1458 3.54183 13.4896 3.28142L13.1042 0.520998C13.083 0.398308 13.0191 0.287068 12.9238 0.206989C12.8285 0.126911 12.7079 0.083163 12.5833 0.083498H8.41668C8.15627 0.083498 7.93752 0.270998 7.89585 0.520998L7.51043 3.28142C6.85418 3.54183 6.29168 3.896 5.75002 4.30225L3.15627 3.26058C2.9271 3.16683 2.64585 3.26058 2.52085 3.48975L0.437516 7.09391C0.302099 7.32308 0.364599 7.60433 0.562516 7.76058L2.76043 9.4585C2.71877 9.81267 2.68752 10.1564 2.68752 10.5002C2.68752 10.8439 2.71877 11.1772 2.76043 11.5106L0.562516 13.2397C0.364599 13.396 0.302099 13.6772 0.437516 13.9064L2.52085 17.5106C2.64585 17.7397 2.9271 17.8231 3.15627 17.7397L5.75002 16.6877C6.29168 17.1043 6.85418 17.4585 7.51043 17.7189L7.89585 20.4793C7.93752 20.7293 8.15627 20.9168 8.41668 20.9168H12.5833C12.8438 20.9168 13.0625 20.7293 13.1042 20.4793L13.4896 17.7189C14.1458 17.4481 14.7083 17.1043 15.25 16.6877L17.8438 17.7397C18.0729 17.8231 18.3542 17.7397 18.4792 17.5106L20.5625 13.9064C20.6875 13.6772 20.6354 13.396 20.4375 13.2397L18.2396 11.5106Z" 
-                            fill="none" stroke="#FFD12C" stroke-width="2"
-                        />
-                        <title>Toggle Settings</title>
-                    </svg>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" v-model="email">
 
-                    <!-- FILTER -->
-                    <svg 
-                        v-if="filtersToggle"
-                        @click="changeFiltersToggle"
-                        width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10.0001 9V16.88C10.0401 17.18 9.94013 17.5 9.71013 17.71C9.61762 17.8027 9.50773 17.8763 9.38675 17.9264C9.26578 17.9766 9.1361 18.0024 9.00513 18.0024C8.87416 18.0024 8.74448 17.9766 8.62351 17.9264C8.50253 17.8763 8.39264 17.8027 8.30013 17.71L6.29013 15.7C6.18107 15.5934 6.09814 15.463 6.04783 15.319C5.99752 15.175 5.9812 15.0213 6.00013 14.87V9H5.97013L0.210131 1.62C0.0477393 1.41153 -0.0255351 1.14726 0.00631899 0.88493C0.0381731 0.622602 0.172566 0.383546 0.380131 0.22C0.570131 0.08 0.780131 0 1.00013 0H15.0001C15.2201 0 15.4301 0.08 15.6201 0.22C15.8277 0.383546 15.9621 0.622602 15.9939 0.88493C16.0258 1.14726 15.9525 1.41153 15.7901 1.62L10.0301 9H10.0001Z" fill="#FFD12C"/>
-                    </svg>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" v-model="password">
 
-                    <svg 
-                        v-if="!filtersToggle"
-                        @click="changeFiltersToggle"
-                        width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path 
-                            d="M10.0001 9V16.88C10.0401 17.18 9.94013 17.5 9.71013 17.71C9.61762 17.8027 9.50773 17.8763 9.38675 17.9264C9.26578 17.9766 9.1361 18.0024 9.00513 18.0024C8.87416 18.0024 8.74448 17.9766 8.62351 17.9264C8.50253 17.8763 8.39264 17.8027 8.30013 17.71L6.29013 15.7C6.18107 15.5934 6.09814 15.463 6.04783 15.319C5.99752 15.175 5.9812 15.0213 6.00013 14.87V9H5.97013L0.210131 1.62C0.0477393 1.41153 -0.0255351 1.14726 0.00631899 0.88493C0.0381731 0.622602 0.172566 0.383546 0.380131 0.22C0.570131 0.08 0.780131 0 1.00013 0H15.0001C15.2201 0 15.4301 0.08 15.6201 0.22C15.8277 0.383546 15.9621 0.622602 15.9939 0.88493C16.0258 1.14726 15.9525 1.41153 15.7901 1.62L10.0301 9H10.0001Z" 
-                            fill="none" stroke="#FFD12C" stroke-width="2"
-                        />
-                    </svg>
-
-                    <!-- BOOKMARKS -->
-                    <svg 
-                        v-if="bookmarksToggle"
-                        @click="changeBookmarksToggle"
-                        width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0 18V0H14V18L7 15L0 18Z" fill="#FFD12C"/>
-                        <title>Bookmarks</title>
-                    </svg>
-                    <svg 
-                        v-if="!bookmarksToggle"
-                        @click="changeBookmarksToggle"
-                        width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path d="M1 16.4835V1H13V16.4835L7.39392 14.0809L7 13.912L6.60608 14.0809L1 16.4835Z" stroke="#FFD12C" stroke-width="2"/>
-                        <title>Bookmarks</title>
-                    </svg>
-                </div>
-                <div class="middle">
-                    <!-- HAMBURGER -->
-                    <svg 
-                        @click="scrollTo('nav')"
-                        width="25" height="17" viewBox="0 0 25 17" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 1.85938C0 1.54857 0.123465 1.2505 0.343234 1.03073C0.563003 0.810965 0.861074 0.6875 1.17188 0.6875H23.8281C24.1389 0.6875 24.437 0.810965 24.6568 1.03073C24.8765 1.2505 25 1.54857 25 1.85938C25 2.17018 24.8765 2.46825 24.6568 2.68802C24.437 2.90779 24.1389 3.03125 23.8281 3.03125H1.17188C0.861074 3.03125 0.563003 2.90779 0.343234 2.68802C0.123465 2.46825 0 2.17018 0 1.85938ZM0 8.5C0 8.1892 0.123465 7.89113 0.343234 7.67136C0.563003 7.45159 0.861074 7.32812 1.17188 7.32812H23.8281C24.1389 7.32812 24.437 7.45159 24.6568 7.67136C24.8765 7.89113 25 8.1892 25 8.5C25 8.8108 24.8765 9.10887 24.6568 9.32864C24.437 9.54841 24.1389 9.67188 23.8281 9.67188H1.17188C0.861074 9.67188 0.563003 9.54841 0.343234 9.32864C0.123465 9.10887 0 8.8108 0 8.5ZM1.17188 13.9688C0.861074 13.9688 0.563003 14.0922 0.343234 14.312C0.123465 14.5318 0 14.8298 0 15.1406C0 15.4514 0.123465 15.7495 0.343234 15.9693C0.563003 16.189 0.861074 16.3125 1.17188 16.3125H23.8281C24.1389 16.3125 24.437 16.189 24.6568 15.9693C24.8765 15.7495 25 15.4514 25 15.1406C25 14.8298 24.8765 14.5318 24.6568 14.312C24.437 14.0922 24.1389 13.9688 23.8281 13.9688H1.17188Z" fill="#FFD12C"/>
-                        <title>Redirect to navigation</title>
-                    </svg>
-                </div>
-
-                <div class="right">
-                    <!-- USER LOGIN -->
-                    <svg 
-                        @click="loginToggle = !loginToggle"
-                        width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 8C15 9.06087 14.5786 10.0783 13.8284 10.8284C13.0783 11.5786 12.0609 12 11 12C9.93913 12 8.92172 11.5786 8.17157 10.8284C7.42143 10.0783 7 9.06087 7 8C7 6.93913 7.42143 5.92172 8.17157 5.17157C8.92172 4.42143 9.93913 4 11 4C12.0609 4 13.0783 4.42143 13.8284 5.17157C14.5786 5.92172 15 6.93913 15 8ZM13 8C13 8.53043 12.7893 9.03914 12.4142 9.41421C12.0391 9.78929 11.5304 10 11 10C10.4696 10 9.96086 9.78929 9.58579 9.41421C9.21071 9.03914 9 8.53043 9 8C9 7.46957 9.21071 6.96086 9.58579 6.58579C9.96086 6.21071 10.4696 6 11 6C11.5304 6 12.0391 6.21071 12.4142 6.58579C12.7893 6.96086 13 7.46957 13 8Z" fill="#FFD12C"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M11 0C4.925 0 0 4.925 0 11C0 17.075 4.925 22 11 22C17.075 22 22 17.075 22 11C22 4.925 17.075 0 11 0ZM2 11C2 13.09 2.713 15.014 3.908 16.542C4.74723 15.4399 5.8299 14.5467 7.07143 13.9323C8.31297 13.3179 9.67974 12.9988 11.065 13C12.4323 12.9987 13.7819 13.3095 15.0109 13.9088C16.2399 14.508 17.316 15.3799 18.157 16.458C19.0234 15.3216 19.6068 13.9952 19.8589 12.5886C20.111 11.182 20.0244 9.73553 19.6065 8.36898C19.1886 7.00243 18.4512 5.75505 17.4555 4.73004C16.4598 3.70503 15.2343 2.93186 13.8804 2.47451C12.5265 2.01716 11.0832 1.88877 9.66986 2.09997C8.25652 2.31117 6.91379 2.85589 5.75277 3.68905C4.59175 4.52222 3.64581 5.61987 2.99323 6.8912C2.34065 8.16252 2.00018 9.57097 2 11ZM11 20C8.93395 20.0031 6.93027 19.2923 5.328 17.988C5.97293 17.0647 6.83134 16.3109 7.83019 15.7907C8.82905 15.2705 9.93879 14.9992 11.065 15C12.1772 14.9991 13.2735 15.2636 14.2629 15.7714C15.2524 16.2793 16.1064 17.0159 16.754 17.92C15.1393 19.2667 13.1026 20.0029 11 20Z" fill="#FFD12C"/>
-                    </svg>
-
-                    <!-- DISCORD  -->
-                    <svg 
-                        @click="apiKeyToggle = !apiKeyToggle"
-                        width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M20 6.293C20 9.769 17.17 12.587 13.68 12.587C13.044 12.587 11.594 12.441 10.889 11.855L10.007 12.733C9.48796 13.25 9.62796 13.402 9.85896 13.652C9.95496 13.757 10.067 13.878 10.154 14.051C10.154 14.051 10.889 15.075 10.154 16.1C9.71296 16.685 8.47796 17.504 7.06796 16.1L6.77396 16.392C6.77396 16.392 7.65496 17.417 6.92096 18.442C6.47996 19.027 5.30396 19.612 4.27496 18.588L3.24696 19.612C2.54096 20.315 1.67896 19.905 1.33696 19.612L0.453957 18.734C-0.369043 17.914 0.110957 17.026 0.453957 16.684L8.09596 9.074C8.09596 9.074 7.36096 7.904 7.36096 6.294C7.36096 2.818 10.191 0 13.681 0C17.171 0 20 2.818 20 6.293ZM13.681 8.489C14.2643 8.49006 14.8241 8.25943 15.2374 7.84782C15.6507 7.4362 15.8836 6.8773 15.885 6.294C15.8844 6.00509 15.827 5.71912 15.716 5.4524C15.6049 5.18568 15.4424 4.94345 15.2378 4.73954C15.0331 4.53562 14.7903 4.37401 14.5232 4.26393C14.256 4.15386 13.9699 4.09747 13.681 4.098C13.392 4.09747 13.1059 4.15386 12.8387 4.26393C12.5716 4.37401 12.3288 4.53562 12.1241 4.73954C11.9195 4.94345 11.757 5.18568 11.646 5.4524C11.5349 5.71912 11.4775 6.00509 11.477 6.294C11.4783 6.8773 11.7112 7.4362 12.1245 7.84782C12.5378 8.25943 13.0977 8.49006 13.681 8.489Z" fill="#FFD12C"/>
-                        <title>Enter API Key</title>
-                    </svg>
-                    <!-- MODAL  -->
-                    <svg 
-                        @click="nodeTrackerModalToggle = !nodeTrackerModalToggle; scrollTo('page-div');"
-                        width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path d="M0.125 0.125H8.45833V8.45833H0.125V0.125ZM10.5417 0.125H18.875V8.45833H10.5417V0.125ZM0.125 10.5417H8.45833V18.875H0.125V10.5417ZM13.6667 10.5417H15.75V13.6667H18.875V15.75H15.75V18.875H13.6667V15.75H10.5417V13.6667H13.6667V10.5417ZM12.625 2.20833V6.375H16.7917V2.20833H12.625ZM2.20833 2.20833V6.375H6.375V2.20833H2.20833ZM2.20833 12.625V16.7917H6.375V12.625H2.20833Z" fill="#FFD12C"/>
-                        <title>Node Tracker Modal</title>
-                    </svg>
-                </div>
-            </div>
-        </div>
-
-        <div class="auth-welcome" v-if="user">
-            <p>Herro {{ user.name }}</p>
-        </div>
-
-        <!-- 
-            *
-            * TYRIAN AND CANTHAN DAY/NIGHT CYCLE
-            *
-        -->
-        <DayAndNightTimers/>
-        <!--
-            *
-            *   "HELLO" MESSAGE TO USERS IF THEY ARE LOGGED IN
-            *
-        -->
-        <Transition name="fade-right">
-            <div v-if="user">
-                <!-- <p>Welcome {{ user.name }}</p> -->
-            </div>
-        </Transition>
-        <!--
-            * SLOT - TIMERS
-            * 
-            * This changes depending on what timer page the website is currently on
-        -->
-        <slot name="timer"></slot>
-
-        <!--
-            * 
-            * SETTINGS / OPTIONS
-            *
-        -->
-        <Transition name="fade-right">
-            <div v-if="settingsToggle">
-                <article class="shortcut-container">
-                    <h3>Settings</h3>
-                    <div class="settings-button-container">
-                        <!-- 
-                            * SETTING BUTTONS
-                            *
-                            * BUY ORDER
-                            * Change the properties of the button depending on the buy/sell order settings
-                        -->
-                        <p>Buy Order </p>
-                            <div class="settings-button">
-                            <button
-                                @click="changeOrder('buy order')"
-                                :class="buyOrderSetting == 'buy_price' ? 'active-button' : 'inactive-button'"
-                            >
-                                Buy Price
-                            </button>
-                            <button
-                                @click="changeOrder('buy order')"
-                                :class="buyOrderSetting == 'sell_price' ? 'active-button' : 'inactive-button'"
-                            >
-                                Sell Price
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="settings-button-container">
-                        <!-- 
-                            * SETTING BUTTONS
-                            *
-                            * SELL ORDER
-                            * Change the properties of the button depending on the buy/sell order settings
-                        -->
-                        <p>Sell Order </p>
-                            <div class="settings-button">
-                                <button
-                                @click="changeOrder('sell order')"
-                                :class="sellOrderSetting == 'buy_price' ? 'active-button' : 'inactive-button'"
-                            >
-                                Buy Price
-                            </button>
-                            <button
-                                @click="changeOrder('sell order')"
-                                :class="sellOrderSetting == 'sell_price' ? 'active-button' : 'inactive-button'"
-                            >
-                                Sell Price
-                            </button>
-                        </div>
-                    </div>
-                    <!-- 
-                        * 
-                        * INCLUDE SETTINGS
-                        *
-                    -->
-                    <div class="settings-button-container">
-                        <h4>Include</h4>
-                        <!-- 
-                            * 
-                            * INCLUDE AIRSHIP PARTS
-                            * 
-                        -->
-                        <!-- <div 
-                            class="checkbox" 
-                            @click="
-                                includesAirshipPartCheckbox = !includesAirshipPartCheckbox;
-                                setIncludes('Airship Part', includesAirshipPartCheckbox);    
-                            "
-                        >
-                            <input 
-                                :checked="includesAirshipPartCheckbox" 
-                                type="checkbox" 
-                                name="AirshipPart"
-                            >
-                            <label for="AirshipPart">Airship Parts</label>
-                        </div> -->
-
-                        <IncludesCheckbox
-                            name="Airship Part"
-                            label="AirshipPart"
-                        />
-                        <!-- 
-                            * 
-                            * INCLUDE ASCENDEDJUNK
-                            * 
-                        -->
-                        <div 
-                            class="checkbox" 
-                            @click="
-                                includesAscendedJunkCheckbox = !includesAscendedJunkCheckbox;
-                                setIncludes('Ascended Junk', includesAscendedJunkCheckbox);    
-                            "
-                        >
-                            <input 
-                                :checked="includesAscendedJunkCheckbox" 
-                                type="checkbox" 
-                                name="AscendedJunk"
-                            >
-                            <label for="AscendedJunk">Ascended Junk</label>
-                        </div>
-
-                        <div 
-                            class="checkbox" 
-                            @click="
-                                includesImperialFavorCheckbox = !includesImperialFavorCheckbox;
-                                setIncludes('Imperial Favor', includesImperialFavorCheckbox);    
-                            "
-                        >
-                            <input 
-                                :checked="includesImperialFavorCheckbox" 
-                                type="checkbox" 
-                                name="ImperialFavor"
-                            >
-                            <label for="ImperialFavor">Imperial Favors</label>
-                        </div>
-                        <!-- 
-                            * 
-                            * INCLUDE LEY LINE CRYSTALS
-                            * 
-                        -->
-                        <div 
-                            class="checkbox" 
-                            @click="
-                                includesLeyLineCrystalCheckbox = !includesLeyLineCrystalCheckbox;
-                                setIncludes('Ley Line Crystal', includesLeyLineCrystalCheckbox);    
-                            "
-                        >
-                            <input 
-                                :checked="includesLeyLineCrystalCheckbox" 
-                                type="checkbox" 
-                                name="LeyLineCrystal"
-                            >
-                            <label for="LeyLineCrystal">Ley Line Crystal</label>
-                        </div>
-                        <!-- 
-                            * 
-                            * INCLUDE LUMP OF AURILLIUM
-                            * 
-                        -->
-                        <div 
-                            class="checkbox" 
-                            @click="
-                                includesLumpOfAurilliumCheckbox = !includesLumpOfAurilliumCheckbox;
-                                setIncludes('Lump of Aurillium', includesLumpOfAurilliumCheckbox);    
-                            "
-                        >
-                            <input 
-                                :checked="includesLumpOfAurilliumCheckbox" 
-                                type="checkbox" 
-                                name="LumpOfAurillium"
-                            >
-                            <label for="LumpOfAurillium">Lump of Aurillium</label>
-                        </div>
-                        <!-- 
-                            * 
-                            * INCLUDE SALVAGEABLES
-                            * 
-                        -->
-                        <div 
-                            class="checkbox" 
-                            @click="
-                                includesSalvageablesCheckbox = !includesSalvageablesCheckbox;
-                                setIncludes('Salvageables', includesSalvageablesCheckbox);    
-                            "
-                        >
-                            <input 
-                                :checked="includesSalvageablesCheckbox" 
-                                type="checkbox" 
-                                name="Salvageables"
-                            >
-                            <label for="Salvageables">Salvageables</label>
-                        </div>
-
-                        <!-- 
-                            * 
-                            * INCLUDE TRADE CONTRACTS
-                            * 
-                        -->
-                        <div 
-                            class="checkbox" 
-                            @click="
-                                includesTradeContractCheckbox = !includesTradeContractCheckbox;
-                                setIncludes('Trade Contract', includesTradeContractCheckbox);    
-                            "
-                        >
-                            <input 
-                                :checked="includesTradeContractCheckbox" 
-                                type="checkbox" 
-                                name="TradeContract"
-                            >
-                            <label for="TradeContract">Trade Contracts</label>
-                        </div>
-
-                        <!-- 
-                            * 
-                            * INCLUDE UNBOUND MAGIC
-                            * 
-                        -->
-                        <div 
-                            class="checkbox" 
-                            @click="
-                                includesUnboundMagicCheckbox = !includesUnboundMagicCheckbox;
-                                setIncludes('Unbound Magic', includesUnboundMagicCheckbox);    
-                            "
-                        >
-                            <input 
-                                :checked="includesUnboundMagicCheckbox" 
-                                type="checkbox" 
-                                name="UnboundMagic"
-                            >
-                            <label for="UnboundMagic">Unbound Magic</label>
-                        </div>
-
-                        <!-- 
-                            * 
-                            * INCLUDE VOLATILE MAGIC
-                            * 
-                        -->
-                        <div 
-                            class="checkbox" 
-                            @click="
-                                includesVolatileMagicCheckbox = !includesVolatileMagicCheckbox;
-                                setIncludes('Volatile Magic', includesVolatileMagicCheckbox);    
-                            "
-                        >
-                            <input 
-                                :checked="includesVolatileMagicCheckbox" 
-                                type="checkbox" 
-                                name="VolatileMagic"
-                            >
-                            <label for="VolatileMagic">Volatile Magic</label>
-                        </div>
-                        
-                    </div>
-                    
-                    <!-- 
-                        * 
-                        * TAX SETTINGS
-                        *
-                    -->
-                    <div class="settings-button-container">
-                        <label for="tax">Tax</label>
-                        <span class="settings-tax-input">
-                            <input type="number" step="0.01" id="tax" name="tax" v-model="taxSetting">
-                            <span class="settings-tax-model">
-                                <svg 
-                                    :style="{transform: `rotate(${taxSetting < 1 ? 90 : -90}deg)`}"
-                                    width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path 
-                                        :fill="taxSetting < 1 ? 'var(--color-down)' : 'var(--color-up)'"
-                                        d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
-                                    />
-                                </svg>
-                                <p>{{ convertTaxToPercent(taxSetting) }}</p>
-                            </span>
+                        <span class="remember-container">
+                            <label for="remember">Remember Me</label>
+                            <input type="checkbox" name="remember" v-model="remember">
                         </span>
-                    </div>
-
-                    
-
-                    <div class="settings-button-container">
-                        <button 
-                            @click="handlePageRefresh()"    
-                            class="submit"
-                        >
-                            Refresh
-                        </button>
-                    </div>
-                    
-                </article>
-            
-            </div>
-        </Transition>
-
-        <!--
-            * SLOT - FILTERS
-            * 
-            * This changes depending on what page the website is currently on
-        -->
-        <Transition name="fade-right">
-            <slot 
-                v-if="filtersToggle"
-                name="filters"
-            ></slot>
-        </Transition>
-
-        <!--
-            * SLOT - BOOKMARKS
-            * 
-            * This changes depending on what page the website is currently on
-        -->
-        <Transition name="fade-right">
-            <slot 
-                v-if="bookmarksToggle"
-                name="bookmarks"
-            ></slot>
-        </Transition>
-
-        <!-- 
-            *
-            * LOGIN CONTAINER
-            * Users will be able to login or logout 
-            * Username
-            * Email
-            * Password
-        -->
-
-        <Transition name="fade-right">
-            <div class="form-container" v-if="loginToggle">
-                <form @submit.prevent="login">
-                    <label for="name">Username</label>
-                    <input type="text" name="name" id="name" v-model="name">
-
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" v-model="email">
-
-                    <label for="password">Password</label>
-                    <input type="password" name="password" id="password" v-model="password">
-
-                    <span class="remember-container">
-                        <label for="remember">Remember Me</label>
-                        <input type="checkbox" name="remember" v-model="remember">
-                    </span>
-                    
-
-                    <div class="form-button-container">
-                        <button type="submit">Login</button>
                         
-                        <button type="button" @click="logout">Logout</button>
 
-                        <button type="button" @click="register">Register</button>
-                    </div>
-                </form>
-            </div>
-        </Transition>
-        <!--
-            *
-            * ENTER API KEY CONTAINER
-            *
-        -->
-        <Transition name="fade-right">
-            <div class="form-container"  v-if="apiKeyToggle">
-                <form @submit.prevent="enterAPIKey">
-                    <label for="apiKey">Enter API Key</label>
-                    <input type="text" name="apiKey" v-model="apiKey">
+                        <div class="form-button-container">
+                            <button type="submit">Login</button>
+                            
+                            <button type="button" @click="logout">Logout</button>
 
-                    <button type="submit">Submit</button>
-                </form>
+                            <button type="button" @click="register">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </Transition>
+            <!--
+                *
+                * ENTER API KEY CONTAINER
+                *
+            -->
+            <Transition name="fade-right">
+                <div class="form-container"  v-if="apiKeyToggle">
+                    <form @submit.prevent="enterAPIKey">
+                        <label for="apiKey">Enter API Key</label>
+                        <input type="text" name="apiKey" v-model="apiKey">
 
-                <button v-if="user" @click="getWizardsVault(user.api_key)">Test API Key</button>
-            </div>
-        </Transition>
+                        <button type="submit">Submit</button>
+                    </form>
 
-        <!--
-            *
-            * BENCHMARKS
-            *
-        -->
+                    <button v-if="user" @click="getWizardsVault(user.api_key)">Test API Key</button>
+                </div>
+            </Transition>
 
-        <NavSection 
-            @click="benchmarksToggle = !benchmarksToggle" 
-            header="Benchmarks" 
-            :toggle="benchmarksToggle"
-        />
+            <!--
+                *
+                * BENCHMARKS
+                *
+            -->
 
-        <Transition name="fade-right">
-            <div v-if="benchmarksToggle">
-                <NavPage category="benchmarks" url="maps" name="Maps" :icon="BlueCommander"/>
-                <NavPage category='benchmarks' url="fishing" name="Fishing" :icon="FishingHook"/>
-            </div>
-        </Transition>
+            <NavSection 
+                @click="benchmarksToggle = !benchmarksToggle" 
+                header="Benchmarks" 
+                :toggle="benchmarksToggle"
+            />
 
-        <!--
-            *
-            * CURRENCIES
-            *
-        -->
-        <NavSection 
-            @click="currenciesToggle = !currenciesToggle" 
-            header="Currencies" 
-            :toggle="currenciesToggle"
-        />
+            <Transition name="fade-right">
+                <div v-if="benchmarksToggle">
+                    <NavPage category="benchmarks" url="maps" name="Maps" :icon="BlueCommander"/>
+                    <NavPage category='benchmarks' url="fishing" name="Fishing" :icon="FishingHook"/>
+                </div>
+            </Transition>
 
-        <Transition name="fade-right">
-            <div v-if="currenciesToggle">
-                <NavPage category="currencies" url="airship-part" name="Airship Parts" :icon="AirshipParts"/>
-                <NavPage category="currencies" url="bandit-crest" name="Bandit Crests" :icon="BanditCrest"/>
-                <NavPage category="currencies" url="geode" name="Geodes" :icon="Geode"/>
-                <NavPage category="currencies" url="imperial-favor" name="Imperial Favors" :icon="ImperialFavor"/>
-                <NavPage category="currencies" url="jade-sliver" name="Jade Slivers" :icon="JadeSliver"/>
-                <NavPage category="currencies" url="laurel" name="Laurels" :icon="Laurel"/>
-                <NavPage category="currencies" url="ley-line-crystal" name="Ley Line Crystals" :icon="LeyLineCrystal"/>
-                <NavPage category="currencies" url="lump-of-aurillium" name="Lump of Aurillium" :icon="LumpOfAurillium"/>
-                <NavPage category="currencies" url="spirit-shards" name="Spirit Shards" :icon="SpiritShard"/>
-                <NavPage category="currencies" url="trade-contract" name="Trade Contracts" :icon="TradeContract"/>
-                <NavPage category="currencies" url="tyrian-defense-seal" name="Tyrian Defense Seal" :icon="TyrianDefenseSeal"/>
-                <NavPage category="currencies" url="unbound-magic" name="Unbound Magic" :icon="UnboundMagic"/>
-                <NavPage category="currencies" url="volatile-magic" name="Volatile Magic" :icon="VolatileMagic"/>
-            </div>
-        </Transition>
+            <!--
+                *
+                * CURRENCIES
+                *
+            -->
+            <NavSection 
+                @click="currenciesToggle = !currenciesToggle" 
+                header="Currencies" 
+                :toggle="currenciesToggle"
+            />
 
-        <!--
-            *
-            * EXCHANGEABLES
-            *
-        -->
-        <NavSection 
-            @click="exchangeablesToggle = !exchangeablesToggle" 
-            header="Exchangeables"
-            :toggle="exchangeablesToggle"
-        />
+            <Transition name="fade-right">
+                <div v-if="currenciesToggle">
+                    <NavPage category="currencies" url="airship-part" name="Airship Parts" :icon="AirshipParts"/>
 
-        <Transition name="fade-right">
-            <div v-if="exchangeablesToggle">
-                <NavPage category="exchangeables" url="calcified-gasp" name="Calcified Gasp" :icon="CalcifiedGasp"/>
+                    <NavPage category="currencies" url="bandit-crest" name="Bandit Crests" :icon="BanditCrest"/>
 
-                <NavPage category="exchangeables" url="dragonite-ore" name="Dragonite Ore" :icon="DragoniteOre"/>
+                    <NavPage category="currencies" url="geode" name="Geodes" :icon="Geode"/>
 
-                <NavPage category="exchangeables" url="empyreal-fragment" name="Empyreal Fragment" :icon="EmpyrealFragment"/>
+                    <NavPage category="currencies" url="imperial-favor" name="Imperial Favors" :icon="ImperialFavor"/>
 
-                <NavPage category="exchangeables" url="fine-rift-essence" name="Fine Rift Essence" :icon="FineRiftEssence"/>
+                    <NavPage category="currencies" url="jade-sliver" name="Jade Slivers" :icon="JadeSliver"/>
+                    <NavPage category="currencies" url="laurel" name="Laurels" :icon="Laurel"/>
 
-                <NavPage category="exchangeables" url="masterwork-rift-essence" name="Masterwork Rift Essence" :icon="MasterworkRiftEssence"/>
+                    <NavPage category="currencies" url="ley-line-crystal" name="Ley Line Crystals" :icon="LeyLineCrystal"/>
 
-                <NavPage category="exchangeables" url="pile-of-bloodstone-dust" name="Pile of Bloodstone Dust" :icon="PileOfBloodstoneDust"/>
+                    <NavPage category="currencies" url="lump-of-aurillium" name="Lump of Aurillium" :icon="LumpOfAurillium"/>
 
-                <NavPage category="exchangeables" url="pinch-of-stardust" name="Pinch of Stardust" :icon="PinchOfStardust"/>
+                    <NavPage category="currencies" url="research-note" name="Research Notes" :icon="ResearchNote"/>
 
-                <NavPage category="exchangeables" url="rare-rift-essence" name="Rare Rift Essence" :icon="RareRiftEssence"/>
+                    <NavPage category="currencies" url="spirit-shards" name="Spirit Shards" :icon="SpiritShard"/>
 
-                <NavPage category="exchangeables" url="static-charge" name="Static Charge" :icon="StaticCharge"/>
+                    <NavPage category="currencies" url="trade-contract" name="Trade Contracts" :icon="TradeContract"/>
 
-                <NavPage category="exchangeables" url="writs" name="Writs" :icon="WritOfNewKainengCity"/>  
-            </div>
-        </Transition>
+                    <NavPage category="currencies" url="tyrian-defense-seal" name="Tyrian Defense Seal" :icon="TyrianDefenseSeal"/>
 
-        <!--
-            *
-            * TOOLS
-            *
-        -->
-        <div class="nav-section-container" @click="toolsToggle = !toolsToggle">
-            <h5>Tools</h5>
-            <svg 
-                class="expand"
-                :class="{rotate180: toolsToggle}" 
-                width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg"
-            >
-                <path d="M8.81372 0.397634C8.6944 0.280464 8.5326 0.214642 8.36389 0.214642C8.19519 0.214642 8.03339 0.280464 7.91407 0.397634L4.76468 3.49138L1.61529 0.397634C1.49529 0.283785 1.33457 0.220788 1.16775 0.222212C1.00093 0.223636 0.841356 0.289367 0.723392 0.405247C0.605428 0.521127 0.538516 0.677885 0.537066 0.841758C0.535617 1.00563 0.599746 1.16351 0.715642 1.28138L4.31486 4.81701C4.43417 4.93418 4.59597 5 4.76468 5C4.93339 5 5.09519 4.93418 5.2145 4.81701L8.81372 1.28138C8.93299 1.16418 9 1.00524 9 0.839509C9 0.673781 8.93299 0.514838 8.81372 0.397634Z" fill="#FFD12C"/>
-            </svg>
+                    <NavPage category="currencies" url="unbound-magic" name="Unbound Magic" :icon="UnboundMagic"/>
+
+                    <NavPage category="currencies" url="volatile-magic" name="Volatile Magic" :icon="VolatileMagic"/>
+                </div>
+            </Transition>
+
+            <!--
+                *
+                * EXCHANGEABLES
+                *
+            -->
+            <NavSection 
+                @click="exchangeablesToggle = !exchangeablesToggle" 
+                header="Exchangeables"
+                :toggle="exchangeablesToggle"
+            />
+
+            <Transition name="fade-right">
+                <div v-if="exchangeablesToggle">
+                    <NavPage category="exchangeables" url="calcified-gasp" name="Calcified Gasp" :icon="CalcifiedGasp"/>
+
+                    <NavPage category="exchangeables" url="dragonite-ore" name="Dragonite Ore" :icon="DragoniteOre"/>
+
+                    <NavPage category="exchangeables" url="empyreal-fragment" name="Empyreal Fragment" :icon="EmpyrealFragment"/>
+
+                    <NavPage category="exchangeables" url="fine-rift-essence" name="Fine Rift Essence" :icon="FineRiftEssence"/>
+
+                    <NavPage category="exchangeables" url="masterwork-rift-essence" name="Masterwork Rift Essence" :icon="MasterworkRiftEssence"/>
+
+                    <NavPage category="exchangeables" url="pile-of-bloodstone-dust" name="Pile of Bloodstone Dust" :icon="PileOfBloodstoneDust"/>
+
+                    <NavPage category="exchangeables" url="pinch-of-stardust" name="Pinch of Stardust" :icon="PinchOfStardust"/>
+
+                    <NavPage category="exchangeables" url="rare-rift-essence" name="Rare Rift Essence" :icon="RareRiftEssence"/>
+
+                    <NavPage category="exchangeables" url="static-charge" name="Static Charge" :icon="StaticCharge"/>
+
+                    <NavPage category="exchangeables" url="writs" name="Writs" :icon="WritOfNewKainengCity"/>  
+                </div>
+            </Transition>
+
+            <!--
+                *
+                * TOOLS
+                *
+            -->
+            <NavSection 
+                @click="toolsToggle = !toolsToggle" 
+                header="Tools"
+                :toggle="toolsToggle"
+            />
+
+            <Transition name="fade-right">
+                <div v-if="toolsToggle">
+                    <NavPage category="tools" url="homestead" name="Homestead" :icon="Homestead"/>
+
+                    <NavPage category="tools" url="recipe-value" name="Recipe Value" :icon="Armorer"/>
+
+                    <NavPage category="tools" url="salvageables" name="Salvageables" :icon="UnidentifiedGear"/>
+
+                    <NavPage category="tools" url="checklist" name="Checklist" :icon="EventSearch"/>  
+                </div>
+            </Transition>
+
+            <!--
+                *
+                * TIMERS
+                *
+            -->
+            <NavSection 
+                @click="timersToggle = !timersToggle" 
+                header="Timers"
+                :toggle="timersToggle"
+            />
+
+            <Transition name="fade-right">
+                <div v-if="timersToggle">
+
+                    <NavPage category="timers" url="auric-basin" name="Auric Basin" :icon="LumpOfAurillium"/> 
+
+                    <NavPage category="timers" url="ember-bay" name="Ember Bay" :icon="PetrifiedWood"/> 
+
+                    <NavPage category="timers" url="domain-of-istan" name="Domain of Istan" :icon="KralkatiteOre"/> 
+
+                    <NavPage category="timers" url="domain-of-kourna" name="Domain of Kourna" :icon="InscribedShard"/> 
+
+                    <NavPage category="timers" url="dragonfall" name="Dragonfall" :icon="MistbornMote"/> 
+
+                    <NavPage category="timers" url="lake-doric" name="Lake Doric" :icon="JadeShard"/> 
+
+                    <NavPage category="timers" url="sandswept-isles" name="Sandswept Isles" :icon="DifluoriteCrystal"/> 
+
+                    <NavPage category="timers" url="skywatch-archipelago" name="Skywatch Archipelago" :icon="StaticCharge"/> 
+
+                    <NavPage category="timers" url="tangled-depths" name="Tangled Depths" :icon="LeyLineCrystal"/> 
+                </div>
+            </Transition>
         </div>
-
-        <Transition name="fade-right">
-            <div v-if="toolsToggle">
-                <!--
-                    *
-                    * HOT TIMERS
-                    *
-                -->
-                <div class="routes">
-                    <router-link class="page-link" to="/tools/homestead">
-                        <img src="@/imgs/icons/Homestead.png" alt="Homesteads" title="Homesteads">
-                        <h6>Homestead</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/tools/recipe-value">
-                        <img src="@/imgs/icons/Ley_Line_Crystal.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                        <h6>Recipe Value</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/tools/research-notes">
-                        <img src="@/imgs/icons/Research_Note.png" alt="Research Notes" title="Tools - Research Notes">
-                        <h6>Research Notes</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/tools/salvageables">
-                        <img src="@/imgs/icons/Piece_of_Unidentified_Gear.png" alt="Salvageables" title="Tools - Salvageables">
-                        <h6>Salvageables</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/tools/checklist">
-                        <img src="@/imgs/icons/Piece_of_Unidentified_Gear.png" alt="Checklist" title="Checklist">
-                        <h6>Checklist</h6>
-                    </router-link>
-                </div>   
-            </div>
-        </Transition>
-
-        <!--
-            *
-            * TIMERS
-            *
-        -->
-        <div class="nav-section-container" @click="timersToggle = !timersToggle">
-            <h5>Timers</h5>
-            <svg 
-                class="expand"
-                :class="{rotate180: timersToggle}" 
-                width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg"
-            >
-                <path d="M8.81372 0.397634C8.6944 0.280464 8.5326 0.214642 8.36389 0.214642C8.19519 0.214642 8.03339 0.280464 7.91407 0.397634L4.76468 3.49138L1.61529 0.397634C1.49529 0.283785 1.33457 0.220788 1.16775 0.222212C1.00093 0.223636 0.841356 0.289367 0.723392 0.405247C0.605428 0.521127 0.538516 0.677885 0.537066 0.841758C0.535617 1.00563 0.599746 1.16351 0.715642 1.28138L4.31486 4.81701C4.43417 4.93418 4.59597 5 4.76468 5C4.93339 5 5.09519 4.93418 5.2145 4.81701L8.81372 1.28138C8.93299 1.16418 9 1.00524 9 0.839509C9 0.673781 8.93299 0.514838 8.81372 0.397634Z" fill="#FFD12C"/>
-            </svg>
-        </div>
-
-        <Transition name="fade-right">
-            <div v-if="timersToggle">
-                <!--
-                    *
-                    * HOT TIMERS
-                    *
-                -->
-                <div class="distinquish-section">
-                    <div class="label" id="hot">
-                        <h6>HoT</h6>
-                    </div>
-
-                    <div class="routes">
-                        <!-- <router-link class="page-link" to="/benchmarks/maps">
-                            <img src="../../../imgs/icons/Airship_Part.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                            <h6>Verdant Brink</h6>
-                        </router-link> -->
-
-                        <router-link class="page-link" to="/timers/auric-basin">
-                            <img src="@/imgs/icons/Lump_of_Aurillium.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                            <h6>Auric Basin</h6>
-                        </router-link>
-
-                        <router-link class="page-link" to="/timers/tangled-depths">
-                            <img src="@/imgs/icons/Ley_Line_Crystal.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                            <h6>Tangled Depths</h6>
-                        </router-link>
-                    </div>   
-                </div>
-                <!--
-                    *
-                    * LS3 TIMERS
-                    *
-                -->
-                <div class="distinquish-section">
-                    <div class="label" id="ls3">
-                        <h6>LS3</h6>
-                    </div>
-
-                    <div class="routes">
-                        <router-link class="page-link" to="/timers/ember-bay">
-                            <img src="@/imgs/icons/Petrified_Wood.png" alt="Petrified Wood" title="Timers - Ember Bay">
-                            <h6>Ember Bay</h6>
-                        </router-link>
-
-                        <router-link class="page-link" to="/timers/lake-doric">
-                            <img src="@/imgs/icons/Jade_Shard.png" alt="Jade Shard" title="Timers - Lake Doric">
-                            <h6>Lake Doric</h6>
-                        </router-link>
-                    </div>   
-                </div>
-                <!--
-                    *
-                    * POF TIMERS
-                    *
-                -->
-                <!-- <div class="distinquish-section">
-                    <div class="label" id="pof">
-                        <h6>POF</h6>
-                    </div>
-
-                    <div class="routes">
-                        <router-link class="page-link" to="/benchmarks/maps">
-                            <img src="../../../imgs/icons/Springer.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                            <h6>Desert Highlands</h6>
-                        </router-link>
-
-                        <router-link class="page-link" to="/benchmarks/maps">
-                            <img src="../../../imgs/icons/Raptor.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                            <h6>Crystal Oasis</h6>
-                        </router-link>
-
-                        <router-link class="page-link" to="/benchmarks/maps">
-                            <img src="../../../imgs/icons/Skimmer.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                            <h6>Elon Riverlands</h6>
-                        </router-link>
-
-                        <router-link class="page-link" to="/benchmarks/maps">
-                            <img src="../../../imgs/icons/Jackal.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                            <h6>Desolation</h6>
-                        </router-link>
-
-                        <router-link class="page-link" to="/benchmarks/maps">
-                            <img src="../../../imgs/icons/Griffon.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                            <h6>Domain of Vabbi</h6>
-                        </router-link>
-                    </div>   
-                </div> -->
-                <!--
-                    *
-                    * LS4 TIMERS
-                    *
-                -->
-                <div class="distinquish-section">
-                    <div class="label" id="ls4">
-                        <h6>LS4</h6>
-                    </div>
-
-                    <div class="routes">
-                        <router-link class="page-link" to="/timers/domain-of-istan">
-                            <img src="@/imgs/icons/Kralkatite_Ore.png" alt="Kralkatite Ore" title="timers/domain-of-istan">
-                            <h6>Domain of Istan</h6>
-                        </router-link>
-
-                        <router-link class="page-link" to="/timers/sandswept-isles">
-                            <img src="@/imgs/icons/Difluorite_Crystal.png" alt="Difluorite Crystal" title="timers/sandswept-isles">
-                            <h6>Sandswept Isles</h6>
-                        </router-link>
-
-                        <router-link class="page-link" to="/timers/domain-of-kourna">
-                            <img src="@/imgs/icons/Inscribed_Shard.png" alt="Inscribed Shard" title="timers/domain-of-kourna">
-                            <h6>Domain of Kourna</h6>
-                        </router-link>
-                        
-                        <router-link class="page-link" to="/timers/dragonfall">
-                            <img src="@/imgs/icons/Mistborn_Mote.png" alt="Mistborn Mote" title="timers/dragonfall">
-                            <h6>Dragonfall</h6>
-                        </router-link>
-                    </div>   
-                </div>
-                <!--
-                    *
-                    * SOTO TIMERS
-                    *
-                -->
-                <div class="distinquish-section">
-                    <div class="label" id="soto">
-                        <h6>SOTO</h6>
-                    </div>
-
-                    <div class="routes">
-                        <router-link class="page-link" to="/timers/skywatch-archipelago">
-                            <img src="@/imgs/icons/Static_Charge.png" alt="Static Charge" title="timers/skywatch-archipelago">
-                            <h6>Skywatch Archipelago</h6>
-                        </router-link>
-                    </div>   
-                </div>
-            </div>
-        </Transition>
     </nav>
 </template>
 
@@ -809,7 +513,7 @@ import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunc
 
 import NavPage from '@/js/vue/components/navigation/NavPage.vue';
 import IncludesCheckbox from '@/js/vue/components/navigation/IncludesCheckbox.vue';
-
+import Shortcuts from '@/js/vue/components/navigation/Shortcuts.vue';
 import DayAndNightTimers from '@/js/vue/components/navigation/DayAndNightTimers.vue';
 
 import BlueCommander from '@/imgs/icons/Commander_Icon.png'
@@ -822,6 +526,7 @@ import JadeSliver from '@/imgs/icons/Jade_Sliver.png'
 import Laurel from '@/imgs/icons/Laurel.png'
 import LeyLineCrystal from '@/imgs/icons/Ley_Line_Crystal.png'
 import LumpOfAurillium from '@/imgs/icons/Lump_of_Aurillium.png'
+import ResearchNote from '@/imgs/icons/Research_Note.png'
 import SpiritShard from '@/imgs/icons/Spirit_Shard.png'
 import TradeContract from '@/imgs/icons/Trade_Contract.png'
 import TyrianDefenseSeal from '@/imgs/icons/Tyrian_Defense_Seal.png'
@@ -839,6 +544,18 @@ import RareRiftEssence from '@/imgs/icons/Rare_Rift_Essence.png'
 import StaticCharge from '@/imgs/icons/Static_Charge.png'
 import WritOfNewKainengCity from '@/imgs/icons/Writ_of_New_Kaineng_City.png'
 
+import Homestead from '@/imgs/icons/Homestead.png'
+import Armorer from '@/imgs/icons/Guild_Armorer.png'
+import UnidentifiedGear from '@/imgs/icons/Piece_of_Unidentified_Gear.png'
+import EventSearch from '@/imgs/icons/Event_Search.png'
+
+import PetrifiedWood from '@/imgs/icons/Petrified_Wood.png'
+import JadeShard from '@/imgs/icons/Jade_Shard.png'
+import KralkatiteOre from '@/imgs/icons/Kralkatite_Ore.png'
+import DifluoriteCrystal from '@/imgs/icons/Difluorite_Crystal.png'
+import InscribedShard from '@/imgs/icons/Inscribed_Shard.png'
+import MistbornMote from '@/imgs/icons/Mistborn_Mote.png'
+
 import axios from 'axios';
 import { update } from 'lodash';
 import NavSection from '@/js/vue/components/navigation/NavSection.vue';
@@ -852,6 +569,34 @@ const name = ref(''),
 const user = ref(null);
 // Wizard's Vault
 const wv = ref(null); 
+
+
+
+const changeToggleStatus = (toggleName) => {
+    switch (toggleName){
+        case 'API':
+            apiKeyToggle.value = !apiKeyToggle.value;
+            break;
+
+        case 'Bookmarks':
+            bookmarksToggle.value = !bookmarksToggle.value;
+            break;
+
+        case 'Filters':
+            filtersToggle.value = !filtersToggle.value;
+            break;
+
+        case 'Login':
+            loginToggle.value = !loginToggle.value;
+            break;
+
+        case 'Settings':
+            settingsToggle.value = !settingsToggle.value; 
+            break;
+    } 
+
+    console.log(settingsToggle.value, toggleName);
+}
 
 
 
@@ -1097,7 +842,6 @@ const includesAirshipPartCheckbox = ref(false),
     includesImperialFavorCheckbox = ref(false),
     includesLeyLineCrystalCheckbox = ref(false),
     includesLumpOfAurilliumCheckbox = ref(false),
-    includesAscendedJunkCheckbox = ref(true),
     includesPileOfBloodstoneDustCheckbox = ref(true),
     includesTradeContractCheckbox = ref(false),
     includesUnboundMagicCheckbox = ref(false),
@@ -1131,43 +875,6 @@ const changeOrder = (order) => {
     localStorage.setItem('sellOrderSetting', sellOrderSetting.value);
     localStorage.setItem('buyOrderSetting', buyOrderSetting.value);
 }
-// Change the localStorage value of whether or not to have the bookmarks tab always open or not
-const changeBookmarksToggle = () => {
-    bookmarksToggle.value = !bookmarksToggle.value; 
-    localStorage.bookmarks = bookmarksToggle.value;
-}
-const changeSettingsToggle = () => {
-    settingsToggle.value = !settingsToggle.value;
-    localStorage.settings = settingsToggle.value;
-}
-const changeFiltersToggle = () => {
-    filtersToggle.value = !filtersToggle.value;
-    localStorage.filters = filtersToggle.value;
-}
-// * SET INCLUDES
-// * This is for more Include checkboxes in the Settings tab
-// * When a user checks/unchecks an Include, add/remove that setting in the localStorage Includes array
-// * ie Salvageables
-// * ie Ascended Junk
-const setIncludes = (name, toggle) => {
-    
-    // Get the includes into a workable array
-    let includes = JSON.parse(localStorage.getItem('includes'));
-    // If checkbox is true
-    if (toggle){
-        // Check if there's already a Includes name
-        if (!includes.includes(name)){
-            includes.push(name);
-        }
-    } else {
-        console.log('includes name: ', name);
-        // Remove Includes name
-        includes = includes.filter(setting => setting !== name); 
-    }
-    // Update localStorage
-    localStorage.setItem('includes', JSON.stringify(includes));
-}
-
 
 watch(taxSetting, (newTaxSetting) => {
     if (newTaxSetting == ''){
@@ -1177,52 +884,15 @@ watch(taxSetting, (newTaxSetting) => {
 })
 
 onMounted(() => {
-    // Check localStorage.includes to see what settings are in the Includes array
-    // Toggle on/off if a specific Includes in the array or not
-    const includes = JSON.parse(localStorage.getItem('includes')) || []; 
-    includesAirshipPartCheckbox.value = includes.includes('Airship Part');
-    includesAscendedJunkCheckbox.value = includes.includes('Ascended Junk');
-    includesDragoniteOreCheckbox.value = includes.includes('Dragonite Ore');
-    includesEmpyrealFragmentCheckbox.value = includes.includes('Empyreal Fragment');
-    includesImperialFavorCheckbox.value = includes.includes('Imperial Favor');
-    includesLeyLineCrystalCheckbox.value = includes.includes('Ley Line Crystal');
-    includesLumpOfAurilliumCheckbox.value = includes.includes('Lump of Aurillium');
-    includesPileOfBloodstoneDustCheckbox.value = includes.includes('Pile of Bloodstone Dust');
-    includesSalvageablesCheckbox.value = includes.includes('Salvageables');
-    includesTradeContractCheckbox.value = includes.includes('Trade Contract');
-    includesUnboundMagicCheckbox.value = includes.includes('Unbound Magic');
-    includesVolatileMagicCheckbox.value = includes.includes('Volatile Magic');
-    console.log('includes array: ', includes);
+
 })
 
 </script>
 
 <style scoped>
-.form-container{
-    padding: var(--padding-settings);
+.nav-container{
+    position: relative;
 }
-.form-container input{
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-form .form-button-container{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding-top: 10px;
-}
-form .remember-container{
-    display: flex;
-    align-items: center;
-}
-form .remember-container label{
-    white-space: nowrap;
-}
-form .remember-container input{
-    margin-bottom: unset;
-}
-
 
 .shortcut-container{
     display: flex;
@@ -1261,6 +931,34 @@ form .remember-container input{
 .settings-tax-model svg{
     transition: var(--transition-all-03s-ease);
 }
+
+.form-container{
+    padding: var(--padding-settings);
+}
+.form-container input{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+form .form-button-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 10px;
+}
+form .remember-container{
+    display: flex;
+    align-items: center;
+}
+form .remember-container label{
+    white-space: nowrap;
+}
+form .remember-container input{
+    margin-bottom: unset;
+}
+
+
+
 
 
 </style>

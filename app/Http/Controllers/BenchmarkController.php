@@ -71,10 +71,7 @@ class BenchmarkController extends Controller
                 if ($item->drop_rate == 0){
                     continue;
                 } 
-                // RAW CURRENCIES
-                else if ($item->currency_id) {
-                    $itemValue = $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-                }
+                
                 // COMMENDATIONS (DWC)
                 else if ($item->type == 'Trophy' && strpos($item->item_name, 'Commendation')){
                     $itemValue = $this->getCommendationValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
@@ -102,16 +99,13 @@ class BenchmarkController extends Controller
                 else if ($item->item_description === "Salvage Item" && in_array('Salvageables', $includes)){
                     $itemValue = $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
                 }
-                // ASCENDED JUNK
-                else if ($item->rarity == 'Ascended' && $item->type == 'CraftingMaterial' && in_array('AscendedJunk', $includes)) {
-                    // There's a lot of ascended and crafteringMaterials so switch the $item->name to check for specifically the ascended junk
-                    switch ($item->item_name){
-                        case 'Dragonite Ore':
-                        case 'Empyreal Fragment':
-                        case 'Pile of Bloodstone Dust':
-                            $itemValue = $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-                            break;
-                    }
+                // GENERAL EXCHANGEABLES
+                else if (array_key_exists($item->item_name, $this->exchangeableMap)) {
+                    $itemValue = $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                }
+                // RAW CURRENCIES
+                else if ($item->currency_id) {
+                    $itemValue = $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
                 }
                 // ANYTHING ELSE NOT FROM ABOVE 
                 else {
