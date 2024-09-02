@@ -99,7 +99,8 @@ class BagController extends Controller
         switch ($request){
             case 'Dragonite Ore': 
             case 'Empyreal Fragment':
-            case 'Pile of Bloodstone Dust':
+            case 'Paile of Bloodstone Dust':
+                // Astral Fluc Mass
                 $this->duplicate_and_splice_bag(101727, $bagDropRates, 'Astral Fluctuating Mass');
                 break;
 

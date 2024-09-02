@@ -73,7 +73,7 @@ class BenchmarkController extends Controller
                 } 
                 // RAW CURRENCIES
                 else if ($item->currency_id) {
-                    $itemValue = $this->getCurrencyValue($item->currency_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                    $itemValue = $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
                 }
                 // COMMENDATIONS (DWC)
                 else if ($item->type == 'Trophy' && strpos($item->item_name, 'Commendation')){
@@ -86,45 +86,38 @@ class BenchmarkController extends Controller
                     $itemValue = $this->getConsumableValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
                 }
 
-                else {
-                    // JUNK ITEMS
-                    if ($item->rarity == 'Junk'){
-                        $itemValue = $item->vendor_value * $item->drop_rate;   
-                    }
-                    // UNIDENTIFIED GEAR
-                    else if (strpos($item->item_name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
-                        $itemValue = $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
-                    } 
-                    // CHAMP BAGS, CONTAINERS
-                    else if ($item->type == "Container" && strpos($item->item_description, 'Salvage') === false){
-                        $itemValue = ($this->getContainerValue($item->item_id, $includes, $sellOrderSetting, $tax)) * $item->drop_rate; 
-                    } 
-                    // SALVAGEABLES (exclu uni gear)
-                    else if ($item->item_description === "Salvage Item" && in_array('Salvageables', $includes)){
-                        $itemValue = $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
-                    }
-                    // ASCENDED JUNK
-                    else if ($item->rarity == 'Ascended' && $item->type == 'CraftingMaterial' && in_array('AscendedJunk', $includes)) {
-                        // There's a lot of ascended and crafteringMaterials so switch the $item->name to check for specifically the ascended junk
-                        switch ($item->item_name){
-                            case 'Dragonite Ore':
-                                $itemValue = $this->getAscendedJunkValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-                                break;
-
-                            case 'Empyreal Fragment':
-                                $itemValue = $this->getAscendedJunkValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-                                break;
-
-                            case 'Pile of Bloodstone Dust':
-                                $itemValue = $this->getAscendedJunkValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-                                break;
-                        }
-                    }
-                    // ANYTHING ELSE NOT FROM ABOVE 
-                    else {
-                        $itemValue = ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
-                    }                            
+                else if ($item->rarity == 'Junk') {
+                // JUNK ITEMS
+                    $itemValue = $item->vendor_value * $item->drop_rate;   
                 }
+                // UNIDENTIFIED GEAR
+                else if (strpos($item->item_name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
+                    $itemValue = $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+                } 
+                // CHAMP BAGS, CONTAINERS
+                else if ($item->type == "Container" && strpos($item->item_description, 'Salvage') === false){
+                    $itemValue = ($this->getContainerValue($item->item_id, $includes, $sellOrderSetting, $tax)) * $item->drop_rate; 
+                } 
+                // SALVAGEABLES (exclu uni gear)
+                else if ($item->item_description === "Salvage Item" && in_array('Salvageables', $includes)){
+                    $itemValue = $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+                }
+                // ASCENDED JUNK
+                else if ($item->rarity == 'Ascended' && $item->type == 'CraftingMaterial' && in_array('AscendedJunk', $includes)) {
+                    // There's a lot of ascended and crafteringMaterials so switch the $item->name to check for specifically the ascended junk
+                    switch ($item->item_name){
+                        case 'Dragonite Ore':
+                        case 'Empyreal Fragment':
+                        case 'Pile of Bloodstone Dust':
+                            $itemValue = $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                            break;
+                    }
+                }
+                // ANYTHING ELSE NOT FROM ABOVE 
+                else {
+                    $itemValue = ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+                }   
+
                 $item->value = $itemValue;
 
                 if ($itemValue > $currentHighestValue){

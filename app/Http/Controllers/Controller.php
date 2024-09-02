@@ -423,6 +423,7 @@ class Controller extends BaseController
                 94860, // Olmakhan Supply Box
                 94710, // Skritt Supply Box
                 94560, // Deldrimor Supply Box
+                94751, // Kodan Supply Box
             ],
             'conversionRate' => [
                 15,
@@ -431,10 +432,11 @@ class Controller extends BaseController
                 25,
                 25,
                 25,
-                20
+                20, 
+                25
             ],
-            'fee' => array_fill(0, 7, 0),
-            'outputQty' => array_fill(0, 7, 1),
+            'fee' => array_fill(0, 8, 0),
+            'outputQty' => array_fill(0, 8, 1),
         ];
 
         // Magic Warped Bundle
@@ -680,6 +682,8 @@ class Controller extends BaseController
     // Eyes of Kormir
     protected function getExchangeableValue($itemName, $itemDropRate, $includes, $sellOrderSetting, $tax){
 
+        //dd('exchangeable map', $this->exchangeableMap, $itemName, $includes, in_array($itemName, $includes));
+
         switch ($itemName){
             case 'Coin': 
                 return 1 * $itemDropRate; 
@@ -689,12 +693,30 @@ class Controller extends BaseController
 
         // Check if $request matches with one of the $map
         // Populate arrays
-        if (isset($this->exchangeableMap[$itemName])){
-            $data = $this->exchangeableMap[$itemName]; 
-            $requestedBags = array_merge($requestedBags, $data['id']);
-            $conversionRate = $data['conversionRate'];
-            $fee = $data['fee'];
+        foreach ($includes as $includeItem){
+            //dd($includeItem, $this->exchangeableMap[$includeItem]);
+            if (isset($this->exchangeableMap[$includeItem])){
+                $data = $this->exchangeableMap[$includeItem]; 
+                $requestedBags = array_merge($requestedBags, $data['id']);
+                $conversionRate = $data['conversionRate'];
+                $fee = $data['fee'];
+            } else {
+                return 0; 
+            }
         }
+
+        // if (in_array($itemName, $includes)){
+        //     if (isset($this->exchangeableMap[$itemName])){
+        //         $data = $this->exchangeableMap[$itemName]; 
+        //         $requestedBags = array_merge($requestedBags, $data['id']);
+        //         $conversionRate = $data['conversionRate'];
+        //         $fee = $data['fee'];
+        //     } else {
+        //         return 0;
+        //     }
+        // } else {
+        //     return 0;
+        // }
 
         $containerTable = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
         ->leftjoin('items as item', 'bag_drop_rates.item_id', '=', 'item.id')

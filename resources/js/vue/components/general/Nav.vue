@@ -128,60 +128,7 @@
             * TYRIAN AND CANTHAN DAY/NIGHT CYCLE
             *
         -->
-        <!-- <ProgressBar
-            
-        /> -->
-        <div class="region-time-container">
-            <div class="region-time">
-                <span class="region-time-label-container">
-                    <span class="region-time-name">
-                        <svg 
-                        v-if="tyrianCurrentPeriod == 'Daytime'"
-                        width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path d="M11.7188 3.90625V1.5625C11.7188 1.3553 11.8011 1.15659 11.9476 1.01007C12.0941 0.86356 12.2928 0.78125 12.5 0.78125C12.7072 0.78125 12.9059 0.86356 13.0524 1.01007C13.1989 1.15659 13.2812 1.3553 13.2812 1.5625V3.90625C13.2812 4.11345 13.1989 4.31216 13.0524 4.45868C12.9059 4.60519 12.7072 4.6875 12.5 4.6875C12.2928 4.6875 12.0941 4.60519 11.9476 4.45868C11.8011 4.31216 11.7188 4.11345 11.7188 3.90625ZM12.5 6.25C11.2639 6.25 10.0555 6.61656 9.02769 7.30331C7.99988 7.99007 7.1988 8.96619 6.72575 10.1082C6.25271 11.2503 6.12893 12.5069 6.37009 13.7193C6.61125 14.9317 7.2065 16.0453 8.08058 16.9194C8.95466 17.7935 10.0683 18.3888 11.2807 18.6299C12.4931 18.8711 13.7497 18.7473 14.8918 18.2742C16.0338 17.8012 17.0099 17.0001 17.6967 15.9723C18.3834 14.9445 18.75 13.7361 18.75 12.5C18.7482 10.843 18.0891 9.25429 16.9174 8.08258C15.7457 6.91087 14.157 6.25181 12.5 6.25ZM5.69727 6.80273C5.84386 6.94933 6.04268 7.03168 6.25 7.03168C6.45732 7.03168 6.65614 6.94933 6.80273 6.80273C6.94933 6.65614 7.03168 6.45732 7.03168 6.25C7.03168 6.04268 6.94933 5.84386 6.80273 5.69727L5.24023 4.13477C5.09364 3.98817 4.89482 3.90582 4.6875 3.90582C4.48018 3.90582 4.28136 3.98817 4.13477 4.13477C3.98817 4.28136 3.90582 4.48018 3.90582 4.6875C3.90582 4.89482 3.98817 5.09364 4.13477 5.24023L5.69727 6.80273ZM5.69727 18.1973L4.13477 19.7598C3.98817 19.9064 3.90582 20.1052 3.90582 20.3125C3.90582 20.5198 3.98817 20.7186 4.13477 20.8652C4.28136 21.0118 4.48018 21.0942 4.6875 21.0942C4.89482 21.0942 5.09364 21.0118 5.24023 20.8652L6.80273 19.3027C6.87532 19.2301 6.9329 19.144 6.97218 19.0491C7.01147 18.9543 7.03168 18.8527 7.03168 18.75C7.03168 18.6473 7.01147 18.5457 6.97218 18.4509C6.9329 18.356 6.87532 18.2699 6.80273 18.1973C6.73015 18.1247 6.64398 18.0671 6.54914 18.0278C6.4543 17.9885 6.35265 17.9683 6.25 17.9683C6.14735 17.9683 6.0457 17.9885 5.95086 18.0278C5.85602 18.0671 5.76985 18.1247 5.69727 18.1973ZM18.75 7.03125C18.8526 7.03133 18.9543 7.01119 19.0491 6.97198C19.1439 6.93277 19.2301 6.87526 19.3027 6.80273L20.8652 5.24023C21.0118 5.09364 21.0942 4.89482 21.0942 4.6875C21.0942 4.48018 21.0118 4.28136 20.8652 4.13477C20.7186 3.98817 20.5198 3.90582 20.3125 3.90582C20.1052 3.90582 19.9064 3.98817 19.7598 4.13477L18.1973 5.69727C18.0879 5.80653 18.0134 5.94579 17.9832 6.09742C17.953 6.24905 17.9685 6.40622 18.0276 6.54906C18.0868 6.69189 18.187 6.81394 18.3156 6.89978C18.4442 6.98562 18.5954 7.03137 18.75 7.03125ZM19.3027 18.1973C19.1561 18.0507 18.9573 17.9683 18.75 17.9683C18.5427 17.9683 18.3439 18.0507 18.1973 18.1973C18.0507 18.3439 17.9683 18.5427 17.9683 18.75C17.9683 18.9573 18.0507 19.1561 18.1973 19.3027L19.7598 20.8652C19.8324 20.9378 19.9185 20.9954 20.0134 21.0347C20.1082 21.074 20.2098 21.0942 20.3125 21.0942C20.4152 21.0942 20.5168 21.074 20.6116 21.0347C20.7065 20.9954 20.7926 20.9378 20.8652 20.8652C20.9378 20.7926 20.9954 20.7065 21.0347 20.6116C21.074 20.5168 21.0942 20.4152 21.0942 20.3125C21.0942 20.2098 21.074 20.1082 21.0347 20.0134C20.9954 19.9185 20.9378 19.8324 20.8652 19.7598L19.3027 18.1973ZM4.6875 12.5C4.6875 12.2928 4.60519 12.0941 4.45868 11.9476C4.31216 11.8011 4.11345 11.7188 3.90625 11.7188H1.5625C1.3553 11.7188 1.15659 11.8011 1.01007 11.9476C0.86356 12.0941 0.78125 12.2928 0.78125 12.5C0.78125 12.7072 0.86356 12.9059 1.01007 13.0524C1.15659 13.1989 1.3553 13.2812 1.5625 13.2812H3.90625C4.11345 13.2812 4.31216 13.1989 4.45868 13.0524C4.60519 12.9059 4.6875 12.7072 4.6875 12.5ZM12.5 20.3125C12.2928 20.3125 12.0941 20.3948 11.9476 20.5413C11.8011 20.6878 11.7188 20.8865 11.7188 21.0938V23.4375C11.7188 23.6447 11.8011 23.8434 11.9476 23.9899C12.0941 24.1364 12.2928 24.2188 12.5 24.2188C12.7072 24.2188 12.9059 24.1364 13.0524 23.9899C13.1989 23.8434 13.2812 23.6447 13.2812 23.4375V21.0938C13.2812 20.8865 13.1989 20.6878 13.0524 20.5413C12.9059 20.3948 12.7072 20.3125 12.5 20.3125ZM23.4375 11.7188H21.0938C20.8865 11.7188 20.6878 11.8011 20.5413 11.9476C20.3948 12.0941 20.3125 12.2928 20.3125 12.5C20.3125 12.7072 20.3948 12.9059 20.5413 13.0524C20.6878 13.1989 20.8865 13.2812 21.0938 13.2812H23.4375C23.6447 13.2812 23.8434 13.1989 23.9899 13.0524C24.1364 12.9059 24.2188 12.7072 24.2188 12.5C24.2188 12.2928 24.1364 12.0941 23.9899 11.9476C23.8434 11.8011 23.6447 11.7188 23.4375 11.7188Z" fill="#FFFFFF"/>
-                        </svg>
-                        <svg v-else width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5.67754 4.45195C5.67754 3.16289 5.86699 1.86016 6.35059 0.75C3.13535 2.14961 0.96582 5.4332 0.96582 9.16328C0.96582 14.1816 5.03418 18.25 10.0525 18.25C13.7826 18.25 17.0662 16.0805 18.4658 12.8652C17.3557 13.3488 16.0518 13.5383 14.7639 13.5383C9.74551 13.5383 5.67754 9.47031 5.67754 4.45195Z" fill="#FFFFFF"/>
-                        </svg>
-                        <p>Tyria</p>
-                    </span>
-                    
-                    <p 
-                        class="region-time-label"
-                        :style="{color: backgroundColorTyrianTime}"
-                    >
-                        {{ formatTime(tyrianTimeTilNext) }}
-                    </p>
-                </span>
-                
-            </div>
-            <div class="region-time">
-                <span class="region-time-label-container">
-                    <span class="region-time-name">
-                        <svg 
-                            v-if="canthanCurrentPeriod == 'Daytime'"
-                            width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path d="M11.7188 3.90625V1.5625C11.7188 1.3553 11.8011 1.15659 11.9476 1.01007C12.0941 0.86356 12.2928 0.78125 12.5 0.78125C12.7072 0.78125 12.9059 0.86356 13.0524 1.01007C13.1989 1.15659 13.2812 1.3553 13.2812 1.5625V3.90625C13.2812 4.11345 13.1989 4.31216 13.0524 4.45868C12.9059 4.60519 12.7072 4.6875 12.5 4.6875C12.2928 4.6875 12.0941 4.60519 11.9476 4.45868C11.8011 4.31216 11.7188 4.11345 11.7188 3.90625ZM12.5 6.25C11.2639 6.25 10.0555 6.61656 9.02769 7.30331C7.99988 7.99007 7.1988 8.96619 6.72575 10.1082C6.25271 11.2503 6.12893 12.5069 6.37009 13.7193C6.61125 14.9317 7.2065 16.0453 8.08058 16.9194C8.95466 17.7935 10.0683 18.3888 11.2807 18.6299C12.4931 18.8711 13.7497 18.7473 14.8918 18.2742C16.0338 17.8012 17.0099 17.0001 17.6967 15.9723C18.3834 14.9445 18.75 13.7361 18.75 12.5C18.7482 10.843 18.0891 9.25429 16.9174 8.08258C15.7457 6.91087 14.157 6.25181 12.5 6.25ZM5.69727 6.80273C5.84386 6.94933 6.04268 7.03168 6.25 7.03168C6.45732 7.03168 6.65614 6.94933 6.80273 6.80273C6.94933 6.65614 7.03168 6.45732 7.03168 6.25C7.03168 6.04268 6.94933 5.84386 6.80273 5.69727L5.24023 4.13477C5.09364 3.98817 4.89482 3.90582 4.6875 3.90582C4.48018 3.90582 4.28136 3.98817 4.13477 4.13477C3.98817 4.28136 3.90582 4.48018 3.90582 4.6875C3.90582 4.89482 3.98817 5.09364 4.13477 5.24023L5.69727 6.80273ZM5.69727 18.1973L4.13477 19.7598C3.98817 19.9064 3.90582 20.1052 3.90582 20.3125C3.90582 20.5198 3.98817 20.7186 4.13477 20.8652C4.28136 21.0118 4.48018 21.0942 4.6875 21.0942C4.89482 21.0942 5.09364 21.0118 5.24023 20.8652L6.80273 19.3027C6.87532 19.2301 6.9329 19.144 6.97218 19.0491C7.01147 18.9543 7.03168 18.8527 7.03168 18.75C7.03168 18.6473 7.01147 18.5457 6.97218 18.4509C6.9329 18.356 6.87532 18.2699 6.80273 18.1973C6.73015 18.1247 6.64398 18.0671 6.54914 18.0278C6.4543 17.9885 6.35265 17.9683 6.25 17.9683C6.14735 17.9683 6.0457 17.9885 5.95086 18.0278C5.85602 18.0671 5.76985 18.1247 5.69727 18.1973ZM18.75 7.03125C18.8526 7.03133 18.9543 7.01119 19.0491 6.97198C19.1439 6.93277 19.2301 6.87526 19.3027 6.80273L20.8652 5.24023C21.0118 5.09364 21.0942 4.89482 21.0942 4.6875C21.0942 4.48018 21.0118 4.28136 20.8652 4.13477C20.7186 3.98817 20.5198 3.90582 20.3125 3.90582C20.1052 3.90582 19.9064 3.98817 19.7598 4.13477L18.1973 5.69727C18.0879 5.80653 18.0134 5.94579 17.9832 6.09742C17.953 6.24905 17.9685 6.40622 18.0276 6.54906C18.0868 6.69189 18.187 6.81394 18.3156 6.89978C18.4442 6.98562 18.5954 7.03137 18.75 7.03125ZM19.3027 18.1973C19.1561 18.0507 18.9573 17.9683 18.75 17.9683C18.5427 17.9683 18.3439 18.0507 18.1973 18.1973C18.0507 18.3439 17.9683 18.5427 17.9683 18.75C17.9683 18.9573 18.0507 19.1561 18.1973 19.3027L19.7598 20.8652C19.8324 20.9378 19.9185 20.9954 20.0134 21.0347C20.1082 21.074 20.2098 21.0942 20.3125 21.0942C20.4152 21.0942 20.5168 21.074 20.6116 21.0347C20.7065 20.9954 20.7926 20.9378 20.8652 20.8652C20.9378 20.7926 20.9954 20.7065 21.0347 20.6116C21.074 20.5168 21.0942 20.4152 21.0942 20.3125C21.0942 20.2098 21.074 20.1082 21.0347 20.0134C20.9954 19.9185 20.9378 19.8324 20.8652 19.7598L19.3027 18.1973ZM4.6875 12.5C4.6875 12.2928 4.60519 12.0941 4.45868 11.9476C4.31216 11.8011 4.11345 11.7188 3.90625 11.7188H1.5625C1.3553 11.7188 1.15659 11.8011 1.01007 11.9476C0.86356 12.0941 0.78125 12.2928 0.78125 12.5C0.78125 12.7072 0.86356 12.9059 1.01007 13.0524C1.15659 13.1989 1.3553 13.2812 1.5625 13.2812H3.90625C4.11345 13.2812 4.31216 13.1989 4.45868 13.0524C4.60519 12.9059 4.6875 12.7072 4.6875 12.5ZM12.5 20.3125C12.2928 20.3125 12.0941 20.3948 11.9476 20.5413C11.8011 20.6878 11.7188 20.8865 11.7188 21.0938V23.4375C11.7188 23.6447 11.8011 23.8434 11.9476 23.9899C12.0941 24.1364 12.2928 24.2188 12.5 24.2188C12.7072 24.2188 12.9059 24.1364 13.0524 23.9899C13.1989 23.8434 13.2812 23.6447 13.2812 23.4375V21.0938C13.2812 20.8865 13.1989 20.6878 13.0524 20.5413C12.9059 20.3948 12.7072 20.3125 12.5 20.3125ZM23.4375 11.7188H21.0938C20.8865 11.7188 20.6878 11.8011 20.5413 11.9476C20.3948 12.0941 20.3125 12.2928 20.3125 12.5C20.3125 12.7072 20.3948 12.9059 20.5413 13.0524C20.6878 13.1989 20.8865 13.2812 21.0938 13.2812H23.4375C23.6447 13.2812 23.8434 13.1989 23.9899 13.0524C24.1364 12.9059 24.2188 12.7072 24.2188 12.5C24.2188 12.2928 24.1364 12.0941 23.9899 11.9476C23.8434 11.8011 23.6447 11.7188 23.4375 11.7188Z" fill="#FFFFFF"/>
-                        </svg>
-                        <svg v-else width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5.67754 4.45195C5.67754 3.16289 5.86699 1.86016 6.35059 0.75C3.13535 2.14961 0.96582 5.4332 0.96582 9.16328C0.96582 14.1816 5.03418 18.25 10.0525 18.25C13.7826 18.25 17.0662 16.0805 18.4658 12.8652C17.3557 13.3488 16.0518 13.5383 14.7639 13.5383C9.74551 13.5383 5.67754 9.47031 5.67754 4.45195Z" fill="#FFFFFF"/>
-                        </svg>
-                        <p>Cantha</p>
-                    </span>
-                    
-                    <p 
-                        class="region-time-label"
-                        :style="{color: backgroundColorCanthanTime}"
-                    >
-                        {{ formatTime(canthanTimeTilNext) }}
-                    </p>
-                </span>
-            </div>
-        </div>
-        
-
+        <DayAndNightTimers/>
         <!--
             *
             *   "HELLO" MESSAGE TO USERS IF THEY ARE LOGGED IN
@@ -267,11 +214,11 @@
                             * INCLUDE AIRSHIP PARTS
                             * 
                         -->
-                        <div 
+                        <!-- <div 
                             class="checkbox" 
                             @click="
                                 includesAirshipPartCheckbox = !includesAirshipPartCheckbox;
-                                setIncludes('AirshipPart', includesAirshipPartCheckbox);    
+                                setIncludes('Airship Part', includesAirshipPartCheckbox);    
                             "
                         >
                             <input 
@@ -280,7 +227,12 @@
                                 name="AirshipPart"
                             >
                             <label for="AirshipPart">Airship Parts</label>
-                        </div>
+                        </div> -->
+
+                        <IncludesCheckbox
+                            name="Airship Part"
+                            label="AirshipPart"
+                        />
                         <!-- 
                             * 
                             * INCLUDE ASCENDEDJUNK
@@ -290,7 +242,7 @@
                             class="checkbox" 
                             @click="
                                 includesAscendedJunkCheckbox = !includesAscendedJunkCheckbox;
-                                setIncludes('AscendedJunk', includesAscendedJunkCheckbox);    
+                                setIncludes('Ascended Junk', includesAscendedJunkCheckbox);    
                             "
                         >
                             <input 
@@ -305,7 +257,7 @@
                             class="checkbox" 
                             @click="
                                 includesImperialFavorCheckbox = !includesImperialFavorCheckbox;
-                                setIncludes('ImperialFavor', includesImperialFavorCheckbox);    
+                                setIncludes('Imperial Favor', includesImperialFavorCheckbox);    
                             "
                         >
                             <input 
@@ -324,7 +276,7 @@
                             class="checkbox" 
                             @click="
                                 includesLeyLineCrystalCheckbox = !includesLeyLineCrystalCheckbox;
-                                setIncludes('LeyLineCrystal', includesLeyLineCrystalCheckbox);    
+                                setIncludes('Ley Line Crystal', includesLeyLineCrystalCheckbox);    
                             "
                         >
                             <input 
@@ -343,7 +295,7 @@
                             class="checkbox" 
                             @click="
                                 includesLumpOfAurilliumCheckbox = !includesLumpOfAurilliumCheckbox;
-                                setIncludes('LumpOfAurillium', includesLumpOfAurilliumCheckbox);    
+                                setIncludes('Lump of Aurillium', includesLumpOfAurilliumCheckbox);    
                             "
                         >
                             <input 
@@ -382,7 +334,7 @@
                             class="checkbox" 
                             @click="
                                 includesTradeContractCheckbox = !includesTradeContractCheckbox;
-                                setIncludes('TradeContract', includesTradeContractCheckbox);    
+                                setIncludes('Trade Contract', includesTradeContractCheckbox);    
                             "
                         >
                             <input 
@@ -402,7 +354,7 @@
                             class="checkbox" 
                             @click="
                                 includesUnboundMagicCheckbox = !includesUnboundMagicCheckbox;
-                                setIncludes('UnboundMagic', includesUnboundMagicCheckbox);    
+                                setIncludes('Unbound Magic', includesUnboundMagicCheckbox);    
                             "
                         >
                             <input 
@@ -422,7 +374,7 @@
                             class="checkbox" 
                             @click="
                                 includesVolatileMagicCheckbox = !includesVolatileMagicCheckbox;
-                                setIncludes('VolatileMagic', includesVolatileMagicCheckbox);    
+                                setIncludes('Volatile Magic', includesVolatileMagicCheckbox);    
                             "
                         >
                             <input 
@@ -559,47 +511,17 @@
             * BENCHMARKS
             *
         -->
-        <div 
-            class="nav-section-container"
-            id="nav"
-            @click="benchmarksToggle = !benchmarksToggle"
-        >
-            <h5>Benchmarks</h5>
-            <svg 
-                class="expand"
-                :class="{rotate180: benchmarksToggle}" 
-                width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg"
-            >
-                <path d="M8.81372 0.397634C8.6944 0.280464 8.5326 0.214642 8.36389 0.214642C8.19519 0.214642 8.03339 0.280464 7.91407 0.397634L4.76468 3.49138L1.61529 0.397634C1.49529 0.283785 1.33457 0.220788 1.16775 0.222212C1.00093 0.223636 0.841356 0.289367 0.723392 0.405247C0.605428 0.521127 0.538516 0.677885 0.537066 0.841758C0.535617 1.00563 0.599746 1.16351 0.715642 1.28138L4.31486 4.81701C4.43417 4.93418 4.59597 5 4.76468 5C4.93339 5 5.09519 4.93418 5.2145 4.81701L8.81372 1.28138C8.93299 1.16418 9 1.00524 9 0.839509C9 0.673781 8.93299 0.514838 8.81372 0.397634Z" fill="#FFD12C"/>
-            </svg>
-        </div>
+
+        <NavSection 
+            @click="benchmarksToggle = !benchmarksToggle" 
+            header="Benchmarks" 
+            :toggle="benchmarksToggle"
+        />
 
         <Transition name="fade-right">
             <div v-if="benchmarksToggle">
-                <router-link class="page-link" to="/benchmarks/maps">
-                    <img src="@/imgs/icons/Commander_Icon.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                    <h6>Maps</h6>
-                </router-link>
-
-                <router-link class="page-link" to="/benchmarks/fishing">
-                    <img src="@/imgs/icons/Fishing.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                    <h6>Fishing</h6>
-                </router-link>
-
-                <!-- <router-link class="page-link" to="/benchmarks/fishing">
-                    <img src="../../../imgs/icons/Gathering_UI_Icon.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                    <h6>Gathering</h6>
-                </router-link>
-
-                <router-link class="page-link" to="/benchmarks/fishing">
-                    <img src="../../../imgs/icons/Red_Boss.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                    <h6>Metas</h6>
-                </router-link>
-
-                <router-link class="page-link" to="/benchmarks/fishing">
-                    <img src="../../../imgs/icons/Guild_Armorer.png" alt="Blue commander tag redirecting to the benchmarks maps page" title="Benchmarks - Maps">
-                    <h6>Alt Parking</h6>
-                </router-link>  -->
+                <NavPage category="benchmarks" url="maps" name="Maps" :icon="BlueCommander"/>
+                <NavPage category='benchmarks' url="fishing" name="Fishing" :icon="FishingHook"/>
             </div>
         </Transition>
 
@@ -608,86 +530,28 @@
             * CURRENCIES
             *
         -->
-        <div class="nav-section-container" @click="curriencesToggle = !curriencesToggle">
-            <h5>Curriences</h5>
-            <svg 
-                class="expand"
-                :class="{rotate180: curriencesToggle}" 
-                width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg"
-            >
-                <path d="M8.81372 0.397634C8.6944 0.280464 8.5326 0.214642 8.36389 0.214642C8.19519 0.214642 8.03339 0.280464 7.91407 0.397634L4.76468 3.49138L1.61529 0.397634C1.49529 0.283785 1.33457 0.220788 1.16775 0.222212C1.00093 0.223636 0.841356 0.289367 0.723392 0.405247C0.605428 0.521127 0.538516 0.677885 0.537066 0.841758C0.535617 1.00563 0.599746 1.16351 0.715642 1.28138L4.31486 4.81701C4.43417 4.93418 4.59597 5 4.76468 5C4.93339 5 5.09519 4.93418 5.2145 4.81701L8.81372 1.28138C8.93299 1.16418 9 1.00524 9 0.839509C9 0.673781 8.93299 0.514838 8.81372 0.397634Z" fill="#FFD12C"/>
-            </svg>
-        </div>
+        <NavSection 
+            @click="currenciesToggle = !currenciesToggle" 
+            header="Currencies" 
+            :toggle="currenciesToggle"
+        />
 
         <Transition name="fade-right">
-            <div v-if="curriencesToggle">
-                <div class="routes">
-                    <router-link class="page-link" to="/currencies/airship-part">
-                        <img src="@/imgs/icons/Airship_Part.png" alt="Airship Part" title="Airship Part">
-                        <h6>Airship Part</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/currencies/bandit-crest">
-                        <img src="@/imgs/icons/Bandit_Crest.png" alt="Bandit Crest" title="Bandit Crest">
-                        <h6>Bandit Crest</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/currencies/geode">
-                        <img src="@/imgs/icons/Geode.png" alt="Geode" title="Geode">
-                        <h6>Geode</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/currencies/imperial-favor">
-                        <img src="@/imgs/icons/Imperial_Favor.png" alt="Imperial Favors" title="Imperial Favors">
-                        <h6>Imperial Favor</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/currencies/jade-sliver">
-                        <img src="@/imgs/icons/Jade_Sliver.png" alt="Jade Slivers" title="Jade Slivers">
-                        <h6>Jade Sliver</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/currencies/laurel">
-                        <img src="@/imgs/icons/Laurel.png" alt="Laurel" title="Laurel">
-                        <h6>Laurel</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/currencies/ley-line-crystal">
-                        <img src="@/imgs/icons/Ley_Line_Crystal.png" alt="Ley Line Crystals" title="Ley Line Crystals">
-                        <h6>Ley Line Crystal</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/currencies/lump-of-aurillium">
-                        <img src="@/imgs/icons/Lump_of_Aurillium.png" alt="Lump of Aurillium" title="Lump of Aurillium">
-                        <h6>Lump of Aurillium</h6>
-                    </router-link>
-                    
-                    <router-link class="page-link" to="/currencies/spirit-shards">
-                        <img src="@/imgs/icons/Spirit_Shard.png" alt="Spirit Shard" title="Spirit Shard">
-                        <h6>Spirit Shards</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/currencies/trade-contract">
-                        <img src="@/imgs/icons/Trade_Contract.png" alt="Trade Contract" title="Trade Contract">
-                        <h6>Trade Contract</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/currencies/tyrian-defense-seal">
-                        <img src="@/imgs/icons/Tyrian_Defense_Seal.png" alt="Tyrian Defense Seal" title="Tyrian Defense Seal">
-                        <h6>Tyrian Defense Seal</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/currencies/unbound-magic">
-                        <img src="@/imgs/icons/Unbound_Magic.png" alt="Unbound Magic" title="Unbound Magic">
-                        <h6>Unbound Magic</h6>
-                    </router-link>
-
-                    <router-link class="page-link" to="/currencies/volatile-magic">
-                        <img src="@/imgs/icons/Volatile_Magic.png" alt="Volatile Magic" title="Volatile Magic">
-                        <h6>Volatile Magic</h6>
-                    </router-link>
-                </div>   
-            </div> 
+            <div v-if="currenciesToggle">
+                <NavPage category="currencies" url="airship-part" name="Airship Parts" :icon="AirshipParts"/>
+                <NavPage category="currencies" url="bandit-crest" name="Bandit Crests" :icon="BanditCrest"/>
+                <NavPage category="currencies" url="geode" name="Geodes" :icon="Geode"/>
+                <NavPage category="currencies" url="imperial-favor" name="Imperial Favors" :icon="ImperialFavor"/>
+                <NavPage category="currencies" url="jade-sliver" name="Jade Slivers" :icon="JadeSliver"/>
+                <NavPage category="currencies" url="laurel" name="Laurels" :icon="Laurel"/>
+                <NavPage category="currencies" url="ley-line-crystal" name="Ley Line Crystals" :icon="LeyLineCrystal"/>
+                <NavPage category="currencies" url="lump-of-aurillium" name="Lump of Aurillium" :icon="LumpOfAurillium"/>
+                <NavPage category="currencies" url="spirit-shards" name="Spirit Shards" :icon="SpiritShard"/>
+                <NavPage category="currencies" url="trade-contract" name="Trade Contracts" :icon="TradeContract"/>
+                <NavPage category="currencies" url="tyrian-defense-seal" name="Tyrian Defense Seal" :icon="TyrianDefenseSeal"/>
+                <NavPage category="currencies" url="unbound-magic" name="Unbound Magic" :icon="UnboundMagic"/>
+                <NavPage category="currencies" url="volatile-magic" name="Volatile Magic" :icon="VolatileMagic"/>
+            </div>
         </Transition>
 
         <!--
@@ -986,14 +850,31 @@ import { useRoute, useRouter } from 'vue-router'
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
 import { nodeTrackerModalToggle } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
-import { formatTime } from '@/js/vue/composables/FormatFunctions.js';
 
-import ProgressBar from '@/js/vue/components/general/ProgressBar.vue'
+import NavPage from '@/js/vue/components/navigation/NavPage.vue';
+import IncludesCheckbox from '@/js/vue/components/navigation/IncludesCheckbox.vue';
 
-import { tyrianCurrentPeriod, tyrianTimeTilNext, canthanCurrentPeriod, canthanTimeTilNext } from '@/js/vue/composables/Global.js';
+import DayAndNightTimers from '@/js/vue/components/navigation/DayAndNightTimers.vue';
+
+import BlueCommander from '@/imgs/icons/Commander_Icon.png'
+import FishingHook from "@/imgs/icons/Fishing.png"
+import AirshipParts from '@/imgs/icons/Airship_Part.png'
+import BanditCrest from '@/imgs/icons/Bandit_Crest.png'
+import Geode from '@/imgs/icons/Geode.png'
+import ImperialFavor from '@/imgs/icons/Imperial_Favor.png'
+import JadeSliver from '@/imgs/icons/Jade_Sliver.png'
+import Laurel from '@/imgs/icons/Laurel.png'
+import LeyLineCrystal from '@/imgs/icons/Ley_Line_Crystal.png'
+import LumpOfAurillium from '@/imgs/icons/Lump_of_Aurillium.png'
+import SpiritShard from '@/imgs/icons/Spirit_Shard.png'
+import TradeContract from '@/imgs/icons/Trade_Contract.png'
+import TyrianDefenseSeal from '@/imgs/icons/Tyrian_Defense_Seal.png'
+import UnboundMagic from '@/imgs/icons/Unbound_Magic.png'
+import VolatileMagic from '@/imgs/icons/Volatile_Magic.png'
 
 import axios from 'axios';
 import { update } from 'lodash';
+import NavSection from '@/js/vue/components/navigation/NavSection.vue';
 
 // Initialize form fields
 const name = ref(''), 
@@ -1005,90 +886,7 @@ const user = ref(null);
 // Wizard's Vault
 const wv = ref(null); 
 
-let globalTimeInterval;
 
-const tyrianProgressBarWidth = ref(0), 
-    canthanProgressBarWidth = ref(0);
-
-const tyrianPeriods = [
-    { label: 'Daytime', duration: 70 * 60 }, 
-    { label: 'Dusk', duration: 5 * 60 }, 
-    { label: 'Nighttime', duration: 40 * 60 }, 
-    { label: 'Dawn', duration: 5 * 60 } 
-];
-
-const canthanPeriods = [
-    { label: 'Daytime', duration: 55 * 60 }, 
-    { label: 'Dusk', duration: 5 * 60 }, 
-    { label: 'Nighttime', duration: 55 * 60 }, 
-    { label: 'Dawn', duration: 5 * 60 } 
-]
-// Example time to start tyrian time cycle
-// 18:30 UTC in seconds
-const startTyrianTime = 18 * 3600 + 30 * 60,
-    startCanthanTime = 18 * 3600 + 40 * 60;
-
-
-
-
-
-const updateTimer = (regionStartTime, regionPeriods, regionCurrentPeriod, regionTimeTilNext, progressBarWidth) => {
-    // Current time
-    const now = new Date();
-    const utcTime = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
-    // Time since the start of the cycle
-    const elapsedTime = (utcTime - regionStartTime + 24 * 3600) % (2 * 3600); 
-
-    let totalDuration = 0;
-    let currentPeriod = '';
-
-    for (const period of regionPeriods) {
-        if (elapsedTime < totalDuration + period.duration) {
-            currentPeriod = period.label;
-            regionCurrentPeriod.value = currentPeriod;
-            regionTimeTilNext.value = period.duration - (elapsedTime - totalDuration);
-
-            progressBarWidth.value = (regionTimeTilNext.value / period.duration) * 100; 
-
-            break;
-        }
-        totalDuration += period.duration;
-    }
-};
-
-// Get background color of current time period
-// Computed so that it will reactively change depending on the period
-const getBackgroundColor = (currentPeriod) => {
-    return computed(() => {
-        switch (currentPeriod.value){
-            case 'Daytime': return 'var(--color-rarity-exotic)'  
-            case 'Nighttime': return 'var(--color-rarity-legendary)'
-            case 'Dawn': return 'var(--color-dawn)'
-            case 'Dusk': return 'var(--color-dusk)' 
-        }
-    })
-}
-
-const backgroundColorTyrianTime = getBackgroundColor(tyrianCurrentPeriod),
-    backgroundColorCanthanTime = getBackgroundColor(canthanCurrentPeriod);
-
-
-onMounted(() => {
-    // Start region timers for both Tyria and Cantha
-    updateTimer(startTyrianTime, tyrianPeriods, tyrianCurrentPeriod, tyrianTimeTilNext, tyrianProgressBarWidth);
-
-    updateTimer(startCanthanTime, canthanPeriods, canthanCurrentPeriod, canthanTimeTilNext, canthanProgressBarWidth);
-
-    globalTimeInterval = setInterval(() => { 
-        updateTimer(startTyrianTime, tyrianPeriods, tyrianCurrentPeriod, tyrianTimeTilNext, tyrianProgressBarWidth)
-
-        updateTimer(startCanthanTime, canthanPeriods, canthanCurrentPeriod, canthanTimeTilNext, canthanProgressBarWidth);
-    }, 1000);
-})
-
-onUnmounted(() => {
-    clearInterval(globalTimeInterval);
-})
 
 const getWizardsVault = async (key) => {
     try {
@@ -1265,7 +1063,9 @@ const setDefaultLocalStorage = () => {
     // *
     if (!localStorage.includes){
         localStorage.setItem('includes', JSON.stringify([
-            "AscendedJunk",
+            "Dragonite Ore",
+            "Empyreal Fragment",
+            "Pile of Bloodstone Dust",
             "Salvageables",
         ]));
     }
@@ -1307,7 +1107,7 @@ const setDefaultLocalStorage = () => {
 setDefaultLocalStorage(); 
 
 const benchmarksToggle = ref(true),
-    curriencesToggle = ref(true),
+    currenciesToggle = ref(true),
     exchangeablesToggle = ref(true),
     toolsToggle = ref(true),
     timersToggle = ref(true);
@@ -1324,14 +1124,19 @@ const buyOrderSetting = ref(localStorage.buyOrderSetting),
     apiKey = ref(null);
 
 const includesAirshipPartCheckbox = ref(false),
+    includesDragoniteOreCheckbox = ref(true), 
+    includesEmpyrealFragmentCheckbox = ref(true),
     includesSalvageablesCheckbox = ref(true),
     includesImperialFavorCheckbox = ref(false),
     includesLeyLineCrystalCheckbox = ref(false),
     includesLumpOfAurilliumCheckbox = ref(false),
     includesAscendedJunkCheckbox = ref(true),
+    includesPileOfBloodstoneDustCheckbox = ref(true),
     includesTradeContractCheckbox = ref(false),
     includesUnboundMagicCheckbox = ref(false),
     includesVolatileMagicCheckbox = ref(false); 
+
+const includes = ref([]);
 
 const route = useRoute(),
     router = useRouter();
@@ -1408,15 +1213,19 @@ onMounted(() => {
     // Check localStorage.includes to see what settings are in the Includes array
     // Toggle on/off if a specific Includes in the array or not
     const includes = JSON.parse(localStorage.getItem('includes')) || []; 
-    includesAirshipPartCheckbox.value = includes.includes('AirshipPart');
-    includesAscendedJunkCheckbox.value = includes.includes('AscendedJunk');
-    includesImperialFavorCheckbox.value = includes.includes('ImperialFavor');
-    includesLeyLineCrystalCheckbox.value = includes.includes('LeyLineCrystal');
-    includesLumpOfAurilliumCheckbox.value = includes.includes('LumpOfAurillium');
+    includesAirshipPartCheckbox.value = includes.includes('Airship Part');
+    includesAscendedJunkCheckbox.value = includes.includes('Ascended Junk');
+    includesDragoniteOreCheckbox.value = includes.includes('Dragonite Ore');
+    includesEmpyrealFragmentCheckbox.value = includes.includes('Empyreal Fragment');
+    includesImperialFavorCheckbox.value = includes.includes('Imperial Favor');
+    includesLeyLineCrystalCheckbox.value = includes.includes('Ley Line Crystal');
+    includesLumpOfAurilliumCheckbox.value = includes.includes('Lump of Aurillium');
+    includesPileOfBloodstoneDustCheckbox.value = includes.includes('Pile of Bloodstone Dust');
     includesSalvageablesCheckbox.value = includes.includes('Salvageables');
-    includesTradeContractCheckbox.value = includes.includes('TradeContract');
-    includesUnboundMagicCheckbox.value = includes.includes('UnboundMagic');
-    includesVolatileMagicCheckbox.value = includes.includes('VolatileMagic');
+    includesTradeContractCheckbox.value = includes.includes('Trade Contract');
+    includesUnboundMagicCheckbox.value = includes.includes('Unbound Magic');
+    includesVolatileMagicCheckbox.value = includes.includes('Volatile Magic');
+    console.log('includes array: ', includes);
 })
 
 </script>
@@ -1486,32 +1295,5 @@ form .remember-container input{
     transition: var(--transition-all-03s-ease);
 }
 
-.region-time-container{
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    border-bottom: var(--border-bottom);
-    padding-block: var(--padding-inline);
-}
-.region-time{
-    position: relative; 
-}
-.region-time-label-container{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-inline: var(--padding-inline);
-}
-.region-time-name{
-    display: flex;
-    align-items: center;
-    gap: var(--gap-general);
-}
-.region-time-label-container svg path {
-    mix-blend-mode: difference;
-}
-p.region-time-label,
-.region-time-name p{
-    text-align: center;
-}
+
 </style>

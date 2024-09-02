@@ -5,6 +5,7 @@ import { ref } from 'vue'
 export const nodeTrackerModalToggle = ref(false);
 
 // TYRIAN AND CANTHAN TIME PEROIDS
+// Used for the navigation and Fishing benchmarks
 export const tyrianCurrentPeriod = ref(null);
 export const tyrianTimeTilNext = ref(null); 
 export const canthanCurrentPeriod = ref(null);
