@@ -80,7 +80,9 @@ class BenchmarkController extends Controller
                 else if ($item->type === 'Consumable' && strpos($item->item_description, 'volatile magic') 
                 || strpos($item->item_description, 'Volatile Magic')
                 || strpos($item->item_description, 'unbound magic')){
-                    $itemValue = $this->getConsumableValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
+                    //dd($item->item_name);
+                    $itemValue = $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
+                    //dd($item->item_name, $itemValue);
                 }
 
                 else if ($item->rarity == 'Junk') {
@@ -93,7 +95,7 @@ class BenchmarkController extends Controller
                 } 
                 // CHAMP BAGS, CONTAINERS
                 else if ($item->type == "Container" && strpos($item->item_description, 'Salvage') === false){
-                    $itemValue = ($this->getContainerValue($item->item_id, $includes, $sellOrderSetting, $tax)) * $item->drop_rate; 
+                    $itemValue = $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
                 } 
                 // SALVAGEABLES (exclu uni gear)
                 else if ($item->item_description === "Salvage Item" && in_array('Salvageables', $includes)){
@@ -248,7 +250,7 @@ class BenchmarkController extends Controller
                                 // CHAMPION BAGS
                                 case "Watertight Bag":
                                 case "Partially Chewed Box": 
-                                    $currentItemValue = ($this->getContainerValue($item->bag_id, $includes, $sellOrderSetting, $tax)) * $item->drop_rate;
+                                    $currentItemValue = $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
                                     $catchValue += $currentItemValue; 
                                     break;
         

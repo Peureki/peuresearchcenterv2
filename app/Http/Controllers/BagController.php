@@ -136,8 +136,16 @@ class BagController extends Controller
                     $value = $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
                 } 
                 // CHAMP BAGS, CONTAINERS
-                else if ($item->type == "Container" && strpos($item->description, 'Salvage') === false){
-                    $value = $this->getContainerValue($item->item_id, $includes,$sellOrderSetting, $tax); 
+                else if (
+                    $item->type == "Container" && strpos($item->description, 'Salvage') === false
+                    ||
+                    $item->type == 'Consumable' && strpos($item->description, 'volatile magic')
+                    ||
+                    $item->type == 'Consumable' && strpos($item->description, 'Volatile magic')
+                    ||
+                    $item->type == 'Consumable' && strpos($item->description, 'Unbound magic')
+                ){
+                    $value = $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
                 } 
                 // SALVAGEABLES (exclu uni gear)
                 else if ($item->description === "Salvage Item" && in_array('Salvageables', $includes)){

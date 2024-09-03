@@ -432,7 +432,9 @@ class Controller extends BaseController
         ];
 
         $this->tyrianDefenseSeal = [
-            'id' => [
+            'id' => array_merge(
+                $this->dailyExchanges['id'],
+                [
                 94265, // Ebon Vanguard Supply Box
                 94318, // Crystal Bloom Supply Box
                 94605, // Exalted Supply Box
@@ -441,8 +443,10 @@ class Controller extends BaseController
                 94710, // Skritt Supply Box
                 94560, // Deldrimor Supply Box
                 94751, // Kodan Supply Box
-            ],
-            'conversionRate' => [
+                83878, // Pile of Elonian Trade Contracts
+            ]),
+            'conversionRate' => array_merge(
+                $this->dailyExchanges['conversionRate'], [
                 15,
                 15,
                 20,
@@ -450,10 +454,18 @@ class Controller extends BaseController
                 25,
                 25,
                 20, 
-                25
-            ],
-            'fee' => array_fill(0, 8, 0),
-            'outputQty' => array_fill(0, 8, 1),
+                25,
+                25,
+            ]),
+            'fee' => array_merge(
+                $this->dailyExchanges['fee'],
+                array_fill(count($this->dailyExchanges), 9, 0),
+            ),
+            'outputQty' => array_merge(
+                $this->dailyExchanges['outputQty'],
+                array_fill(count($this->dailyExchanges['outputQty']), 8, 1),
+                [10]
+            ),
         ];
 
         // Magic Warped Bundle
@@ -626,37 +638,51 @@ class Controller extends BaseController
     // GET CONTAINER VALUE
     // ie. Bag of Fish in Bounty of New Kaineng City bag
     // Get the value of a container that's within another bag since these container have their own drop tables and loot and not a straight up sell price
-    protected function getContainerValue($containerID, $includes, $sellOrderSetting, $tax){
-        $dropRatesTable = BagDropRate::
-        where('bag_id', $containerID)
-        ->join('items', 'bag_drop_rates.item_id', '=', 'items.id')
+    protected function getContainerValue($containerID, $containerDropRate, $includes, $sellOrderSetting, $tax){
+        $dropRatesTable = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
+        ->leftjoin('items as item', 'bag_drop_rates.item_id', '=', 'item.id')
+        ->leftjoin('items as bag_item', 'bags.id', '=', 'bag_item.id')
+        ->leftjoin('currencies as currency', 'bag_drop_rates.currency_id', '=', 'currency.id')
+        ->select(
+            'bag_drop_rates.*', 
+            'bags.*', 
+            'currency.*',
+            'currency.name as currency_name',
+            'currency.icon as currency_icon',
+            'currency.icon as item_icon',
+            'item.icon as item_icon',
+            'item.name as item_name', 
+            'item.*', 
+            'bag_item.icon as bag_icon',
+            'bag_item.name as bag_name',
+        )
+        ->where('bag_id', $containerID)
         ->get();
-        ; 
+        
+        //dd($dropRatesTable);
 
         $value = 0; 
 
         foreach ($dropRatesTable as $item){
-            if (strpos($item->name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
+            //dd($dropRatesTable, $item);
+            if (strpos($item->item_name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
                 $value += $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
             } 
             // CHAMP BAGS, CONTAINERS
             else if ($item->type == "Container" && strpos($item->description, 'Salvage') === false){
-                $value += $this->getContainerValue($item->item_id, $includes,$sellOrderSetting, $tax); 
+                $value += $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
             } 
             // SALVAGEABLES (exclu uni gear)
             else if ($item->description === "Salvage Item" && in_array('Salvageables', $includes)){
                 $value += $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
             }
-            // ASCENDED JUNK
-            else if ($item->rarity == 'Ascended' && $item->type == 'CraftingMaterial' && in_array('AscendedJunk', $includes)) {
-                // There's a lot of ascended and crafteringMaterials so switch the $item->name to check for specifically the ascended junk
-                switch ($item->name){
-                    case 'Dragonite Ore':
-                    case 'Pile of Bloodstone Dust':
-                    case 'Empyreal Fragment':
-                        $value = $this->getExchangeableValue($item->name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-                        break;
-                }
+            // EXCHANGEABLES
+            else if (array_key_exists($item->item_name, $this->exchangeableMap)) {
+                $value += $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+            }
+            // RAW CURRENCIES
+            else if ($item->currency_id) {
+                $value += $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
             }
             // JUNK
             else if ($item->rarity === "Junk"){
@@ -664,11 +690,15 @@ class Controller extends BaseController
             }
             // ANYTHING ELSE NOT FROM ABOVE 
             else {
-                $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+                if ($item->$sellOrderSetting){
+                    $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+                } else {
+                    $value += $item->vendor_value * $item->drop_rate;
+                }
             }
         }
 
-        return $value; 
+        return $value * $containerDropRate; 
     }
 
     protected function getFishValue($fishID, $sellOrderSetting, $tax){
@@ -723,23 +753,6 @@ class Controller extends BaseController
         }
         
 
-
-
-        // if (in_array($itemName, $includes)){
-        //     if (isset($this->exchangeableMap[$itemName])){
-        //         $data = $this->exchangeableMap[$itemName]; 
-        //         $requestedBags = array_merge($requestedBags, $data['id']);
-        //         $conversionRate = $data['conversionRate'];
-        //         $fee = $data['fee'];
-        //     } else {
-        //         return 0;
-        //     }
-        // } else {
-        //     return 0;
-        // }
-
-        //dd($requestedBags, $itemName);
-
         $containerTable = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
         ->leftjoin('items as item', 'bag_drop_rates.item_id', '=', 'item.id')
         ->leftjoin('items as bag_item', 'bags.id', '=', 'bag_item.id')
@@ -756,7 +769,6 @@ class Controller extends BaseController
             'item.*', 
             'bag_item.icon as bag_icon',
             'bag_item.name as bag_name',
-            
         )
         ->whereIn('bag_id', $requestedBags)
         ->get()
@@ -1036,6 +1048,8 @@ class Controller extends BaseController
 
     protected function getConsumableValue($consumableID, $consumableDropRate, $includes, $sellOrderSetting, $tax){
         $consumableTable = ConsumableDropRate::where('consumable_id', $consumableID)->get(); 
+
+        //dd($consumableTable);
 
         $value = $this->getCurrencyValue($consumableTable[0]->currency_id, $consumableTable[0]->drop_rate, $includes, $sellOrderSetting, $tax); 
 

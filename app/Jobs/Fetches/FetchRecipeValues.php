@@ -57,8 +57,6 @@ class FetchRecipeValues implements ShouldQueue
                     'crafting_value' => $merp[0]->craftingValue / $recipe['output_item_count'],
                     'preference' => $merp[0]->preference
                 ]);
-            
-            
         }
         
     }

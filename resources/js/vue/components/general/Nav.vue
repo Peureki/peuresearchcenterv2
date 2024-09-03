@@ -187,6 +187,13 @@
                                 :icon="EmpyrealFragment"
                                 label="EmpyrealFragment"
                             />
+
+                            <IncludesCheckbox
+                                name="Fine Rift Essence"
+                                :icon="FineRiftEssence"
+                                label="FineRiftEssence"
+                            />
+
                             <IncludesCheckbox
                                 name="Imperial Favor"
                                 :icon="ImperialFavor"
@@ -206,6 +213,12 @@
                             />
 
                             <IncludesCheckbox
+                                name="Masterwork Rift Essence"
+                                :icon="MasterworkRiftEssence"
+                                label="MasterworkRiftEssence"
+                            />
+
+                            <IncludesCheckbox
                                 name="Pile of Bloodstone Dust"
                                 :icon="PileOfBloodstoneDust"
                                 label="PileOfBloodstoneDust"
@@ -215,6 +228,12 @@
                                 name="Pinch of Stardust"
                                 :icon="PinchOfStardust"
                                 label="PinchOfStardust"
+                            />
+
+                            <IncludesCheckbox
+                                name="Rare Rift Essence"
+                                :icon="RareRiftEssence"
+                                label="RareRiftEssence"
                             />
 
                             <IncludesCheckbox

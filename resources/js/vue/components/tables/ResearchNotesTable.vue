@@ -138,6 +138,7 @@ const getResearchNotes = async () => {
     const filters = JSON.parse(localStorage.filterResearchNotes);
 
     try {
+        console.log(`../api/currencies/research-note/${localStorage.buyOrderSetting}/${filters}`)
         const response = await fetch(`../api/currencies/research-note/${localStorage.buyOrderSetting}/${filters}`);
         const responseData = await response.json();
         researchNotes.value = responseData;

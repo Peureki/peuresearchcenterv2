@@ -28,17 +28,14 @@ class CurrencyController extends Controller
         $filteredQuery = ResearchNotes::select('*')
             ->join('recipes', 'research_note.recipe_id', '=', 'recipes.id')
             ->join('items', 'research_note.item_id', '=', 'items.id')
-            ->where('items.name', 'not like', '%Plaguedoctor%');
-            
-        $filteredQuery->whereIn('preference', $filteredArray);
-        $filteredQuery->where(function ($query) use ($filteredArray){
-            foreach ($filteredArray as $item){
-                $query->orWhereJsonContains('disciplines', $item);
-            }
-        });
-
-        $filteredQuery->whereIn('items.type', $filteredArray);
-
+            ->where('items.name', 'not like', '%Plaguedoctor%')
+            ->whereIn('preference', $filteredArray)
+            ->whereIn('items.type', $filteredArray)
+            ->where(function ($query) use ($filteredArray) {
+                foreach ($filteredArray as $item) {
+                    $query->orWhereJsonContains('disciplines', $item);
+                }
+            });
  
         // Return Research Notes db 
         // Calculate crafting_value / avg_output and sort by that (cost/note column)
@@ -155,7 +152,7 @@ class CurrencyController extends Controller
 
             foreach ($group as $item){
                 if ($item->type == "Container" && strpos($item->description, 'Salvage') === false){
-                    $value = $this->getContainerValue($item->item_id, $includes, $sellOrderSetting, $tax); 
+                    $value = $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
                 } 
                 else if (strpos($item->name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
                     $value = $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax); 
