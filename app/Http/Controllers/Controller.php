@@ -39,6 +39,7 @@ class Controller extends BaseController
     protected $dailyExchanges;
     // For Dragontie Ore, Bloodstone Dust, Emp Fragments
     protected $dailyAscendedJunk;
+    
 
     protected $airshipPart;
     protected $ascendedJunk; 
@@ -67,9 +68,12 @@ class Controller extends BaseController
     // NON-MONETIZABLE EXCHANGEABLES
     // Example:
     // Homested materials
+    protected $homesteadFiber; 
+    protected $homesteadMetal; 
     protected $homesteadWood;
 
     protected $exchangeableMap; 
+    protected $homesteadMap; 
 
     public function __construct()
     {
@@ -496,7 +500,42 @@ class Controller extends BaseController
             'outputQty' => [5, 1],
         ];
 
+        /*
+            *
+            * HOMESTEAD CONVERSIONS
+            *
+        */
 
+        $this->homesteadMetal = [
+            'id' => [
+                19697, // Copper Ore
+                19699, // Iron Ore
+                19703, // Silver Ore
+                19698, // Gold Ore
+                19702, // Platinum Ore
+                19700, // Mithril Ore
+                19701, // Orichclum Ore
+            ],
+            'conversionRate' => [
+                2,
+                1,
+                5,
+                2,
+                1,
+                1,
+                1
+            ],
+            'fee' => array_fill(0, 7, 0), 
+            'outputQty' => [
+                1,
+                1,
+                1,
+                1,
+                2,
+                1,
+                2
+            ],
+        ];
 
 
         $this->homesteadWood = [
@@ -519,7 +558,7 @@ class Controller extends BaseController
             'fee' => array_fill(0, 6, 0),
             'outputQty' => array_merge(
                 array_fill(0, 5, 1), 
-                array_fill(5, 1, 2)
+                [2],
             ),
         ];
 
@@ -553,7 +592,15 @@ class Controller extends BaseController
             "Writ of Echovald Wilds" => $this->writs,
             "Writ of Dragon's End" => $this->writs,
         ];
+
+        // Reference this map when dealing with anything homestead conversions
+        $this->homesteadMap = [
+            "Refined Homestead Metal" => $this->homesteadMetal,
+            "Refined Homestead Wood" => $this->homesteadWood,
+        ];
     }
+
+    
 
     protected function duplicate_and_splice_bag($targetID, &$dropRates, $duplicatedName){
         foreach ($dropRates as $index => $targetBag){

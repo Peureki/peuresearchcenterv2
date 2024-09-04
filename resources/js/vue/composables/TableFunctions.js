@@ -22,6 +22,7 @@ export function sortTable(tableName, column, setting, orderChoice){
     }
 
     let table = document.querySelector(`.${tableName}`);
+    console.log('table: ', table);
     switching = true; 
 
     while(switching){

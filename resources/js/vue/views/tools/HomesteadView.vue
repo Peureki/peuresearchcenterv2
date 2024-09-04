@@ -2,6 +2,23 @@
     <Nav/>
     <Header page-name="Homesteads"/>
 
+    <section>
+        <RefinementTable
+            target-refinement="Refined Homestead Wood"
+            target-id="103049"
+        />
+    </section>
+
+    <section>
+        <RefinementTable
+            target-refinement="Refined Homestead Metal"
+            target-id="102205"
+        />
+    </section>
+
+        
+    
+
 </template>
 
 <script setup>
@@ -21,11 +38,8 @@
 */
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
-import WritOfNewKainengCity from '@/imgs/icons/Writ_of_New_Kaineng_City.png'
-import CurrencyPage from '@/js/vue/components/general/CurrencyPage.vue'
 
-const targetCurrency = 'Writ of New Kaineng City';
-const currencyIcon = WritOfNewKainengCity;
+import RefinementTable from '@/js/vue/components/tables/RefinementTable.vue';
 
 </script>
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\FetchController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\RefineController;
 use App\Http\Controllers\SalvageableController;
 use App\Http\Controllers\UserController;
 use App\Jobs\Fetches\FetchItems;
@@ -69,6 +70,8 @@ Route::get('/benchmarks/maps/{includes}/{sellOrderSetting}/{tax}', [BenchmarkCon
 // *
 // * TOOLS
 // *
+Route::get('/refine/{request}/{requestID}/{includes}/{buyOrderSetting}/{tax}', [RefineController::class, 'refine']);
+
 Route::get('/recipes/{request}/{id}/{quantity}', [RecipeController::class, 'getRecipeValues']);
 Route::get('/recipes/{id}/{quantity}', [RecipeController::class, 'getRecipeTree']);
 

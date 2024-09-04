@@ -7,10 +7,21 @@ use App\Models\FishingHoleDropRate;
 use App\Models\Items;
 use App\Models\MapBenchmarkDropRate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class BenchmarkController extends Controller
 {
     public function maps($includes, $sellOrderSetting, $tax){
+
+        // Create unique cache key with the unique paramters a user may have
+        $cacheKey = 'map_benchmarks_' . md5(json_encode($includes) . $sellOrderSetting . $tax); 
+
+        // Check if the response is already cached
+        $cachedResponse = Cache::get($cacheKey); 
+        if ($cachedResponse){
+            return response()->json($cachedResponse); 
+        }
+
         // Make it a workable arrays
         $includes = json_decode($includes); 
 
@@ -60,13 +71,6 @@ class BenchmarkController extends Controller
 
             foreach ($group as $item){
                 //dd($item);
-                
-
-                // if ($item->item_name == 'Dragonite Ore'){
-                //     dd($item);
-                // }
-
-                
                 // If the drop rate is 0, then skip to the next item
                 if ($item->drop_rate == 0){
                     continue;
@@ -157,12 +161,17 @@ class BenchmarkController extends Controller
             'benchmarks' => $mapBenchmark
         ];
 
+        // Store unique cache key for the next [time] minutes
+        Cache::put($cacheKey, $response, now()->addMinutes(60)); 
+
         return response()->json($response); 
-
-
     }
 
     public function fishing($includes, $buyOrderSetting, $sellOrderSetting, $tax){
+
+        // Create unique cache key with the unique paramters a user may have
+        $cacheKey = 'fishing_benchmarks_' . md5(json_encode($includes) . $sellOrderSetting . $tax); 
+
         // Make it a workable arrays
         $includes = json_decode($includes); 
 
@@ -318,6 +327,9 @@ class BenchmarkController extends Controller
             'dropRates' => $dropRates,
             'fishingHoles' => $fishingHoles,
         ];
+
+        // Store unique cache key for the next [time] minutes
+        Cache::put($cacheKey, $response, now()->addMinutes(60)); 
 
         //dd($response);
 

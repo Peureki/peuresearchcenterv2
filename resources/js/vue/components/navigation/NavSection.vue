@@ -1,7 +1,6 @@
 <template>
     <div 
         class="nav-section-container"
-        @click="toggle = !toggle"
     >
         <h5>{{ header }}</h5>
         <svg 
