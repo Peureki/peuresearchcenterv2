@@ -105,7 +105,7 @@
                         class="text-left"
                     >
                         <img 
-                            :src="item.item_icon" :alt="item.item_name" :title="item.item_name"
+                            class="icon" :src="item.item_icon" :alt="item.item_name" :title="item.item_name"
                         >
                         <p :style="{color: showRarityColor(item.rarity)}">{{ item.item_name }}</p>
                     </div>

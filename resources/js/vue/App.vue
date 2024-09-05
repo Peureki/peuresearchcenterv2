@@ -123,58 +123,19 @@ nav h6{
     white-space: nowrap;
 }
 
-nav{
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100dvh;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    width: var(--nav-width);
-    background-color: var(--color-bkg);
-    /* padding-left: var(--nav-padding); */
-    z-index: 100000;
-}
-::-webkit-scrollbar{
-    width: 1rem;
-    border: var(--border-general);
-}
-::-webkit-scrollbar-thumb{
-    background-color: var(--color-scrollbar-thumb);
-}
-nav .top img{
-    width: var(--nav-img-w-and-h);
-    height: var(--nav-img-w-and-h);
-}
-nav .logo-container{
-    width: 100%;
-}
-nav .credits p{
-    padding-left: var(--nav-padding-left);
-}
-
-.nav-section-container {
-    position: relative;
-    cursor: pointer;
-    border-bottom: var(--border-bottom);
-}
-.nav-section-container h5{
-    color: var(--color-subheader);
-}
-.nav-section-container svg{
-    position: absolute;
-    bottom: 0%;
-    left: 50%;
-    transform: translate(-0%, -50%);
-    width: 10px;
-    height: 10px;
-    transition: var(--transition-all-03s-ease);
-}
-.nav-section-container:hover svg{
-    bottom: -5%;
-    transform: translate(5%, -50%);
+/* 
+    =================================================
+    * MOBILE FOR HTML SYMATIC STUFF
+    =================================================
+*/
+@media (max-width: 768px){
+    section{
+        padding-left: unset;
+        padding: var(--padding-mobile-general);
+    }
+    .overflow-table{
+        overflow-x: auto;
+    }
 }
 
 a.page-link{
@@ -185,23 +146,11 @@ a.page-link{
     border-bottom: var(--border-bottom);
     text-decoration: none;
 }
-nav a img{
+
+.icon{
     width: 20px;
     height: 20px;
 }
-nav .routes a img,
-nav .routes a h6{
-    transition: var(--transition-all-03s-ease);
-}
-
-nav .routes a:hover img,
-nav .routes a:hover h6{
-    transform: translateX(10px);
-}
-nav a:hover{
-    border-bottom: var(--hover-border-bottom);
-}
-
 
 .distinquish-section{
     display: grid;
@@ -248,13 +197,7 @@ nav-timer-container .outposts:hover{
 }
 
 
-main {
-    padding-left: var(--nav-width);
-}
-main header{
-    padding: var(--padding-main);
-    border-bottom: var(--border-bottom);
-}
+
 
 nav-timer-container{
     display: flex;
@@ -682,6 +625,12 @@ span.label-and-subtitle{
     display: flex;
     flex-direction: column;
     gap: var(--gap-content);
+    position: relative;
+}
+@media (max-width: 768px){
+    .pie-chart{
+        display: none;
+    }
 }
 /* 
     =================================================
@@ -817,6 +766,168 @@ svg.import {
     transition: var(--transition-all-03s-ease);
 }
 
+/* 
+    =================================================
+    * BENCHMARKS
+    =================================================
+*/
+
+.benchmark-grid{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    gap: var(--gap-general);
+}
+.benchmark-card{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #686868;
+    padding: var(--padding-benchmark-container);
+    border-radius: 5px;
+    background-color: var(--color-bkg-fade);
+    gap: 50px;
+    transition: var(--transition-all-03s-ease);
+}
+p.rank{
+    position: absolute;
+    font-size: var(--font-size-h4);
+    top: 2%;
+    left: 1%;
+    transform: translate(-1%, -2%);
+    opacity: 0.5;
+    z-index: 3;
+}
+.benchmark-card-container{
+    position: relative;
+    display: flex;
+    gap: var(--gap-general);
+    width: 100%;
+    z-index: 2;
+}
+
+.benchmark-card:hover{
+    border: 1px solid var(--color-link);
+}
+.benchmark-card:hover svg.arrow,
+.benchmark-card:focus svg.arrow{
+    transform: rotate(45deg);
+}
+.benchmark-details{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--gap-general);
+}
+.benchmark-title-and-value{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.benchmark-value{
+    font-size: var(--font-size-h5);
+}
+.title-container{
+    display: flex;
+    align-items: center;
+    gap: var(--gap-general);
+}
+.title {
+    font-size: var(--font-size-h4);
+}
+.benchmark-map-and-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+}
+
+.benchmark-info-container{
+    display: flex;
+    align-items: center;
+    gap: var(--gap-general);
+}
+img.bait{
+    width: 20px;
+    height: 20px;
+}
+.benchmark-currencies{
+    display: flex;
+    gap: 3px;
+}
+
+img.benchmark-currency,
+svg.sun,
+svg.moon,
+svg.arrow{
+    width: 20px;
+    height: 20px;
+}
+svg.arrow {
+    cursor: pointer;
+    transform: rotate(-45deg);
+    transition: var(--transition-all-03s-ease);
+}
+svg.arrow path{
+    fill: var(--color-link);
+}
+.fishing-power{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.details{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    width: 100%;
+    gap: var(--gap-content);
+}
+
+@media (max-width: 768px){
+    .benchmark-grid{
+        width: 100%;
+    }
+    .benchmark-details{
+        flex-direction: unset;
+        align-items: center;
+    }
+    img.most-valued-icon{
+        height: 40px;
+        width: 40px;
+    }
+    /* .benchmark-info-container{
+        display: none;
+    } */
+    img.benchmark-currency{
+        width: 20px;
+    }
+    .benchmark-details{
+        gap: var(--gap-general);
+    }
+    .benchmark-title-and-value{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--gap-general);
+    }
+    .benchmark-map-and-info{
+        height: 100%;
+        align-items: flex-start;
+        gap: var(--gap-general);
+        flex-direction: column;
+    }
+    .benchmark-currencies{
+        display: none;
+    }
+    .benchmark-info-container{
+        width: 100%;
+        justify-content: flex-end;
+    }
+    .details{
+        grid-template-columns: unset;
+    }
+}
+
 
 
 /* 
@@ -924,11 +1035,11 @@ svg.import {
     --color-dawn: #db8b9d;
     --color-anytime: #e15e6c;
 
-    --font-size-h1: clamp(2rem, 20vw, 6.25rem);
+    --font-size-h1: clamp(2rem, 15vw, 6.25rem);
     --font-size-h2: clamp(1.8rem, 15vw, 4rem);
     --font-size-h3: clamp(1.3rem, 8vw, 2rem);
-    --font-size-h4: clamp(1.2rem, 7vw, 1.5rem);
-    --font-size-h5: clamp(1.1rem, 5vw, 1.2rem);
+    --font-size-h4: clamp(1.2rem, 5vw, 1.5rem);
+    --font-size-h5: clamp(1.0rem, 4vw, 1.3rem);
     --font-size-h6: clamp(0.8rem, 4vw, 1rem);
     --font-size-p: clamp(0.8rem, 4vw, 1rem);
     --font-size-subtext: clamp(0.5rem, 3vw, 0.8rem);
@@ -951,7 +1062,7 @@ svg.import {
     --border-positive: 2px solid #5ED625;
     --border-negative: 2px solid #EC004D;
     
-    --nav-width: clamp(15rem, 15vw, 18rem);
+    --nav-width: clamp(13.5rem, 15vw, 16rem);
     --nav-padding: 10px 0 10px 10px;
     --nav-padding-left: 10px;
     --nav-padding-label: 5px;
@@ -959,7 +1070,7 @@ svg.import {
 
     --padding-section: clamp(0.5rem, 0.5vw, 1.5rem);
     --padding-section-left: clamp(0.5rem, 1vw, 1.5rem);
-    --padding-benchmark-container: clamp(0.2rem, 1vw, 1rem);
+    --padding-benchmark-container: clamp(0.5rem, 0.8vw, 1rem);
     --padding-shortcuts: 10px;
     --padding-h5: 20px 10px 20px 10px;
     --padding-main: 0px 10px 0 10px;
@@ -983,6 +1094,7 @@ svg.import {
     --padding-search-li: 5px 0px 5px 10px;
     --padding-block-general: 10px 0px 10px 0px;
     --padding-inline: clamp(0.2rem, 0.4vw, 1rem);
+    --padding-mobile-general: 10px;
 
     --img-material-w: 20px;
 

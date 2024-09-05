@@ -1,6 +1,6 @@
 <template>
     <router-link class="page-link" :to="`/${category}/${url}`">
-        <img :src="icon" :alt="name" :title="name">
+        <img class="icon" :src="icon" :alt="name" :title="name">
         <p>{{ name }}</p>
     </router-link>
 </template>

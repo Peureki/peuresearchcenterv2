@@ -1,20 +1,20 @@
 <template>
-    <div class="fishing-hole-grid">
+    <div class="benchmark-grid">
         <div
-            class="fishing-hole-card"
+            class="benchmark-card"
             v-for="(benchmark, index) in benchmarks" :key="index"
         >
-            
-            <div class="card-container">
-                <p class="rank">{{ index + 1 }}</p>
-                <img class="legendary-fish" :src="benchmark.mostValuedIcon" :alt="benchmark.mostValuedItem" :title="benchmark.mostValuedItem">
-                <div class="fishing-hole-details">
+            <p class="rank">{{ index + 1 }}</p>
+            <div class="benchmark-card-container">
+                
+                <img class="most-valued-icon" :src="benchmark.mostValuedIcon" :alt="benchmark.mostValuedItem" :title="benchmark.mostValuedItem">
+                <div class="benchmark-details">
                     <!--
                         *
                         * TITLE AND ESTIMATES
                         *
                     -->
-                    <span class="fishing-title-and-estimate">
+                    <span class="benchmark-title-and-value">
                         <span class="title-container">
                             <p 
                                 class="title"
@@ -24,7 +24,7 @@
                             
                         </span>
                         
-                        <span class="gold-label-container">
+                        <span class="gold-label-container benchmark-value">
                             <span 
                                 class="gold-label"
                                 v-for="gold in formatValue(benchmark.gph)"
@@ -35,20 +35,20 @@
                     </span>
                     <!--
                         *
-                        * MAP AND REQUIREMENTS
+                        * MAP AND currencies
                         *
                     -->
-                    <span class="fishing-map-and-requirements">
+                    <span class="benchmark-map-and-info">
                         <p class="map-and-region">{{ benchmark.type }}</p>
                         <!--
                             *
-                            * REQUIREMENTS
+                            * currencies
                             *
                         -->
-                        <span class="requirements">
-                            <span class="fishing-power-container" v-for="currency in setCurrencies(dropRates[index])">
-                                <img class="fishing-power-icon" :src="currency.icon">
-                                <p class="currencies">{{ currency.value }}</p>
+                        <span class="benchmark-info-container">
+                            <span class="benchmark-currencies" v-for="currency in setCurrencies(dropRates[index])">
+                                <img class="benchmark-currency" :src="currency.icon">
+                                <p>{{ currency.value }}</p>
                             </span>
 
                             <svg 
@@ -139,121 +139,12 @@ console.log('drop rates', props.dropRates);
 </script>
 
 <style scoped>
-.gold-label{
+/* .gold-label{
     font-size: var(--font-size-h5);
-}
+} */
 
 
-.fishing-hole-grid{
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
-    gap: 10px;
-}
-.fishing-hole-card{
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    border: 1px solid #686868;
-    padding: var(--padding-benchmark-container);
-    border-radius: 5px;
-    background-color: var(--color-bkg-fade);
-    gap: 50px;
-    transition: var(--transition-all-03s-ease);
-}
-p.rank{
-    position: absolute;
-    font-size: var(--font-size-h2);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.1;
-    z-index: 1;
-}
-.card-container{
-    position: relative;
-    display: flex;
-    gap: var(--gap-general);
-    width: 100%;
-    z-index: 2;
-}
 
-.fishing-hole-card:hover{
-    border: 1px solid var(--color-link);
-}
-.fishing-hole-card:hover svg.arrow,
-.fishing-hole-card:focus svg.arrow{
-    transform: rotate(45deg);
-}
-.fishing-hole-details{
-    display: flex;
-    width: 100%;
-    gap: var(--gap-general);
-    flex-direction: column;
-    justify-content: space-between;
-}
-.fishing-title-and-estimate{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.title-container{
-    display: flex;
-    align-items: center;
-    gap: var(--gap-general);
-}
-.title {
-    font-size: var(--font-size-h4);
-}
-.fishing-map-and-requirements{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 50px;
-}
-
-.requirements{
-    display: flex;
-    align-items: center;
-    gap: var(--gap-general);
-}
-img.bait{
-    width: 20px;
-    height: 20px;
-}
-.fishing-power-container{
-    display: flex;
-    gap: 3px;
-}
-p.currencies{
-    color: var(--color-text-fade);
-}
-img.fishing-power-icon,
-svg.sun,
-svg.moon,
-svg.arrow{
-    width: 20px;
-    height: 20px;
-}
-svg.arrow {
-    cursor: pointer;
-    transform: rotate(-45deg);
-    transition: var(--transition-all-03s-ease);
-}
-svg.arrow path{
-    fill: var(--color-link);
-}
-.fishing-power{
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-.details{
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    width: 100%;
-    gap: var(--gap-content);
-}
 /*
     *
     * DYNAMIC CLASSES

@@ -5,22 +5,37 @@ namespace App\Http\Controllers;
 use App\Models\FishingHole;
 use App\Models\FishingHoleDropRate;
 use App\Models\Items;
+use App\Models\MapBenchmarkCache;
 use App\Models\MapBenchmarkDropRate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class BenchmarkController extends Controller
 {
+    // LOAD TIMES
+    // Size: 4.1mb
+    // Time: 17.86s
+
     public function maps($includes, $sellOrderSetting, $tax){
 
         // Create unique cache key with the unique paramters a user may have
         $cacheKey = 'map_benchmarks_' . md5(json_encode($includes) . $sellOrderSetting . $tax); 
 
-        // Check if the response is already cached
+        // $cacheResults = MapBenchmarkCache::where('cache_key', $cacheKey)->first(); 
+
+        // // Check if the response is already cached
+        // if ($cacheResults){
+        //     return response()->json([
+        //         'dropRates' => json_decode($cacheResults->drop_rates),
+        //         'benchmarks' => json_decode(($cacheResults->benchmarks)),
+        //     ]);
+        // }
+        //dd($cacheResults);
         $cachedResponse = Cache::get($cacheKey); 
         if ($cachedResponse){
             return response()->json($cachedResponse); 
         }
+
 
         // Make it a workable arrays
         $includes = json_decode($includes); 
@@ -43,6 +58,7 @@ class BenchmarkController extends Controller
             'map_benchmark_drop_rates.*',
         )
         //->where('map_benchmark_id', 51)
+        // ->paginate(10);
         ->get()
         ->groupBy('map_benchmark_id'); 
 
@@ -57,10 +73,6 @@ class BenchmarkController extends Controller
 
             $gph = 0;
             $time = $group[0]->time;
-            $type = $group[0]->map_type;
-            $map = $group[0]->map_name;
-            $sampleSize = $group[0]->sample_size;
-            $latestRun = $group[0]->latest_run;
 
             $itemValue = 0;
             $currentHighestValue = 0; 
@@ -71,54 +83,7 @@ class BenchmarkController extends Controller
 
             foreach ($group as $item){
                 //dd($item);
-                // If the drop rate is 0, then skip to the next item
-                if ($item->drop_rate == 0){
-                    continue;
-                } 
-                
-                // COMMENDATIONS (DWC)
-                else if ($item->type == 'Trophy' && strpos($item->item_name, 'Commendation')){
-                    $itemValue = $this->getCommendationValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-                }
-                // CONSUMABLES
-                else if ($item->type === 'Consumable' && strpos($item->item_description, 'volatile magic') 
-                || strpos($item->item_description, 'Volatile Magic')
-                || strpos($item->item_description, 'unbound magic')){
-                    //dd($item->item_name);
-                    $itemValue = $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
-                    //dd($item->item_name, $itemValue);
-                }
-
-                else if ($item->rarity == 'Junk') {
-                // JUNK ITEMS
-                    $itemValue = $item->vendor_value * $item->drop_rate;   
-                }
-                // UNIDENTIFIED GEAR
-                else if (strpos($item->item_name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
-                    $itemValue = $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
-                } 
-                // CHAMP BAGS, CONTAINERS
-                else if ($item->type == "Container" && strpos($item->item_description, 'Salvage') === false){
-                    $itemValue = $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-                } 
-                // SALVAGEABLES (exclu uni gear)
-                else if ($item->item_description === "Salvage Item" && in_array('Salvageables', $includes)){
-                    $itemValue = $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
-                }
-                // GENERAL EXCHANGEABLES
-                else if (array_key_exists($item->item_name, $this->exchangeableMap)) {
-                    $itemValue = $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-                }
-                // RAW CURRENCIES
-                else if ($item->currency_id) {
-                    $itemValue = $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-                }
-                // ANYTHING ELSE NOT FROM ABOVE 
-                else {
-                    $itemValue = ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
-                }   
-
-                $item->value = $itemValue;
+                $itemValue = $this->getItemValue($item, $includes, $sellOrderSetting, $tax); 
 
                 if ($itemValue > $currentHighestValue){
                     $currentHighestValue = $itemValue;
@@ -129,8 +94,9 @@ class BenchmarkController extends Controller
                         $mostValuedItem = $item->item_name;
                         $mostValuedIcon = $item->item_icon;
                     }
-                    
                 }
+
+                $item->value = $itemValue;
                 
                 $total += $itemValue; 
                 
@@ -141,17 +107,17 @@ class BenchmarkController extends Controller
             
             //dd($total);
 
-            array_push($mapBenchmark, [
+            $mapBenchmark[] = [
                 'gph' => $gph,
                 'total' => $total,
-                'type' => $type,
-                'time' => $time,
-                'map' => $map,
-                'sampleSize' => $sampleSize,
-                'latestRun' => $latestRun,
-                'mostValuedItem' => $mostValuedItem, 
+                'type' => $group[0]->map_type,
+                'time' => $group[0]->time,
+                'map' => $group[0]->map_name,
+                'sampleSize' => $group[0]->sample_size,
+                'latestRun' => $group[0]->latest_run,
+                'mostValuedItem' => $mostValuedItem,
                 'mostValuedIcon' => $mostValuedIcon,
-            ]);
+            ];
         }
 
         $mapDropRates = $mapDropRates->values();
@@ -162,7 +128,7 @@ class BenchmarkController extends Controller
         ];
 
         // Store unique cache key for the next [time] minutes
-        Cache::put($cacheKey, $response, now()->addMinutes(60)); 
+        Cache::put($cacheKey, $response, now()->addHours(3)); 
 
         return response()->json($response); 
     }
@@ -329,7 +295,8 @@ class BenchmarkController extends Controller
         ];
 
         // Store unique cache key for the next [time] minutes
-        Cache::put($cacheKey, $response, now()->addMinutes(60)); 
+        Cache::put($cacheKey, $response, now()->addHours(3)); 
+        
 
         //dd($response);
 

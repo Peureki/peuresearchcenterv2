@@ -1,18 +1,19 @@
 <template>
-    <div class="fishing-hole-grid">
+    <div class="benchmark-grid">
         <div
-            class="fishing-hole-card"
+            class="benchmark-card"
             v-for="(fishingHole, index) in fishingHoles" :key="index"
         >
-            <div class="card-container">
-                <img class="legendary-fish" :src="fishingHole.mostValuedIcon" :alt="fishingHole.mostValuedItem" :title="fishingHole.mostValuedItem">
-                <div class="fishing-hole-details">
+            <p class="rank">{{ index + 1 }}</p>
+            <div class="benchmark-card-container">
+                <img class="most-valued-icon" :src="fishingHole.mostValuedIcon" :alt="fishingHole.mostValuedItem" :title="fishingHole.mostValuedItem">
+                <div class="benchmark-details">
                     <!--
                         *
                         * TITLE AND ESTIMATES
                         *
                     -->
-                    <span class="fishing-title-and-estimate">
+                    <span class="benchmark-title-and-value">
                         <span class="title-container">
                             <p class="title" :class="changeTimeBackground(fishingHole.time)">{{ fishingHole.name }}</p>
                             <svg v-if="fishingHole.name !== 'Deep World-Class Fish'" width="10" height="10" xmlns="http://www.w3.org/2000/svg">
@@ -24,7 +25,7 @@
                             </svg>
                         </span>
                         
-                        <span class="gold-label-container">
+                        <span class="gold-label-container benchmark-value">
                             <span 
                                 class="gold-label"
                                 v-for="gold in formatValue(fishingHole.estimateValue)"
@@ -35,21 +36,21 @@
                     </span>
                     <!--
                         *
-                        * MAP AND REQUIREMENTS
+                        * MAP AND benchmark-info-container
                         *
                     -->
-                    <span class="fishing-map-and-requirements">
+                    <span class="benchmark-map-and-info">
                         <p class="map-and-region">{{ fishingHole.map}}, {{ fishingHole.region }}</p>
                         <!--
                             *
-                            * REQUIREMENTS
+                            * benchmark-info-container
                             *
                         -->
-                        <span class="requirements">
+                        <span class="benchmark-info-container">
                             <img class="bait" :src="fishingHole.baitIcon" :alt="fishingHole.bait" :title="fishingHole.bait">
                             
                             <span class="fishing-power">
-                                <img class="fishing-power-icon" :src="GreenHook" alt="Fishing Power" title="Fishing Power">
+                                <img class="benchmark-currency" :src="GreenHook" alt="Fishing Power" title="Fishing Power">
                                 <p>{{ fishingHole.fishingPower }}</p>
                             </span>
 
@@ -122,13 +123,6 @@ import PieChart from '@/js/vue/components/general/PieChart.vue'
 import { tyrianCurrentPeriod, canthanCurrentPeriod } from '@/js/vue/composables/Global.js'
 
 import GreenHook from '@/imgs/icons/fishes/Green_Hook.png'
-import MaddenedMackerel from '@/imgs/icons/fishes/Unholy_Mackerel.png'
-import SwordFish from '@/imgs/icons/fishes/Swordfish.png'
-import Kaluga from '@/imgs/icons/fishes/Kaluga.png'
-import GoliathGrouper from '@/imgs/icons/fishes/Goliath_Grouper.png'
-import GlacialSnakehead from '@/imgs/icons/fishes/Glacial_Snakehead.png'
-import AlabasterOscar from '@/imgs/icons/fishes/Alabaster_Oscar.png'
-import ShipwreckMoray from '@/imgs/icons/fishes/Shipwreck_Moray.png'
 
 const props = defineProps({
     fishingHoles: Object,
@@ -187,98 +181,6 @@ const matchTyrianTime = (benchmarkTime, region) => {
 </script>
 
 <style scoped>
-.fishing-hole-grid{
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
-    gap: 10px;
-}
-.fishing-hole-card{
-    display: flex;
-    flex-wrap: wrap;
-    border: 1px solid #686868;
-    padding: var(--padding-benchmark-container);
-    border-radius: 5px;
-    background-color: var(--color-bkg-fade);
-    gap: 50px;
-    transition: var(--transition-all-03s-ease);
-}
-.card-container{
-    display: flex;
-    gap: var(--gap-general);
-    width: 100%;
-}
-.fishing-hole-card:hover{
-    border: 1px solid var(--color-link);
-}
-.fishing-hole-card:hover svg.arrow,
-.fishing-hole-card:focus svg.arrow{
-    transform: rotate(45deg);
-}
-img.legendary-fish{
-    height: 50px;
-}
-.fishing-hole-details{
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: space-between;
-}
-.fishing-title-and-estimate{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.title-container{
-    display: flex;
-    align-items: center;
-    gap: var(--gap-general);
-}
-.title {
-    font-size: var(--font-size-h4);
-}
-.fishing-map-and-requirements{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 50px;
-}
-
-.requirements{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-img.bait{
-    width: 20px;
-    height: 20px;
-}
-img.fishing-power-icon,
-svg.sun,
-svg.moon,
-svg.arrow{
-    width: 20px;
-    height: 20px;
-}
-svg.arrow {
-    cursor: pointer;
-    transform: rotate(-45deg);
-    transition: var(--transition-all-03s-ease);
-}
-svg.arrow path{
-    fill: var(--color-link);
-}
-.fishing-power{
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-.details{
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    width: 100%;
-    gap: var(--gap-content);
-}
 /*
     *
     * DYNAMIC CLASSES

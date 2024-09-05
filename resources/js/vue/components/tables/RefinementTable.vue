@@ -3,8 +3,7 @@
         <thead>
             <tr>
                 <th colspan="100%">
-                    <!-- <h4 v-if="targetCurrency">{{ targetCurrency }}</h4> -->
-                    <h4>Best Value</h4>
+                    <h4>{{ targetRefinement }}</h4>
                 </th>
             </tr>
             <tr>

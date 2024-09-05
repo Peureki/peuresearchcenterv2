@@ -909,6 +909,87 @@ onMounted(() => {
 </script>
 
 <style scoped>
+nav{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: var(--nav-width);
+    background-color: var(--color-bkg);
+    /* padding-left: var(--nav-padding); */
+    z-index: 100000;
+}
+::-webkit-scrollbar{
+    width: 1rem;
+    border: var(--border-general);
+}
+::-webkit-scrollbar-thumb{
+    background-color: var(--color-scrollbar-thumb);
+}
+nav .top img{
+    width: var(--nav-img-w-and-h);
+    height: var(--nav-img-w-and-h);
+}
+nav .logo-container{
+    width: 100%;
+}
+nav .credits p{
+    padding-left: var(--nav-padding-left);
+}
+
+.nav-section-container {
+    position: relative;
+    cursor: pointer;
+    border-bottom: var(--border-bottom);
+}
+.nav-section-container h5{
+    color: var(--color-subheader);
+}
+.nav-section-container svg{
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translate(-0%, -50%);
+    width: 10px;
+    height: 10px;
+    transition: var(--transition-all-03s-ease);
+}
+.nav-section-container:hover svg{
+    bottom: -5%;
+    transform: translate(5%, -50%);
+}
+
+a.page-link{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: var(--nav-padding);
+    border-bottom: var(--border-bottom);
+    text-decoration: none;
+}
+nav .routes a img,
+nav .routes a h6{
+    transition: var(--transition-all-03s-ease);
+}
+
+nav .routes a:hover img,
+nav .routes a:hover h6{
+    transform: translateX(10px);
+}
+nav a:hover{
+    border-bottom: var(--hover-border-bottom);
+}
+
+@media (max-width: 768px){
+    nav{
+        width: 100%;
+        display: none;
+    }
+}
 .nav-container{
     position: relative;
 }

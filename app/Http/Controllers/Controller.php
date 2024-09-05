@@ -506,6 +506,194 @@ class Controller extends BaseController
             *
         */
 
+        $this->homesteadFiber = [
+            'id' => [
+                12255, // Blueberry
+                12147, // Mushroom
+                12134, // Carrot
+                12236, // Black Peppercorn
+                12246, // Parsley leaf
+                12248, // Thyme Leaf
+                12331, // Chili Pepper
+                12163, // Head of Garlic
+                12234, // Vanilla Bean
+                12238, // Head of Lettuce
+                12142, // Onion
+                12135, // Potato
+                12247, // Bay Leaf
+                12244, // Oregano
+                12243, // Sage
+                12241, // Spinach
+                12253, // Strawberry
+                12161, // Beet
+                12162, // Turnip
+                12332, // Head of Cabbage
+                12341, // Grape
+                12333, // Kale Leaf
+                12329, // Yam
+                12334, // Portobello Mushroom
+                12336, // Dill Sprig
+                12335, // Rosemary
+                12342, // Sesame Seed
+                12330, // Zucchini
+                12537, // Blackberry
+                12532, // Head of Cauliflower
+                12536, // Mint leaf
+                12533, // Green Onion
+                12538, // Sugar pumpkin
+                12535, // Rutabaga
+                12512, // Artichoke
+                12505, // Asparagus Spear
+                36731, // Passion Fruit
+                12511, // Butternut Squash
+                12504, // Cayenne Pepper
+                12546, // Lemongrass
+                12506, // Tarragon 
+                73113, // Cassava
+                12508, // Leek
+                12254, // Rasberry
+                12534, // Clove
+                12507, // Parsnip
+                12547, // Saffron
+                66524, // Nopal
+                66522, // Prickly Pear
+                74090, // Pile of Flaxseed
+                12544, // Ghost Pepper
+                73096, // Pile of Allspice
+                82866, // Handful of Red Lentils
+                12510, // Lotus Root
+                12128, // Omnomberry
+                12545, // Orrian Truffle
+                73504, // Sawgill Mushroom
+                12509, // Seaweed
+                12144, // Snow Truffle
+            ],
+            'conversionRate' => [
+                2,
+                1,
+                1,
+                1,
+                1,
+                1,
+                2,
+                1,
+                1,
+                1,
+                1,
+                4,
+                8,
+                10,
+                1,
+                1,
+                1,
+                15,
+                12,
+                10,
+                8,
+                1,
+                8,
+                3,
+                10,
+                1,
+                2,
+                2,
+                1,
+                8,
+                7,
+                6,
+                8,
+                1,
+                7,
+                1,
+                5,
+                7,
+                1,
+                4,
+                1,
+                1,
+                7,
+                1,
+                1,
+                7,
+                1,
+                6,
+                6,
+                1,
+                1,
+                1,
+                1,
+                4,
+                1,
+                1,
+                6,
+                1,
+                2,
+            ],
+            'fee' => array_fill(0, 5, 0),
+            'outputQty' => [
+                1,
+                1,
+                1,
+                2,
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                1,
+                1,
+                1,
+                2,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                2,
+                1,
+                1,
+                2,
+                1,
+                1,
+                2,
+                1,
+                1,
+                1,
+                1,
+                1,
+                2,
+                1,
+                2,
+                1,
+            ],
+
+        ];
+
         $this->homesteadMetal = [
             'id' => [
                 19697, // Copper Ore
@@ -595,6 +783,7 @@ class Controller extends BaseController
 
         // Reference this map when dealing with anything homestead conversions
         $this->homesteadMap = [
+            "Refined Homestead Fiber" => $this->homesteadFiber,
             "Refined Homestead Metal" => $this->homesteadMetal,
             "Refined Homestead Wood" => $this->homesteadWood,
         ];
@@ -1328,5 +1517,60 @@ class Controller extends BaseController
         else {
             return $gearValue * $gearDR;
         }
+    }
+
+    /*
+        * 
+        * GET ITEM VALUES
+        * Master function of conditions to get the value of a specific item
+        * Examples: champ bags, uni gear, exchangeables, etc
+    */
+    function getItemValue($item, $includes, $sellOrderSetting, $tax){
+        if ($item->drop_rate == 0){
+            return 0; 
+        }
+        
+        // COMMENDATIONS (DWC)
+        else if ($item->type == 'Trophy' && strpos($item->item_name, 'Commendation')){
+            return $this->getCommendationValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+        }
+        // CONSUMABLES
+        else if ($item->type === 'Consumable' && strpos($item->item_description, 'volatile magic') 
+        || strpos($item->item_description, 'Volatile Magic')
+        || strpos($item->item_description, 'unbound magic')){
+            //dd($item->item_name);
+            return $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
+            //dd($item->item_name, $itemValue);
+        }
+        // JUNK ITEMS
+        else if ($item->rarity == 'Junk') {
+            return $item->vendor_value * $item->drop_rate;   
+        }
+        // UNIDENTIFIED GEAR
+        else if (strpos($item->item_name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
+            return $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+        } 
+        // CHAMP BAGS, CONTAINERS
+        else if ($item->type == "Container" && strpos($item->item_description, 'Salvage') === false){
+            return $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+        } 
+        // SALVAGEABLES (exclu uni gear)
+        else if ($item->item_description === "Salvage Item" && in_array('Salvageables', $includes)){
+            return $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+        }
+        // GENERAL EXCHANGEABLES
+        else if (array_key_exists($item->item_name, $this->exchangeableMap)) {
+            return $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+        }
+        // RAW CURRENCIES
+        else if ($item->currency_id) {
+            return $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+        }
+        // ANYTHING ELSE NOT FROM ABOVE 
+        else {
+            return ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+        }   
+
+        
     }
 }

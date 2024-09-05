@@ -16,6 +16,13 @@
         />
     </section>
 
+    <section>
+        <RefinementTable
+            target-refinement="Refined Homestead Fiber"
+            target-id="102306"
+        />
+    </section>
+
         
     
 
