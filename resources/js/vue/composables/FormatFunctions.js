@@ -79,7 +79,7 @@ export function formatPercentage(value){
     return `${parseFloat(value * 100).toFixed(2)}%`;
 }
 
-export function variableToTime(num){
+export function formatToMinutes(num){
     const minutes = Math.floor(num),
         decimal = num - minutes,
         seconds = Math.round(decimal * 60); 
@@ -129,3 +129,24 @@ export function formatTime (seconds) {
         return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     }
 };
+
+export function formatStringToTime(decimalHours) {
+    // Get the whole number of hours
+    const hours = Math.floor(decimalHours);
+    
+    // Get the decimal part and convert it to minutes
+    const decimalMinutes = (decimalHours - hours) * 60;
+    const minutes = Math.floor(decimalMinutes);
+    
+    // Get the remaining decimal part and convert it to seconds
+    const decimalSeconds = (decimalMinutes - minutes) * 60;
+    const seconds = Math.floor(decimalSeconds);
+  
+    // Format as 0:00:00 (hours:minutes:seconds)
+    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
+export function formatToDecimal(number){
+    return Math.round(number * 100) / 100;
+}
+  

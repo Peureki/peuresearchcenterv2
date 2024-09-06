@@ -22,6 +22,7 @@ header{
     header{
         padding-left: unset;
         padding: var(--padding-mobile-general);
+        padding-top: calc(var(--padding-general) * 2 + 60px);
     }
 }
 

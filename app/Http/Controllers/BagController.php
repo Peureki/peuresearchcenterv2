@@ -71,6 +71,7 @@ class BagController extends Controller
             'item.*', 
             'bag_item.icon as bag_icon',
             'bag_item.name as bag_name',
+            'bag_item.rarity as bag_rarity',
             
         )
         ->whereIn('bag_id', $requestedBags)
@@ -196,6 +197,7 @@ class BagController extends Controller
                 'name' => $bagName,
                 'icon' => $icon,
                 'fee' => $fee[$index],
+                'rarity' => $group[0]->bag_rarity,
                 'profitPerBag' => $profitPerBag,
                 'currency' => $currency,
                 'currencyPerBag' => $currencyPerBag,

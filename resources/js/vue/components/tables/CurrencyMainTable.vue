@@ -4,8 +4,8 @@
             <thead>
                 <tr>
                     <th colspan="100%">
-                        <h4 v-if="targetCurrency">{{ targetCurrency }}</h4>
-                        <h4 v-else>Best Value</h4>
+                        <h4 v-if="targetCurrency" class="table-header">{{ targetCurrency }}</h4>
+                        <h4 v-else class="table-header">Best Value</h4>
                     </th>
                 </tr>
                 <tr>
@@ -33,7 +33,7 @@
                         "
                     >
                         <span class="sortable-column">
-                            <h5>Name</h5>
+                            <h5 class="table-header">Name</h5>
                             <svg
                                 class="sort-arrow active" 
                                 :ref="el => sortActive[0] = el" 
@@ -57,7 +57,7 @@
                         "
                     >
                         <span class="sortable-column">
-                            <h5>Bag Value</h5>
+                            <h5 class="table-header">Bag Value</h5>
                             <svg
                                 class="sort-arrow active" 
                                 :ref="el => sortActive[1] = el" 

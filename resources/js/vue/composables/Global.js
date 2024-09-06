@@ -10,3 +10,5 @@ export const tyrianCurrentPeriod = ref(null);
 export const tyrianTimeTilNext = ref(null); 
 export const canthanCurrentPeriod = ref(null);
 export const canthanTimeTilNext = ref(null);
+
+export const isMobile = ref(window.innerWidth < 786);

@@ -75,6 +75,14 @@
                 
                 <div>
                     <BenchmarkTable
+                        v-if="!isMobile"
+                        :benchmark="benchmark"
+                        :drop-rates="dropRates[index]"
+                    />
+
+                    <MobileBenchmarkTable
+                        v-if="isMobile"
+                        type="Map"
                         :benchmark="benchmark"
                         :drop-rates="dropRates[index]"
                     />
@@ -95,12 +103,13 @@ import { ref, computed, watch } from 'vue'
 import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
 
 import BenchmarkTable from '@/js/vue/components/tables/BenchmarkTable.vue'
-import FishProofs from '@/js/vue/components/general/FishProofs.vue'
 import PieChart from '@/js/vue/components/general/PieChart.vue'
+import MobileBenchmarkTable from '@/js/vue/components/tables/MobileBenchmarkTable.vue'
 
-import { tyrianCurrentPeriod, canthanCurrentPeriod } from '@/js/vue/composables/Global.js'
+import { isMobile } from '@/js/vue/composables/Global.js'
 
 import GreenHook from '@/imgs/icons/fishes/Green_Hook.png'
+
 
 
 const props = defineProps({

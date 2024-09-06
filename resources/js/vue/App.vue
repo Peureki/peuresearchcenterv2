@@ -249,6 +249,9 @@ table thead tr:first-child th{
 table tr:nth-child(odd){
     background-color: #303134;
 }
+table .table-header{
+    padding: var(--padding-table-header)
+}
 
 table thead svg{
     width: 20px;
@@ -575,6 +578,21 @@ button.submit {
 .fade-leave-to {
     opacity: 0;
 }
+
+/* FADE DOWN */
+.fade-down-enter-active {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.fade-down-leave-active{
+    transition: all 0.3s ease;
+}
+
+.fade-down-enter-from,
+.fade-down-leave-to {
+    opacity: 0;
+    transform: translateY(-500px);
+}
+
 /* 
  * GOLD LABELS
  */
@@ -587,6 +605,7 @@ span.gold-label{
     display: flex;
     align-items: flex-end;
     padding-inline: 2px;
+    font-size: var(--font-size-p);
 }
 span.gold-label img{
     width: 15px;
@@ -600,6 +619,11 @@ span.label-and-subtitle{
     font-size: var(--font-size-subtext);
     font-style: italic;
     color: var(--color-text-fade);
+}
+@media (max-width: 768px){
+    span.gold-label img{
+        width: 13px;
+    }
 }
 /* 
     =================================================
@@ -786,7 +810,7 @@ svg.import {
     padding: var(--padding-benchmark-container);
     border-radius: 5px;
     background-color: var(--color-bkg-fade);
-    gap: 50px;
+    gap: var(--gap-content);
     transition: var(--transition-all-03s-ease);
 }
 p.rank{
@@ -818,12 +842,17 @@ p.rank{
     width: 100%;
     flex-direction: column;
     justify-content: space-between;
-    gap: var(--gap-general);
+    gap: var(--gap-benchmarks);
 }
 .benchmark-title-and-value{
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+img.most-valued-icon{
+    height: 100%;
+    max-height: 75px;
+    max-width: 75px;
 }
 .benchmark-value{
     font-size: var(--font-size-h5);
@@ -841,6 +870,9 @@ p.rank{
     justify-content: space-between;
     align-items: center;
     gap: 50px;
+}
+.map-and-info{
+    white-space: nowrap;
 }
 
 .benchmark-info-container{
@@ -926,6 +958,82 @@ svg.arrow path{
     .details{
         grid-template-columns: unset;
     }
+    .map-and-info{
+        white-space: unset;
+    }
+    p.rank{
+        top: 0;
+        transform: translate(-1%, 0);
+    }
+}
+
+
+
+.formula {
+    display: flex;
+    text-align: right;
+    gap: 3px;
+}
+.mobile-benchmark-details-container{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.mobile-info-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mobile-drops-container{
+    display: grid;
+    grid-template-areas: 
+        'name name name'
+        'dr dr gph'
+    ;
+    gap: 5px;
+    border-radius: var(--border-radius-card);
+    background-color: var(--color-bkg-more-fade);
+    padding: var(--gap-general);
+    border: var(--border-bottom);
+}
+.img-and-label{
+    display: flex;
+    gap: var(--gap-general);
+    grid-area: name;
+}
+.drop-rate{
+    grid-area: dr;
+}
+.mobile-drops-container > .gold-label-container{
+    grid-area: gph;
+    text-align: right;
+}
+.mobile-currency-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--gap-general);
+}
+.mobile-currency-card{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-general);
+    padding: var(--gap-general);
+    border-radius: var(--border-radius-card);
+    border: var(--border-general);
+}
+
+.label-and-cta{
+    display: flex;
+    justify-content: space-between;
+}
+.value-container{
+    display: flex;
+    justify-content: space-between;
+}
+.value-conversion{
+    display: flex;
+    align-items: center;
 }
 
 
@@ -992,6 +1100,7 @@ svg.arrow path{
 :root{
     --color-bkg: #2a2b2e;
     --color-bkg-fade: #2F3034;
+    --color-bkg-more-fade: #2a2b2e;
     --color-h1: #ff391b;
     --color-text: #ffffff;
     --color-text-fade: #d1d1d1;
@@ -1038,14 +1147,15 @@ svg.arrow path{
     --font-size-h1: clamp(2rem, 15vw, 6.25rem);
     --font-size-h2: clamp(1.8rem, 15vw, 4rem);
     --font-size-h3: clamp(1.3rem, 8vw, 2rem);
-    --font-size-h4: clamp(1.2rem, 5vw, 1.5rem);
-    --font-size-h5: clamp(1.0rem, 4vw, 1.3rem);
-    --font-size-h6: clamp(0.8rem, 4vw, 1rem);
-    --font-size-p: clamp(0.8rem, 4vw, 1rem);
+    --font-size-h4: clamp(1.3rem, 1.7vw, 1.7rem);
+    --font-size-h5: clamp(1.0rem, 1.1vw, 1.5rem);
+    --font-size-h6: clamp(1.2rem, 1.5vw, 2rem);
+    --font-size-p: clamp(1rem, 1vw, 1.1rem);
     --font-size-subtext: clamp(0.5rem, 3vw, 0.8rem);
 
     --gap-general: clamp(0.6rem, 0.7vw, 1rem);
     --gap-content: clamp(0.8rem, 2vw, 4rem);
+    --gap-benchmarks: clamp(0.5rem, 0.5vw, 0.8rem);
 
     --font-family: 'Rubik', sans-serif;
 
@@ -1061,6 +1171,7 @@ svg.arrow path{
     --border-tooltip: 2px solid #3D3F42;
     --border-positive: 2px solid #5ED625;
     --border-negative: 2px solid #EC004D;
+    --border-radius-card: 5px;
     
     --nav-width: clamp(13.5rem, 15vw, 16rem);
     --nav-padding: 10px 0 10px 10px;
@@ -1070,9 +1181,10 @@ svg.arrow path{
 
     --padding-section: clamp(0.5rem, 0.5vw, 1.5rem);
     --padding-section-left: clamp(0.5rem, 1vw, 1.5rem);
-    --padding-benchmark-container: clamp(0.5rem, 0.8vw, 1rem);
+    --padding-benchmark-container: clamp(0.5rem, 0.6vw, 1rem);
     --padding-shortcuts: 10px;
     --padding-h5: 20px 10px 20px 10px;
+    --padding-table-header: clamp(0.5rem, 1vw, 1rem);
     --padding-main: 0px 10px 0 10px;
     --padding-outpost: 10px 0px 10px 10px;
     --padding-timers: 5px;
@@ -1083,7 +1195,6 @@ svg.arrow path{
     --padding-li-general: 3px 10px 3px 10px;
     --padding-checkboxes: 13px 5px 13px 5px;
     --padding-tooltip: 10px;
-    --padding-table-header: 10px 10px 10px 10px;
     --padding-table-td: 10px 10px 10px 10px;
     --padding-gold-span: 0px 1px 0px 1px;
     --padding-article: 10px;
@@ -1095,6 +1206,7 @@ svg.arrow path{
     --padding-block-general: 10px 0px 10px 0px;
     --padding-inline: clamp(0.2rem, 0.4vw, 1rem);
     --padding-mobile-general: 10px;
+    --padding-general: clamp(0.6rem, 0.7vw, 1rem);
 
     --img-material-w: 20px;
 

@@ -60,7 +60,7 @@
                     "
                 >
                     <span class="sortable-column">
-                        <h5>Drop Rate</h5>
+                        <h5>Qty</h5>
                         <svg
                             class="sort-arrow active" 
                             :ref="el => sortActive[1] = el" 
@@ -119,7 +119,7 @@
                         <p :style="{color: showRarityColor(item.rarity)}">{{ item.currency_name }}</p>
                     </div>
                 </td>
-                <td class="text-right">{{ formatPercentage(item.drop_rate) }}</td>
+                <td class="text-right">{{ formatToDecimal(item.drop_rate) }}</td>
                 <td class="gold">
                     <span class="gold-label-container">
                         <!-- 
@@ -142,7 +142,7 @@
 <script setup>
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
 
-import { formatValue, formatPercentage, showRarityColor } from '@/js/vue/composables/FormatFunctions.js'
+import { formatValue, formatPercentage, showRarityColor, formatToDecimal } from '@/js/vue/composables/FormatFunctions.js'
 import { sortTable, toggleSortOrder, toggleActive } from '@/js/vue/composables/TableFunctions.js'
 
 const props = defineProps({

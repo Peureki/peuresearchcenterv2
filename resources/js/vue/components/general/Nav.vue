@@ -1,525 +1,542 @@
 <template>
-    <nav>
-        <div class="nav-container">
-            <div class="top">
-                <router-link class="page-link" to="/">
-                    <div class="logo-container">
-                        <img src="@/imgs/choyas/peu-choya.png" alt="Logo of Peu Research Center" title="Logo of Peu Research Center of a green pinata choya wearing a commander tag">
-                    </div>
-                </router-link>
+    <Transition :name="isMobile ? 'fade-down' : ''">
+        <nav class="main-nav" v-if="mainNavToggle">
+            <div class="nav-container">
+                <div class="top" v-if="!isMobile">
+                    <router-link class="page-link" to="/">
+                        <div class="logo-container">
+                            <img src="@/imgs/choyas/Peu_Choya.png" alt="Logo of Peu Research Center" title="Logo of Peu Research Center of a green pinata choya wearing a commander tag">
+                        </div>
+                    </router-link>
 
-                <!-- <div class="credits">
-                    <p>Created by: Peureki.3647</p>
-                </div> -->
+                    <!-- <div class="credits">
+                        <p>Created by: Peureki.3647</p>
+                    </div> -->
 
-                
-            </div>
+                    
+                </div>
 
-            <!-- 
-                    * SHORTCUTS
+                <!-- 
+                        * SHORTCUTS
+                        *
+                        * Settings | Dark/Light mode | Nav | Discord | Other
+                    -->
+
+                    <Shortcuts
+                        :settings-toggle="settingsToggle"
+                        :bookmarks-toggle="bookmarksToggle"
+                        :filters-toggle="filtersToggle"
+                        :login-toggle="loginToggle"
+                        :api-key-toggle="apiKeyToggle"
+                        @change-toggle-status="changeToggleStatus"
+                    />
+
+                <div class="auth-welcome" v-if="user">
+                    <p>Herro {{ user.name }}</p>
+                </div>
+
+                <!-- 
                     *
-                    * Settings | Dark/Light mode | Nav | Discord | Other
+                    * TYRIAN AND CANTHAN DAY/NIGHT CYCLE
+                    *
+                -->
+                <DayAndNightTimers/>
+                <!--
+                    *
+                    *   "HELLO" MESSAGE TO USERS IF THEY ARE LOGGED IN
+                    *
+                -->
+                <Transition name="fade-right">
+                    <div v-if="user">
+                        <!-- <p>Welcome {{ user.name }}</p> -->
+                    </div>
+                </Transition>
+                <!--
+                    * SLOT - TIMERS
+                    * 
+                    * This changes depending on what timer page the website is currently on
+                -->
+                <slot name="timer"></slot>
+
+                <!--
+                    * 
+                    * SETTINGS / OPTIONS
+                    *
+                -->
+                <Transition name="fade-right">
+                    <div v-if="settingsToggle">
+                        <article class="shortcut-container">
+                            <h3>Settings</h3>
+                            <div class="settings-button-container">
+                                <!-- 
+                                    * SETTING BUTTONS
+                                    *
+                                    * BUY ORDER
+                                    * Change the properties of the button depending on the buy/sell order settings
+                                -->
+                                <p>Buy Order </p>
+                                    <div class="settings-button">
+                                    <button
+                                        @click="changeOrder('buy order')"
+                                        :class="buyOrderSetting == 'buy_price' ? 'active-button' : 'inactive-button'"
+                                    >
+                                        Buy Price
+                                    </button>
+                                    <button
+                                        @click="changeOrder('buy order')"
+                                        :class="buyOrderSetting == 'sell_price' ? 'active-button' : 'inactive-button'"
+                                    >
+                                        Sell Price
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="settings-button-container">
+                                <!-- 
+                                    * SETTING BUTTONS
+                                    *
+                                    * SELL ORDER
+                                    * Change the properties of the button depending on the buy/sell order settings
+                                -->
+                                <p>Sell Order </p>
+                                    <div class="settings-button">
+                                        <button
+                                        @click="changeOrder('sell order')"
+                                        :class="sellOrderSetting == 'buy_price' ? 'active-button' : 'inactive-button'"
+                                    >
+                                        Buy Price
+                                    </button>
+                                    <button
+                                        @click="changeOrder('sell order')"
+                                        :class="sellOrderSetting == 'sell_price' ? 'active-button' : 'inactive-button'"
+                                    >
+                                        Sell Price
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- 
+                                * 
+                                * TAX SETTINGS
+                                *
+                            -->
+                            <div class="settings-button-container">
+                                <label for="tax">Tax</label>
+                                <span class="settings-tax-input">
+                                    <input type="number" step="0.01" id="tax" name="tax" v-model="taxSetting">
+                                    <span class="settings-tax-model">
+                                        <svg 
+                                            :style="{transform: `rotate(${taxSetting < 1 ? 90 : -90}deg)`}"
+                                            width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path 
+                                                :fill="taxSetting < 1 ? 'var(--color-down)' : 'var(--color-up)'"
+                                                d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
+                                            />
+                                        </svg>
+                                        <p>{{ convertTaxToPercent(taxSetting) }}</p>
+                                    </span>
+                                </span>
+                            </div>
+
+                            <!-- 
+                                * 
+                                * INCLUDE SETTINGS
+                                *
+                            -->
+                            <div class="settings-button-container">
+                                <h4>Include</h4>
+                                <!-- 
+                                    * 
+                                    * INCLUDE AIRSHIP PARTS
+                                    * 
+                                -->
+                                <!-- <div 
+                                    class="checkbox" 
+                                    @click="
+                                        includesAirshipPartCheckbox = !includesAirshipPartCheckbox;
+                                        setIncludes('Airship Part', includesAirshipPartCheckbox);    
+                                    "
+                                >
+                                    <input 
+                                        :checked="includesAirshipPartCheckbox" 
+                                        type="checkbox" 
+                                        name="AirshipPart"
+                                    >
+                                    <label for="AirshipPart">Airship Parts</label>
+                                </div> -->
+
+                                <IncludesCheckbox
+                                    name="Airship Part"
+                                    :icon="AirshipParts"
+                                    label="AirshipPart"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Calcified Gasp"
+                                    :icon="CalcifiedGasp"
+                                    label="CalcifiedGasp"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Dragonite Ore"
+                                    :icon="DragoniteOre"
+                                    label="DragoniteOre"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Empyreal Fragment"
+                                    :icon="EmpyrealFragment"
+                                    label="EmpyrealFragment"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Fine Rift Essence"
+                                    :icon="FineRiftEssence"
+                                    label="FineRiftEssence"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Imperial Favor"
+                                    :icon="ImperialFavor"
+                                    label="ImperialFavor"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Ley Line Crystal"
+                                    :icon="LeyLineCrystal"
+                                    label="LeyLineCrystal"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Lump of Aurillium"
+                                    :icon="LumpOfAurillium"
+                                    label="LumpOfAurillium"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Masterwork Rift Essence"
+                                    :icon="MasterworkRiftEssence"
+                                    label="MasterworkRiftEssence"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Pile of Bloodstone Dust"
+                                    :icon="PileOfBloodstoneDust"
+                                    label="PileOfBloodstoneDust"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Pinch of Stardust"
+                                    :icon="PinchOfStardust"
+                                    label="PinchOfStardust"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Rare Rift Essence"
+                                    :icon="RareRiftEssence"
+                                    label="RareRiftEssence"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Salvageables"
+                                    :icon="UnidentifiedGear"
+                                    label="Salvageables"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Static Charge"
+                                    :icon="StaticCharge"
+                                    label="StaticCharge"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Trade Contract"
+                                    :icon="TradeContract"
+                                    label="TradeContract"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Tyrian Defense Seal"
+                                    :icon="TyrianDefenseSeal"
+                                    label="TyrianDefenseSeal"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Unbound Magic"
+                                    :icon="UnboundMagic"
+                                    label="UnboundMagic"
+                                />
+
+                                <IncludesCheckbox
+                                    name="Volatile Magic"
+                                    :icon="VolatileMagic"
+                                    label="VolatileMagic"
+                                />                      
+                            </div>
+
+                            <div class="settings-button-container">
+                                <button 
+                                    @click="handlePageRefresh()"    
+                                    class="submit"
+                                >
+                                    Refresh
+                                </button>
+                            </div>
+                            
+                        </article>
+                    
+                    </div>
+                </Transition>
+
+                <!--
+                    * SLOT - FILTERS
+                    * 
+                    * This changes depending on what page the website is currently on
+                -->
+                <Transition name="fade-right">
+                    <slot 
+                        v-if="filtersToggle"
+                        name="filters"
+                    ></slot>
+                </Transition>
+
+                <!--
+                    * SLOT - BOOKMARKS
+                    * 
+                    * This changes depending on what page the website is currently on
+                -->
+                <Transition name="fade-right">
+                    <slot 
+                        v-if="bookmarksToggle"
+                        name="bookmarks"
+                    ></slot>
+                </Transition>
+
+                <!-- 
+                    *
+                    * LOGIN CONTAINER
+                    * Users will be able to login or logout 
+                    * Username
+                    * Email
+                    * Password
                 -->
 
-                <Shortcuts
-                    :settings-toggle="settingsToggle"
-                    :bookmarks-toggle="bookmarksToggle"
-                    :filters-toggle="filtersToggle"
-                    :login-toggle="loginToggle"
-                    :api-key-toggle="apiKeyToggle"
-                    @change-toggle-status="changeToggleStatus"
+                <Transition name="fade-right">
+                    <div class="form-container" v-if="loginToggle">
+                        <form @submit.prevent="login">
+                            <label for="name">Username</label>
+                            <input type="text" name="name" id="name" v-model="name">
+
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email" v-model="email">
+
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" v-model="password">
+
+                            <span class="remember-container">
+                                <label for="remember">Remember Me</label>
+                                <input type="checkbox" name="remember" v-model="remember">
+                            </span>
+                            
+
+                            <div class="form-button-container">
+                                <button type="submit">Login</button>
+                                
+                                <button type="button" @click="logout">Logout</button>
+
+                                <button type="button" @click="register">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </Transition>
+                <!--
+                    *
+                    * ENTER API KEY CONTAINER
+                    *
+                -->
+                <Transition name="fade-right">
+                    <div class="form-container"  v-if="apiKeyToggle">
+                        <form @submit.prevent="enterAPIKey">
+                            <label for="apiKey">Enter API Key</label>
+                            <input type="text" name="apiKey" v-model="apiKey">
+
+                            <button type="submit">Submit</button>
+                        </form>
+
+                        <button v-if="user" @click="getWizardsVault(user.api_key)">Test API Key</button>
+                    </div>
+                </Transition>
+
+                <!--
+                    *
+                    * BENCHMARKS
+                    *
+                -->
+
+                <NavSection 
+                    @click="benchmarksToggle = !benchmarksToggle" 
+                    header="Benchmarks" 
+                    :toggle="benchmarksToggle"
                 />
 
-            <div class="auth-welcome" v-if="user">
-                <p>Herro {{ user.name }}</p>
+                <Transition name="fade-right">
+                    <div v-if="benchmarksToggle">
+                        <NavPage category="benchmarks" url="maps" name="Maps" :icon="BlueCommander"/>
+                        <NavPage category='benchmarks' url="fishing" name="Fishing" :icon="FishingHook"/>
+                    </div>
+                </Transition>
+
+                <!--
+                    *
+                    * CURRENCIES
+                    *
+                -->
+                <NavSection 
+                    @click="currenciesToggle = !currenciesToggle" 
+                    header="Currencies" 
+                    :toggle="currenciesToggle"
+                />
+
+                <Transition name="fade-right">
+                    <div v-if="currenciesToggle">
+                        <NavPage category="currencies" url="airship-part" name="Airship Parts" :icon="AirshipParts"/>
+
+                        <NavPage category="currencies" url="bandit-crest" name="Bandit Crests" :icon="BanditCrest"/>
+
+                        <NavPage category="currencies" url="geode" name="Geodes" :icon="Geode"/>
+
+                        <NavPage category="currencies" url="imperial-favor" name="Imperial Favors" :icon="ImperialFavor"/>
+
+                        <NavPage category="currencies" url="jade-sliver" name="Jade Slivers" :icon="JadeSliver"/>
+                        <NavPage category="currencies" url="laurel" name="Laurels" :icon="Laurel"/>
+
+                        <NavPage category="currencies" url="ley-line-crystal" name="Ley Line Crystals" :icon="LeyLineCrystal"/>
+
+                        <NavPage category="currencies" url="lump-of-aurillium" name="Lump of Aurillium" :icon="LumpOfAurillium"/>
+
+                        <NavPage category="currencies" url="research-note" name="Research Notes" :icon="ResearchNote"/>
+
+                        <NavPage category="currencies" url="spirit-shards" name="Spirit Shards" :icon="SpiritShard"/>
+
+                        <NavPage category="currencies" url="trade-contract" name="Trade Contracts" :icon="TradeContract"/>
+
+                        <NavPage category="currencies" url="tyrian-defense-seal" name="Tyrian Defense Seal" :icon="TyrianDefenseSeal"/>
+
+                        <NavPage category="currencies" url="unbound-magic" name="Unbound Magic" :icon="UnboundMagic"/>
+
+                        <NavPage category="currencies" url="volatile-magic" name="Volatile Magic" :icon="VolatileMagic"/>
+                    </div>
+                </Transition>
+
+                <!--
+                    *
+                    * EXCHANGEABLES
+                    *
+                -->
+                <NavSection 
+                    @click="exchangeablesToggle = !exchangeablesToggle" 
+                    header="Exchangeables"
+                    :toggle="exchangeablesToggle"
+                />
+
+                <Transition name="fade-right">
+                    <div v-if="exchangeablesToggle">
+                        <NavPage category="exchangeables" url="calcified-gasp" name="Calcified Gasp" :icon="CalcifiedGasp"/>
+
+                        <NavPage category="exchangeables" url="dragonite-ore" name="Dragonite Ore" :icon="DragoniteOre"/>
+
+                        <NavPage category="exchangeables" url="empyreal-fragment" name="Empyreal Fragment" :icon="EmpyrealFragment"/>
+
+                        <NavPage category="exchangeables" url="fine-rift-essence" name="Fine Rift Essence" :icon="FineRiftEssence"/>
+
+                        <NavPage category="exchangeables" url="masterwork-rift-essence" name="Masterwork Rift Essence" :icon="MasterworkRiftEssence"/>
+
+                        <NavPage category="exchangeables" url="pile-of-bloodstone-dust" name="Pile of Bloodstone Dust" :icon="PileOfBloodstoneDust"/>
+
+                        <NavPage category="exchangeables" url="pinch-of-stardust" name="Pinch of Stardust" :icon="PinchOfStardust"/>
+
+                        <NavPage category="exchangeables" url="rare-rift-essence" name="Rare Rift Essence" :icon="RareRiftEssence"/>
+
+                        <NavPage category="exchangeables" url="static-charge" name="Static Charge" :icon="StaticCharge"/>
+
+                        <NavPage category="exchangeables" url="writs" name="Writs" :icon="WritOfNewKainengCity"/>  
+                    </div>
+                </Transition>
+
+                <!--
+                    *
+                    * TOOLS
+                    *
+                -->
+                <NavSection 
+                    @click="toolsToggle = !toolsToggle" 
+                    header="Tools"
+                    :toggle="toolsToggle"
+                />
+
+                <Transition name="fade-right">
+                    <div v-if="toolsToggle">
+                        <NavPage category="tools" url="homestead" name="Homestead" :icon="Homestead"/>
+
+                        <NavPage category="tools" url="recipe-value" name="Recipe Value" :icon="Armorer"/>
+
+                        <NavPage category="tools" url="salvageables" name="Salvageables" :icon="UnidentifiedGear"/>
+
+                        <NavPage category="tools" url="checklist" name="Checklist" :icon="EventSearch"/>  
+                    </div>
+                </Transition>
+
+                <!--
+                    *
+                    * TIMERS
+                    *
+                -->
+                <NavSection 
+                    @click="timersToggle = !timersToggle" 
+                    header="Timers"
+                    :toggle="timersToggle"
+                />
+
+                <Transition name="fade-right">
+                    <div v-if="timersToggle">
+
+                        <NavPage category="timers" url="auric-basin" name="Auric Basin" :icon="LumpOfAurillium"/> 
+
+                        <NavPage category="timers" url="ember-bay" name="Ember Bay" :icon="PetrifiedWood"/> 
+
+                        <NavPage category="timers" url="domain-of-istan" name="Domain of Istan" :icon="KralkatiteOre"/> 
+
+                        <NavPage category="timers" url="domain-of-kourna" name="Domain of Kourna" :icon="InscribedShard"/> 
+
+                        <NavPage category="timers" url="dragonfall" name="Dragonfall" :icon="MistbornMote"/> 
+
+                        <NavPage category="timers" url="lake-doric" name="Lake Doric" :icon="JadeShard"/> 
+
+                        <NavPage category="timers" url="sandswept-isles" name="Sandswept Isles" :icon="DifluoriteCrystal"/> 
+
+                        <NavPage category="timers" url="skywatch-archipelago" name="Skywatch Archipelago" :icon="StaticCharge"/> 
+
+                        <NavPage category="timers" url="tangled-depths" name="Tangled Depths" :icon="LeyLineCrystal"/> 
+                    </div>
+                </Transition>
             </div>
-
-            <!-- 
-                *
-                * TYRIAN AND CANTHAN DAY/NIGHT CYCLE
-                *
-            -->
-            <DayAndNightTimers/>
-            <!--
-                *
-                *   "HELLO" MESSAGE TO USERS IF THEY ARE LOGGED IN
-                *
-            -->
-            <Transition name="fade-right">
-                <div v-if="user">
-                    <!-- <p>Welcome {{ user.name }}</p> -->
-                </div>
-            </Transition>
-            <!--
-                * SLOT - TIMERS
-                * 
-                * This changes depending on what timer page the website is currently on
-            -->
-            <slot name="timer"></slot>
-
-            <!--
-                * 
-                * SETTINGS / OPTIONS
-                *
-            -->
-            <Transition name="fade-right">
-                <div v-if="settingsToggle">
-                    <article class="shortcut-container">
-                        <h3>Settings</h3>
-                        <div class="settings-button-container">
-                            <!-- 
-                                * SETTING BUTTONS
-                                *
-                                * BUY ORDER
-                                * Change the properties of the button depending on the buy/sell order settings
-                            -->
-                            <p>Buy Order </p>
-                                <div class="settings-button">
-                                <button
-                                    @click="changeOrder('buy order')"
-                                    :class="buyOrderSetting == 'buy_price' ? 'active-button' : 'inactive-button'"
-                                >
-                                    Buy Price
-                                </button>
-                                <button
-                                    @click="changeOrder('buy order')"
-                                    :class="buyOrderSetting == 'sell_price' ? 'active-button' : 'inactive-button'"
-                                >
-                                    Sell Price
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="settings-button-container">
-                            <!-- 
-                                * SETTING BUTTONS
-                                *
-                                * SELL ORDER
-                                * Change the properties of the button depending on the buy/sell order settings
-                            -->
-                            <p>Sell Order </p>
-                                <div class="settings-button">
-                                    <button
-                                    @click="changeOrder('sell order')"
-                                    :class="sellOrderSetting == 'buy_price' ? 'active-button' : 'inactive-button'"
-                                >
-                                    Buy Price
-                                </button>
-                                <button
-                                    @click="changeOrder('sell order')"
-                                    :class="sellOrderSetting == 'sell_price' ? 'active-button' : 'inactive-button'"
-                                >
-                                    Sell Price
-                                </button>
-                            </div>
-                        </div>
-                        <!-- 
-                            * 
-                            * TAX SETTINGS
-                            *
-                        -->
-                        <div class="settings-button-container">
-                            <label for="tax">Tax</label>
-                            <span class="settings-tax-input">
-                                <input type="number" step="0.01" id="tax" name="tax" v-model="taxSetting">
-                                <span class="settings-tax-model">
-                                    <svg 
-                                        :style="{transform: `rotate(${taxSetting < 1 ? 90 : -90}deg)`}"
-                                        width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path 
-                                            :fill="taxSetting < 1 ? 'var(--color-down)' : 'var(--color-up)'"
-                                            d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
-                                        />
-                                    </svg>
-                                    <p>{{ convertTaxToPercent(taxSetting) }}</p>
-                                </span>
-                            </span>
-                        </div>
-
-                        <!-- 
-                            * 
-                            * INCLUDE SETTINGS
-                            *
-                        -->
-                        <div class="settings-button-container">
-                            <h4>Include</h4>
-                            <!-- 
-                                * 
-                                * INCLUDE AIRSHIP PARTS
-                                * 
-                            -->
-                            <!-- <div 
-                                class="checkbox" 
-                                @click="
-                                    includesAirshipPartCheckbox = !includesAirshipPartCheckbox;
-                                    setIncludes('Airship Part', includesAirshipPartCheckbox);    
-                                "
-                            >
-                                <input 
-                                    :checked="includesAirshipPartCheckbox" 
-                                    type="checkbox" 
-                                    name="AirshipPart"
-                                >
-                                <label for="AirshipPart">Airship Parts</label>
-                            </div> -->
-
-                            <IncludesCheckbox
-                                name="Airship Part"
-                                :icon="AirshipParts"
-                                label="AirshipPart"
-                            />
-
-                            <IncludesCheckbox
-                                name="Calcified Gasp"
-                                :icon="CalcifiedGasp"
-                                label="CalcifiedGasp"
-                            />
-
-                            <IncludesCheckbox
-                                name="Dragonite Ore"
-                                :icon="DragoniteOre"
-                                label="DragoniteOre"
-                            />
-
-                            <IncludesCheckbox
-                                name="Empyreal Fragment"
-                                :icon="EmpyrealFragment"
-                                label="EmpyrealFragment"
-                            />
-
-                            <IncludesCheckbox
-                                name="Fine Rift Essence"
-                                :icon="FineRiftEssence"
-                                label="FineRiftEssence"
-                            />
-
-                            <IncludesCheckbox
-                                name="Imperial Favor"
-                                :icon="ImperialFavor"
-                                label="ImperialFavor"
-                            />
-
-                            <IncludesCheckbox
-                                name="Ley Line Crystal"
-                                :icon="LeyLineCrystal"
-                                label="LeyLineCrystal"
-                            />
-
-                            <IncludesCheckbox
-                                name="Lump of Aurillium"
-                                :icon="LumpOfAurillium"
-                                label="LumpOfAurillium"
-                            />
-
-                            <IncludesCheckbox
-                                name="Masterwork Rift Essence"
-                                :icon="MasterworkRiftEssence"
-                                label="MasterworkRiftEssence"
-                            />
-
-                            <IncludesCheckbox
-                                name="Pile of Bloodstone Dust"
-                                :icon="PileOfBloodstoneDust"
-                                label="PileOfBloodstoneDust"
-                            />
-
-                            <IncludesCheckbox
-                                name="Pinch of Stardust"
-                                :icon="PinchOfStardust"
-                                label="PinchOfStardust"
-                            />
-
-                            <IncludesCheckbox
-                                name="Rare Rift Essence"
-                                :icon="RareRiftEssence"
-                                label="RareRiftEssence"
-                            />
-
-                            <IncludesCheckbox
-                                name="Salvageables"
-                                :icon="UnidentifiedGear"
-                                label="Salvageables"
-                            />
-
-                            <IncludesCheckbox
-                                name="Static Charge"
-                                :icon="StaticCharge"
-                                label="StaticCharge"
-                            />
-
-                            <IncludesCheckbox
-                                name="Trade Contract"
-                                :icon="TradeContract"
-                                label="TradeContract"
-                            />
-
-                            <IncludesCheckbox
-                                name="Tyrian Defense Seal"
-                                :icon="TyrianDefenseSeal"
-                                label="TyrianDefenseSeal"
-                            />
-
-                            <IncludesCheckbox
-                                name="Unbound Magic"
-                                :icon="UnboundMagic"
-                                label="UnboundMagic"
-                            />
-
-                            <IncludesCheckbox
-                                name="Volatile Magic"
-                                :icon="VolatileMagic"
-                                label="VolatileMagic"
-                            />                      
-                        </div>
-
-                        <div class="settings-button-container">
-                            <button 
-                                @click="handlePageRefresh()"    
-                                class="submit"
-                            >
-                                Refresh
-                            </button>
-                        </div>
-                        
-                    </article>
-                
-                </div>
-            </Transition>
-
-            <!--
-                * SLOT - FILTERS
-                * 
-                * This changes depending on what page the website is currently on
-            -->
-            <Transition name="fade-right">
-                <slot 
-                    v-if="filtersToggle"
-                    name="filters"
-                ></slot>
-            </Transition>
-
-            <!--
-                * SLOT - BOOKMARKS
-                * 
-                * This changes depending on what page the website is currently on
-            -->
-            <Transition name="fade-right">
-                <slot 
-                    v-if="bookmarksToggle"
-                    name="bookmarks"
-                ></slot>
-            </Transition>
-
-            <!-- 
-                *
-                * LOGIN CONTAINER
-                * Users will be able to login or logout 
-                * Username
-                * Email
-                * Password
-            -->
-
-            <Transition name="fade-right">
-                <div class="form-container" v-if="loginToggle">
-                    <form @submit.prevent="login">
-                        <label for="name">Username</label>
-                        <input type="text" name="name" id="name" v-model="name">
-
-                        <label for="email">Email</label>
-                        <input type="email" name="email" id="email" v-model="email">
-
-                        <label for="password">Password</label>
-                        <input type="password" name="password" id="password" v-model="password">
-
-                        <span class="remember-container">
-                            <label for="remember">Remember Me</label>
-                            <input type="checkbox" name="remember" v-model="remember">
-                        </span>
-                        
-
-                        <div class="form-button-container">
-                            <button type="submit">Login</button>
-                            
-                            <button type="button" @click="logout">Logout</button>
-
-                            <button type="button" @click="register">Register</button>
-                        </div>
-                    </form>
-                </div>
-            </Transition>
-            <!--
-                *
-                * ENTER API KEY CONTAINER
-                *
-            -->
-            <Transition name="fade-right">
-                <div class="form-container"  v-if="apiKeyToggle">
-                    <form @submit.prevent="enterAPIKey">
-                        <label for="apiKey">Enter API Key</label>
-                        <input type="text" name="apiKey" v-model="apiKey">
-
-                        <button type="submit">Submit</button>
-                    </form>
-
-                    <button v-if="user" @click="getWizardsVault(user.api_key)">Test API Key</button>
-                </div>
-            </Transition>
-
-            <!--
-                *
-                * BENCHMARKS
-                *
-            -->
-
-            <NavSection 
-                @click="benchmarksToggle = !benchmarksToggle" 
-                header="Benchmarks" 
-                :toggle="benchmarksToggle"
-            />
-
-            <Transition name="fade-right">
-                <div v-if="benchmarksToggle">
-                    <NavPage category="benchmarks" url="maps" name="Maps" :icon="BlueCommander"/>
-                    <NavPage category='benchmarks' url="fishing" name="Fishing" :icon="FishingHook"/>
-                </div>
-            </Transition>
-
-            <!--
-                *
-                * CURRENCIES
-                *
-            -->
-            <NavSection 
-                @click="currenciesToggle = !currenciesToggle" 
-                header="Currencies" 
-                :toggle="currenciesToggle"
-            />
-
-            <Transition name="fade-right">
-                <div v-if="currenciesToggle">
-                    <NavPage category="currencies" url="airship-part" name="Airship Parts" :icon="AirshipParts"/>
-
-                    <NavPage category="currencies" url="bandit-crest" name="Bandit Crests" :icon="BanditCrest"/>
-
-                    <NavPage category="currencies" url="geode" name="Geodes" :icon="Geode"/>
-
-                    <NavPage category="currencies" url="imperial-favor" name="Imperial Favors" :icon="ImperialFavor"/>
-
-                    <NavPage category="currencies" url="jade-sliver" name="Jade Slivers" :icon="JadeSliver"/>
-                    <NavPage category="currencies" url="laurel" name="Laurels" :icon="Laurel"/>
-
-                    <NavPage category="currencies" url="ley-line-crystal" name="Ley Line Crystals" :icon="LeyLineCrystal"/>
-
-                    <NavPage category="currencies" url="lump-of-aurillium" name="Lump of Aurillium" :icon="LumpOfAurillium"/>
-
-                    <NavPage category="currencies" url="research-note" name="Research Notes" :icon="ResearchNote"/>
-
-                    <NavPage category="currencies" url="spirit-shards" name="Spirit Shards" :icon="SpiritShard"/>
-
-                    <NavPage category="currencies" url="trade-contract" name="Trade Contracts" :icon="TradeContract"/>
-
-                    <NavPage category="currencies" url="tyrian-defense-seal" name="Tyrian Defense Seal" :icon="TyrianDefenseSeal"/>
-
-                    <NavPage category="currencies" url="unbound-magic" name="Unbound Magic" :icon="UnboundMagic"/>
-
-                    <NavPage category="currencies" url="volatile-magic" name="Volatile Magic" :icon="VolatileMagic"/>
-                </div>
-            </Transition>
-
-            <!--
-                *
-                * EXCHANGEABLES
-                *
-            -->
-            <NavSection 
-                @click="exchangeablesToggle = !exchangeablesToggle" 
-                header="Exchangeables"
-                :toggle="exchangeablesToggle"
-            />
-
-            <Transition name="fade-right">
-                <div v-if="exchangeablesToggle">
-                    <NavPage category="exchangeables" url="calcified-gasp" name="Calcified Gasp" :icon="CalcifiedGasp"/>
-
-                    <NavPage category="exchangeables" url="dragonite-ore" name="Dragonite Ore" :icon="DragoniteOre"/>
-
-                    <NavPage category="exchangeables" url="empyreal-fragment" name="Empyreal Fragment" :icon="EmpyrealFragment"/>
-
-                    <NavPage category="exchangeables" url="fine-rift-essence" name="Fine Rift Essence" :icon="FineRiftEssence"/>
-
-                    <NavPage category="exchangeables" url="masterwork-rift-essence" name="Masterwork Rift Essence" :icon="MasterworkRiftEssence"/>
-
-                    <NavPage category="exchangeables" url="pile-of-bloodstone-dust" name="Pile of Bloodstone Dust" :icon="PileOfBloodstoneDust"/>
-
-                    <NavPage category="exchangeables" url="pinch-of-stardust" name="Pinch of Stardust" :icon="PinchOfStardust"/>
-
-                    <NavPage category="exchangeables" url="rare-rift-essence" name="Rare Rift Essence" :icon="RareRiftEssence"/>
-
-                    <NavPage category="exchangeables" url="static-charge" name="Static Charge" :icon="StaticCharge"/>
-
-                    <NavPage category="exchangeables" url="writs" name="Writs" :icon="WritOfNewKainengCity"/>  
-                </div>
-            </Transition>
-
-            <!--
-                *
-                * TOOLS
-                *
-            -->
-            <NavSection 
-                @click="toolsToggle = !toolsToggle" 
-                header="Tools"
-                :toggle="toolsToggle"
-            />
-
-            <Transition name="fade-right">
-                <div v-if="toolsToggle">
-                    <NavPage category="tools" url="homestead" name="Homestead" :icon="Homestead"/>
-
-                    <NavPage category="tools" url="recipe-value" name="Recipe Value" :icon="Armorer"/>
-
-                    <NavPage category="tools" url="salvageables" name="Salvageables" :icon="UnidentifiedGear"/>
-
-                    <NavPage category="tools" url="checklist" name="Checklist" :icon="EventSearch"/>  
-                </div>
-            </Transition>
-
-            <!--
-                *
-                * TIMERS
-                *
-            -->
-            <NavSection 
-                @click="timersToggle = !timersToggle" 
-                header="Timers"
-                :toggle="timersToggle"
-            />
-
-            <Transition name="fade-right">
-                <div v-if="timersToggle">
-
-                    <NavPage category="timers" url="auric-basin" name="Auric Basin" :icon="LumpOfAurillium"/> 
-
-                    <NavPage category="timers" url="ember-bay" name="Ember Bay" :icon="PetrifiedWood"/> 
-
-                    <NavPage category="timers" url="domain-of-istan" name="Domain of Istan" :icon="KralkatiteOre"/> 
-
-                    <NavPage category="timers" url="domain-of-kourna" name="Domain of Kourna" :icon="InscribedShard"/> 
-
-                    <NavPage category="timers" url="dragonfall" name="Dragonfall" :icon="MistbornMote"/> 
-
-                    <NavPage category="timers" url="lake-doric" name="Lake Doric" :icon="JadeShard"/> 
-
-                    <NavPage category="timers" url="sandswept-isles" name="Sandswept Isles" :icon="DifluoriteCrystal"/> 
-
-                    <NavPage category="timers" url="skywatch-archipelago" name="Skywatch Archipelago" :icon="StaticCharge"/> 
-
-                    <NavPage category="timers" url="tangled-depths" name="Tangled Depths" :icon="LeyLineCrystal"/> 
-                </div>
-            </Transition>
+        </nav>
+    </Transition>
+
+    <div class="mobile-nav-container" v-if="isMobile" @click="mainNavToggle = !mainNavToggle">
+        <div class="mobile-nav">
+            <img class="mobile-home" :src="PeuChoya" alt="Redirect to Home" title="Home">
+
+            <svg v-if="mobileHamburger" @click="mobileHamburger = !mobileHamburger" class="hamburger" width="25" height="17" viewBox="0 0 25 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M0 1.85938C0 1.54857 0.123465 1.2505 0.343234 1.03073C0.563003 0.810965 0.861074 0.6875 1.17188 0.6875H23.8281C24.1389 0.6875 24.437 0.810965 24.6568 1.03073C24.8765 1.2505 25 1.54857 25 1.85938C25 2.17018 24.8765 2.46825 24.6568 2.68802C24.437 2.90779 24.1389 3.03125 23.8281 3.03125H1.17188C0.861074 3.03125 0.563003 2.90779 0.343234 2.68802C0.123465 2.46825 0 2.17018 0 1.85938ZM0 8.5C0 8.1892 0.123465 7.89113 0.343234 7.67136C0.563003 7.45159 0.861074 7.32812 1.17188 7.32812H23.8281C24.1389 7.32812 24.437 7.45159 24.6568 7.67136C24.8765 7.89113 25 8.1892 25 8.5C25 8.8108 24.8765 9.10887 24.6568 9.32864C24.437 9.54841 24.1389 9.67188 23.8281 9.67188H1.17188C0.861074 9.67188 0.563003 9.54841 0.343234 9.32864C0.123465 9.10887 0 8.8108 0 8.5ZM1.17188 13.9688C0.861074 13.9688 0.563003 14.0922 0.343234 14.312C0.123465 14.5318 0 14.8298 0 15.1406C0 15.4514 0.123465 15.7495 0.343234 15.9693C0.563003 16.189 0.861074 16.3125 1.17188 16.3125H23.8281C24.1389 16.3125 24.437 16.189 24.6568 15.9693C24.8765 15.7495 25 15.4514 25 15.1406C25 14.8298 24.8765 14.5318 24.6568 14.312C24.437 14.0922 24.1389 13.9688 23.8281 13.9688H1.17188Z" fill="#FFD12C"/>
+            </svg>
+
+            <svg v-if="!mobileHamburger" @click="mobileHamburger = !mobileHamburger" class="mobile-close" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13 1L1 13M1 1L13 13" stroke="#FFD12C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
         </div>
-    </nav>
+        
+    </div>
 </template>
 
 <script setup>
@@ -527,7 +544,7 @@ import { ref, watch, provide, onMounted, onUnmounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
-import { nodeTrackerModalToggle } from '@/js/vue/composables/Global.js';
+import { isMobile } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
 
 import NavPage from '@/js/vue/components/navigation/NavPage.vue';
@@ -575,6 +592,8 @@ import DifluoriteCrystal from '@/imgs/icons/Difluorite_Crystal.png'
 import InscribedShard from '@/imgs/icons/Inscribed_Shard.png'
 import MistbornMote from '@/imgs/icons/Mistborn_Mote.png'
 
+import PeuChoya from '@/imgs/choyas/Peu_Choya.png'
+
 import axios from 'axios';
 import { update } from 'lodash';
 import NavSection from '@/js/vue/components/navigation/NavSection.vue';
@@ -588,6 +607,9 @@ const name = ref(''),
 const user = ref(null);
 // Wizard's Vault
 const wv = ref(null); 
+
+const mainNavToggle = ref(isMobile ? false : true),
+    mobileHamburger = ref(isMobile ? true : false);
 
 
 
@@ -854,20 +876,6 @@ const buyOrderSetting = ref(localStorage.buyOrderSetting),
     taxSetting = ref(parseFloat(localStorage.taxSetting)),
     apiKey = ref(null);
 
-const includesAirshipPartCheckbox = ref(false),
-    includesDragoniteOreCheckbox = ref(true), 
-    includesEmpyrealFragmentCheckbox = ref(true),
-    includesSalvageablesCheckbox = ref(true),
-    includesImperialFavorCheckbox = ref(false),
-    includesLeyLineCrystalCheckbox = ref(false),
-    includesLumpOfAurilliumCheckbox = ref(false),
-    includesPileOfBloodstoneDustCheckbox = ref(true),
-    includesTradeContractCheckbox = ref(false),
-    includesUnboundMagicCheckbox = ref(false),
-    includesVolatileMagicCheckbox = ref(false); 
-
-const includes = ref([]);
-
 const route = useRoute(),
     router = useRouter();
 
@@ -902,8 +910,31 @@ watch(taxSetting, (newTaxSetting) => {
     localStorage.taxSetting = newTaxSetting;
 })
 
-onMounted(() => {
 
+
+// Function to update isMobile based on screen width
+const checkMobile = () => {
+    isMobile.value = window.innerWidth < 768;
+    if (!isMobile.value){
+        mainNavToggle.value = true;
+        mobileHamburger.value = false;
+    } else {
+        mainNavToggle.value = false;
+        mobileHamburger.value = true;
+    }
+};
+
+// Add resize event listener when the component is mounted
+onMounted(() => {
+    window.addEventListener('resize', checkMobile);
+    checkMobile();
+});
+
+watch(isMobile, (newIsMobile) => {
+    console.log('merp: ', isMobile.value);
+    if (!isMobile.value){
+        mainNavToggle.value = true; 
+    }
 })
 
 </script>
@@ -941,27 +972,7 @@ nav .credits p{
     padding-left: var(--nav-padding-left);
 }
 
-.nav-section-container {
-    position: relative;
-    cursor: pointer;
-    border-bottom: var(--border-bottom);
-}
-.nav-section-container h5{
-    color: var(--color-subheader);
-}
-.nav-section-container svg{
-    position: absolute;
-    bottom: 0%;
-    left: 50%;
-    transform: translate(-0%, -50%);
-    width: 10px;
-    height: 10px;
-    transition: var(--transition-all-03s-ease);
-}
-.nav-section-container:hover svg{
-    bottom: -5%;
-    transform: translate(5%, -50%);
-}
+
 
 a.page-link{
     display: flex;
@@ -984,12 +995,7 @@ nav a:hover{
     border-bottom: var(--hover-border-bottom);
 }
 
-@media (max-width: 768px){
-    nav{
-        width: 100%;
-        display: none;
-    }
-}
+
 .nav-container{
     position: relative;
 }
@@ -1055,6 +1061,43 @@ form .remember-container label{
 }
 form .remember-container input{
     margin-bottom: unset;
+}
+
+@media (max-width: 768px){
+    nav.main-nav{
+        width: 100%;
+        padding-top: calc(var(--padding-general) * 2 + 60px);
+    }
+    ::-webkit-scrollbar{
+        display: none;
+    }
+    .mobile-nav-container{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: var(--color-bkg);
+        padding: var(--padding-general);
+        z-index: 10000000;
+    }
+    .mobile-nav{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: var(--border-bottom);
+    }
+    img.mobile-home{
+        width: 60px;
+        height: 60px;
+    }
+    .hamburger{
+        width: 35px;
+        height: 35px;
+    }
+    .mobile-close{
+        width: 30px;
+        height: 30px;
+    }
 }
 
 

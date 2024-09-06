@@ -6,8 +6,13 @@
                 :width="200" :height="200"
             />
 
+            <!-- 
+                *
+                * DESKTOP VIEW
+                *
+            -->
             <CurrencyMainTable
-                v-if="bags && bags != null"
+                v-if="bags && bags != null && !isMobile"
                 :target-currency="targetCurrency"
                 :bags="bags"
                 :currency-icon="currencyIcon"
@@ -22,6 +27,14 @@
                 :bags="bags[bagIndex]"
                 :currency-icon="currencyIcon"
             />
+
+            <MobileCurrencyTable
+                v-if="isMobile"
+                :target-currency="targetCurrency"
+                :bags="bags"
+                :currency-icon="currencyIcon"
+            />
+
         </div>
         
     </section>
@@ -35,6 +48,9 @@ import Header from '@/js/vue/components/general/Header.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
 import CurrencyMainTable from '@/js/vue/components/tables/CurrencyMainTable.vue'
 import CurrenencyDetailsTable from '@/js/vue/components/tables/CurrencyDetailsTable.vue'
+import MobileCurrencyTable from '@/js/vue/components/tables/MobileCurrencyTable.vue'
+
+import { isMobile } from '@/js/vue/composables/Global'
 
 const props = defineProps({
     pageName: String, 

@@ -40,7 +40,7 @@
                         *
                     -->
                     <span class="benchmark-map-and-info">
-                        <p class="map-and-region">{{ fishingHole.map}}, {{ fishingHole.region }}</p>
+                        <p class="map-and-info">{{ fishingHole.map}}, {{ fishingHole.region }}</p>
                         <!--
                             *
                             * benchmark-info-container
@@ -97,9 +97,18 @@
                 
                 <div>
                     <FishTable
+                        v-if="!isMobile"
                         :fishing-hole="fishingHole"
                         :drop-rates="dropRates[index]"
                     />
+
+                    <MobileBenchmarkTable
+                        v-if="isMobile"
+                        type="Fishing"
+                        :benchmark="fishingHole"
+                        :drop-rates="dropRates[index]"
+                    />
+
                 </div>
                 
             </div>
@@ -119,8 +128,9 @@ import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
 import FishTable from '@/js/vue/components/tables/FishTable.vue'
 import FishProofs from '@/js/vue/components/general/FishProofs.vue'
 import PieChart from '@/js/vue/components/general/PieChart.vue'
+import MobileBenchmarkTable from '@/js/vue/components/tables/MobileBenchmarkTable.vue'
 
-import { tyrianCurrentPeriod, canthanCurrentPeriod } from '@/js/vue/composables/Global.js'
+import { tyrianCurrentPeriod, canthanCurrentPeriod, isMobile } from '@/js/vue/composables/Global.js'
 
 import GreenHook from '@/imgs/icons/fishes/Green_Hook.png'
 
@@ -194,6 +204,25 @@ const matchTyrianTime = (benchmarkTime, region) => {
 }
 .any{
     color: var(--color-anytime); 
+}
+
+@media (max-width: 768px){
+    .benchmark-card-container{
+        flex-direction: column;
+    }
+    .benchmark-details{
+        flex-direction: column;
+        gap: unset;
+    }
+    .benchmark-title-and-value{
+        flex-direction: row;
+        width: 100%;
+    }
+    .benchmark-map-and-info{
+        flex-direction: row;
+        align-items: flex-end;
+        width: 100%;
+    }
 }
 
 </style>

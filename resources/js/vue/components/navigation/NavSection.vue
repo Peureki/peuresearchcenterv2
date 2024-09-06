@@ -2,7 +2,7 @@
     <div 
         class="nav-section-container"
     >
-        <h5>{{ header }}</h5>
+        <h3 class="nav-section-header">{{ header }}</h3>
         <svg 
             class="expand"
             :class="{rotate180: toggle}" 
@@ -22,3 +22,34 @@ const props = defineProps({
 })
 
 </script>
+
+<style scoped>
+.nav-section-header{
+    text-align: center;
+    padding-block: var(--gap-content);
+    color: var(--color-subheader);
+    font-weight: unset;
+}
+.nav-section-container {
+    position: relative;
+    cursor: pointer;
+    border-bottom: var(--border-bottom);
+}
+.nav-section-container h5{
+    color: var(--color-subheader);
+}
+.nav-section-container svg{
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translate(-0%, -50%);
+    width: 10px;
+    height: 10px;
+    transition: var(--transition-all-03s-ease);
+}
+.nav-section-container:hover svg{
+    bottom: -5%;
+    transform: translate(5%, -50%);
+}
+
+</style>

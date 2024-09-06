@@ -3,7 +3,7 @@
         <table class="currency-details-table">
             <thead>
                 <tr>
-                    <th colspan="100%"><h4>Details</h4></th>
+                    <th colspan="100%"><h4 class="table-header">Details</h4></th>
                 </tr>
                 <tr>
                     <th 
@@ -14,7 +14,7 @@
                         "
                     >
                         <span class="sortable-column">
-                            <h5>Name</h5>
+                            <h5 class="table-header">Name</h5>
                             <svg
                                 class="sort-arrow active" 
                                 :ref="el => sortActive[0] = el" 
@@ -33,7 +33,7 @@
                         "
                     >
                         <span class="sortable-column">
-                            <h5>Drop Rate</h5>
+                            <h5 class="table-header">Drop Rate</h5>
                             <svg
                                 class="sort-arrow active" 
                                 :ref="el => sortActive[1] = el" 
@@ -52,7 +52,7 @@
                         "
                     >
                         <span class="sortable-column">
-                            <h5>Value</h5>
+                            <h5 class="table-header">Value</h5>
                             <svg
                                 class="sort-arrow active" 
                                 :ref="el => sortActive[2] = el" 

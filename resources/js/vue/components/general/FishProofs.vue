@@ -17,7 +17,7 @@
 
             <span class="proof">
                 <p>Average time to cycle route: </p>
-                <p>{{ variableToTime(fishingHole.timeVariable) }}</p>
+                <p>{{ formatToMinutes(fishingHole.timeVariable) }}</p>
             </span>
         </div>
     
@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { formatValue, formatPercentage, showRarityColor, variableToTime } from '@/js/vue/composables/FormatFunctions.js'
+import { formatValue, formatPercentage, showRarityColor, formatToMinutes } from '@/js/vue/composables/FormatFunctions.js'
 
 const props = defineProps({
     fishingHole: Object,

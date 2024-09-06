@@ -60,7 +60,7 @@
                 <title>Bookmarks</title>
             </svg>
         </div>
-        <div class="middle">
+        <div class="middle" v-if="!isMobile">
             <!-- HAMBURGER -->
             <svg 
                 @click="scrollTo('nav')"
@@ -93,6 +93,7 @@
 </template>
 
 <script setup>
+import { isMobile } from '@/js/vue/composables/Global';
 
 const props = defineProps({
     settingsToggle: Boolean,
@@ -141,5 +142,11 @@ const emit = defineEmits(['changeToggleStatus'])
 .shortcuts #cog:hover{
     transform: rotate(180deg);
     transition: all 0.5s ease;
+}
+@media (max-width: 768px){
+    .shortcuts svg{
+        width: 25px;
+        height: 25px;
+    }
 }
 </style>

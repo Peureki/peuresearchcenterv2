@@ -15,3 +15,17 @@ const props = defineProps({
 })
 
 </script>
+
+<style scoped>
+@media (max-width: 768px){
+    .page-link img{
+        width: 30px;
+        height: 30px;
+    }
+    .page-link p{
+        font-size: var(--font-size-h6);
+    }
+}
+
+
+</style>
