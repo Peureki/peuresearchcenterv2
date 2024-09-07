@@ -1,16 +1,19 @@
 <template>
-    <Pie
-        class="pie"
-        :options="chartOptions"
-        :data="chartData"
-    />
+    <div class="pie-container" v-if="colorsData.length > 0">
+        <Pie
+            class="pie"
+            :options="chartOptions"
+            :data="chartData"
+        />
 
-    <div class="stats-container">
-        <span v-for="(rarities, index) in uniqueRarities" :key="index" class="stats">
-            <p :style="{color: showRarityColor(rarities)}">{{ rarities }}</p>
-            <p>{{ formatPercentage(data[index]) }}</p>
-        </span>
+        <div class="stats-container">
+            <span v-for="(rarities, index) in uniqueRarities" :key="index" class="stats">
+                <p :style="{color: showRarityColor(rarities)}">{{ rarities }}</p>
+                <p>{{ formatPercentage(data[index]) }}</p>
+            </span>
+        </div>
     </div>
+    
 </template>
 
 <script setup>
@@ -27,6 +30,7 @@ const props = defineProps({
     dropRates: Object, 
 })
 
+
 const uniqueRarities = ref([]);
 const colorsData = ref([]);
 const rarityColors = ref({
@@ -41,7 +45,6 @@ const rarityColors = ref({
 });
 const data = ref([]);
 const chartData = {
-    labels: ref([]),
     datasets: [
         { 
             backgroundColor: ref([]),
@@ -80,14 +83,21 @@ uniqueRarities.value = setLabels(props.dropRates);
 colorsData.value = setColors(uniqueRarities.value, rarityColors.value);
 data.value = setData(props.dropRates, uniqueRarities.value);
 
-chartData.labels = uniqueRarities.value;
 chartData.datasets[0].backgroundColor = colorsData.value;
 chartData.datasets[0].data = data.value;
 
+console.log('chart  data: ', colorsData.value);
 
 </script>
 
 <style scoped>
+.pie-container{
+    display: flex;
+    flex-direction: column;
+}
+.pie{
+    max-width: 300px;
+}
 .stats-container{
     display: flex;
     flex-direction: column;

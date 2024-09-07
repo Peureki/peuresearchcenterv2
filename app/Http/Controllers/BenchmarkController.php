@@ -78,7 +78,6 @@ class BenchmarkController extends Controller
             $currentHighestValue = 0; 
             $mostValuedItem = '';
             $mostValuedIcon = '';
-
             $total = 0;
 
             foreach ($group as $item){
@@ -128,7 +127,7 @@ class BenchmarkController extends Controller
         ];
 
         // Store unique cache key for the next [time] minutes
-        Cache::put($cacheKey, $response, now()->addHours(3)); 
+        Cache::put($cacheKey, $response, now()->addHours(6)); 
 
         return response()->json($response); 
     }
@@ -152,6 +151,8 @@ class BenchmarkController extends Controller
             'holes.*',
             'items.id as item_id',
             'items.*',
+            'items.name as item_name',
+            'items.icon as item_icon',
             'fishes.id as fish_id',
             'fishing_estimates.*',
             'bait_items.icon as bait_icon',
@@ -217,7 +218,7 @@ class BenchmarkController extends Controller
                         } 
                         // Containers (fish or champion bags)
                         else if ($item->type == 'Container'){
-                            switch ($item->name){
+                            switch ($item->item_name){
                                 // WORMS
                                 case "Can of Worms": break; 
                                 case "Can of Glow Worms": break; 
@@ -295,7 +296,7 @@ class BenchmarkController extends Controller
         ];
 
         // Store unique cache key for the next [time] minutes
-        Cache::put($cacheKey, $response, now()->addHours(3)); 
+        Cache::put($cacheKey, $response, now()->addHours(6)); 
         
 
         //dd($response);

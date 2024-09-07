@@ -73,6 +73,7 @@
                             <svg 
                                 class="arrow"
                                 @click="expand[index] = !expand[index]"
+                                :class="activeArrow(expand[index])"
                                 width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
                             >
                                 <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFFFFF"/>
@@ -84,7 +85,7 @@
 
             <div 
                 v-if="expand[index]"
-                class="details"
+                class="details-container"
             >
                 <div class="pie-chart">
                     <PieChart
@@ -96,7 +97,7 @@
                 </div>
                 
                 <div>
-                    <FishTable
+                    <!-- <FishTable
                         v-if="!isMobile"
                         :fishing-hole="fishingHole"
                         :drop-rates="dropRates[index]"
@@ -106,6 +107,10 @@
                         v-if="isMobile"
                         type="Fishing"
                         :benchmark="fishingHole"
+                        :drop-rates="dropRates[index]"
+                    /> -->
+
+                    <MobileDetailsTable
                         :drop-rates="dropRates[index]"
                     />
 
@@ -124,11 +129,13 @@
 import { ref, computed, watch } from 'vue'
 
 import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
+import { activeArrow } from '@/js/vue/composables/BasicFunctions'
 
 import FishTable from '@/js/vue/components/tables/FishTable.vue'
 import FishProofs from '@/js/vue/components/general/FishProofs.vue'
 import PieChart from '@/js/vue/components/general/PieChart.vue'
 import MobileBenchmarkTable from '@/js/vue/components/tables/MobileBenchmarkTable.vue'
+import MobileDetailsTable from '@/js/vue/components/tables/MobileDetailsTable.vue'
 
 import { tyrianCurrentPeriod, canthanCurrentPeriod, isMobile } from '@/js/vue/composables/Global.js'
 

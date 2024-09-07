@@ -11,27 +11,27 @@
                 * DESKTOP VIEW
                 *
             -->
-            <CurrencyMainTable
+            <!-- <CurrencyMainTable
                 v-if="bags && bags != null && !isMobile"
                 :target-currency="targetCurrency"
                 :bags="bags"
                 :currency-icon="currencyIcon"
                 @details-toggle="detailsToggle = true"
                 @get-details="getBagDetails"
-            />
+            /> -->
 
-            <CurrenencyDetailsTable
+            <!-- <CurrenencyDetailsTable
                 v-if="detailsToggle"
                 :table-toggle="detailsToggle"
                 :bag="bagDetails"
                 :bags="bags[bagIndex]"
                 :currency-icon="currencyIcon"
-            />
+            /> -->
 
             <MobileCurrencyTable
-                v-if="isMobile"
                 :target-currency="targetCurrency"
                 :bags="bags"
+                :drop-rates="dropRates"
                 :currency-icon="currencyIcon"
             />
 

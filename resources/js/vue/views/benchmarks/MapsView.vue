@@ -31,6 +31,7 @@ const sortBenchmarks = (benchmarks) => {
         // Create an array of indexes
         const indexes = benchmarks.map((_, index) => index);
 
+
         // Sort the indexes based on the estimatedValue
         indexes.sort((a, b) => benchmarks[b].gph - benchmarks[a].gph);
 

@@ -3,6 +3,7 @@
     <Header :page-name="pageName"/>
 
     <CurrencyTables
+        v-if="bags"
         :page-name="pageName"
         :bags="bags"
         :drop-rates="dropRates"
@@ -28,11 +29,13 @@ const props = defineProps({
 const bags = ref(null),
     dropRates = ref(null);
 
-onMounted(() => {
-    const url = `../api/exchangeables/${encodeURIComponent(props.targetCurrency)}/${localStorage.includes}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
+const url = `../api/exchangeables/${encodeURIComponent(props.targetCurrency)}/${localStorage.includes}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
 
-    console.log(url);
-    getBags(url, bags, dropRates); 
+console.log(url);
+getBags(url, bags, dropRates); 
+
+onMounted(() => {
+    
 })
 
 </script>

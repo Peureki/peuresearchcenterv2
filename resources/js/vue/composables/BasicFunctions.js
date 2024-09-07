@@ -65,3 +65,10 @@ export function pageRefresh(router, route) {
 export function encodeArray(array){
     return encodeURIComponent(JSON.stringify(array));
 }
+// For arrow CTAs, invoke if its rotated up or down
+export const activeArrow = (expandIndex) =>  {
+    return {
+        'active-arrow': expandIndex,
+        'inactive-arrow': !expandIndex,
+    }
+}
