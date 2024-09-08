@@ -115,8 +115,14 @@ article {
 }
 
 section{
-    padding-left: calc(var(--nav-width) + var(--padding-section-left));
+    padding-left: calc(var(--nav-width));
     padding-block: var(--padding-section);
+}
+section.main{
+    padding-left: calc(var(--nav-width) + var(--nav-padding-left));
+}
+header {
+    padding-left: calc(var(--nav-width) + var(--nav-padding-left));
 }
 
 nav h6{
@@ -132,6 +138,11 @@ nav h6{
     section{
         padding-left: unset;
         padding: var(--padding-mobile-general);
+    }
+    header{
+        padding-left: unset;
+        padding: var(--padding-mobile-general);
+        padding-top: calc(var(--padding-general) * 2 + 60px);
     }
     .overflow-table{
         overflow-x: auto;
@@ -150,6 +161,7 @@ a.page-link{
 .icon{
     width: 20px;
     height: 20px;
+    cursor: pointer;
 }
 
 .distinquish-section{
@@ -904,13 +916,6 @@ svg.arrow path{
     align-items: center;
     gap: 5px;
 }
-.details{
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    width: 100%;
-    gap: var(--gap-content);
-}
-
 @media (max-width: 768px){
     .benchmark-grid{
         width: 100%;
@@ -949,9 +954,6 @@ svg.arrow path{
     .benchmark-info-container{
         width: 100%;
         justify-content: flex-end;
-    }
-    .details{
-        grid-template-columns: unset;
     }
     .map-and-info{
         white-space: unset;
@@ -1002,6 +1004,11 @@ svg.arrow path{
     width: var(--img-header);
     height: var(--img-header);
 }
+.svg-ctas{
+    display: flex;
+    align-items: center;
+    gap: var(--gap-general);
+}
 .drop-rate{
     grid-area: dr;
 }
@@ -1031,6 +1038,7 @@ svg.arrow path{
 .label-and-cta{
     display: flex;
     gap: var(--gap-content);
+    grid-area: name;
     justify-content: space-between;
 }
 .value-container{

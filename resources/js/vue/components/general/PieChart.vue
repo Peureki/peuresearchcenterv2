@@ -72,11 +72,24 @@ const setColors = (rarities, colorMap) => {
 
 const setData = (drops, labels) => {
     const dataArray = new Array(labels.length).fill(0); 
+    const percentArray = [];
+    let totalPercent = 0;
+    // Match the labels and add up the total % drop rates for each rarity
     drops.forEach(item => {
         const index = labels.indexOf(item.rarity); 
         dataArray[index] += +item.drop_rate; 
     })
-    return dataArray; 
+    // Add the total % because some drop rates go above 100%
+    dataArray.forEach(data => {
+        totalPercent += data; 
+    }) 
+    // Take the total % and take the amount of data and => data / totalPercent to get the actual % as if it was divided by 100
+    dataArray.forEach((data, index) => {
+        percentArray[index] = data / totalPercent;
+        console.log('percent: ', data/totalPercent);
+    })
+
+    return percentArray; 
 }
 
 uniqueRarities.value = setLabels(props.dropRates);

@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section class="main">
         <div class="two-col-section">
             <Loading 
                 v-if="!bags"

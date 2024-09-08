@@ -87,32 +87,36 @@
                 v-if="expand[index]"
                 class="details-container"
             >
-                <div class="pie-chart">
+                <div class="pie-chart" v-if="!isMobile">
                     <PieChart
                         :drop-rates="dropRates[index]"
                     />
                     <FishProofs
                         :fishing-hole="fishingHole"
                     />
+
+                    
                 </div>
+
+                <MobileDetailsTable
+                    :drop-rates="dropRates[index]"
+                />
                 
                 <div>
                     <!-- <FishTable
                         v-if="!isMobile"
                         :fishing-hole="fishingHole"
                         :drop-rates="dropRates[index]"
-                    />
+                    /> -->
 
-                    <MobileBenchmarkTable
+                    <!-- <MobileBenchmarkTable
                         v-if="isMobile"
                         type="Fishing"
                         :benchmark="fishingHole"
                         :drop-rates="dropRates[index]"
                     /> -->
 
-                    <MobileDetailsTable
-                        :drop-rates="dropRates[index]"
-                    />
+                    
 
                 </div>
                 

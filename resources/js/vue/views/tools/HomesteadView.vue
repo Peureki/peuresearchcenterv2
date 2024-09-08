@@ -2,21 +2,21 @@
     <Nav/>
     <Header page-name="Homesteads"/>
 
-    <section>
+    <section class="main">
         <RefinementTable
             target-refinement="Refined Homestead Wood"
             target-id="103049"
         />
     </section>
 
-    <section>
+    <section class="main">
         <RefinementTable
             target-refinement="Refined Homestead Metal"
             target-id="102205"
         />
     </section>
 
-    <section>
+    <section class="main">
         <RefinementTable
             target-refinement="Refined Homestead Fiber"
             target-id="102306"

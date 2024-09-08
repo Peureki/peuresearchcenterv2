@@ -75,13 +75,13 @@
         </template>
     </Nav>
 
-    <main>
+    <section class="main">
         <Header page-name="Research Notes"/>
 
         
 
         <ResearchNotesTable/>
-    </main>
+    </section>
 </template>
 
 <script setup>

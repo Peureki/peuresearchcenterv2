@@ -66,33 +66,16 @@
 
             <div 
                 v-if="expand[index]"
-                class="details"
+                class="details-container"
             >
-                <div class="pie-chart">
-                    <PieChart
-                        :drop-rates="dropRates[index]"
-                    />
-                </div>
-                
-                <div>
-                    <!-- <BenchmarkTable
-                        v-if="!isMobile"
-                        :benchmark="benchmark"
-                        :drop-rates="dropRates[index]"
-                    />
+                <MobileDetailsTable
+                    :drop-rates="dropRates[index]"
+                />
 
-                    <MobileBenchmarkTable
-                        v-if="isMobile"
-                        type="Map"
-                        :benchmark="benchmark"
-                        :drop-rates="dropRates[index]"
-                    /> -->
-
-                    <MobileDetailsTable
-                        :drop-rates="dropRates[index]"
-                    />
-                </div>
-                
+                <PieChart
+                    v-if="!isMobile"
+                    :drop-rates="dropRates[index]"
+                />
             </div>
         </div>
     </div>
@@ -123,16 +106,6 @@ const props = defineProps({
     benchmarks: Object,
     dropRates: Object,
 })
-
-const sortBy = (request) => {
-    const indexes = props.benchmarks.map((_, index) => index);
-
-    switch (request){
-        case 'Karma':
-            indexes.sort((a, b) => props.benchmarks[b].karma)
-            break;
-    }
-}
 
 const setCurrencies = (drops) => {
     const set = new Set(); 

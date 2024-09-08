@@ -177,6 +177,7 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import { wiki } from '@/js/vue/composables/BasicFunctions'
 import SearchItem from '@/js/vue/components/general/SearchItem.vue'
 import Expand from '@/imgs/svgs/expand.svg'
 
@@ -240,11 +241,6 @@ const addCustomIngredient = (item, count, ingredients) => {
         count: count != 0 ? count : null,
         name: ingredients
     });
-}
-
-const wiki = (itemName) => {
-    const convertToURL = itemName.replace(/ /g, "_");
-    window.open(`https://wiki.guildwars2.com/wiki/${convertToURL}`, '_blank');
 }
 
 const popItem = (itemIndex) => {

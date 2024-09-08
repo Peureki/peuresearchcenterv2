@@ -1,7 +1,6 @@
 <template>
-    <main>
-        <Header :page-name="mapName"/>
-
+    <Header :page-name="mapName"/>
+    <section>
         <div class="content-container">
             <!--
                 *
@@ -132,7 +131,7 @@
                 </div>
             </div>
         </div>
-    </main>
+    </section>
 </template>
 
 <script setup>

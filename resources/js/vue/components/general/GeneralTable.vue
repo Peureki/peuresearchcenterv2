@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section class="main">
         <table class="general-table">
             <thead>
                 <tr>

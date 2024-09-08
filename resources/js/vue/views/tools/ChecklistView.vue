@@ -7,7 +7,7 @@
         * RECIPE FINDER && ICONS
         *
     -->
-    <section>
+    <section class="main">
         <div class="two-col-container">
             <SearchRecipe 
                 @handle-recipe-request="handleRecipeRequest"
@@ -54,16 +54,7 @@
         </div>
     </section>
 
-    <!--
-        *
-        * ADD NEW ENTRY 
-        *
-    -->
-    <section>
-        
-    </section>
-
-    <section>
+    <section class="main">
         <List
             v-if="checklist"
             v-for="(entry, index) in checklist"

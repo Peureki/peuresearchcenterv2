@@ -2,7 +2,7 @@
     <Nav/>
     <Header page-name="Map Benchmarks"/>
 
-    <section>
+    <section class="main">
         <Benchmark
             v-if="benchmarkToggle"
             :benchmarks="mapBenchmarks"

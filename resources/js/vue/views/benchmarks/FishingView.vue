@@ -2,7 +2,7 @@
     <Nav/>
     <Header page-name="Fishing Benchmarks"/>
 
-    <section>
+    <section class="main">
         <FishBenchmark
             v-if="fishingHoleToggle"
             :fishing-holes="fishingHoles"

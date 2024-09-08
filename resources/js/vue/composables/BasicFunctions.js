@@ -72,3 +72,10 @@ export const activeArrow = (expandIndex) =>  {
         'inactive-arrow': !expandIndex,
     }
 }
+// * 
+// * WIKIs
+// * 
+export const wiki = (itemName) => {
+    const convertToURL = itemName.replace(/ /g, "_");
+    window.open(`https://wiki.guildwars2.com/wiki/${convertToURL}`, '_blank');
+}
