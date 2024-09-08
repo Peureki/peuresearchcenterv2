@@ -135,7 +135,7 @@ nav h6{
     =================================================
 */
 @media (max-width: 768px){
-    section{
+    section, section.main{
         padding-left: unset;
         padding: var(--padding-mobile-general);
     }
@@ -769,6 +769,44 @@ span.output{
     gap: 50px;
 }
 
+/* 
+    =================================================
+    * SUPPORT
+    =================================================
+*/
+.support{
+    position: relative;
+}
+button.support-button{
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--gap-content);
+    animation-name: marquee;
+    animation-duration: 45s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+button.support-button p{
+    color: var(--color-black);
+    white-space: nowrap;
+}
+img.rolling-choya{
+    width: var(--svg-icon-size);
+    height: var(--svg-icon-size);
+    animation-name: rollingChoya;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+@keyframes rollingChoya {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(-360deg);}
+}
+@keyframes marquee{
+    from {transform: translateX(0);}
+    to {transform: translateX(-50%)}
+}
+
 
 /* 
     =================================================
@@ -1048,6 +1086,7 @@ svg.arrow path{
 }
 .value-conversion{
     display: flex;
+    gap: var(--gap-operators);
     align-items: center;
 }
 
@@ -1183,6 +1222,7 @@ svg.arrow path{
 
     --gap-general: clamp(0.6rem, 0.7vw, 1rem);
     --gap-content: clamp(0.8rem, 2vw, 4rem);
+    --gap-operators: clamp(0.3rem, 0.5vw, 1rem);
     --gap-benchmarks: clamp(0.5rem, 0.5vw, 0.8rem);
 
     --font-family: 'Rubik', sans-serif;

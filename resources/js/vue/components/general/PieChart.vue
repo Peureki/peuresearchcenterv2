@@ -1,5 +1,5 @@
 <template>
-    <div class="pie-container" v-if="colorsData.length > 0">
+    <div class="pie-container" v-if="data.length > 0">
         <Pie
             class="pie"
             :options="chartOptions"
@@ -7,9 +7,9 @@
         />
 
         <div class="stats-container">
-            <span v-for="(rarities, index) in uniqueRarities" :key="index" class="stats">
-                <p :style="{color: showRarityColor(rarities)}">{{ rarities }}</p>
-                <p>{{ formatPercentage(data[index]) }}</p>
+            <span v-for="(array, index) in data" :key="index" class="stats">
+                <p :style="{color: showRarityColor(array.rarity)}">{{ array.rarity }}</p>
+                <p>{{ formatPercentage(array.dropRate) }}</p>
             </span>
         </div>
     </div>
@@ -32,7 +32,6 @@ const props = defineProps({
 
 
 const uniqueRarities = ref([]);
-const colorsData = ref([]);
 const rarityColors = ref({
     "Junk": getCSSVariable('--color-rarity-junk'),
     "Basic": getCSSVariable('--color-rarity-basic'),
@@ -66,40 +65,51 @@ const setLabels = (drops) => {
     return Array.from(set); 
 }
 
-const setColors = (rarities, colorMap) => {
-    return rarities.map(rarity => colorMap[rarity] || '#000'); // Default to black if color is not found
-};
 
 const setData = (drops, labels) => {
-    const dataArray = new Array(labels.length).fill(0); 
+    const dataArray = labels.map(label => ({
+        hexColor: rarityColors.value[label],
+        rarity: label,
+        dropRate: 0, 
+    }));
     const percentArray = [];
     let totalPercent = 0;
     // Match the labels and add up the total % drop rates for each rarity
     drops.forEach(item => {
         const index = labels.indexOf(item.rarity); 
-        dataArray[index] += +item.drop_rate; 
-    })
-    // Add the total % because some drop rates go above 100%
-    dataArray.forEach(data => {
-        totalPercent += data; 
-    }) 
-    // Take the total % and take the amount of data and => data / totalPercent to get the actual % as if it was divided by 100
-    dataArray.forEach((data, index) => {
-        percentArray[index] = data / totalPercent;
-        console.log('percent: ', data/totalPercent);
+        if (index !== -1){
+            dataArray[index].dropRate += +item.drop_rate; 
+        }
     })
 
-    return percentArray; 
+    console.log('data arary: ', dataArray)
+
+    // Add the total % because some drop rates go above 100%
+    dataArray.forEach(data => {
+        totalPercent += data.dropRate; 
+    }) 
+
+    // Take the total % and take the amount of data and => data / totalPercent to get the actual % as if it was divided by 100
+    dataArray.forEach((data, index) => {
+        dataArray[index].dropRate = data.dropRate / totalPercent;
+    })
+
+
+    // Return and sort by highest % to lowest
+    return dataArray.sort((a, b) => b.dropRate - a.dropRate); 
 }
 
 uniqueRarities.value = setLabels(props.dropRates);
-colorsData.value = setColors(uniqueRarities.value, rarityColors.value);
 data.value = setData(props.dropRates, uniqueRarities.value);
 
-chartData.datasets[0].backgroundColor = colorsData.value;
-chartData.datasets[0].data = data.value;
 
-console.log('chart  data: ', colorsData.value);
+
+chartData.datasets[0].backgroundColor = data.value.map(item => item.hexColor);
+chartData.datasets[0].data = data.value.map(item => item.dropRate);
+
+console.log('data value: ', data.value);
+
+
 
 </script>
 

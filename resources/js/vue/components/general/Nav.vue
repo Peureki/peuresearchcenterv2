@@ -16,20 +16,40 @@
                     
                 </div>
 
-                <!-- 
-                        * SHORTCUTS
-                        *
-                        * Settings | Dark/Light mode | Nav | Discord | Other
-                    -->
+                <div class="support">
+                    <button class="support-button">
+                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                        <p>Support the choyas</p>
+                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                        <p>Support the choyas</p>
+                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                        <p>Support the choyas</p>
+                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                        <p>Support the choyas</p>
+                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                        <p>Support the choyas</p>
+                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                        <p>Support the choyas</p>
+                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                        <p>Support the choyas</p>
+                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                    </button>
+                </div>
 
-                    <Shortcuts
-                        :settings-toggle="settingsToggle"
-                        :bookmarks-toggle="bookmarksToggle"
-                        :filters-toggle="filtersToggle"
-                        :login-toggle="loginToggle"
-                        :api-key-toggle="apiKeyToggle"
-                        @change-toggle-status="changeToggleStatus"
-                    />
+                <!-- 
+                    * SHORTCUTS
+                    *
+                    * Settings | Dark/Light mode | Nav | Discord | Other
+                -->
+
+                <Shortcuts
+                    :settings-toggle="settingsToggle"
+                    :bookmarks-toggle="bookmarksToggle"
+                    :filters-toggle="filtersToggle"
+                    :login-toggle="loginToggle"
+                    :api-key-toggle="apiKeyToggle"
+                    @change-toggle-status="changeToggleStatus"
+                />
 
                 <div class="auth-welcome" v-if="user">
                     <p>Herro {{ user.name }}</p>
@@ -37,20 +57,65 @@
 
                 <!-- 
                     *
+                    * LOGIN CONTAINER
+                    * Users will be able to login or logout 
+                    * Username
+                    * Email
+                    * Password
+                -->
+
+                <Transition name="fade-right">
+                    <div class="form-container" v-if="loginToggle">
+                        <form @submit.prevent="login">
+                            <label for="name">Username</label>
+                            <input type="text" name="name" id="name" v-model="name">
+
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email" v-model="email">
+
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" v-model="password">
+
+                            <span class="remember-container">
+                                <label for="remember">Remember Me</label>
+                                <input type="checkbox" name="remember" v-model="remember">
+                            </span>
+                            
+
+                            <div class="form-button-container">
+                                <button type="submit">Login</button>
+                                
+                                <button type="button" @click="logout">Logout</button>
+
+                                <button type="button" @click="register">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </Transition>
+                <!--
+                    *
+                    * ENTER API KEY CONTAINER
+                    *
+                -->
+                <Transition name="fade-right">
+                    <div class="form-container"  v-if="apiKeyToggle">
+                        <form @submit.prevent="enterAPIKey">
+                            <label for="apiKey">Enter API Key</label>
+                            <input type="text" name="apiKey" v-model="apiKey">
+
+                            <button type="submit">Submit</button>
+                        </form>
+
+                        <button v-if="user" @click="getWizardsVault(user.api_key)">Test API Key</button>
+                    </div>
+                </Transition>
+
+                <!-- 
+                    *
                     * TYRIAN AND CANTHAN DAY/NIGHT CYCLE
                     *
                 -->
                 <DayAndNightTimers/>
-                <!--
-                    *
-                    *   "HELLO" MESSAGE TO USERS IF THEY ARE LOGGED IN
-                    *
-                -->
-                <Transition name="fade-right">
-                    <div v-if="user">
-                        <!-- <p>Welcome {{ user.name }}</p> -->
-                    </div>
-                </Transition>
                 <!--
                     * SLOT - TIMERS
                     * 
@@ -150,21 +215,6 @@
                                     * INCLUDE AIRSHIP PARTS
                                     * 
                                 -->
-                                <!-- <div 
-                                    class="checkbox" 
-                                    @click="
-                                        includesAirshipPartCheckbox = !includesAirshipPartCheckbox;
-                                        setIncludes('Airship Part', includesAirshipPartCheckbox);    
-                                    "
-                                >
-                                    <input 
-                                        :checked="includesAirshipPartCheckbox" 
-                                        type="checkbox" 
-                                        name="AirshipPart"
-                                    >
-                                    <label for="AirshipPart">Airship Parts</label>
-                                </div> -->
-
                                 <IncludesCheckbox
                                     name="Airship Part"
                                     :icon="AirshipParts"
@@ -284,7 +334,6 @@
                             </div>
                             
                         </article>
-                    
                     </div>
                 </Transition>
 
@@ -312,60 +361,7 @@
                     ></slot>
                 </Transition>
 
-                <!-- 
-                    *
-                    * LOGIN CONTAINER
-                    * Users will be able to login or logout 
-                    * Username
-                    * Email
-                    * Password
-                -->
-
-                <Transition name="fade-right">
-                    <div class="form-container" v-if="loginToggle">
-                        <form @submit.prevent="login">
-                            <label for="name">Username</label>
-                            <input type="text" name="name" id="name" v-model="name">
-
-                            <label for="email">Email</label>
-                            <input type="email" name="email" id="email" v-model="email">
-
-                            <label for="password">Password</label>
-                            <input type="password" name="password" id="password" v-model="password">
-
-                            <span class="remember-container">
-                                <label for="remember">Remember Me</label>
-                                <input type="checkbox" name="remember" v-model="remember">
-                            </span>
-                            
-
-                            <div class="form-button-container">
-                                <button type="submit">Login</button>
-                                
-                                <button type="button" @click="logout">Logout</button>
-
-                                <button type="button" @click="register">Register</button>
-                            </div>
-                        </form>
-                    </div>
-                </Transition>
-                <!--
-                    *
-                    * ENTER API KEY CONTAINER
-                    *
-                -->
-                <Transition name="fade-right">
-                    <div class="form-container"  v-if="apiKeyToggle">
-                        <form @submit.prevent="enterAPIKey">
-                            <label for="apiKey">Enter API Key</label>
-                            <input type="text" name="apiKey" v-model="apiKey">
-
-                            <button type="submit">Submit</button>
-                        </form>
-
-                        <button v-if="user" @click="getWizardsVault(user.api_key)">Test API Key</button>
-                    </div>
-                </Transition>
+                
 
                 <!--
                     *
@@ -593,6 +589,7 @@ import InscribedShard from '@/imgs/icons/Inscribed_Shard.png'
 import MistbornMote from '@/imgs/icons/Mistborn_Mote.png'
 
 import PeuChoya from '@/imgs/choyas/Peu_Choya.png'
+import RollingChoya from '@/imgs/choyas/Rolling_Choya.png'
 
 import axios from 'axios';
 import { update } from 'lodash';
@@ -710,6 +707,7 @@ const register = async () => {
                 name: name.value,
                 email: email.value,
                 password: password.value,
+                remember: remember.value,
             }),
         });
 

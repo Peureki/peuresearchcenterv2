@@ -2,7 +2,7 @@
     <div 
         class="nav-section-container"
     >
-        <h3 class="nav-section-header">{{ header }}</h3>
+        <h4 class="nav-section-header">{{ header }}</h4>
         <svg 
             class="expand"
             :class="{rotate180: toggle}" 
@@ -28,7 +28,6 @@ const props = defineProps({
     text-align: center;
     padding-block: var(--gap-content);
     color: var(--color-subheader);
-    font-weight: unset;
 }
 .nav-section-container {
     position: relative;
@@ -50,6 +49,11 @@ const props = defineProps({
 .nav-section-container:hover svg{
     bottom: -5%;
     transform: translate(5%, -50%);
+}
+@media (max-width: 768px){
+    .nav-section-header{
+        font-size: var(--font-size-h3);
+    }
 }
 
 </style>

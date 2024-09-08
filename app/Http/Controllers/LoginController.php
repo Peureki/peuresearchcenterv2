@@ -12,13 +12,12 @@ use Illuminate\Support\Facades\Hash;
 class LoginController extends Controller
 {
     /**
-     * Handle an authentication attempt.
+     * Handle an authentication attempt (logging in).
      */
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
             'name' => ['required'],
-            'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
         // Initialize and fill remember_token in user database 
