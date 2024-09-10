@@ -1,14 +1,14 @@
 <template>
     <img 
         class="loading-icon" 
-        :src="LoadingIcon" alt="Rolling Choya Loading" title="Loading data..."
+        :src="RollingChoya" alt="Rolling Choya Loading" title="Loading data..."
         :style="{width: `${width}px`, height: `${height}px`}"
     >
 </template>
 
 <script setup>
 
-import LoadingIcon from '@/imgs/icons/Rolling_Choya.png'
+import RollingChoya from '@/imgs/choyas/Rolling_Choya.png'
 import { onMounted } from 'vue';
 
 const props = defineProps({

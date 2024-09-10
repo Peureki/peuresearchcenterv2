@@ -1081,6 +1081,7 @@ svg.arrow path{
 }
 .value-container{
     display: flex;
+    align-items: center;
     justify-content: space-between;
     gap: var(--gap-content);
 }
@@ -1211,17 +1212,17 @@ svg.arrow path{
     --color-dawn: #db8b9d;
     --color-anytime: #e15e6c;
 
-    --font-size-h1: clamp(2rem, 15vw, 6.25rem);
+    --font-size-h1: clamp(2rem, 5.5vw, 6.25rem);
     --font-size-h2: clamp(1.8rem, 15vw, 4rem);
     --font-size-h3: clamp(1.3rem, 8vw, 2rem);
-    --font-size-h4: clamp(1.3rem, 1.7vw, 1.7rem);
+    --font-size-h4: clamp(1.3rem, 1.2vw, 1.7rem);
     --font-size-h5: clamp(1.0rem, 1.1vw, 1.5rem);
-    --font-size-h6: clamp(1.2rem, 1.5vw, 2rem);
+    --font-size-h6: clamp(1.2rem, 1.1vw, 2rem);
     --font-size-p: clamp(1rem, 1vw, 1.1rem);
     --font-size-subtext: clamp(0.5rem, 3vw, 0.8rem);
 
-    --gap-general: clamp(0.6rem, 0.7vw, 1rem);
-    --gap-content: clamp(0.8rem, 2vw, 4rem);
+    --gap-general: clamp(0.6rem, 0.4vw, 1rem);
+    --gap-content: clamp(0.8rem, 1.5vw, 2rem);
     --gap-operators: clamp(0.3rem, 0.5vw, 1rem);
     --gap-benchmarks: clamp(0.5rem, 0.5vw, 0.8rem);
 

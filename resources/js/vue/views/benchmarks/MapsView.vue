@@ -13,7 +13,7 @@
 
 <script setup>
 import { ref } from 'vue'
-
+import { user } from '@/js/vue/composables/Global'
 
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
@@ -23,8 +23,6 @@ import Benchmark from '@/js/vue/components/general/Benchmark.vue'
 const mapBenchmarks = ref([]),
     dropRates = ref([]),
     benchmarkToggle = ref(false);
-
-const currencies = ref([]);
 
 const sortBenchmarks = (benchmarks) => {
     if (benchmarks){

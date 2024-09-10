@@ -35,6 +35,11 @@ Route::post('/user/enterAPIKey', [UserController::class, 'enterAPIKey']);
 Route::post('/user/saveChecklist', [UserController::class, 'saveChecklist']);
 Route::get('/user/getChecklist', [UserController::class, 'getChecklist']);
 
+Route::post('/user/saveIncludes', [UserController::class, 'saveIncludes']);
+Route::get('/user/getIncludes', [UserController::class, 'getIncludes']);
+
+// Route::get('/user/getUserData', [UserController::class, 'getUserData']);
+
 
 // *
 // * BENCHMARKS

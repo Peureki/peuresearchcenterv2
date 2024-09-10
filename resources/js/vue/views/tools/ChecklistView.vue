@@ -123,7 +123,7 @@ const saveList = async (checklist) => {
         })
 
         if (response){
-            console.log('Saved checklist');
+            console.log('Saved checklist', checklist);
         }
     } catch (error){
         console.log('Checklist did not save: ', error);

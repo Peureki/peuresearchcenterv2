@@ -17,6 +17,10 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import { user } from '@/js/vue/composables/Global'
+import axios from 'axios';
+
+import { includes } from '@/js/vue/composables/Global'
 
 const props = defineProps({
     label: String, 
@@ -26,39 +30,45 @@ const props = defineProps({
 
 const checkboxToggle = ref(null); 
 
-// * SET INCLUDES
-// * This is for more Include checkboxes in the Settings tab
-// * When a user checks/unchecks an Include, add/remove that setting in the localStorage Includes array
-// * ie Salvageables
-// * ie Ley Line Crystal
+// SET INCLUDES
+// If the checked checkbox is in the Includes array and is true, then add it
+// Otherwise remove it
 const setIncludes = (name, toggle) => {
-    console.log('toggle: ', toggle);
-    // Get the includes into a workable array
-    let includes = JSON.parse(localStorage.getItem('includes'));
-    // If checkbox is true
-    if (toggle){
-        // Check if there's already a Includes name
-        if (!includes.includes(name)){
-            includes.push(name);
+    const index = includes.value.indexOf(name); 
+    // If the name is in includes array
+    if (index > -1){
+        if (!toggle){
+            includes.value.splice(index, 1); 
         }
-    } else {
-        console.log('includes name: ', name);
-        // Remove Includes name
-        includes = includes.filter(setting => setting !== name); 
+    } 
+    // If the name is not in the includes array
+    else {
+        if (toggle){
+            includes.value.push(name); 
+        }
     }
-    // Update localStorage
-    localStorage.setItem('includes', JSON.stringify(includes));
 }
+// On load, check if the user's Includes array contains any of the checkboxes
+// If yes => check them
+// * REQUIRES user auth
+const checkIncludes = (name) => {
+    try {
+        const isIncluded = includes.value.some(array => array.includes(name));
 
-const checkIncludes = (name, includesArray) => {
-    const isIncluded = includesArray.some(array => array.includes(name));
-    if (isIncluded){
-        checkboxToggle.value = true; 
+        if (isIncluded){
+            checkboxToggle.value = true; 
+        }
+    } catch (error){
+        console.log(`Cannot find ${name} in Includes array. This might be due to not having a user auth`, error);
     }
+    
 }
 
 onMounted(() => {
-    checkIncludes(props.name, JSON.parse(localStorage.getItem('includes'))); 
+    if (user.value){
+        checkIncludes(props.name); 
+    }
+    
 })
 
 </script>

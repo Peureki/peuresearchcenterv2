@@ -67,14 +67,16 @@
                 <Transition name="fade-right">
                     <div class="form-container" v-if="loginToggle">
                         <form @submit.prevent="login">
+                            
+
                             <label for="name">Username</label>
                             <input type="text" name="name" id="name" v-model="name">
 
-                            <label for="email">Email</label>
-                            <input type="email" name="email" id="email" v-model="email">
-
                             <label for="password">Password</label>
                             <input type="password" name="password" id="password" v-model="password">
+
+                            <label v-if="registerToggle" for="email">Email</label>
+                            <input v-if="registerToggle" type="email" name="email" id="email" v-model="email">
 
                             <span class="remember-container">
                                 <label for="remember">Remember Me</label>
@@ -83,11 +85,13 @@
                             
 
                             <div class="form-button-container">
-                                <button type="submit">Login</button>
+                                <button type="submit" v-if="!user">Login</button>
                                 
-                                <button type="button" @click="logout">Logout</button>
+                                <button v-if="user" type="button" @click="logout">Logout</button>
 
-                                <button type="button" @click="register">Register</button>
+                                <button v-if="!registerToggle" type="button" @click="registerToggle = !registerToggle">I want to be a choya</button>
+
+                                <button v-if="registerToggle" type="button" @click="register">Register</button>
                             </div>
                         </form>
                     </div>
@@ -187,18 +191,18 @@
                             <div class="settings-button-container">
                                 <label for="tax">Tax</label>
                                 <span class="settings-tax-input">
-                                    <input type="number" step="0.01" id="tax" name="tax" v-model="taxSetting">
+                                    <input type="number" step="0.01" id="tax" name="tax" v-model="tax">
                                     <span class="settings-tax-model">
                                         <svg 
-                                            :style="{transform: `rotate(${taxSetting < 1 ? 90 : -90}deg)`}"
+                                            :style="{transform: `rotate(${tax < 1 ? 90 : -90}deg)`}"
                                             width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
                                         >
                                             <path 
-                                                :fill="taxSetting < 1 ? 'var(--color-down)' : 'var(--color-up)'"
+                                                :fill="tax < 1 ? 'var(--color-down)' : 'var(--color-up)'"
                                                 d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
                                             />
                                         </svg>
-                                        <p>{{ convertTaxToPercent(taxSetting) }}</p>
+                                        <p>{{ convertTaxToPercent(tax) }}</p>
                                     </span>
                                 </span>
                             </div>
@@ -325,6 +329,8 @@
                             </div>
 
                             <div class="settings-button-container">
+                                <button @click="saveIncludes(includes)">Save</button>
+
                                 <button 
                                     @click="handlePageRefresh()"    
                                     class="submit"
@@ -540,7 +546,7 @@ import { ref, watch, provide, onMounted, onUnmounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
-import { isMobile } from '@/js/vue/composables/Global.js';
+import { user, isMobile, includes, buyOrderSetting, sellOrderSetting, tax } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
 
 import NavPage from '@/js/vue/components/navigation/NavPage.vue';
@@ -600,15 +606,67 @@ const name = ref(''),
     email = ref(''),
     password = ref(''),
     remember = ref(null);
-// Auth user
-const user = ref(null);
+
+const registerToggle = ref(false);
 // Wizard's Vault
 const wv = ref(null); 
 
 const mainNavToggle = ref(isMobile ? false : true),
     mobileHamburger = ref(isMobile ? true : false);
 
+// DEFAULT BUY ORDER, SELL ORDER, AND TAX SETTINGS
+// const buyOrderSetting = ref(user.value ? user.value.settings_buy_order : 'buy_price'),
+//     sellOrderSetting = ref(user.value ? user.value.settings_sell_order : 'sell_price'),
+//     tax = ref(user.value ? user.value.settings.tax : 0.85),
 
+console.log('user data on page refresh: ', user.value);
+
+const apiKey = ref(null);
+
+const route = useRoute(),
+    router = useRouter();
+
+const handlePageRefresh = () => {
+    pageRefresh(router, route);
+}
+
+const saveIncludes = async (includes) => {
+    try {
+        const response = await axios.post('../api/user/saveIncludes', {
+            includes: includes,
+        })
+
+        if (response){
+            console.log('Saved Includes', includes)
+        }
+    } catch (error) {
+        console.log('Includes did not save: ', error);
+    }
+}
+
+const getSavedIncludes = async () => {
+    try {
+        const response = await axios.get('../api/user/getIncludes');
+
+        if (response){
+            includes.value = response.data; 
+        }
+    } catch (error){
+        console.log("Could not retrieve saved includes list: ", error);
+    }
+}
+
+const getUserData = async () => {
+    try {
+        const response = await axios.get('../api/user/getUserData');
+
+        if (response){
+            console.log('USER DATA: ', response);
+        }
+    } catch (error){
+        console.log('Could not retrieve user data: ', error);
+    }
+}
 
 const changeToggleStatus = (toggleName) => {
     switch (toggleName){
@@ -653,7 +711,7 @@ const getWizardsVault = async (key) => {
 
 // *
 // * LOGIN
-// * Assuming a completed form with username, email, password => login into a new session 
+// * Assuming a completed form with username, password => login into a new session 
 // * Refresh page if successful
 const login = async () => {
     try {
@@ -674,7 +732,7 @@ const login = async () => {
         });
         // If sucessful, page refresh
         if (response){
-            console.log("Login successful!");
+            console.log("Login successful!", response);
             handlePageRefresh();
         } 
     } catch (error) {
@@ -731,6 +789,7 @@ const getAuthUser = async () => {
             throw new Error('Failed to fetch user data');
         }
         user.value = await response.json(); 
+        console.log('USER VALUE: ', user.value);
     } catch (error){
         console.log(error); 
     }
@@ -753,12 +812,6 @@ const enterAPIKey = async () => {
     
 }
 
-onMounted( async () => {
-    getAuthUser(); 
-})
-
-
-
 // For first time visitors
 // If there is no exisiting local stoarge property (like sellOrderSetting), then make one by default
 // Otherwise, don't do anything
@@ -768,15 +821,6 @@ const setDefaultLocalStorage = () => {
     // *
     if (!localStorage.settings){
         localStorage.setItem('settings', false);
-    }
-    if (!localStorage.buyOrderSetting){
-        localStorage.setItem('buyOrderSetting', 'buy_price');
-    }
-    if (!localStorage.sellOrderSetting){
-        localStorage.setItem('sellOrderSetting', 'sell_price'); 
-    }
-    if (!localStorage.taxSetting){
-        localStorage.setItem('taxSetting', 0.85);
     }
     
     // * 
@@ -869,17 +913,10 @@ const settingsToggle = ref(JSON.parse(localStorage.settings)),
     loginToggle = ref(false),
     apiKeyToggle = ref(false);
 
-const buyOrderSetting = ref(localStorage.buyOrderSetting),
-    sellOrderSetting = ref(localStorage.sellOrderSetting),
-    taxSetting = ref(parseFloat(localStorage.taxSetting)),
-    apiKey = ref(null);
 
-const route = useRoute(),
-    router = useRouter();
 
-const handlePageRefresh = () => {
-    pageRefresh(router, route);
-}
+
+
 
 const changeOrder = (order) => {
     switch (order){
@@ -901,11 +938,11 @@ const changeOrder = (order) => {
     localStorage.setItem('buyOrderSetting', buyOrderSetting.value);
 }
 
-watch(taxSetting, (newTaxSetting) => {
-    if (newTaxSetting == ''){
-        newTaxSetting = 0.85;
+watch(tax, (newtax) => {
+    if (newtax == ''){
+        newtax = 0.85;
     }
-    localStorage.taxSetting = newTaxSetting;
+    tax.value = newtax;
 })
 
 
@@ -924,6 +961,7 @@ const checkMobile = () => {
 
 // Add resize event listener when the component is mounted
 onMounted(() => {
+    
     window.addEventListener('resize', checkMobile);
     checkMobile();
 });
@@ -934,6 +972,12 @@ watch(isMobile, (newIsMobile) => {
         mainNavToggle.value = true; 
     }
 })
+
+watch(user, (newUser) => {
+    console.log('watch user: ', user.value);
+})
+
+getAuthUser();
 
 </script>
 

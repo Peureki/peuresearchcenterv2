@@ -23,6 +23,11 @@ class User extends Authenticatable
         'password',
         'api_key',
         'checklist',
+        'includes',
+        'filter_research_notes',
+        'settings_buy_order',
+        'settings_sell_order',
+        'settings_tax',
     ];
 
     /**
@@ -43,5 +48,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'checklist' => 'array',
+        'includes' => 'array',
+        'filter_research_notes',
     ];
 }
