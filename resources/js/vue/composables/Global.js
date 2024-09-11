@@ -1,11 +1,13 @@
 // This page is to keep track global variable states
 import { ref } from 'vue'
+import { getAuthUser } from './Authentication';
 
 
 export const nodeTrackerModalToggle = ref(false);
 
 // USER AUTH
 export const user = ref(null);
+export const isAuthenticating = ref(true);
 
 // TYRIAN AND CANTHAN TIME PEROIDS
 // Used for the navigation and Fishing benchmarks
@@ -18,8 +20,9 @@ export const isMobile = ref(window.innerWidth < 786);
 
 
 // SETTINGS
-// These will be changed if the user is logged in or not
+// DEFAULTS
+// These settings will be these settings every page refresh unless: user is logged in and has saved settings
 export const includes = ref([]);
-export const buyOrderSetting = ref('buy_price');
-export const sellOrderSetting = ref('sell_price');
+export const buyOrder = ref('buy_price');
+export const sellOrder = ref('sell_price');
 export const tax = ref(0.85);

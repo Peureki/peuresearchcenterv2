@@ -34,34 +34,47 @@ const checkboxToggle = ref(null);
 // If the checked checkbox is in the Includes array and is true, then add it
 // Otherwise remove it
 const setIncludes = (name, toggle) => {
-    const index = includes.value.indexOf(name); 
-    // If the name is in includes array
-    if (index > -1){
-        if (!toggle){
-            includes.value.splice(index, 1); 
+    // If includes != null
+    if (includes.value){
+        const index = includes.value.indexOf(name); 
+        // If the name is in includes array
+        if (index > -1){
+            if (!toggle){
+                includes.value.splice(index, 1); 
+            }
+        } 
+        // If the name is not in the includes array
+        else {
+            if (toggle){
+                includes.value.push(name); 
+            }
         }
     } 
-    // If the name is not in the includes array
+    // If includes.value == null
     else {
+        // Add name 
         if (toggle){
-            includes.value.push(name); 
+            includes.value = [];
+            includes.value.push(name)
         }
     }
+    
 }
 // On load, check if the user's Includes array contains any of the checkboxes
 // If yes => check them
 // * REQUIRES user auth
 const checkIncludes = (name) => {
     try {
-        const isIncluded = includes.value.some(array => array.includes(name));
+        if (includes.value){
+            const isIncluded = includes.value.some(array => array.includes(name));
 
-        if (isIncluded){
-            checkboxToggle.value = true; 
+            if (isIncluded){
+                checkboxToggle.value = true; 
+            }
         }
     } catch (error){
         console.log(`Cannot find ${name} in Includes array. This might be due to not having a user auth`, error);
     }
-    
 }
 
 onMounted(() => {

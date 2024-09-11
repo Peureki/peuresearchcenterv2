@@ -82,8 +82,6 @@ const setData = (drops, labels) => {
         }
     })
 
-    console.log('data arary: ', dataArray)
-
     // Add the total % because some drop rates go above 100%
     dataArray.forEach(data => {
         totalPercent += data.dropRate; 
@@ -106,8 +104,6 @@ data.value = setData(props.dropRates, uniqueRarities.value);
 
 chartData.datasets[0].backgroundColor = data.value.map(item => item.hexColor);
 chartData.datasets[0].data = data.value.map(item => item.dropRate);
-
-console.log('data value: ', data.value);
 
 
 

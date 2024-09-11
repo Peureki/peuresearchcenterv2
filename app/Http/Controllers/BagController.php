@@ -39,6 +39,7 @@ class BagController extends Controller
     public function exchangeables($request, $includes, $sellOrderSetting, $tax){
         // Make it a workable arrays
         $includes = json_decode($includes);
+        //dd($includes);
         // This is where bag_ids will be pushed depending on what exchangable item is being exchanged
         $requestedBags = []; 
         // Check if $request matches with one of the $map

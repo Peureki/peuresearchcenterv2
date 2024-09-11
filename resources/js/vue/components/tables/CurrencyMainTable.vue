@@ -144,8 +144,6 @@ const props = defineProps({
     alt: String,
 })
 
-console.log(props.bags)
-
 const detailsActive = ref([]),
     sortActive = ref([]), 
     sortOrder = ref([]);

@@ -55,19 +55,16 @@ class UserController extends Controller
         }
     }
 
-    // public function getUserData(Request $request){
-    //     $user = auth()->user(); 
+    public function saveSettings(Request $request){
+        $user = auth()->user(); 
 
-    //     if ($user){
-    //         $response = [
-    //             'includes' => $user->includes, 
-    //             'buyOrder' => $user->settings_buy_order,
-    //             'sellOrder' => $user->settings_sell_order,
-    //             'tax' => $user->tax, 
-    //             'checklist' => $user->checklist,
-    //         ];
-
-    //         return response()->json($response);
-    //     }
-    // }
+        if ($user){
+            $user->update([
+                'settings_buy_order' => $request->settings_buy_order,
+                'settings_sell_order' => $request->settings_sell_order,
+                'settings_tax' => $request->settings_tax, 
+                'includes' => $request->includes,
+            ]);
+        }
+    }
 }

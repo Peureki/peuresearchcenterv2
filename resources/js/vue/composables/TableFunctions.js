@@ -22,7 +22,6 @@ export function sortTable(tableName, column, setting, orderChoice){
     }
 
     let table = document.querySelector(`.${tableName}`);
-    console.log('table: ', table);
     switching = true; 
 
     while(switching){
@@ -230,8 +229,5 @@ export async function getBags(url, bags, dropRates){
 
     bags.value = data.bag; 
     dropRates.value = data.dropRates; 
-
-    console.log('bags: ', bags.value); 
-    console.log('drop rates: ', dropRates.value);
 }
 

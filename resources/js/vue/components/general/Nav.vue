@@ -147,13 +147,13 @@
                                     <div class="settings-button">
                                     <button
                                         @click="changeOrder('buy order')"
-                                        :class="buyOrderSetting == 'buy_price' ? 'active-button' : 'inactive-button'"
+                                        :class="buyOrder == 'buy_price' ? 'active-button' : 'inactive-button'"
                                     >
                                         Buy Price
                                     </button>
                                     <button
                                         @click="changeOrder('buy order')"
-                                        :class="buyOrderSetting == 'sell_price' ? 'active-button' : 'inactive-button'"
+                                        :class="buyOrder == 'sell_price' ? 'active-button' : 'inactive-button'"
                                     >
                                         Sell Price
                                     </button>
@@ -171,13 +171,13 @@
                                     <div class="settings-button">
                                         <button
                                         @click="changeOrder('sell order')"
-                                        :class="sellOrderSetting == 'buy_price' ? 'active-button' : 'inactive-button'"
+                                        :class="sellOrder == 'buy_price' ? 'active-button' : 'inactive-button'"
                                     >
                                         Buy Price
                                     </button>
                                     <button
                                         @click="changeOrder('sell order')"
-                                        :class="sellOrderSetting == 'sell_price' ? 'active-button' : 'inactive-button'"
+                                        :class="sellOrder == 'sell_price' ? 'active-button' : 'inactive-button'"
                                     >
                                         Sell Price
                                     </button>
@@ -329,7 +329,7 @@
                             </div>
 
                             <div class="settings-button-container">
-                                <button @click="saveIncludes(includes)">Save</button>
+                                <button @click="saveSettings()">Save</button>
 
                                 <button 
                                     @click="handlePageRefresh()"    
@@ -546,8 +546,9 @@ import { ref, watch, provide, onMounted, onUnmounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
-import { user, isMobile, includes, buyOrderSetting, sellOrderSetting, tax } from '@/js/vue/composables/Global.js';
+import { user, isMobile, includes, buyOrder, sellOrder, tax } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
+import { getAuthUser } from '@/js/vue/composables/Authentication';
 
 import NavPage from '@/js/vue/components/navigation/NavPage.vue';
 import IncludesCheckbox from '@/js/vue/components/navigation/IncludesCheckbox.vue';
@@ -614,13 +615,6 @@ const wv = ref(null);
 const mainNavToggle = ref(isMobile ? false : true),
     mobileHamburger = ref(isMobile ? true : false);
 
-// DEFAULT BUY ORDER, SELL ORDER, AND TAX SETTINGS
-// const buyOrderSetting = ref(user.value ? user.value.settings_buy_order : 'buy_price'),
-//     sellOrderSetting = ref(user.value ? user.value.settings_sell_order : 'sell_price'),
-//     tax = ref(user.value ? user.value.settings.tax : 0.85),
-
-console.log('user data on page refresh: ', user.value);
-
 const apiKey = ref(null);
 
 const route = useRoute(),
@@ -630,10 +624,14 @@ const handlePageRefresh = () => {
     pageRefresh(router, route);
 }
 
-const saveIncludes = async (includes) => {
+
+const saveSettings = async () => {
     try {
-        const response = await axios.post('../api/user/saveIncludes', {
-            includes: includes,
+        const response = await axios.post('../api/user/saveSettings', {
+            includes: includes.value,
+            settings_buy_order: buyOrder.value,
+            settings_sell_order: sellOrder.value,
+            settings_tax: tax.value,
         })
 
         if (response){
@@ -667,7 +665,8 @@ const getUserData = async () => {
         console.log('Could not retrieve user data: ', error);
     }
 }
-
+// Change statuses of toggles
+// Emitted from child components i.e. Settings
 const changeToggleStatus = (toggleName) => {
     switch (toggleName){
         case 'API':
@@ -690,8 +689,6 @@ const changeToggleStatus = (toggleName) => {
             settingsToggle.value = !settingsToggle.value; 
             break;
     } 
-
-    console.log(settingsToggle.value, toggleName);
 }
 
 
@@ -732,7 +729,7 @@ const login = async () => {
         });
         // If sucessful, page refresh
         if (response){
-            console.log("Login successful!", response);
+            console.log("Login successful!");
             handlePageRefresh();
         } 
     } catch (error) {
@@ -745,6 +742,7 @@ const logout = async () => {
         const response = await axios.post('../logout');
 
         if (response){
+            user.value = null;
             console.log('Logout successful!');
             handlePageRefresh();
         }
@@ -779,21 +777,7 @@ const register = async () => {
         // Handle error (e.g., show error message)
     }
 };
-// *
-// * GET LOGGED USER AFTER MOUNTED
-// * 
-const getAuthUser = async () => {
-    try {
-        const response = await fetch('../api/user');
-        if (!response.ok){
-            throw new Error('Failed to fetch user data');
-        }
-        user.value = await response.json(); 
-        console.log('USER VALUE: ', user.value);
-    } catch (error){
-        console.log(error); 
-    }
-}
+
 
 const enterAPIKey = async () => {
     try{
@@ -813,7 +797,7 @@ const enterAPIKey = async () => {
 }
 
 // For first time visitors
-// If there is no exisiting local stoarge property (like sellOrderSetting), then make one by default
+// If there is no exisiting local stoarge property (like sellOrder), then make one by default
 // Otherwise, don't do anything
 const setDefaultLocalStorage = () => {
     // * SETTINGS
@@ -852,17 +836,6 @@ const setDefaultLocalStorage = () => {
     // *
     if (!localStorage.filtersToggle){
         localStorage.setItem('filters', false);
-    }
-    // * 
-    // * INCLUDES
-    // *
-    if (!localStorage.includes){
-        localStorage.setItem('includes', JSON.stringify([
-            "Dragonite Ore",
-            "Empyreal Fragment",
-            "Pile of Bloodstone Dust",
-            "Salvageables",
-        ]));
     }
     // * BOOKMARKS
     // * 
@@ -917,25 +890,24 @@ const settingsToggle = ref(JSON.parse(localStorage.settings)),
 
 
 
-
+// Change buy and sell order settings
 const changeOrder = (order) => {
     switch (order){
         case 'sell order': 
-            if (sellOrderSetting.value == 'sell_price'){
-                sellOrderSetting.value = 'buy_price';
+            if (sellOrder.value == 'sell_price'){
+                sellOrder.value = 'buy_price';
             } else {
-                sellOrderSetting.value = 'sell_price';
+                sellOrder.value = 'sell_price';
             }
             break;
         case 'buy order':
-            if (buyOrderSetting.value == 'buy_price'){
-                buyOrderSetting.value = 'sell_price';
+            if (buyOrder.value == 'buy_price'){
+                buyOrder.value = 'sell_price';
             } else {
-                buyOrderSetting.value = 'buy_price';
+                buyOrder.value = 'buy_price';
             }
+            break;
     }
-    localStorage.setItem('sellOrderSetting', sellOrderSetting.value);
-    localStorage.setItem('buyOrderSetting', buyOrderSetting.value);
 }
 
 watch(tax, (newtax) => {
@@ -961,23 +933,33 @@ const checkMobile = () => {
 
 // Add resize event listener when the component is mounted
 onMounted(() => {
-    
     window.addEventListener('resize', checkMobile);
     checkMobile();
 });
 
+onMounted(async () => {
+    if (!user.value){
+        getAuthUser();
+    }
+    
+})
+
 watch(isMobile, (newIsMobile) => {
-    console.log('merp: ', isMobile.value);
     if (!isMobile.value){
         mainNavToggle.value = true; 
     }
 })
 
-watch(user, (newUser) => {
-    console.log('watch user: ', user.value);
+// UPDATE settings when user has logged on or off
+watch(user, (userData) => {
+    if (userData){
+        buyOrder.value = userData.settings_buy_order;
+        sellOrder.value = userData.settings_sell_order;
+        tax.value = userData.settings_tax; 
+        includes.value = userData.includes;
+    }
+    
 })
-
-getAuthUser();
 
 </script>
 

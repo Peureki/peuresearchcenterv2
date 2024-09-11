@@ -12,8 +12,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { user } from '@/js/vue/composables/Global'
+import { onMounted, ref, computed } from 'vue'
+import { user, sellOrder, tax, includes } from '@/js/vue/composables/Global';
+import { getAuthUser } from '@/js/vue/composables/Authentication';
 
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
@@ -46,15 +47,25 @@ const sortBenchmarks = (benchmarks) => {
     }
 }
 
-const url = `../api/benchmarks/maps/${localStorage.includes}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
+const url = computed(() => {
+    return `../api/benchmarks/maps/${JSON.stringify(includes.value)}/${sellOrder.value}/${tax.value}`;
+})
 
-console.log(url);
+onMounted(() => {
+    if (!user.value){
+        console.log('no user')
+        getMapBenchmarks(url.value);
+    } 
+    else {
+        console.log('user found')
+        getMapBenchmarks(url.value);
+    }
+})
 
-const getMapBenchmarks = async () => {
+const getMapBenchmarks = async (url) => {
     const response = await fetch(url);
     const responseData = await response.json(); 
     
-    console.log('map benchmarks: ', responseData);
     if (responseData){
         mapBenchmarks.value = responseData.benchmarks;
         dropRates.value = responseData.dropRates; 
@@ -63,7 +74,5 @@ const getMapBenchmarks = async () => {
     }
 
 }
-
-getMapBenchmarks();
 
 </script>

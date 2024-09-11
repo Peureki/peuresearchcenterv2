@@ -96,7 +96,7 @@ const props = defineProps({
     currencyIcon: String, 
 })
 
-console.log('drop rates: ', props.dropRates);
+//console.log('drop rates: ', props.dropRates);
 
 // Individually allow each card to be expanded or not
 // By default, have each card not expanded

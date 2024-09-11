@@ -59,6 +59,6 @@ const sortedDropRates = computed(() => {
     return props.dropRates.filter(item => Number(item.drop_rate) != 0).sort((a, b) => b.value - a.value); 
 })
 
-console.log('airship drop rates: ', props.dropRates);
+//console.log('airship drop rates: ', props.dropRates);
 
 </script>
