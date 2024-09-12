@@ -41,6 +41,7 @@ Route::get('/user/getIncludes', [UserController::class, 'getIncludes']);
 Route::post('/user/saveSettings', [UserController::class, 'saveSettings']);
 Route::get('/user/getUserData', [UserController::class, 'getUserData']);
 
+Route::post('/user/saveFilterResearchNotes', [UserController::class, 'saveFilterResearchNotes']);
 
 // *
 // * BENCHMARKS

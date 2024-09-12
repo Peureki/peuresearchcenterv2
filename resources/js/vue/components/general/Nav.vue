@@ -52,7 +52,7 @@
                 />
 
                 <div class="auth-welcome" v-if="user">
-                    <p>Herro {{ user.name }}</p>
+                    <p>Hello, {{ user.name }}</p>
                 </div>
 
                 <!-- 
@@ -66,7 +66,7 @@
 
                 <Transition name="fade-right">
                     <div class="form-container" v-if="loginToggle">
-                        <form @submit.prevent="login">
+                        <form @submit.prevent="login(name, email, password, remember)">
                             
 
                             <label for="name">Username</label>
@@ -109,8 +109,6 @@
 
                             <button type="submit">Submit</button>
                         </form>
-
-                        <button v-if="user" @click="getWizardsVault(user.api_key)">Test API Key</button>
                     </div>
                 </Transition>
 
@@ -328,14 +326,12 @@
                                 />                      
                             </div>
 
-                            <div class="settings-button-container">
-                                <button @click="saveSettings()">Save</button>
-
+                            <div class="button-container">
                                 <button 
-                                    @click="handlePageRefresh()"    
+                                    @click="saveSettings(); pageRefresh()"    
                                     class="submit"
                                 >
-                                    Refresh
+                                    Save & Refresh
                                 </button>
                             </div>
                             
@@ -543,12 +539,12 @@
 
 <script setup>
 import { ref, watch, provide, onMounted, onUnmounted, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
 import { user, isMobile, includes, buyOrder, sellOrder, tax } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
-import { getAuthUser } from '@/js/vue/composables/Authentication';
+import { getAuthUser, logout, login } from '@/js/vue/composables/Authentication';
 
 import NavPage from '@/js/vue/components/navigation/NavPage.vue';
 import IncludesCheckbox from '@/js/vue/components/navigation/IncludesCheckbox.vue';
@@ -601,6 +597,7 @@ import RollingChoya from '@/imgs/choyas/Rolling_Choya.png'
 import axios from 'axios';
 import { update } from 'lodash';
 import NavSection from '@/js/vue/components/navigation/NavSection.vue';
+import { filterResearchNotes } from '../../composables/Global';
 
 // Initialize form fields
 const name = ref(''), 
@@ -617,12 +614,9 @@ const mainNavToggle = ref(isMobile ? false : true),
 
 const apiKey = ref(null);
 
-const route = useRoute(),
-    router = useRouter();
 
-const handlePageRefresh = () => {
-    pageRefresh(router, route);
-}
+
+
 
 
 const saveSettings = async () => {
@@ -693,63 +687,6 @@ const changeToggleStatus = (toggleName) => {
 
 
 
-const getWizardsVault = async (key) => {
-    try {
-        console.log(key); 
-        const response = await fetch(`https://api.guildwars2.com/v2/account/wizardsvault/daily?access_token=${key}`);
-
-        wv.value = await response.json(); 
-        console.log(wv.value);
-        
-    } catch (error){
-        console.log("Error retreiving Wizard's Vault info: ", error); 
-    }
-}
-
-// *
-// * LOGIN
-// * Assuming a completed form with username, password => login into a new session 
-// * Refresh page if successful
-const login = async () => {
-    try {
-        // Get unique cookie? 
-        await axios.get('../sanctum/csrf-cookie');
-        // Send POST to /login via web.php route: 
-        // LoginController.php, authenticate(); 
-        // Use the v-model form values to verify registered user
-        const response = await axios.post('../login', {
-            name: name.value,
-            email: email.value,
-            password: password.value,
-            remember: remember.value,
-        }, {
-            divs: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        });
-        // If sucessful, page refresh
-        if (response){
-            console.log("Login successful!");
-            handlePageRefresh();
-        } 
-    } catch (error) {
-        console.log('Login error: ', error);
-    }
-}
-
-const logout = async () => {
-    try {
-        const response = await axios.post('../logout');
-
-        if (response){
-            user.value = null;
-            console.log('Logout successful!');
-            handlePageRefresh();
-        }
-    } catch (error){
-        console.log('Logout failed: ', error);
-    }
-}
 
 const register = async () => {
   try {
@@ -788,7 +725,7 @@ const enterAPIKey = async () => {
         // If sucessful, page refresh
         if (response){
             console.log("API key successful!");
-            //handlePageRefresh();
+            //pageRefresh();
         } 
     } catch (error){
         console.log("API key failure: ", error); 
@@ -957,6 +894,7 @@ watch(user, (userData) => {
         sellOrder.value = userData.settings_sell_order;
         tax.value = userData.settings_tax; 
         includes.value = userData.includes;
+        filterResearchNotes.value = userData.filter_research_notes;
     }
     
 })
@@ -964,6 +902,10 @@ watch(user, (userData) => {
 </script>
 
 <style scoped>
+.auth-welcome{
+    padding: var(--gap-general);
+}
+
 nav{
     display: flex;
     flex-direction: column;
@@ -1002,7 +944,7 @@ a.page-link{
     display: flex;
     align-items: center;
     gap: 5px;
-    padding: var(--nav-padding);
+    padding: var(--gap-general);
     border-bottom: var(--border-bottom);
     text-decoration: none;
 }
@@ -1028,7 +970,7 @@ nav a:hover{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: var(--padding-settings);
+    padding: var(--gap-general);
     gap: 10px;
     border-bottom: var(--border-bottom);
 }
@@ -1063,7 +1005,7 @@ nav a:hover{
 }
 
 .form-container{
-    padding: var(--padding-settings);
+    padding: var(--gap-general);
 }
 .form-container input{
     width: 100%;

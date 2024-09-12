@@ -22,7 +22,8 @@ export const isMobile = ref(window.innerWidth < 786);
 // SETTINGS
 // DEFAULTS
 // These settings will be these settings every page refresh unless: user is logged in and has saved settings
-export const includes = ref([]);
 export const buyOrder = ref('buy_price');
 export const sellOrder = ref('sell_price');
 export const tax = ref(0.85);
+export const includes = ref([]);
+export const filterResearchNotes = ref([]);

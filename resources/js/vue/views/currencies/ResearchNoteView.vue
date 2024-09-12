@@ -1,4 +1,5 @@
 <template>
+    <Header page-name="Research Notes"/>
     <Nav>
         <template v-slot:filters>
             <article class="shortcut-container">
@@ -10,7 +11,7 @@
                     *
                 -->
                 <p>Preferences</p>
-                <div class="filter-container">
+                <!-- <div class="filter-container">
                     <button
                         v-for="(toggle, index) in preferenceToggles" 
                         @click="
@@ -20,7 +21,17 @@
                     >
                         {{ toggle.name }}
                     </button>
+                </div> -->
+
+                <div class="filter-container">
+                    <FilterToggle
+                        v-for="filter in filterPreferences"
+                        :toggle-option="filter"
+                    />
                 </div>
+                
+
+
                 <Transition name="fade"><p v-if="preferenceError" class="error-message">Needs 1+ active</p></Transition>
 
                 <!-- 
@@ -30,15 +41,10 @@
                 -->
                 <p>Disciplines</p>
                 <div class="filter-container">
-                    <button
-                        v-for="(toggle, index) in disciplineToggles" 
-                        @click="
-                            toggleFilter('filterResearchNotes', index, disciplineToggles, disciplineErrorRef)
-                        "
-                        :class="toggle.status.value == true ? 'active-button' : 'inactive-button'"
-                    >
-                        {{ toggle.name }}
-                    </button>
+                    <FilterToggle
+                        v-for="filter in filterDisciplines"
+                        :toggle-option="filter"
+                    />
                 </div>
                 <Transition name="fade"><p v-if="disciplineError" class="error-message">Needs 1+ active</p></Transition>
 
@@ -49,15 +55,10 @@
                 -->
                 <p>Item Types</p>
                 <div class="filter-container">
-                    <button
-                        v-for="(toggle, index) in typeToggles" 
-                        @click="
-                            toggleFilter('filterResearchNotes', index, typeToggles, typeErrorRef)
-                        "
-                        :class="toggle.status.value == true ? 'active-button' : 'inactive-button'"
-                    >
-                        {{ toggle.name }}
-                    </button>
+                    <FilterToggle
+                        v-for="filter in filterItemTypes"
+                        :toggle-option="filter"
+                    />
                 </div>
                 <Transition name="fade"><p v-if="typeError" class="error-message">Needs 1+ active</p></Transition>
 
@@ -65,9 +66,9 @@
                 <div class="filter-container">
                     
                     <button 
-                        @click="handlePageRefresh"
+                        @click="saveFilters(); pageRefresh();"
                     >
-                        Refresh
+                        Save & Refresh
                     </button>
 
                 </div>
@@ -76,219 +77,95 @@
     </Nav>
 
     <section class="main">
-        <Header page-name="Research Notes"/>
+        <Loading v-if="!researchNotes" :width="200" :height="200"/>
 
-        
-
-        <ResearchNotesTable/>
+        <ResearchNotesMerp
+            v-if="researchNotes"
+            :currency-icon="ResearchNote"
+            target-currency="Research Note"
+            :research-notes="researchNotes"
+        />
+        <!-- <ResearchNotesTable/> -->
     </section>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { computed, onMounted, ref } from 'vue'
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
+import Loading from '@/js/vue/components/general/Loading.vue'
 
 import ResearchNotesTable from '@/js/vue/components/tables/ResearchNotesTable.vue'
+import ResearchNotesMerp from '@/js/vue/components/tables/ResearchNotesMerp.vue'
 
-import { checkLocalStorageArray } from '@/js/vue/composables/FormatFunctions.js'
+import ResearchNote from '@/imgs/icons/Research_Note.png'
+
+import FilterToggle from '@/js/vue/components/general/FilterToggle.vue'
+
 import { pageRefresh } from '@/js/vue/composables/BasicFunctions'
+import axios from 'axios'
+import { filterResearchNotes, user, buyOrder, sellOrder, tax } from '@/js/vue/composables/Global'
+import { getAuthUser } from '@/js/vue/composables/Authentication'
 
-// *
-// * PREFERENCE TOGGLES
-// *
-const preferenceToggles = [
-    {
-        name: "Crafting",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'Crafting')),
-    },
-    {
-        name: "TP",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'TP')),
-    }
-]
-// *
-// * DISCIPLINE TOGGLES
-// *
-const disciplineToggles = [
-    {
-        name: "Armorsmith",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'Armorsmith')),
-    },
-    {
-        name: "Artificer",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'Artificer')),
-    },
-    {
-        name: "Chef",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'Chef')),
-    },
-    {
-        name: "Huntsman",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'Huntsman')),
-    },
-    {
-        name: "Jeweler",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'Jeweler')),
-    },
-    {
-        name: "Leatherworker",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'Leatherworker')),
-    },
-    {
-        name: "Scribe",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'Scribe')),
-    },
-    {
-        name: "Tailor",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'Tailor')),
-    },
-    {
-        name: "Weaponsmith",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'Weaponsmith')),
-    }
-]
-// *
-// * TYPE TOGGLES
-// *
-const typeToggles = [
-    {
-        name: "Consumable",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'Consumable')),
-    },
-    {
-        name: "Weapon",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'Weapon')),
-    },
-    {
-        name: "Armor",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'Armor')),
-    },
-    {
-        name: "Back",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'Back')),
-    },
-    {
-        name: "Trinket",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'Trinket')),
-    },
-    {
-        name: "UpgradeComponent",
-        status: ref(checkLocalStorageArray('filterResearchNotes', 'UpgradeComponent')),
-    },
-]
+// FILTERS LIST
+const filterPreferences = ['Crafting', 'TP'];
+const filterDisciplines = ['Armorsmith', 'Artificer', 'Chef', 'Huntsman', 'Jeweler', 'Leatherworker', 'Scribe', 'Tailor', 'Weaponsmith'];
+const filterItemTypes = ['Consumable', 'Weapon', 'Armor', 'Back', 'Trinket'];
 
 const preferenceError = ref(false),
     disciplineError = ref(false),
     typeError = ref(false);
 
-const preferenceErrorRef = computed(() => preferenceError),
-    disciplineErrorRef = computed(() => disciplineError),
-    typeErrorRef = computed(() => typeError);
+const researchNotes = ref(null);
 
-// Initialize toggles and computed refs 
-// Computed refs will be used to dynamically toggle the filter if users opt in or out
-const 
+const saveFilters = async () => {
+    try {
+        const response = await axios.post('../api/user/saveFilterResearchNotes', {
+            filter_research_notes: filterResearchNotes.value, 
+        })
 
-    //  *
-    //  * TYPES
-    //  *
-    consumableToggle = ref(checkLocalStorageArray('filterResearchNotes', 'Consumable')),
-    weaponToggle = ref(checkLocalStorageArray('filterResearchNotes', 'Weapon'));
-
-//  *
-//  * COMPUTED TOGGLES
-//  *
-//  * Keep the ref of the toggles and use them for toggleFilter() when toggling a filter
-const 
-    //  *
-    //  * TYPE
-    //  *
-    consumableToggleRef = computed(() => consumableToggle),
-    weaponToggleRef = computed(() => weaponToggle);
-
-// *
-// * Go through array of toggles and check on their statuses
-// * 
-// * Determine if they are all false or not
-// * If all false => show error message temporarily and keep selected filter on so that there's always at least 1
-const checkToggleStatus = (array, index, refError) => {
-    let allFalse = true;
-    array.forEach((toggle) => {
-        if (toggle.status.value){
-            allFalse = false; 
-        } 
-    })
-    if (allFalse){
-        array[index].status.value = true; 
-        refError.value = true; 
-    }
-}
-
-
-const router = useRouter(),
-    route = useRoute();
-
-const handlePageRefresh = () => {
-    pageRefresh(router, route); 
-}
-// * 
-// * TOGGLE FILTERS
-// * 
-// * Check localStorage if property includes filter 
-// * 1. Check if all other filters are not active
-// * 2. Include or delete filter in localStorage
-const toggleFilter = (localStorageProperty, arrayIndex, array, refError) => {
-    let filteredArray = [],
-        lastActive = false,
-        allFalse = true; 
-
-    // Check all other filters in said category except for the current one that was clicked on
-    // If any other filters in that category is still active, allFalse is false
-    array.forEach((toggle, index) => {
-        if (index != arrayIndex){
-            if (toggle.status.value){
-                allFalse = false;
-            }
+        if (response){
+            console.log('Saved Filter preferenes', filterResearchNotes.value)
         }
-        
-    });
-    // If all other filters in category are false => keep current filter active and display error message to user
-    if (allFalse){
-        array[arrayIndex].status.value = true;
-        refError.value = true; 
-        // Remove error message after 1s
-        setTimeout(() => {
-            refError.value = false;
-        }, 1000)
-    // Otherwise change status of filter 
-    } else {
-        array[arrayIndex].status.value = !array[arrayIndex].status.value;
-        refError.value = false; 
+    } catch (error) {
+        console.log('Filter for research notes did not save: ', error);
     }
-    // Based on what localStorageProperty is being called on => add or remove filters
-    switch (localStorageProperty){
-        case 'filterResearchNotes': 
-            // If there's a filter in category that is still active besides the current one, do this
-            if (!allFalse){
-                filteredArray = JSON.parse(localStorage.getItem('filterResearchNotes'));
-                // Check if property array contains the target string/filter
-                // If yes => remove
-                // If no => add
-                const i = filteredArray.indexOf(array[arrayIndex].name); 
-                if (i !== -1){
-                    filteredArray.splice(i, 1); 
-                } else {
-                    filteredArray.push(array[arrayIndex].name); 
-                }
-                localStorage.setItem('filterResearchNotes', JSON.stringify(filteredArray));
-            }
-            
-            break;
-    }
-}   
+}
 
+const url = computed(() => {
+    return `../api/currencies/research-note/${buyOrder.value}/${JSON.stringify(filterResearchNotes.value)}`;
+})
+
+const getResearchNotes = async (url) => {
+    try {
+        const response = await fetch(url);
+        const responseData = await response.json();
+
+        researchNotes.value = responseData;
+    } catch (error){
+        console.log('Error fetching data: ', error);
+    }
+}
+
+// BY DEFAULT
+// If there is no user logged in, use default settings
+onMounted( async () => {
+    // Check if user is being auth
+    await getAuthUser(url.value);
+
+    // IF NO USER
+    if (!user.value){
+        console.log('no user')
+        getResearchNotes(url.value); 
+    } 
+    // USER FOUND
+    else {
+        console.log('user found')
+        getResearchNotes(url.value); 
+    }
+
+    console.log(url.value);
+})
 
 
 </script>

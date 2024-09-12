@@ -16,22 +16,28 @@
         <div class="page-button-list">
             <button 
                 class="page-button-prev"
-                @click="getPage(dataArray.value.prev_page_url, dataArray, loadingRef)"
+                @click="getPage(dataArray.prev_page_url, dataArray, loadingRef)"
             > 
                 <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
                 </svg>
             </button>
 
-            <button @click="getPage(dataArray.value.first_page_url, dataArray, loadingRef)"> First </button>
+            <button @click="getPage(dataArray.first_page_url, dataArray, loadingRef)"> First </button>
 
-            <button class="page-button-current">{{ dataArray.value.current_page }}</button>
+            <button class="page-button-current">{{ dataArray.current_page }}</button>
         </div>
 
         <span> / </span>
-        <button @click="getPage(dataArray.value.last_page_url, dataArray, loadingRef)">{{ dataArray.value.last_page }}</button>
-        <button @click="getPage(dataArray.value.last_page_url, dataArray, loadingRef)"> Last </button>
-        <button @click="getPage(dataArray.value.next_page_url, dataArray, loadingRef)" class="page-button-next"> 
+        <button @click="getPage(dataArray.last_page_url, dataArray, loadingRef)">{{ dataArray.last_page }}</button>
+        <button @click="getPage(dataArray.last_page_url, dataArray, loadingRef)"> Last </button>
+
+        <!--
+            *
+            * NEXT PAGE
+            *
+        -->
+        <button @click="getPage(dataArray.next_page_url, dataArray, loadingRef)" class="page-button-next"> 
             <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
             </svg>
@@ -51,7 +57,8 @@
             v-model="specificPageNum"
         >
         <!-- Get specific page via v-model -->
-        <button @click="getPage(`${dataArray.value.path}?page=${specificPageNum}`, dataArray, loadingRef)">Go</button>
+        <!-- <button @click="getPage(`${dataArray.path}?page=${specificPageNum}`, dataArray, loadingRef)">Go</button> -->
+        <button @click="$emit('newUrl', `${dataArray.path}?page=${specificPageNum}`)"></button>
 
         <Loading v-if="loadingToggle" :width="25" :height="25"/>
     </div>

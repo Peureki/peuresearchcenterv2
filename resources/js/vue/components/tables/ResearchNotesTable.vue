@@ -100,9 +100,6 @@
             </table>
         </template>
     </TableWithPages>
-    
-
-   
 </template>
 
 <script setup>
@@ -175,8 +172,6 @@ const getRecipeValue = (recipeName, recipeId, recipeQty) => {
     const url = `../tools/recipe-value?requestedRecipe=${recipeName}&id=${recipeId}&qty=${recipeQty}`;
     window.open(url, '_blank');
 }
-
-
 
 onMounted(() => {
     getResearchNotes();

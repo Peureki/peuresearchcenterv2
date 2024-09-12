@@ -21,9 +21,9 @@ class CurrencyController extends Controller
     // * RETURN recipe value and research note value
     public function researchNote($buyOrderSetting, $filter){
         $buyOrderSetting = $this->getBuyOrderSetting($buyOrderSetting);
-        $filteredArray = explode(',', $filter);
-        // $sellOrderSetting = $this->getSellOrderSetting($sellOrderSetting);
-        // $tax = $this->getTax($tax);
+        $filteredArray = json_decode($filter);
+
+        //dd($filteredArray, $filter);
 
         $filteredQuery = ResearchNotes::select('*')
             ->join('recipes', 'research_note.recipe_id', '=', 'recipes.id')

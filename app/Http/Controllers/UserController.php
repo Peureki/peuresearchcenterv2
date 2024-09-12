@@ -67,4 +67,12 @@ class UserController extends Controller
             ]);
         }
     }
+
+    public function saveFilterResearchNotes(Request $request){
+        $user = auth()->user(); 
+
+        if ($user){
+            $user->update(['filter_research_notes' => $request->filter_research_notes]);
+        }
+    }
 }

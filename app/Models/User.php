@@ -38,6 +38,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'api_key',
     ];
 
     /**
@@ -49,6 +50,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'checklist' => 'array',
         'includes' => 'array',
-        'filter_research_notes',
+        'filter_research_notes' => 'array',
     ];
 }

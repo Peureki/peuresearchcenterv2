@@ -50,16 +50,23 @@ const sortBenchmarks = (benchmarks) => {
 const url = computed(() => {
     return `../api/benchmarks/maps/${JSON.stringify(includes.value)}/${sellOrder.value}/${tax.value}`;
 })
-
-onMounted(() => {
+// BY DEFAULT
+// If there is no user logged in, use default settings
+onMounted( async () => {
+    // Check if user is being auth
+    await getAuthUser();
+    // IF NO USER
     if (!user.value){
         console.log('no user')
         getMapBenchmarks(url.value);
     } 
+    // USER FOUND
     else {
         console.log('user found')
         getMapBenchmarks(url.value);
     }
+
+    console.log('url: ', url.value);
 })
 
 const getMapBenchmarks = async (url) => {
@@ -72,7 +79,6 @@ const getMapBenchmarks = async (url) => {
         
         sortBenchmarks(mapBenchmarks.value); 
     }
-
 }
 
 </script>

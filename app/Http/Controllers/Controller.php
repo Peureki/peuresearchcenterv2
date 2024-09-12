@@ -299,10 +299,10 @@ class Controller extends BaseController
 
         // Crafting Bags
         $this->laurel = [
-            'id' => [39124, 39123, 39121, 39122, 39119],
-            'conversionRate' => array_fill(0, 5, 1),
-            'fee' => array_fill(0, 5, 0),
-            'outputQty' => array_fill(0, 5, 1),
+            'id' => [39124, 39123, 39121, 39122, 39119, 39120],
+            'conversionRate' => array_fill(0, 6, 1),
+            'fee' => array_fill(0, 6, 0),
+            'outputQty' => array_fill(0, 6, 1),
         ];
         // EX: LEY ENERGY MATTER CONVERTER
         // Use for: Airship Parts, Aurillium, Ley Line Crystals

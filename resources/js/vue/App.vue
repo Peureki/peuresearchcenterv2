@@ -107,6 +107,7 @@ button {
     color: var(--color-black);
     border: none;
     cursor: pointer;
+    width: fit-content;
     background-color: var(--color-link);
     padding: var(--padding-button);
 }
@@ -1039,8 +1040,8 @@ svg.arrow path{
     grid-area: name;
 }
 .img-and-label > img{
-    width: var(--img-header);
-    height: var(--img-header);
+    width: var(--svg-icon-size);
+    height: var(--svg-icon-size);
 }
 .svg-ctas{
     display: flex;
@@ -1097,6 +1098,16 @@ svg.arrow path{
     }
 }
 
+/* 
+    =================================================
+    * BUTTONS
+    =================================================
+*/
+.button-container{
+    display: flex;
+    align-items: center;
+    gap: var(--gap-general);
+}
 
 
 /* 
@@ -1217,11 +1228,11 @@ svg.arrow path{
     --font-size-h3: clamp(1.3rem, 8vw, 2rem);
     --font-size-h4: clamp(1.3rem, 1.2vw, 1.7rem);
     --font-size-h5: clamp(1.0rem, 1.1vw, 1.5rem);
-    --font-size-h6: clamp(1.2rem, 1.1vw, 2rem);
-    --font-size-p: clamp(1rem, 1vw, 1.1rem);
+    --font-size-h6: clamp(1.1rem, 1vw, 1.3rem);
+    --font-size-p: clamp(1rem, 1vw, 1rem);
     --font-size-subtext: clamp(0.5rem, 3vw, 0.8rem);
 
-    --gap-general: clamp(0.6rem, 0.4vw, 1rem);
+    --gap-general: clamp(0.6rem, 0.5vw, 1rem);
     --gap-content: clamp(0.8rem, 1.5vw, 2rem);
     --gap-operators: clamp(0.3rem, 0.5vw, 1rem);
     --gap-benchmarks: clamp(0.5rem, 0.5vw, 0.8rem);

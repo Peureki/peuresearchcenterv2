@@ -1,3 +1,4 @@
+
 export function addSingleQuantity(num){
     return num.value += 1;
 }
@@ -55,11 +56,12 @@ export function compareBuyOrderAndCraftingValues(item){
 // * REFRESH PAGE
 // * 
 // * Refresh without reloading
-export function pageRefresh(router, route) {
-    const currentPath = route.path; 
-    router.replace({path: '/'}).then(() => {
-        router.replace({path: currentPath});
-    })
+export function pageRefresh() {
+    window.location.reload(); 
+    // const currentPath = route.path; 
+    // router.replace({path: '/'}).then(() => {
+    //     router.replace({path: currentPath});
+    // })
 }
 
 export function encodeArray(array){

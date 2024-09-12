@@ -141,7 +141,7 @@ onUnmounted(() => {
     flex-direction: column;
     gap: 3px;
     border-bottom: var(--border-bottom);
-    padding-block: var(--padding-inline);
+    padding-block: var(--gap-general);
 }
 .region-time{
     position: relative; 
@@ -150,7 +150,7 @@ onUnmounted(() => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-inline: var(--padding-inline);
+    padding-inline: var(--gap-general);
 }
 .region-time-name{
     display: flex;
