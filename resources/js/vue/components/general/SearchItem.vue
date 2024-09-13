@@ -8,7 +8,7 @@
         >
         <input
             type="text"
-            placeholder="New Entry"
+            placeholder="Glob of Ectoplasm"
             v-model="searchBar"
         >
         <button class="submit" type="submit">Add Item</button>

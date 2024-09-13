@@ -79,24 +79,24 @@
     <section class="main">
         <Loading v-if="!researchNotes" :width="200" :height="200"/>
 
-        <ResearchNotesMerp
+        <ResearchNotesCard
             v-if="researchNotes"
             :currency-icon="ResearchNote"
             target-currency="Research Note"
             :research-notes="researchNotes"
+            @new-url="getResearchNotes"
         />
         <!-- <ResearchNotesTable/> -->
     </section>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
 
-import ResearchNotesTable from '@/js/vue/components/tables/ResearchNotesTable.vue'
-import ResearchNotesMerp from '@/js/vue/components/tables/ResearchNotesMerp.vue'
+import ResearchNotesCard from '@/js/vue/components/tables/ResearchNotesCard.vue'
 
 import ResearchNote from '@/imgs/icons/Research_Note.png'
 
@@ -164,8 +164,6 @@ onMounted( async () => {
         getResearchNotes(url.value); 
     }
 
-    console.log(url.value);
 })
-
 
 </script>

@@ -6,7 +6,7 @@
         <!-- SEARCH BAR -->
         <input 
             type="text" 
-            placeholder="Item Name"
+            placeholder="Recipe Name"
             v-model="searchBar"
         >
         <Transition name="fade">

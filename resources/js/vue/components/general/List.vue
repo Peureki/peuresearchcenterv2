@@ -24,40 +24,54 @@
         
 
         <svg 
-            class="expand" 
-            :class="rotate"
-            @click="expandOrShrink"
+            v-if="entry.ingredients"
+            class="icon expand" 
+            :class="rotate(entry.ingredients[0].expand)"
+            @click="expandSubIngredients(entry)"
             width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg"
         >
             <path d="M8.81372 0.397634C8.6944 0.280464 8.5326 0.214642 8.36389 0.214642C8.19519 0.214642 8.03339 0.280464 7.91407 0.397634L4.76468 3.49138L1.61529 0.397634C1.49529 0.283785 1.33457 0.220788 1.16775 0.222212C1.00093 0.223636 0.841356 0.289367 0.723392 0.405247C0.605428 0.521127 0.538516 0.677885 0.537066 0.841758C0.535617 1.00563 0.599746 1.16351 0.715642 1.28138L4.31486 4.81701C4.43417 4.93418 4.59597 5 4.76468 5C4.93339 5 5.09519 4.93418 5.2145 4.81701L8.81372 1.28138C8.93299 1.16418 9 1.00524 9 0.839509C9 0.673781 8.93299 0.514838 8.81372 0.397634Z" fill="#FFD12C"/>
         </svg>
 
+        <svg class="icon" 
+            @click="entry.primaryAddCustomEntry = !entry.primaryAddCustomEntry"
+            width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"
+        >
+            <path d="M17.71 4.04006C18.1 3.65006 18.1 3.00006 17.71 2.63006L15.37 0.290059C15 -0.0999414 14.35 -0.0999414 13.96 0.290059L12.12 2.12006L15.87 5.87006M0 14.2501V18.0001H3.75L14.81 6.93006L11.06 3.18006L0 14.2501Z" fill="#FFD12C"/>
+            <title>Add Custom Entry</title>
+        </svg>
+
+        <svg 
+            @click="entry.primarySearchItemToggle = !entry.primarySearchItemToggle"
+            class="icon" 
+            width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg"
+        >
+            <path d="M18.2497 3.64508e-09H12.2497C12.1348 -1.13191e-05 12.0215 0.0263566 11.9185 0.0770702C11.8154 0.127784 11.7254 0.201488 11.6553 0.2925L5.65532 8.09344L4.7497 7.18969C4.61039 7.05022 4.44495 6.93958 4.26286 6.8641C4.08076 6.78861 3.88557 6.74976 3.68845 6.74976C3.49132 6.74976 3.29613 6.78861 3.11404 6.8641C2.93194 6.93958 2.76651 7.05022 2.6272 7.18969L1.43751 8.38031C1.29818 8.5196 1.18766 8.68498 1.11226 8.86699C1.03686 9.049 0.998047 9.24408 0.998047 9.44109C0.998047 9.63811 1.03686 9.83319 1.11226 10.0152C1.18766 10.1972 1.29818 10.3626 1.43751 10.5019L3.31251 12.3769L0.687508 15.0019C0.548184 15.1412 0.437664 15.3065 0.36226 15.4886C0.286857 15.6706 0.248047 15.8656 0.248047 16.0627C0.248047 16.2597 0.286857 16.4548 0.36226 16.6368C0.437664 16.8188 0.548184 16.9841 0.687508 17.1234L1.8772 18.3122C2.15847 18.5933 2.53985 18.7512 2.93751 18.7512C3.33516 18.7512 3.71654 18.5933 3.99782 18.3122L6.62282 15.6872L8.49782 17.5622C8.63713 17.7017 8.80256 17.8123 8.98466 17.8878C9.16676 17.9633 9.36195 18.0021 9.55907 18.0021C9.75619 18.0021 9.95138 17.9633 10.1335 17.8878C10.3156 17.8123 10.481 17.7017 10.6203 17.5622L11.81 16.3716C11.9493 16.2323 12.0599 16.0669 12.1353 15.8849C12.2107 15.7029 12.2495 15.5078 12.2495 15.3108C12.2495 15.1138 12.2107 14.9187 12.1353 14.7367C12.0599 14.5547 11.9493 14.3893 11.81 14.25L10.9063 13.3463L18.7072 7.34625C18.7985 7.276 18.8723 7.18567 18.923 7.08227C18.9738 6.97887 19 6.86517 18.9997 6.75V0.75C18.9997 0.551088 18.9207 0.360322 18.78 0.21967C18.6394 0.0790178 18.4486 3.64508e-09 18.2497 3.64508e-09ZM2.93938 17.25L1.7497 16.0613L4.3747 13.4363L5.56345 14.625L2.93938 17.25ZM9.55907 16.5L2.4997 9.44156L3.69032 8.25L10.7497 15.3103L9.55907 16.5ZM17.4997 6.38062L9.83657 12.2756L8.81095 11.25L13.5303 6.53063C13.6709 6.38989 13.7499 6.19907 13.7498 6.00014C13.7497 5.8012 13.6706 5.61045 13.5299 5.46984C13.3891 5.32924 13.1983 5.2503 12.9994 5.25038C12.8004 5.25047 12.6097 5.32958 12.4691 5.47031L7.7497 10.1887L6.72501 9.16313L12.6191 1.5H17.4997V6.38062Z" fill="#FFD12C"/>
+            <title>Add Item</title>
+        </svg>
+
+        <svg 
+            @click="entry.primarySearchRecipeToggle = !entry.primarySearchRecipeToggle"
+            class="icon"
+            width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+        >
+            <path d="M22.4544 8.85976L16.5041 2.86726C14.7446 1.11138 12.3603 0.125244 9.87456 0.125244C7.38879 0.125244 5.00455 1.11138 3.24503 2.86726L3.23284 2.88038L1.94097 4.21351C1.73335 4.42784 1.61938 4.71586 1.62413 5.01422C1.62888 5.31258 1.75195 5.59683 1.96628 5.80445C2.18061 6.01206 2.46863 6.12603 2.76699 6.12128C3.06535 6.11654 3.3496 5.99346 3.55722 5.77913L4.84253 4.45257C5.26806 4.0272 5.74595 3.65768 6.26472 3.35288L10.1563 7.25007L1.42347 15.9838C1.24928 16.1579 1.1111 16.3647 1.01682 16.5922C0.922547 16.8197 0.874023 17.0636 0.874023 17.3099C0.874023 17.5562 0.922547 17.8001 1.01682 18.0276C1.1111 18.2552 1.24928 18.4619 1.42347 18.636L3.36315 20.5757C3.71477 20.9272 4.1916 21.1247 4.68878 21.1247C5.18596 21.1247 5.66279 20.9272 6.0144 20.5757L14.75 11.8438L14.8916 11.9854L17.1088 14.2035C17.2829 14.3777 17.4896 14.5159 17.7172 14.6102C17.9447 14.7044 18.1886 14.753 18.4349 14.753C18.6812 14.753 18.925 14.7044 19.1526 14.6102C19.3801 14.5159 19.5868 14.3777 19.761 14.2035L22.4507 11.5129C22.6252 11.339 22.7638 11.1324 22.8585 10.9049C22.9532 10.6774 23.0021 10.4335 23.0024 10.1871C23.0028 9.94069 22.9546 9.69664 22.8605 9.46888C22.7665 9.24113 22.6285 9.03414 22.4544 8.85976ZM4.68878 18.7194L3.28253 17.3132L9.12503 11.4688L10.5313 12.8751L4.68878 18.7194ZM12.125 11.2813L10.7188 9.87507L12.5478 8.04601C12.6527 7.94149 12.7359 7.8173 12.7927 7.68055C12.8495 7.54381 12.8787 7.3972 12.8787 7.24913C12.8787 7.10107 12.8495 6.95446 12.7927 6.81771C12.7359 6.68097 12.6527 6.55677 12.5478 6.45226L8.58503 2.49132C9.71959 2.28165 10.8881 2.35087 11.99 2.69301C13.0919 3.03515 14.0941 3.63997 14.9103 4.45538L17.8578 7.42445L15.6875 9.59382L15.546 9.45226C15.4414 9.34738 15.3173 9.26416 15.1805 9.20738C15.0438 9.1506 14.8972 9.12137 14.7491 9.12137C14.601 9.12137 14.4544 9.1506 14.3177 9.20738C14.1809 9.26416 14.0567 9.34738 13.9522 9.45226L12.125 11.2813ZM18.4363 12.3416L17.2813 11.1876L19.446 9.02288L20.5991 10.1844L18.4363 12.3416Z" fill="#FFD12C"/>
+            <title>Add Recipe</title>
+        </svg>
+
+        
+
         <!--
             *
-            * ADD SUB-CUSTOM ENTRY
-            * Only show for custom entries, not recipe entries
+            * WIKI
+            * Directly links to the wiki for this particular item
+            * Ex: wiki.guildwars2.com/wiki/Shard_of_Endeavor
         -->
-        <svg 
-            class="plus" 
-            @click="subEntryToggle = !subEntryToggle"
-            width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
-        >
-            <path d="M14 7.99805H8V13.998H6V7.99805H0V5.99805H6V-0.00195312H8V5.99805H14V7.99805Z" fill="#FFD12C"/>
+
+        <svg @click="wiki(entry.name)" class="icon" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 0C11.2311 0 8.52431 0.821086 6.22202 2.35943C3.91973 3.89777 2.12532 6.08427 1.06569 8.64243C0.00606596 11.2006 -0.271181 14.0155 0.269012 16.7313C0.809205 19.447 2.14258 21.9416 4.10051 23.8995C6.05845 25.8574 8.55301 27.1908 11.2687 27.731C13.9845 28.2712 16.7994 27.9939 19.3576 26.9343C21.9157 25.8747 24.1022 24.0803 25.6406 21.778C27.1789 19.4757 28 16.7689 28 14C28 10.287 26.525 6.72601 23.8995 4.1005C21.274 1.475 17.713 0 14 0ZM26 13H20C19.8833 9.31709 18.9291 5.70915 17.21 2.45C19.5786 3.0979 21.6914 4.45684 23.2632 6.34342C24.8351 8.23 25.7903 10.5534 26 13ZM14 26C13.7769 26.015 13.5531 26.015 13.33 26C11.2583 22.6962 10.1085 18.8981 10 15H18C17.9005 18.8953 16.7612 22.6932 14.7 26C14.467 26.0164 14.2331 26.0164 14 26ZM10 13C10.0995 9.10468 11.2388 5.30682 13.3 2C13.7453 1.94997 14.1947 1.94997 14.64 2C16.7223 5.3008 17.8825 9.09906 18 13H10ZM10.76 2.45C9.0513 5.71164 8.10746 9.31945 8.00001 13H2.00001C2.20971 10.5534 3.16495 8.23 4.7368 6.34342C6.30865 4.45684 8.42144 3.0979 10.79 2.45H10.76ZM2.05001 15H8.05001C8.15437 18.6798 9.09478 22.2875 10.8 25.55C8.43887 24.8951 6.33478 23.5332 4.77056 21.6472C3.20634 19.7612 2.25695 17.4415 2.05001 15ZM17.21 25.55C18.9291 22.2908 19.8833 18.6829 20 15H26C25.7903 17.4466 24.8351 19.77 23.2632 21.6566C21.6914 23.5432 19.5786 24.9021 17.21 25.55Z" fill="#FFD12C"/>
+            <title>Wiki</title>
         </svg>
-        <!-- <form v-if="subEntryToggle" @submit.prevent="addCustomEntry(subEntryNumber, subEntryInput)">
-            <input
-                class="small-number-field"
-                type="number"
-                min="0"
-                v-model="subEntryNumber"
-            >
-            <input
-                type="text"
-                placeholder="Ingredient"
-                v-model="subEntryInput"
-            >
-            <button class="submit" type="submit">Add Ingredient</button>
-        </form> -->
         <!--
             *
             * POP ENTRY
@@ -73,8 +87,18 @@
     </div>
 
     <SearchItem
-        v-if="subEntryToggle"
-        @handle-item-search="handleItemSearch"
+        v-if="entry.primarySearchItemToggle"
+        @handle-item-search="(searchQuery) => handleIngredientSearch(entry, searchQuery)"
+    />
+
+    <SearchRecipe
+        v-if="entry.primarySearchRecipeToggle"
+        @handle-recipe-request="(searchQuery) => handleRecipeSearch(entry, searchQuery)"
+    />
+
+    <AddCustomEntry
+        v-if="entry.primaryAddCustomEntry"
+        @add-custom-entry="(quantity, customEntry) => addCustomEntry(entry, quantity, customEntry)"
     />
 
     <!--
@@ -82,95 +106,125 @@
         * INGREDIENTS
         *
     -->
-    <div 
-        v-if="ingredientsToggle"
-        v-for="(item, itemIndex) in entry.ingredients"
-        class="item-container"
-    >
-        <div class="item">
-            <div class="checkbox">
-                <input 
-                    type="checkbox" 
-                    v-model="item.checked"
-                    @change="checkSubBoxes(item, item.checked)"
+    <div v-for="(item, itemIndex) in entry.ingredients">
+        <div
+            v-if="item.expand"
+            class="item-container"
+        >
+            <div class="item">
+                <div class="checkbox">
+                    <input 
+                        type="checkbox" 
+                        v-model="item.checked"
+                        @change="checkSubBoxes(item, item.checked)"
+                    >
+                    
+                    <label :for="item.name">
+                        <img v-if="item.icon" :src="item.icon" :alt="item.name" :title="item.name">
+                        <p :class="checkFade(item.checked)">{{ item.count }} {{ item.name }}</p>
+                    </label>
+                </div>
+
+                <svg 
+                    v-if="item.ingredients"
+                    class="icon expand" 
+                    :class="rotate(item.ingredients)"
+                    @click="expandSubIngredients(item)"
+                    width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg"
                 >
+                    <path d="M8.81372 0.397634C8.6944 0.280464 8.5326 0.214642 8.36389 0.214642C8.19519 0.214642 8.03339 0.280464 7.91407 0.397634L4.76468 3.49138L1.61529 0.397634C1.49529 0.283785 1.33457 0.220788 1.16775 0.222212C1.00093 0.223636 0.841356 0.289367 0.723392 0.405247C0.605428 0.521127 0.538516 0.677885 0.537066 0.841758C0.535617 1.00563 0.599746 1.16351 0.715642 1.28138L4.31486 4.81701C4.43417 4.93418 4.59597 5 4.76468 5C4.93339 5 5.09519 4.93418 5.2145 4.81701L8.81372 1.28138C8.93299 1.16418 9 1.00524 9 0.839509C9 0.673781 8.93299 0.514838 8.81372 0.397634Z" fill="#FFD12C"/>
+                </svg>
+
+                <!--
+                    *
+                    * ADD SUB-CUSTOM INGREDIENT
+                    * Only show for custom entries, not recipe entries
+                -->
+
+                <svg class="icon" 
+                    :class="activeButton(item.addCustomEntry)"
+                    @click="item.addCustomEntry = !item.addCustomEntry"
+                    width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path d="M17.71 4.04006C18.1 3.65006 18.1 3.00006 17.71 2.63006L15.37 0.290059C15 -0.0999414 14.35 -0.0999414 13.96 0.290059L12.12 2.12006L15.87 5.87006M0 14.2501V18.0001H3.75L14.81 6.93006L11.06 3.18006L0 14.2501Z" fill="#FFD12C"/>
+                    <title>Add Custom Entry</title>
+                </svg>
+
+                <svg 
+                    @click="item.searchItemToggle = !item.searchItemToggle"
+                    class="icon" 
+                    width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path d="M18.2497 3.64508e-09H12.2497C12.1348 -1.13191e-05 12.0215 0.0263566 11.9185 0.0770702C11.8154 0.127784 11.7254 0.201488 11.6553 0.2925L5.65532 8.09344L4.7497 7.18969C4.61039 7.05022 4.44495 6.93958 4.26286 6.8641C4.08076 6.78861 3.88557 6.74976 3.68845 6.74976C3.49132 6.74976 3.29613 6.78861 3.11404 6.8641C2.93194 6.93958 2.76651 7.05022 2.6272 7.18969L1.43751 8.38031C1.29818 8.5196 1.18766 8.68498 1.11226 8.86699C1.03686 9.049 0.998047 9.24408 0.998047 9.44109C0.998047 9.63811 1.03686 9.83319 1.11226 10.0152C1.18766 10.1972 1.29818 10.3626 1.43751 10.5019L3.31251 12.3769L0.687508 15.0019C0.548184 15.1412 0.437664 15.3065 0.36226 15.4886C0.286857 15.6706 0.248047 15.8656 0.248047 16.0627C0.248047 16.2597 0.286857 16.4548 0.36226 16.6368C0.437664 16.8188 0.548184 16.9841 0.687508 17.1234L1.8772 18.3122C2.15847 18.5933 2.53985 18.7512 2.93751 18.7512C3.33516 18.7512 3.71654 18.5933 3.99782 18.3122L6.62282 15.6872L8.49782 17.5622C8.63713 17.7017 8.80256 17.8123 8.98466 17.8878C9.16676 17.9633 9.36195 18.0021 9.55907 18.0021C9.75619 18.0021 9.95138 17.9633 10.1335 17.8878C10.3156 17.8123 10.481 17.7017 10.6203 17.5622L11.81 16.3716C11.9493 16.2323 12.0599 16.0669 12.1353 15.8849C12.2107 15.7029 12.2495 15.5078 12.2495 15.3108C12.2495 15.1138 12.2107 14.9187 12.1353 14.7367C12.0599 14.5547 11.9493 14.3893 11.81 14.25L10.9063 13.3463L18.7072 7.34625C18.7985 7.276 18.8723 7.18567 18.923 7.08227C18.9738 6.97887 19 6.86517 18.9997 6.75V0.75C18.9997 0.551088 18.9207 0.360322 18.78 0.21967C18.6394 0.0790178 18.4486 3.64508e-09 18.2497 3.64508e-09ZM2.93938 17.25L1.7497 16.0613L4.3747 13.4363L5.56345 14.625L2.93938 17.25ZM9.55907 16.5L2.4997 9.44156L3.69032 8.25L10.7497 15.3103L9.55907 16.5ZM17.4997 6.38062L9.83657 12.2756L8.81095 11.25L13.5303 6.53063C13.6709 6.38989 13.7499 6.19907 13.7498 6.00014C13.7497 5.8012 13.6706 5.61045 13.5299 5.46984C13.3891 5.32924 13.1983 5.2503 12.9994 5.25038C12.8004 5.25047 12.6097 5.32958 12.4691 5.47031L7.7497 10.1887L6.72501 9.16313L12.6191 1.5H17.4997V6.38062Z" fill="#FFD12C"/>
+                    <title>Add Item</title>
+                </svg>
+
+                <svg 
+                    @click="item.searchRecipeToggle = !item.searchRecipeToggle"
+                    class="icon"
+                    width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path d="M22.4544 8.85976L16.5041 2.86726C14.7446 1.11138 12.3603 0.125244 9.87456 0.125244C7.38879 0.125244 5.00455 1.11138 3.24503 2.86726L3.23284 2.88038L1.94097 4.21351C1.73335 4.42784 1.61938 4.71586 1.62413 5.01422C1.62888 5.31258 1.75195 5.59683 1.96628 5.80445C2.18061 6.01206 2.46863 6.12603 2.76699 6.12128C3.06535 6.11654 3.3496 5.99346 3.55722 5.77913L4.84253 4.45257C5.26806 4.0272 5.74595 3.65768 6.26472 3.35288L10.1563 7.25007L1.42347 15.9838C1.24928 16.1579 1.1111 16.3647 1.01682 16.5922C0.922547 16.8197 0.874023 17.0636 0.874023 17.3099C0.874023 17.5562 0.922547 17.8001 1.01682 18.0276C1.1111 18.2552 1.24928 18.4619 1.42347 18.636L3.36315 20.5757C3.71477 20.9272 4.1916 21.1247 4.68878 21.1247C5.18596 21.1247 5.66279 20.9272 6.0144 20.5757L14.75 11.8438L14.8916 11.9854L17.1088 14.2035C17.2829 14.3777 17.4896 14.5159 17.7172 14.6102C17.9447 14.7044 18.1886 14.753 18.4349 14.753C18.6812 14.753 18.925 14.7044 19.1526 14.6102C19.3801 14.5159 19.5868 14.3777 19.761 14.2035L22.4507 11.5129C22.6252 11.339 22.7638 11.1324 22.8585 10.9049C22.9532 10.6774 23.0021 10.4335 23.0024 10.1871C23.0028 9.94069 22.9546 9.69664 22.8605 9.46888C22.7665 9.24113 22.6285 9.03414 22.4544 8.85976ZM4.68878 18.7194L3.28253 17.3132L9.12503 11.4688L10.5313 12.8751L4.68878 18.7194ZM12.125 11.2813L10.7188 9.87507L12.5478 8.04601C12.6527 7.94149 12.7359 7.8173 12.7927 7.68055C12.8495 7.54381 12.8787 7.3972 12.8787 7.24913C12.8787 7.10107 12.8495 6.95446 12.7927 6.81771C12.7359 6.68097 12.6527 6.55677 12.5478 6.45226L8.58503 2.49132C9.71959 2.28165 10.8881 2.35087 11.99 2.69301C13.0919 3.03515 14.0941 3.63997 14.9103 4.45538L17.8578 7.42445L15.6875 9.59382L15.546 9.45226C15.4414 9.34738 15.3173 9.26416 15.1805 9.20738C15.0438 9.1506 14.8972 9.12137 14.7491 9.12137C14.601 9.12137 14.4544 9.1506 14.3177 9.20738C14.1809 9.26416 14.0567 9.34738 13.9522 9.45226L12.125 11.2813ZM18.4363 12.3416L17.2813 11.1876L19.446 9.02288L20.5991 10.1844L18.4363 12.3416Z" fill="#FFD12C"/>
+                    <title>Add Recipe</title>
+                </svg>
+
                 
-                <label :for="item.name">
-                    <img v-if="item.icon" :src="item.icon" :alt="item.name" :title="item.name">
-                    <p :class="checkFade(item.checked)">{{ item.count }} {{ item.name }}</p>
-                </label>
+
+                <!--
+                    *
+                    * WIKI
+                    * Directly links to the wiki for this particular item
+                    * Ex: wiki.guildwars2.com/wiki/Shard_of_Endeavor
+                -->
+
+                <svg @click="wiki(item.name)" class="icon" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 0C11.2311 0 8.52431 0.821086 6.22202 2.35943C3.91973 3.89777 2.12532 6.08427 1.06569 8.64243C0.00606596 11.2006 -0.271181 14.0155 0.269012 16.7313C0.809205 19.447 2.14258 21.9416 4.10051 23.8995C6.05845 25.8574 8.55301 27.1908 11.2687 27.731C13.9845 28.2712 16.7994 27.9939 19.3576 26.9343C21.9157 25.8747 24.1022 24.0803 25.6406 21.778C27.1789 19.4757 28 16.7689 28 14C28 10.287 26.525 6.72601 23.8995 4.1005C21.274 1.475 17.713 0 14 0ZM26 13H20C19.8833 9.31709 18.9291 5.70915 17.21 2.45C19.5786 3.0979 21.6914 4.45684 23.2632 6.34342C24.8351 8.23 25.7903 10.5534 26 13ZM14 26C13.7769 26.015 13.5531 26.015 13.33 26C11.2583 22.6962 10.1085 18.8981 10 15H18C17.9005 18.8953 16.7612 22.6932 14.7 26C14.467 26.0164 14.2331 26.0164 14 26ZM10 13C10.0995 9.10468 11.2388 5.30682 13.3 2C13.7453 1.94997 14.1947 1.94997 14.64 2C16.7223 5.3008 17.8825 9.09906 18 13H10ZM10.76 2.45C9.0513 5.71164 8.10746 9.31945 8.00001 13H2.00001C2.20971 10.5534 3.16495 8.23 4.7368 6.34342C6.30865 4.45684 8.42144 3.0979 10.79 2.45H10.76ZM2.05001 15H8.05001C8.15437 18.6798 9.09478 22.2875 10.8 25.55C8.43887 24.8951 6.33478 23.5332 4.77056 21.6472C3.20634 19.7612 2.25695 17.4415 2.05001 15ZM17.21 25.55C18.9291 22.2908 19.8833 18.6829 20 15H26C25.7903 17.4466 24.8351 19.77 23.2632 21.6566C21.6914 23.5432 19.5786 24.9021 17.21 25.55Z" fill="#FFD12C"/>
+                    <title>Wiki</title>
+                </svg>
+
+                <!--
+                    *
+                    * POP ITEM
+                    *
+                -->
+                <svg 
+                    class="icon" 
+                    @click="popItem(itemIndex)"
+                    width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path d="M13 1L1 13M1 1L13 13" stroke="#FFD12C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </div>
 
-            <!--
-                *
-                * ADD SUB-CUSTOM INGREDIENT
-                * Only show for custom entries, not recipe entries
-            -->
-            <svg 
-                class="plus" 
-                @click="item.toggle = !item.toggle"
-                width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
-            >
-                <path d="M14 7.99805H8V13.998H6V7.99805H0V5.99805H6V-0.00195312H8V5.99805H14V7.99805Z" fill="#FFD12C"/>
-            </svg>
+            <SearchItem
+                v-if="item.searchItemToggle"
+                @handle-item-search="(searchQuery) => handleIngredientSearch(item, searchQuery)"
+            />
+
+            <SearchRecipe
+                v-if="item.searchRecipeToggle"
+                @handle-recipe-request="(searchQuery) => handleRecipeSearch(item, searchQuery)"
+            />
+
+            <AddCustomEntry
+                v-if="item.addCustomEntry"
+                @add-custom-entry="(quantity, entry) => addCustomEntry(item, quantity, entry)"
+            />
+
+
 
             <!--
-                *
-                * WIKI
-                * Directly links to the wiki for this particular item
-                * Ex: wiki.guildwars2.com/wiki/Shard_of_Endeavor
+                * IF the item contains more 'ingredients', start recursion
             -->
-
-            <svg @click="wiki(item.name)" class="wiki" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 0C11.2311 0 8.52431 0.821086 6.22202 2.35943C3.91973 3.89777 2.12532 6.08427 1.06569 8.64243C0.00606596 11.2006 -0.271181 14.0155 0.269012 16.7313C0.809205 19.447 2.14258 21.9416 4.10051 23.8995C6.05845 25.8574 8.55301 27.1908 11.2687 27.731C13.9845 28.2712 16.7994 27.9939 19.3576 26.9343C21.9157 25.8747 24.1022 24.0803 25.6406 21.778C27.1789 19.4757 28 16.7689 28 14C28 10.287 26.525 6.72601 23.8995 4.1005C21.274 1.475 17.713 0 14 0ZM26 13H20C19.8833 9.31709 18.9291 5.70915 17.21 2.45C19.5786 3.0979 21.6914 4.45684 23.2632 6.34342C24.8351 8.23 25.7903 10.5534 26 13ZM14 26C13.7769 26.015 13.5531 26.015 13.33 26C11.2583 22.6962 10.1085 18.8981 10 15H18C17.9005 18.8953 16.7612 22.6932 14.7 26C14.467 26.0164 14.2331 26.0164 14 26ZM10 13C10.0995 9.10468 11.2388 5.30682 13.3 2C13.7453 1.94997 14.1947 1.94997 14.64 2C16.7223 5.3008 17.8825 9.09906 18 13H10ZM10.76 2.45C9.0513 5.71164 8.10746 9.31945 8.00001 13H2.00001C2.20971 10.5534 3.16495 8.23 4.7368 6.34342C6.30865 4.45684 8.42144 3.0979 10.79 2.45H10.76ZM2.05001 15H8.05001C8.15437 18.6798 9.09478 22.2875 10.8 25.55C8.43887 24.8951 6.33478 23.5332 4.77056 21.6472C3.20634 19.7612 2.25695 17.4415 2.05001 15ZM17.21 25.55C18.9291 22.2908 19.8833 18.6829 20 15H26C25.7903 17.4466 24.8351 19.77 23.2632 21.6566C21.6914 23.5432 19.5786 24.9021 17.21 25.55Z" fill="#FFD12C"/>
-                <title>Wiki</title>
-            </svg>
-
-            <!-- <form v-if="item.toggle" @submit.prevent="addCustomIngredient(item, subIngredientNumber, subIngredientInput)">
-                <input
-                    class="small-number-field"
-                    type="number"
-                    min="0"
-                    v-model="subIngredientNumber"
-                >
-
-                <input
-                    type="text"
-                    placeholder="Ingredient"
-                    v-model="subIngredientInput"
-                >
-                <button class="submit" type="submit">Add Ingredient</button>
-            </form> -->
-
-            <!--
-                *
-                * POP ITEM
-                *
-            -->
-            <svg 
-                class="close" 
-                @click="popItem(itemIndex)"
-                width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
-            >
-                <path d="M13 1L1 13M1 1L13 13" stroke="#FFD12C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <List
+                v-if="item.ingredients"
+                :entry="item"
+                :entryIndex="entryIndex"
+                :recursion-level="recursionLevel + 1"
+            />
         </div>
-
-        <SearchItem
-            v-if="item.toggle"
-            @handle-item-search="(searchQuery) => handleIngredientSearch(item, searchQuery)"
-        />
-
-        <!--
-            * IF the item contains more 'ingredients', start recursion
-        -->
-        <List
-            v-if="item.ingredients"
-            :entry="item"
-            :entryIndex="entryIndex"
-            :recursion-level="recursionLevel + 1"
-        />
     </div>
+    
 
     
 </template>
@@ -178,7 +232,10 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { wiki } from '@/js/vue/composables/BasicFunctions'
+
+import SearchRecipe from '@/js/vue/components/general/SearchRecipe.vue'
 import SearchItem from '@/js/vue/components/general/SearchItem.vue'
+import AddCustomEntry from '@/js/vue/components/general/AddCustomEntry.vue'
 import Expand from '@/imgs/svgs/expand.svg'
 
 const props = defineProps({
@@ -192,55 +249,45 @@ const props = defineProps({
 })
 const emit = defineEmits(['popEntry', 'addCustomIngredient']);
 
-const subEntryToggle = ref(false),
-    subEntryInput = ref(null),
-    subEntryNumber = ref(1),
-    subIngredientInput = ref(null),
-    subIngredientNumber = ref(1);
-
 const ingredientsToggle = ref(props.recursionLevel == 0 ? false : true);
 
-const handleCustomIngredient = () => {
-    emit('addCustomIngredient', subEntryInput.value, props.entryIndex);
-    ingredientsToggle.value = true; 
+const handleRecipeSearch = async (item, searchQuery, quantity) => {
+    if (!item.ingredients){
+        item.ingredients = [];
+    }
+
+    const response = await fetch(`../api/recipes/${searchQuery.id}/${quantity}`);
+    const responseData = await response.json();
+
+    item.ingredients.push(responseData[0]);
+    expandSubIngredients(item);
 }
 
-const handleItemSearch = (searchQuery) => {
-    if (!props.entry.ingredients){
-        props.entry.ingredients = [];
-    }
-    props.entry.ingredients.push(searchQuery);
-    ingredientsToggle.value = true;
-}
 const handleIngredientSearch = (item, searchQuery) => {
     if (!item.ingredients){
         item.ingredients = [];
     }
     item.ingredients.push(searchQuery);
+
+    expandSubIngredients(item);
 }
 
-const addCustomEntry = (count, entry) => {
-    if (!props.entry.ingredients){
-        props.entry.ingredients = [];
-    }
-
-    props.entry.ingredients.push({
-        count: count != 0 ? count : null,
-        name: entry
-    })
-
-    ingredientsToggle.value = true;
-}
-
-const addCustomIngredient = (item, count, ingredients) => {
+const addCustomEntry = (item, count, entry) => {
     if (!item.ingredients){
         item.ingredients = [];
     }
-
     item.ingredients.push({
         count: count != 0 ? count : null,
-        name: ingredients
+        name: entry,
+        expand: true,
     });
+
+    console.log('item: ', item);
+
+    if (!item.ingredients[0].expand || !item.hasOwnProperty('expand')){
+        expandSubIngredients(item);
+    }
+    
 }
 
 const popItem = (itemIndex) => {
@@ -265,15 +312,45 @@ const checkSubBoxes = (data, isChecked) => {
     }
 }
 
+const expandSubIngredients = (data) => {
+    if (data.ingredients){
+        data.ingredients.forEach(subItem => {
+            if (!subItem.hasOwnProperty('expand')){
+                subItem.expand = true; 
+            } else {
+                subItem.expand = !subItem.expand;
+            }
+            expandSubIngredients(subItem);
+        })
+    }
+    
+
+}
+
 
 /*
     *
     * DYNAMIC CLASSES
     * 
 */
-const rotate = computed(() => {
-    return ingredientsToggle.value == true ? '' : 'rotate';
-})
+const rotate = (itemExpandToggle) => {
+    console.log(itemExpandToggle);
+    if (itemExpandToggle){
+        return 'rotate active-checklist'
+    } else {
+        return ''
+    }
+}
+
+const activeButton = (toggle) => {
+    if (toggle){
+        return 'active-checklist'
+    } else {
+        return ''
+    }
+}
+
+
 const checkFade = (checkStatus) => {
     return checkStatus === true ? 'strikethrough' : '';
 }
@@ -305,8 +382,12 @@ const checkFade = (checkStatus) => {
 .item img{
     width: var(--img-material-w);
 }
-.rotate {
+/* By default, the expand svg is facing down. This should face is up then use the dynamic class 'rotate' to 180 it */
+.expand{
     transform: rotate(180deg);
+}
+.rotate {
+    transform: rotate(0deg);
 }
 
 </style>

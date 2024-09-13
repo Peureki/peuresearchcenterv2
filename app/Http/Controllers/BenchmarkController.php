@@ -21,16 +21,8 @@ class BenchmarkController extends Controller
         // Create unique cache key with the unique paramters a user may have
         $cacheKey = 'map_benchmarks_' . md5(json_encode($includes) . $sellOrderSetting . $tax); 
 
-        // $cacheResults = MapBenchmarkCache::where('cache_key', $cacheKey)->first(); 
-
-        // // Check if the response is already cached
-        // if ($cacheResults){
-        //     return response()->json([
-        //         'dropRates' => json_decode($cacheResults->drop_rates),
-        //         'benchmarks' => json_decode(($cacheResults->benchmarks)),
-        //     ]);
-        // }
         //dd($cacheResults);
+        // If data has been cached, then return that instead
         $cachedResponse = Cache::get($cacheKey); 
         if ($cachedResponse){
             return response()->json($cachedResponse); 
@@ -127,7 +119,7 @@ class BenchmarkController extends Controller
         ];
 
         // Store unique cache key for the next [time] minutes
-        Cache::put($cacheKey, $response, now()->addHours(6)); 
+        Cache::put($cacheKey, $response, now()->addHours(12)); 
 
         return response()->json($response); 
     }
@@ -296,7 +288,7 @@ class BenchmarkController extends Controller
         ];
 
         // Store unique cache key for the next [time] minutes
-        Cache::put($cacheKey, $response, now()->addHours(6)); 
+        Cache::put($cacheKey, $response, now()->addHours(12)); 
         
 
         //dd($response);

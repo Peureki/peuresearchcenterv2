@@ -6,11 +6,10 @@
         * Add padding for each new recursion of the tree
     -->
     <div 
-        class="recipe-tree"
+        :class="recursionLevel > 0 ? 'sub-recipe-tree' : 'recipe-tree'"
         :style="{
             paddingLeft: recursionLevel > 0 ? `30px` : 0,
-            paddingRight: recursionLevel > 0 ? 'unset' : `${50}px`,
-            width: recursionLevel > 0 ? `unset` : `fit-content`,
+            paddingRight: recursionLevel > 0 ? 'unset' : `var(--gap-general)`,
             borderLeft: recursionLevel > 0 ? `var(--border-general)` : `none`
         }"
     >
@@ -20,7 +19,7 @@
             *
         -->
         <div 
-            class="ingredients"
+            :class="recursionLevel > 0 ? 'sub-ingredients' : 'ingredients'"
             v-for="(ingredient, index) in recipe"
         >
             <span class="ingredient-details">
@@ -32,8 +31,8 @@
                 <span class="ingredient-info-container">
                     <img class="ingredient-icon" :src="ingredient.icon" :alt="ingredient.name" :title="ingredient.name">
                     <p>{{ ingredient.count }}</p>
-                    <p v-if="recursionLevel == 0" :style="{color: showRarityColor(ingredient.rarity)}">{{ ingredient.name }}</p>
-                    <p v-else>{{ ingredient.name }}</p>
+                    <p v-if="recursionLevel == 0" class="ingredient-name" :style="{color: showRarityColor(ingredient.rarity)}">{{ ingredient.name }}</p>
+                    <p class="ingredient-name" v-else>{{ ingredient.name }}</p>
                 </span>
                 <!-- 
                     *
@@ -168,7 +167,7 @@ const emitChildIngredient = (selectedIngredient, userPreference) => {
 }
 .gold-label-container{
     border: var(--border-general);
-    padding: 5px;
+    padding: 3px;
 }
 .gold-label-container input[type="radio"]{
     margin-inline: 5px;
@@ -177,21 +176,46 @@ const emitChildIngredient = (selectedIngredient, userPreference) => {
 .gold-label-container label{
     padding-inline: 5px;
 }
+.recipe-tree{
+    position: relative;
+    width: fit-content;
+}
+.ingredients{
+    overflow-x: auto;
+}
 span.ingredient-details{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 20px;
-    padding-block: 5px;
+    gap: var(--gap-ingredients);
+    padding-block: var(--gap-ingredients);
 }
 span.ingredient-info-container{
     display: flex;
     align-items: center;
     gap: 5px;
+    padding-right: var(--gap-content);
 }
 img.ingredient-icon{
     width: 25px;
     aspect-ratio: 1 / 1;
+}
+p.ingredient-name{
+    white-space: nowrap;
+}
+
+@media (max-width: 768px){
+    .recipe-tree{
+        width: 100%;
+        padding-block: var(--gap-content);
+    }
+    .sub-ingredients{
+        position: relative;
+        width: 100%;
+    }
+    .sub-recipe-tree{
+        width: fit-content;
+    }
 }
 
 </style>

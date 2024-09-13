@@ -120,6 +120,7 @@ section{
     padding-block: var(--padding-section);
 }
 section.main{
+    position: relative;
     padding-left: calc(var(--nav-width) + var(--nav-padding-left));
 }
 header {
@@ -163,6 +164,10 @@ a.page-link{
     width: 20px;
     height: 20px;
     cursor: pointer;
+    transition: var(--transition-all-03s-ease);
+}
+.icon > path {
+    transition: var(--transition-all-03s-ease);
 }
 
 .distinquish-section{
@@ -371,7 +376,7 @@ table td img{
 /* 
  * PAGE BUTTONS
  */
-.page-button-container{
+ .page-button-container{
     display: flex;
     align-items: center;
     gap: 10px;
@@ -403,6 +408,12 @@ button.page-button-current {
 }
 input[type="number"].specific-page{
     width: 100px;
+}
+
+@media (max-width: 768px){
+    .page-button-container{
+        flex-wrap: wrap;
+    }
 }
 
 /* 
@@ -753,14 +764,14 @@ span.currency img{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    gap: 5px;
+    gap: var(--gap-general);
     width: fit-content;
 }
 .display-output-container{
     display: flex;
     flex-direction: column;
     width: fit-content;
-    gap: 5px;
+    gap: var(--gap-general);
 
 }
 span.output{
@@ -768,6 +779,14 @@ span.output{
     align-items: center;
     justify-content: space-between;
     gap: 50px;
+}
+@media (max-width: 768px){
+    .recipe-form{
+        width: 100%;
+    }
+    .display-output-container{
+        width: 100%;
+    }
 }
 
 /* 
@@ -822,7 +841,6 @@ img.rolling-choya{
 
 svg.close,
 svg.plus,
-svg.expand,
 svg.save,
 svg.import,
 svg.wiki {
@@ -1176,6 +1194,10 @@ svg.arrow path{
     border-left: var(--border-general);
 }
 
+.active-checklist > path{
+    fill: var(--color-down);
+}
+
 :root{
     --color-bkg: #2a2b2e;
     --color-bkg-fade: #2F3034;
@@ -1234,6 +1256,7 @@ svg.arrow path{
 
     --gap-general: clamp(0.6rem, 0.5vw, 1rem);
     --gap-content: clamp(0.8rem, 1.5vw, 2rem);
+    --gap-ingredients: clamp(0.3rem, 0.3vw, 0.8rem);
     --gap-operators: clamp(0.3rem, 0.5vw, 1rem);
     --gap-benchmarks: clamp(0.5rem, 0.5vw, 0.8rem);
 
