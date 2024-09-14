@@ -2,9 +2,17 @@
     <header>
         <h1>{{ pageName }}</h1>
     </header>
+
+    <section class="main">
+        <Disclaimer
+            message="The choyas are working hard to build this website. Stay tuned."
+        />
+    </section>
+    
 </template>
 
 <script setup>
+import Disclaimer from '@/js/vue/components/general/Disclaimer.vue';
 
 const props = defineProps({
     pageName: String,
