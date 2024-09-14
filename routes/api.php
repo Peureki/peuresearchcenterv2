@@ -125,3 +125,7 @@ Route::get('/currencies/research-note/{buyOrderSetting}/{filter}', [CurrencyCont
 
 // BAG DETAILS
 Route::get('/bags/{table}/{sellOrderSetting}/{tax}', [BagController::class, 'getTable']);
+
+
+// MERP TESTING
+Route::get('/merp/fetch-merp', [FetchController::class, 'fetchMerp']);

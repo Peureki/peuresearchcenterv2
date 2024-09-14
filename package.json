@@ -16,6 +16,7 @@
         "chart.js": "^4.4.3",
         "vue": "^3.2.36",
         "vue-chartjs": "^5.3.1",
+        "vue-gtag": "^2.0.1",
         "vue-router": "^4.0.13",
         "worker-timers": "^7.0.76"
     }

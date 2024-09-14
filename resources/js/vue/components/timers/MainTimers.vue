@@ -10,7 +10,7 @@
             <slot name="nodeTrackerModal"></slot>
 
 
-            <div class="map-container" ref="mapContainer">
+            <div v-show="!isMobile" class="map-container" ref="mapContainer">
                 <img :src="map" :alt="alt" :title="alt">
                 <div v-for="(event, index) in events" :key="index">
                     <div
@@ -19,7 +19,7 @@
                         v-show="event.toggleCheckbox.value" 
                     >
                         <article>
-                            <h6 class="event-name">{{ event.name }}</h6>
+                            <p class="event-name">{{ event.name }}</p>
                             <div class="icons">
                                 <img 
                                     :src="chain.img" :alt="chain.type" :title="chain.type"
@@ -35,6 +35,14 @@
                     </div>
                 </div>
             </div>
+            <!--
+                *
+                * DISCLAIMER
+                *
+            -->
+            <Disclaimer
+                message="If on mobile, use the navigation to track the timers. For the best experience, use this page on desktop."
+            />
             <!--
                 *
                 * INFO CONTAINER
@@ -136,8 +144,10 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { isMobile } from '@/js/vue/composables/Global';
 
 import Header from '@/js/vue/components/general/Header.vue'
+import Disclaimer from '@/js/vue/components/general/Disclaimer.vue';
 
 import TimerFunctions from '@/js/vue/components/timers/TimerFunctions.vue'
 import { colorTimers } from '@/js/vue/composables/TimerFunctions';
@@ -220,8 +230,7 @@ onMounted(() => {
     cursor: pointer;
 }
 .icons{
-    display: flex;
-    align-items: center;
+    gap: 3px;
 }
 .icons img{
     width: 20px;
@@ -239,7 +248,7 @@ onMounted(() => {
 .legend{
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: var(--gap-general);
     padding: var(--padding-general-10px);
     border-right: var(--border-general);
 }
@@ -254,7 +263,7 @@ onMounted(() => {
 .legend-item{
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: var(--gap-general);
 }
 .legend-item p {
     white-space: nowrap;
@@ -272,5 +281,14 @@ onMounted(() => {
     width: 20px;
     height: 20px;
     vertical-align: middle;
+}
+@media (max-width: 768px){
+    .info-container{
+        display: flex;
+        flex-direction: column;
+    }
+    .legend-item > p{
+        white-space: wrap;
+    }
 }
 </style>

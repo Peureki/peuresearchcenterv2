@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
+
 import HomeView from './views/HomeView.vue'
 
 import BenchmarksMapsView from './views/benchmarks/MapsView.vue'
@@ -63,9 +65,9 @@ import TimersSandsweptIslesView from './views/timers/SandsweptIslesView.vue'
 import TimersDomainOfKournaView from '@/js/vue/views/timers/DomainOfKournaView.vue'
 import TimersDragonfallView from '@/js/vue/views/timers/DragonfallView.vue'
 import TimersLakeDoricView from '@/js/vue/views/timers/LakeDoricView.vue'
-
 import TimersSkywatchArchipelagoView from '@/js/vue/views/timers/SkywatchArchipelagoView.vue'
-import { compact } from 'lodash'
+
+import GeneralSupportView from '@/js/vue/views/general/SupportView.vue'
 
 const routes = [
     {
@@ -291,6 +293,14 @@ const routes = [
         path: '/timers/skywatch-archipelago',
         component: TimersSkywatchArchipelagoView,
         name: 'timers-skywatch-archipelago',
+    },
+    // *
+    // * GENERAL
+    // *
+    {
+        path: '/general/support',
+        component: GeneralSupportView,
+        name: 'general-support',
     },
 ]
 

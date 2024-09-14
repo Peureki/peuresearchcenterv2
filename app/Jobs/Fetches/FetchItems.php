@@ -38,8 +38,6 @@ class FetchItems implements ShouldQueue
             
             $apiIds = Http::get('https://api.guildwars2.com/v2/items'); 
             $idList = $apiIds->json(); 
-
-            dd($idList);
     
             $totalEntries = count($idList); 
             $totalPages = ceil($totalEntries / $perPage);

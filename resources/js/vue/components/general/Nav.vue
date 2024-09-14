@@ -16,25 +16,28 @@
                     
                 </div>
 
-                <div class="support">
-                    <button class="support-button">
-                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
-                        <p>Support the choyas</p>
-                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
-                        <p>Support the choyas</p>
-                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
-                        <p>Support the choyas</p>
-                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
-                        <p>Support the choyas</p>
-                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
-                        <p>Support the choyas</p>
-                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
-                        <p>Support the choyas</p>
-                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
-                        <p>Support the choyas</p>
-                        <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
-                    </button>
-                </div>
+                <router-link to="/general/support">
+                    <div class="support">
+                        <button class="support-button">
+                            <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                            <p>Support the choyas</p>
+                            <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                            <p>Support the choyas</p>
+                            <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                            <p>Support the choyas</p>
+                            <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                            <p>Support the choyas</p>
+                            <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                            <p>Support the choyas</p>
+                            <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                            <p>Support the choyas</p>
+                            <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                            <p>Support the choyas</p>
+                            <img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya">
+                        </button>
+                    </div>
+                </router-link>
+                
 
                 <!-- 
                     * SHORTCUTS
@@ -517,6 +520,23 @@
                         <NavPage category="timers" url="tangled-depths" name="Tangled Depths" :icon="LeyLineCrystal"/> 
                     </div>
                 </Transition>
+
+                <!--
+                    *
+                    * GENERAL STUFF
+                    *
+                -->
+                <NavSection 
+                    @click="generalToggle = !generalToggle" 
+                    header="General"
+                    :toggle="generalToggle"
+                />
+
+                <Transition name="fade-right">
+                    <div v-if="generalToggle">
+                        <NavPage category="general" url="support" name="Support" :icon="HappyChoya"/> 
+                    </div>
+                </Transition>
             </div>
         </nav>
     </Transition>
@@ -593,6 +613,7 @@ import MistbornMote from '@/imgs/icons/Mistborn_Mote.png'
 
 import PeuChoya from '@/imgs/choyas/Peu_Choya.png'
 import RollingChoya from '@/imgs/choyas/Rolling_Choya.png'
+import HappyChoya from '@/imgs/choyas/Happy_Choya.png'
 
 import axios from 'axios';
 import { update } from 'lodash';
@@ -610,7 +631,8 @@ const registerToggle = ref(false);
 const wv = ref(null); 
 
 const mainNavToggle = ref(isMobile ? false : true),
-    mobileHamburger = ref(isMobile ? true : false);
+    mobileHamburger = ref(isMobile ? true : false),
+    timerPageToggle = ref(false);
 
 const apiKey = ref(null);
 
@@ -811,21 +833,19 @@ const setDefaultLocalStorage = () => {
 }
 setDefaultLocalStorage(); 
 
+// Toggle on/off sections 
 const benchmarksToggle = ref(true),
     currenciesToggle = ref(true),
     exchangeablesToggle = ref(true),
     toolsToggle = ref(true),
-    timersToggle = ref(true);
+    timersToggle = ref(true),
+    generalToggle = ref(true);
 
 const settingsToggle = ref(JSON.parse(localStorage.settings)),
     filtersToggle = ref(JSON.parse(localStorage.filters)),
     bookmarksToggle = ref(JSON.parse(localStorage.bookmarks)),
     loginToggle = ref(false),
     apiKeyToggle = ref(false);
-
-
-
-
 
 // Change buy and sell order settings
 const changeOrder = (order) => {

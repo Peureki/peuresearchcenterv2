@@ -52,6 +52,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { isMobile } from '@/js/vue/composables/Global'
 
 import Nav from '@/js/vue/components/general/Nav.vue'
 

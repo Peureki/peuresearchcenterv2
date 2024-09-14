@@ -1,13 +1,10 @@
 <template>
     <Nav/>
-
-    <main>
-        <h1>Peu Research Center</h1>
-    </main>
-    
+    <Header page-name="Peu Research Center"/>
 </template>
 
 <script setup>
 import Nav from '@/js/vue/components/general/Nav.vue'
+import Header from '@/js/vue/components/general/Header.vue'
 
 </script>

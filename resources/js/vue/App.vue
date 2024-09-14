@@ -92,6 +92,7 @@ p {
 }
 ul {
     margin: 0;
+    padding: 0;
 }
 li {
     font-family: var(--font-family);
@@ -164,6 +165,7 @@ a.page-link{
     width: 20px;
     height: 20px;
     cursor: pointer;
+    flex-shrink: 0;
     transition: var(--transition-all-03s-ease);
 }
 .icon > path {
@@ -1127,12 +1129,29 @@ svg.arrow path{
     gap: var(--gap-general);
 }
 
+/* 
+    =================================================
+    * OVERFLOW
+    =================================================
+*/
+.overflow-x{
+    overflow-x: auto;
+}
+
 
 /* 
     =================================================
     * DYNAMIC CLASSES
     =================================================
 */
+/* For SVG disclaimers */
+.disclaimer > path{
+    fill: var(--color-down);
+}
+.underline {
+    text-decoration: underline;
+}
+
 .strikethrough{
     text-decoration: line-through;
     color: var(--color-text-fade);
@@ -1247,12 +1266,12 @@ svg.arrow path{
 
     --font-size-h1: clamp(2rem, 5.5vw, 6.25rem);
     --font-size-h2: clamp(1.8rem, 15vw, 4rem);
-    --font-size-h3: clamp(1.3rem, 8vw, 2rem);
+    --font-size-h3: clamp(1.5rem, 3vw, 2rem);
     --font-size-h4: clamp(1.3rem, 1.2vw, 1.7rem);
     --font-size-h5: clamp(1.0rem, 1.1vw, 1.5rem);
     --font-size-h6: clamp(1.1rem, 1vw, 1.3rem);
     --font-size-p: clamp(1rem, 1vw, 1rem);
-    --font-size-subtext: clamp(0.5rem, 3vw, 0.8rem);
+    --font-size-subtext: clamp(0.7rem, 3vw, 0.8rem);
 
     --gap-general: clamp(0.6rem, 0.5vw, 1rem);
     --gap-content: clamp(0.8rem, 1.5vw, 2rem);
@@ -1263,6 +1282,7 @@ svg.arrow path{
     --font-family: 'Rubik', sans-serif;
 
     --border-general: 2px solid #3D3F42;
+    --border-general-link: 2px solid var(--color-link);
     --border-hidden: 2px solid rgb(95, 96, 98, 0);
     --border-bottom: 2px solid #3D3F42;
     --border-button-link: 2px solid #ffd12c;
@@ -1274,6 +1294,7 @@ svg.arrow path{
     --border-tooltip: 2px solid #3D3F42;
     --border-positive: 2px solid #5ED625;
     --border-negative: 2px solid #EC004D;
+    
     --border-radius-card: 5px;
     
     --nav-width: clamp(13.5rem, 15vw, 16rem);

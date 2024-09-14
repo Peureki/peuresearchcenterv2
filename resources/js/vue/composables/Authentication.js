@@ -1,5 +1,6 @@
 import { user, isAuthenticating } from "@/js/vue/composables/Global";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost'; 
 // *
 // * AUTHENTICATE USER
 // * When auth, fill user.value
@@ -7,7 +8,7 @@ export const getAuthUser = async () => {
     try {
         isAuthenticating.value = true; 
 
-        const response = await fetch('../api/user');
+        const response = await fetch(`${BASE_URL}/api/user`);
         if (!response.ok){
             throw new Error('Failed to fetch user data');
         }
@@ -23,14 +24,14 @@ export const getAuthUser = async () => {
 // * Assuming a completed form with username, password => login into a new session 
 // * Refresh page if successful
 export const login = async (name, email, password, remember) => {
-    console.log(name, email);
+    console.log(BASE_URL);
     try {
         // Get unique cookie? 
-        await axios.get('../sanctum/csrf-cookie');
+        await axios.get(`${BASE_URL}/sanctum/csrf-cookie`);
         // Send POST to /login via web.php route: 
         // LoginController.php, authenticate(); 
         // Use the v-model form values to verify registered user
-        const response = await axios.post('../login', {
+        const response = await axios.post(`${BASE_URL}/login`, {
             name: name,
             email: email,
             password: password,
@@ -55,7 +56,7 @@ export const login = async (name, email, password, remember) => {
 // * refresh the page
 export const logout = async () => {
     try {
-        const response = await axios.post('../logout');
+        const response = await axios.post(`${BASE_URL}/logout`);
 
         if (response){
             user.value = null;

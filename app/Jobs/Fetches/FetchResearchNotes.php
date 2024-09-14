@@ -158,10 +158,11 @@ class FetchResearchNotes implements ShouldQueue
             ["Yam Fritter", 1],
             ["Spinach Burger", 1],
             ["Zephyrite Fish Jerky", 1],
+            ["Feathered", 5.5],
         ];
 
         $restrictedItems = [
-            // CHEF
+            "Recipe:",
             "Bowl of Red Meat Stock",
             "Bowl of Salsa",
             "Bowl of Vegetable Stock",
@@ -251,30 +252,49 @@ class FetchResearchNotes implements ShouldQueue
         ];
 
         $salvageableItemNames = array_column($salvageableItemCategories, 0); 
-        $salvageableItems = Items::whereIn('name', $salvageableItemNames)
-            ->where('level', '!=', 0)
-            ->where('vendor_value', '!=', 0)
-            ->where('type', '!=', 'CraftingMaterial')
-            ->whereNotIn('name', $restrictedItems)
-            ->get();
-
         $salvageableMap = array_column($salvageableItemCategories, 1, 0);
-
         $researchNotesResponse = [];
 
-        foreach ($salvageableItems as $item){
-            $recipe = Recipes::where('output_item_id', $item->id)->first();
-
-            if ($recipe) {
-                $researchNotesResponse[] = [
-                    'recipe_id' => $recipe->id,
-                    'item_id' => $item->id,
-                    'avg_output' => $salvageableMap[$item->name], // Use avg_output from map
-                    'ingredients' => $recipe->ingredients,
-                ];
+        Items::where(function ($goodItemQuery) use ($salvageableItemNames){
+            foreach ($salvageableItemNames as $name){
+                $goodItemQuery->orWhere('name', 'like', '%'.$name.'%');
             }
-        }
+        })
+        ->where('level', '!=', 0)
+        ->where('vendor_value', '!=', 0)
+        ->where('type', '!=', 'CraftingMaterial')
+        ->where(function ($badItemQuery) use ($restrictedItems){
+            foreach ($restrictedItems as $restricted){
+                $badItemQuery->where('name', 'not like', $restricted);
+            }
+        })
+        ->chunk(100, function ($salvageableItems) use ($salvageableMap){
+            foreach ($salvageableItems as $item){
+                $recipe = Recipes::where('output_item_id', $item->id)->first();
 
-        ResearchNotes::upsert($researchNotesResponse, ['recipe_id'], ['item_id', 'avg_output', 'ingredients']);
+                if ($recipe) {
+                    $avgOutput = null; 
+                    foreach ($salvageableMap as $category => $value){
+                        if (strpos($item->name, $category) != false){
+                            $avgOutput = $value; 
+                            break;
+                        }
+                    }
+                    if ($avgOutput){
+                        ResearchNotes::updateOrCreate(
+                            [
+                                'recipe_id' => $recipe->id,
+                                'item_id' => $item->id,
+                            ],
+                            [
+                                'avg_output' => $avgOutput, // Use avg_output from map
+                                'ingredients' => $recipe->ingredients,
+                            ]  
+                        );
+                    }
+                    
+                }
+            }
+        });
     }
 }

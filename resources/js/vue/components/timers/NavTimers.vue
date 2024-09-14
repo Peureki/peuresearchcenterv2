@@ -13,7 +13,7 @@
             <Transition name="toggle">
                 <div v-if="outpost.status.value">
                     <img src="@/imgs/icons/Outpost_Active.png" alt="Outpost icon" title="Outpost">
-                    <h6>{{ outpost.name }}</h6>
+                    <p>{{ outpost.name }}</p>
                 </div>
             </Transition>
             
@@ -30,12 +30,12 @@
             >
                 <p class="hidden-timer">{{ event.cooldown.value }}</p>
                 <article>
-                    <h6 
+                    <p 
                         class="event-name event-meta"
                         :style="{color: event.status.value ? 'var(--color-event-meta)' : 'var(--color-text)'}"
                     >
                         {{ event.name }}
-                    </h6>
+                    </p>
                     <div class="icons">
                         <img 
                             v-if="event.status.value"
@@ -90,7 +90,7 @@
                                 <title>This event timer is in sync with another</title>
                             </svg>
                         </div>
-                        <!-- <h6 class="event-name">{{ event.name }}</h6> -->
+                        <!-- <p class="event-name">{{ event.name }}</p> -->
                         <div class="icons">
                             <img 
                                 v-for="chain in event.chain"
@@ -342,7 +342,7 @@ svg.event-sync{
     border-bottom: var(--border-bottom);
     cursor: pointer;
 }
-.outposts h6{
+.outposts p{
     text-align: left;
     padding: var(--padding-outpost);
 }
@@ -350,7 +350,7 @@ svg.event-sync{
     padding-inline: var(--padding-timers);
     border-bottom: var(--border-bottom);
 }
-.timer h6{
+.timer p{
     white-space: wrap;
 }
 .info{
