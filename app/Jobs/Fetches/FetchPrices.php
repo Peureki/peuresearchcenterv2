@@ -50,34 +50,15 @@ class FetchPrices implements ShouldQueue
             $apiBatch = Http::get('https://api.guildwars2.com/v2/commerce/prices?ids='.implode(',', $batch[$currentPage]));
             $batchList = $apiBatch->json(); 
 
-            $items = [];
-
             foreach($batchList as $item){
-                // Items::updateOrCreate(
-                //     [
-                //         'id' => $item['id']
-                //     ],
-                //     [
-                //         'buy_quantity' => $item['buys']['quantity'], 
-                //         'buy_price' => $item['buys']['unit_price'],
-                //         'sell_quantity' => $item['sells']['quantity'],
-                //         'sell_price' => $item['sells']['unit_price'],
-                //     ]
-                // );
-
-                $items[] = [
-                    'buy_quantity' => $item['buys']['quantity'], 
-                    'buy_price' => $item['buys']['unit_price'],
-                    'sell_quantity' => $item['sells']['quantity'],
-                    'sell_price' => $item['sells']['unit_price'],
-                ];
+                Items::where('id', $item['id'])
+                    ->update([
+                        'buy_quantity' => $item['buys']['quantity'], 
+                        'buy_price' => $item['buys']['unit_price'],
+                        'sell_quantity' => $item['sells']['quantity'],
+                        'sell_price' => $item['sells']['unit_price'],
+                    ]);
             }
-            Items::upsert($items, ['id'],[
-                'buy_quantity',
-                'buy_price',
-                'sell_quantity',
-                'sell_price',
-            ]);
             $currentPage++;
         }
     }
