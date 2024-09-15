@@ -33,8 +33,8 @@ class FetchGeneral implements ShouldQueue
      */
     public function handle(): void
     {
-        //$this->fetchFishes();
-        //$this->fetchFishingHoles();
+        $this->fetchFishes();
+        $this->fetchFishingHoles();
     }
 
     // *
