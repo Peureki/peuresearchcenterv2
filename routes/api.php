@@ -58,10 +58,12 @@ Route::get('/fetch-recipe-values', [FetchController::class, 'fetchRecipeValues']
 
 Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 Route::get('/fetch-choice-chests', [FetchController::class, 'fetchChoiceChests']);
-
+// *
+// * SALVAGEABLES
+// *
 Route::get('/fetch-salvageables', [FetchController::class, 'fetchSalvageables']);
 Route::get('/fetch-mixed-salvageables', [FetchController::class, 'fetchMixedSalvageables']);
-Route::get('/fetch-containers', [FetchController::class, 'fetchContainers']);
+
 Route::get('/fetch-fishes', [FetchController::class, 'fetchFishes']);
 Route::get('/fetch-fishing-holes', [FetchController::class, 'fetchFishingHoles']);
 
@@ -87,12 +89,8 @@ Route::get('/recipes/{id}/{quantity}', [RecipeController::class, 'getRecipeTree'
 Route::get('/tools/search-items/{quantity}', [FetchController::class, 'searchItems']);
 Route::get('/recipes/search-recipes', [RecipeController::class, 'searchRecipes']);
 
-Route::get('/tools/salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'salvageables']);
-Route::get('/tools/mixed-salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'mixedSalvageables']);
 
 
-// * SALVAGE
-Route::get('/tools/merp/{sellOrderSetting}/{tax}', [SalvageableController::class, 'merp']);
 
 
 // * SPIRIT SHARDS
@@ -108,17 +106,11 @@ Route::get('/currencies/{filter}/{includes}/{sellOrderSetting}/{tax}', [Currency
 Route::get('/exchangeables/{request}/{includes}/{sellOrderSetting}/{tax}', [BagController::class, 'exchangeables']);
 
 
-// * LAURELS
-Route::get('/currencies/laurel/{sellOrderSetting}/{tax}', [CurrencyController::class, 'laurel']);
+
+
 // * RESEARCH NOTES
 Route::get('/currencies/salvage-research-notes/{buyOrderSetting}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'salvageResearchNotes']);
 
-// * TRADE CONTRACTS
-Route::get('/currencies/trade-contract/{sellOrderSetting}/{tax}', [CurrencyController::class, 'tradeContract']);
-// * VOLATILE MAGIC
-Route::get('/currencies/volatile-magic/{sellOrderSetting}/{tax}', [CurrencyController::class, 'volatileMagic']);
-// * UNBOUND MAGIC
-Route::get('/currencies/unbound-magic/{sellOrderSetting}/{tax}', [CurrencyController::class, 'unboundMagic']);
 
 Route::get('/currencies/research-note/{buyOrderSetting}/{filter}', [CurrencyController::class, 'researchNote']);
 

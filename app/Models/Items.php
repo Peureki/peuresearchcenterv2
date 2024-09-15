@@ -38,10 +38,6 @@ class Items extends Model
         return $this->hasMany(BagDropRate::class); 
     }
 
-    public function containerDropRate(){
-        return $this->hasMany(ContainerDropRate::class); 
-    }
-
     public function researchNotes(): HasMany {
         return $this->hasMany(ResearchNotes::class);
     }

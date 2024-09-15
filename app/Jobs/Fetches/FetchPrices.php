@@ -43,9 +43,6 @@ class FetchPrices implements ShouldQueue
 
         $batch = array_chunk($idList, $perPage);
 
-        
-        
-
         while ($currentPage < $totalPages){
             $apiBatch = Http::get('https://api.guildwars2.com/v2/commerce/prices?ids='.implode(',', $batch[$currentPage]));
             $batchList = $apiBatch->json(); 
