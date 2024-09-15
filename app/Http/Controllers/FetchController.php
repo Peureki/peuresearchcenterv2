@@ -91,6 +91,10 @@ class FetchController extends Controller
         return response()->json(['message' => 'derp']);
     }
 
+    public function merp(){
+        return response()->json(['message' => 'merp']);
+    }
+
     public function fetchMerp(){
         $salvageableItemCategories = [
             ["Draconic", 5.5],

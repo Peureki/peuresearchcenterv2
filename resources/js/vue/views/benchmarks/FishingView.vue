@@ -12,7 +12,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { user, buyOrder, sellOrder, tax, includes } from '@/js/vue/composables/Global'
+import { getAuthUser } from '@/js/vue/composables/Authentication'
 
 
 import Nav from '@/js/vue/components/general/Nav.vue'
@@ -45,14 +47,35 @@ const sortBenchmarks = (benchmarks) => {
     }
 }
 
+const url = computed(() => {
+    return `../api/benchmarks/fishing/${JSON.stringify(includes.value)}/${buyOrder.value}/${sellOrder.value}/${tax.value}`;
+})
+
+// BY DEFAULT
+// If there is no user logged in, use default settings
+onMounted( async () => {
+    console.log('url value: ', url.value);
+    // Check if user is being auth
+    await getAuthUser();
+    // IF NO USER
+    if (!user.value){
+        console.log('no user')
+        getFishes(url);
+    } 
+    // USER FOUND
+    else {
+        console.log('user found')
+        getFishes(url);
+    }
+})
+
 
 
 const getFishes = async () => {
-    const url = `../api/benchmarks/fishing/${localStorage.includes}/${localStorage.buyOrderSetting}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
 
-    console.log('url: ', url);
+    console.log('getfishes url: ', url.value);
 
-    const response = await fetch(url);
+    const response = await fetch(url.value);
     const responseData = await response.json(); 
     
     fishingHoles.value = responseData.fishingHoles; 
@@ -60,6 +83,6 @@ const getFishes = async () => {
     sortBenchmarks(fishingHoles.value);
 }
 
-getFishes();
+
 
 </script>

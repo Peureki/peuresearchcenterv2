@@ -77,11 +77,7 @@ Route::get('/fetch-exotics', [FetchController::class, 'fetchExotics']);
 
 Route::get('/fetch-map-benchmarks', [FetchController::class, 'fetchMapBenchmarks']);
 
-// *
-// * BENCHMARKS
-// *
-Route::get('/benchmarks/fishing/{includes}/{buyOrderSetting}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'fishing']);
-Route::get('/benchmarks/maps/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'maps']);
+
 
 // *
 // * TOOLS
@@ -128,3 +124,13 @@ Route::get('/bags/{table}/{sellOrderSetting}/{tax}', [BagController::class, 'get
 
 // MERP TESTING
 Route::get('/merp/fetch-merp', [FetchController::class, 'fetchMerp']);
+
+Route::get('/merp', [FetchController::class, 'merp']);
+
+// *
+// * BENCHMARKS
+// *
+Route::get('/benchmarks/fishing/{includes}/{buyOrderSetting}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'fishing']);
+
+
+Route::get('/benchmarks/maps/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'maps']);
