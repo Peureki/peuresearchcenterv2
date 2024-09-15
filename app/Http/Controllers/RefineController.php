@@ -12,11 +12,9 @@ class RefineController extends Controller
     // Showcase the cost/value it takes 
     //
     // Use $buyOrderSetting instead of sell since would buy materials then refine
-    public function refine($request, $requestID, $includes, $buyOrderSetting, $tax){
+    public function refine($request, $requestID, $buyOrderSetting, $tax){
         //dd($request);
 
-        // Make it a workable arrays
-        $includes = json_decode($includes);
         // This is where bag_ids will be pushed depending on what exchangable item is being exchanged
         $requestedArray = []; 
         $response = [];

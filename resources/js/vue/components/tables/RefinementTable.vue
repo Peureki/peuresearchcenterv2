@@ -117,9 +117,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick, watch } from 'vue'
+import { ref, onMounted, nextTick, watch, computed } from 'vue'
 import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
 import { sortTable, toggleSortOrder, toggleActive } from '@/js/vue/composables/TableFunctions.js'
+import { user, sellOrder, buyOrder, tax, includes } from '@/js/vue/composables/Global'
+import { getAuthUser } from '@/js/vue/composables/Authentication'
 
 const props = defineProps({
     data: Object,
@@ -132,9 +134,11 @@ const sortActive = ref([]),
 
 const data = ref([]);
 
-const url = `../api/refine/${encodeURIComponent(props.targetRefinement)}/${props.targetId}/${localStorage.includes}/${localStorage.buyOrderSetting}/${localStorage.taxSetting}`;
+const url = computed(() => {
+    return `../api/refine/${encodeURIComponent(props.targetRefinement)}/${sellOrder.value}/${tax.value}`;
+})
 
-console.log('url: ', url, props.targetId);
+console.log('url: ', url.value, props.targetId);
 
 
 
@@ -145,13 +149,27 @@ const getRefinement = async (url) => {
     data.value = dataResponse; 
     console.log(data.value);
 }
-getRefinement(url);
 
 const triggerSort = async () => {
     toggleActive(2, sortActive.value);
     sortOrder.value[2] = 'ascending'; 
     sortTable(`currency-table-${props.targetId}`, 2, 'gold', sortOrder.value);
 }
+
+onMounted( async () => {
+    await getAuthUser(); 
+
+    // IF NO USER
+    if (!user.value){
+        console.log('no user')
+        getRefinement(url.value); 
+    } 
+    // USER FOUND
+    else {
+        console.log('user found')
+        getRefinement(url.value); 
+    }
+})
 
 watch(() => data.value, async (newVal, oldVal) => {
     if (newVal){

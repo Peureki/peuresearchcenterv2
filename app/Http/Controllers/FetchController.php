@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\Fetches\FetchGeneral;
 use App\Jobs\Fetches\FetchItems;
 use App\Jobs\Fetches\FetchPrices;
 use App\Jobs\Fetches\FetchRecipes;
@@ -77,6 +78,17 @@ class FetchController extends Controller
     public function fetchResearchNotes(){
         dispatch(new FetchResearchNotes());
         return response()->json(['message' => 'Fetching research notes job has been queued']);
+    }
+    // *
+    // * FETCH GENERAL STUFF
+    // * Any small fetches, dump it in this function
+    public function fetchGeneral(){
+        dispatch(new FetchGeneral());
+        return response()->json(['messasge' => 'Fetching general small stuff job has been queued']);
+    }
+
+    public function fetchDerp(){
+        return response()->json(['message' => 'derp']);
     }
 
     public function fetchMerp(){
@@ -409,74 +421,7 @@ class FetchController extends Controller
         }
     }
 
-    /*
-        *
-        * FISHING HOLES AND ESTIMATES 
-        *
-    */
-    public function fetchFishingHoles(){
-        $api = Http::get('https://script.google.com/macros/s/AKfycbyusqQd274FeAyE_8vP7fRgO0Nu9rTy8Bb1O8-uQdvp-qBQ3TLpjQJr58djFcm9louiTw/exec?endpoint=fishingHoles');
-        $spreadsheet = $api->json(); 
-
-        foreach ($spreadsheet['fishingHoles'] as $index => $hole){
-            FishingHole::updateOrCreate(
-                [
-                    'id' => $index + 1,
-                    'bait_id' => is_numeric($hole['baitID']) ? $hole['baitID'] : null,
-                ],
-                [
-                    'name' => $hole['fishingHole'],
-                    'map' => $hole['map'],
-                    'region' => $hole['region'],
-                    'time' => $hole['time'],
-                    'fishing_power' => $hole['fishingPower'],
-                    'sample_size' => $hole['sampleSize'],
-                ]
-            );
-            // For some routes, they may not have sufficient data or optimal route so the spreadsheet is empty for map, avgholes, etc
-            FishingEstimate::updateOrCreate(
-                [
-                    'fishing_hole_id' => $index + 1,
-                ],
-                [
-                    'map' => $hole['map'],
-                    'average_fishing_holes' => !empty($hole['avgHoles']) ? $hole['avgHoles'] : null,
-                    'average_time' => !empty($hole['avgTime']) ? $hole['avgTime'] : null,
-                    'time_variable' => !empty($hole['timeVar']) ? $hole['timeVar'] : null,
-                    'estimate_variable' => !empty($hole['estVar']) ? $hole['estVar'] : null,
-                ]
-            );
-
-            $ids = explode(",", $hole['materialID']); 
-            $dropRates = explode(",", $hole['dropRate']); 
-
-            foreach ($ids as $key => $id){
-                $fish = null;
-                $bag = null;
-
-                // For $fish and $bag, check to see if they exist
-                // This check is to ensure these foreign keys will be implemented into db
-                if (Fish::find($id)){
-                    $fish = $id;
-                }
-                if (Bag::find($id)){
-                    $bag = $id;
-                }
-
-                FishingHoleDropRate::updateOrCreate(
-                    [
-                        'fishing_hole_id' => $index + 1,
-                        'item_id' => $id,
-                        'fish_id' => $fish,
-                        'bag_id' => $bag,
-                    ],
-                    [
-                        'drop_rate' => $dropRates[$key],
-                    ]
-                );
-            }
-        }
-    }
+    
 
     /*
         *

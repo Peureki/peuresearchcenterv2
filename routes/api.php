@@ -44,13 +44,18 @@ Route::get('/user/getUserData', [UserController::class, 'getUserData']);
 Route::post('/user/saveFilterResearchNotes', [UserController::class, 'saveFilterResearchNotes']);
 
 // *
+// * FETCH GENERAL STUFF
+// * Any small fetches, dump it in this function
+Route::get('/fetch-general', [FetchController::class, 'fetchGeneral']);
+
+// *
 // * BENCHMARKS
 // *
 Route::get('/fetch-benchmarks', [FetchController::class, 'fetchBenchmarks']);
 
 Route::get('/fetch-items', [FetchController::class, 'fetchItems']);
 Route::get('/fetch-currencies', [FetchController::class, 'fetchCurrencies']);
-Route::get('/fetch-prices', [FetchController::class, 'fetchPrices']);
+Route::get('/fetch-prices', [FetchController::class, 'fetchGeneral']);
 Route::get('/fetch-research-notes', [FetchController::class, 'fetchResearchNotes']);
 Route::get('/fetch-recipes', [FetchController::class, 'fetchRecipes']);
 Route::get('/fetch-recipe-trees', [FetchController::class, 'fetchRecipeTrees']);
@@ -81,7 +86,7 @@ Route::get('/benchmarks/maps/{includes}/{sellOrderSetting}/{tax}', [BenchmarkCon
 // *
 // * TOOLS
 // *
-Route::get('/refine/{request}/{requestID}/{includes}/{buyOrderSetting}/{tax}', [RefineController::class, 'refine']);
+Route::get('/refine/{request}/{requestID}/{buyOrderSetting}/{tax}', [RefineController::class, 'refine']);
 
 Route::get('/recipes/{request}/{id}/{quantity}', [RecipeController::class, 'getRecipeValues']);
 Route::get('/recipes/{id}/{quantity}', [RecipeController::class, 'getRecipeTree']);
@@ -117,6 +122,8 @@ Route::get('/currencies/research-note/{buyOrderSetting}/{filter}', [CurrencyCont
 
 // BAG DETAILS
 Route::get('/bags/{table}/{sellOrderSetting}/{tax}', [BagController::class, 'getTable']);
+
+
 
 
 // MERP TESTING
