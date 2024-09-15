@@ -14,6 +14,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class FetchGeneral implements ShouldQueue
 {
@@ -42,6 +43,8 @@ class FetchGeneral implements ShouldQueue
     protected function fetchFishes(): void {
         $api = Http::get('https://script.google.com/macros/s/AKfycbyusqQd274FeAyE_8vP7fRgO0Nu9rTy8Bb1O8-uQdvp-qBQ3TLpjQJr58djFcm9louiTw/exec?endpoint=fishes');
         $spreadsheet = $api->json(); 
+
+        Log::info("API Response for fishes", [$spreadsheet]);
 
         foreach ($spreadsheet['fishes'] as $index => $fish){
 
