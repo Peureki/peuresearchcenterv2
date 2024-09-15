@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\BagController;
 use App\Http\Controllers\BenchmarkController;
 use App\Http\Controllers\CurrencyController;
@@ -31,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 Route::post('/user/enterAPIKey', [UserController::class, 'enterAPIKey']);
 Route::post('/user/saveChecklist', [UserController::class, 'saveChecklist']);
 Route::get('/user/getChecklist', [UserController::class, 'getChecklist']);
@@ -131,6 +131,5 @@ Route::get('/merp', [FetchController::class, 'merp']);
 // * BENCHMARKS
 // *
 Route::get('/benchmarks/fishing/{includes}/{buyOrderSetting}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'fishing']);
-
 
 Route::get('/benchmarks/maps/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'maps']);

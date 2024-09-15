@@ -907,17 +907,16 @@ watch(isMobile, (newIsMobile) => {
     }
 })
 
-// UPDATE settings when user has logged on or off
-watch(user, (userData) => {
-    if (userData){
-        buyOrder.value = userData.settings_buy_order;
-        sellOrder.value = userData.settings_sell_order;
-        tax.value = userData.settings_tax; 
-        includes.value = userData.includes;
-        filterResearchNotes.value = userData.filter_research_notes;
-    }
-    
-})
+// // UPDATE settings when user has logged on or off
+// watch(user, (userData) => {
+//     if (userData){
+//         buyOrder.value = userData.settings_buy_order;
+//         sellOrder.value = userData.settings_sell_order;
+//         tax.value = userData.settings_tax; 
+//         includes.value = userData.includes;
+//         filterResearchNotes.value = userData.filter_research_notes;
+//     }
+// })
 
 </script>
 

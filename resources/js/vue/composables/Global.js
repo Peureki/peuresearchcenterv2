@@ -1,5 +1,5 @@
 // This page is to keep track global variable states
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { getAuthUser } from './Authentication';
 
 
@@ -27,3 +27,15 @@ export const sellOrder = ref('sell_price');
 export const tax = ref(0.85);
 export const includes = ref([]);
 export const filterResearchNotes = ref([]);
+
+// UPDATE settings when user has logged on or off
+watch(user, (userData) => {
+    console.log('userdata: ', userData)
+    if (userData){
+        buyOrder.value = userData.settings_buy_order;
+        sellOrder.value = userData.settings_sell_order;
+        tax.value = userData.settings_tax; 
+        includes.value = userData.includes;
+        filterResearchNotes.value = userData.filter_research_notes;
+    }
+})
