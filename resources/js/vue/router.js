@@ -305,7 +305,7 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHistory('/peuresearchcenterv2/public'),
+    history: createWebHistory('/'),
     routes,
 });
 
