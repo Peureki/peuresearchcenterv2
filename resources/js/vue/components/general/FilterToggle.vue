@@ -10,6 +10,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { user, includes, filterResearchNotes } from '@/js/vue/composables/Global'
+import { getAuthUser } from '@/js/vue/composables/Authentication'
 
 const props = defineProps({
     toggleOption: String, 
@@ -64,9 +65,7 @@ const checkFilters = (option) => {
 }
 
 onMounted(() => {
-    if (user.value){
-        checkFilters(props.toggleOption);
-    }
+    checkFilters(props.toggleOption);
 })
 
 </script>

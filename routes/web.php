@@ -3,6 +3,7 @@
 use App\Http\Controllers\BagController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,9 +17,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+// Route::group(['middleware' => ['web']], function () {
+//     // your routes here
+// });
 
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/register', [LoginController::class, 'register']);

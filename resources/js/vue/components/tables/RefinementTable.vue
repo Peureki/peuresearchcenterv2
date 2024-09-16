@@ -135,7 +135,7 @@ const sortActive = ref([]),
 const data = ref([]);
 
 const url = computed(() => {
-    return `../api/refine/${encodeURIComponent(props.targetRefinement)}/${sellOrder.value}/${tax.value}`;
+    return `../api/refine/${encodeURIComponent(props.targetRefinement)}/${props.targetId}/${sellOrder.value}/${tax.value}`;
 })
 
 console.log('url: ', url.value, props.targetId);

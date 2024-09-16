@@ -26,7 +26,7 @@ export const buyOrder = ref('buy_price');
 export const sellOrder = ref('sell_price');
 export const tax = ref(0.85);
 export const includes = ref([]);
-export const filterResearchNotes = ref([]);
+export const filterResearchNotes = ref(["Crafting","TP","Armorsmith","Artificer","Chef","Huntsman","Jeweler","Leatherworker","Scribe","Tailor","Weaponsmith","Consumable","Armor","Weapon","Back","Trinket"]);
 
 // UPDATE settings when user has logged on or off
 watch(user, (userData) => {

@@ -107,7 +107,9 @@ import axios from 'axios'
 import { filterResearchNotes, user, buyOrder, sellOrder, tax } from '@/js/vue/composables/Global'
 import { getAuthUser } from '@/js/vue/composables/Authentication'
 
-// FILTERS LIST
+// *
+// * FILTERED LIST TO DISPLAY
+// * Add more if there's another thing to filter out for research notes
 const filterPreferences = ['Crafting', 'TP'];
 const filterDisciplines = ['Armorsmith', 'Artificer', 'Chef', 'Huntsman', 'Jeweler', 'Leatherworker', 'Scribe', 'Tailor', 'Weaponsmith'];
 const filterItemTypes = ['Consumable', 'Weapon', 'Armor', 'Back', 'Trinket'];

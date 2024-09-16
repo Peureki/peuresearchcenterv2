@@ -47,7 +47,6 @@
 
                 <Shortcuts
                     :settings-toggle="settingsToggle"
-                    :bookmarks-toggle="bookmarksToggle"
                     :filters-toggle="filtersToggle"
                     :login-toggle="loginToggle"
                     :api-key-toggle="apiKeyToggle"
@@ -359,12 +358,12 @@
                     * 
                     * This changes depending on what page the website is currently on
                 -->
-                <Transition name="fade-right">
+                <!-- <Transition name="fade-right">
                     <slot 
                         v-if="bookmarksToggle"
                         name="bookmarks"
                     ></slot>
-                </Transition>
+                </Transition> -->
 
                 
 
@@ -689,9 +688,9 @@ const changeToggleStatus = (toggleName) => {
             apiKeyToggle.value = !apiKeyToggle.value;
             break;
 
-        case 'Bookmarks':
-            bookmarksToggle.value = !bookmarksToggle.value;
-            break;
+        // case 'Bookmarks':
+        //     bookmarksToggle.value = !bookmarksToggle.value;
+        //     break;
 
         case 'Filters':
             filtersToggle.value = !filtersToggle.value;
@@ -714,7 +713,7 @@ const register = async () => {
   try {
         const response = await fetch('../register', {
             method: 'POST',
-            divs: {
+            headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             },
@@ -722,12 +721,13 @@ const register = async () => {
                 name: name.value,
                 email: email.value,
                 password: password.value,
-                remember: remember.value,
             }),
         });
 
         if (!response.ok) {
             throw new Error('Registration failed');
+        } else {
+            console.log('Registered!')
         }
 
     // Redirect or handle success as needed
@@ -798,11 +798,6 @@ const setDefaultLocalStorage = () => {
     }
     // * BOOKMARKS
     // * 
-    // * Set different bookmarks for different pages if applicable
-    if (!localStorage.bookmarks){
-        localStorage.setItem('bookmarks', true);
-    }
-    
     if (!localStorage.spiritShardsFineT2Table){
         localStorage.setItem('spiritShardsFineT2Table', true);
     }
@@ -907,16 +902,16 @@ watch(isMobile, (newIsMobile) => {
     }
 })
 
-// // UPDATE settings when user has logged on or off
-// watch(user, (userData) => {
-//     if (userData){
-//         buyOrder.value = userData.settings_buy_order;
-//         sellOrder.value = userData.settings_sell_order;
-//         tax.value = userData.settings_tax; 
-//         includes.value = userData.includes;
-//         filterResearchNotes.value = userData.filter_research_notes;
-//     }
-// })
+// UPDATE settings when user has logged on or off
+watch(user, (userData) => {
+    if (userData){
+        buyOrder.value = userData.settings_buy_order;
+        sellOrder.value = userData.settings_sell_order;
+        tax.value = userData.settings_tax; 
+        includes.value = userData.includes;
+        filterResearchNotes.value = userData.filter_research_notes;
+    }
+})
 
 </script>
 
