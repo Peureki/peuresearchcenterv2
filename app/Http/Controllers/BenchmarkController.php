@@ -9,6 +9,7 @@ use App\Models\MapBenchmarkCache;
 use App\Models\MapBenchmarkDropRate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class BenchmarkController extends Controller
 {
@@ -25,6 +26,7 @@ class BenchmarkController extends Controller
         // If data has been cached, then return that instead
         $cachedResponse = Cache::get($cacheKey); 
         if ($cachedResponse){
+            Log::info('this is the cached benchmarks: ', $cachedResponse);
             return response()->json($cachedResponse); 
         }
 
