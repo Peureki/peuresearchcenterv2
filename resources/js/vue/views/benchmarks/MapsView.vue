@@ -68,7 +68,7 @@ onMounted( async () => {
         getMapBenchmarks(url.value);
     }
 
-    console.log('url: ', url.value);
+    //console.log('url: ', url.value);
 })
 
 const getMapBenchmarks = async (url) => {

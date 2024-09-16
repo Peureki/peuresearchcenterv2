@@ -163,23 +163,7 @@ export async function populateCurrencyDetails(bag, refBag, sortDetails) {
     }
 }
 
-export async function fetchSpiritShards(refRecipes){
-    try{
-        let response = await fetch(`../api/currencies/spirit-shards/${localStorage.buyOrderSetting}/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`);
-        let responseData = await response.json();
 
-        let index = 0;
-        for (let key in responseData){
-            if (responseData.hasOwnProperty(key)){
-                refRecipes[index].recipes.value = responseData[key];
-                index++;
-            }
-        }
-
-    } catch (error){
-        console.log("Error fetching data: ", error);
-    }
-}
 // Check what table is currently being sorted
 // colIndex => current active column
 // refEl => the element or arrow that represents/highlights the current active column

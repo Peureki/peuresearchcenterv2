@@ -1,7 +1,7 @@
 <template>
     <router-link class="page-link" :to="`/${category}/${url}`">
         <img class="icon" :src="icon" :alt="name" :title="name">
-        <p>{{ name }}</p>
+        <p class="page-link-name">{{ name }}</p>
     </router-link>
 </template>
 
@@ -17,6 +17,9 @@ const props = defineProps({
 </script>
 
 <style scoped>
+.page-link-name{
+    white-space: nowrap;
+}
 @media (max-width: 768px){
     .page-link img{
         width: 30px;

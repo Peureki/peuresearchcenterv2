@@ -16,7 +16,6 @@
                                     type="checkbox"
                                     :name="table.name"
                                     :checked="table.checkboxToggle.value"
-                                    @click="showTableToggle(table.name, table.checkboxToggle)"
                                 >
                                 <label>{{ table.title }}</label>
                             </div>
@@ -25,7 +24,6 @@
                 </div>
             </article>
         </template>
-
     </Nav>
     <main>
         <Header
@@ -60,7 +58,7 @@ import Loading from '@/js/vue/components/general/Loading.vue'
 
 import SpiritShardsTable from '@/js/vue/components/tables/SpiritShardsTable.vue'
 
-import { sortTable, fetchSpiritShards } from '@/js/vue/composables/TableFunctions.js'
+import { user, tax, buyOrder, sellOrder } from '@/js/vue/composables/Global.js'
 
 // PICTURES
 // FINE T2->T6
@@ -75,38 +73,6 @@ import ChargedShard from '@/imgs/icons/Charged_Shard.png'
 import ChargedCore from '@/imgs/icons/Charged_Core.png'
 import ChargedLodestone from '@/imgs/icons/Charged_Lodestone.png'
 
-const showTableToggle = (tableName, checkboxToggle) => {
-    checkboxToggle.value = !checkboxToggle.value;
-    switch (tableName){
-        case "FineT2": 
-            localStorage.setItem('spiritShardsFineT2Table', checkboxToggle.value);
-            break;
-        case "FineT3": 
-            localStorage.setItem('spiritShardsFineT3Table', checkboxToggle.value);
-            break;
-        case "FineT4": 
-            localStorage.setItem('spiritShardsFineT4Table', checkboxToggle.value);
-            break;
-        case "FineT5": 
-            localStorage.setItem('spiritShardsFineT5Table', checkboxToggle.value);
-            break;
-        case "FineT6": 
-            localStorage.setItem('spiritShardsFineT6Table', checkboxToggle.value);
-            break;
-        case "RareT2": 
-            localStorage.setItem('spiritShardsRareT2Table', checkboxToggle.value);
-            break;
-        case "RareT3": 
-            localStorage.setItem('spiritShardsRareT3Table', checkboxToggle.value);
-            break;
-        case "RareT4": 
-            localStorage.setItem('spiritShardsRareT4Table', checkboxToggle.value);
-            break;
-        case "RareT5": 
-            localStorage.setItem('spiritShardsRareT5Table', checkboxToggle.value);
-            break;
-    }
-}
 const tables = [
     {
         name: "FineT2",
@@ -190,6 +156,25 @@ const tables = [
         checkboxToggle: ref(JSON.parse(localStorage.spiritShardsRareT5Table)), 
     },
 ]
+
+async function fetchSpiritShards(refRecipes){
+    try{
+        let response = await fetch(`../api/currencies/spirit-shards/${buyOrder.value}/${sellOrder.value}/${tax.value}`);
+        let responseData = await response.json();
+
+        let index = 0;
+        for (let key in responseData){
+            if (responseData.hasOwnProperty(key)){
+                refRecipes[index].recipes.value = responseData[key];
+                index++;
+            }
+        }
+
+    } catch (error){
+        console.log("Error fetching data: ", error);
+    }
+}
+
 fetchSpiritShards(tables);
 
 </script>

@@ -40,6 +40,10 @@ import ExchangeablePileOfBloodstoneDustView from '@/js/vue/views/exchangeables/P
 import ExchangeablePinchOfStardustView from '@/js/vue/views/exchangeables/PinchOfStardustView.vue'
 import ExchangeableRareRiftEssenceView from '@/js/vue/views/exchangeables/RareRiftEssenceView.vue'
 import ExchangeableStaticChargeView from '@/js/vue/views/exchangeables/StaticChargeView.vue'
+import ExchangeableWritOfDragonsEndView from '@/js/vue/views/exchangeables/WritOfDragonsEndView.vue'
+import ExchangeableWritOfEchovaldWildsView from '@/js/vue/views/exchangeables/WritOfEchovaldWildsView.vue'
+import ExchangeableWritOfNewKainengCityView from '@/js/vue/views/exchangeables/WritOfNewKainengCityView.vue'
+import ExchangeableWritOfSeitungProvinceView from '@/js/vue/views/exchangeables/WritOfSeitungProvinceView.vue'
 import ExchangeableWritsView from '@/js/vue/views/exchangeables/WritsView.vue'
 
 /*
@@ -207,6 +211,26 @@ const routes = [
         path: '/exchangeables/static-charge',
         component: ExchangeableStaticChargeView,
         name: 'exchangeable-static-charge',
+    },
+    {
+        path: '/exchangeables/writ-of-dragons-end',
+        component: ExchangeableWritOfDragonsEndView,
+        name: 'exchangeable-writ-of-dragons-end',
+    },
+    {
+        path: '/exchangeables/writ-of-echovald-wilds',
+        component: ExchangeableWritOfEchovaldWildsView,
+        name: 'exchangeable-writ-of-echovald-wilds',
+    },
+    {
+        path: '/exchangeables/writ-of-new-kaineng-city',
+        component: ExchangeableWritOfNewKainengCityView,
+        name: 'exchangeable-writ-of-new-kaineng-city',
+    },
+    {
+        path: '/exchangeables/writ-of-seitung-province',
+        component: ExchangeableWritOfSeitungProvinceView,
+        name: 'exchangeable-writ-of-seitung-province',
     },
     {
         path: '/exchangeables/writs',

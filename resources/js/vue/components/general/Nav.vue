@@ -335,7 +335,13 @@
                                     name="Volatile Magic"
                                     :icon="VolatileMagic"
                                     label="VolatileMagic"
-                                />                      
+                                />  
+
+                                <IncludesCheckbox
+                                    name="Writ Of Dragon's End"
+                                    :icon="WritOfDragonsEnd"
+                                    label="WritOfDragonsEnd"
+                                />  
                             </div>
 
                             <div class="button-container">
@@ -469,7 +475,13 @@
 
                         <NavPage category="exchangeables" url="static-charge" name="Static Charge" :icon="StaticCharge"/>
 
-                        <NavPage category="exchangeables" url="writs" name="Writs" :icon="WritOfNewKainengCity"/>  
+                        <NavPage category="exchangeables" url="writ-of-dragons-end" name="Writ of Dragon's End" :icon="WritOfDragonsEnd"/> 
+
+                        <NavPage category="exchangeables" url="writ-of-echovald-wilds" name="Writ of Echovald Wilds" :icon="WritOfEchovaldWilds"/> 
+
+                        <NavPage category="exchangeables" url="writ-of-new-kaineng-city" name="Writ of New Kaineng City" :icon="WritOfNewKainengCity"/> 
+
+                        <NavPage category="exchangeables" url="writ-of-seitung-province" name="Writ of Seitung Province" :icon="WritOfNewKainengCity"/>  
                     </div>
                 </Transition>
 
@@ -606,7 +618,10 @@ import PinchOfStardust from '@/imgs/icons/Pinch_of_Stardust.png'
 import PileOfBloodstoneDust from '@/imgs/icons/Pile_of_Bloodstone_Dust.png'
 import RareRiftEssence from '@/imgs/icons/Rare_Rift_Essence.png'
 import StaticCharge from '@/imgs/icons/Static_Charge.png'
+import WritOfDragonsEnd from "@/imgs/icons/Writ_of_Dragon's_End.png"
+import WritOfEchovaldWilds from '@/imgs/icons/Writ_of_Echovald_Wilds.png'
 import WritOfNewKainengCity from '@/imgs/icons/Writ_of_New_Kaineng_City.png'
+import WritOfSeitungProvince from '@/imgs/icons/Writ_of_Seitung_Province.png'
 
 import Homestead from '@/imgs/icons/Homestead.png'
 import Armorer from '@/imgs/icons/Guild_Armorer.png'
@@ -1015,6 +1030,10 @@ nav{
     background-color: var(--color-bkg);
     /* padding-left: var(--nav-padding); */
     z-index: 100000;
+    transition: var(--transition-all-03s-ease);
+}
+nav:hover{
+    width: calc(var(--nav-width) + clamp(5rem, 5vw, 10rem));
 }
 ::-webkit-scrollbar{
     width: 1rem;
@@ -1044,6 +1063,7 @@ a.page-link{
     border-bottom: var(--border-bottom);
     text-decoration: none;
 }
+
 nav .routes a img,
 nav .routes a h6{
     transition: var(--transition-all-03s-ease);

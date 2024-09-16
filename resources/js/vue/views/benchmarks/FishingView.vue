@@ -55,7 +55,7 @@ const url = computed(() => {
 // BY DEFAULT
 // If there is no user logged in, use default settings
 onMounted( async () => {
-    console.log('url value: ', url.value);
+    //console.log('url value: ', url.value);
     // Check if user is being auth
     await getAuthUser();
     // IF NO USER
@@ -74,7 +74,7 @@ onMounted( async () => {
 
 const getFishes = async () => {
 
-    console.log('getfishes url: ', url.value);
+    //console.log('getfishes url: ', url.value);
 
     const response = await fetch(url.value);
     const responseData = await response.json(); 
