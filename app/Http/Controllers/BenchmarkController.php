@@ -25,7 +25,7 @@ class BenchmarkController extends Controller
         //dd($cacheResults);
         // If data has been cached, then return that instead
         $cachedResponse = Cache::get($cacheKey); 
-        if ($cachedResponse){
+        if ($cachedResponse && isset($cachedResponse['benchmarks']) && !empty($cachedResponse['benchmarks'])){
             Log::info('this is the cached benchmarks: ', $cachedResponse);
             return response()->json($cachedResponse); 
         }
