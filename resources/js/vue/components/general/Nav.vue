@@ -68,7 +68,7 @@
 
                 <Transition name="fade-right">
                     <div class="form-container" v-if="loginToggle">
-                        <form @submit.prevent="login(name, email, password, remember)">
+                        <form @submit.prevent="handleLogin(name, email, password, remember)">
                             
 
                             <label for="name">Username</label>
@@ -93,8 +93,11 @@
 
                                 <button v-if="!registerToggle" type="button" @click="registerToggle = !registerToggle">I want to be a choya</button>
 
-                                <button v-if="registerToggle" type="button" @click="register">Register</button>
+                                <button v-if="registerToggle" type="button" @click="handleRegistration(name, email, password)">Register</button>
+
+                                <p v-if="authErrorStatus" class="error-message">{{ authErrorMessage }}</p>
                             </div>
+
                         </form>
                     </div>
                 </Transition>
@@ -563,7 +566,7 @@ import { ref, watch, provide, onMounted, onUnmounted, computed } from 'vue'
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
 import { user, isMobile, includes, buyOrder, sellOrder, tax } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
-import { getAuthUser, logout, login } from '@/js/vue/composables/Authentication';
+import { getAuthUser, logout, register } from '@/js/vue/composables/Authentication';
 
 import NavPage from '@/js/vue/components/navigation/NavPage.vue';
 import IncludesCheckbox from '@/js/vue/components/navigation/IncludesCheckbox.vue';
@@ -623,7 +626,9 @@ import { filterResearchNotes } from '../../composables/Global';
 const name = ref(''), 
     email = ref(''),
     password = ref(''),
-    remember = ref(null);
+    remember = ref(null),
+    authErrorStatus = ref(null),
+    authErrorMessage = ref(null);
 
 const registerToggle = ref(false);
 // Wizard's Vault
@@ -635,8 +640,105 @@ const mainNavToggle = ref(isMobile ? false : true),
 
 const apiKey = ref(null);
 
+// *
+// * AUTH ERRORS
+// * Display a message depending on error recieved
+const handleAuthErrors = (error) => {
+    switch (error.status){
+        case 401:
+            authErrorMessage.value = "Credentials do not match what we have on record or they don't exist."
+        break;
 
+        case 408:
+            authErrorMessage.value = 'Request timeout'
+        break;
 
+        case 422:
+            authErrorMessage.value = "Missing fields"
+        break;
+
+        case 500: 
+            authErrorMessage.value = 'Could not register user. This is most likey due to having already signed up or could not connect to the server.'
+        break;
+    }
+    authErrorStatus.value = true; 
+}
+
+// *
+// * REGISTRATION
+// * If the registration fails or gives an error, return the result as false to signal error message
+const handleRegistration = async (name, email, password) => {
+    let response = null; 
+
+    try {
+        response = await register(name, email, password); 
+
+        // If a response is returned, that means registration failed somehow
+        // Switch error messages to display depending on error code
+        if (response){
+            console.log('result of failed reg: ', response);
+            handleAuthErrors(response); 
+        
+        }
+    } catch (error){
+        console.log('Error attempting to register user: ', error);
+        handleAuthErrors(error.status); 
+    }
+}
+
+const handleLogin = async (name, email, password, remember) => {
+    let response = null; 
+
+    try {
+        response = await login(name, email, password, remember);
+
+        
+
+        // If a response is returned, that means registration failed somehow
+        // Switch error messages to display depending on error code
+        if (response){
+            console.log('result of failed login: ', response);
+            handleAuthErrors(response); 
+        
+        }
+    } catch (error){
+        console.log('Error attempting to login user: ', error);
+        handleAuthErrors(error.status); 
+    }
+}
+// *
+// * LOGIN
+// * Assuming a completed form with username, password => login into a new session 
+// * Refresh page if successful
+const login = (name, email, password, remember) => {
+    // Get unique CSRF cookie first
+    axios.get('/sanctum/csrf-cookie')
+        .then(() => {
+            // Send POST request to login
+            return axios.post('/login', {
+                name: name,
+                email: email,
+                password: password,
+                remember: remember,
+            }, {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            });
+        })
+        .then(response => {
+            // If login is successful, refresh the page
+            if (response) {
+                console.log("Login successful!", response);
+                window.location.reload();
+            }
+        })
+        .catch(error => {
+            // Handle login error
+            console.log('Login error: ', error);
+            handleAuthErrors(error);
+        });
+};
 
 
 
@@ -654,30 +756,6 @@ const saveSettings = async () => {
         }
     } catch (error) {
         console.log('Includes did not save: ', error);
-    }
-}
-
-const getSavedIncludes = async () => {
-    try {
-        const response = await axios.get('../api/user/getIncludes');
-
-        if (response){
-            includes.value = response.data; 
-        }
-    } catch (error){
-        console.log("Could not retrieve saved includes list: ", error);
-    }
-}
-
-const getUserData = async () => {
-    try {
-        const response = await axios.get('../api/user/getUserData');
-
-        if (response){
-            console.log('USER DATA: ', response);
-        }
-    } catch (error){
-        console.log('Could not retrieve user data: ', error);
     }
 }
 // Change statuses of toggles
@@ -709,33 +787,33 @@ const changeToggleStatus = (toggleName) => {
 
 
 
-const register = async () => {
-  try {
-        const response = await fetch('../register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            },
-            body: JSON.stringify({
-                name: name.value,
-                email: email.value,
-                password: password.value,
-            }),
-        });
+// const register = async () => {
+//   try {
+//         const response = await fetch('../register', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+//             },
+//             body: JSON.stringify({
+//                 name: name.value,
+//                 email: email.value,
+//                 password: password.value,
+//             }),
+//         });
 
-        if (!response.ok) {
-            throw new Error('Registration failed');
-        } else {
-            console.log('Registered!')
-        }
+//         if (!response.ok) {
+//             throw new Error('Registration failed');
+//         } else {
+//             console.log('Registered!')
+//         }
 
-    // Redirect or handle success as needed
-    } catch (error) {
-        console.error('Registration error:', error);
-        // Handle error (e.g., show error message)
-    }
-};
+//     // Redirect or handle success as needed
+//     } catch (error) {
+//         console.error('Registration error:', error);
+//         // Handle error (e.g., show error message)
+//     }
+// };
 
 
 const enterAPIKey = async () => {

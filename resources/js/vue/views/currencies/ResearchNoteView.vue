@@ -77,15 +77,18 @@
     </Nav>
 
     <section class="main">
-        <Loading v-if="!researchNotes" :width="200" :height="200"/>
+        <div class="content-section">
+            <Loading v-if="!researchNotes" :width="200" :height="200"/>
 
-        <ResearchNotesCard
-            v-if="researchNotes"
-            :currency-icon="ResearchNote"
-            target-currency="Research Note"
-            :research-notes="researchNotes"
-            @new-url="getResearchNotes"
-        />
+            <ResearchNotesCard
+                v-if="researchNotes"
+                :currency-icon="ResearchNote"
+                target-currency="Research Note"
+                :research-notes="researchNotes"
+                @new-url="getResearchNotes"
+            />
+        </div>
+        
         <!-- <ResearchNotesTable/> -->
     </section>
 </template>

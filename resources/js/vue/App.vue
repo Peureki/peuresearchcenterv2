@@ -122,7 +122,7 @@ section{
 }
 section.main{
     position: relative;
-    padding-left: calc(var(--nav-width) + var(--nav-padding-left));
+    /* padding-left: calc(var(--nav-width) + var(--gap-general)); */
 }
 header {
     padding-left: calc(var(--nav-width) + var(--nav-padding-left));
@@ -140,7 +140,6 @@ nav h6{
 @media (max-width: 768px){
     section, section.main{
         padding-left: unset;
-        padding: var(--padding-mobile-general);
     }
     header{
         padding-left: unset;
@@ -164,7 +163,6 @@ a.page-link{
 .icon{
     width: 20px;
     height: 20px;
-    cursor: pointer;
     flex-shrink: 0;
     transition: var(--transition-all-03s-ease);
 }
@@ -667,6 +665,13 @@ span.label-and-subtitle{
     gap: var(--gap-content);
 }
 /* 
+    * For any content blocks under main sections
+    * Allows section.main to keep the borders full width
+*/
+.content-section{
+    padding-inline: var(--gap-general);
+}
+/* 
     =================================================
     * CHARTS AND GRAPHS
     =================================================
@@ -870,6 +875,7 @@ svg.import {
     display: flex;
     flex-direction: column;
     width: fit-content;
+    padding-left: var(--gap-general);
     gap: var(--gap-general);
 }
 .benchmark-card{
@@ -978,6 +984,7 @@ svg.arrow path{
 @media (max-width: 768px){
     .benchmark-grid{
         width: 100%;
+        padding: var(--gap-general);
     }
     .benchmark-details{
         flex-direction: unset;
@@ -1138,7 +1145,6 @@ svg.arrow path{
     overflow-x: auto;
 }
 
-
 /* 
     =================================================
     * DYNAMIC CLASSES
@@ -1150,6 +1156,9 @@ svg.arrow path{
 }
 .underline {
     text-decoration: underline;
+}
+.clickable {
+    cursor: pointer;
 }
 
 .strikethrough{
@@ -1331,6 +1340,7 @@ svg.arrow path{
     --padding-inline: clamp(0.2rem, 0.4vw, 1rem);
     --padding-mobile-general: 10px;
     --padding-general: clamp(0.6rem, 0.7vw, 1rem);
+    --padding-left-nav: calc(var(--nav-width) + var(--gap-general));
 
     --img-material-w: 20px;
     --img-header: clamp(1.5rem, 2vw, 3rem);

@@ -1,6 +1,6 @@
 <template>
     <section class="main">
-        <div class="two-col-section">
+        <div class="content-section">
             <Loading 
                 v-if="!bags"
                 :width="200" :height="200"
@@ -29,6 +29,7 @@
             /> -->
 
             <MobileCurrencyTable
+                v-if="bags"
                 :target-currency="targetCurrency"
                 :bags="bags"
                 :drop-rates="dropRates"

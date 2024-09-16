@@ -3,29 +3,31 @@
     <Header page-name="Homesteads"/>
 
     <section class="main">
-        <RefinementTable
-            target-refinement="Refined Homestead Wood"
-            target-id="103049"
-        />
+        <div class="content-section">
+            <RefinementTable
+                target-refinement="Refined Homestead Wood"
+                target-id="103049"
+            />
+        </div>
     </section>
 
     <section class="main">
-        <RefinementTable
-            target-refinement="Refined Homestead Metal"
-            target-id="102205"
-        />
+        <div class="content-section">
+            <RefinementTable
+                target-refinement="Refined Homestead Metal"
+                target-id="102205"
+            />
+        </div>
     </section>
 
     <section class="main">
-        <RefinementTable
-            target-refinement="Refined Homestead Fiber"
-            target-id="102306"
-        />
+        <div class="content-section">
+            <RefinementTable
+                target-refinement="Refined Homestead Fiber"
+                target-id="102306"
+            />
+        </div>
     </section>
-
-        
-    
-
 </template>
 
 <script setup>

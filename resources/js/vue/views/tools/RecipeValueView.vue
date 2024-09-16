@@ -2,217 +2,219 @@
     <Nav/>
     <Header page-name="Recipe Value"/>
     <section class="main">
-        <div class="search-container">
-            <!-- 
-                * RECIPE FORM
-                * 
-                * SEARCH BAR => SENDS REQUEST TO RECEIVE RECIPE INFO AND CALCULATIONS
-            -->
-            <form 
-                class="recipe-form"
-                @submit.prevent="handleRecipeRequest"
-            >
-                <!-- SEARCH BAR -->
-                <input 
-                    type="text" 
-                    placeholder="Item Name"
-                    v-model="searchQuery"
-                >
-                <Transition name="fade">
-                    <!-- LIST IF SEARCH BAR HAS CONTENT -->
-                    <ul class="search-query-container" v-if="searchQuery && searchQuery.length > 3">
-                        <button 
-                            v-for="recipe in searchResults"
-                            @click="searchQuery = recipe.name; idRequest = recipe.id"
-                        >
-                            <li>
-                                <img :src="recipe.icon" :alt="recipe.name" :title="recipe.name">
-                                <span class="flex-row-space-btw">
-                                    <p :style="{color: showRarityColor(recipe.rarity)}">{{ recipe.name }}</p> 
-                                </span>
-                            </li> 
-                        </button>
-                    </ul>
-                </Transition>
+        <div class="content-section">
+            <div class="search-container">
                 <!-- 
-                    * INPUT - QUANTITY
-                    * SUBMIT RECIPE
+                    * RECIPE FORM
+                    * 
+                    * SEARCH BAR => SENDS REQUEST TO RECEIVE RECIPE INFO AND CALCULATIONS
                 -->
-                <div class="flex-row-space-btw">
-                    <input
-                        type="number"
-                        min="1"
-                        v-model="quantityRequest"
-                    >
-                    <!-- <span class="input-radio">
-                        <input 
-                            type="radio" 
-                            id="own-ingredients" 
-                            value="true" 
-                            @change="updateRecipeToOwned()"
-                            v-model="ownIngredientsToggle"
-                        >
-                        <label for="own-ingredients">Own Ingredients</label>
-                    </span> -->
-                    <button class="submit" type="submit">Fetch Recipe</button>
-                    
-                </div>
-            </form>
-
-            <Loading 
-                v-if="loadingToggle"
-                :width="200" :height="200"    
-            />
-
-            <!-- 
-                *
-                * OUTPUT CONTAINER
-                *
-                * Display the TP prices, crafting costs, and profit in one section
-            -->
-            <div class="display-output-container" v-if="recipe">
-
-                <!-- TP BUY PRICE -->
-                <span class="output">
-                    <span class="flex-row-flex-start">
-                        <img :src="TradingPost" alt="Trading Post" title="Trading Post"> 
-                        <p>Trading Post (Buy Price): </p>
-                    </span>
-                    <span class="gold-label-container">
-                        <span 
-                            class="gold-label" 
-                            v-for="gold in formatValue(
-                                buyOrder == 'buy_price' ? recipe[0].buy_price : recipe[0].sell_price
-                            )"
-                        >
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                        </span>
-                    </span>
-                </span> 
-
-                <!-- TP SELL PRICE -->
-                <span class="output">
-                    <span class="flex-row-flex-start">
-                        <img :src="TradingPost" alt="Trading Post" title="Trading Post"> 
-                        <p>Trading Post (Sell Price): </p>
-                    </span>
-                    <span class="gold-label-container">
-                        <span 
-                            class="gold-label" 
-                            v-for="gold in formatValue(
-                                buyOrder == 'sell_price' ? recipe[0].buy_price : recipe[0].sell_price
-                            )"
-                        >
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                        </span>
-                    </span>
-                </span> 
-
-                <!-- CRAFTING COSTS -->
-                <span class="output">
-                    <span class="flex-row-flex-start">
-                        <img :src="Armor" alt="Crafting" title="Crafting"> 
-                        <p>Crafting Costs: </p>
-                    </span>
-                    <span class="gold-label-container">
-                        <span 
-                            class="gold-label" 
-                            v-for="gold in formatValue(
-                                recipe[0].preference ? recipe[0].craftingValue : recipe[0].buy_price
-                            )"
-                        >
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                        </span>
-                    </span>
-                </span>   
-                
-                <!-- PROFIT (BUY PRICE) -->
-                <span class="output">
-                    <span class="flex-row-flex-start">
-                        <svg 
-                            :style="{transform: `rotate(${profit(recipe[0], 'buy_price') < 0 ? 90 : -90}deg)`}"
-                            width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path 
-                                :fill="profit(recipe[0], 'buy_price') < 0 ? `var(--color-down)` : `var(--color-up)`"
-                                d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
-                            />
-                        </svg>
-                        <p>Profit (Buy Price): </p>
-                    </span>
-                    <span class="gold-label-container">
-                        <span 
-                            class="gold-label" 
-                            v-for="gold in formatValue(
-                                profit(recipe[0], 'buy_price')
-                            )"
-                        >
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                        </span>
-                    </span>
-                </span>  
-
-                <!-- PROFIT (SELL PRICE) -->
-                <span class="output">
-                    <span class="flex-row-flex-start">
-                        <svg 
-                            :style="{transform: `rotate(${profit(recipe[0], 'sell_price') < 0 ? 90 : -90}deg)`}"
-                            width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path 
-                                :fill="profit(recipe[0], 'sell_price') < 0 ? `var(--color-down)` : `var(--color-up)`"
-                                d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
-                            />
-                        </svg>
-                        <p>Profit (Sell Price): </p>
-                    </span>
-                    <span class="gold-label-container">
-                        <span 
-                            class="gold-label" 
-                            v-for="gold in formatValue(
-                                profit(recipe[0], 'sell_price')
-                            )"
-                        >
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                        </span>
-                    </span>
-                </span> 
-
-                <!-- CURRENCY (if applicable) -->
-                <span 
-                    class="output"
-                    v-if="currency != 0"
+                <form 
+                    class="recipe-form"
+                    @submit.prevent="handleRecipeRequest"
                 >
-                    <span class="flex-row-flex-start">
-                        <img :src="currencyIcon" :alt="currencyName" :title="currencyName">
-                        <p>Currency Value: </p>
-                    </span>
-                    <span class="gold-label-container">
-                        <span 
-                            class="gold-label" 
-                            v-for="gold in formatValue(
-                                buyOrder == 'buy_price' ? profit(recipe[0], 'buy_price') / currency : profit(recipe[0], 'sell_price') / currency
-                            )"
+                    <!-- SEARCH BAR -->
+                    <input 
+                        type="text" 
+                        placeholder="Item Name"
+                        v-model="searchQuery"
+                    >
+                    <Transition name="fade">
+                        <!-- LIST IF SEARCH BAR HAS CONTENT -->
+                        <ul class="search-query-container" v-if="searchQuery && searchQuery.length > 3">
+                            <button 
+                                v-for="recipe in searchResults"
+                                @click="searchQuery = recipe.name; idRequest = recipe.id"
+                            >
+                                <li>
+                                    <img :src="recipe.icon" :alt="recipe.name" :title="recipe.name">
+                                    <span class="flex-row-space-btw">
+                                        <p :style="{color: showRarityColor(recipe.rarity)}">{{ recipe.name }}</p> 
+                                    </span>
+                                </li> 
+                            </button>
+                        </ul>
+                    </Transition>
+                    <!-- 
+                        * INPUT - QUANTITY
+                        * SUBMIT RECIPE
+                    -->
+                    <div class="flex-row-space-btw">
+                        <input
+                            type="number"
+                            min="1"
+                            v-model="quantityRequest"
                         >
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                        <!-- <span class="input-radio">
+                            <input 
+                                type="radio" 
+                                id="own-ingredients" 
+                                value="true" 
+                                @change="updateRecipeToOwned()"
+                                v-model="ownIngredientsToggle"
+                            >
+                            <label for="own-ingredients">Own Ingredients</label>
+                        </span> -->
+                        <button class="submit" type="submit">Fetch Recipe</button>
+                        
+                    </div>
+                </form>
+
+                <Loading 
+                    v-if="loadingToggle"
+                    :width="200" :height="200"    
+                />
+
+                <!-- 
+                    *
+                    * OUTPUT CONTAINER
+                    *
+                    * Display the TP prices, crafting costs, and profit in one section
+                -->
+                <div class="display-output-container" v-if="recipe">
+
+                    <!-- TP BUY PRICE -->
+                    <span class="output">
+                        <span class="flex-row-flex-start">
+                            <img :src="TradingPost" alt="Trading Post" title="Trading Post"> 
+                            <p>Trading Post (Buy Price): </p>
                         </span>
-                    </span>
-                </span> 
+                        <span class="gold-label-container">
+                            <span 
+                                class="gold-label" 
+                                v-for="gold in formatValue(
+                                    buyOrder == 'buy_price' ? recipe[0].buy_price : recipe[0].sell_price
+                                )"
+                            >
+                                {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                            </span>
+                        </span>
+                    </span> 
+
+                    <!-- TP SELL PRICE -->
+                    <span class="output">
+                        <span class="flex-row-flex-start">
+                            <img :src="TradingPost" alt="Trading Post" title="Trading Post"> 
+                            <p>Trading Post (Sell Price): </p>
+                        </span>
+                        <span class="gold-label-container">
+                            <span 
+                                class="gold-label" 
+                                v-for="gold in formatValue(
+                                    buyOrder == 'sell_price' ? recipe[0].buy_price : recipe[0].sell_price
+                                )"
+                            >
+                                {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                            </span>
+                        </span>
+                    </span> 
+
+                    <!-- CRAFTING COSTS -->
+                    <span class="output">
+                        <span class="flex-row-flex-start">
+                            <img :src="Armor" alt="Crafting" title="Crafting"> 
+                            <p>Crafting Costs: </p>
+                        </span>
+                        <span class="gold-label-container">
+                            <span 
+                                class="gold-label" 
+                                v-for="gold in formatValue(
+                                    recipe[0].preference ? recipe[0].craftingValue : recipe[0].buy_price
+                                )"
+                            >
+                                {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                            </span>
+                        </span>
+                    </span>   
+                    
+                    <!-- PROFIT (BUY PRICE) -->
+                    <span class="output">
+                        <span class="flex-row-flex-start">
+                            <svg 
+                                :style="{transform: `rotate(${profit(recipe[0], 'buy_price') < 0 ? 90 : -90}deg)`}"
+                                width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path 
+                                    :fill="profit(recipe[0], 'buy_price') < 0 ? `var(--color-down)` : `var(--color-up)`"
+                                    d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
+                                />
+                            </svg>
+                            <p>Profit (Buy Price): </p>
+                        </span>
+                        <span class="gold-label-container">
+                            <span 
+                                class="gold-label" 
+                                v-for="gold in formatValue(
+                                    profit(recipe[0], 'buy_price')
+                                )"
+                            >
+                                {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                            </span>
+                        </span>
+                    </span>  
+
+                    <!-- PROFIT (SELL PRICE) -->
+                    <span class="output">
+                        <span class="flex-row-flex-start">
+                            <svg 
+                                :style="{transform: `rotate(${profit(recipe[0], 'sell_price') < 0 ? 90 : -90}deg)`}"
+                                width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path 
+                                    :fill="profit(recipe[0], 'sell_price') < 0 ? `var(--color-down)` : `var(--color-up)`"
+                                    d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
+                                />
+                            </svg>
+                            <p>Profit (Sell Price): </p>
+                        </span>
+                        <span class="gold-label-container">
+                            <span 
+                                class="gold-label" 
+                                v-for="gold in formatValue(
+                                    profit(recipe[0], 'sell_price')
+                                )"
+                            >
+                                {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                            </span>
+                        </span>
+                    </span> 
+
+                    <!-- CURRENCY (if applicable) -->
+                    <span 
+                        class="output"
+                        v-if="currency != 0"
+                    >
+                        <span class="flex-row-flex-start">
+                            <img :src="currencyIcon" :alt="currencyName" :title="currencyName">
+                            <p>Currency Value: </p>
+                        </span>
+                        <span class="gold-label-container">
+                            <span 
+                                class="gold-label" 
+                                v-for="gold in formatValue(
+                                    buyOrder == 'buy_price' ? profit(recipe[0], 'buy_price') / currency : profit(recipe[0], 'sell_price') / currency
+                                )"
+                            >
+                                {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                            </span>
+                        </span>
+                    </span> 
+                </div>
             </div>
-        </div>
-        <!-- 
-            * 
-            * RECIPE TREE
-            *
-            * Semeantics here because the <RecipeTree/> uses recursion 
-        -->
-        <Transition name="fade">
-            <RecipeTree 
-                v-if="recipe"
-                :recipe="recipe"  
-                @update-recipe="updateRecipeTree"
-            />
-        </Transition>
+            <!-- 
+                * 
+                * RECIPE TREE
+                *
+                * Semeantics here because the <RecipeTree/> uses recursion 
+            -->
+            <Transition name="fade">
+                <RecipeTree 
+                    v-if="recipe"
+                    :recipe="recipe"  
+                    @update-recipe="updateRecipeTree"
+                />
+            </Transition>
+        </div> <!-- End of content section -->
     </section>
 </template>
 

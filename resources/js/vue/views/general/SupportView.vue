@@ -3,90 +3,93 @@
     <Header page-name="Support"/>
 
     <section class="main">
-        <div class="two-col">
-            <div class="description-container">
-                <div class="img-and-label">
-                    <img class="choya-icon" :src="HappyChoya">
-                    <h3>THANK YOU FOR USING THIS WEBSITE!</h3>
+        <div class="content-section">
+            <div class="two-col">
+                <div class="description-container">
+                    <div class="img-and-label">
+                        <img class="choya-icon" :src="HappyChoya">
+                        <h3>THANK YOU FOR USING THIS WEBSITE!</h3>
+                    </div>
+
+                    <div class="comment">
+                        <p>Thank you using this website, donating, helping with research, joining my trains, and even engaging on Discord! I hope you find it useful and it helps your quality of life while playing Guild Wars 2. It has been a joy making this and the previous version of the website. I love this game and I hope the best for it.</p>
+
+                        <p>Below are extra ways to support me! This includes helping maintain server costs and my time for producing this website/new content.</p>
+
+                        <p class="small-subtitle">Note: Use the same email if you signed up on this website and if you're donating on Patreon. If you are donating via Venmo, please comment your email. This is so I can label your account as "Donator" and you'll get extra benefits on here!</p>
+                    </div>
                 </div>
+                
 
-                <div class="comment">
-                    <p>Thank you using this website, donating, helping with research, joining my trains, and even engaging on Discord! I hope you find it useful and it helps your quality of life while playing Guild Wars 2. It has been a joy making this and the previous version of the website. I love this game and I hope the best for it.</p>
-
-                    <p>Below are extra ways to support me! This includes helping maintain server costs and my time for producing this website/new content.</p>
-
-                    <p class="small-subtitle">Note: Use the same email if you signed up on this website and if you're donating on Patreon. If you are donating via Venmo, please comment your email. This is so I can label your account as "Donator" and you'll get extra benefits on here!</p>
+                <div class="support-card-container">
+                    <div class="general-card"> 
+                        <h3>Benefits</h3>
+                        <p>Any donations are greatly appreciated!</p>
+                        <ul class="benefits">
+                            <li><img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya"> Unique title on Discord (ie "Research Choya")</li>
+                            <li><img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya"> Unique color on Discord</li>
+                            <li><img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya"> Auto-entry to website lottery (coming soon)</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             
 
             <div class="support-card-container">
-                <div class="general-card"> 
-                    <h3>Benefits</h3>
-                    <p>Any donations are greatly appreciated!</p>
-                    <ul class="benefits">
-                        <li><img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya"> Unique title on Discord (ie "Research Choya")</li>
-                        <li><img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya"> Unique color on Discord</li>
-                        <li><img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya"> Auto-entry to website lottery (coming soon)</li>
-                    </ul>
+                
+
+            <div class="support-card" @click="openLink('https://www.patreon.com/peureki')"> 
+                    <h3>Patreon</h3>
+                    <p class="small-subtitle">Monthly subcriptions starting at $1</p>
+                    <div class="support-img-and-svg">
+                        <img class="support-icon" :src="ResearchChoya" alt="Research Choya" title="Research Choya">
+                        <svg class="icon inactive-arrow" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
+                        </svg>
+                    </div>
                 </div>
-            </div>
-        </div>
-        
 
-        <div class="support-card-container">
-            
-
-           <div class="support-card" @click="openLink('https://www.patreon.com/peureki')"> 
-                <h3>Patreon</h3>
-                <p class="small-subtitle">Monthly subcriptions starting at $1</p>
-                <div class="support-img-and-svg">
-                    <img class="support-icon" :src="ResearchChoya" alt="Research Choya" title="Research Choya">
-                    <svg class="icon inactive-arrow" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
-                    </svg>
+                <div class="support-card" @click="openLink('https://buy.stripe.com/cN2aGi7B31gY86c4gq')">
+                    <h3>Stripe</h3>
+                    <p class="small-subtitle">Custom donation</p>
+                    <div class="support-img-and-svg">
+                        <img class="support-icon" :src="GolemChoya" alt="Golem Choya" title="Golem Choya">
+                        <svg class="icon inactive-arrow" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
+                        </svg>
+                    </div>
                 </div>
-            </div>
 
-            <div class="support-card" @click="openLink('https://buy.stripe.com/cN2aGi7B31gY86c4gq')">
-                <h3>Stripe</h3>
-                <p class="small-subtitle">Custom donation</p>
-                <div class="support-img-and-svg">
-                    <img class="support-icon" :src="GolemChoya" alt="Golem Choya" title="Golem Choya">
-                    <svg class="icon inactive-arrow" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
-                    </svg>
+                <div class="support-card" @click="openLink('https://account.venmo.com/')">
+                    <h3>Venmo</h3>
+                    <p class="small-subtitle">Custom donation, @peureki</p>
+                    <div class="support-img-and-svg">
+                        <img class="support-icon" :src="BalthazarChoya" alt="Balthazar Choya" title="Balthazar Choya">
+
+                        <svg class="icon inactive-arrow" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
+                        </svg>
+                    </div> 
                 </div>
-            </div>
-
-            <div class="support-card" @click="openLink('https://account.venmo.com/')">
-                <h3>Venmo</h3>
-                <p class="small-subtitle">Custom donation, @peureki</p>
-                <div class="support-img-and-svg">
-                    <img class="support-icon" :src="BalthazarChoya" alt="Balthazar Choya" title="Balthazar Choya">
-
-                    <svg class="icon inactive-arrow" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
-                    </svg>
-                </div> 
             </div>
         </div>
     </section>
 
     <section class="main">
-        <h3>Credits</h3>
-        <div class=supporter-list-container>
-            <div class="supporter-list">
-                <h4 class="underline">Donators</h4>
-                <p class="supporter" v-for="donator in sortedDonators">{{ donator }}</p>
-            </div>
+        <div class="content-section">
+            <h3>Credits</h3>
+            <div class=supporter-list-container>
+                <div class="supporter-list">
+                    <h4 class="underline">Donators</h4>
+                    <p class="supporter" v-for="donator in sortedDonators">{{ donator }}</p>
+                </div>
 
-            <div class="supporter-list">
-                <h4 class="underline">Researchers</h4>
-                <p class="supporter" v-for="researcher in sortedResearchers">{{ researcher }}</p>
+                <div class="supporter-list">
+                    <h4 class="underline">Researchers</h4>
+                    <p class="supporter" v-for="researcher in sortedResearchers">{{ researcher }}</p>
+                </div>
             </div>
-        </div>
-        
+        </div>    
     </section>
 
 </template>
@@ -180,11 +183,12 @@ const sortedResearchers = computed(() => {
 </script>
 
 <style scoped>
-.main{
+.content-section{
     display: flex;
     flex-direction: column;
     gap: var(--gap-content);
 }
+
 .two-col{
     display: flex;
     gap: var(--gap-content);

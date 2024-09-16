@@ -28,10 +28,10 @@ class LoginController extends Controller
             return response()->json(Auth::user(), 200);
         }
 
- 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+        return response()->json(['error' => 'The provided credentials do not match our records'], 401);
+        // return back()->withErrors([
+        //     'email' => 'The provided credentials do not match our records.',
+        // ])->onlyInput('email');
     }
 
     public function logout(Request $request){
