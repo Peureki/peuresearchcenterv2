@@ -333,8 +333,7 @@ table td img{
     display: flex;
     align-items: center;
     position: relative;
-    height: 15px;
-    padding: var(--padding-checkboxes);
+    height: 20px;
 }
 .checkbox input[type="checkbox"]{
     width: 20px;

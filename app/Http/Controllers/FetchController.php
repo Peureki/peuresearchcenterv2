@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\FetchBenchmarks;
+use App\Jobs\Fetches\FetchBenchmarks;
 use App\Jobs\Fetches\FetchGeneral;
 use App\Jobs\Fetches\FetchItems;
 use App\Jobs\Fetches\FetchPrices;
