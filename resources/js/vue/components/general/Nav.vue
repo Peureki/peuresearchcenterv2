@@ -653,6 +653,10 @@ const handleAuthErrors = (error) => {
             authErrorMessage.value = 'Request timeout'
         break;
 
+        case 419:
+            authErrorMessage.value = 'Session expired'
+        break;
+
         case 422:
             authErrorMessage.value = "Missing fields"
         break;
