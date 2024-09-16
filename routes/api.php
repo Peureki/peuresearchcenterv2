@@ -50,7 +50,7 @@ Route::post('/user/saveFilterResearchNotes', [UserController::class, 'saveFilter
 Route::get('/fetch-general', [FetchController::class, 'fetchGeneral']);
 
 // *
-// * BENCHMARKS
+// * FETCHING BENCHMARKS
 // *
 Route::get('/fetch-benchmarks', [FetchController::class, 'fetchBenchmarks']);
 

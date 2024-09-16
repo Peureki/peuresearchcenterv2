@@ -3,6 +3,7 @@
     <Header page-name="Map Benchmarks"/>
 
     <section class="main">
+        <Loading v-if="!benchmarkToggle" :width="200" :height="200"/>
         <Benchmark
             v-if="benchmarkToggle"
             :benchmarks="mapBenchmarks"
@@ -19,6 +20,7 @@ import { getAuthUser } from '@/js/vue/composables/Authentication';
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import Benchmark from '@/js/vue/components/general/Benchmark.vue'
+import Loading from '@/js/vue/components/general/Loading.vue'
 
 
 const mapBenchmarks = ref([]),

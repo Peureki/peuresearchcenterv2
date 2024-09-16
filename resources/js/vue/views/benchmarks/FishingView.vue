@@ -3,6 +3,7 @@
     <Header page-name="Fishing Benchmarks"/>
 
     <section class="main">
+        <Loading v-if="!fishingHoleToggle" :width="200" :height="200" />
         <FishBenchmark
             v-if="fishingHoleToggle"
             :fishing-holes="fishingHoles"
@@ -20,7 +21,7 @@ import { getAuthUser } from '@/js/vue/composables/Authentication'
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import FishBenchmark from '@/js/vue/components/general/FishBenchmark.vue'
-
+import Loading from '@/js/vue/components/general/Loading.vue'
 
 const fishingHoles = ref([]),
     dropRates = ref([]),

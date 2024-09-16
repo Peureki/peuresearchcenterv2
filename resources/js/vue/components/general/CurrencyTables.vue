@@ -1,54 +1,39 @@
 <template>
-    <section class="main">
-        <div class="content-section">
-            <Loading 
-                v-if="!bags"
-                :width="200" :height="200"
-            />
+    <!-- 
+        *
+        * DESKTOP VIEW
+        *
+    -->
+    <!-- <CurrencyMainTable
+        v-if="bags && bags != null && !isMobile"
+        :target-currency="targetCurrency"
+        :bags="bags"
+        :currency-icon="currencyIcon"
+        @details-toggle="detailsToggle = true"
+        @get-details="getBagDetails"
+    /> -->
 
-            <!-- 
-                *
-                * DESKTOP VIEW
-                *
-            -->
-            <!-- <CurrencyMainTable
-                v-if="bags && bags != null && !isMobile"
-                :target-currency="targetCurrency"
-                :bags="bags"
-                :currency-icon="currencyIcon"
-                @details-toggle="detailsToggle = true"
-                @get-details="getBagDetails"
-            /> -->
+    <!-- <CurrenencyDetailsTable
+        v-if="detailsToggle"
+        :table-toggle="detailsToggle"
+        :bag="bagDetails"
+        :bags="bags[bagIndex]"
+        :currency-icon="currencyIcon"
+    /> -->
 
-            <!-- <CurrenencyDetailsTable
-                v-if="detailsToggle"
-                :table-toggle="detailsToggle"
-                :bag="bagDetails"
-                :bags="bags[bagIndex]"
-                :currency-icon="currencyIcon"
-            /> -->
-
-            <MobileCurrencyTable
-                v-if="bags"
-                :target-currency="targetCurrency"
-                :bags="bags"
-                :drop-rates="dropRates"
-                :currency-icon="currencyIcon"
-            />
-
-        </div>
-        
-    </section>
+    <MobileCurrencyTable
+        v-if="bags"
+        :target-currency="targetCurrency"
+        :bags="bags"
+        :drop-rates="dropRates"
+        :currency-icon="currencyIcon"
+    />
 
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
-import Header from '@/js/vue/components/general/Header.vue'
-import Loading from '@/js/vue/components/general/Loading.vue'
-import CurrencyMainTable from '@/js/vue/components/tables/CurrencyMainTable.vue'
-import CurrenencyDetailsTable from '@/js/vue/components/tables/CurrencyDetailsTable.vue'
 import MobileCurrencyTable from '@/js/vue/components/tables/MobileCurrencyTable.vue'
 
 import { isMobile } from '@/js/vue/composables/Global'

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\FetchBenchmarks;
 use App\Jobs\Fetches\FetchGeneral;
 use App\Jobs\Fetches\FetchItems;
 use App\Jobs\Fetches\FetchPrices;
@@ -85,6 +86,13 @@ class FetchController extends Controller
     public function fetchGeneral(){
         dispatch(new FetchGeneral());
         return response()->json(['messasge' => 'Fetching general small stuff job has been queued']);
+    }
+    // *
+    // * FETCH ALL BENCHMARKS
+    // * Maps, Fishing, etc
+    public function fetchBenchmarks(){
+        dispatch(new FetchBenchmarks());
+        return response()->json(['messasge' => 'Fetching benchmark job has been queued']);
     }
 
     public function fetchDerp(){
@@ -450,111 +458,7 @@ class FetchController extends Controller
     }
 
 
-    public function fetchMapBenchmarks(){
-        $api = Http::get('https://script.google.com/macros/s/AKfycbyzWrCVxCsN_eCAaOrLG-dae6H5IjZJsyFpvrCr-cJK66R05Cyc0cOsbkKlpGPcX6A/exec'); 
-        $spreadsheet = $api->json(); 
-
-        foreach ($spreadsheet['benchmarks'] as $index => $benchmark){
-            $latestRun = Carbon::parse($benchmark['latestRun'])->format('Y-m-d H:i:s');
-
-            MapBenchmark::updateOrCreate(
-                [
-                    'id' => $index + 1
-                ],
-                [
-                    'name' => $benchmark['name'],
-                    'type' => $benchmark['type'],
-                    'sample_size' => $benchmark['sampleSize'],
-                    'latest_run' => $latestRun,
-                    'time' => $benchmark['time'],
-                ]
-            );
-
-            $ids = explode(",", $benchmark['itemID']); 
-            $dropRates = explode(",", $benchmark['itemDropRate']); 
-
-            //dd($ids);
-
-            foreach ($ids as $key => $id){
-                if (empty($id)){
-                    continue; 
-                }
-                if ($id === 'Exotic'){
-                    continue; 
-                    // MapBenchmarkDropRate::updateOrCreate(
-                    //     [
-                    //         'map_benchmark_id' => $index + 1, 
-                    //     ],
-                    //     [
-                    //         'exotic' => true,
-                    //         'drop_rate' => $dropRates[$key],
-                    //     ]
-                    // );
-                } else {
-                    $copperFed = null;
-                    $runecrafters = null;
-                    $silverFed = null;
-                    $mixed = null;
-                    $bag = null;
-                    $fish = null; 
-
-                    if (CopperFedSalvageable::find($id)){
-                        $copperFed = $id; 
-                    }
-                    if (RunecraftersSalvageable::find($id)){
-                        $runecrafters = $id;
-                    }
-                    if (SilverFedSalvageable::find($id)){
-                        $silverFed = $id;
-                    }
-                    if (MixedSalvageable::find($id)){
-                        $mixed = $id;
-                    }
-                    if (Bag::find($id)){
-                        $bag = $id;
-                    }
-                    if (Fish::find($id)){
-                        $fish = $id; 
-                    }
-
-                    MapBenchmarkDropRate::updateOrCreate(
-                        [
-                            'map_benchmark_id' => $index + 1,    
-                            'item_id' => $id,
-                            'copper_fed_salvageable_id' => $copperFed,
-                            'runecrafters_salvageable_id' => $runecrafters,
-                            'silver_fed_salvageable_id' => $silverFed,
-                            'mixed_salvageable_id' => $mixed,
-                            'bag_id' => $bag,
-                            'fish_id' => $fish,
-                        ],
-                        [
-                            'drop_rate' => $dropRates[$key],
-                            'exotic' => null,
-                        ]
-                    );
-                }
-                // CURRENCIES
-                if (!empty($benchmark['currencyID'])){
-                    $currencies = explode(",", $benchmark['currencyID']);
-                    $currenciesDrs = explode(",", $benchmark['currencyDropRate']); 
     
-                    foreach ($currencies as $key => $currency){
-                        MapBenchmarkDropRate::updateOrCreate(
-                            [
-                                'map_benchmark_id' => $index + 1,
-                                'currency_id' => $currency,
-                            ],
-                            [
-                                'drop_rate' => $currenciesDrs[$key],
-                            ]
-                        );
-                    }
-                }
-                
-            }
-        }
-    }
 
     public function fetchFishes(){
         $api = Http::get('https://script.google.com/macros/s/AKfycbyusqQd274FeAyE_8vP7fRgO0Nu9rTy8Bb1O8-uQdvp-qBQ3TLpjQJr58djFcm9louiTw/exec?endpoint=fishes');

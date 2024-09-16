@@ -2,19 +2,27 @@
     <Nav/>
     <Header :page-name="pageName"/>
 
-    <CurrencyTables
-        v-if="bags"
-        :page-name="pageName"
-        :bags="bags"
-        :drop-rates="dropRates"
-        :currency-icon="currencyIcon"
-    />
+    <section class="main">
+        <div class="content-section">
+            <Loading v-if="!bags" :width="200" :height="200" />
+
+            <CurrencyTables
+                v-if="bags"
+                :page-name="pageName"
+                :bags="bags"
+                :drop-rates="dropRates"
+                :currency-icon="currencyIcon"
+            />
+        </div>
+    </section>
+    
 </template>
 
 <script setup>
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import CurrencyTables from '@/js/vue/components/general/CurrencyTables.vue'
+import Loading from '@/js/vue/components/general/Loading.vue'
 
 import { ref, onMounted, watch, computed } from 'vue';
 import { encodeArray } from '@/js/vue/composables/BasicFunctions'
