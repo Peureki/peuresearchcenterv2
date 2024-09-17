@@ -868,9 +868,9 @@ const benchmarksToggle = ref(true),
     timersToggle = ref(true),
     generalToggle = ref(true);
 
-const settingsToggle = ref(JSON.parse(localStorage.settings)),
-    filtersToggle = ref(JSON.parse(localStorage.filters)),
-    bookmarksToggle = ref(JSON.parse(localStorage.bookmarks)),
+const settingsToggle = ref(false),
+    filtersToggle = ref(false),
+    bookmarksToggle = ref(false),
     loginToggle = ref(false),
     apiKeyToggle = ref(false);
 
