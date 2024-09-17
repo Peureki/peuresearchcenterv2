@@ -118,7 +118,7 @@ article {
 
 section{
     padding-left: calc(var(--nav-width));
-    padding-block: var(--padding-section);
+    padding-bottom: var(--padding-section);
 }
 section.main{
     position: relative;
@@ -670,6 +670,9 @@ span.label-and-subtitle{
 .content-section{
     padding-inline: var(--gap-general);
 }
+.popup-message{
+    padding-block: var(--gap-general);
+}
 /* 
     =================================================
     * CHARTS AND GRAPHS
@@ -1141,9 +1144,13 @@ svg.arrow path{
     =================================================
 */
 .overflow-x{
-    overflow-x: auto;
+    overflow-x: unset;
 }
-
+@media (max-width: 768px){
+    .overflow-x{
+        overflow-x: auto;
+    }
+}
 /* 
     =================================================
     * DYNAMIC CLASSES
@@ -1302,6 +1309,7 @@ svg.arrow path{
     --border-tooltip: 2px solid #3D3F42;
     --border-positive: 2px solid #5ED625;
     --border-negative: 2px solid #EC004D;
+    --border-left-hover: 2px solid var(--color-text);
     
     --border-radius-card: 5px;
     

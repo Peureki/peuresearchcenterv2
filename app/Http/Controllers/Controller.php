@@ -491,13 +491,26 @@ class Controller extends BaseController
 
         // Writs of [EOD City]
         $this->writs = [
-            'id' => [
-                97233, // Imperial Favor
+            'id' => array_merge(
+                $this->dailyExchanges['id'], [
+                97233, // Imperial Favors
                 101727, // Astral Fluc Mass
-            ],
-            'conversionRate' => [1, 2],
-            'fee' => [0, 0],
-            'outputQty' => [5, 1],
+            ]),
+            'conversionRate' => array_merge(
+                $this->dailyExchanges['conversionRate'], [
+                1, 
+                2
+            ]),
+            'fee' => array_merge(
+                $this->dailyExchanges['fee'],[
+                0, 
+                0
+            ]),
+            'outputQty' => array_merge(
+                $this->dailyExchanges['outputQty'], [
+                5, 
+                1
+            ]),
         ];
 
         /*

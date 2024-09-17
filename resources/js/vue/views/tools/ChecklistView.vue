@@ -2,9 +2,8 @@
     <Nav/>
     <Header page-name="Checklist"/>
 
-    <section class="main">
+    <section class="main" v-if="!user">
         <Disclaimer
-            v-if="!user"
             message="You must be registered and logged on to save a list"
         />
     </section>
@@ -63,7 +62,7 @@
 
                 <div class="import-and-save">
                     <svg 
-                        @click="getSavedList()"
+                        @click="getSavedList(); showDBMessage('import');"
                         class="import"
                         width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg"
                     >
@@ -72,7 +71,7 @@
                     </svg>
 
                     <svg 
-                        @click="saveList(checklist)"
+                        @click="saveList(checklist); showDBMessage('save');"
                         class="save" 
                         width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"
                     >
@@ -80,11 +79,14 @@
                         <title>Save Checklist</title>
                     </svg>
                 </div>
-
-                
-
-                
             </div>
+
+            <Transition name="fade">
+                <p v-if="dbToggle" class="popup-message">{{ dbMessage }}</p>
+            </Transition>
+            
+            <!-- <button @click="getChecklist">Get checklist</button> -->
+             
         </div> <!-- End of content section -->
     </section>
 
@@ -110,6 +112,7 @@
     <section class="main">
         <div class="overflow-x">
             <div class="content-section">
+                <Loading v-if="!checklist" :width="200" :height="200"/>
                 <List
                     v-if="checklist"
                     v-for="(entry, index) in checklist"
@@ -133,22 +136,51 @@ import { getAuthUser } from '@/js/vue/composables/Authentication';
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import Disclaimer from '@/js/vue/components/general/Disclaimer.vue'
+import Loading from '@/js/vue/components/general/Loading.vue'
 
 import SearchRecipe from '@/js/vue/components/general/SearchRecipe.vue';
 import SearchItem from '@/js/vue/components/general/SearchItem.vue';
 import AddCustomEntry from '@/js/vue/components/general/AddCustomEntry.vue'
 import List from '@/js/vue/components/general/List.vue';
-import TwoColSection from '@/js/vue/components/general/TwoColSection.vue'
 
 const requestedItem = ref(null),
     requestedQuantity = ref(null),
     entryInput = ref(null),
     entryNumber = ref(1),
-    checklist = ref([]);
+    checklist = ref(null);
 
 const searchItemToggle = ref(false),
     searchRecipeToggle = ref(false),
     customEntryToggle = ref(false);
+
+// Message to show when user interacts with import, saving from, to db
+const dbToggle = ref(false),
+    dbMessage = ref(null);
+
+// Show message that the user has either imported or saved their checklist after clicking those respective buttons
+const showDBMessage = (action) => {
+    switch (action){
+        case 'import':
+            dbMessage.value = 'Imported checklist from your last save'
+        break;
+
+        case 'save':
+            dbMessage.value = 'Saved checklist!'
+        break;
+    }
+
+    dbToggle.value = true; 
+
+    setTimeout(() => {
+        dbToggle.value = false;
+    }, 3000);
+}
+
+const getChecklist = () => {
+    navigator.clipboard.writeText(JSON.stringify(checklist.value));
+    console.log(checklist.value);
+}
+
 
 const handleRecipeRequest = async (searchResults, quantity) => {
     requestedItem.value = searchResults; 

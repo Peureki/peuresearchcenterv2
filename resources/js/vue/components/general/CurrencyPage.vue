@@ -49,6 +49,7 @@ const url = computed(() => {
 onMounted( async () => {
     // Check if user is being auth
     await getAuthUser();
+    console.log('url: ', url.value);
 
     // IF NO USER
     if (!user.value){

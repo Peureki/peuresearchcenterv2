@@ -26,10 +26,11 @@ import Nav from '@/js/vue/components/general/Nav.vue';
 import Header from '@/js/vue/components/general/Header.vue'
 import GeneralTable from '@/js/vue/components/general/GeneralTable.vue';
 import SalvageableTables from '@/js/vue/components/tables/SalvageableTables.vue'
+import { user, tax, sellOrder, buyOrder } from '@/js/vue/composables/Global'
 
-const salvageableURL = `../api/tools/salvageables/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
+const salvageableURL = `../api/tools/salvageables/${sellOrder.value}/${tax.value}`;
 
-const mixedSalvageableURL = `../api/tools/mixed-salvageables/${localStorage.sellOrderSetting}/${localStorage.taxSetting}`;
+const mixedSalvageableURL = `../api/tools/mixed-salvageables/${sellOrder.value}/${tax.value}`;
 
 const salvageables = ref(null),
     mixedSalvageables = ref(null),

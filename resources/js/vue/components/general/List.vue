@@ -259,24 +259,39 @@ const emit = defineEmits(['popEntry', 'addCustomIngredient']);
 const ingredientsToggle = ref(props.recursionLevel == 0 ? false : true);
 
 const handleRecipeSearch = async (item, searchQuery, quantity) => {
-    if (!item.ingredients){
-        item.ingredients = [];
-    }
-
     const response = await fetch(`../api/recipes/${searchQuery.id}/${quantity}`);
     const responseData = await response.json();
 
-    item.ingredients.push(responseData[0]);
-    expandSubIngredients(item);
+    if (!item.ingredients){
+        item.ingredients = [];
+        expandSubIngredients(item);
+    }
+    else if (!item.ingredients[0].expand){
+        expandSubIngredients(item);
+    }
+    
+    responseData.forEach(ingredient => {
+        ingredient.expand = true; 
+        item.ingredients.push(ingredient);
+    })
 }
 
 const handleIngredientSearch = (item, searchQuery) => {
     if (!item.ingredients){
         item.ingredients = [];
+        expandSubIngredients(item);
     }
-    item.ingredients.push(searchQuery);
+    else if (!item.ingredients[0].expand){
+        expandSubIngredients(item);
+    }
+    item.ingredients.push({
+        count: searchQuery.count,
+        name: searchQuery.name,
+        icon: searchQuery.icon,
+        expand: true,
+    });
 
-    expandSubIngredients(item);
+    //expandSubIngredients(item);
 }
 
 const addCustomEntry = (item, count, entry) => {
@@ -383,17 +398,20 @@ const checkFade = (checkStatus) => {
     padding: 0px 5px 0px 30px;
     border-left: var(--border-general);
 }
+.item-container:hover{
+    border-left: var(--border-left-hover);
+}
 .primary-item{
     display: flex;
     align-items: center;
     gap: var(--gap-general);
-    padding-bottom: var(--gap-general);
+    padding-block: var(--gap-general);
 }
 .item{
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 5px;
+    padding-block: var(--gap-general);
 }
 .primary-item img,
 .item img{

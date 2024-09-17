@@ -342,6 +342,24 @@
                                     :icon="WritOfDragonsEnd"
                                     label="WritOfDragonsEnd"
                                 />  
+
+                                <IncludesCheckbox
+                                    name="Writ Of Echovald Wilds"
+                                    :icon="WritOfEchovaldWilds"
+                                    label="WritOfEchovaldWilds"
+                                />  
+
+                                <IncludesCheckbox
+                                    name="Writ Of New Kaineng City"
+                                    :icon="WritOfNewKainengCity"
+                                    label="WritOfNewKainengCity"
+                                />  
+
+                                <IncludesCheckbox
+                                    name="Writ Of Seitung Province"
+                                    :icon="WritOfSeitungProvince"
+                                    label="WritOfSeitungProvince"
+                                />  
                             </div>
 
                             <div class="button-container">

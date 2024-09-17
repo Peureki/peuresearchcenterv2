@@ -65,7 +65,7 @@ Route::get('/fetch-recipe-values', [FetchController::class, 'fetchRecipeValues']
 Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
 Route::get('/fetch-choice-chests', [FetchController::class, 'fetchChoiceChests']);
 // *
-// * SALVAGEABLES
+// * FETCH SALVAGEABLES
 // *
 Route::get('/fetch-salvageables', [FetchController::class, 'fetchSalvageables']);
 Route::get('/fetch-mixed-salvageables', [FetchController::class, 'fetchMixedSalvageables']);
@@ -79,18 +79,23 @@ Route::get('/fetch-exotics', [FetchController::class, 'fetchExotics']);
 Route::get('/fetch-map-benchmarks', [FetchController::class, 'fetchMapBenchmarks']);
 
 
-
 // *
 // * TOOLS
 // *
+// GET REFINED MATERIALS
 Route::get('/refine/{request}/{requestID}/{buyOrderSetting}/{tax}', [RefineController::class, 'refine']);
-
+// GET RECIPE VALUES
 Route::get('/recipes/{request}/{id}/{quantity}', [RecipeController::class, 'getRecipeValues']);
+// GET RECIPE TREE
 Route::get('/recipes/{id}/{quantity}', [RecipeController::class, 'getRecipeTree']);
-
+// SEARCH ITEMS
 Route::get('/tools/search-items/{quantity}', [FetchController::class, 'searchItems']);
+// SEARCH RECIPES
 Route::get('/recipes/search-recipes', [RecipeController::class, 'searchRecipes']);
-
+// SALVAGEABLES
+Route::get('/tools/salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'salvageables']);
+// MIXED SALVAGEABLES
+Route::get('/tools/mixed-salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'mixedSalvageables']);
 
 
 
