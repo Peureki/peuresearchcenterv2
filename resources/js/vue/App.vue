@@ -61,6 +61,10 @@ h1{
     color: var(--color-h1);
     font-size: var(--font-size-h1);
 }
+h2{
+    color: var(--color-subheader);
+    font-size: var(--font-size-h2);
+}
 h3{
     color: var(--color-subheader);
     font-size: var(--font-size-h3);
@@ -88,7 +92,7 @@ p, label, input, button {
     font-size: var(--font-size-p);
 }
 p {
-    line-height: 1.3;
+    line-height: 1.5;
 }
 ul {
     margin: 0;
@@ -469,8 +473,13 @@ span.bookmark-label{
 */
 .filter-container{
     display: flex;
+    flex-direction: column;
+    gap: var(--gap-general);
+}
+.filter-collection{
+    display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: var(--gap-general);
 }
 
 /* 
@@ -670,9 +679,7 @@ span.label-and-subtitle{
 .content-section{
     padding-inline: var(--gap-general);
 }
-.popup-message{
-    padding-block: var(--gap-general);
-}
+
 /* 
     =================================================
     * CHARTS AND GRAPHS
@@ -1279,9 +1286,9 @@ svg.arrow path{
     --color-dawn: #db8b9d;
     --color-anytime: #e15e6c;
 
-    --font-size-h1: clamp(2rem, 5.5vw, 6.25rem);
-    --font-size-h2: clamp(1.8rem, 15vw, 4rem);
-    --font-size-h3: clamp(1.5rem, 3vw, 2rem);
+    --font-size-h1: clamp(2.5rem, 5.5vw, 6.25rem);
+    --font-size-h2: clamp(2rem, 3.5vw, 4rem);
+    --font-size-h3: clamp(2rem, 3vw, 2rem);
     --font-size-h4: clamp(1.3rem, 1.2vw, 1.7rem);
     --font-size-h5: clamp(1.0rem, 1.1vw, 1.5rem);
     --font-size-h6: clamp(1.1rem, 1vw, 1.3rem);

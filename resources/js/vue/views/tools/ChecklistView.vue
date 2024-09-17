@@ -82,8 +82,11 @@
             </div>
 
             <Transition name="fade">
-                <p v-if="dbToggle" class="popup-message">{{ dbMessage }}</p>
+                <PopUpMessage v-if="dbToggle" :message="dbMessage"/>
             </Transition>
+            
+
+            
             
             <!-- <button @click="getChecklist">Get checklist</button> -->
              
@@ -137,6 +140,7 @@ import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import Disclaimer from '@/js/vue/components/general/Disclaimer.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
+import PopUpMessage from '@/js/vue/components/general/PopUpMessage.vue';
 
 import SearchRecipe from '@/js/vue/components/general/SearchRecipe.vue';
 import SearchItem from '@/js/vue/components/general/SearchItem.vue';

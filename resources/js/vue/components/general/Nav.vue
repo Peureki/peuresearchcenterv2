@@ -6,7 +6,10 @@
                     <router-link class="page-link" to="/">
                         <div class="logo-container">
                             <img src="@/imgs/choyas/Peu_Choya.png" alt="Logo of Peu Research Center" title="Logo of Peu Research Center of a green pinata choya wearing a commander tag">
+
+                            <p>Peureki.3647</p>
                         </div>
+                        
                     </router-link>
 
                     <!-- <div class="credits">
@@ -137,7 +140,7 @@
                 -->
                 <Transition name="fade-right">
                     <div v-if="settingsToggle">
-                        <article class="shortcut-container">
+                        <div class="shortcut-container">
                             <h3>Settings</h3>
                             <p v-if="!user" class="error-message">Register/Login to use this feature and be able to save settings</p>
                             <div class="settings-button-container">
@@ -371,7 +374,7 @@
                                 </button>
                             </div>
                             
-                        </article>
+                        </div>
                     </div>
                 </Transition>
 
@@ -381,10 +384,16 @@
                     * This changes depending on what page the website is currently on
                 -->
                 <Transition name="fade-right">
-                    <slot 
-                        v-if="filtersToggle"
-                        name="filters"
-                    ></slot>
+                    
+                    <div class="shortcut-container">
+                        <p v-if="!user" class="error-message">Register/Login to use this feature and be able to toggle specific filters</p>
+                        <slot 
+                            v-if="filtersToggle"
+                            name="filters"
+                        />
+
+                    </div>
+                    
                 </Transition>
 
                 <!--
@@ -573,6 +582,7 @@
 
                 <Transition name="fade-right">
                     <div v-if="generalToggle">
+                        <NavPage category="general" url="about" name="About" :icon="PeuChoya"/>
                         <NavPage category="general" url="support" name="Support" :icon="HappyChoya"/> 
                     </div>
                 </Transition>
@@ -829,119 +839,26 @@ const changeToggleStatus = (toggleName) => {
 }
 
 
+// const enterAPIKey = async () => {
+//     try{
+//         const response = await axios.post('../api/user/enterAPIKey', {
+//             apiKey: apiKey.value,
+//         })
 
-
-// const register = async () => {
-//   try {
-//         const response = await fetch('../register', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-//             },
-//             body: JSON.stringify({
-//                 name: name.value,
-//                 email: email.value,
-//                 password: password.value,
-//             }),
-//         });
-
-//         if (!response.ok) {
-//             throw new Error('Registration failed');
-//         } else {
-//             console.log('Registered!')
-//         }
-
-//     // Redirect or handle success as needed
-//     } catch (error) {
-//         console.error('Registration error:', error);
-//         // Handle error (e.g., show error message)
+//         // If sucessful, page refresh
+//         if (response){
+//             console.log("API key successful!");
+//             //pageRefresh();
+//         } 
+//     } catch (error){
+//         console.log("API key failure: ", error); 
 //     }
-// };
-
-
-const enterAPIKey = async () => {
-    try{
-        const response = await axios.post('../api/user/enterAPIKey', {
-            apiKey: apiKey.value,
-        })
-
-        // If sucessful, page refresh
-        if (response){
-            console.log("API key successful!");
-            //pageRefresh();
-        } 
-    } catch (error){
-        console.log("API key failure: ", error); 
-    }
     
-}
+// }
 
 // For first time visitors
 // If there is no exisiting local stoarge property (like sellOrder), then make one by default
 // Otherwise, don't do anything
-const setDefaultLocalStorage = () => {
-    // * 
-    // * FILTER RESEARCH NOTES
-    // *
-    if (!localStorage.filterResearchNotes){
-        localStorage.setItem('filterResearchNotes', JSON.stringify([
-            "TP", 
-            "Crafting",
-            "Armorsmith",
-            "Artifier",
-            "Chef",
-            "Huntsman",
-            "Jeweler",
-            "Leatherworker",
-            "Scribe",
-            "Tailor",
-            "Weaponsmith",
-            "Consumable",
-            "Weapon",
-            "Armor",
-            "Back",
-            "Trinket",
-            "UpgradeComponent",
-        ])); 
-    }
-    // * 
-    // * FILTERS TOGGLE
-    // *
-    if (!localStorage.filtersToggle){
-        localStorage.setItem('filters', false);
-    }
-    // * BOOKMARKS
-    // * 
-    if (!localStorage.spiritShardsFineT2Table){
-        localStorage.setItem('spiritShardsFineT2Table', true);
-    }
-    if (!localStorage.spiritShardsFineT3Table){
-        localStorage.setItem('spiritShardsFineT3Table', true);
-    }
-    if (!localStorage.spiritShardsFineT4Table){
-        localStorage.setItem('spiritShardsFineT4Table', true);
-    }
-    if (!localStorage.spiritShardsFineT5Table){
-        localStorage.setItem('spiritShardsFineT5Table', true);
-    }
-    if (!localStorage.spiritShardsFineT6Table){
-        localStorage.setItem('spiritShardsFineT6Table', true);
-    }
-    if (!localStorage.spiritShardsRareT2Table){
-        localStorage.setItem('spiritShardsRareT2Table', true);
-    }
-    if (!localStorage.spiritShardsRareT3Table){
-        localStorage.setItem('spiritShardsRareT3Table', true);
-    }
-    if (!localStorage.spiritShardsRareT4Table){
-        localStorage.setItem('spiritShardsRareT4Table', true);
-    }
-    if (!localStorage.spiritShardsRareT5Table){
-        localStorage.setItem('spiritShardsRareT5Table', true);
-    }
-}
-setDefaultLocalStorage(); 
 
 // Toggle on/off sections 
 const benchmarksToggle = ref(true),
@@ -1066,6 +983,10 @@ nav .top img{
 }
 nav .logo-container{
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 nav .credits p{
     padding-left: var(--nav-padding-left);

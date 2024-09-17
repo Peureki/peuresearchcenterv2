@@ -71,6 +71,7 @@ import TimersDragonfallView from '@/js/vue/views/timers/DragonfallView.vue'
 import TimersLakeDoricView from '@/js/vue/views/timers/LakeDoricView.vue'
 import TimersSkywatchArchipelagoView from '@/js/vue/views/timers/SkywatchArchipelagoView.vue'
 
+import GeneralAboutView from '@/js/vue/views/general/AboutView.vue'
 import GeneralSupportView from '@/js/vue/views/general/SupportView.vue'
 
 const routes = [
@@ -321,6 +322,11 @@ const routes = [
     // *
     // * GENERAL
     // *
+    {
+        path: '/general/about',
+        component: GeneralAboutView,
+        name: 'general-about',
+    },
     {
         path: '/general/support',
         component: GeneralSupportView,

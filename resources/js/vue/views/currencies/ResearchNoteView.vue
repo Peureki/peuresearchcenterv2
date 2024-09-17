@@ -2,7 +2,7 @@
     <Header page-name="Research Notes"/>
     <Nav>
         <template v-slot:filters>
-            <article class="shortcut-container">
+            <div class="filter-container">
                 <h3>Filters</h3>
 
                 <!-- 
@@ -11,7 +11,7 @@
                     *
                 -->
                 <p>Preferences</p>
-                <!-- <div class="filter-container">
+                <!-- <div class="filter-collection">
                     <button
                         v-for="(toggle, index) in preferenceToggles" 
                         @click="
@@ -23,7 +23,7 @@
                     </button>
                 </div> -->
 
-                <div class="filter-container">
+                <div class="filter-collection">
                     <FilterToggle
                         v-for="filter in filterPreferences"
                         :toggle-option="filter"
@@ -33,46 +33,52 @@
 
 
                 <Transition name="fade"><p v-if="preferenceError" class="error-message">Needs 1+ active</p></Transition>
-
+            </div>
+            
+            <div class="filter-container">
                 <!-- 
                     *
                     * DISCIPLINE FILTERS
                     *
                 -->
                 <p>Disciplines</p>
-                <div class="filter-container">
+                <div class="filter-collection">
                     <FilterToggle
                         v-for="filter in filterDisciplines"
                         :toggle-option="filter"
                     />
                 </div>
                 <Transition name="fade"><p v-if="disciplineError" class="error-message">Needs 1+ active</p></Transition>
-
+            </div>
+            
+            <div class="filter-container">
                 <!-- 
                     *
                     * ITEM TYPES
                     *
                 -->
                 <p>Item Types</p>
-                <div class="filter-container">
+                <div class="filter-collection">
                     <FilterToggle
                         v-for="filter in filterItemTypes"
                         :toggle-option="filter"
                     />
                 </div>
                 <Transition name="fade"><p v-if="typeError" class="error-message">Needs 1+ active</p></Transition>
-
+            </div>
+            
+            <div class="filter-container">
                 <p>Set new filters</p>
-                <div class="filter-container">
+                <div class="filter-collection">
                     
                     <button 
                         @click="saveFilters(); pageRefresh();"
                     >
                         Save & Refresh
                     </button>
-
                 </div>
-            </article>
+            </div>
+            
         </template>
     </Nav>
 
