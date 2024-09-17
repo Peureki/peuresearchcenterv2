@@ -216,6 +216,8 @@
             </Transition>
         </div> <!-- End of content section -->
     </section>
+
+    <Footer/>
 </template>
 
 <script setup>
@@ -233,6 +235,7 @@ import Armor from '@/imgs/icons/Armor.png'
 
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
+import Footer from '@/js/vue/components/general/Footer.vue'
 import TwoColSection from '@/js/vue/components/general/TwoColSection.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
 

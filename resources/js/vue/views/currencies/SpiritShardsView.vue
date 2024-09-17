@@ -46,6 +46,7 @@
         </section>
     </main>
     
+    <Footer/>
 </template>
 
 <script setup>
@@ -55,6 +56,7 @@ import { ref, onMounted } from 'vue'
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
+import Footer from '@/js/vue/components/general/Footer.vue'
 
 import SpiritShardsTable from '@/js/vue/components/tables/SpiritShardsTable.vue'
 

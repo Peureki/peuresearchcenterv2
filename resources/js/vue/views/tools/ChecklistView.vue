@@ -128,6 +128,7 @@
         </div>
     </section>
     
+    <Footer/>
 </template>
 
 <script setup>
@@ -138,6 +139,7 @@ import { getAuthUser } from '@/js/vue/composables/Authentication';
 
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
+import Footer from '@/js/vue/components/general/Footer.vue'
 import Disclaimer from '@/js/vue/components/general/Disclaimer.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
 import PopUpMessage from '@/js/vue/components/general/PopUpMessage.vue';

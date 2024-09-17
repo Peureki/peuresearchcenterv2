@@ -5,7 +5,7 @@
 
     <section class="main">
         <Disclaimer
-            message="The choyas are working hard to build this website. Stay tuned."
+            message="The choyas are working hard to build this website. Version 0.1.0"
         />
     </section>
     
@@ -24,6 +24,10 @@ const props = defineProps({
 
 header{
     border-bottom: var(--border-general);
+}
+/* Temp */
+section.main{
+    padding-block: var(--gap-general);
 }
 @media (max-width: 768px){
     header{

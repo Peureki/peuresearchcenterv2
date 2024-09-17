@@ -75,7 +75,7 @@
                             
 
                             <label for="name">Username</label>
-                            <input type="text" name="name" id="name" v-model="name">
+                            <input type="text" name="name" id="name" placeholder="anet.1234" v-model="name">
 
                             <label for="password">Password</label>
                             <input type="password" name="password" id="password" v-model="password">

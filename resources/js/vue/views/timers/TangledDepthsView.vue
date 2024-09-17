@@ -32,12 +32,14 @@
             </article>
         </template>
     </MainTimers>
+    <Footer/>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
 import Nav from '@/js/vue/components/general/Nav.vue'
+import Footer from '@/js/vue/components/general/Footer.vue'
 
 import NodeTrackerModal from '@/js/vue/components/timers/NodeTrackerModal.vue'
 

@@ -97,6 +97,8 @@
         
         <!-- <ResearchNotesTable/> -->
     </section>
+
+    <Footer/>
 </template>
 
 <script setup>
@@ -104,6 +106,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
+import Footer from '@/js/vue/components/general/Footer.vue'
 
 import ResearchNotesCard from '@/js/vue/components/tables/ResearchNotesCard.vue'
 

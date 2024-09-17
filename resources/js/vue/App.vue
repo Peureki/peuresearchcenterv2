@@ -122,7 +122,8 @@ article {
 
 section{
     padding-left: calc(var(--nav-width));
-    padding-bottom: var(--padding-section);
+    padding-block: var(--gap-content);
+    border-bottom: var(--border-bottom);
 }
 section.main{
     position: relative;

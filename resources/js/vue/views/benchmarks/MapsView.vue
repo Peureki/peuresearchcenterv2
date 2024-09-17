@@ -10,6 +10,8 @@
             :drop-rates="dropRates"
         />
     </section>
+
+    <Footer/>
 </template>
 
 <script setup>
@@ -19,6 +21,7 @@ import { getAuthUser } from '@/js/vue/composables/Authentication';
 
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
+import Footer from '@/js/vue/components/general/Footer.vue'
 import Benchmark from '@/js/vue/components/general/Benchmark.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
 
