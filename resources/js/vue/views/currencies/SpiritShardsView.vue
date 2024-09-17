@@ -15,7 +15,6 @@
                                 <input
                                     type="checkbox"
                                     :name="table.name"
-                                    :checked="table.checkboxToggle.value"
                                 >
                                 <label>{{ table.title }}</label>
                             </div>
@@ -31,11 +30,11 @@
         />
         <section v-for="table in tables">
             <Loading 
-                v-if="!table.recipes || table.recipes.value == null && table.checkboxToggle.value"
+                v-if="!table.recipes || table.recipes.value == null"
                 :width="200" :height="200"
             />
 
-            <article v-if="table.recipes && table.recipes.value != null && table.checkboxToggle.value">
+            <article v-if="table.recipes && table.recipes.value != null">
                 <SpiritShardsTable
                     :table-name="table.name"
                     :table-title="table.title"
@@ -83,7 +82,6 @@ const tables = [
         checkboxSrc: VialofThinBlood,
         checkboxAlt: "Vial of Thin Blood",
         checkboxTitle: "Jump to Fine T2 table",
-        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsFineT2Table)), 
     },
     {
         name: "FineT3",
@@ -92,7 +90,6 @@ const tables = [
         checkboxSrc: VialofBlood,
         checkboxAlt: "Vial of Blood",
         checkboxTitle: "Jump to Fine T3 table",
-        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsFineT3Table)), 
     },
     {
         name: "FineT4",
@@ -101,7 +98,6 @@ const tables = [
         checkboxSrc: VialofThickBlood,
         checkboxAlt: "Vial of Thick Blood",
         checkboxTitle: "Jump to Fine T4 table",
-        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsFineT4Table)), 
     },
     {
         name: "FineT5",
@@ -110,7 +106,6 @@ const tables = [
         checkboxSrc: VialofPotentBlood,
         checkboxAlt: "Vial of Potent Blood",
         checkboxTitle: "Jump to Fine T5 table",
-        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsFineT5Table)), 
     },
     {
         name: "FineT6",
@@ -119,7 +114,6 @@ const tables = [
         checkboxSrc: VialofPowerfulBlood,
         checkboxAlt: "Vial of Powerful Blood",
         checkboxTitle: "Jump to Fine T6 table",
-        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsFineT6Table)), 
     },
     {
         name: "RareT2",
@@ -128,7 +122,6 @@ const tables = [
         checkboxSrc: ChargedSliver,
         checkboxAlt: "Charged Sliver",
         checkboxTitle: "Jump to Rare T2 table",
-        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsRareT2Table)), 
     },
     {
         name: "RareT3",
@@ -137,7 +130,6 @@ const tables = [
         checkboxSrc: ChargedShard,
         checkboxAlt: "Charged Shared",
         checkboxTitle: "Jump to Rare T3 table",
-        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsRareT3Table)), 
     },
     {
         name: "RareT4",
@@ -146,7 +138,6 @@ const tables = [
         checkboxSrc: ChargedCore,
         checkboxAlt: "Charged Core",
         checkboxTitle: "Jump to Rare T4 table",
-        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsRareT4Table)), 
     },
     {
         name: "RareT5",
@@ -155,7 +146,6 @@ const tables = [
         checkboxSrc: ChargedLodestone,
         checkboxAlt: "Charged Lodestone",
         checkboxTitle: "Jump to Rare T5 table",
-        checkboxToggle: ref(JSON.parse(localStorage.spiritShardsRareT5Table)), 
     },
 ]
 
