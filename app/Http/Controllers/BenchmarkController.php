@@ -121,7 +121,7 @@ class BenchmarkController extends Controller
         ];
 
         // Store unique cache key for the next [time] minutes
-        Cache::put($cacheKey, $response, now()->addHours(12)); 
+        Cache::put($cacheKey, $response, now()->addHours(24)); 
 
         return response()->json($response); 
     }
