@@ -81,3 +81,7 @@ export const wiki = (itemName) => {
     const convertToURL = itemName.replace(/ /g, "_");
     window.open(`https://wiki.guildwars2.com/wiki/${convertToURL}`, '_blank');
 }
+
+export const openNewTab = (link) => {
+    window.open(link, '_blank');
+}
