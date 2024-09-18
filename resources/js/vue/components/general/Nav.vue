@@ -595,7 +595,7 @@
                 <img class="mobile-home" :src="PeuChoya" alt="Redirect to Home" title="Home">
             </router-link>
 
-            <p>burger: {{ mobileHamburger }} | nav: {{ mainNavToggle }}</p>
+            <p>checkMobile: {{ checkMobileStatus }}</p>
             
 
             <svg v-if="mobileHamburger" @click="mobileHamburger = !mobileHamburger; mainNavToggle = !mainNavToggle" class="hamburger" width="25" height="17" viewBox="0 0 25 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -692,6 +692,7 @@ const mainNavToggle = ref(isMobile ? false : true),
     mobileHamburger = ref(isMobile ? true : false),
     timerPageToggle = ref(false);
 
+const checkMobileStatus = ref(null);
 
 // *
 // * AUTH ERRORS
@@ -912,9 +913,11 @@ const checkMobile = () => {
     isMobile.value = window.innerWidth < 768;
     
     if (!isMobile.value){
+        checkMobileStatus.value = 'isMobile false'
         mainNavToggle.value = true;
         mobileHamburger.value = false;
     } else {
+        checkMobileStatus.value = 'isMobile true'
         mainNavToggle.value = false;
         mobileHamburger.value = true;
     }
