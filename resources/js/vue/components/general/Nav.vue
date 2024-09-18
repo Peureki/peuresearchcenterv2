@@ -595,7 +595,7 @@
                 <img class="mobile-home" :src="PeuChoya" alt="Redirect to Home" title="Home">
             </router-link>
 
-            <p>{{ isMobile }}</p>
+            <p>burger: {{ mobileHamburger }} | nav: {{ mainNavToggle }}</p>
             
 
             <svg v-if="mobileHamburger" @click="mobileHamburger = !mobileHamburger; mainNavToggle = !mainNavToggle" class="hamburger" width="25" height="17" viewBox="0 0 25 17" fill="none" xmlns="http://www.w3.org/2000/svg">
