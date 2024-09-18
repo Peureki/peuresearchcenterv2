@@ -922,12 +922,12 @@ const checkDesktop = () => {
     const isDesktop = window.innerWidth > 768;
     if (isDesktop){
         mainNavToggle.value = true;
-        mobileHamburger.value = false;
-        isMobile.value = false;
+        // mobileHamburger.value = false;
+        // isMobile.value = false;
     } else {
         mainNavToggle.value = false;
-        mobileHamburger.value = true;
-        isMobile.value = true; 
+        // mobileHamburger.value = true;
+        // isMobile.value = true; 
     }
 }
 
