@@ -909,7 +909,7 @@ watch(tax, (newtax) => {
 
 // Function to update isMobile based on screen width
 const checkMobile = () => {
-    isMobile.value = window.innerWidth < 768;
+    
     
     if (!isMobile.value){
         mainNavToggle.value = true;
@@ -922,7 +922,13 @@ const checkMobile = () => {
 
 // Add resize event listener when the component is mounted
 onMounted(() => {
-    //window.addEventListener('resize', checkMobile);
+    isMobile.value = window.innerWidth < 768;
+    window.addEventListener('resize', (e) => {
+        if (window.innerWidth != isMobile.value){
+            isMobile.value = window.innerWidth < 768;
+            checkMobile();
+        }
+    });
     checkMobile();
 });
 
