@@ -100,7 +100,6 @@
 
                                 <p v-if="authErrorStatus" class="error-message">{{ authErrorMessage }}</p>
                             </div>
-
                         </form>
                     </div>
                 </Transition>
@@ -613,7 +612,7 @@ import { ref, watch, provide, onMounted, onUnmounted, computed } from 'vue'
 
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
-import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings } from '@/js/vue/composables/Global.js';
+import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings, loginToggle } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
 import { getAuthUser, logout, register } from '@/js/vue/composables/Authentication';
 
@@ -873,7 +872,6 @@ const benchmarksToggle = ref(true),
 const settingsToggle = ref(false),
     filtersToggle = ref(false),
     bookmarksToggle = ref(false),
-    loginToggle = ref(false),
     apiKeyToggle = ref(false);
 
 // Change buy and sell order settings
@@ -905,18 +903,8 @@ watch(tax, (newtax) => {
 
 
 
-// Function to update isMobile based on screen width
-const checkMobile = () => {
-    isMobile.value = window.innerWidth < 768;
-    
-    // if (!isMobile.value){
-    //     mainNavToggle.value = true;
-    //     mobileHamburger.value = false;
-    // } else {
-    //     mainNavToggle.value = false;
-    //     mobileHamburger.value = true;
-    // }
-};
+// Update isMobile as the screen changes from the event listener
+const checkMobile = () => { isMobile.value = window.innerWidth < 768 };
 
 // Add resize event listener when the component is mounted
 onMounted(() => {
@@ -924,13 +912,8 @@ onMounted(() => {
     checkMobile();
 });
 
-onMounted(async () => {
-    if (!user.value){
-        getAuthUser();
-    }
-    
-})
-
+// As isMobile changes, when it reaches true/false, update the navigation
+// This also prevents the nav from going false/true when users summon the mobile keyboard or search bar (android)
 watch(isMobile, (newIsMobile) => {
     if (newIsMobile){
         mobileHamburger.value = true;
@@ -943,6 +926,15 @@ watch(isMobile, (newIsMobile) => {
 }, {
     immediate: true,
 })
+
+onMounted(async () => {
+    if (!user.value){
+        getAuthUser();
+    }
+    
+})
+
+
 
 // UPDATE settings when user has logged on or off
 watch(user, (userData) => {

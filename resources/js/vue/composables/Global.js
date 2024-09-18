@@ -7,6 +7,7 @@ export const nodeTrackerModalToggle = ref(false);
 
 // USER AUTH
 export const user = ref(null);
+export const loginToggle = ref(null);
 export const isAuthenticating = ref(true);
 
 // TYRIAN AND CANTHAN TIME PEROIDS

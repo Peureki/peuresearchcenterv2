@@ -1296,6 +1296,8 @@ svg.arrow path{
     --font-size-p: clamp(1rem, 1vw, 1rem);
     --font-size-subtext: clamp(0.7rem, 3vw, 0.8rem);
 
+    --font-size-homepage-h1: clamp(4rem, 8vw, 10rem);
+
     --gap-general: clamp(0.6rem, 0.5vw, 1rem);
     --gap-content: clamp(0.8rem, 1.5vw, 2rem);
     --gap-ingredients: clamp(0.3rem, 0.3vw, 0.8rem);
@@ -1318,6 +1320,7 @@ svg.arrow path{
     --border-positive: 2px solid #5ED625;
     --border-negative: 2px solid #EC004D;
     --border-left-hover: 2px solid var(--color-text);
+    --border-hover-link: 2px solid #ffd12c;
     
     --border-radius-card: 5px;
     
