@@ -670,7 +670,6 @@ import axios from 'axios';
 import { update } from 'lodash';
 import NavSection from '@/js/vue/components/navigation/NavSection.vue';
 import { filterResearchNotes } from '../../composables/Global';
-import { debounce } from 'lodash';
 
 // Initialize form fields
 const name = ref(''), 
@@ -904,9 +903,9 @@ watch(tax, (newtax) => {
 
 
 // Function to update isMobile based on screen width
-const checkMobile = debounce(() => {
-    isMobile.value = window.innerWidth < 768;
-
+const checkMobile = () => {
+    
+    
     if (!isMobile.value){
         mainNavToggle.value = true;
         mobileHamburger.value = false;
@@ -914,10 +913,11 @@ const checkMobile = debounce(() => {
         mainNavToggle.value = false;
         mobileHamburger.value = true;
     }
-}, 200);
+};
 
 // Add resize event listener when the component is mounted
 onMounted(() => {
+    isMobile.value = window.innerWidth < 768;
     window.addEventListener('resize', checkMobile);
     checkMobile();
 });
