@@ -909,7 +909,7 @@ watch(tax, (newtax) => {
 
 // Function to update isMobile based on screen width
 const checkMobile = () => {
-    const currentWidth = window.innerWidth; 
+    const currentWidth = window.innerWidth < 768; 
     
     if (currentWidth != isMobile.value){
         if (!isMobile.value){
@@ -920,7 +920,6 @@ const checkMobile = () => {
             mobileHamburger.value = true;
         }
     }
-    isMobile.value = window.innerWidth < 768;
 };
 
 // Add resize event listener when the component is mounted
