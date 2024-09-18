@@ -589,7 +589,7 @@
         </nav>
     </Transition>
 
-    <div class="mobile-nav-container" @click="">
+    <div class="mobile-nav-container" v-if="isMobile" @click="">
         <div class="mobile-nav">
             <router-link to="/">
                 <img class="mobile-home" :src="PeuChoya" alt="Redirect to Home" title="Home">
@@ -909,47 +909,18 @@ watch(tax, (newtax) => {
 const checkMobile = () => {
     isMobile.value = window.innerWidth < 768;
     
-    if (!isMobile.value){
-        mainNavToggle.value = true;
-        mobileHamburger.value = false;
-    } else {
-        mainNavToggle.value = false;
-        mobileHamburger.value = true;
-    }
+    // if (!isMobile.value){
+    //     mainNavToggle.value = true;
+    //     mobileHamburger.value = false;
+    // } else {
+    //     mainNavToggle.value = false;
+    //     mobileHamburger.value = true;
+    // }
 };
-
-const checkDesktop = () => {
-    const isDesktop = window.innerWidth > 768;
-    if (isDesktop){
-        mainNavToggle.value = true;
-        // mobileHamburger.value = false;
-        // isMobile.value = false;
-    } else {
-        mainNavToggle.value = false;
-        // mobileHamburger.value = true;
-        // isMobile.value = true; 
-    }
-}
-
-// // Function to update isMobile based on screen width
-// const checkMobile = () => {
-//     const currentWidth = window.innerWidth < 768; 
-    
-//     if (currentWidth != isMobile.value){
-//         if (!isMobile.value){
-//             mainNavToggle.value = true;
-//             mobileHamburger.value = false;
-//         } else {
-//             mainNavToggle.value = false;
-//             mobileHamburger.value = true;
-//         }
-//     }
-//     isMobile.value = window.innerWidth < 768;
-// };
 
 // Add resize event listener when the component is mounted
 onMounted(() => {
-    window.addEventListener('resize', checkDesktop);
+    window.addEventListener('resize', checkMobile);
     checkMobile();
 });
 
@@ -961,9 +932,16 @@ onMounted(async () => {
 })
 
 watch(isMobile, (newIsMobile) => {
-    if (!isMobile.value){
+    if (newIsMobile){
+        mobileHamburger.value = true;
+        mainNavToggle.value = false; 
+    } else {
+        mobileHamburger.value = false;
         mainNavToggle.value = true; 
     }
+    console.log(newIsMobile);
+}, {
+    immediate: true,
 })
 
 // UPDATE settings when user has logged on or off
@@ -984,7 +962,7 @@ watch(user, (userData) => {
     padding: var(--gap-general);
 }
 
-nav.main-nav{
+nav{
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -1115,9 +1093,6 @@ form .remember-container label{
 form .remember-container input{
     margin-bottom: unset;
 }
-.mobile-nav-container{
-    display: none;
-}
 
 @media (max-width: 768px){
     nav.main-nav{
@@ -1128,7 +1103,6 @@ form .remember-container input{
         display: none;
     }
     .mobile-nav-container{
-        display: block;
         position: fixed;
         top: 0;
         left: 0;
