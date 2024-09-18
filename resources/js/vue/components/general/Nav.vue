@@ -918,9 +918,25 @@ const checkMobile = () => {
     }
 };
 
+// // Function to update isMobile based on screen width
+// const checkMobile = () => {
+//     const currentWidth = window.innerWidth < 768; 
+    
+//     if (currentWidth != isMobile.value){
+//         if (!isMobile.value){
+//             mainNavToggle.value = true;
+//             mobileHamburger.value = false;
+//         } else {
+//             mainNavToggle.value = false;
+//             mobileHamburger.value = true;
+//         }
+//     }
+//     isMobile.value = window.innerWidth < 768;
+// };
+
 // Add resize event listener when the component is mounted
 onMounted(() => {
-    window.addEventListener('resize', checkMobile);
+    //window.addEventListener('resize', checkMobile);
     checkMobile();
 });
 
