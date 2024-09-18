@@ -2,8 +2,8 @@
     <Header page-name="Research Notes"/>
     <Nav>
         <template v-slot:filters>
-            <p v-if="!user" class="error-message">Register/Login to use this feature and be able to toggle specific filters</p>
-            
+            <p v-if="!user" class="error-message">Register/Login to be able to save these Filters</p>
+
             <div class="filter-container">
                 <h3>Filters</h3>
 
