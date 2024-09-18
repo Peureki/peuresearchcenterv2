@@ -11,7 +11,7 @@
                 </h1>
                 <div class="subheader-container">
                     <h2>Why have humans do the research when you can have choyas?</h2>
-                    <button @click="loginToggle = !loginToggle"><h4 class="sign-up">Sign up</h4></button>
+                    <button @click="loginButton"><h4 class="sign-up">Sign up</h4></button>
                 </div>
             </div>
         </div>
@@ -89,13 +89,21 @@
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 
-import { loginToggle } from '@/js/vue/composables/Global';
+import { loginToggle, isMobile, mainNavToggle, mobileHamburger } from '@/js/vue/composables/Global';
 
 import PeuChoya from '@/imgs/choyas/Peu_Choya.png'
 import JungleChoya from '@/imgs/choyas/Jungle_Choya.png'
 import BlueChoya from '@/imgs/choyas/Blue_Choya.png'
 import ResearchChoya from '@/imgs/choyas/Research_Choya.png'
 import GolemChoya from '@/imgs/choyas/Golem_Choya.png'
+
+const loginButton = () => {
+    if (isMobile){
+        mainNavToggle.value = true;
+        mobileHamburger.value = false; 
+    }
+    loginToggle.value = !loginToggle.value; 
+}
 
 </script>
 
@@ -181,8 +189,8 @@ h2{
     width: clamp(10rem, 20vw, 20rem);
 }
 .card-cta{
-    width: clamp(1rem, 5vw, 10rem);
-    height: clamp(1rem, 5vw, 10rem);
+    width: clamp(3rem, 5vw, 10rem);
+    height: clamp(3rem, 5vw, 10rem);
     transform: rotate(-45deg);
     transition: var(--transition-all-03s-ease);
 }

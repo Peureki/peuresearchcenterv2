@@ -612,7 +612,7 @@ import { ref, watch, provide, onMounted, onUnmounted, computed } from 'vue'
 
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
-import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings, loginToggle } from '@/js/vue/composables/Global.js';
+import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings, loginToggle, mainNavToggle, mobileHamburger } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
 import { getAuthUser, logout, register } from '@/js/vue/composables/Authentication';
 
@@ -685,9 +685,7 @@ const registerToggle = ref(false);
 // Wizard's Vault
 const wv = ref(null); 
 
-const mainNavToggle = ref(isMobile ? false : true),
-    mobileHamburger = ref(isMobile ? true : false),
-    timerPageToggle = ref(false);
+const timerPageToggle = ref(false);
 
 
 // *

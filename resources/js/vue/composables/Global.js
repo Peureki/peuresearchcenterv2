@@ -18,6 +18,8 @@ export const canthanCurrentPeriod = ref(null);
 export const canthanTimeTilNext = ref(null);
 // CHECK IF SCREEN IS MOBILE
 export const isMobile = ref(window.innerWidth < 786);
+export const mainNavToggle = ref(isMobile ? false : true);
+export const mobileHamburger = ref(isMobile ? true : false);
 
 
 // SETTINGS
