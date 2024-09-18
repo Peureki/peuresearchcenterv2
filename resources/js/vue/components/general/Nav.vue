@@ -589,7 +589,7 @@
         </nav>
     </Transition>
 
-    <div class="mobile-nav-container" v-if="isMobile" @click="">
+    <div class="mobile-nav-container" @click="">
         <div class="mobile-nav">
             <router-link to="/">
                 <img class="mobile-home" :src="PeuChoya" alt="Redirect to Home" title="Home">
@@ -918,6 +918,19 @@ const checkMobile = () => {
     }
 };
 
+const checkDesktop = () => {
+    const isDesktop = window.innerWidth > 768;
+    if (isDesktop){
+        mainNavToggle.value = true;
+        mobileHamburger.value = false;
+        isMobile.value = false;
+    } else {
+        mainNavToggle.value = false;
+        mobileHamburger.value = true;
+        isMobile.value = true; 
+    }
+}
+
 // // Function to update isMobile based on screen width
 // const checkMobile = () => {
 //     const currentWidth = window.innerWidth < 768; 
@@ -936,7 +949,7 @@ const checkMobile = () => {
 
 // Add resize event listener when the component is mounted
 onMounted(() => {
-    //window.addEventListener('resize', checkMobile);
+    window.addEventListener('resize', checkDesktop);
     checkMobile();
 });
 
@@ -971,7 +984,7 @@ watch(user, (userData) => {
     padding: var(--gap-general);
 }
 
-nav{
+nav.main-nav{
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -1102,6 +1115,9 @@ form .remember-container label{
 form .remember-container input{
     margin-bottom: unset;
 }
+.mobile-nav-container{
+    display: none;
+}
 
 @media (max-width: 768px){
     nav.main-nav{
@@ -1112,6 +1128,7 @@ form .remember-container input{
         display: none;
     }
     .mobile-nav-container{
+        display: block;
         position: fixed;
         top: 0;
         left: 0;
