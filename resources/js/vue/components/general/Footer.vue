@@ -1,4 +1,13 @@
 <template>
+    <section class="main">
+        <div class="content-section">
+            <Disclaimer
+                message="The choyas are working hard to build this website. This is an 'early release'. Version 0.1.0"
+            />
+        </div>
+        
+    </section>
+
     <footer>
         <section class="main">
             <div class="content-section">
@@ -15,6 +24,12 @@
     </footer>
     
 </template>
+
+<script setup>
+
+import Disclaimer from '@/js/vue/components/general/Disclaimer.vue'
+
+</script>
 
 <style scoped>
 .footer-container{

@@ -142,7 +142,7 @@
                     <div v-if="settingsToggle">
                         <div class="shortcut-container">
                             <h3>Settings</h3>
-                            <p v-if="!user" class="error-message">Register/Login to use this feature and be able to save settings</p>
+                            <p v-if="!user" class="error-message">Register/Login to save these settings</p>
                             <div class="settings-button-container">
                                 <!-- 
                                     * SETTING BUTTONS
@@ -367,7 +367,7 @@
 
                             <div class="button-container">
                                 <button 
-                                    @click="saveSettings(); pageRefresh()"    
+                                    @click="saveSettings();"    
                                     class="submit"
                                 >
                                     Save & Refresh
@@ -386,7 +386,6 @@
                 <Transition name="fade-right">
                     
                     <div class="shortcut-container">
-                        <p v-if="!user" class="error-message">Register/Login to use this feature and be able to toggle specific filters</p>
                         <slot 
                             v-if="filtersToggle"
                             name="filters"
@@ -611,7 +610,7 @@ import { ref, watch, provide, onMounted, onUnmounted, computed } from 'vue'
 
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
-import { user, isMobile, includes, buyOrder, sellOrder, tax } from '@/js/vue/composables/Global.js';
+import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
 import { getAuthUser, logout, register } from '@/js/vue/composables/Authentication';
 
@@ -688,7 +687,6 @@ const mainNavToggle = ref(isMobile ? false : true),
     mobileHamburger = ref(isMobile ? true : false),
     timerPageToggle = ref(false);
 
-const apiKey = ref(null);
 
 // *
 // * AUTH ERRORS
@@ -807,6 +805,7 @@ const saveSettings = async () => {
 
         if (response){
             console.log('Saved Includes', includes)
+            refreshSettings.value = true; 
         }
     } catch (error) {
         console.log('Includes did not save: ', error);

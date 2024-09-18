@@ -89,8 +89,7 @@ const specificPageNum = ref(null);
 // When the data changes, remove Loading choya
 watch(() => props.dataArray, (newDataArray) => {
     if (newDataArray){
-        console.log('this watch works')
-        loadingToggle.value = !loadingToggle.value;
+        loadingToggle.value = false;
     }
 })
 

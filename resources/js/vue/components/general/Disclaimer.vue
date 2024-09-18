@@ -25,7 +25,9 @@ const props = defineProps({
 <style scoped>
 .disclaimer-container{
     padding-block: var(--gap-content);
-    padding-inline: var(--gap-general);
+}
+p {
+    font-size: var(--font-size-subtext);
 }
 
 </style>

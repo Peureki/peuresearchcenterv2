@@ -3,7 +3,7 @@
     <Header page-name="Map Benchmarks"/>
 
     <section class="main">
-        <Loading v-if="!benchmarkToggle" :width="200" :height="200"/>
+        <Loading v-if="!benchmarkToggle || currentlyRefreshing" :width="200" :height="200"/>
         <Benchmark
             v-if="benchmarkToggle"
             :benchmarks="mapBenchmarks"
@@ -15,8 +15,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from 'vue'
-import { user, sellOrder, tax, includes } from '@/js/vue/composables/Global';
+import { onMounted, ref, computed, watch } from 'vue'
+import { user, sellOrder, tax, includes, refreshSettings } from '@/js/vue/composables/Global';
 import { getAuthUser } from '@/js/vue/composables/Authentication';
 
 import Nav from '@/js/vue/components/general/Nav.vue'
@@ -25,10 +25,11 @@ import Footer from '@/js/vue/components/general/Footer.vue'
 import Benchmark from '@/js/vue/components/general/Benchmark.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
 
-
 const mapBenchmarks = ref([]),
     dropRates = ref([]),
     benchmarkToggle = ref(false);
+
+const currentlyRefreshing = ref(false);
 
 const sortBenchmarks = (benchmarks) => {
     if (benchmarks){
@@ -85,5 +86,17 @@ const getMapBenchmarks = async (url) => {
         sortBenchmarks(mapBenchmarks.value); 
     }
 }
+
+watch(refreshSettings, async (newSettings) => {
+    if (newSettings){
+        currentlyRefreshing.value = true; 
+
+        await getMapBenchmarks(url.value);
+
+        currentlyRefreshing.value = false;
+        refreshSettings.value = false;
+    }
+
+})
 
 </script>

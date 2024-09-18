@@ -78,10 +78,7 @@ const checkIncludes = (name) => {
 }
 
 onMounted(() => {
-    if (user.value){
-        checkIncludes(props.name); 
-    }
-    
+    checkIncludes(props.name); 
 })
 
 </script>

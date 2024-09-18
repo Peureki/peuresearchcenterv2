@@ -2,12 +2,6 @@
     <header>
         <h1>{{ pageName }}</h1>
     </header>
-
-    <section class="main">
-        <Disclaimer
-            message="The choyas are working hard to build this website. Version 0.1.0"
-        />
-    </section>
     
 </template>
 

@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { user, includes, filterResearchNotes } from '@/js/vue/composables/Global'
 import { getAuthUser } from '@/js/vue/composables/Authentication'
 
@@ -16,7 +16,8 @@ const props = defineProps({
     toggleOption: String, 
 })
 
-const toggle = ref(null);
+const toggle = ref(null),
+    filtersBeforeSave = ref(null);
 
 // SET INCLUDES
 // If the checked checkbox is in the Includes array and is true, then add it
@@ -46,8 +47,7 @@ const setIncludes = (name, toggle) => {
             filterResearchNotes.value.push(name)
         }
     }
-    console.log(filterResearchNotes.value);
-    
+    console.log('filtered research notes: ', filterResearchNotes.value);
 }
 
 const checkFilters = (option) => {

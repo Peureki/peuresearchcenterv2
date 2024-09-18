@@ -2,6 +2,8 @@
     <Header page-name="Research Notes"/>
     <Nav>
         <template v-slot:filters>
+            <p v-if="!user" class="error-message">Register/Login to use this feature and be able to toggle specific filters</p>
+            
             <div class="filter-container">
                 <h3>Filters</h3>
 
@@ -11,28 +13,14 @@
                     *
                 -->
                 <p>Preferences</p>
-                <!-- <div class="filter-collection">
-                    <button
-                        v-for="(toggle, index) in preferenceToggles" 
-                        @click="
-                            toggleFilter('filterResearchNotes', index, preferenceToggles, preferenceErrorRef)
-                        "
-                        :class="toggle.status.value == true ? 'active-button' : 'inactive-button'"
-                    >
-                        {{ toggle.name }}
-                    </button>
-                </div> -->
-
                 <div class="filter-collection">
                     <FilterToggle
                         v-for="filter in filterPreferences"
                         :toggle-option="filter"
                     />
                 </div>
-                
-
-
-                <Transition name="fade"><p v-if="preferenceError" class="error-message">Needs 1+ active</p></Transition>
+                <Disclaimer v-if="preferenceError" message="At least 1 Preference needs to be active"/>
+            
             </div>
             
             <div class="filter-container">
@@ -72,7 +60,7 @@
                 <div class="filter-collection">
                     
                     <button 
-                        @click="saveFilters(); pageRefresh();"
+                        @click="saveFilters();"
                     >
                         Save & Refresh
                     </button>
@@ -84,7 +72,9 @@
 
     <section class="main">
         <div class="content-section">
-            <Loading v-if="!researchNotes" :width="200" :height="200"/>
+            <Loading v-if="!researchNotes || currentlyRefreshing" :width="200" :height="200"/>
+
+            
 
             <ResearchNotesCard
                 v-if="researchNotes"
@@ -92,6 +82,10 @@
                 target-currency="Research Note"
                 :research-notes="researchNotes"
                 @new-url="getResearchNotes"
+            />
+
+            <Disclaimer v-if="researchNotes && researchNotes.data == 0"
+                message="Check your Filters if empty"
             />
         </div>
         
@@ -107,6 +101,8 @@ import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
 import Footer from '@/js/vue/components/general/Footer.vue'
+import Disclaimer from '@/js/vue/components/general/Disclaimer.vue'
+import PopUpMessage from '@/js/vue/components/general/PopUpMessage.vue'
 
 import ResearchNotesCard from '@/js/vue/components/tables/ResearchNotesCard.vue'
 
@@ -131,6 +127,9 @@ const preferenceError = ref(false),
     typeError = ref(false);
 
 const researchNotes = ref(null);
+// To trigger watch to refresh output without refreshing the page
+const refreshFilters = ref(false),
+    currentlyRefreshing = ref(false); 
 
 const saveFilters = async () => {
     try {
@@ -139,7 +138,9 @@ const saveFilters = async () => {
         })
 
         if (response){
-            console.log('Saved Filter preferenes', filterResearchNotes.value)
+            console.log('Saved Filter preferenes', filterResearchNotes.value, response)
+            // Trigger watch
+            refreshFilters.value = true;
         }
     } catch (error) {
         console.log('Filter for research notes did not save: ', error);
@@ -156,6 +157,7 @@ const getResearchNotes = async (url) => {
         const responseData = await response.json();
 
         researchNotes.value = responseData;
+        console.log('research notes: ', researchNotes.value.data);
     } catch (error){
         console.log('Error fetching data: ', error);
     }
@@ -178,6 +180,21 @@ onMounted( async () => {
         getResearchNotes(url.value); 
     }
 
+})
+
+// *
+// * REFRESH FILTERS
+// * Changes when users Save their filters
+// * Allows users to change what data to display without refreshing the page
+watch(refreshFilters, async (newFilters) => {
+    if (newFilters){
+        currentlyRefreshing.value = true; 
+
+        await getResearchNotes(url.value);
+
+        currentlyRefreshing.value = false;
+        refreshFilters.value = false;
+    }
 })
 
 </script>

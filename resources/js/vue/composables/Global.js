@@ -15,7 +15,7 @@ export const tyrianCurrentPeriod = ref(null);
 export const tyrianTimeTilNext = ref(null); 
 export const canthanCurrentPeriod = ref(null);
 export const canthanTimeTilNext = ref(null);
-
+// CHECK IF SCREEN IS MOBILE
 export const isMobile = ref(window.innerWidth < 786);
 
 
@@ -27,6 +27,8 @@ export const sellOrder = ref('sell_price');
 export const tax = ref(0.85);
 export const includes = ref([]);
 export const filterResearchNotes = ref(["Crafting","TP","Armorsmith","Artificer","Chef","Huntsman","Jeweler","Leatherworker","Scribe","Tailor","Weaponsmith","Consumable","Armor","Weapon","Back","Trinket"]);
+// MAKE THIS 'TRUE' IN FUNCTIONS THAT ALTER THE SETTINGS TO TRIGGER A REFRESH OF DATA ON PAGES
+export const refreshSettings = ref(false);
 
 // UPDATE settings when user has logged on or off
 watch(user, (userData) => {
