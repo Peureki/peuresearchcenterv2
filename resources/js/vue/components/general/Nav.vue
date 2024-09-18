@@ -594,8 +594,6 @@
             <router-link to="/">
                 <img class="mobile-home" :src="PeuChoya" alt="Redirect to Home" title="Home">
             </router-link>
-
-            <p></p>
             
 
             <svg v-if="mobileHamburger" @click="mobileHamburger = !mobileHamburger; mainNavToggle = !mainNavToggle" class="hamburger" width="25" height="17" viewBox="0 0 25 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -909,22 +907,19 @@ watch(tax, (newtax) => {
 
 // Function to update isMobile based on screen width
 const checkMobile = () => {
-    const currentWidth = window.innerWidth < 768; 
+    isMobile.value = window.innerWidth < 768;
     
-    if (currentWidth != isMobile.value){
-        if (!isMobile.value){
-            mainNavToggle.value = true;
-            mobileHamburger.value = false;
-        } else {
-            mainNavToggle.value = false;
-            mobileHamburger.value = true;
-        }
+    if (!isMobile.value){
+        mainNavToggle.value = true;
+        mobileHamburger.value = false;
+    } else {
+        mainNavToggle.value = false;
+        mobileHamburger.value = true;
     }
 };
 
 // Add resize event listener when the component is mounted
 onMounted(() => {
-    isMobile.value = window.innerWidth < 768;
     window.addEventListener('resize', checkMobile);
     checkMobile();
 });
