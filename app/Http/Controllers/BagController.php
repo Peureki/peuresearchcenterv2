@@ -38,6 +38,7 @@ class BagController extends Controller
 
     public function exchangeables($request, $includes, $sellOrderSetting, $tax){
         // Make it a workable arrays
+        // New accounts that haven't set any settings may still have "null"
         if ($includes == "null"){
             $includes = [];
         } else {

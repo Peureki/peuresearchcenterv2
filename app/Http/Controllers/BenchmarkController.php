@@ -19,6 +19,13 @@ class BenchmarkController extends Controller
 
     public function maps($includes, $sellOrderSetting, $tax){
 
+        // Make it a workable arrays
+        // New accounts that haven't set any settings may still have "null"
+        if ($includes == "null"){
+            $includes = [];
+        } else {
+            $includes = json_decode($includes);
+        }
         // Create unique cache key with the unique paramters a user may have
         $cacheKey = 'map_benchmarks_' . md5(json_encode($includes) . $sellOrderSetting . $tax); 
 
@@ -29,10 +36,7 @@ class BenchmarkController extends Controller
             Log::info('this is the cached benchmarks: ', $cachedResponse);
             return response()->json($cachedResponse); 
         }
-
-
-        // Make it a workable arrays
-        $includes = json_decode($includes); 
+        
 
         $mapDropRates = MapBenchmarkDropRate::join('map_benchmarks as map', 'map_benchmark_drop_rates.map_benchmark_id', '=', 'map.id')
         ->leftjoin('items as item', 'map_benchmark_drop_rates.item_id', '=', 'item.id')
@@ -128,11 +132,16 @@ class BenchmarkController extends Controller
 
     public function fishing($includes, $buyOrderSetting, $sellOrderSetting, $tax){
 
+        // Make it a workable arrays
+        // New accounts that haven't set any settings may still have "null"
+        if ($includes == "null"){
+            $includes = [];
+        } else {
+            $includes = json_decode($includes);
+        }
+
         // Create unique cache key with the unique paramters a user may have
         $cacheKey = 'fishing_benchmarks_' . md5(json_encode($includes) . $sellOrderSetting . $tax); 
-
-        // Make it a workable arrays
-        $includes = json_decode($includes); 
 
         $fishingHoleDropRates = FishingHoleDropRate::join('fishing_holes as holes', 'fishing_hole_drop_rates.fishing_hole_id', '=', 'holes.id')
         ->leftjoin('items', 'fishing_hole_drop_rates.item_id', '=', 'items.id')
