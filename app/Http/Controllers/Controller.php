@@ -259,21 +259,25 @@ class Controller extends BaseController
         ];
 
         $this->imperialFavor = [
-            'id' => [
-                // Antique Summoning Stone
-                96978, 
-                // Bounty of [city]
-                95796, 97797, 95771, 96345
-            ],
-            'conversionRate' => [
+            'id' => array_merge(
+                $this->dailyExchanges['id'], [
+                96978, // Antique Summoning Stone
+                95796, 97797, 95771, 96345 // Bounty of [city]
+            ]),
+            'conversionRate' => array_merge(
+                $this->dailyExchanges['conversionRate'], [
                 100, 
                 200, 200, 200, 200
-            ],
-            'fee' => array_fill(0, 5, 0),
-            'outputQty' => [
+            ]),
+            'fee' => array_merge(
+                $this->dailyExchanges['fee'], 
+                array_fill(count($this->dailyExchanges['fee']), 5, 0)
+            ),
+            'outputQty' => array_merge(
+                $this->dailyExchanges['outputQty'],[
                 1,
                 1, 1, 1, 1
-            ],
+            ]),
         ];
 
         $this->jadeSliver = [
@@ -497,7 +501,7 @@ class Controller extends BaseController
                 101727, // Astral Fluc Mass
             ]),
             'conversionRate' => array_merge(
-                $this->dailyExchanges['conversionRate'], [
+                array_fill(0, count($this->dailyExchanges['conversionRate']), 3), [
                 1, 
                 2
             ]),
