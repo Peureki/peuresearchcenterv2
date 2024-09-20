@@ -681,22 +681,7 @@ span.label-and-subtitle{
     padding-inline: var(--gap-general);
 }
 
-/* 
-    =================================================
-    * CHARTS AND GRAPHS
-    =================================================
-*/
-.pie-chart {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-content);
-    position: relative;
-}
-@media (max-width: 768px){
-    .pie-chart{
-        display: none;
-    }
-}
+
 /* 
     =================================================
     * DETAILS CONTAINER
@@ -705,6 +690,11 @@ span.label-and-subtitle{
 .details-container{
     display: flex;
     gap: var(--gap-content);
+}
+@media (max-width: 768px){
+    .details-container{
+        flex-direction: column-reverse;
+    }
 }
 /* 
     =================================================
@@ -1137,6 +1127,20 @@ svg.arrow path{
 
 /* 
     =================================================
+    * MAP GUIDES
+    =================================================
+*/
+img.map-guide{
+    width: var(--w-map-guide);
+}
+@media (max-width: 768px){
+    img.map-guide{
+        width: 100%;
+    }
+}
+
+/* 
+    =================================================
     * BUTTONS
     =================================================
 */
@@ -1359,6 +1363,9 @@ svg.arrow path{
     --padding-mobile-general: 10px;
     --padding-general: clamp(0.6rem, 0.7vw, 1rem);
     --padding-left-nav: calc(var(--nav-width) + var(--gap-general));
+
+    --w-pie-chart: clamp(18rem, 20vw, 35rem);
+    --w-map-guide: clamp(20rem, 40vw, 40rem);
 
     --img-material-w: 20px;
     --img-header: clamp(1.5rem, 2vw, 3rem);

@@ -6,12 +6,14 @@
             :data="chartData"
         />
 
-        <div class="stats-container">
-            <span v-for="(array, index) in data" :key="index" class="stats">
-                <p :style="{color: showRarityColor(array.rarity)}">{{ array.rarity }}</p>
-                <p>{{ formatPercentage(array.dropRate) }}</p>
-            </span>
-        </div>
+        
+    </div>
+
+    <div class="stats-container">
+        <span v-for="(array, index) in data" :key="index" class="stats">
+            <p :style="{color: showRarityColor(array.rarity)}">{{ array.rarity }}</p>
+            <p>{{ formatPercentage(array.dropRate) }}</p>
+        </span>
     </div>
     
 </template>
@@ -110,9 +112,22 @@ chartData.datasets[0].data = data.value.map(item => item.dropRate);
 </script>
 
 <style scoped>
+/* 
+    =================================================
+    * CHARTS AND GRAPHS
+    =================================================
+*/
+.pie-chart {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-content);
+    position: relative;
+}
+
 .pie-container{
     display: flex;
     flex-direction: column;
+    width: var(--w-pie-chart);
 }
 .pie{
     max-width: 300px;
@@ -126,5 +141,13 @@ chartData.datasets[0].data = data.value.map(item => item.dropRate);
     justify-content: space-between;
     gap: 10px;
 }
-
+@media (max-width: 768px){
+    .pie-container{
+        width: unset;
+    }
+    .pie{
+        max-width: unset;
+        height: unset;
+    }
+}
 </style>
