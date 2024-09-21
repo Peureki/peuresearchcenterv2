@@ -56,6 +56,7 @@ import DreamFishGuide from '@/imgs/guides/fishing/Inner_Nayos_Dream_Fish.webp'
 import DWCLakeFishGuide from '@/imgs/guides/fishing/Drizzlewood_Coast_Lake_Fish.webp'
 import EchovaldLakeFishGuide from '@/imgs/guides/fishing/Echovald_Wilds_Lake_Fish.webp'
 import InnerNayosNayosianFishGuide from '@/imgs/guides/fishing/Inner_Nayos_Nayosian_Fish.webp'
+import LionsArchCoastalFishGuide from '@/imgs/guides/fishing/Lions_Arch_Coastal_Fish.webp'
 import NKCChannelFishGuide from '@/imgs/guides/fishing/New_Kaineng_City_Channel_Fish.webp'
 import NKCCoastalFishGuide from '@/imgs/guides/fishing/New_Kaineng_City_Coastal_Fish.webp'
 import SeitungShoreFish from '@/imgs/guides/fishing/Seitung_Province_Shore_Fish.webp'
@@ -82,6 +83,9 @@ const mapGuide = computed(() => {
             if (props.fishingHole.name == 'Nayosian Fish'){
                 return InnerNayosNayosianFishGuide;
             }
+
+        case "Lion's Arch":
+            return LionsArchCoastalFishGuide;
 
         case "New Kaineng City":
             if (props.fishingHole.name == 'Channel Fish'){

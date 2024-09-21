@@ -5,6 +5,6 @@ import router from './vue/router.js'
 import VueGtag from "vue-gtag";
 
 
-createApp(App).use(router).use(VueGtag, {
+createApp(App).use(VueGtag, {
     config: {id: 'G-8SPGK01QKX'}
-}).mount('#app')
+}, router).use(router).mount('#app')

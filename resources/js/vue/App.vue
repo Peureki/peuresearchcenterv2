@@ -1365,7 +1365,7 @@ img.map-guide{
     --padding-left-nav: calc(var(--nav-width) + var(--gap-general));
 
     --w-pie-chart: clamp(18rem, 20vw, 35rem);
-    --w-map-guide: clamp(20rem, 40vw, 40rem);
+    --w-map-guide: clamp(20rem, 50vw, 45rem);
 
     --img-material-w: 20px;
     --img-header: clamp(1.5rem, 2vw, 3rem);
