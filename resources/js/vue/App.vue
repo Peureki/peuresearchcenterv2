@@ -1270,6 +1270,7 @@ img.map-guide{
     --color-table-header: #79eb94;
     --color-subheader: #79EB94;
     --color-up: #5ED625;
+    --color-up-faded: rgba(94, 214, 37, 0.5);
     --color-down: #EC004D;
     --color-positive: #11BC1E;
     --color-negative: #A56464;

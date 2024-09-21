@@ -16,12 +16,19 @@
                     <span class="benchmark-title-and-value">
                         <span class="title-container">
                             <p class="title" :class="changeTimeBackground(fishingHole.time)">{{ fishingHole.name }}</p>
-                            <svg v-if="fishingHole.name !== 'Deep World-Class Fish'" width="10" height="10" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="5" cy="5" r="5" stroke="black" stroke-width="1" :fill="matchTyrianTime(fishingHole.time, fishingHole.region)" />
-                            </svg>
-                            <!-- DEEP WORLD CLASS FISH ONLY -->
-                            <svg v-else width="10" height="10" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="5" cy="5" r="5" stroke="black" stroke-width="1" fill="var(--color-up)" />
+                            <!--
+                                *
+                                * SVG SIGNAL
+                                *
+                            -->
+                            <svg 
+                                class="signal" 
+                                :class="matchTyrianTime(fishingHole.time, fishingHole.region)"
+                                width="30" height="30" xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <circle class="fill-circle" cx="15" cy="15" r="5" stroke="black" stroke-width="1" />
+                                <circle class="expand-circle" cx="15" cy="15" r="15"  fill="transparent" stroke-width="1"/>
+                                <title>{{ matchTyrianTime(fishingHole.time, fishingHole.region) }}</title>
                             </svg>
                         </span>
                         
@@ -180,9 +187,11 @@ const matchTyrianTime = (benchmarkTime, region) => {
                 canthanCurrentPeriod.value === 'Dusk' || 
                 canthanCurrentPeriod.value === 'Dawn'
             ){
-                return 'var(--color-up)'
+                return 'Active'
+                
             } else {
-                return 'var(--color-down)'
+                return 'Inactive'
+                
             }
         // else if fishing benchmark is TYRIAN
         } else {
@@ -190,9 +199,9 @@ const matchTyrianTime = (benchmarkTime, region) => {
                 tyrianCurrentPeriod.value === 'Dusk' || 
                 tyrianCurrentPeriod.value === 'Dawn'
             ){
-                return 'var(--color-up)'
+                return 'Active'
             } else {
-                return 'var(--color-down)'
+                return 'Inactive'
             }
         }
     }).value; 
@@ -214,6 +223,49 @@ const matchTyrianTime = (benchmarkTime, region) => {
 }
 .any{
     color: var(--color-anytime); 
+}
+/*
+    *
+    * ACTIVE OR INACTIVE BENCHMARKS
+    * When active => expand circle
+*/
+.Active > circle.fill-circle{
+    animation: 5s infinite forwards activeSignal; 
+}
+.Active > circle.expand-circle{
+    animation: 5s infinite forwards expandSignal;
+    stroke: var(--color-up);
+}
+.Inactive > circle.fill-circle{
+    fill: var(--color-down);
+}
+.Inactive > circle.expand-circle{
+    display: none;
+}
+@keyframes activeSignal {
+    0% {
+        fill: var(--color-up-faded);
+    }
+    50% {
+        fill: var(--color-up);
+    }
+    100% {
+        fill: var(--color-up-faded);
+    }
+}
+@keyframes expandSignal {
+    0% {
+        r: 5;
+        stroke-opacity: 1;
+    }
+    50% {
+        r: 10;
+        stroke-opacity: 0.5;
+    }
+    100% {
+        r: 10;
+        stroke-opacity: 0;
+    }
 }
 
 @media (max-width: 768px){

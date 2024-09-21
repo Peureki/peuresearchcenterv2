@@ -159,6 +159,7 @@ class FetchResearchNotes implements ShouldQueue
             ["Spinach Burger", 1],
             ["Zephyrite Fish Jerky", 1],
             ["Feathered", 5.5],
+            ["Block of Tofu", 1.1],
         ];
 
         $restrictedItems = [
@@ -272,10 +273,15 @@ class FetchResearchNotes implements ShouldQueue
             foreach ($salvageableItems as $item){
                 $recipe = Recipes::where('output_item_id', $item->id)->first();
 
+                // Check if recipe is !null
                 if ($recipe) {
+                    // Reset avgOutput
                     $avgOutput = null; 
+                    // Go through salvageableMap with the categories and their avgOutput
                     foreach ($salvageableMap as $category => $value){
-                        if (strpos($item->name, $category) != false){
+                        // If the item name string matches one of the words in the $category
+                        // Or if item name matches the $category exactly
+                        if (strpos($item->name, $category) != false || $item->name == $category){
                             $avgOutput = $value; 
                             break;
                         }

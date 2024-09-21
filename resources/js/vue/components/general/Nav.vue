@@ -138,7 +138,7 @@
                     *
                 -->
                 <Transition name="fade-right">
-                    <div v-if="settingsToggle">
+                    <div v-if="settingsToggle" ref="settingsElement" id="#settings">
                         <div class="shortcut-container">
                             <h3>Settings</h3>
                             <p v-if="!user" class="error-message">Register/Login to save these settings</p>
@@ -384,9 +384,8 @@
                 -->
                 <Transition name="fade-right">
                     
-                    <div class="shortcut-container">
+                    <div v-if="filtersToggle" class="shortcut-container" ref="filtersElement">
                         <slot 
-                            v-if="filtersToggle"
                             name="filters"
                         />
 
@@ -608,7 +607,7 @@
 </template>
 
 <script setup>
-import { ref, watch, provide, onMounted, onUnmounted, computed } from 'vue'
+import { ref, watch, provide, onMounted, onUnmounted, computed, nextTick } from 'vue'
 
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
@@ -681,11 +680,29 @@ const name = ref(''),
     authErrorStatus = ref(null),
     authErrorMessage = ref(null);
 
+const settingsElement = ref(null),
+    filtersElement = ref(null);
+
 const registerToggle = ref(false);
 // Wizard's Vault
 const wv = ref(null); 
 
 const timerPageToggle = ref(false);
+
+// Scroll to Settings div when users toggle Settings shortcut
+const scrollToSettings = () => {
+    if (settingsElement.value){
+        settingsElement.value.scrollIntoView({behavior: 'smooth'});
+    }
+}
+
+const scrollToFilters = () => {
+    if (filtersElement.value){
+        console.log('does this happe')
+        filtersElement.value.scrollIntoView({behavior: 'smooth'});
+    }
+}
+
 
 
 // *
@@ -833,7 +850,6 @@ const changeToggleStatus = (toggleName) => {
 
         case 'Settings':
             settingsToggle.value = !settingsToggle.value; 
-            break;
     } 
 }
 

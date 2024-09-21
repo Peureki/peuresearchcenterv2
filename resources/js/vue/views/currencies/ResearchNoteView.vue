@@ -74,6 +74,9 @@
         <div class="content-section">
             <Loading v-if="!researchNotes || currentlyRefreshing" :width="200" :height="200"/>
 
+            <Disclaimer v-if="researchNotes && researchNotes.data == 0"
+                message="Check your Filters"
+            />
             
 
             <ResearchNotesCard
@@ -84,9 +87,7 @@
                 @new-url="getResearchNotes"
             />
 
-            <Disclaimer v-if="researchNotes && researchNotes.data == 0"
-                message="Check your Filters if empty"
-            />
+            
         </div>
         
         <!-- <ResearchNotesTable/> -->

@@ -57,9 +57,12 @@ import DWCLakeFishGuide from '@/imgs/guides/fishing/Drizzlewood_Coast_Lake_Fish.
 import EchovaldLakeFishGuide from '@/imgs/guides/fishing/Echovald_Wilds_Lake_Fish.webp'
 import InnerNayosNayosianFishGuide from '@/imgs/guides/fishing/Inner_Nayos_Nayosian_Fish.webp'
 import LionsArchCoastalFishGuide from '@/imgs/guides/fishing/Lions_Arch_Coastal_Fish.webp'
+import MountMaelstromSaltwaterFishGuide from '@/imgs/guides/fishing/Mount_Maelstrom_Saltwater_Fish.webp'
 import NKCChannelFishGuide from '@/imgs/guides/fishing/New_Kaineng_City_Channel_Fish.webp'
 import NKCCoastalFishGuide from '@/imgs/guides/fishing/New_Kaineng_City_Coastal_Fish.webp'
+import RataSumSaltwaterFishGuide from '@/imgs/guides/fishing/Rata_Sum_Saltwater_Fish.webp'
 import SeitungShoreFish from '@/imgs/guides/fishing/Seitung_Province_Shore_Fish.webp'
+import StraitsOffshroeFish from '@/imgs/guides/fishing/Straits_of_Devestation_Offshore_Fish.webp'
 import ThunderheadBorealFishGuide from '@/imgs/guides/fishing/Thunderhead_Peaks_Boreal_Fish.webp'
 
 
@@ -87,6 +90,9 @@ const mapGuide = computed(() => {
         case "Lion's Arch":
             return LionsArchCoastalFishGuide;
 
+        case "Mount Maelstrom":
+            return MountMaelstromSaltwaterFishGuide;
+
         case "New Kaineng City":
             if (props.fishingHole.name == 'Channel Fish'){
                 return NKCChannelFishGuide; 
@@ -95,10 +101,16 @@ const mapGuide = computed(() => {
                 return NKCCoastalFishGuide; 
             }
 
+        case "Rata Sum":
+            return RataSumSaltwaterFishGuide;
+
         case "Seitung Province":
             if (props.fishingHole.name == 'Shore Fish'){
                 return SeitungShoreFish;
             }
+
+        case "Straits of Devestation":
+            return StraitsOffshroeFish;
 
         case "Thunderhead Peaks":
             return ThunderheadBorealFishGuide;
