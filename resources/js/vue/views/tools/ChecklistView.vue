@@ -153,7 +153,7 @@ const requestedItem = ref(null),
     requestedQuantity = ref(null),
     entryInput = ref(null),
     entryNumber = ref(1),
-    checklist = ref(null);
+    checklist = ref([]);
 
 const searchItemToggle = ref(false),
     searchRecipeToggle = ref(false),
@@ -189,6 +189,10 @@ const getChecklist = () => {
 
 
 const handleRecipeRequest = async (searchResults, quantity) => {
+    if (!Array.isArray(checklist.value)){
+        checklist.value = []; 
+    }
+    
     requestedItem.value = searchResults; 
     requestedQuantity.value = quantity; 
 
@@ -199,6 +203,9 @@ const handleRecipeRequest = async (searchResults, quantity) => {
 }
 
 const handleCustomEntry = (quantity, entry) => {
+    if (!Array.isArray(checklist.value)){
+        checklist.value = []; 
+    }
     checklist.value.push({
         count: quantity, 
         name: entry,
@@ -206,6 +213,9 @@ const handleCustomEntry = (quantity, entry) => {
 }
 
 const handleItemSearch = async (searchResults) => {
+    if (!Array.isArray(checklist.value)){
+        checklist.value = []; 
+    }
     checklist.value.push(searchResults)
 }
 
