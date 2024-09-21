@@ -21,7 +21,14 @@ class CurrencyController extends Controller
     // * RETURN recipe value and research note value
     public function researchNote($buyOrderSetting, $filter){
         $buyOrderSetting = $this->getBuyOrderSetting($buyOrderSetting);
-        $filteredArray = json_decode($filter);
+        // $filter might be "null" for users
+        // By default, start with an empty array
+        $filteredArray = []; 
+        // Unless it's not "null", then use the settings the user has chosen
+        if ($filter != "null"){
+            $filteredArray = json_decode($filter);
+        } 
+        
 
         //dd($filteredArray, $filter);
 

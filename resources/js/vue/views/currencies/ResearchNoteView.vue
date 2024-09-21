@@ -36,7 +36,7 @@
                         :toggle-option="filter"
                     />
                 </div>
-                <Transition name="fade"><p v-if="disciplineError" class="error-message">Needs 1+ active</p></Transition>
+                <Disclaimer v-if="disciplineError" message="At least 1 Discipline needs to be active"/>
             </div>
             
             <div class="filter-container">
@@ -52,7 +52,7 @@
                         :toggle-option="filter"
                     />
                 </div>
-                <Transition name="fade"><p v-if="typeError" class="error-message">Needs 1+ active</p></Transition>
+                <Disclaimer v-if="typeError" message="At least 1 Item Type needs to be active"/>
             </div>
             
             <div class="filter-container">
@@ -112,7 +112,7 @@ import FilterToggle from '@/js/vue/components/general/FilterToggle.vue'
 
 import { pageRefresh } from '@/js/vue/composables/BasicFunctions'
 import axios from 'axios'
-import { filterResearchNotes, user, buyOrder, sellOrder, tax } from '@/js/vue/composables/Global'
+import { filterResearchNotes, user, buyOrder, sellOrder, tax, refreshSettings } from '@/js/vue/composables/Global'
 import { getAuthUser } from '@/js/vue/composables/Authentication'
 
 // *
@@ -168,19 +168,57 @@ const getResearchNotes = async (url) => {
 onMounted( async () => {
     // Check if user is being auth
     await getAuthUser(url.value);
-
-    // IF NO USER
-    if (!user.value){
-        console.log('no user')
-        getResearchNotes(url.value); 
-    } 
-    // USER FOUND
-    else {
-        console.log('user found')
-        getResearchNotes(url.value); 
-    }
-
+    console.log('url: ', url.value);
+    getResearchNotes(url.value); 
+    checkFilterDisclaimers(filterResearchNotes.value);
 })
+
+// Check if the filters need their Disclaimers to be active or not
+// Checks to see if each of the preferenc categories has at least one active at a time
+const checkFilterDisclaimers = (currentFilters) => {
+    console.log('current filters: ', currentFilters);
+    // If null
+    if (!currentFilters){
+        preferenceError.value = true; 
+        disciplineError.value = true;
+        typeError.value = true; 
+    // If !null
+    } else {
+        if (currentFilters.includes('TP') || currentFilters.includes('Crafting')){
+            preferenceError.value = false; 
+        } else {
+            preferenceError.value = true;
+        }
+
+        if (currentFilters.includes('Armorsmith')
+            || currentFilters.includes('Artificer')
+            || currentFilters.includes('Chef')
+            || currentFilters.includes('Huntsman')
+            || currentFilters.includes('Jeweler')
+            || currentFilters.includes('Leatherworker')
+            || currentFilters.includes('Tailor')
+            || currentFilters.includes('Weaponsmith')
+        ){
+            disciplineError.value = false;
+        } else {
+            disciplineError.value = true;
+        }
+
+        if (
+            currentFilters.includes('Consumable')
+            || currentFilters.includes('Weapon')
+            || currentFilters.includes('Armor')
+            || currentFilters.includes('Back')
+            || currentFilters.includes('Trinket')
+        ){
+            typeError.value = false;
+        } else {
+            typeError.value = true; 
+        }
+    }
+}
+
+
 
 // *
 // * REFRESH FILTERS
@@ -196,5 +234,27 @@ watch(refreshFilters, async (newFilters) => {
         refreshFilters.value = false;
     }
 })
+// *
+// * REFRESH SETTINGS
+// * Changes when users Save their settings
+// * Allows users to change what data to display without refreshing the page
+watch(refreshSettings, async (newSettings) => {
+    if (newSettings){
+        currentlyRefreshing.value = true; 
+
+        await getResearchNotes(url.value);
+
+        currentlyRefreshing.value = false;
+        refreshSettings.value = false; 
+    }
+})
+// Whenever users toggle the filters on/off, check if the Disclaimers need to be active or not
+watch(filterResearchNotes, (newFilters) => {
+    if (newFilters){
+        checkFilterDisclaimers(newFilters);
+    }
+})
+
+
 
 </script>

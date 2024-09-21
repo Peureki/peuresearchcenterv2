@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import { user, includes, filterResearchNotes } from '@/js/vue/composables/Global'
 import { getAuthUser } from '@/js/vue/composables/Authentication'
 
@@ -29,13 +29,18 @@ const setIncludes = (name, toggle) => {
         // If the name is in includes array
         if (index > -1){
             if (!toggle){
-                filterResearchNotes.value.splice(index, 1); 
+                //filterResearchNotes.value.splice(index, 1); 
+                filterResearchNotes.value = [
+                    ...filterResearchNotes.value.slice(0, index),
+                    ...filterResearchNotes.value.slice(index + 1)
+                ]
             }
         } 
         // If the name is not in the includes array
         else {
             if (toggle){
-                filterResearchNotes.value.push(name); 
+                //filterResearchNotes.value.push(name); 
+                filterResearchNotes.value = [...filterResearchNotes.value, name];
             }
         }
     } 
@@ -43,8 +48,9 @@ const setIncludes = (name, toggle) => {
     else {
         // Add name 
         if (toggle){
-            filterResearchNotes.value = [];
-            filterResearchNotes.value.push(name)
+            filterResearchNotes.value = [name];
+            //filterResearchNotes.value = [];
+            //filterResearchNotes.value.push(name)
         }
     }
     console.log('filtered research notes: ', filterResearchNotes.value);

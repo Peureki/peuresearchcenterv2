@@ -82,9 +82,7 @@
                         <span class="gold-label-container">
                             <span 
                                 class="gold-label" 
-                                v-for="gold in formatValue(
-                                    buyOrder == 'buy_price' ? recipe[0].buy_price : recipe[0].sell_price
-                                )"
+                                v-for="gold in formatValue(recipe[0].buy_price)"
                             >
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                             </span>
@@ -100,9 +98,7 @@
                         <span class="gold-label-container">
                             <span 
                                 class="gold-label" 
-                                v-for="gold in formatValue(
-                                    buyOrder == 'sell_price' ? recipe[0].buy_price : recipe[0].sell_price
-                                )"
+                                v-for="gold in formatValue(recipe[0].sell_price)"
                             >
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                             </span>
