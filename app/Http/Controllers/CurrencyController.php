@@ -15,6 +15,51 @@ use PDO;
 
 class CurrencyController extends Controller
 {
+    public function favoriteResearchNote($buyOrderSetting, $favorites){
+        $buyOrderSetting = $this->getBuyOrderSetting($buyOrderSetting);
+
+        $favoritesArray = []; 
+
+        if ($favorites != 'null'){
+            $favoritesArray = json_decode($favorites); 
+        }
+
+        //dd($favoritesArray);
+        $favoritesQuery = ResearchNotes::select('*')
+            ->join('recipes', 'research_note.recipe_id', '=', 'recipes.id')
+            ->join('items', 'research_note.item_id', '=', 'items.id')
+            ->whereIn('output_item_id', $favoritesArray);
+
+        $researchNotes = $favoritesQuery
+            ->orderByRaw("
+                CASE 
+                WHEN (items.buy_price = 0 AND items.sell_price = 0) OR (items.buy_price IS NULL OR items.sell_price IS NULL)
+                    THEN crafting_value / avg_output
+                WHEN '$buyOrderSetting' = 'buy_price' AND items.buy_price = 0
+                    THEN crafting_value / avg_output
+                WHEN '$buyOrderSetting' = 'buy_price' THEN
+                    CASE 
+                    WHEN items.buy_price < crafting_value 
+                        THEN items.buy_price / avg_output
+                        ELSE crafting_value / avg_output
+                    END
+                WHEN '$buyOrderSetting' = 'sell_price' THEN
+                    CASE 
+                    WHEN items.sell_price < crafting_value
+                        THEN items.sell_price / avg_output
+                        ELSE crafting_value / avg_output
+                    END
+                END
+            ")->get(); 
+
+        // Add 'favorite' property so that the heart symbol in the frontend can be filled to indicate the user has favorited this item
+        $researchNotes->each(function ($researchNote){
+            $researchNote->favorite = true;
+        });
+
+        //dd($researchNotes);
+        return response()->json($researchNotes);
+    }
     // *
     // * RESEARCH NOTES
     // *
@@ -27,7 +72,7 @@ class CurrencyController extends Controller
         // Unless it's not "null", then use the settings the user has chosen
         if ($filter != "null"){
             $filteredArray = json_decode($filter);
-        } 
+        }  
         
 
         //dd($filteredArray, $filter);

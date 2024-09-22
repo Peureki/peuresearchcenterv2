@@ -28,6 +28,7 @@ class User extends Authenticatable
         'settings_buy_order',
         'settings_sell_order',
         'settings_tax',
+        'favorites',
     ];
 
     /**
@@ -51,5 +52,6 @@ class User extends Authenticatable
         'checklist' => 'array',
         'includes' => 'array',
         'filter_research_notes' => 'array',
+        'favorites' => 'array',
     ];
 }

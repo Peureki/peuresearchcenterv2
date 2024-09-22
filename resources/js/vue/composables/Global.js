@@ -29,9 +29,11 @@ export const buyOrder = ref('buy_price');
 export const sellOrder = ref('sell_price');
 export const tax = ref(0.85);
 export const includes = ref([]);
+export const favorites = ref([]);
 export const filterResearchNotes = ref(["Crafting","TP","Armorsmith","Artificer","Chef","Huntsman","Jeweler","Leatherworker","Scribe","Tailor","Weaponsmith","Consumable","Armor","Weapon","Back","Trinket"]);
 // MAKE THIS 'TRUE' IN FUNCTIONS THAT ALTER THE SETTINGS TO TRIGGER A REFRESH OF DATA ON PAGES
 export const refreshSettings = ref(false);
+export const refreshFavorites = ref(false); 
 
 // UPDATE settings when user has logged on or off
 watch(user, (userData) => {

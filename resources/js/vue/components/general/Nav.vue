@@ -611,7 +611,7 @@ import { ref, watch, provide, onMounted, onUnmounted, computed, nextTick } from 
 
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
-import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings, loginToggle, mainNavToggle, mobileHamburger } from '@/js/vue/composables/Global.js';
+import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings, loginToggle, mainNavToggle, mobileHamburger, favorites, filterResearchNotes } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
 import { getAuthUser, logout, register } from '@/js/vue/composables/Authentication';
 
@@ -670,7 +670,6 @@ import HappyChoya from '@/imgs/choyas/Happy_Choya.png'
 import axios from 'axios';
 import { update } from 'lodash';
 import NavSection from '@/js/vue/components/navigation/NavSection.vue';
-import { filterResearchNotes } from '../../composables/Global';
 
 // Initialize form fields
 const name = ref(''), 
@@ -958,6 +957,7 @@ watch(user, (userData) => {
         tax.value = userData.settings_tax; 
         includes.value = userData.includes;
         filterResearchNotes.value = userData.filter_research_notes;
+        favorites.value = userData.favorites; 
     }
 })
 

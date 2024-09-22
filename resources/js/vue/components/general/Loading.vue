@@ -21,6 +21,10 @@ const props = defineProps({
 <style scoped>
 
 img.loading-icon{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 10000000;
     animation: roll 1s linear infinite;
 }
 @keyframes roll{

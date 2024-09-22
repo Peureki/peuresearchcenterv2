@@ -6,7 +6,6 @@
 
             <div class="filter-container">
                 <h3>Filters</h3>
-
                 <!-- 
                     *
                     * PREFERENCES FILTERS
@@ -70,28 +69,56 @@
         </template>
     </Nav>
 
-    <section class="main">
-        <div class="content-section">
-            <Loading v-if="!researchNotes || currentlyRefreshing" :width="200" :height="200"/>
+    <Loading v-if="!researchNotes || currentlyRefreshing" :width="200" :height="200"/>
 
-            <Disclaimer v-if="researchNotes && researchNotes.data == 0"
-                message="Check your Filters"
-            />
-            
+    <div class="flex-column" :class="{'column-reverse': columnReverse}">
+        <section class="main" v-if="favoriteResearchNotes.length != 0">
+            <div class="content-section"> 
+                <Disclaimer v-if="!user" message="Favorites will not save unless logged in"/> 
+                <div class="img-and-label">
+                    <h3>Favorites</h3>
+                    <svg class="icon clickable" @click="columnReverse = !columnReverse" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5.83333 8.5L0.5 12.5M0.5 12.5L5.83333 16.5M0.5 12.5H16.5M11.1667 0.5L16.5 4.5M16.5 4.5L11.1667 8.5M16.5 4.5H0.5" stroke="#FFD12C" stroke-linecap="round" stroke-linejoin="round"/>
+                        <title>Swap arrangement of Favorites & Database</title>
+                    </svg>
+                </div>
+                
 
-            <ResearchNotesCard
-                v-if="researchNotes"
-                :currency-icon="ResearchNote"
-                target-currency="Research Note"
-                :research-notes="researchNotes"
-                @new-url="getResearchNotes"
-            />
+                <ResearchNotesCard
+                    :is-favorite="true"
+                    :currency-icon="ResearchNote"
+                    target-currency="Research Note"
+                    :research-notes="favoriteResearchNotes"
+                    @new-url="getResearchNotes"
+                />
+            </div>
+        </section>
 
-            
-        </div>
-        
-        <!-- <ResearchNotesTable/> -->
-    </section>
+        <section class="main" v-if="researchNotes">
+            <div class="content-section">
+                <Disclaimer v-if="researchNotes && researchNotes.data == 0"
+                    message="Check your Filters"
+                />
+
+                <div class="img-and-label">
+                    <h3>Database</h3>
+                    <svg v-if="favoriteResearchNotes.length != 0" class="icon clickable" @click="columnReverse = !columnReverse" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5.83333 8.5L0.5 12.5M0.5 12.5L5.83333 16.5M0.5 12.5H16.5M11.1667 0.5L16.5 4.5M16.5 4.5L11.1667 8.5M16.5 4.5H0.5" stroke="#FFD12C" stroke-linecap="round" stroke-linejoin="round"/>
+                        <title>Swap arrangement of Favorites & Database</title>
+                    </svg>
+                </div>
+
+                <ResearchNotesCard
+                    :is-favorite="false"
+                    :currency-icon="ResearchNote"
+                    target-currency="Research Note"
+                    :research-notes="researchNotes"
+                    @new-url="getResearchNotes"
+                /> 
+            </div>
+        </section>
+    </div>
+    
 
     <Footer/>
 </template>
@@ -110,10 +137,13 @@ import ResearchNotesCard from '@/js/vue/components/tables/ResearchNotesCard.vue'
 import ResearchNote from '@/imgs/icons/Research_Note.png'
 
 import FilterToggle from '@/js/vue/components/general/FilterToggle.vue'
-
+// *
+// * COMPOSABLES
+// *
 import { pageRefresh } from '@/js/vue/composables/BasicFunctions'
+import { checkIfFavorite } from '@/js/vue/composables/FormatFunctions'
 import axios from 'axios'
-import { filterResearchNotes, user, buyOrder, sellOrder, tax, refreshSettings } from '@/js/vue/composables/Global'
+import { filterResearchNotes, user, buyOrder, sellOrder, tax, refreshSettings, favorites, refreshFavorites } from '@/js/vue/composables/Global'
 import { getAuthUser } from '@/js/vue/composables/Authentication'
 
 // *
@@ -132,6 +162,13 @@ const researchNotes = ref(null);
 const refreshFilters = ref(false),
     currentlyRefreshing = ref(false); 
 
+// False => favorites first
+// True => database first
+const columnReverse = ref(false); 
+
+// Favorites 
+const favoriteResearchNotes = ref([]);
+
 const saveFilters = async () => {
     try {
         const response = await axios.post('../api/user/saveFilterResearchNotes', {
@@ -139,7 +176,7 @@ const saveFilters = async () => {
         })
 
         if (response){
-            console.log('Saved Filter preferenes', filterResearchNotes.value, response)
+            //console.log('Saved Filter preferenes', filterResearchNotes.value, response)
             // Trigger watch
             refreshFilters.value = true;
         }
@@ -152,15 +189,43 @@ const url = computed(() => {
     return `../api/currencies/research-note/${buyOrder.value}/${JSON.stringify(filterResearchNotes.value)}`;
 })
 
+const favoritesUrl = computed(() => {
+    return `../api/currencies/favorite-research-note/${buyOrder.value}/${JSON.stringify(favorites.value.researchNotes)}`
+})
+
 const getResearchNotes = async (url) => {
     try {
         const response = await fetch(url);
         const responseData = await response.json();
 
+        // Only applies to auth users
+        if (user.value){
+            checkIfFavorite(responseData.data); 
+        }
+        
+
         researchNotes.value = responseData;
-        console.log('research notes: ', researchNotes.value.data);
+        //console.log('research notes: ', researchNotes.value.data);
     } catch (error){
         console.log('Error fetching data: ', error);
+    }
+}
+
+
+
+const getFavoriteNotes = async (url) => {
+    try {
+        const response = await fetch(url);
+        const responseData = await response.json(); 
+
+        if (response){
+            favoriteResearchNotes.value = responseData;
+            console.log('favorites notes response: ', favoriteResearchNotes.value);
+        }
+
+        
+    } catch (error){
+        console.log('Error fetching Favorites: ', error);
     }
 }
 
@@ -168,16 +233,22 @@ const getResearchNotes = async (url) => {
 // If there is no user logged in, use default settings
 onMounted( async () => {
     // Check if user is being auth
-    await getAuthUser(url.value);
-    console.log('url: ', url.value);
+    await getAuthUser();
+    //console.log('url: ', url.value);
     getResearchNotes(url.value); 
+
+    if (user.value){
+        getFavoriteNotes(favoritesUrl.value);
+    }
+    
+    //console.log('favorites url: ', favoritesUrl.value);
     checkFilterDisclaimers(filterResearchNotes.value);
 })
 
 // Check if the filters need their Disclaimers to be active or not
 // Checks to see if each of the preferenc categories has at least one active at a time
 const checkFilterDisclaimers = (currentFilters) => {
-    console.log('current filters: ', currentFilters);
+    //console.log('current filters: ', currentFilters);
     // If null
     if (!currentFilters){
         preferenceError.value = true; 
@@ -219,7 +290,19 @@ const checkFilterDisclaimers = (currentFilters) => {
     }
 }
 
+watch(refreshFavorites, async (newFavorites) => {
+    if (newFavorites){
+        console.log('refreshing favorites');        
+        currentlyRefreshing.value = true; 
 
+        await getFavoriteNotes(favoritesUrl.value);
+        checkIfFavorite(researchNotes.value.data); 
+        //console.log('current research notes: ', researchNotes.value);
+
+        currentlyRefreshing.value = false;
+        refreshFavorites.value = false; 
+    }
+})
 
 // *
 // * REFRESH FILTERS

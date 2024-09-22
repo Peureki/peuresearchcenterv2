@@ -354,7 +354,8 @@ table td img{
     cursor: pointer;
 }
 .checkbox label img{
-    width: var(--img-material-w);
+    width: var(--svg-icon-size);
+    height: var(--svg-icon-size);
 }
 .checkbox label:hover{
     color: var(--color-link);
@@ -1172,11 +1173,23 @@ img.map-guide{
 .disclaimer > path{
     fill: var(--color-down);
 }
+/* For SVG hearts */
+.favorite > path {
+    fill: var(--color-link);
+}
 .underline {
     text-decoration: underline;
 }
 .clickable {
     cursor: pointer;
+}
+
+.flex-column{
+    display: flex;
+    flex-direction: column;
+}
+.column-reverse{
+    flex-direction: column-reverse;
 }
 
 .strikethrough{

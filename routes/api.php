@@ -32,6 +32,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// *
+// * USER DATA
+// *
 Route::post('/user/enterAPIKey', [UserController::class, 'enterAPIKey']);
 Route::post('/user/saveChecklist', [UserController::class, 'saveChecklist']);
 Route::get('/user/getChecklist', [UserController::class, 'getChecklist']);
@@ -43,6 +46,8 @@ Route::post('/user/saveSettings', [UserController::class, 'saveSettings']);
 Route::get('/user/getUserData', [UserController::class, 'getUserData']);
 
 Route::post('/user/saveFilterResearchNotes', [UserController::class, 'saveFilterResearchNotes']);
+
+Route::post('/user/saveFavorites', [UserController::class, 'saveFavorites']);
 
 // *
 // * FETCH GENERAL STUFF
@@ -120,12 +125,11 @@ Route::get('/currencies/salvage-research-notes/{buyOrderSetting}/{sellOrderSetti
 
 
 Route::get('/currencies/research-note/{buyOrderSetting}/{filter}', [CurrencyController::class, 'researchNote']);
+Route::get('/currencies/favorite-research-note/{buyOrderSetting}/{favorites}', [CurrencyController::class, 'favoriteResearchNote']);
 
 
 // BAG DETAILS
 Route::get('/bags/{table}/{sellOrderSetting}/{tax}', [BagController::class, 'getTable']);
-
-
 
 
 // MERP TESTING

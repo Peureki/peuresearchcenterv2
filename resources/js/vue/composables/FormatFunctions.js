@@ -1,7 +1,8 @@
 import Gold from '@/imgs/icons/Gold.png'
 import Silver from '@/imgs/icons/Silver.png'
 import Copper from '@/imgs/icons/Copper.png'
-import { add } from 'lodash';
+
+import { favorites } from '@/js/vue/composables/Global'
 // FORMAT VALUES
 // *
 // *
@@ -148,5 +149,27 @@ export function formatStringToTime(decimalHours) {
 
 export function formatToDecimal(number){
     return Math.round(number * 100) / 100;
+}
+// 
+// CHECK IF FAVORITE
+// Current for research notes, but will be adjusted later
+// Checks any item matches the favorite's list
+// 
+// By default, .favorite is false
+// If yes => .favorite = true
+export const checkIfFavorite = (researchNotes) => {
+    console.log(researchNotes);
+
+    researchNotes.forEach(item => item.favorite = false);
+
+    if (favorites.value){
+        favorites.value.researchNotes.forEach(favorite => {
+            // Match the ID from favorites to the focused array
+            const matchedItem = researchNotes.find(item => item.id == favorite);
+            if (matchedItem){
+                matchedItem.favorite = true; 
+            }
+        })
+    }
 }
   
