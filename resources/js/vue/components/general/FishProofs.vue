@@ -52,17 +52,25 @@
 import { formatValue, formatPercentage, showRarityColor, formatToMinutes } from '@/js/vue/composables/FormatFunctions.js'
 import { computed } from 'vue';
 
+import CrystalOasisDesertFishGuide from '@/imgs/guides/fishing/Crystal_Oasis_Desert_Fish.webp'
 import DreamFishGuide from '@/imgs/guides/fishing/Inner_Nayos_Dream_Fish.webp'
+import DomainOfKournaDesertFishGuide from '@/imgs/guides/fishing/Domain_of_Kourna_Desert_Fish.webp'
 import DWCLakeFishGuide from '@/imgs/guides/fishing/Drizzlewood_Coast_Lake_Fish.webp'
 import EchovaldLakeFishGuide from '@/imgs/guides/fishing/Echovald_Wilds_Lake_Fish.webp'
+import FrostgorgeBorealFishGuide from '@/imgs/guides/fishing/Frostgorge_Sound_Boreal_Fish.webp'
 import InnerNayosNayosianFishGuide from '@/imgs/guides/fishing/Inner_Nayos_Nayosian_Fish.webp'
 import LionsArchCoastalFishGuide from '@/imgs/guides/fishing/Lions_Arch_Coastal_Fish.webp'
+import LowlandOffshoreFishGuide from '@/imgs/guides/fishing/Lowland_Shore_Offshore_Fish.webp'
 import MountMaelstromSaltwaterFishGuide from '@/imgs/guides/fishing/Mount_Maelstrom_Saltwater_Fish.webp'
 import NKCChannelFishGuide from '@/imgs/guides/fishing/New_Kaineng_City_Channel_Fish.webp'
 import NKCCoastalFishGuide from '@/imgs/guides/fishing/New_Kaineng_City_Coastal_Fish.webp'
 import RataSumSaltwaterFishGuide from '@/imgs/guides/fishing/Rata_Sum_Saltwater_Fish.webp'
+import SandsweptIslesOffshoreFishGuide from '@/imgs/guides/fishing/Sandswept_Isles_Offshore_Fish.webp'
+import SandsweptIslesShoreFishGuide from '@/imgs/guides/fishing/Sandswept_Isles_Shore_Fish.webp'
+import SeitungOffshoreFishGuide from '@/imgs/guides/fishing/Seitung_Province_Offshore_Fish.webp'
 import SeitungShoreFish from '@/imgs/guides/fishing/Seitung_Province_Shore_Fish.webp'
 import StraitsOffshroeFish from '@/imgs/guides/fishing/Straits_of_Devestation_Offshore_Fish.webp'
+import SnowdenDriftsLakeFishGuide from '@/imgs/guides/fishing/Snowden_Drifts_Lake_fish.webp'
 import ThunderheadBorealFishGuide from '@/imgs/guides/fishing/Thunderhead_Peaks_Boreal_Fish.webp'
 
 
@@ -73,11 +81,20 @@ const props = defineProps({
 // Switch map guide depending on the fishing farm
 const mapGuide = computed(() => {
     switch (props.fishingHole.map){
+        case 'Crystal Oasis':
+            return CrystalOasisDesertFishGuide;
+
+        case 'Domain of Kourna':
+            return DomainOfKournaDesertFishGuide; 
+
         case "Drizzlewood Coast":
             return DWCLakeFishGuide;
 
         case "Echovald Wilds":
             return EchovaldLakeFishGuide;
+
+        case "Frostgorge Sound":
+            return FrostgorgeBorealFishGuide;
 
         case "Inner Nayos":
             if (props.fishingHole.name == 'Dream Fish'){
@@ -89,6 +106,9 @@ const mapGuide = computed(() => {
 
         case "Lion's Arch":
             return LionsArchCoastalFishGuide;
+
+        case "Lowland Shore":
+            return LowlandOffshoreFishGuide;
 
         case "Mount Maelstrom":
             return MountMaelstromSaltwaterFishGuide;
@@ -105,12 +125,27 @@ const mapGuide = computed(() => {
             return RataSumSaltwaterFishGuide;
 
         case "Seitung Province":
+            if (props.fishingHole.name == 'Offshore Fish'){
+                return SeitungOffshoreFishGuide;
+            }
             if (props.fishingHole.name == 'Shore Fish'){
                 return SeitungShoreFish;
             }
 
+        case "Sandswept Isles":
+            if (props.fishingHole.name == 'Offshore Fish'){
+                return SandsweptIslesOffshoreFishGuide;
+            }
+            if (props.fishingHole.name == 'Shore Fish'){
+                return SandsweptIslesShoreFishGuide;
+            }
+            
+
         case "Straits of Devestation":
             return StraitsOffshroeFish;
+
+        case "Snowden Drifts":
+            return SnowdenDriftsLakeFishGuide;
 
         case "Thunderhead Peaks":
             return ThunderheadBorealFishGuide;

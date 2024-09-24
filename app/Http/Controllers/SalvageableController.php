@@ -212,7 +212,7 @@ class SalvageableController extends Controller
                         $salvageableData[$index]['copperFedValue'] = $copperFedValue;
                         break;
                     case 1: 
-                        $fee = 6; 
+                        $fee = 30; 
                         $kit = "Runecrafter's";
                         $runecraftersValue = ($itemTotalValue - $fee) - ($salvageableValue * $tax); 
                         $salvageableData[$index]['runecraftersValue'] = $runecraftersValue;
