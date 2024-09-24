@@ -61,12 +61,14 @@ class RecipeController extends Controller
             ->where('items.id', $id)
             ->first(); 
 
-        //dd($recipe);
+        //dd($recipe->name, $recipe['ingredients']);
+        //dd($recipe['ingredients']);
+
         //dd($recipe['ingredients']);
 
         // To be returned
         // Start with index of 0 so that the output item is the first of the recipe tree displayed
-        $returnArray[] = [
+        $returnArray = [
             "name" => $recipe['name'],
             "buy_price" => $recipe['buy_price'] * $recipe['output_item_count'] * $quantity,
             "sell_price" => $recipe['sell_price'] * $recipe['output_item_count'] * $quantity,
@@ -75,102 +77,120 @@ class RecipeController extends Controller
             "type" => $recipe['type'],
             "rarity" => $recipe['rarity'],
             "craftingValue" => 0,
-            "preference" => null,
+            "preference" => 'TP',
         ];
 
-        // $returnArray[] = [
-        //     "name" => $recipe['name'],
-        //     "buy_price" => $recipe['buy_price'] * $recipe['output_item_count'] * $quantity, 
-        //     "sell_price" => $recipe['sell_price'] * $recipe['output_item_count'] * $quantity,
-        //     "count" => $recipe['output_item_count'] * $quantity,
-        //     "icon" => $recipe['icon']
-        // ];
-
         //dd($returnArray);
 
+        $returnArray['ingredients'] = $this->addRecipeTreePrices($recipe, $quantity);
+        //dd($returnArray);
+        $returnArray['craftingValue'] = $this->calculateCraftingValue($returnArray); 
+        //$returnArray['preference'] = $this->preferences($returnArray);
         
-        // Foreach ingredient in a recipe, add their values, icons
-        // This is the start of the recipe tree
-        foreach ($recipe['ingredients'] as $index => $ingredient){
-            $this->addRecipeTreePrices($ingredient, $returnArray[0]['ingredients'][$index], $quantity);  
+        if ($returnArray['craftingValue'] < $returnArray['buy_price'] && $returnArray['craftingValue'] < $returnArray['sell_price']){
+            $returnArray['preference'] = 'Crafting';
         }
-
-        //dd($returnArray);
-        // After getting the whole recipe tree
-        // CALCULATE each level of the tree by their crafting
-        $this->calculateCraftingValue($returnArray[0]);
-        $this->preferences($returnArray[0]);
-
-        $this->bestTreePath($returnArray[0]);
-
-        //dd($returnArray);
         
         return response()->json($returnArray);
     }
     // First ingredients of recipe
-    private function addRecipeTreePrices($ingredient, &$returnArray, $quantity){
-        // Get ingredient info from the Items db
-        $itemInfo = Items::where('id', $ingredient['id'])->first();
+    private function addRecipeTreePrices($recipe, $quantity){
+        $newRecipeTree = []; 
 
-        $returnArray = $ingredient;
-        $returnArray['count'] = $ingredient['count'] * $quantity; 
-        $returnArray['buy_price'] = $itemInfo['buy_price'] * $ingredient['count'] * $quantity;
-        $returnArray['sell_price'] = $itemInfo['sell_price'] * $ingredient['count'] * $quantity;
-
-        $this->exploreRecipeTreePrices($ingredient, $returnArray, $quantity); 
-    }
-    // Recipe tree beyond the first ingredients
-    private function exploreRecipeTreePrices($ingredients, &$returnArray, $quantity){
-        if (array_key_exists('ingredients', $ingredients)){
-            foreach ($ingredients['ingredients'] as $index => $ingredient){
-                // Get ingredient info from the Items db
-                $itemInfo = Items::where('id', $ingredient['id'])->first();
-
-                $returnArray['ingredients'][$index] = $ingredient;
-                $returnArray['ingredients'][$index]['count'] = $ingredient['count'] * $quantity; 
-                $returnArray['ingredients'][$index]['buy_price'] = $itemInfo['buy_price'] * $ingredient['count'] * $quantity;
-                $returnArray['ingredients'][$index]['sell_price'] = $itemInfo['sell_price'] * $ingredient['count'] * $quantity;
-                // Recusion if the recipe tree is greater than 2 levels
-                $this->exploreRecipeTreePrices($ingredient, $returnArray['ingredients'][$index], $quantity);
-            }
-        } else {
+        foreach ($recipe['ingredients'] as $ingredient){
+            //dd($ingredient, $returnArray, $quantity);
             // Get ingredient info from the Items db
-            $itemInfo = Items::where('id', $ingredients['id'])->first();
+            $itemInfo = Items::where('id', $ingredient['id'])->first();
+            //dd($itemInfo);
+            //$returnArray = $ingredient;
+            $ingredient['count'] *= $quantity; 
+            $ingredient['buy_price'] = $itemInfo['buy_price'] * $ingredient['count'] * $quantity;
+            $ingredient['sell_price'] = $itemInfo['sell_price'] * $ingredient['count'] * $quantity;
+            //dd($ingredient);
 
-            $returnArray = $ingredients;
-            $returnArray['count'] = $ingredients['count'] * $quantity; 
-            $returnArray['buy_price'] = $itemInfo['buy_price'] * $ingredients['count'] * $quantity;
-            $returnArray['sell_price'] = $itemInfo['sell_price'] * $ingredients['count'] * $quantity;
+            if (array_key_exists('ingredients', $ingredient)){
+                $ingredient['ingredients'] = $this->addRecipeTreePrices($ingredient, $quantity); 
+            }
+            $newRecipeTree[] = $ingredient; 
         }
+        
+        return $newRecipeTree; 
+
+        //$this->exploreRecipeTreePrices($ingredient, $returnArray, $quantity); 
+    }
+
+    private function calculateCraftingValue(&$recipe){
+        //dd($recipe);
+
+        $value = 0;
+
+        foreach ($recipe['ingredients'] as &$ingredient){
+            $prevoiusCraftingValue = 0;
+            //dd($ingredient);
+            if (array_key_exists('ingredients', $ingredient)){
+                $ingredient['craftingValue'] = $this->calculateCraftingValue($ingredient); 
+            } 
+            if (array_key_exists('craftingValue', $ingredient)){
+                $prevoiusCraftingValue = $ingredient['craftingValue'];
+            } else {
+                $prevoiusCraftingValue = min(
+                    $ingredient['buy_price'],
+                    $ingredient['sell_price']
+                );
+            }
+            $value += $prevoiusCraftingValue;
+            
+        }
+        //dd($value);
+        return $value;
+    }
+
+    private function preferences(&$recipe){
+        //dd($recipe);
+
+        $preference = 'TP';
+
+        foreach ($recipe['ingredients'] as &$ingredient){
+            if (array_key_exists('ingredients', $ingredient)){
+                $ingredient['preference'] = $this->preferences($ingredient);
+            }
+
+            if (array_key_exists('craftingValue', $ingredient)){
+                if ($ingredient['craftingValue'] < $ingredient['buy_price'] && $ingredient['craftingValue'] < $ingredient['sell_price']) {
+                    $preference = 'Crafting';
+                } else {
+                    $preference = 'TP';
+                }
+            } else {
+                $preference = 'TP';
+            }
+        }
+
+        return $preference; 
     }
 
 
-    public function calculateCraftingValue(&$returnArray){
+    public function calculateCraftingValueMERP(&$returnArray){
         $tempValue = 0; 
 
         foreach ($returnArray['ingredients'] as &$ingredient){
             if (array_key_exists('ingredients', $ingredient)){
                 $tempValue += $this->calculateCraftingValue($ingredient);
                 $this->preferences($ingredient);
-            } else {
+            } 
+            else {
                 if ($ingredient['buy_price'] < $ingredient['sell_price'] && $ingredient['buy_price'] != 0){
                     $tempValue += $ingredient['buy_price'];
-                } else if ($ingredient['buy_price'] > $ingredient['sell_price'] || ($ingredient['buy_price'] == 0 && $ingredient['sell_price'] != 0)) {
+                } 
+                else if ($ingredient['buy_price'] > $ingredient['sell_price'] || ($ingredient['buy_price'] == 0 && $ingredient['sell_price'] != 0)) {
                     $tempValue += $ingredient['sell_price'];
-                } else {
+                } 
+                else {
                     $tempValue += 0;
                 }
             }
         }
         return $returnArray['craftingValue'] = $tempValue;
-    }
-
-    public function preferences(&$ingredient){
-        if ($ingredient['craftingValue'] < $ingredient['buy_price'] || ($ingredient['buy_price'] == 0 && $ingredient['sell_price'] == 0)){
-            $ingredient['preference'] = 'Crafting';
-        } else {
-            $ingredient['preference'] = 'TP';
-        }
     }
 
     public function bestTreePath(&$returnArray){
@@ -182,9 +202,11 @@ class RecipeController extends Controller
                     case "TP":
                         if ($ingredient['buy_price'] < $ingredient['sell_price'] && $ingredient['buy_price'] != 0){
                             $tempValue += $ingredient['buy_price'];
-                        } else if ($ingredient['buy_price'] > $ingredient['sell_price'] || ($ingredient['buy_price'] == 0 && $ingredient['sell_price'] != 0)) {
+                        } 
+                        else if ($ingredient['buy_price'] > $ingredient['sell_price'] || ($ingredient['buy_price'] == 0 && $ingredient['sell_price'] != 0)) {
                             $tempValue += $ingredient['sell_price'];
-                        } else {
+                        } 
+                        else {
                             $tempValue += 0;
                         }
                         $this->bestTreePath($ingredient);
@@ -196,9 +218,11 @@ class RecipeController extends Controller
             } else {
                 if ($ingredient['buy_price'] < $ingredient['sell_price'] && $ingredient['buy_price'] != 0){
                     $tempValue += $ingredient['buy_price'];
-                } else if ($ingredient['buy_price'] > $ingredient['sell_price'] || ($ingredient['buy_price'] == 0 && $ingredient['sell_price'] != 0)) {
+                } 
+                else if ($ingredient['buy_price'] > $ingredient['sell_price'] || ($ingredient['buy_price'] == 0 && $ingredient['sell_price'] != 0)) {
                     $tempValue += $ingredient['sell_price'];
-                } else {
+                } 
+                else {
                     $tempValue += 0;
                 }
             }

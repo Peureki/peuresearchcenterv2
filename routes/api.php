@@ -134,8 +134,8 @@ Route::get('/bags/{table}/{sellOrderSetting}/{tax}', [BagController::class, 'get
 
 // MERP TESTING
 Route::get('/merp/fetch-merp', [FetchController::class, 'fetchMerp']);
-
 Route::get('/merp', [FetchController::class, 'merp']);
+Route::get('/fetch-derp', [FetchController::class, 'fetchDerp']);
 
 // *
 // * BENCHMARKS

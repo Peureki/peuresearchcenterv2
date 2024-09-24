@@ -35,7 +35,7 @@ class FetchRecipeTrees implements ShouldQueue
     public function handle()
     {
         $recipes = Recipes::get();
-        //$recipe = Recipes::find(3099);
+        //$recipe = Recipes::find(14018);
         // AGONY RESISTATANCE beyond +10
         // Because Agony has a recipe on top of a recipe the higher you go, by +17, it broke mySQL
         $restrictedIDs = [
@@ -63,76 +63,53 @@ class FetchRecipeTrees implements ShouldQueue
                 // If not, this causes recipe counts to be squared/grow expo for each recipe tree
                 // This still keeps the main item output at the appropiate amount though, without change the ingredients
                 // Ex: Super Veggie Pizza
-                if ($recipe['output_item_count'] > 1){
-                    $this->fetchRecipeTree($recipe, 1);
-                } else {
-                    $this->fetchRecipeTree($recipe, $recipe['output_item_count']);
-                }
                 
+                //dd($recipe, $recipe['ingredients']);
+
+                $nestedRecipe = []; 
+
+                if ($recipe['output_item_count'] > 1){
+                    $nestedRecipe = $this->fetchRecipeTree($recipe, 1);
+                } else {
+                    $nestedRecipe = $this->fetchRecipeTree($recipe, $recipe['output_item_count']);
+                }
+                //dd($recipe, $nestedRecipe);
+
+                Recipes::where('id', $recipe['id'])->update(['ingredients' => $nestedRecipe]);
             } 
         }
     }
 
     private function fetchRecipeTree($recipe, $parentCount){
-        // Create an empty array to replace regular recipes with the nested recipe
-        $nestedRecipe = [];
+        //dd($recipe, $recipe['ingredients']);
+        $newRecipeTree = []; 
 
-        // For each recipe ingredient -> check if there's a recipe tree
-        foreach ($recipe['ingredients'] as $index => $ingredient){
-            $this->checkRecipeTree($ingredient, $parentCount, $nestedRecipe[$index]);
-        }
-        // After returning the $nestedRecipe, add it to the db
-        Recipes::where('id', $recipe['id'])
-            ->update(['ingredients' => $nestedRecipe]);
-    }
-    // Check if there is a nested recipe within the current ingredient
-    private function checkRecipeTree($ingredient, $parentCount, &$nestedRecipe){
-        $recipe = Recipes::where('output_item_id', $ingredient['id']); 
-        $nestedRecipe = $ingredient;
-        // Check if the ingredient is an item or currency
-        switch ($ingredient['type']){
-            case "Item": 
-                $nestedRecipe['name'] = Items::where('id', $ingredient['id'])->first()['name'] ?? ""; 
-                $nestedRecipe['icon'] = Items::where('id', $ingredient['id'])->first()['icon'] ?? ""; 
-                break;
-            case "Currency":
-                $nestedRecipe['name'] = Currencies::where('id', $ingredient['id'])->first()['name'] ?? ""; 
-                $nestedRecipe['icon'] = Currencies::where('id', $ingredient['id'])->first()['icon'] ?? ""; 
-                break;
-        }
-        $nestedRecipe['count'] *= $parentCount; 
-        
-        // If yes, explore and use recursion on the ingredients to see how far the tree goes
-        if ($recipe->exists()){
-            $nestedRecipe['ingredients'] = $recipe->first()['ingredients'];
-            $this->exploreRecipeTree($recipe->first(), $nestedRecipe['count'], $nestedRecipe);
-        }
+        foreach($recipe['ingredients'] as $index => $ingredient){
+            // Set ingredients to $newRecipeTree
+            $newRecipeTree[$index] = $ingredient;
+            $newRecipeTree[$index]['count'] *= $parentCount; 
 
-        return $nestedRecipe;
-    }
-    private function exploreRecipeTree($recipe, $parentCount, &$nestedRecipe){
-        foreach ($recipe['ingredients'] as $index => $ingredient){
-            $component = Recipes::where('output_item_id', $ingredient['id']);
-            // Check if the ingredient is an item or currency
-            switch ($ingredient['type']){
-                case "Item":
-                    $nestedRecipe['ingredients'][$index]['name'] = Items::where('id', $ingredient['id'])->first()['name'] ?? ""; 
-                    $nestedRecipe['ingredients'][$index]['icon'] = Items::where('id', $ingredient['id'])->first()['icon'] ?? "";
-                    break;
-                case "Currency":
-                    $nestedRecipe['ingredients'][$index]['name'] = Currencies::where('id', $ingredient['id'])->first()['name'] ?? ""; 
-                    $nestedRecipe['ingredients'][$index]['icon'] = Currencies::where('id', $ingredient['id'])->first()['icon'] ?? "";
+            if ($ingredient['type'] == 'Item'){     
+                $newRecipeTree[$index]['name'] = Items::where('id', $ingredient['id'])->first()['name'];
+                $newRecipeTree[$index]['icon'] = Items::where('id', $ingredient['id'])->first()['icon'];
+            } 
+            if ($ingredient['type'] == 'Currency'){
+                $newRecipeTree[$index]['name'] = Currencies::where('id', $ingredient['id'])->first()['name'];
+                $newRecipeTree[$index]['icon'] = Currencies::where('id', $ingredient['id'])->first()['icon'];
             }
-            $nestedRecipe['ingredients'][$index]['count'] *= $parentCount; 
-            
-    
-            if ($component->exists()){
-                // Update the nested ingredients at the specific index
-                $nestedRecipe['ingredients'][$index]['ingredients'] = $component->first()['ingredients'];
-                // Recursively explore further nested recipes
-                $this->exploreRecipeTree($component->first(), $nestedRecipe['ingredients'][$index]['count'], $nestedRecipe['ingredients'][$index]);
-            }
+            // Check if recipe of ingredient exists
+            // If yes => then there's another branch for the tree
+            $newRecipe = Recipes::where('output_item_id', $ingredient['id'])->first();
+            //dd($newRecipe, $newRecipe['ingredients'], $ingredient);
+
+            if ($newRecipe){
+                if ($newRecipe['output_item_count'] > 1){
+                    $newRecipeTree[$index]['ingredients'] = $this->fetchRecipeTree($newRecipe, 1); 
+                } else {
+                    $newRecipeTree[$index]['ingredients'] = $this->fetchRecipeTree($newRecipe, $ingredient['count'] * $parentCount);
+                }
+            }          
         }
-        return $nestedRecipe;
+        return $newRecipeTree;
     }
 }

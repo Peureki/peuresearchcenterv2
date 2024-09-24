@@ -82,7 +82,7 @@
                         <span class="gold-label-container">
                             <span 
                                 class="gold-label" 
-                                v-for="gold in formatValue(recipe[0].buy_price)"
+                                v-for="gold in formatValue(recipe.buy_price)"
                             >
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                             </span>
@@ -98,7 +98,7 @@
                         <span class="gold-label-container">
                             <span 
                                 class="gold-label" 
-                                v-for="gold in formatValue(recipe[0].sell_price)"
+                                v-for="gold in formatValue(recipe.sell_price)"
                             >
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                             </span>
@@ -115,7 +115,7 @@
                             <span 
                                 class="gold-label" 
                                 v-for="gold in formatValue(
-                                    recipe[0].preference ? recipe[0].craftingValue : recipe[0].buy_price
+                                    recipe.preference ? recipe.craftingValue : recipe.buy_price
                                 )"
                             >
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
@@ -127,11 +127,11 @@
                     <span class="output">
                         <span class="flex-row-flex-start">
                             <svg 
-                                :style="{transform: `rotate(${profit(recipe[0], 'buy_price') < 0 ? 90 : -90}deg)`}"
+                                :style="{transform: `rotate(${profit(recipe, 'buy_price') < 0 ? 90 : -90}deg)`}"
                                 width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
                             >
                                 <path 
-                                    :fill="profit(recipe[0], 'buy_price') < 0 ? `var(--color-down)` : `var(--color-up)`"
+                                    :fill="profit(recipe, 'buy_price') < 0 ? `var(--color-down)` : `var(--color-up)`"
                                     d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
                                 />
                             </svg>
@@ -141,7 +141,7 @@
                             <span 
                                 class="gold-label" 
                                 v-for="gold in formatValue(
-                                    profit(recipe[0], 'buy_price')
+                                    profit(recipe, 'buy_price')
                                 )"
                             >
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
@@ -153,11 +153,11 @@
                     <span class="output">
                         <span class="flex-row-flex-start">
                             <svg 
-                                :style="{transform: `rotate(${profit(recipe[0], 'sell_price') < 0 ? 90 : -90}deg)`}"
+                                :style="{transform: `rotate(${profit(recipe, 'sell_price') < 0 ? 90 : -90}deg)`}"
                                 width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
                             >
                                 <path 
-                                    :fill="profit(recipe[0], 'sell_price') < 0 ? `var(--color-down)` : `var(--color-up)`"
+                                    :fill="profit(recipe, 'sell_price') < 0 ? `var(--color-down)` : `var(--color-up)`"
                                     d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z"
                                 />
                             </svg>
@@ -167,7 +167,7 @@
                             <span 
                                 class="gold-label" 
                                 v-for="gold in formatValue(
-                                    profit(recipe[0], 'sell_price')
+                                    profit(recipe, 'sell_price')
                                 )"
                             >
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
@@ -188,7 +188,7 @@
                             <span 
                                 class="gold-label" 
                                 v-for="gold in formatValue(
-                                    buyOrder == 'buy_price' ? profit(recipe[0], 'buy_price') / currency : profit(recipe[0], 'sell_price') / currency
+                                    buyOrder == 'buy_price' ? profit(recipe, 'buy_price') / currency : profit(recipe, 'sell_price') / currency
                                 )"
                             >
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
@@ -262,36 +262,38 @@ const loadingToggle = ref(false);
 // * => By default once recipe is fetched
 // * => Anytime a user choses either TP or crafting price
 const updateRecipeTree = (selectedIngredient, userPreference) => {
-    console.log(recipe.value);
     currency.value = 0;
-    // For the section output item, choose the preferences of either tp or crafting to determine how the tree will be displayed
-    choosePreference(recipe.value[0], selectedIngredient, userPreference);
+    
     // Update prices on all ingredients 
-    updatePrices(recipe.value[0], selectedIngredient, userPreference);
+    updatePrices(recipe.value, selectedIngredient, userPreference);
+    // For the section output item, choose the preferences of either tp or crafting to determine how the tree will be displayed
+    choosePreference(recipe.value, selectedIngredient, userPreference);
 }
-// * CHOOSE ITEM PREFERENCES 'tp' or 'crafting' etc
+// * CHOOSE ITEM PREFERENCES 'TP' or 'Crafting' etc
 // *
 // * By having a preferences, the recipe tree will choose the best and cheapest path
 const choosePreference = (currentIngredient, selectedIngredient, userPreference) => {
+    console.log('selected ingredient: ', selectedIngredient);
     // If the user selected a specific ingredient
     if (selectedIngredient){
         if (currentIngredient == selectedIngredient){ 
             switch (userPreference){
-                case 'crafting':
-                    return currentIngredient['preference'] = 'crafting';
-                case 'tp':
-                    return currentIngredient['preference'] = 'tp';
+                case 'Crafting':
+                    return currentIngredient['preference'] = 'Crafting';
+                case 'TP':
+                    return currentIngredient['preference'] = 'TP';
                 case 'owned':
                     return currentIngredient['preference'] = 'owned';
             }
         } 
     // If func is called without specifing an ingredient
     // Check if it's better to craft or to buy from TP
-    } else if (currentIngredient.craftingValue < currentIngredient.buy_price || currentIngredient.buy_price == 0){
-        console.log(currentIngredient, currentIngredient.craftingValue, currentIngredient.buy_price);
-        return currentIngredient['preference'] = 'crafting';
-    } else {
-        return currentIngredient['preference'] = 'tp';
+    } 
+    else if (currentIngredient.craftingValue < currentIngredient.buy_price || currentIngredient.buy_price == 0){
+        return currentIngredient['preference'] = 'Crafting';
+    } 
+    else {
+        return currentIngredient['preference'] = 'TP';
     }
 }
 // *
@@ -300,41 +302,69 @@ const choosePreference = (currentIngredient, selectedIngredient, userPreference)
 // * Updates the prices of the buy order of each ingredient depending on their preferences
 const updatePrices = (recipe, selectedIngredient, userPreference) => {
     let tempValue = 0;
-    // Go through each recipe in the recipe tree
-    recipe.ingredients.forEach((ingredient) => {
-        // If another recipe exists => 
+
+    //console.log('chosen recipe: ', recipe);
+    recipe.ingredients.forEach(ingredient => {
+        let prevCraftingValue = 0;
+
         if (ingredient.hasOwnProperty('ingredients')){
-            // Check preferences first, then decide if it's better to buy or craft
             choosePreference(ingredient, selectedIngredient, userPreference);
-            // Then with the preferences, update the prices
-            switch (ingredient.preference){
-                case "tp":
-                    tempValue += buyOrder.value == 'buy_price' ? ingredient.buy_price : ingredient.sell_price;
-                    updatePrices(ingredient, selectedIngredient, userPreference);
-                    break;
-                case "crafting":
-                    tempValue += updatePrices(ingredient, selectedIngredient, userPreference);
-                    break;
-                case "owned":
-                    tempValue += 0;
-                    updatePrices(ingredient, selectedIngredient, userPreference);
-                    break;
-            }
-            // Unless the user has specified this ingredient is owned
-        } else if (ingredient.preference == 'owned'){
-            tempValue += 0; 
-            //updatePrices(ingredient, selectedIngredient, userPreference);
+            prevCraftingValue = updatePrices(ingredient, selectedIngredient, userPreference); 
+        }
+        if (ingredient.hasOwnProperty('craftingValue')){
+            prevCraftingValue = ingredient.craftingValue; 
         } else {
-            tempValue += buyOrder.value == 'buy_price' ? ingredient.buy_price : ingredient.sell_price;
-            // Check if the ingredietn is a Currency
-            if (ingredient.type == "Currency"){
-                currency.value += ingredient.count; 
-                currencyIcon.value = ingredient.icon;
-                currencyName.value = ingredient.name;
+            prevCraftingValue = Math.min(ingredient.buy_price, ingredient.sell_price);
+        }
+        if (ingredient.preference == 'TP'){
+            if (buyOrder.value == 'buy_price'){
+                prevCraftingValue = ingredient.buy_price; 
+            } else {
+                prevCraftingValue = ingredient.sell_price;
             }
         }
+        if (ingredient.preference == 'owned'){
+            prevCraftingValue = 0;
+        }
+
+        tempValue += prevCraftingValue; 
     })
     return recipe.craftingValue = tempValue; 
+    // Go through each recipe in the recipe tree
+    // recipe.ingredients.forEach((ingredient) => {
+    //     // If another recipe exists => 
+    //     if (ingredient.hasOwnProperty('ingredients')){
+    //         // Check preferences first, then decide if it's better to buy or craft
+    //         choosePreference(ingredient, selectedIngredient, userPreference);
+    //         // Then with the preferences, update the prices
+    //         switch (ingredient.preference){
+    //             case "TP":
+    //                 tempValue += buyOrder.value == 'buy_price' ? ingredient.buy_price : ingredient.sell_price;
+    //                 updatePrices(ingredient, selectedIngredient, userPreference);
+    //                 break;
+    //             case "crafting":
+    //                 tempValue += updatePrices(ingredient, selectedIngredient, userPreference);
+    //                 break;
+    //             case "owned":
+    //                 tempValue += 0;
+    //                 updatePrices(ingredient, selectedIngredient, userPreference);
+    //                 break;
+    //         }
+    //         // Unless the user has specified this ingredient is owned
+    //     } else if (ingredient.preference == 'owned'){
+    //         tempValue += 0; 
+    //         //updatePrices(ingredient, selectedIngredient, userPreference);
+    //     } else {
+    //         tempValue += buyOrder.value == 'buy_price' ? ingredient.buy_price : ingredient.sell_price;
+    //         // Check if the ingredietn is a Currency
+    //         if (ingredient.type == "Currency"){
+    //             currency.value += ingredient.count; 
+    //             currencyIcon.value = ingredient.icon;
+    //             currencyName.value = ingredient.name;
+    //         }
+    //     }
+    // })
+    // return recipe.craftingValue = tempValue; 
 }
 // To display the profits of a recipe
 const profit = (recipe, priceType) => {
@@ -393,7 +423,7 @@ const fetchRequestedRecipe = async (requestedRecipe, requestedID, requestedQuant
         recipe.value = responseData;
 
         console.log('url: ', url);
-        console.log('recipe: ', recipe.value);
+        // console.log('recipe merp: ', recipe.value);
 
         // Loading choya disappears once data is received
         if (recipe.value){
@@ -420,7 +450,7 @@ onMounted(() => {
     }
     
     if (url.value){
-        console.log(url.value);
+        //console.log(url.value);
         fetchRequestedRecipe(url.value, idRequest.value, quantityRequest.value);
     }
 })

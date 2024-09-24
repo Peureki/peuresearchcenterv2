@@ -73,7 +73,7 @@
                     <span class="gold-label-container">
                         <span 
                             class="gold-label"
-                            v-for="gold in formatValue(compareValues(item).value * item.output_item_count)"
+                            v-for="gold in formatValue(showValue(item) * item.output_item_count)"
                         >
                             {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.title">
                         </span>
@@ -95,7 +95,7 @@
                     <span class="gold-label-container">
                         <span 
                             class="gold-label"
-                            v-for="gold in formatValue(compareValues(item).value/item.avg_output)"
+                            v-for="gold in formatValue(showValue(item)/item.avg_output)"
                         >
                             {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.title">
                         </span>
@@ -191,6 +191,18 @@ const handleFavorite = async (item) => {
 
 }
 
+const showValue = (item) => {
+    if (item.crafting_value < item.buy_price && item.crafting_value < item.sell_price){
+        return item.crafting_value; 
+    } else {
+        if (buyOrder.value == 'buy_price'){
+            return item.buy_price; 
+        } 
+        else if (buyOrder.value == 'sell_price'){
+            return item.sell_price; 
+        }
+    }
+}
 
 // Use for determining which values to use, TP or crafting
 // Ex: Research notes, which is better choice

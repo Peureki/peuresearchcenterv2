@@ -133,6 +133,9 @@ class FetchResearchNotes implements ShouldQueue
             ["Bronze Sword", 1],
             ["Bronze Mace", 1],
             ["Bronze Spear", 1],
+            // ["Adventurer's Mantle", 6],
+            // // ["Ahamid's", 275],
+            // ["Amnemoi's Robe", 6],
             // CHEF
             ["Tuning Icicle", 1.08],
             ["Lump of Crystallized Nougat", 1],

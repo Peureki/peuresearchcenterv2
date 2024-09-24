@@ -54,8 +54,8 @@ class FetchRecipeValues implements ShouldQueue
             $merp = json_decode($updateTreeWithValues->getContent());
             ResearchNotes::where('id', $recipe['research_note_id'])
                 ->update([
-                    'crafting_value' => $merp[0]->craftingValue / $recipe['output_item_count'],
-                    'preference' => $merp[0]->preference
+                    'crafting_value' => $merp->craftingValue,
+                    'preference' => $merp->preference
                 ]);
         }
         

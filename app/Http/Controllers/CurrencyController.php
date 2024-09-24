@@ -65,7 +65,6 @@ class CurrencyController extends Controller
     // *
     // * RETURN recipe value and research note value
     public function researchNote($buyOrderSetting, $filter){
-        $buyOrderSetting = $this->getBuyOrderSetting($buyOrderSetting);
         // $filter might be "null" for users
         // By default, start with an empty array
         $filteredArray = []; 
@@ -94,22 +93,29 @@ class CurrencyController extends Controller
         $researchNotes = $filteredQuery
             ->orderByRaw("
                 CASE 
-                WHEN (items.buy_price = 0 AND items.sell_price = 0) OR (items.buy_price IS NULL OR items.sell_price IS NULL)
-                    THEN crafting_value / avg_output
-                WHEN '$buyOrderSetting' = 'buy_price' AND items.buy_price = 0
-                    THEN crafting_value / avg_output
-                WHEN '$buyOrderSetting' = 'buy_price' THEN
-                    CASE 
-                    WHEN items.buy_price < crafting_value 
-                        THEN items.buy_price / avg_output
-                        ELSE crafting_value / avg_output
-                    END
-                WHEN '$buyOrderSetting' = 'sell_price' THEN
-                    CASE 
-                    WHEN items.sell_price < crafting_value
-                        THEN items.sell_price / avg_output
-                        ELSE crafting_value / avg_output
-                    END
+                    -- First, check if the crafting value is less than both buy and sell prices
+                    WHEN crafting_value < items.buy_price AND crafting_value < items.sell_price 
+                        THEN crafting_value / avg_output
+
+                    -- If buy order is 'buy_price', return buy price
+                    WHEN '$buyOrderSetting' = 'buy_price' 
+                        THEN CASE 
+                            WHEN items.buy_price != 0 
+                            THEN items.buy_price / avg_output
+                            ELSE crafting_value / avg_output
+                        END
+
+                    -- If buy order is 'sell_price', return sell price
+                    WHEN '$buyOrderSetting' = 'sell_price' 
+                        THEN CASE 
+                            WHEN items.sell_price != 0 
+                            THEN items.sell_price / avg_output
+                            ELSE crafting_value / avg_output
+                        END
+
+                    -- Catch cases where buy or sell prices are zero or null, default to crafting value
+                    WHEN (items.buy_price = 0 AND items.sell_price = 0) OR (items.buy_price IS NULL OR items.sell_price IS NULL)
+                        THEN crafting_value / avg_output
                 END
             ")
             ->paginate(50);
