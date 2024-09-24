@@ -70,7 +70,7 @@ import SandsweptIslesShoreFishGuide from '@/imgs/guides/fishing/Sandswept_Isles_
 import SeitungOffshoreFishGuide from '@/imgs/guides/fishing/Seitung_Province_Offshore_Fish.webp'
 import SeitungShoreFish from '@/imgs/guides/fishing/Seitung_Province_Shore_Fish.webp'
 import StraitsOffshroeFish from '@/imgs/guides/fishing/Straits_of_Devestation_Offshore_Fish.webp'
-import SnowdenDriftsLakeFishGuide from '@/imgs/guides/fishing/Snowden_Drifts_Lake_fish.webp'
+import SnowdenDriftsLakeFishGuide from '@/imgs/guides/fishing/Snowden_Drifts_Lake_Fish.webp'
 import ThunderheadBorealFishGuide from '@/imgs/guides/fishing/Thunderhead_Peaks_Boreal_Fish.webp'
 
 
