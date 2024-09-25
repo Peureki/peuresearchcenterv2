@@ -428,6 +428,29 @@
 
                 <!--
                     *
+                    * TOOLS
+                    *
+                -->
+                <NavSection 
+                    @click="toolsToggle = !toolsToggle" 
+                    header="Tools"
+                    :toggle="toolsToggle"
+                />
+
+                <Transition name="fade-right">
+                    <div v-if="toolsToggle">
+                        <NavPage category="tools" url="homestead" name="Homestead" :icon="Homestead"/>
+
+                        <NavPage category="tools" url="recipe-value" name="Recipe Value" :icon="Armorer"/>
+
+                        <NavPage category="tools" url="salvageables" name="Salvageables" :icon="UnidentifiedGear"/>
+
+                        <NavPage category="tools" url="checklist" name="Checklist" :icon="EventSearch"/>  
+                    </div>
+                </Transition>
+
+                <!--
+                    *
                     * CURRENCIES
                     *
                 -->
@@ -443,6 +466,8 @@
 
                         <NavPage category="currencies" url="bandit-crest" name="Bandit Crests" :icon="BanditCrest"/>
 
+                        <NavPage category="currencies" url="calcified-gasp" name="Calcified Gasp" :icon="CalcifiedGasp"/>
+
                         <NavPage category="currencies" url="geode" name="Geodes" :icon="Geode"/>
 
                         <NavPage category="currencies" url="imperial-favor" name="Imperial Favors" :icon="ImperialFavor"/>
@@ -454,9 +479,13 @@
 
                         <NavPage category="currencies" url="lump-of-aurillium" name="Lump of Aurillium" :icon="LumpOfAurillium"/>
 
+                        <NavPage category="currencies" url="pinch-of-stardust" name="Pinch of Stardust" :icon="PinchOfStardust"/>
+
                         <NavPage category="currencies" url="research-note" name="Research Notes" :icon="ResearchNote"/>
 
                         <NavPage category="currencies" url="spirit-shards" name="Spirit Shards" :icon="SpiritShard"/>
+
+                        <NavPage category="currencies" url="static-charge" name="Static Charge" :icon="StaticCharge"/>
 
                         <NavPage category="currencies" url="trade-contract" name="Trade Contracts" :icon="TradeContract"/>
 
@@ -481,7 +510,7 @@
 
                 <Transition name="fade-right">
                     <div v-if="exchangeablesToggle">
-                        <NavPage category="exchangeables" url="calcified-gasp" name="Calcified Gasp" :icon="CalcifiedGasp"/>
+                        
 
                         <NavPage category="exchangeables" url="dragonite-ore" name="Dragonite Ore" :icon="DragoniteOre"/>
 
@@ -493,11 +522,11 @@
 
                         <NavPage category="exchangeables" url="pile-of-bloodstone-dust" name="Pile of Bloodstone Dust" :icon="PileOfBloodstoneDust"/>
 
-                        <NavPage category="exchangeables" url="pinch-of-stardust" name="Pinch of Stardust" :icon="PinchOfStardust"/>
+                        
 
                         <NavPage category="exchangeables" url="rare-rift-essence" name="Rare Rift Essence" :icon="RareRiftEssence"/>
 
-                        <NavPage category="exchangeables" url="static-charge" name="Static Charge" :icon="StaticCharge"/>
+                        
 
                         <NavPage category="exchangeables" url="writ-of-dragons-end" name="Writ of Dragon's End" :icon="WritOfDragonsEnd"/> 
 
@@ -509,28 +538,7 @@
                     </div>
                 </Transition>
 
-                <!--
-                    *
-                    * TOOLS
-                    *
-                -->
-                <NavSection 
-                    @click="toolsToggle = !toolsToggle" 
-                    header="Tools"
-                    :toggle="toolsToggle"
-                />
-
-                <Transition name="fade-right">
-                    <div v-if="toolsToggle">
-                        <NavPage category="tools" url="homestead" name="Homestead" :icon="Homestead"/>
-
-                        <NavPage category="tools" url="recipe-value" name="Recipe Value" :icon="Armorer"/>
-
-                        <NavPage category="tools" url="salvageables" name="Salvageables" :icon="UnidentifiedGear"/>
-
-                        <NavPage category="tools" url="checklist" name="Checklist" :icon="EventSearch"/>  
-                    </div>
-                </Transition>
+                
 
                 <!--
                     *

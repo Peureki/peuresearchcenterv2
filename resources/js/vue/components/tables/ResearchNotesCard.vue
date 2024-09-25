@@ -105,6 +105,12 @@
         </div>
     </div>
 
+    <PageButtons
+        v-if="researchNotes && !isFavorite"
+        :data-array="researchNotes"
+        @new-url="handleNewUrl"
+    />
+
 </template>
 
 <script setup>

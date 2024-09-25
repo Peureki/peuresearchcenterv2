@@ -102,7 +102,8 @@ class FetchController extends Controller
     public function fetchDerp()
     {
         //$recipes = Recipes::get();
-        $recipe = Recipes::find(781);
+        //$recipe = Recipes::find(3300); 
+        $recipe = Recipes::find(781); // Carrion Draconic Pauldrons
         // AGONY RESISTATANCE beyond +10
         // Because Agony has a recipe on top of a recipe the higher you go, by +17, it broke mySQL
         $restrictedIDs = [
@@ -148,7 +149,7 @@ class FetchController extends Controller
     }
 
     private function fetchRecipeTree($recipe, $parentCount){
-        //dd($recipe, $recipe['ingredients']);
+        //dd($recipe, $recipe['ingredients'], $parentCount);
         $newRecipeTree = []; 
 
         foreach($recipe['ingredients'] as $index => $ingredient){
@@ -172,8 +173,9 @@ class FetchController extends Controller
 
             if ($newRecipe){
                 //dd($newRecipe, $ingredient, $ingredient['ingredients']);
+                //dd($newRecipe['output_item_count'], $ingredient['count']);
                 if ($newRecipe['output_item_count'] > 1){
-                    $newRecipeTree[$index]['ingredients'] = $this->fetchRecipeTree($newRecipe, 1); 
+                    $newRecipeTree[$index]['ingredients'] = $this->fetchRecipeTree($newRecipe, $ingredient['count'] / $newRecipe['output_item_count']); 
                 } else {
                     //dd($ingredient);
                     $newRecipeTree[$index]['ingredients'] = $this->fetchRecipeTree($newRecipe, $ingredient['count'] * $parentCount);

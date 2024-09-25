@@ -13,14 +13,17 @@ import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
  */
 import CurrenciesAirshipPartView from '@/js/vue/views/currencies/AirshipPartView.vue'
 import CurrenciesBanditCrestView from '@/js/vue/views/currencies/BanditCrestView.vue'
+import CurrenciesCalcifiedGaspView from '@/js/vue/views/currencies/CalcifiedGaspView.vue'
 import CurrenciesGeodeView  from '@/js/vue/views/currencies/GeodeView.vue'
 import CurrenciesImperialFavorView from '@/js/vue/views/currencies/ImperialFavorView.vue'
 import CurrenciesJadeSliverView from '@/js/vue/views/currencies/JadeSliverView.vue'
 import CurrenciesLaurelView from '@/js/vue/views/currencies/LaurelView.vue'
 import CurrenciesLeyLineCrystalView  from '@/js/vue/views/currencies/LeyLineCrystalView.vue'
 import CurrenciesLumpOfAurilliumView from '@/js/vue/views/currencies/LumpOfAurilliumView.vue'
+import CurrenciesPinchOfStardustView from '@/js/vue/views/currencies/PinchOfStardustView.vue'
 import CurrenciesResearchNoteView from '@/js/vue/views/currencies/ResearchNoteView.vue'
 import CurrenciesSpiritShardsView from '@/js/vue/views/currencies/SpiritShardsView.vue'
+import CurrenciesStaticChargeView from '@/js/vue/views/currencies/StaticChargeView.vue'
 import CurrenciesTradeContractView from '@/js/vue/views/currencies/TradeContractView.vue'
 import CurrenciesTyrianDefenseSealView from '@/js/vue/views/currencies/TyrianDefenseSealView.vue'
 import CurrenciesUnboundMagicView from '@/js/vue/views/currencies/UnboundMagicView.vue'
@@ -31,15 +34,13 @@ import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagic
  * EXCHANGEABLES
  * 
  */
-import ExchangeableCalcifiedGaspView from '@/js/vue/views/exchangeables/CalcifiedGaspView.vue'
+
 import ExchangeablesDragoniteOreView from '@/js/vue/views/exchangeables/DragoniteOreView.vue'
 import ExchangeablesEmpyrealFragmentView from '@/js/vue/views/exchangeables/EmpyrealFragmentView.vue'
 import ExchangeableFineRiftEssenceView from '@/js/vue/views/exchangeables/FineRiftEssenceView.vue'
 import ExchangeableMasterworkRiftEssenceView from '@/js/vue/views/exchangeables/MasterworkRiftEssenceView.vue'
 import ExchangeablePileOfBloodstoneDustView from '@/js/vue/views/exchangeables/PileOfBloodstoneDustView.vue'
-import ExchangeablePinchOfStardustView from '@/js/vue/views/exchangeables/PinchOfStardustView.vue'
 import ExchangeableRareRiftEssenceView from '@/js/vue/views/exchangeables/RareRiftEssenceView.vue'
-import ExchangeableStaticChargeView from '@/js/vue/views/exchangeables/StaticChargeView.vue'
 import ExchangeableWritOfDragonsEndView from '@/js/vue/views/exchangeables/WritOfDragonsEndView.vue'
 import ExchangeableWritOfEchovaldWildsView from '@/js/vue/views/exchangeables/WritOfEchovaldWildsView.vue'
 import ExchangeableWritOfNewKainengCityView from '@/js/vue/views/exchangeables/WritOfNewKainengCityView.vue'
@@ -100,6 +101,11 @@ const routes = [
         name: 'currencies-bandit-crest',
     },
     {
+        path: '/currencies/calcified-gasp',
+        component: CurrenciesCalcifiedGaspView,
+        name: 'currencies-calcified-gasp',
+    },
+    {
         path: '/currencies/geode',
         component: CurrenciesGeodeView,
         name: 'currencies-geode',
@@ -131,9 +137,19 @@ const routes = [
         name: 'currencies-lump-of-aurillium',
     },
     {
+        path: '/currencies/pinch-of-stardust',
+        component: CurrenciesPinchOfStardustView,
+        name: 'currencies-pinch-of-stardust',
+    },
+    {
         path: '/currencies/research-note',
         component: CurrenciesResearchNoteView,
         name: 'currencies-research-note',
+    },
+    {
+        path: '/currencies/static-charge',
+        component: CurrenciesStaticChargeView,
+        name: 'currencies-static-charge',
     },
     {
         path: '/currencies/trade-contract',
@@ -168,11 +184,7 @@ const routes = [
     // *
     // * EXCHANGEABLES
     // *
-    {
-        path: '/exchangeables/calcified-gasp',
-        component: ExchangeableCalcifiedGaspView,
-        name: 'exchangeable-calcified-gasp',
-    },
+    
     {
         path: '/exchangeables/dragonite-ore',
         component: ExchangeablesDragoniteOreView,
@@ -198,21 +210,13 @@ const routes = [
         component: ExchangeablePileOfBloodstoneDustView,
         name: 'exchangeable-pile-of-bloodstone-dust',
     },
-    {
-        path: '/exchangeables/pinch-of-stardust',
-        component: ExchangeablePinchOfStardustView,
-        name: 'exchangeable-pinch-of-stardust',
-    },
+    
     {
         path: '/exchangeables/rare-rift-essence',
         component: ExchangeableRareRiftEssenceView,
         name: 'exchangeable-rare-rift-essence',
     },
-    {
-        path: '/exchangeables/static-charge',
-        component: ExchangeableStaticChargeView,
-        name: 'exchangeable-static-charge',
-    },
+    
     {
         path: '/exchangeables/writ-of-dragons-end',
         component: ExchangeableWritOfDragonsEndView,

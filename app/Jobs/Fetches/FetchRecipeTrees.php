@@ -104,7 +104,7 @@ class FetchRecipeTrees implements ShouldQueue
 
             if ($newRecipe){
                 if ($newRecipe['output_item_count'] > 1){
-                    $newRecipeTree[$index]['ingredients'] = $this->fetchRecipeTree($newRecipe, 1); 
+                    $newRecipeTree[$index]['ingredients'] = $this->fetchRecipeTree($newRecipe, $ingredient['count'] / $newRecipe['output_item_count']); 
                 } else {
                     $newRecipeTree[$index]['ingredients'] = $this->fetchRecipeTree($newRecipe, $ingredient['count'] * $parentCount);
                 }

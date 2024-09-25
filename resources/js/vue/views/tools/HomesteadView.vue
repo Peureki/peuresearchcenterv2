@@ -4,6 +4,7 @@
 
     <section class="main">
         <div class="content-section">
+            <Disclaimer message="This page will get a redesign soon"/>
             <RefinementTable
                 target-refinement="Refined Homestead Wood"
                 target-id="103049"
@@ -33,24 +34,11 @@
 </template>
 
 <script setup>
-/* 
-    * 
-    * INSTRUCTIONS
-    * Import desired currency icon
-    * Ex: import VolatileMagic from []
-    * 
-    * Make variables of targetted currencies and icons
-    * Ex: 
-    * const targetCurrency = ['Volatile Magic']
-    * const currnecyIcons = [VolatileMagic]
-    * 
-    * Make as array in case there are multiple currencies for a conversion
-    * 
-*/
+
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import Footer from '@/js/vue/components/general/Footer.vue'
-
+import Disclaimer from '@/js/vue/components/general/Disclaimer.vue'
 import RefinementTable from '@/js/vue/components/tables/RefinementTable.vue';
 
 </script>

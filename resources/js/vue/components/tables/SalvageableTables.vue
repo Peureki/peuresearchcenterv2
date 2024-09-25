@@ -1,15 +1,13 @@
 <template>
-    <section class="main">
-        <Loading
-            v-if="!salvageables"
-            :width="200" :height="200"
-        />
+    <Loading
+        v-if="!salvageables"
+        :width="200" :height="200"
+    />
 
-        <SalvageableMainTable
-            v-if="salvageables"
-            :salvageables="salvageables"
-        />
-    </section>
+    <SalvageableMainTable
+        v-if="salvageables"
+        :salvageables="salvageables"
+    />
 
 </template>
 

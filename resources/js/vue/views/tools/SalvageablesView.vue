@@ -2,15 +2,28 @@
     <Nav/>
     <Header page-name="Salvageables"/>
 
-    <GeneralTable
-        title="Mixed Salvage"
-        :table-headers="tableHeaders"
-        :data="mixedSalvageables"
-    />
+    <section class="main">
+        <div class="content-section">
+            <Disclaimer message="This page will get a redesign soon"/>
 
-    <SalvageableTables
-        :salvageables="salvageables"
-    />
+            <p class="small-subtitle">Mixed Salvage = Identified blues are salvaged with Copper-Fed, identfieid greens are salvaged with Runecrafter's, identified yellows are salvaged with Silver-Fed</p>
+            
+            <GeneralTable
+                title="Mixed Salvage"
+                :table-headers="tableHeaders"
+                :data="mixedSalvageables"
+            />
+        </div>
+    </section>
+    
+    <section class="main">
+        <div class="content-section">
+            <SalvageableTables
+                :salvageables="salvageables"
+            />
+        </div>
+    </section>
+    
 
     
 
@@ -27,6 +40,8 @@ import Header from '@/js/vue/components/general/Header.vue'
 import Footer from '@/js/vue/components/general/Footer.vue'
 import GeneralTable from '@/js/vue/components/general/GeneralTable.vue';
 import SalvageableTables from '@/js/vue/components/tables/SalvageableTables.vue'
+import Disclaimer from '@/js/vue/components/general/Disclaimer.vue'
+
 import { user, tax, sellOrder, buyOrder } from '@/js/vue/composables/Global'
 
 const salvageableURL = `../api/tools/salvageables/${sellOrder.value}/${tax.value}`;

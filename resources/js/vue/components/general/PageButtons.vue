@@ -60,7 +60,7 @@
         <button 
             @click="$emit('newUrl', `${dataArray.path}?page=${specificPageNum}`); loadingChoya">Go</button>
 
-        <Loading v-if="loadingToggle" :width="25" :height="25"/>
+        <Loading v-if="loadingToggle" :width="200" :height="200"/>
     </div>
 </template>
 
