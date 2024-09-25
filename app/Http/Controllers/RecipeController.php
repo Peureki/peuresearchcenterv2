@@ -90,6 +90,9 @@ class RecipeController extends Controller
         if ($returnArray['craftingValue'] < $returnArray['buy_price'] && $returnArray['craftingValue'] < $returnArray['sell_price']){
             $returnArray['preference'] = 'Crafting';
         }
+        if ($returnArray['buy_price'] == null && $returnArray['sell_price'] == null){
+            $returnArray['preference'] = 'Crafting';
+        }
         
         return response()->json($returnArray);
     }

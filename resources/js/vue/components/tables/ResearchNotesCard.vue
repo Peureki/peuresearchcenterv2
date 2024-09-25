@@ -192,7 +192,9 @@ const handleFavorite = async (item) => {
 }
 
 const showValue = (item) => {
-    if (item.crafting_value < item.buy_price && item.crafting_value < item.sell_price){
+    if (item.crafting_value < item.buy_price 
+    && item.crafting_value < item.sell_price 
+    || item.buy_price == null && item.sell_price == null){
         return item.crafting_value; 
     } else {
         if (buyOrder.value == 'buy_price'){

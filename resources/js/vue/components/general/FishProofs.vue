@@ -53,6 +53,8 @@ import { formatValue, formatPercentage, showRarityColor, formatToMinutes } from 
 import { computed } from 'vue';
 
 import CrystalOasisDesertFishGuide from '@/imgs/guides/fishing/Crystal_Oasis_Desert_Fish.webp'
+import DragonsEndCavernFishGuide from "@/imgs/guides/fishing/Dragon's_End_Cavern_Fish.webp"
+import DragonsEndQuarryFishGuide from "@/imgs/guides/fishing/Dragon's_End_Quarry_Fish.webp"
 import DreamFishGuide from '@/imgs/guides/fishing/Inner_Nayos_Dream_Fish.webp'
 import DomainOfKournaDesertFishGuide from '@/imgs/guides/fishing/Domain_of_Kourna_Desert_Fish.webp'
 import DWCLakeFishGuide from '@/imgs/guides/fishing/Drizzlewood_Coast_Lake_Fish.webp'
@@ -83,6 +85,14 @@ const mapGuide = computed(() => {
     switch (props.fishingHole.map){
         case 'Crystal Oasis':
             return CrystalOasisDesertFishGuide;
+
+        case "Dragon's End":
+            if (props.fishingHole.name == 'Cavern Fish'){
+                return DragonsEndCavernFishGuide;
+            }
+            if (props.fishingHole.name == 'Quarry Fish'){
+                return DragonsEndQuarryFishGuide;
+            }
 
         case 'Domain of Kourna':
             return DomainOfKournaDesertFishGuide; 
