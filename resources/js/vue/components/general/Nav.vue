@@ -445,7 +445,7 @@
 
                         <NavPage category="tools" url="salvageables" name="Salvageables" :icon="UnidentifiedGear"/>
 
-                        <NavPage category="tools" url="checklist" name="Checklist" :icon="EventSearch"/>  
+                        <NavPage category="tools" url="checklist" name="Checklist" :icon="BulletList"/>  
                     </div>
                 </Transition>
 
@@ -662,7 +662,7 @@ import WritOfSeitungProvince from '@/imgs/icons/Writ_of_Seitung_Province.png'
 import Homestead from '@/imgs/icons/Homestead.png'
 import Armorer from '@/imgs/icons/Guild_Armorer.png'
 import UnidentifiedGear from '@/imgs/icons/Piece_of_Unidentified_Gear.png'
-import EventSearch from '@/imgs/icons/Event_Search.png'
+import BulletList from '@/imgs/svgs/bullet_list.svg'
 
 import PetrifiedWood from '@/imgs/icons/Petrified_Wood.png'
 import JadeShard from '@/imgs/icons/Jade_Shard.png'
