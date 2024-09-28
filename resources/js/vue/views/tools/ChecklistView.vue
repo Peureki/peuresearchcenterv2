@@ -148,7 +148,7 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
 import axios from 'axios';
-import { user } from '@/js/vue/composables/Global'
+import { user, checklist } from '@/js/vue/composables/Global'
 import { getAuthUser } from '@/js/vue/composables/Authentication';
 
 import Nav from '@/js/vue/components/general/Nav.vue'
@@ -167,8 +167,7 @@ import List from '@/js/vue/components/general/List.vue';
 const requestedItem = ref(null),
     requestedQuantity = ref(null),
     entryInput = ref(null),
-    entryNumber = ref(1),
-    checklist = ref([]);
+    entryNumber = ref(1);
 
 // Populate this checklist when checklist is loaded
 // Compare this checklist to the new one to signal if it's changed from the oringinal

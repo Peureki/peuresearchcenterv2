@@ -72,6 +72,12 @@
 
             
             <div class="icons">
+                <div class="progress-bar-container">
+                    <div class="progress-bar" :style="{width: `${progressWidth}%`}">
+
+                    </div>
+                </div>
+                <p class="small-subtitle">{{ checkedTotal }}/{{ total }}</p>
                 <!--
                     *
                     * WIKI
@@ -259,8 +265,9 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { wiki } from '@/js/vue/composables/BasicFunctions'
+import { checklist } from '@/js/vue/composables/Global'
 
 import SearchRecipe from '@/js/vue/components/general/SearchRecipe.vue'
 import SearchItem from '@/js/vue/components/general/SearchItem.vue'
@@ -278,9 +285,13 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['popEntry', 'addCustomIngredient', 'handleUnsavedChanges']);
-
-const ingredientsToggle = ref(props.recursionLevel == 0 ? false : true);
+// Set TRUE to show loading choya
 const currentlyFetching = ref(false);
+
+const total = ref(0),
+    checkedTotal = ref(0),
+    progressWidth = ref(0);
+
 
 // Emit to main parent
 // Create this since <List/> recursively gets created and needs a callback chain
@@ -380,6 +391,7 @@ const popItem = (itemIndex) => {
 const checkSubBoxes = (data, isChecked) => {
     //console.log('checked data: ', data, isChecked);
     data.checked = isChecked;
+
     if (data.ingredients){
         data.ingredients.forEach(subItem => {
             //console.log('subItems: ', subItem);
@@ -388,7 +400,49 @@ const checkSubBoxes = (data, isChecked) => {
         });
         //console.log('data ingredients: ', data.ingredients);
     }
+
+    checklist.value = [...checklist.value];
 }
+// *
+// * COUNT TOTAL AMOUNT OF ITEMS IN A GIVEN LIST
+// *
+const countTotal = (recipe) => {
+    if (recipe){
+        total.value++;
+    }
+    if (recipe.ingredients){
+        recipe.ingredients.forEach(ingredient => {
+            countTotal(ingredient);
+        })
+    }
+}
+// *
+// * PROGRESS CHECKEDTOTAL
+// * Calculates the amount of checked items are in a given List
+const progressChecklist = (recipe) => {
+    if (recipe.checked){
+        checkedTotal.value += 1; 
+    } 
+    if (recipe.ingredients){
+        recipe.ingredients.forEach(ingredient => {
+            progressChecklist(ingredient); 
+        })
+    }
+}
+// Count total amount of items in a List
+countTotal(props.entry);
+// When users check a checkbox, trigger this watch
+// Reevaluate the amount that is checked and update checkedTotal, progressWidth
+watch(checklist, (newChecklist) => {
+    if (newChecklist){
+        // Reset so the value does not accumulate every progressChecklist
+        checkedTotal.value = 0;
+        // Count the current amount of checked items
+        progressChecklist(props.entry);
+        // Update width
+        progressWidth.value = (checkedTotal.value / total.value) * 100; 
+    }
+}, {immediate: true})
 
 const expandSubIngredients = (data) => {
     if (data.ingredients){
@@ -427,10 +481,12 @@ const activeButton = (toggle) => {
     }
 }
 
-
 const checkFade = (checkStatus) => {
     return checkStatus === true ? 'strikethrough' : '';
 }
+
+
+
 
 </script>
 
@@ -469,6 +525,17 @@ const checkFade = (checkStatus) => {
     background-color: var(--color-bkg-fade);
 }
 
+.progress-bar-container{
+    width: 150px;
+    height: 25px;
+    background-color: var(--color-bkg-fade);
+    border: var(--border-general);
+}
+.progress-bar{
+    height: 100%;
+    background-color: var(--color-up);
+    transition: var(--transition-all-03s-ease);
+}
 /* By default, the expand svg is facing down. This should face is up then use the dynamic class 'rotate' to 180 it */
 .expand{
     transform: rotate(180deg);
