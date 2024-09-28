@@ -1193,6 +1193,12 @@ img.map-guide{
 .favorite > path {
     fill: var(--color-link);
 }
+.main-sticky {
+    position: sticky;
+    top: 0;
+    background-color: var(--color-bkg);
+    z-index: 1000;
+}
 .underline {
     text-decoration: underline;
 }

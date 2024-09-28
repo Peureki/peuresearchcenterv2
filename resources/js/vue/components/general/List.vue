@@ -14,7 +14,10 @@
                 type="checkbox" 
                 :name="entry.name" 
                 v-model="entry.checked"
-                @change="checkSubBoxes(entry, entry.checked)">
+                @change="
+                    checkSubBoxes(entry, entry.checked);
+                    $emit('handleUnsavedChanges', true);
+                ">
                 
             <label :for="entry.name">
                 <img v-if="entry.icon" :src="entry.icon" :alt="entry.name" :title="entry.name">
@@ -128,7 +131,10 @@
                     <input 
                         type="checkbox" 
                         v-model="item.checked"
-                        @change="checkSubBoxes(item, item.checked)"
+                        @change="
+                            checkSubBoxes(item, item.checked);
+                            $emit('handleUnsavedChanges', true);
+                        "
                     >
                     
                     <label :for="item.name">
@@ -227,7 +233,7 @@
 
             <SearchRecipe
                 v-if="item.searchRecipeToggle"
-                @handle-recipe-request="(searchQuery) => handleRecipeSearch(item, searchQuery)"
+                @handle-recipe-request="(searchQuery, quantity) => handleRecipeSearch(item, searchQuery, quantity)"
             />
 
             <AddCustomEntry
@@ -243,12 +249,13 @@
                 :entry="item"
                 :entryIndex="entryIndex"
                 :recursion-level="recursionLevel + 1"
+                @handle-unsaved-changes="handleUnsavedChanges"
             />
         </div>
     </div>
     
 
-    
+    <Loading v-if="currentlyFetching" :width="200" :height="200"/>
 </template>
 
 <script setup>
@@ -258,6 +265,7 @@ import { wiki } from '@/js/vue/composables/BasicFunctions'
 import SearchRecipe from '@/js/vue/components/general/SearchRecipe.vue'
 import SearchItem from '@/js/vue/components/general/SearchItem.vue'
 import AddCustomEntry from '@/js/vue/components/general/AddCustomEntry.vue'
+import Loading from '@/js/vue/components/general/Loading.vue'
 import Expand from '@/imgs/svgs/expand.svg'
 
 const props = defineProps({
@@ -269,33 +277,54 @@ const props = defineProps({
         default: 0,
     },
 })
-const emit = defineEmits(['popEntry', 'addCustomIngredient']);
+const emit = defineEmits(['popEntry', 'addCustomIngredient', 'handleUnsavedChanges']);
 
 const ingredientsToggle = ref(props.recursionLevel == 0 ? false : true);
+const currentlyFetching = ref(false);
+
+// Emit to main parent
+// Create this since <List/> recursively gets created and needs a callback chain
+const handleUnsavedChanges = (unsaved) => {
+    emit('handleUnsavedChanges', unsaved);
+}
 
 const handleRecipeSearch = async (item, searchQuery, quantity) => {
+    currentlyFetching.value = true; 
+    
     const response = await fetch(`../api/recipes/${searchQuery.id}/${quantity}`);
     const responseData = await response.json();
 
-    if (!item.ingredients){
-        item.ingredients = [];
-        expandSubIngredients(item);
-    }
-    else if (!item.ingredients[0].expand){
-        expandSubIngredients(item);
+    if (responseData){
+        if (!item.ingredients){
+            item.ingredients = [];
+            expandSubIngredients(item);
+        }
+        else if (!item.ingredients[0].expand){
+            expandSubIngredients(item);
+        }
+        
+        responseData.forEach(ingredient => {
+            
+            item.ingredients.push({
+                count: quantity,
+                name: ingredient.name,
+                icon: ingredient.icon,
+                ingredients: ingredient.ingredients,
+                expand: true,
+            });
+        })
+
+        handleUnsavedChanges(true); 
+        currentlyFetching.value = false;
     }
     
-    responseData.forEach(ingredient => {
-        ingredient.expand = true; 
-        item.ingredients.push({
-            count: quantity,
-            name: ingredient.name,
-            icon: ingredient.icon
-        });
-    })
+    
+    
 }
 
 const handleIngredientSearch = (item, searchQuery) => {
+    currentlyFetching.value = true; 
+
     if (!item.ingredients){
         item.ingredients = [];
         expandSubIngredients(item);
@@ -310,10 +339,14 @@ const handleIngredientSearch = (item, searchQuery) => {
         expand: true,
     });
 
-    //expandSubIngredients(item);
+    handleUnsavedChanges(true); 
+    currentlyFetching.value = false; 
+
 }
 
 const addCustomEntry = (item, count, entry) => {
+    currentlyFetching.value = true; 
+
     if (!item.ingredients){
         item.ingredients = [];
         expandSubIngredients(item);
@@ -327,13 +360,9 @@ const addCustomEntry = (item, count, entry) => {
         name: entry,
         expand: true,
     });
-    
 
-
-    // if (!item.ingredients[0].expand || !item.hasOwnProperty('expand')){
-    //     expandSubIngredients(item);
-    // }
-    
+    handleUnsavedChanges(true); 
+    currentlyFetching.value = false;
 }
 
 const popItem = (itemIndex) => {
@@ -344,11 +373,8 @@ const popItem = (itemIndex) => {
     if (props.entry.ingredients.length == 0){
         delete props.entry.ingredients; 
     }
-}
 
-
-const expandOrShrink = () => {
-    ingredientsToggle.value = !ingredientsToggle.value; 
+    handleUnsavedChanges(true); 
 }
 
 const checkSubBoxes = (data, isChecked) => {
