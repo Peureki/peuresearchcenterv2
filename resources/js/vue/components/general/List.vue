@@ -325,6 +325,7 @@ const handleRecipeSearch = async (item, searchQuery, quantity) => {
             });
         })
 
+        checklist.value = [...checklist.value];
         handleUnsavedChanges(true); 
         currentlyFetching.value = false;
     }
@@ -350,6 +351,7 @@ const handleIngredientSearch = (item, searchQuery) => {
         expand: true,
     });
 
+    checklist.value = [...checklist.value];
     handleUnsavedChanges(true); 
     currentlyFetching.value = false; 
 
@@ -372,6 +374,7 @@ const addCustomEntry = (item, count, entry) => {
         expand: true,
     });
 
+    checklist.value = [...checklist.value];
     handleUnsavedChanges(true); 
     currentlyFetching.value = false;
 }
@@ -384,6 +387,8 @@ const popItem = (itemIndex) => {
     if (props.entry.ingredients.length == 0){
         delete props.entry.ingredients; 
     }
+
+    checklist.value = [...checklist.value];
 
     handleUnsavedChanges(true); 
 }
@@ -429,15 +434,15 @@ const progressChecklist = (recipe) => {
         })
     }
 }
-// Count total amount of items in a List
-countTotal(props.entry);
 // When users check a checkbox, trigger this watch
 // Reevaluate the amount that is checked and update checkedTotal, progressWidth
 watch(checklist, (newChecklist) => {
     if (newChecklist){
         // Reset so the value does not accumulate every progressChecklist
+        total.value = 0;
         checkedTotal.value = 0;
         // Count the current amount of checked items
+        countTotal(props.entry);
         progressChecklist(props.entry);
         // Update width
         progressWidth.value = (checkedTotal.value / total.value) * 100; 
