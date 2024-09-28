@@ -47,6 +47,11 @@ h1, h2, h3, h4, h5, h6, p, label, button, input, span{
     color: var(--color-text);
     margin: 0;
 }
+span{
+    display: flex;
+    align-items: center;
+    gap: var(--gap-general);
+}
 input {
     color: var(--color-black);
     background-color: var(--color-input-bkg);

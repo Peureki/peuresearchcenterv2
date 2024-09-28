@@ -132,7 +132,11 @@
     </section>
     
     <Blurb>
-        <p class="small-subtitle">Most Mystic Forge recipes supply by GW2Efficiency</p>
+        <span>
+            <p class="small-subtitle">Most Mystic Forge recipes supplied by GW2Efficiency</p>
+            <a href="https://github.com/gw2efficiency/custom-recipes" target="_blank" class="small-subtitle">GW2Efficiency's Github</a>
+            <a href="https://github.com/Peureki/peuresearchcenterv2/blob/main/resources/js/vue/components/json/changes.txt" target="_blank" class="small-subtitle">Personal changes to the original list</a>
+        </span>
     </Blurb>
     <Footer/>
 </template>
