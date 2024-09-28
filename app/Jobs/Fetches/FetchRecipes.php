@@ -83,4 +83,6 @@ class FetchRecipes implements ShouldQueue
             $currentPage++;
         }
     }
+
+    
 }

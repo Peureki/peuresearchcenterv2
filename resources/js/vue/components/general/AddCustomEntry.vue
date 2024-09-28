@@ -9,7 +9,7 @@
         >
         <input
             type="text"
-            placeholder="Dance with choyas"
+            placeholder="Become one with choya"
             v-model="entry"
         >
         <button class="submit" type="submit">Add Custom</button>

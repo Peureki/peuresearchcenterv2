@@ -64,7 +64,6 @@ Route::get('/fetch-currencies', [FetchController::class, 'fetchCurrencies']);
 Route::get('/fetch-prices', [FetchController::class, 'fetchGeneral']);
 Route::get('/fetch-research-notes', [FetchController::class, 'fetchResearchNotes']);
 Route::get('/fetch-recipes', [FetchController::class, 'fetchRecipes']);
-Route::get('/fetch-recipe-trees', [FetchController::class, 'fetchRecipeTrees']);
 Route::get('/fetch-recipe-values', [FetchController::class, 'fetchRecipeValues']);
 
 Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
@@ -143,3 +142,6 @@ Route::get('/fetch-derp', [FetchController::class, 'fetchDerp']);
 Route::get('/benchmarks/fishing/{includes}/{buyOrderSetting}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'fishing']);
 
 Route::get('/benchmarks/maps/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'maps']);
+
+// OTHER RECIPES
+Route::get('/fetch-other-recipes', [FetchController::class, 'fetchOtherRecipes']);

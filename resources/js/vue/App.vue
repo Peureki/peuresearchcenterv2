@@ -841,11 +841,22 @@ img.rolling-choya{
     * SVGS
     =================================================
 */
+/* Use this container to separate icon in mini sections */
+.icon-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--gap-general);
+    width: 100%;
+}
+
+
 .icons {
     display: flex;
     align-items: center;
     gap: var(--gap-general);
 }
+
 
 svg.close,
 svg.plus,

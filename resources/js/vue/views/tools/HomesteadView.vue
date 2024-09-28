@@ -41,7 +41,23 @@ import Footer from '@/js/vue/components/general/Footer.vue'
 import Disclaimer from '@/js/vue/components/general/Disclaimer.vue'
 import RefinementTable from '@/js/vue/components/tables/RefinementTable.vue';
 
+const getOtherRecipes = async () => {
+    try {
+        const response = await fetch(`../api/other-recipes`);
+        const responseData = await response.json(); 
+
+        if (responseData){
+            console.log('other recipes: ', responseData);
+        }
+    } catch (error){
+        console.log('Could not fetch data: ', error);
+    }
+}
+
+getOtherRecipes(); 
+
 </script>
 
 <style scoped>
+
 </style>

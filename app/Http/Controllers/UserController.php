@@ -14,15 +14,14 @@ class UserController extends Controller
 
     public function saveChecklist(Request $request){
         $request->validate([
-            'checklist' => 'required|array',
+            'checklist' => 'nullable|array',
         ]);
 
         $user = auth()->user(); 
         
         if ($user){
-            $user->update(['checklist' => $request->checklist]);
-            // $user->checklist = json_encode($request->checklist);
-            // $user->save();
+            // If checklist is null, input an empty array
+            $user->update(['checklist' => $request->checklist ?? []]);
         }
     }
 

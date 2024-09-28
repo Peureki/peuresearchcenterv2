@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\Fetches\FetchBenchmarks;
 use App\Jobs\Fetches\FetchGeneral;
 use App\Jobs\Fetches\FetchItems;
+use App\Jobs\Fetches\FetchOtherRecipes;
 use App\Jobs\Fetches\FetchPrices;
 use App\Jobs\Fetches\FetchRecipes;
 use App\Jobs\Fetches\FetchRecipeTrees;
@@ -33,6 +34,7 @@ use App\Models\MapBenchmark;
 use App\Models\MapBenchmarkDropRate;
 use App\Models\MixedSalvageable;
 use App\Models\MixedSalvageableDropRate;
+use App\Models\OtherRecipe;
 use App\Models\Recipes;
 use App\Models\ResearchNote;
 use App\Models\ResearchNotes;
@@ -66,11 +68,6 @@ class FetchController extends Controller
         return response()->json(['message' => 'Fetching recipes job has been queued']);
     }
 
-    public function fetchRecipeTrees(){
-        dispatch(new FetchRecipeTrees());
-        return response()->json(['message' => 'Fetching recipe trees job has been queued']);
-    }
-
     public function fetchRecipeValues(){
         dispatch(new FetchRecipeValues());
         return response()->json(['message' => 'Fetching recipe tree values job has been queued']);
@@ -95,9 +92,15 @@ class FetchController extends Controller
         return response()->json(['messasge' => 'Fetching benchmark job has been queued']);
     }
 
+    public function fetchOtherRecipes(){
+        dispatch(new FetchOtherRecipes());
+        return response()->json(['message' => 'Fetching other recipes has been queued']);
+    }
+
     public function merp(){
         return response()->json(['message' => 'merp']);
     }
+
 
     public function fetchDerp()
     {

@@ -125,7 +125,7 @@ class CurrencyController extends Controller
     }
 
     public function getSpiritShards($buyOrderSetting, $sellOrderSetting, $tax){
-        $jsonFilePath = base_path("resources/js/vue/components/json/recipes.json");
+        $jsonFilePath = base_path("resources/js/vue/components/json/spiritShard.json");
         $json = file_get_contents($jsonFilePath);
         $data = json_decode($json, true);
 
