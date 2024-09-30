@@ -566,6 +566,8 @@
 
                         <NavPage category="timers" url="lake-doric" name="Lake Doric" :icon="JadeShard"/> 
 
+                        <NavPage category="timers" url="lowland-shore" name="Lowland Shore" :icon="UrsusOblige"/>
+
                         <NavPage category="timers" url="sandswept-isles" name="Sandswept Isles" :icon="DifluoriteCrystal"/> 
 
                         <NavPage category="timers" url="skywatch-archipelago" name="Skywatch Archipelago" :icon="StaticCharge"/> 
@@ -670,6 +672,7 @@ import KralkatiteOre from '@/imgs/icons/Kralkatite_Ore.png'
 import DifluoriteCrystal from '@/imgs/icons/Difluorite_Crystal.png'
 import InscribedShard from '@/imgs/icons/Inscribed_Shard.png'
 import MistbornMote from '@/imgs/icons/Mistborn_Mote.png'
+import UrsusOblige from '@/imgs/icons/Ursus_Oblige.png'
 
 import PeuChoya from '@/imgs/choyas/Peu_Choya.png'
 import RollingChoya from '@/imgs/choyas/Rolling_Choya.png'

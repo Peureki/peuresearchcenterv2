@@ -63,14 +63,16 @@ import ToolsChecklistView from '@/js/vue/views/tools/ChecklistView.vue'
  * 
  */
 import TimersAuricBasinView from './views/timers/AuricBasinView.vue'
-import TimersTangledDepthsView from './views/timers/TangledDepthsView.vue'
+
 import TimersEmberBayView from './views/timers/EmberBayView.vue'
 import TimersDomainOfIstanView from './views/timers/DomainOfIstanView.vue'
 import TimersSandsweptIslesView from './views/timers/SandsweptIslesView.vue'
 import TimersDomainOfKournaView from '@/js/vue/views/timers/DomainOfKournaView.vue'
 import TimersDragonfallView from '@/js/vue/views/timers/DragonfallView.vue'
 import TimersLakeDoricView from '@/js/vue/views/timers/LakeDoricView.vue'
+import TimersLowlandShoreView from '@/js/vue/views/timers/LowlandShoreView.vue'
 import TimersSkywatchArchipelagoView from '@/js/vue/views/timers/SkywatchArchipelagoView.vue'
+import TimersTangledDepthsView from './views/timers/TangledDepthsView.vue'
 
 import GeneralAboutView from '@/js/vue/views/general/AboutView.vue'
 import PrivacyPolicyView from '@/js/vue/views/PrivacyPolicyView.vue'
@@ -322,6 +324,11 @@ const routes = [
         path: '/timers/dragonfall',
         component: TimersDragonfallView,
         name: 'timers-dragonfall',
+    },
+    {
+        path: '/timers/lowland-shore',
+        component: TimersLowlandShoreView,
+        name: 'timers-lowland-shore',
     },
     // SOTO
     {
