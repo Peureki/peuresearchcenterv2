@@ -73,6 +73,7 @@ import TimersLakeDoricView from '@/js/vue/views/timers/LakeDoricView.vue'
 import TimersSkywatchArchipelagoView from '@/js/vue/views/timers/SkywatchArchipelagoView.vue'
 
 import GeneralAboutView from '@/js/vue/views/general/AboutView.vue'
+import PrivacyPolicyView from '@/js/vue/views/PrivacyPolicyView.vue'
 import GeneralSupportView from '@/js/vue/views/general/SupportView.vue'
 
 const routes = [
@@ -80,6 +81,11 @@ const routes = [
         path: '/',
         component: HomeView,
         name: 'home',
+    },
+    {
+        path: '/privacy-policy',
+        component: PrivacyPolicyView,
+        name: 'privacy-policy',
     },
     {
         path: '/benchmarks/maps',

@@ -1206,6 +1206,9 @@ img.map-guide{
 .clickable {
     cursor: pointer;
 }
+.link{
+    color: var(--color-link);
+}
 
 .flex-column{
     display: flex;
