@@ -72,12 +72,14 @@
 
             
             <div class="icons">
+                <p class="small-subtitle">{{ checkedTotal }}/{{ total }}</p>
+                
                 <div class="progress-bar-container">
                     <div class="progress-bar" :style="{width: `${progressWidth}%`}">
 
                     </div>
                 </div>
-                <p class="small-subtitle">{{ checkedTotal }}/{{ total }}</p>
+                
                 <!--
                     *
                     * WIKI
@@ -438,6 +440,7 @@ const progressChecklist = (recipe) => {
 // Reevaluate the amount that is checked and update checkedTotal, progressWidth
 watch(checklist, (newChecklist) => {
     if (newChecklist){
+        console.log('merp');
         // Reset so the value does not accumulate every progressChecklist
         total.value = 0;
         checkedTotal.value = 0;
