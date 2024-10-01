@@ -594,6 +594,34 @@ let events = [
         top: `${23}%`,
         left: `${103}%`,
     },
+    {
+        name: "Sleuth Brawlfields",
+        outpost: "",
+        singleCooldown: ref(true),
+        initialCooldown: ref(60 * 3 + 0),
+        initialMin: 60 * 1 + 0,
+        initialMax: -(60 * 1 + 0),
+        respawnCooldown: ref(60 * 3 + 0), 
+        respawnMin: 60 * 1 + 0,
+        respawnMax: -(60 * 1 + 0),
+        active: ref(false),
+        respawnActive: ref(false),
+        toggleCheckbox: ref(true),
+        togglePlay: ref(true),
+        toggleInfo: ref(false),
+        toggleTooltip: ref(false),
+        chain: [
+            {
+                type: 'Boss',
+                img: EventBoss,
+            },
+        ],
+        info: "Various different events from champs to activities",
+        waypointName: "Harvest Den Waypoint",
+        waypointLink: "[&BK4OAAA=]",
+        top: `${15}%`,
+        left: `${103}%`,
+    },
 ];
 
 </script>
