@@ -3,7 +3,7 @@
     <Header page-name="Map Benchmarks"/>
 
     <section class="main">
-        <Loading v-if="!benchmarkToggle || currentlyRefreshing" :width="200" :height="200"/>
+        <Loading v-if="!benchmarkToggle || currentlyRefreshing" :width="200" :height="200" :progress="currentProgress"/>
         <Benchmark
             v-if="benchmarkToggle"
             :benchmarks="mapBenchmarks"
@@ -19,6 +19,8 @@ import { onMounted, ref, computed, watch } from 'vue'
 import { user, sellOrder, tax, includes, refreshSettings } from '@/js/vue/composables/Global';
 import { getAuthUser } from '@/js/vue/composables/Authentication';
 
+import Echo from 'laravel-echo';
+
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import Footer from '@/js/vue/components/general/Footer.vue'
@@ -29,7 +31,8 @@ const mapBenchmarks = ref([]),
     dropRates = ref([]),
     benchmarkToggle = ref(false);
 
-const currentlyRefreshing = ref(false);
+const currentlyRefreshing = ref(false),
+    currentProgress = ref(0);
 
 const sortBenchmarks = (benchmarks) => {
     if (benchmarks){
@@ -70,10 +73,17 @@ onMounted( async () => {
     else {
         console.log('user found')
         getMapBenchmarks(url.value);
-    }
 
-    //console.log('url: ', url.value);
+        
+    }
+    console.log('url: ', url.value);
 })
+// Update the progress of loading the data 
+window.Echo.channel('progress')
+    .listen('LoadingProgress', (e) => {
+        currentProgress.value = e.progress; 
+        //console.log('Loading Progress: ', e.progress);
+    })
 
 const getMapBenchmarks = async (url) => {
     const response = await fetch(url);
@@ -96,7 +106,6 @@ watch(refreshSettings, async (newSettings) => {
         currentlyRefreshing.value = false;
         refreshSettings.value = false;
     }
-
 })
 
 </script>

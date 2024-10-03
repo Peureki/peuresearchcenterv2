@@ -4,6 +4,8 @@ namespace App\Jobs\Fetches;
 
 use App\Models\Bag;
 use App\Models\BagDropRate;
+use App\Models\ChoiceChest;
+use App\Models\ChoiceChestOption;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -28,6 +30,11 @@ class FetchBags implements ShouldQueue
      */
     public function handle(): void
     {
+        $this->bags(); 
+        $this->choiceChests();
+    }
+
+    private function bags(){
         $api = Http::get('https://script.google.com/macros/s/AKfycbwRZ5MH8MQ80kyvPV-WoZFh0z1OzKkktF_AW_AEcpNDGXWyQ5wOksILO6OfWO6Fxvk9gQ/exec?endpoint=bags'); 
         $spreadsheet = $api->json(); 
 
@@ -119,5 +126,54 @@ class FetchBags implements ShouldQueue
 
             
         }
+    }
+
+    private function choiceChests(){
+        $api = Http::get('https://script.google.com/macros/s/AKfycbwRZ5MH8MQ80kyvPV-WoZFh0z1OzKkktF_AW_AEcpNDGXWyQ5wOksILO6OfWO6Fxvk9gQ/exec?endpoint=choiceChests');
+        $spreadsheet = $api->json(); 
+
+        // Populate these for upsert() 
+        // $ids => PK, ids of the chests
+        // $options => FKs of the chests, bags, currencies, and the drop quantities
+        $ids = [];
+        $options = []; 
+        
+        foreach ($spreadsheet['choiceChests'] as $chest){
+            // Populate chest IDs
+            $ids[] = ['id' => $chest['id']];
+
+            // Make arrays for all item info
+            // $itemChoice will always have the full array
+            // Ex: if there's a currency, $itemChoice will count that
+            $itemChoice = explode(",", $chest['itemChoice']);
+            $itemIDs = explode(",", $chest['itemID']);
+            $itemQty = explode(",", $chest['itemQuantity']); 
+
+            //dd($itemChoice);
+            // Use $itemChoice since it represents all items and currencies
+            foreach ($itemChoice as $key => $choice){
+                $bag = null; 
+                // Check if there's a Bag
+                if (Bag::find($itemIDs[$key])){
+                    $bag = $itemIDs[$key];
+                }
+                $options[] = [
+                    'choice_chest_id' => $chest['id'],
+                    'item_id' => $itemIDs[$key],
+                    'bag_id' => $bag,
+                    'option' => $choice, 
+                    'quantity' => $itemQty[$key],
+                ];
+            }
+        }
+        // Populate databases
+        ChoiceChest::upsert($ids, ['id']);
+        ChoiceChestOption::upsert($options, [
+            'choice_chest_id',
+            'item_id',
+            'bag_id',
+            'option',
+            'quantity'
+        ]);
     }
 }

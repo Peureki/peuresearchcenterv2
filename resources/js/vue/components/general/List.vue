@@ -73,12 +73,7 @@
             
             <div class="icons">
                 <p class="small-subtitle">{{ checkedTotal }}/{{ total }}</p>
-                
-                <div class="progress-bar-container">
-                    <div class="progress-bar" :style="{width: `${progressWidth}%`}">
-
-                    </div>
-                </div>
+                <ProgressBar :progress="progressWidth" />
                 
                 <!--
                     *
@@ -275,6 +270,7 @@ import SearchRecipe from '@/js/vue/components/general/SearchRecipe.vue'
 import SearchItem from '@/js/vue/components/general/SearchItem.vue'
 import AddCustomEntry from '@/js/vue/components/general/AddCustomEntry.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
+import ProgressBar from '@/js/vue/components/general/ProgressBar.vue'
 import Expand from '@/imgs/svgs/expand.svg'
 
 const props = defineProps({
@@ -448,7 +444,7 @@ watch(checklist, (newChecklist) => {
         countTotal(props.entry);
         progressChecklist(props.entry);
         // Update width
-        progressWidth.value = (checkedTotal.value / total.value) * 100; 
+        progressWidth.value = (checkedTotal.value / total.value); 
     }
 }, {immediate: true})
 
@@ -531,18 +527,6 @@ const checkFade = (checkStatus) => {
 .primary-item:hover,
 .item:hover{
     background-color: var(--color-bkg-fade);
-}
-
-.progress-bar-container{
-    width: 150px;
-    height: 25px;
-    background-color: var(--color-bkg-fade);
-    border: var(--border-general);
-}
-.progress-bar{
-    height: 100%;
-    background-color: var(--color-up);
-    transition: var(--transition-all-03s-ease);
 }
 /* By default, the expand svg is facing down. This should face is up then use the dynamic class 'rotate' to 180 it */
 .expand{

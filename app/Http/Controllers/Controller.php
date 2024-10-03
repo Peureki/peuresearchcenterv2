@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Bag;
 use App\Models\BagDropRate;
+use App\Models\ChoiceChest;
+use App\Models\ChoiceChestOption;
 use App\Models\ConsumableDropRate;
 use App\Models\ContainerDropRate;
 use App\Models\CopperFedSalvageableDropRate;
 use App\Models\CurrencyBagDropRates;
 use App\Models\FishDropRate;
+use App\Models\Items;
 use App\Models\MixedSalvageableDropRate;
 use App\Models\RunecraftersSalvageableDropRate;
 use App\Models\Salvageable;
@@ -62,6 +65,7 @@ class Controller extends BaseController
     protected $tradeContract;
     protected $tyrianDefenseSeal;
     protected $unboundMagic;
+    protected $ursusOblige; 
     protected $volatileMagic; 
     protected $writs;
 
@@ -71,6 +75,10 @@ class Controller extends BaseController
     protected $homesteadFiber; 
     protected $homesteadMetal; 
     protected $homesteadWood;
+
+    // CHOICE CHESTS
+    // ie Hero's Choice Chest, Ash Legino Crafting Box via Drizzlewood
+    protected $choiceChests; 
 
     protected $exchangeableMap; 
     protected $homesteadMap; 
@@ -153,6 +161,12 @@ class Controller extends BaseController
             'conversionRate' => $this->dailyExchanges['conversionRate'],
             'fee' => $this->dailyExchanges['fee'],
             'outputQty' => $this->dailyExchanges['outputQty'],
+        ];
+
+        // List of IDs of all choice chest
+        // UPDATE this list of IDs via Bags spreadsheet => Choice_Chest_API
+        $this->choiceChests = [
+            93378,93574,93547,93485,93770,93870,93465,93543,93741,93794,93430,93508,78171,78650,78332,78617,90958,91039,84360,83035,97895,97901,97894,97896,99704,100547,100193,101195,101185,101748,92311
         ];
 
         // This is a list of currencies contained in bags that need to be defined specifically to get their values exchanged or to find their values in other bags that otherwise can't be defined by various methods such as:
@@ -286,7 +300,7 @@ class Controller extends BaseController
                 74494, 73020, 73616, 69985, 66593, 94228,
                 // Cloth Shipment, Leather Shipment, Metal Shipment, Wood Shipment
                 85873, 86231, 85990, 86053,
-                 // Season 4 Currency Box
+                // Season 4 Currency Box
                 92311,
                 // Writ of Dragon, Writ of Echovald, Writ of Kaineng, Writ of Seitung
                 95692, 96561, 96533, 96680
@@ -485,6 +499,36 @@ class Controller extends BaseController
             'fee' => [10000, 4000, 5000],
             'outputQty' => array_fill(0, 3, 1),
         ];
+
+        $this->ursusOblige = [
+            'id' => [
+                43466, // Potent Hardened Sharpening Stone
+                43465, // Potent Quality Sharpening Stone
+                43463, // Potent Simple Sharpening Stone
+                43464, // Potent Standard Sharpening Stone
+                74634, // Thesis on Basic Speed
+                77233, // Thesis on Speed
+            ],
+            'conversionRate' => [
+                15,
+                10,
+                5,
+                7,
+                5,
+                25,
+            ],
+            'fee' => [
+                200,
+                160,
+                80,
+                120,
+                80,
+                200,
+            ],
+            'outputQty' => array_fill(0, 6, 1),
+        ];
+
+
         // Shipments
         $this->volatileMagic = [
             'id' => [85873, 86231, 85725, 86053, 85990],
@@ -791,6 +835,7 @@ class Controller extends BaseController
             "Trade Contract" => $this->tradeContract,
             "Tyrian Defense Seal" => $this->tyrianDefenseSeal,
             "Unbound Magic" => $this->unboundMagic,
+            "Ursus Oblige" => $this->ursusOblige,
             "Volatile Magic" => $this->volatileMagic,
             "Writ of Seitung Province" => $this->writs,
             "Writ of New Kaineng City" => $this->writs,
@@ -888,6 +933,41 @@ class Controller extends BaseController
         return $sellOrderSetting;
     }
 
+    protected function getChoiceChestValue($chestID, $chestQuantity, $includes, $sellOrderSetting, $tax){
+        $dropRatesTable = ChoiceChestOption::join('choice_chests', 'choice_chest_options.choice_chest_id', '=', 'choice_chests.id')
+        ->where('choice_chests.id', $chestID)
+        ->leftjoin('items', 'choice_chest_options.item_id', '=', 'items.id')
+        ->get();
+
+        $value = 0; 
+        $allValues = []; 
+
+        // if ($chestID == 78650){
+        //     dd($dropRatesTable);
+        // }
+        //dd($dropRatesTable);
+
+        foreach ($dropRatesTable as $item){
+            if ($item->option != 'Guaranteed'){
+                // Push onto $allValues to compare the best choice at the end
+                array_push($allValues, 
+                    $this->getItemValue($item, $includes, $sellOrderSetting, $tax) * $item->quantity, 
+                );
+                
+                //dd($item, $allValues);
+            }
+            else {
+                $value += $item->$sellOrderSetting * $tax;
+            }
+        }
+        //dd($allValues);
+        // Compare $allValues and return the best value option
+        $value = max($allValues); 
+        
+        return $value * $chestQuantity; 
+
+    }
+
     // GET CONTAINER VALUE
     // ie. Bag of Fish in Bounty of New Kaineng City bag
     // Get the value of a container that's within another bag since these container have their own drop tables and loot and not a straight up sell price
@@ -950,7 +1030,10 @@ class Controller extends BaseController
                 }
             }
         }
-
+        if (!$containerDropRate){
+            $containerDropRate = 1;
+        }
+        //dd($value * $containerDropRate, $dropRatesTable, $containerDropRate);
         return $value * $containerDropRate; 
     }
 
@@ -980,7 +1063,7 @@ class Controller extends BaseController
     // Dragonite Ore
     // Volatile Magic
     // Eyes of Kormir
-    protected function getExchangeableValue($itemName, $itemDropRate, $includes, $sellOrderSetting, $tax){
+    protected function getExchangeableValue($itemName, $itemDropRate, $includes, $sellOrderSetting, $tax, $recursionLevel = 0){
 
         //dd('exchangeable map', $this->exchangeableMap, 'item name', $itemName, 'includes', $includes, in_array($itemName, $includes));
 
@@ -1006,7 +1089,7 @@ class Controller extends BaseController
         }
         
 
-        $containerTable = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
+        $bagDropTable = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
         ->leftjoin('items as item', 'bag_drop_rates.item_id', '=', 'item.id')
         ->leftjoin('items as bag_item', 'bags.id', '=', 'bag_item.id')
         ->leftjoin('currencies as currency', 'bag_drop_rates.currency_id', '=', 'currency.id')
@@ -1027,82 +1110,64 @@ class Controller extends BaseController
         ->get()
         ->groupBy('bag_id');
 
-        //dd($containerTable, $requestedBags);
+        //dd($bagDropTable, $requestedBags);
 
-        //dd('container table: ', $containerTable);
+        //dd('container table: ', $bagDropTable);
         $orderedResults = [];
-        // Since the query reorders the indexes based on smallest to largest IDs, reorder the index to match the original set
-        // This is to match the conversionRates and fees
-        foreach ($requestedBags as $id){
-            if (isset($containerTable[$id])){
-                $orderedResults[$id] = $containerTable[$id];
-            }
-        }
-
-        $containerTable = array_values($orderedResults);
-
         $allValues = []; 
 
-        foreach ($containerTable as $index => $group){
-            $value = 0;
-            
-            foreach ($group as $item){
-                
-                // Check if there's uni gear && if toggled in Includes settings
-                if (strpos($item->name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
-                    $value += $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
-                } 
-                // Check if there's salvageables && if toggled in Includes settings
-                else if ($item->description === "Salvage Item" && in_array('Salvageables', $includes)){
-                    $value += $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+        if (!$bagDropTable->isEmpty()){
+            // Since the query reorders the indexes based on smallest to largest IDs, reorder the index to match the original set
+            // This is to match the conversionRates and fees
+            foreach ($requestedBags as $id){
+                if (isset($bagDropTable[$id])){
+                    $orderedResults[$id] = $bagDropTable[$id];
                 }
-                // ASCENDED JUNK
-                else if ($item->rarity == 'Ascended' && $item->type == 'CraftingMaterial' && in_array('AscendedJunk', $includes)) {
-                    // There's a lot of ascended and crafteringMaterials so switch the $item->name to check for specifically the ascended junk
-                    switch ($item->name){
-                        case 'Dragonite Ore':
-                        case 'Pile of Bloodstone Dust':
-                        case 'Empyreal Fragment':
-                            $value += $this->getExchangeableValue($item->name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-                            break;
-                    }
-                }
-                // Junk items
-                else if ($item->rarity === 'Junk'){
-                    $value += $item->vendor_value * $item->drop_rate;
-                }
-                // Everything else
-                else {
-                    //dd($item);
-                    if ($item->$sellOrderSetting){
-                        $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
-                    } else {
-                        $value += $item->vendor_value * $item->drop_rate;
-                    }
-                    //$value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
-                }
+            }
 
+            $bagDropTable = array_values($orderedResults);
+
+            foreach ($bagDropTable as $index => $group){
+                $value = 0;
                 
+                foreach ($group as $item){
+                    $value += $this->getItemValue($item, $includes, $sellOrderSetting, $tax, $recursionLevel);         
+                }
+                $value = ($value - $fee[$index]) / $conversionRate[$index]; 
+                array_push($allValues, $value); 
             }
-            if ($item->item_name == 'Antique Summoning Stone'){
-                //dd($item, $value, $fee[$index], $conversionRate[$index]);
-            }
-            $value = ($value - $fee[$index]) / $conversionRate[$index]; 
-            array_push($allValues, $value); 
         }
+        // If $bagDropTable is EMPTY => indicates that the exchangeable uses a direct material exchange rather than a bag
+        else {
+            $bagDropTable = Items::whereIn('id', $requestedBags)->get();
 
-            //dd($allValues);
-            //$currencyValue = max($allValues);
-            try {
-                $currencyValue = max($allValues);
-            } catch (ValueError $e){
-                dd($e, $allValues, $containerTable, $itemName);
+            // Make sure the order of $requestedBags is maintained after fetching data
+            $bagDropTable = $bagDropTable->sortBy(function($item) use ($requestedBags) {
+                return array_search($item->id, $requestedBags);
+            })->values();
+
+            foreach ($bagDropTable as $index => $item){
+                $value = 0; 
+                $value = $this->getItemValue($item, $includes, $sellOrderSetting, $tax); 
+
+                $value = ($value - $fee[$index]) / $conversionRate[$index]; 
+                array_push($allValues, $value); 
             }
+
+
+        }
+        //dd($allValues);
+        //$currencyValue = max($allValues);
+        try {
+            $currencyValue = max($allValues);
+        } catch (ValueError $e){
+            dd($e, $allValues, $bagDropTable, $itemName);
+        }
             
             //dd($currencyValue);
             //$currencyValue = (max($allValues) - $fee) / $conversionRate; 
         
-
+        //dd($itemName, $currencyValue, $itemDropRate);
         return $currencyValue * $itemDropRate; 
 
         
@@ -1212,6 +1277,16 @@ class Controller extends BaseController
                     break;
                 }
                 
+            // URSUS OBLIGE
+            case 76:
+                if (!in_array('UrsusOblige', $includes)){
+                    return 0;
+                } else {
+                    $containerIDs = array_merge($containerIDs, $this->ursusOblige['id']);
+                    $conversionRate = $this->ursusOblige['conversionRate']; 
+                    $fee = $this->ursusOblige['fee'];
+                    break;
+                }
 
             // *
             // * COMMENDATIONS
@@ -1542,11 +1617,34 @@ class Controller extends BaseController
         * Master function of conditions to get the value of a specific item
         * Examples: champ bags, uni gear, exchangeables, etc
     */
-    function getItemValue($item, $includes, $sellOrderSetting, $tax){
-        if ($item->drop_rate == 0){
-            return 0; 
+    function getItemValue($item, $includes, $sellOrderSetting, $tax, $recursionLevel = 0){
+        //dd($item);
+
+        // if ($item->name == 'Mistborn Mote'){
+        //     dd('getItemValue: ', $item);
+        // }
+
+        // if ($item->type === 'Consumable' && strpos($item->item_description, 'volatile magic') 
+        // || strpos($item->item_description, 'Volatile Magic')
+        // || strpos($item->item_description, 'unbound magic')
+        // || strpos($item->description, 'volatile magic') 
+        // || strpos($item->description, 'Volatile Magic')
+        // || strpos($item->description, 'unbound magic')){
+        //     dd($item);
+        // }
+
+        // RESTRICT recursion
+        // Example: Trade Contracts can be converted to Tyrian Seal and vise versa
+        // This would create an infinite loop
+        if ($recursionLevel > 2){
+            return 0;
+        } else {
+            $recursionLevel++;
         }
-        
+
+        if (!isset($item->choice_chest_id) && !isset($item->drop_rate)){
+            return $item->$sellOrderSetting * $tax; 
+        }
         // COMMENDATIONS (DWC)
         else if ($item->type == 'Trophy' && strpos($item->item_name, 'Commendation')){
             return $this->getCommendationValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
@@ -1554,9 +1652,14 @@ class Controller extends BaseController
         // CONSUMABLES
         else if ($item->type === 'Consumable' && strpos($item->item_description, 'volatile magic') 
         || strpos($item->item_description, 'Volatile Magic')
-        || strpos($item->item_description, 'unbound magic')){
-            //dd($item->item_name);
+        || strpos($item->item_description, 'unbound magic')
+        || strpos($item->description, 'volatile magic') 
+        || strpos($item->description, 'Volatile Magic')
+        || strpos($item->description, 'unbound magic')){
+            //dd($item->name);
+            //dd($this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax));
             return $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
+            
             //dd($item->item_name, $itemValue);
         }
         // JUNK ITEMS
@@ -1567,6 +1670,10 @@ class Controller extends BaseController
         else if (strpos($item->item_name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
             return $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
         } 
+        // CHOICE CHESTS
+        else if (in_array($item->item_id, $this->choiceChests)){
+            return $this->getChoiceChestValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+        }
         // CHAMP BAGS, CONTAINERS
         else if ($item->type == "Container" && strpos($item->item_description, 'Salvage') === false){
             return $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
@@ -1577,17 +1684,21 @@ class Controller extends BaseController
         }
         // GENERAL EXCHANGEABLES
         else if (array_key_exists($item->item_name, $this->exchangeableMap)) {
-            return $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+            return $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax, $recursionLevel);
         }
         // RAW CURRENCIES
         else if ($item->currency_id) {
-            return $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+            return $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax, $recursionLevel);
         }
         // ANYTHING ELSE NOT FROM ABOVE 
         else {
-            return ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+            // If it is an item that doesn't meet any of these conditions AND is probably an item from a choice chest that doesn't have drop_rate, then
+            if ($item->drop_rate){
+                return ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+            } else {
+                return $item->$sellOrderSetting * $tax;
+            }
+            
         }   
-
-        
     }
 }

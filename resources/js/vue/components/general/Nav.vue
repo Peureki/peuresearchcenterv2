@@ -334,6 +334,12 @@
                                 />
 
                                 <IncludesCheckbox
+                                    name="Ursus Oblige"
+                                    :icon="UrsusOblige"
+                                    label="UrsusOblige"
+                                />
+
+                                <IncludesCheckbox
                                     name="Volatile Magic"
                                     :icon="VolatileMagic"
                                     label="VolatileMagic"
@@ -493,6 +499,8 @@
 
                         <NavPage category="currencies" url="unbound-magic" name="Unbound Magic" :icon="UnboundMagic"/>
 
+                        <NavPage category="currencies" url="ursus-oblige" name="Ursus Oblige" :icon="UrsusOblige"/>
+
                         <NavPage category="currencies" url="volatile-magic" name="Volatile Magic" :icon="VolatileMagic"/>
                     </div>
                 </Transition>
@@ -556,13 +564,17 @@
 
                         <NavPage category="timers" url="auric-basin" name="Auric Basin" :icon="LumpOfAurillium"/> 
 
-                        <NavPage category="timers" url="ember-bay" name="Ember Bay" :icon="PetrifiedWood"/> 
+                        
 
                         <NavPage category="timers" url="domain-of-istan" name="Domain of Istan" :icon="KralkatiteOre"/> 
 
                         <NavPage category="timers" url="domain-of-kourna" name="Domain of Kourna" :icon="InscribedShard"/> 
 
                         <NavPage category="timers" url="dragonfall" name="Dragonfall" :icon="MistbornMote"/> 
+
+                        <NavPage category="timers" url="ember-bay" name="Ember Bay" :icon="PetrifiedWood"/> 
+
+                        <NavPage category="timers" url="jahai-bluffs" name="Jahai Bluffs" :icon="Mistonium"/> 
 
                         <NavPage category="timers" url="lake-doric" name="Lake Doric" :icon="JadeShard"/> 
 
@@ -672,6 +684,7 @@ import KralkatiteOre from '@/imgs/icons/Kralkatite_Ore.png'
 import DifluoriteCrystal from '@/imgs/icons/Difluorite_Crystal.png'
 import InscribedShard from '@/imgs/icons/Inscribed_Shard.png'
 import MistbornMote from '@/imgs/icons/Mistborn_Mote.png'
+import Mistonium from '@/imgs/icons/Lump_of_Mistonium.png'
 import UrsusOblige from '@/imgs/icons/Ursus_Oblige.png'
 
 import PeuChoya from '@/imgs/choyas/Peu_Choya.png'

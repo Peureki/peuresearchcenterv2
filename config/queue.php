@@ -71,6 +71,14 @@ return [
             'after_commit' => false,
         ],
 
+        'broadcasts' => [
+            'driver' => 'redis',
+            'table' => 'jobs',
+            'queue' => 'broadcasts',
+            'retry_after' => 90,
+            'after_commit' => false,
+        ],
+
     ],
 
     /*

@@ -65,9 +65,10 @@ Route::get('/fetch-prices', [FetchController::class, 'fetchGeneral']);
 Route::get('/fetch-research-notes', [FetchController::class, 'fetchResearchNotes']);
 Route::get('/fetch-recipes', [FetchController::class, 'fetchRecipes']);
 Route::get('/fetch-recipe-values', [FetchController::class, 'fetchRecipeValues']);
-
+// *
+// * FETCHING BAGS, CHOICE CHESTS
+// *
 Route::get('/fetch-bags', [FetchController::class, 'fetchBags']);
-Route::get('/fetch-choice-chests', [FetchController::class, 'fetchChoiceChests']);
 // *
 // * FETCH SALVAGEABLES
 // *
@@ -79,8 +80,6 @@ Route::get('/fetch-fishing-holes', [FetchController::class, 'fetchFishingHoles']
 
 Route::get('/fetch-consumables', [FetchController::class, 'fetchConsumables']);
 Route::get('/fetch-exotics', [FetchController::class, 'fetchExotics']);
-
-Route::get('/fetch-map-benchmarks', [FetchController::class, 'fetchMapBenchmarks']);
 
 
 // *

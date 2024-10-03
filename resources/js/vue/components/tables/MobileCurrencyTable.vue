@@ -5,7 +5,7 @@
                 <div class="img-and-label">
                     <img v-if="item.icon" class="icon" :src="item.icon" :alt="item.name" :title="item.name">
 
-                    <p class="item-name" :style="{color: showRarityColor(item.rarity)}">{{ item.name }}</p>
+                    <p class="item-name" :style="{color: showRarityColor(item.rarity)}">{{item.outputQty}} {{ item.name }}</p>
                 </div>
 
                 <!--

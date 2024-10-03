@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoadingProgress;
 use App\Models\FishingHole;
 use App\Models\FishingHoleDropRate;
 use App\Models\Items;
@@ -13,10 +14,6 @@ use Illuminate\Support\Facades\Log;
 
 class BenchmarkController extends Controller
 {
-    // LOAD TIMES
-    // Size: 4.1mb
-    // Time: 17.86s
-
     public function maps($includes, $sellOrderSetting, $tax){
 
         // Make it a workable arrays
@@ -30,11 +27,12 @@ class BenchmarkController extends Controller
         $cacheKey = 'map_benchmarks_' . md5(json_encode($includes) . $sellOrderSetting . $tax); 
 
         //dd($cacheResults);
+
         // If data has been cached, then return that instead
         $cachedResponse = Cache::get($cacheKey); 
         if ($cachedResponse && isset($cachedResponse['benchmarks']) && !empty($cachedResponse['benchmarks'])){
-            Log::info('this is the cached benchmarks: ', $cachedResponse);
-            return response()->json($cachedResponse); 
+            //Log::info('this is the cached benchmarks: ', $cachedResponse);
+            //return response()->json($cachedResponse); 
         }
         
 
@@ -63,12 +61,11 @@ class BenchmarkController extends Controller
         //dd($mapDropRates);
 
         $mapBenchmark = []; 
+        $benchmarkTotalCount = $mapDropRates->count(); 
         $response = []; 
 
         foreach ($mapDropRates as $group){
-
             //dd($group);
-
             $gph = 0;
             $time = $group[0]->time;
 
@@ -115,9 +112,14 @@ class BenchmarkController extends Controller
                 'mostValuedItem' => $mostValuedItem,
                 'mostValuedIcon' => $mostValuedIcon,
             ];
+            // Constantly return progress of loading benchmarks
+            $progress = count($mapBenchmark) / $benchmarkTotalCount;
+            broadcast(new LoadingProgress($progress));
         }
 
         $mapDropRates = $mapDropRates->values();
+
+        //dd($mapDropRates);
 
         $response = [
             'dropRates' => $mapDropRates,
@@ -125,7 +127,7 @@ class BenchmarkController extends Controller
         ];
 
         // Store unique cache key for the next [time] minutes
-        Cache::put($cacheKey, $response, now()->addHours(24)); 
+        Cache::put($cacheKey, $response, now()->addHours(48)); 
 
         return response()->json($response); 
     }
@@ -168,6 +170,8 @@ class BenchmarkController extends Controller
         // Push the actual drop rates onto this array
         $dropRates = [];
         
+        // Total amount of fetched benchmarks
+        $benchmarkTotalCount = $fishingHoleDropRates->count(); 
         // 1) Get drop rates for each fishing hole
         // 2) Get estimate variables
         // 3 Calculate GPH estimates
@@ -288,6 +292,10 @@ class BenchmarkController extends Controller
                 'mostValuedItem' => $mostValuedItem,
                 'mostValuedIcon' => $mostValuedIcon
             ]);
+
+            // Constantly return progress of loading benchmarks
+            $progress = count($fishingHoles) / $benchmarkTotalCount;
+            broadcast(new LoadingProgress($progress));
         }
 
         // Reset indexes to start from 0 instead of db 1

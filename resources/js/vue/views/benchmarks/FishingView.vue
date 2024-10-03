@@ -3,7 +3,7 @@
     <Header page-name="Fishing Benchmarks"/>
 
     <section class="main">
-        <Loading v-if="!fishingHoleToggle" :width="200" :height="200" />
+        <Loading v-if="!fishingHoleToggle" :width="200" :height="200" :progress="currentProgress" />
         <FishBenchmark
             v-if="fishingHoleToggle"
             :fishing-holes="fishingHoles"
@@ -29,6 +29,8 @@ import Loading from '@/js/vue/components/general/Loading.vue'
 const fishingHoles = ref([]),
     dropRates = ref([]),
     fishingHoleToggle = ref(false);
+
+const currentProgress = ref(0);
 
 const sortBenchmarks = (benchmarks) => {
     if (benchmarks){
@@ -71,9 +73,16 @@ onMounted( async () => {
         console.log('user found')
         getFishes(url);
     }
+
+    console.log(url.value);
 })
 
-
+// Update the progress of loading the data 
+window.Echo.channel('progress')
+    .listen('LoadingProgress', (e) => {
+        currentProgress.value = e.progress; 
+        //console.log('Loading Progress: ', e.progress);
+    })
 
 const getFishes = async () => {
 

@@ -27,6 +27,7 @@ import CurrenciesStaticChargeView from '@/js/vue/views/currencies/StaticChargeVi
 import CurrenciesTradeContractView from '@/js/vue/views/currencies/TradeContractView.vue'
 import CurrenciesTyrianDefenseSealView from '@/js/vue/views/currencies/TyrianDefenseSealView.vue'
 import CurrenciesUnboundMagicView from '@/js/vue/views/currencies/UnboundMagicView.vue'
+import CurrenciesUrsusObligeView from '@/js/vue/views/currencies/UrsusObligeView.vue'
 import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagicView.vue'
 
 /*
@@ -64,11 +65,13 @@ import ToolsChecklistView from '@/js/vue/views/tools/ChecklistView.vue'
  */
 import TimersAuricBasinView from './views/timers/AuricBasinView.vue'
 
-import TimersEmberBayView from './views/timers/EmberBayView.vue'
+
 import TimersDomainOfIstanView from './views/timers/DomainOfIstanView.vue'
 import TimersSandsweptIslesView from './views/timers/SandsweptIslesView.vue'
 import TimersDomainOfKournaView from '@/js/vue/views/timers/DomainOfKournaView.vue'
 import TimersDragonfallView from '@/js/vue/views/timers/DragonfallView.vue'
+import TimersEmberBayView from './views/timers/EmberBayView.vue'
+import TimersJahaiBluffsView from './views/timers/JahaiBluffsView.vue'
 import TimersLakeDoricView from '@/js/vue/views/timers/LakeDoricView.vue'
 import TimersLowlandShoreView from '@/js/vue/views/timers/LowlandShoreView.vue'
 import TimersSkywatchArchipelagoView from '@/js/vue/views/timers/SkywatchArchipelagoView.vue'
@@ -173,6 +176,11 @@ const routes = [
         path: '/currencies/unbound-magic',
         component:  CurrenciesUnboundMagicView,
         name: 'currencies-unbound-magic',
+    },
+    {
+        path: '/currencies/ursus-oblige',
+        component:  CurrenciesUrsusObligeView,
+        name: 'currencies-ursus-oblige',
     },
     {
         path: '/currencies/volatile-magic',
@@ -298,6 +306,11 @@ const routes = [
         path: '/timers/ember-bay',
         component: TimersEmberBayView,
         name: 'timers-ember-bay',
+    },
+    {
+        path: '/timers/jahai-bluffs',
+        component: TimersJahaiBluffsView,
+        name: 'timers-jahai-bluffs',
     },
     {
         path: '/timers/lake-doric',
