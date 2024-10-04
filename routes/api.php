@@ -61,7 +61,7 @@ Route::get('/fetch-benchmarks', [FetchController::class, 'fetchBenchmarks']);
 
 Route::get('/fetch-items', [FetchController::class, 'fetchItems']);
 Route::get('/fetch-currencies', [FetchController::class, 'fetchCurrencies']);
-Route::get('/fetch-prices', [FetchController::class, 'fetchGeneral']);
+Route::get('/fetch-prices', [FetchController::class, 'fetchPrices']);
 Route::get('/fetch-research-notes', [FetchController::class, 'fetchResearchNotes']);
 Route::get('/fetch-recipes', [FetchController::class, 'fetchRecipes']);
 Route::get('/fetch-recipe-values', [FetchController::class, 'fetchRecipeValues']);
