@@ -1687,7 +1687,8 @@ class Controller extends BaseController
             || strpos($item->item_description, 'unbound magic')
             || strpos($item->description, 'volatile magic') 
             || strpos($item->description, 'Volatile Magic')
-            || strpos($item->description, 'unbound magic')){
+            || strpos($item->description, 'unbound magic')
+            || strpos($item->item_description, 'Imperial Favors')){
                 //dd($item->name);
                 //dd($this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax));
                 return $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
