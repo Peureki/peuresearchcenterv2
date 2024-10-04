@@ -32,7 +32,7 @@ class BenchmarkController extends Controller
         $cachedResponse = Cache::get($cacheKey); 
         if ($cachedResponse && isset($cachedResponse['benchmarks']) && !empty($cachedResponse['benchmarks'])){
             //Log::info('this is the cached benchmarks: ', $cachedResponse);
-            //return response()->json($cachedResponse); 
+            return response()->json($cachedResponse); 
         }
         
 
@@ -271,8 +271,7 @@ class BenchmarkController extends Controller
                 }
             }
             //dd($currentHighestValue, $mostValuedItem, $mostValuedIcon);
-                     
-
+                    
             //dd($catchValue);
 
             array_push($fishingHoles, [

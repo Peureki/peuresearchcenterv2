@@ -23,6 +23,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Cache;
 use PDO;
 use ValueError;
 
@@ -1654,74 +1655,84 @@ class Controller extends BaseController
         //     dd($item);
         // }
 
-        //dd($item);
+        $id = $item->id ?? 0;
+        $itemId = $item->item_id ?? 0; 
+        $currencyId = $item->currency_id ?? 0; 
+        $bagId = $item->bag_id ?? 0; 
 
-        // RESTRICT recursion
-        // Example: Trade Contracts can be converted to Tyrian Seal and vise versa
-        // This would create an infinite loop
-        if ($recursionLevel > 2){
-            return 0;
-        } else {
-            $recursionLevel++;
-        }
+        // CACHE ITEM VALUES
+        // This function is working overtime for almost everything. This makes sure stuff can load efficiently and fast
+        $cacheKey = "item_value_" . md5(json_encode($includes)) . $id . $itemId . $currencyId . $bagId . $sellOrderSetting . $tax . $recursionLevel; 
 
-        if (!isset($item->choice_chest_id) && !isset($item->drop_rate)){
-            return $item->$sellOrderSetting * $tax;  
-        }
-        // COMMENDATIONS (DWC)
-        else if ($item->type == 'Trophy' && strpos($item->item_name, 'Commendation')){
-            return $this->getCommendationValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-        }
-        // CONSUMABLES
-        else if ($item->type === 'Consumable' && strpos($item->item_description, 'volatile magic') 
-        || strpos($item->item_description, 'Volatile Magic')
-        || strpos($item->item_description, 'unbound magic')
-        || strpos($item->description, 'volatile magic') 
-        || strpos($item->description, 'Volatile Magic')
-        || strpos($item->description, 'unbound magic')){
-            //dd($item->name);
-            //dd($this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax));
-            return $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
-            
-            //dd($item->item_name, $itemValue);
-        }
-        // JUNK ITEMS
-        else if ($item->rarity == 'Junk') {
-            return $item->vendor_value * $item->drop_rate;   
-        }
-        // UNIDENTIFIED GEAR
-        else if (strpos($item->item_name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
-            return $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
-        } 
-        // CHOICE CHESTS
-        else if (in_array($item->item_id, $this->choiceChests)){
-            return $this->getChoiceChestValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-        }
-        // CHAMP BAGS, CONTAINERS
-        else if ($item->type == "Container" && strpos($item->item_description, 'Salvage') === false){
-            return $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-        } 
-        // SALVAGEABLES (exclu uni gear)
-        else if ($item->item_description === "Salvage Item" && in_array('Salvageables', $includes)){
-            return $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
-        }
-        // GENERAL EXCHANGEABLES
-        else if (array_key_exists($item->item_name, $this->exchangeableMap)) {
-            return $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax, $recursionLevel);
-        }
-        // RAW CURRENCIES
-        else if ($item->currency_id) {
-            return $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax, $recursionLevel);
-        }
-        // ANYTHING ELSE NOT FROM ABOVE 
-        else {
-            // If it is an item that doesn't meet any of these conditions AND is probably an item from a choice chest that doesn't have drop_rate, then
-            if ($item->drop_rate){
-                return ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+        return Cache::remember($cacheKey, now()->addHours(6), function() use ($item, $includes, $sellOrderSetting, $tax, $recursionLevel){
+             // RESTRICT recursion
+            // Example: Trade Contracts can be converted to Tyrian Seal and vise versa
+            // This would create an infinite loop
+            if ($recursionLevel > 2){
+                return 0;
             } else {
-                return $item->$sellOrderSetting * $tax;
+                $recursionLevel++;
             }
-            
-        }   
+
+            if (!isset($item->choice_chest_id) && !isset($item->drop_rate)){
+                return $item->$sellOrderSetting * $tax;  
+            }
+            // COMMENDATIONS (DWC)
+            else if ($item->type == 'Trophy' && strpos($item->item_name, 'Commendation')){
+                return $this->getCommendationValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+            }
+            // CONSUMABLES
+            else if ($item->type === 'Consumable' && strpos($item->item_description, 'volatile magic') 
+            || strpos($item->item_description, 'Volatile Magic')
+            || strpos($item->item_description, 'unbound magic')
+            || strpos($item->description, 'volatile magic') 
+            || strpos($item->description, 'Volatile Magic')
+            || strpos($item->description, 'unbound magic')){
+                //dd($item->name);
+                //dd($this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax));
+                return $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
+                
+                //dd($item->item_name, $itemValue);
+            }
+            // JUNK ITEMS
+            else if ($item->rarity == 'Junk') {
+                return $item->vendor_value * $item->drop_rate;   
+            }
+            // UNIDENTIFIED GEAR
+            else if (strpos($item->item_name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
+                return $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+            } 
+            // CHOICE CHESTS
+            else if (in_array($item->item_id, $this->choiceChests)){
+                return $this->getChoiceChestValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+            }
+            // CHAMP BAGS, CONTAINERS
+            else if ($item->type == "Container" && strpos($item->item_description, 'Salvage') === false){
+                return $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+            } 
+            // SALVAGEABLES (exclu uni gear)
+            else if ($item->item_description === "Salvage Item" && in_array('Salvageables', $includes)){
+                return $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+            }
+            // GENERAL EXCHANGEABLES
+            else if (array_key_exists($item->item_name, $this->exchangeableMap)) {
+                return $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax, $recursionLevel);
+            }
+            // RAW CURRENCIES
+            else if ($item->currency_id) {
+                return $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax, $recursionLevel);
+            }
+            // ANYTHING ELSE NOT FROM ABOVE 
+            else {
+                // If it is an item that doesn't meet any of these conditions AND is probably an item from a choice chest that doesn't have drop_rate, then
+                if ($item->drop_rate){
+                    return ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+                } else {
+                    return $item->$sellOrderSetting * $tax;
+                }
+                
+            } 
+        });   
+         
     }
 }
