@@ -48,6 +48,7 @@ class Controller extends BaseController
     protected $ascendedJunk; 
     protected $banditCrest;
     protected $calcifiedGasp;
+    protected $curiousLowlandHoneycomb;
     protected $currencyBags;
     protected $dragoniteOre; 
     protected $empyrealFragment;
@@ -167,6 +168,25 @@ class Controller extends BaseController
         // UPDATE this list of IDs via Bags spreadsheet => Choice_Chest_API
         $this->choiceChests = [
             93378,93574,93547,93485,93770,93870,93465,93543,93741,93794,93430,93508,78171,78650,78332,78617,90958,91039,84360,83035,97895,97901,97894,97896,99704,100547,100193,101195,101185,101748,92311
+        ];
+
+        $this->curiousLowlandHoneycomb = [
+            'id' => [
+                103530, 103530, // Kodan Cache Key (4 daily, 21 daily)
+                103285, // Serpent's Wrath Weapon Choice Box
+            ],
+            'conversionRate' => [
+                1, 2,
+                10
+            ],
+            'fee' => [
+                0, 0,
+                0,
+            ],
+            'outputQty' => [
+                1, 1,
+                1,
+            ],
         ];
 
         // This is a list of currencies contained in bags that need to be defined specifically to get their values exchanged or to find their values in other bags that otherwise can't be defined by various methods such as:
@@ -818,6 +838,7 @@ class Controller extends BaseController
             "Airship Part" => $this->airshipPart,
             "Bandit Crest" => $this->banditCrest,
             "Calcified Gasp" => $this->calcifiedGasp,
+            "Curious Lowland Honeycomb" => $this->curiousLowlandHoneycomb,
             "Lump of Aurillium" => $this->leyEnergyMatter,
             "Ley Line Crystal" => $this->leyEnergyMatter,
             "Empyreal Fragment" => $this->empyrealFragment,
@@ -1633,6 +1654,8 @@ class Controller extends BaseController
         //     dd($item);
         // }
 
+        //dd($item);
+
         // RESTRICT recursion
         // Example: Trade Contracts can be converted to Tyrian Seal and vise versa
         // This would create an infinite loop
@@ -1643,7 +1666,7 @@ class Controller extends BaseController
         }
 
         if (!isset($item->choice_chest_id) && !isset($item->drop_rate)){
-            return $item->$sellOrderSetting * $tax; 
+            return $item->$sellOrderSetting * $tax;  
         }
         // COMMENDATIONS (DWC)
         else if ($item->type == 'Trophy' && strpos($item->item_name, 'Commendation')){

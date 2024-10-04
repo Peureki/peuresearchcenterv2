@@ -35,7 +35,7 @@ import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagic
  * EXCHANGEABLES
  * 
  */
-
+import ExchangeablesCuriousLowlandHoneycombView from '@/js/vue/views/exchangeables/CuriousLowlandHoneycombView.vue'
 import ExchangeablesDragoniteOreView from '@/js/vue/views/exchangeables/DragoniteOreView.vue'
 import ExchangeablesEmpyrealFragmentView from '@/js/vue/views/exchangeables/EmpyrealFragmentView.vue'
 import ExchangeableFineRiftEssenceView from '@/js/vue/views/exchangeables/FineRiftEssenceView.vue'
@@ -200,7 +200,11 @@ const routes = [
     // *
     // * EXCHANGEABLES
     // *
-    
+    {
+        path: '/exchangeables/curious-lowland-honeycomb',
+        component: ExchangeablesCuriousLowlandHoneycombView,
+        name: 'exchangeable-curious-lowland-honeycomb',
+    },
     {
         path: '/exchangeables/dragonite-ore',
         component: ExchangeablesDragoniteOreView,

@@ -157,23 +157,34 @@ class FetchBags implements ShouldQueue
                 if (Bag::find($itemIDs[$key])){
                     $bag = $itemIDs[$key];
                 }
-                $options[] = [
-                    'choice_chest_id' => $chest['id'],
-                    'item_id' => $itemIDs[$key],
-                    'bag_id' => $bag,
-                    'option' => $choice, 
-                    'quantity' => $itemQty[$key],
-                ];
+                ChoiceChestOption::updateOrCreate(
+                    [
+                        'choice_chest_id' => $chest['id'],
+                        'item_id' => $itemIDs[$key],
+                        'bag_id' => $bag,
+                    ],
+                    [
+                        'option' => $choice, 
+                        'quantity' => $itemQty[$key],
+                    ],
+                );
+                // $options[] = [
+                //     'choice_chest_id' => $chest['id'],
+                //     'item_id' => $itemIDs[$key],
+                //     'bag_id' => $bag,
+                //     'option' => $choice, 
+                //     'quantity' => $itemQty[$key],
+                // ];
             }
         }
         // Populate databases
         ChoiceChest::upsert($ids, ['id']);
-        ChoiceChestOption::upsert($options, [
-            'choice_chest_id',
-            'item_id',
-            'bag_id',
-            'option',
-            'quantity'
-        ]);
+        // ChoiceChestOption::upsert($options, [
+        //     'choice_chest_id',
+        //     'item_id',
+        //     'bag_id',
+        //     'option',
+        //     'quantity'
+        // ]);
     }
 }

@@ -244,6 +244,12 @@
                                 />
 
                                 <IncludesCheckbox
+                                    name="Curious Lowland Honeycomb"
+                                    :icon="CuriousLowlandHoneycomb"
+                                    label="CuriousLowlandHoneycomb"
+                                />
+
+                                <IncludesCheckbox
                                     name="Dragonite Ore"
                                     :icon="DragoniteOre"
                                     label="DragoniteOre"
@@ -518,7 +524,7 @@
 
                 <Transition name="fade-right">
                     <div v-if="exchangeablesToggle">
-                        
+                        <NavPage category="exchangeables" url="curious-lowland-honeycomb" name="Curious Lowland Honeycomb" :icon="CuriousLowlandHoneycomb"/>
 
                         <NavPage category="exchangeables" url="dragonite-ore" name="Dragonite Ore" :icon="DragoniteOre"/>
 
@@ -672,6 +678,7 @@ import WritOfDragonsEnd from "@/imgs/icons/Writ_of_Dragon's_End.png"
 import WritOfEchovaldWilds from '@/imgs/icons/Writ_of_Echovald_Wilds.png'
 import WritOfNewKainengCity from '@/imgs/icons/Writ_of_New_Kaineng_City.png'
 import WritOfSeitungProvince from '@/imgs/icons/Writ_of_Seitung_Province.png'
+import CuriousLowlandHoneycomb from '@/imgs/icons/Curious_Lowland_Honeycomb.png'
 
 import Homestead from '@/imgs/icons/Homestead.png'
 import Armorer from '@/imgs/icons/Guild_Armorer.png'

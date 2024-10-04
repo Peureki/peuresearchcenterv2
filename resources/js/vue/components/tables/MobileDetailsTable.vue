@@ -7,8 +7,9 @@
         <div v-for="item in sortedDropRates" class="mobile-drops-container">
             <div class="label-and-cta">
                 <div class="img-and-label">
+                    <!-- ICON -->
                     <img class="icon" :src="itemIcon(item)" :alt="itemName(item)" :title="itemName(item)">
-
+                    <!-- RARITY / NAME -->
                     <p :style="{color: showRarityColor(item.rarity)}">{{ itemName(item) }}</p> 
                 </div>
 
@@ -46,11 +47,11 @@ const props = defineProps({
 // dropRate items could return either the property currency_icon or item_icon depending if it the item is a currency or regular item
 // Use these two funcs to make sure it returns one or the other
 const itemIcon = (item) => {
-    return item.currency_icon || item.item_icon; 
+    return item.currency_icon || item.item_icon || item.icon; 
 }
 
 const itemName = (item) => {
-    return item.currency_name || item.item_name;
+    return item.currency_name || item.item_name || item.name;
 }
 
 // 1. Remove unnecessary drops that are either not in the sample (due to sample size) or don't exist in the drop table

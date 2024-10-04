@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bag;
 use App\Models\BagDropRate;
+use App\Models\ChoiceChest;
 use App\Models\ChoiceChestOption;
 use App\Models\ContainerDropRate;
 use App\Models\Items;
@@ -35,7 +37,11 @@ class BagController extends Controller
         }
         return response()->json($returnArray);
     }
-
+    // Get array of item ids for $requestedBags
+    // => Check if id belongs in Bags or ChoiceChest
+    // => Rest, check if it's in Items
+    // 
+    // 
     public function exchangeables($request, $includes, $sellOrderSetting, $tax){
         // Make it a workable arrays
         // New accounts that haven't set any settings may still have "null"
@@ -58,10 +64,212 @@ class BagController extends Controller
             $outputQty = $data['outputQty'];
         }
         
+        //dd($requestedBags);
 
         $response = []; 
         $bag = [];
-        $conversionToggle = false; 
+
+        // PUSH IDs onto where ever target IDs match their respective databases
+        $arrayToSearchBags = []; 
+        $arrayToSearchChoiceChests = [];
+        $arrayToSearchItems = [];
+
+        foreach ($requestedBags as $id){
+            $existsInBag = Bag::where('id', $id)->exists(); 
+            $existsInChoiceChest = ChoiceChest::where('id', $id)->exists();
+            
+            if ($existsInBag){
+                array_push($arrayToSearchBags, $id);
+            }
+
+            if ($existsInChoiceChest){
+                array_push($arrayToSearchChoiceChests, $id);
+            }
+
+            if (!$existsInBag && !$existsInChoiceChest){
+                array_push($arrayToSearchItems, $id);
+            }
+        }
+
+        // IF BAG CONVERSIONS EXIST
+        if ($arrayToSearchBags){
+            $bagDropRates = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
+                ->leftjoin('items as item', 'bag_drop_rates.item_id', '=', 'item.id')
+                ->leftjoin('items as bag_item', 'bags.id', '=', 'bag_item.id')
+                ->leftjoin('currencies as currency', 'bag_drop_rates.currency_id', '=', 'currency.id')
+                ->select(
+                    'bag_drop_rates.*', 
+                    'bags.*', 
+                    'currency.*',
+                    'currency.name as currency_name',
+                    'currency.icon as currency_icon',
+                    'currency.icon as item_icon',
+                    'item.icon as item_icon',
+                    'item.name as item_name', 
+                    'item.*', 
+                    'bag_item.icon as bag_icon',
+                    'bag_item.name as bag_name',
+                    'bag_item.rarity as bag_rarity',
+                )
+                ->whereIn('bag_id', $arrayToSearchBags)
+                ->get()
+                ->groupBy('bag_id');
+
+            //dd($bagDropRates);
+        }
+
+        // IF CHOICE CHESTS CONVERSIONS EXIST
+        if ($arrayToSearchChoiceChests){
+            $choiceChestDropRates = ChoiceChestOption::join('choice_chests', 'choice_chest_options.choice_chest_id', '=', 'choice_chests.id')
+                ->leftjoin('items as item', 'choice_chests.id', '=', 'item.id')
+                ->where('choice_chests.id', $arrayToSearchChoiceChests)
+                ->leftjoin('items as bag_item', 'choice_chest_options.item_id', '=', 'bag_item.id')
+                ->select(
+                    'choice_chest_options.*',
+                    'bag_item.*',
+                    'item.name as bag_name',
+                    'item.icon as bag_icon',
+                    'item.rarity as bag_rarity',
+                    'choice_chest_options.quantity as drop_rate'
+                )
+                ->get()
+                ->groupBy('choice_chest_id');
+
+            //dd($choiceChestDropRates, $arrayToSearchChoiceChests);
+        }
+        // IF DIRECT ITEM CONVERSIONS EXIST
+        if ($arrayToSearchItems){
+            $itemDropRates = Items::whereIn('id', $arrayToSearchItems)
+            ->get();
+
+            // Duplicate specific item if it's in $itemDropRates
+            // Then add to the collection
+            switch ($request){
+                case "Curious Lowland Honeycomb":
+                    foreach ($itemDropRates as $index => $item){
+                        if ($item->id == 103530){
+                            $duplicateItem = clone $item; 
+                            $itemDropRates->splice($index + 1, 0, [$duplicateItem]);
+                        }
+                    }
+                    break;
+            }
+
+            // Turn item results from collection to array
+            // Specifically make [$item] because the format should be
+            // 0 => [array: 1] represents this entry has one drop in it's drop table
+            $tempArray = []; 
+            foreach ($itemDropRates as $item){
+                $item->drop_rate = 1;
+                $tempArray[] = [$item]; 
+            }
+            $itemDropRates = collect($tempArray);            
+            //dd($itemDropRates);
+        }
+
+        $mergedDropTables = collect();
+
+        // CONCAT TABLES if they exist
+        if (isset($bagDropRates)){
+            $mergedDropTables = $mergedDropTables->concat($bagDropRates);
+        }
+        if (isset($choiceChestDropRates)){
+            $mergedDropTables = $mergedDropTables->concat($choiceChestDropRates);
+        }
+        if (isset($itemDropRates)){
+            $mergedDropTables = $mergedDropTables->concat($itemDropRates);
+        }
+        //dd($choiceChestDropRates, $itemDropRates);
+
+        
+        // MERGE results
+        //$mergedDropTables = array_values($choiceChestDropRates + $itemDropRates);
+        //dd($mergedDropTables, $requestedBags);
+
+        // Match ID indexes of $requestedBags with the newly merged drop table results
+        $mergedDropTables = $mergedDropTables->sortBy(function($item) use ($requestedBags) {
+            // Prioritize if the $key contains the property 'choice_chest_id' 
+            // Otherwise match the id
+            if (isset($item[0]['bag_id']) && !isset($item[0]['choice_chest_id'])) {
+                $key = $item[0]['bag_id']; // First priority: bag_id
+            } elseif (isset($item[0]['choice_chest_id'])) {
+                $key = $item[0]['choice_chest_id']; // Second priority: choice_chest_id
+            } else {
+                $key = $item[0]['id']; // Default: id
+            }
+            return array_search($key, $requestedBags);
+        })->values();
+
+        //dd($mergedDropTables, $requestedBags);
+
+        foreach ($mergedDropTables as $index => $group){
+            //dd('group', $group);
+            $total = 0;
+            $choiceChestTotal = 0;
+            $bagName = '';
+            $icon = '';
+            $rarity = '';
+            $profitPerBag = 0;
+            $currency = $request;
+            // Initialize as an array to potentially store more than 1 currency for a bag
+            // ie Trade Crates use Trade Contracts && Karma
+            $currencyPerBag = 0;
+
+            if (isset($group[0]->choice_chest_id)){
+                $choiceChestTotal = $this->getChoiceChestValue($group[0]->choice_chest_id, 1, $includes, $sellOrderSetting, $tax);
+                //break; 
+            }
+
+            foreach ($group as $item){
+                $value = $this->getItemValue($item, $includes, $sellOrderSetting,$tax); 
+                $total += $value; 
+
+                //dd($item);
+                // ?? for properties of items that are directly converted instead of a bag
+                $bagName = $item->bag_name ?? $item->name;
+                $icon = $item->bag_icon ?? $item->icon;
+                $rarity = $item->bag_rarity ?? $item->rarity;
+                // Set item 'value' property to showcase in the frontend
+                $item->value = $value; 
+            }
+            //dd($total, $group);
+
+            if ($choiceChestTotal){
+                $total = $choiceChestTotal;
+            }
+
+            $profitPerBag = ($total - $fee[$index]) * $outputQty[$index]; 
+            $currencyPerBag = $profitPerBag / $conversionRate[$index]; 
+            //dd($profitPerBag);
+
+            array_push($bag, [
+                'total' => $total,
+                'name' => $bagName,
+                'icon' => $icon,
+                'fee' => $fee[$index],
+                'rarity' => $rarity,
+                'profitPerBag' => $profitPerBag,
+                'currency' => $currency,
+                'currencyPerBag' => $currencyPerBag,
+                'costOfCurrencyPerBag' => $conversionRate[$index],  
+                'outputQty' => $outputQty[$index],
+            ]);
+        }
+
+        //dd($mergedDropTables);
+        $response = [
+            'dropRates' => $mergedDropTables,
+            'bag' => $bag,
+        ];
+
+        return response()->json($response);
+
+
+
+
+
+
+        //dd($arrayToSearchBags, $arrayToSearchChoiceChests, $arrayToSearchItems);
 
         $bagDropRates = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
         ->leftjoin('items as item', 'bag_drop_rates.item_id', '=', 'item.id')
@@ -116,6 +324,7 @@ class BagController extends Controller
 
         //dd('bag drop rates: ', $bagDropRates, $requestedBags);
         //dd('choice chest: ', $choiceChestDropRates);
+        //dd($request);
 
         $orderedResults = [];
 
@@ -135,6 +344,10 @@ class BagController extends Controller
 
             // FOR DUPLICATED OUTPUTS WITH DIFFERENT CONVERSIONS OR CONDITIONS
             switch ($request){
+                case "Curious Lowland Honeycomb":
+                    $this->duplicate_and_splice_bag(103530, $bagDropRates, 'Kodan Cache Key');
+                    break;
+
                 case 'Dragonite Ore': 
                 case 'Empyreal Fragment':
                 case 'Paile of Bloodstone Dust':
@@ -208,6 +421,23 @@ class BagController extends Controller
         else {
             $bagDropRates = Items::whereIn('id', $requestedBags)->get();
             $tempArray = []; 
+
+            //dd($bagDropRates);
+
+            // FOR DUPLICATED OUTPUTS WITH DIFFERENT CONVERSIONS OR CONDITIONS
+            switch ($request){
+                case "Curious Lowland Honeycomb":
+                    //dd($bagDropRates);
+                    foreach ($bagDropRates as $index => $item){
+                        if ($item->id == 103530){
+                            $duplicateItem = clone $item; 
+                            $bagDropRates->splice($index + 1, 0, [$duplicateItem]);
+                        }
+                    }
+                    break;
+            }
+
+            //dd($bagDropRates);
 
             // Make sure the order of $requestedBags is maintained after fetching data
             $bagDropRates = $bagDropRates->sortBy(function($item) use ($requestedBags) {
