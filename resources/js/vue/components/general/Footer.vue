@@ -2,7 +2,7 @@
     <section class="main">
         <div class="content-section">
             <Disclaimer
-                message="The choyas are working hard to build this website. This is an 'early release'. To check patch notes, check out the #prc-patch-notes channel on Discord. Version 0.3.7"
+                message="The choyas are working hard to build this website. This is an 'early release'. To check patch notes, check out the #prc-patch-notes channel on Discord. Version 0.4.1"
             />
         </div>
         
