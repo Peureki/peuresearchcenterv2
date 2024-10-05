@@ -26,9 +26,11 @@
                         <h3>Benefits</h3>
                         <p>Any donations are greatly appreciated!</p>
                         <ul class="benefits">
+                            <li><img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya"> No Ads</li>
+                            <li><img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya"> Auto-entry to website lottery (coming soon)</li>
                             <li><img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya"> Unique title on Discord (ie "Research Choya")</li>
                             <li><img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya"> Unique color on Discord</li>
-                            <li><img class="rolling-choya" :src="RollingChoya" alt="Rolling Choya" title="Rolling Choya"> Auto-entry to website lottery (coming soon)</li>
+                            
                         </ul>
                     </div>
                 </div>
@@ -124,7 +126,10 @@ const donators = [
     'Adrian_K',
     'Tiger',
     'KittyBlu',
-    'SABI'
+    'SABI',
+    'Snikkens',
+    'Michael N. H.',
+    'BuD'
 ];
 
 const researchers = [
@@ -171,6 +176,7 @@ const researchers = [
     'sevenFootPIGMAN.9417',
     'reignman.3059',
     'CrossoverX.1406',
+    'GW2Efficiency'
 ];
 
 const sortedDonators = computed(() => {
