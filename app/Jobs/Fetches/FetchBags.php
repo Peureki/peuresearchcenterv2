@@ -140,7 +140,16 @@ class FetchBags implements ShouldQueue
         
         foreach ($spreadsheet['choiceChests'] as $chest){
             // Populate chest IDs
-            $ids[] = ['id' => $chest['id']];
+            //$ids[] = ['id' => $chest['id']];
+
+            ChoiceChest::updateOrCreate(
+                [
+                    'id' => $chest['id'],
+                ],
+                [
+                    
+                ],
+            );
 
             // Make arrays for all item info
             // $itemChoice will always have the full array
@@ -178,7 +187,7 @@ class FetchBags implements ShouldQueue
             }
         }
         // Populate databases
-        ChoiceChest::upsert($ids, ['id']);
+        //ChoiceChest::upsert($ids, ['id']);
         // ChoiceChestOption::upsert($options, [
         //     'choice_chest_id',
         //     'item_id',

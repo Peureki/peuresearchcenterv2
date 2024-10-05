@@ -3,12 +3,14 @@
     <Header page-name="Map Benchmarks"/>
 
     <section class="main">
-        <Loading v-if="!benchmarkToggle || currentlyRefreshing" :width="200" :height="200" :progress="currentProgress"/>
-        <Benchmark
-            v-if="benchmarkToggle"
-            :benchmarks="mapBenchmarks"
-            :drop-rates="dropRates"
-        />
+        <div class="content-section">
+            <Loading v-if="!benchmarkToggle || currentlyRefreshing" :width="200" :height="200" :progress="currentProgress"/>
+            <Benchmark
+                v-if="benchmarkToggle"
+                :benchmarks="mapBenchmarks"
+                :drop-rates="dropRates"
+            />
+        </div>
     </section>
 
     <Footer/>

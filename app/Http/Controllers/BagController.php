@@ -116,6 +116,32 @@ class BagController extends Controller
                 ->groupBy('bag_id');
 
             //dd($bagDropRates);
+
+            // FOR DUPLICATED OUTPUTS WITH DIFFERENT CONVERSIONS OR CONDITIONS
+            switch ($request){
+                case 'Dragonite Ore': 
+                case 'Empyreal Fragment':
+                case 'Paile of Bloodstone Dust':
+                    // Astral Fluc Mass
+                    foreach ($bagDropRates as $index => $item){
+                        if ($index == 101727){
+                            $duplicateItem = clone $item; 
+                            $bagDropRates->splice($index + 1, 0, [$duplicateItem]);
+                        }
+                    }
+                    break;
+
+                case 'Unbound Magic': 
+                    foreach ($bagDropRates as $index => $item){
+                        if ($index == 79186){
+                            $duplicateItem = clone $item; 
+                            $bagDropRates->splice($index + 1, 0, [$duplicateItem]);
+                        }
+                    }
+                    break;
+            }
+
+            //dd($bagDropRates);
         }
 
         // IF CHOICE CHESTS CONVERSIONS EXIST
@@ -219,7 +245,7 @@ class BagController extends Controller
                 $choiceChestTotal = $this->getChoiceChestValue($group[0]->choice_chest_id, 1, $includes, $sellOrderSetting, $tax);
                 //break; 
             }
-
+            // Go through each drop rate as $item
             foreach ($group as $item){
                 $value = $this->getItemValue($item, $includes, $sellOrderSetting,$tax); 
                 $total += $value; 

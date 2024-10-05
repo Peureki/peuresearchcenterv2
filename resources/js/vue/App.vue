@@ -461,7 +461,7 @@ span.bookmark-label{
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 10px;
+    gap: var(--gap-general);
 }
 .flex-row-flex-start img, 
 .flex-row-flex-start svg{
@@ -893,7 +893,6 @@ svg.import {
     display: flex;
     flex-direction: column;
     width: fit-content;
-    padding-left: var(--gap-general);
     gap: var(--gap-general);
 }
 .benchmark-card{
@@ -925,7 +924,7 @@ p.rank{
 }
 
 .benchmark-card:hover{
-    border: 1px solid var(--color-link);
+    border: 1px solid var(--color-text);
 }
 .benchmark-details{
     display: flex;
@@ -938,6 +937,7 @@ p.rank{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: var(--gap-content);
 }
 img.most-valued-icon{
     height: 100%;
@@ -1002,7 +1002,6 @@ svg.arrow path{
 @media (max-width: 768px){
     .benchmark-grid{
         width: 100%;
-        padding: var(--gap-general);
     }
     .benchmark-details{
         flex-direction: unset;
@@ -1209,6 +1208,9 @@ img.map-guide{
 .link{
     color: var(--color-link);
 }
+.rare{
+    color: var(--color-rarity-rare);
+}
 
 .flex-column{
     display: flex;
@@ -1249,7 +1251,6 @@ img.map-guide{
 .error-message{
     color: var(--color-down);
 }
-
 .event-up{
     color: var(--color-event-up);
 }

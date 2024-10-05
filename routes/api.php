@@ -49,10 +49,14 @@ Route::post('/user/saveFilterResearchNotes', [UserController::class, 'saveFilter
 
 Route::post('/user/saveFavorites', [UserController::class, 'saveFavorites']);
 
+
+
 // *
 // * FETCH GENERAL STUFF
 // * Any small fetches, dump it in this function
 Route::get('/fetch-general', [FetchController::class, 'fetchGeneral']);
+// FETCH SPECIFIC ITEM ID
+Route::get('/item/{id}', [FetchController::class, 'fetchItem']);
 
 // *
 // * FETCHING BENCHMARKS
@@ -65,6 +69,12 @@ Route::get('/fetch-prices', [FetchController::class, 'fetchPrices']);
 Route::get('/fetch-research-notes', [FetchController::class, 'fetchResearchNotes']);
 Route::get('/fetch-recipes', [FetchController::class, 'fetchRecipes']);
 Route::get('/fetch-recipe-values', [FetchController::class, 'fetchRecipeValues']);
+// *
+// * FETCHING DAILY CATCH
+// *
+Route::get('/fetch-daily-catch', [FetchController::class, 'fetchDailyCatch']);
+
+
 // *
 // * FETCHING BAGS, CHOICE CHESTS
 // *

@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\DailyReset;
 use App\Jobs\Fetches\FetchPrices;
 use App\Jobs\Fetches\FetchRecipeValues;
 use Illuminate\Console\Scheduling\Schedule;
@@ -19,6 +20,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->job(new FetchPrices)->everyThirtyMinutes();
         $schedule->job(new FetchRecipeValues)->everySixHours();
+        // Reset databases at reset
+        $schedule->job(new DailyReset)->cron('0 0 * * *');
     }
 
     /**

@@ -54,6 +54,10 @@ class Items extends Model
         return $this->hasMany(FishingHoleDropRate::class);
     }
 
+    public function confirmation(){
+        return $this->hasMany(Confirmation::class);
+    }
+
     /*
      * SALVAGEABLES
      */

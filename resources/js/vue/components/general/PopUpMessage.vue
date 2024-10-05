@@ -1,6 +1,6 @@
 <template>
     <Transition name="fade">
-        <p class="popup-message">{{ message }}</p>
+        <p class="small-subtitle">{{ message }}</p>
     </Transition>
 </template>
 
@@ -11,10 +11,3 @@ const props = defineProps({
 })
 
 </script>
-
-<style scoped>
-.popup-message{
-    padding-block: var(--gap-general);
-}
-
-</style>

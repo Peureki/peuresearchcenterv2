@@ -18,6 +18,7 @@ use App\Models\BagDropRate;
 use App\Models\Benchmarks;
 use App\Models\ChoiceChest;
 use App\Models\ChoiceChestOption;
+use App\Models\Confirmation;
 use App\Models\Consumable;
 use App\Models\ConsumableDropRate;
 use App\Models\ContainerDropRate;
@@ -476,6 +477,122 @@ class FetchController extends Controller
                 }
             }
         });
+    }
+
+    public function fetchDailyCatch(){
+        $confirmationDB = Confirmation::join('items', 'item_id', '=', 'items.id')
+        ->join('fishes', 'item_id', '=', 'fishes.id')
+        ->select(
+            'items.*',
+            'confirmations.*',
+            'fishes.*',
+            'items.id as id',
+            'confirmations.type as type',
+        )
+        ->get(); 
+
+        //dd($confirmationDB);
+
+        $arborstoneArray = []; 
+        $janthirArray = [];
+
+        $arborstoneMax = 0;
+        $arborstoneID = null;
+        $janthirMax = 0;
+        $janthirID = null;
+
+        $arborstoneResponse = [];
+        $janthirResponse = [];
+
+
+        // Go through confirmation DB of items
+        foreach ($confirmationDB as $item){
+            // Check if fish ID is a possible Arborstone daily catch
+            if ($item->type == 'Arborstone') {
+                if (isset($arborstoneArray[$item->id])){
+                    $arborstoneArray[$item->id]['count']++;
+                } 
+                else {
+                    $arborstoneArray[$item->id] = [
+                        'id' => $item->id,
+                        'count' => 1
+                    ];
+                }
+            }
+
+            if ($item->type == 'Janthir'){
+                // Check if $item->id exist in the array
+                // If yes => add count
+                if (isset($janthirArray[$item->id])){
+                    $janthirArray[$item->id]['count']++;
+                } 
+                // If no => add item into the array
+                else {
+                    $janthirArray[$item->id] = [
+                        'id' => $item->id,
+                        'count' => 1
+                    ];
+                }
+            // do the same as above, but for Arborstone daily catch
+            } 
+        }
+        //dd($arborstoneArray);
+
+        // If arborstone array is populated
+        if ($arborstoneArray){
+            foreach ($arborstoneArray as $id => $fish){
+                if ($fish['count'] > $arborstoneMax){
+                    $arborstoneMax = $fish['count']; 
+                    $arborstoneID = $id; 
+                }
+            }
+
+            $matchArborstone = $confirmationDB->first(function ($item) use ($arborstoneID) {
+                return $item->id == $arborstoneID;
+            });
+            $arborstoneResponse = [
+                'count' => $arborstoneMax,
+                'fish' => $matchArborstone->toArray(), 
+            ];
+        }
+        // Same as above
+        if ($janthirArray){
+            foreach ($janthirArray as $id => $fish){
+                if ($fish['count'] > $janthirMax){
+                    $janthirMax = $fish['count']; 
+                    $janthirID = $id; 
+                }
+            }
+
+            $matchJanthir = $confirmationDB->first(function ($item) use ($janthirID) {
+                return $item->id == $janthirID;
+            });
+            $janthirResponse = [
+                'count' => $janthirMax,
+                'fish' => $matchJanthir->toArray(), 
+            ];
+        }
+
+        $response = [
+            'arborstone' => $arborstoneResponse,
+            'janthir' => $janthirResponse,
+        ];
+
+        //dd($confirmationDB, $response);
+
+        return response()->json($response);
+    
+        
+    }
+
+    // *
+    // * FETCH A VERY SPECIFIC ITEM 
+    // *
+    public function fetchItem($id){
+        $item = Items::where('id', $id)->first(); 
+        //dd($item);
+
+        return response()->json($item); 
     }
 
     // *

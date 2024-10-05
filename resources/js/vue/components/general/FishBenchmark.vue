@@ -2,6 +2,7 @@
     <div class="benchmark-grid">
         <div
             class="benchmark-card"
+            :style="{border: dailyBorderColor(fishingHole)}"
             v-for="(fishingHole, index) in fishingHoles" :key="index"
         >
             <p class="rank">{{ index + 1 }}</p>
@@ -30,6 +31,12 @@
                                 <circle class="expand-circle" cx="15" cy="15" r="15"  fill="transparent" stroke-width="1"/>
                                 <title>{{ matchTyrianTime(fishingHole.time, fishingHole.region) }}</title>
                             </svg>
+                            <!--
+                                *
+                                * DAILY FISH MESSAGE
+                                *
+                            -->
+                            <p v-if="matchDailyCatch(fishingHole)" class="small-subtitle">{{ matchDailyCatch(fishingHole).daily }}</p>
                         </span>
                         
                         <span class="gold-label-container benchmark-value">
@@ -105,26 +112,6 @@
                         :fishing-hole="fishingHole"
                     />
                 </div>
-
-                
-                
-                <div>
-                    <!-- <FishTable
-                        v-if="!isMobile"
-                        :fishing-hole="fishingHole"
-                        :drop-rates="dropRates[index]"
-                    /> -->
-
-                    <!-- <MobileBenchmarkTable
-                        v-if="isMobile"
-                        type="Fishing"
-                        :benchmark="fishingHole"
-                        :drop-rates="dropRates[index]"
-                    /> -->
-
-                    
-
-                </div>
                 
             </div>
         </div>
@@ -152,14 +139,72 @@ import { tyrianCurrentPeriod, canthanCurrentPeriod, isMobile } from '@/js/vue/co
 import GreenHook from '@/imgs/icons/fishes/Green_Hook.png'
 
 const props = defineProps({
+    dailyCatch: Object,
     fishingHoles: Object,
     dropRates: Object,
 })
+
+console.log('daily catch: ', props.dailyCatch);
+
 // Individually allow each card to be expanded or not
 // By default, have each card not expanded
 const expand = ref(props.fishingHoles.map(() => false));
+//console.log('drop rates: ', props.dropRates)
 
-console.log('drop rates: ', props.dropRates)
+const matchDailyCatch = (benchmark) => {
+    const checkFishMatch = (fish, benchmark) => {
+        // Fish for specifically Brackish & Offshore Fish
+        const fish_b_o = ['King Salmon', 'Viperfish', 'Violet Screamer', 'Spectacled Lumper', 'Shaderock Salamander', 'Mohawk Bream'];
+        const benchmark_b_o = ['Lowland Brackish Fish', 'Lowland Offshore Fish'];
+
+        // Fish for specifically just Brackish Fish
+        const fish_b = ['Cherry Salmon', 'Sockeye'];
+        const benchmark_b = ['Lowland Brackish Fish'];
+
+        // Check all possible areas where daily fish is the daily
+        if (
+            (fish.map === benchmark.region && fish.fishing_hole === benchmark.name) ||
+            (fish_b_o.includes(fish.name) && benchmark_b_o.includes(benchmark.name)) ||
+            (fish_b.includes(fish.name) && benchmark_b.includes(benchmark.name))
+        ){
+            if (fish.rarity == 'Masterwork'){
+                return {
+                    daily: 'Daily Flawless Catch',
+                    color: 'var(--color-rarity-masterwork)'
+                }
+            }
+            if (fish.rarity == 'Rare'){
+                return {
+                    daily: 'Daily Ambergris Catch',
+                    color: 'var(--color-rarity-rare)'
+                }
+            }
+        } 
+        else {
+            return false; 
+        }
+    };
+
+    const { arborstone, janthir } = props.dailyCatch;
+
+    // Check for Arborstone fish match
+    if (arborstone?.count) {
+        const result = checkFishMatch(arborstone.fish, benchmark);
+        if (result) return result; 
+    }
+
+    // Check for Janthir fish match
+    if (janthir?.count) {
+        const result = checkFishMatch(janthir.fish, benchmark);
+        if (result) return result;
+    }
+
+    return false;
+};
+
+const dailyBorderColor = (fishingHole) => {
+    return matchDailyCatch(fishingHole)?.color ? `1px solid ${matchDailyCatch(fishingHole).color}` : ``;
+}
 
 // Depending on if the farm is daytime or nighttime, change the background of the card
 const changeTimeBackground = (time) => {

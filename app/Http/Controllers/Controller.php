@@ -24,6 +24,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use PDO;
 use ValueError;
 
@@ -43,6 +44,9 @@ class Controller extends BaseController
     protected $dailyExchanges;
     // For Dragontie Ore, Bloodstone Dust, Emp Fragments
     protected $dailyAscendedJunk;
+    // * DAILY FISHING EXCHANGES
+    protected $dailyJanthirCatch; 
+    protected $dailyArborstoneCatch;
     
 
     protected $airshipPart;
@@ -168,7 +172,7 @@ class Controller extends BaseController
         // List of IDs of all choice chest
         // UPDATE this list of IDs via Bags spreadsheet => Choice_Chest_API
         $this->choiceChests = [
-            93378,93574,93547,93485,93770,93870,93465,93543,93741,93794,93430,93508,78171,78650,78332,78617,90958,91039,84360,83035,97895,97901,97894,97896,99704,100547,100193,101195,101185,101748,92311
+            93378,93574,93547,93485,93770,93870,93465,93543,93741,93794,93430,93508,78171,78650,78332,78617,90958,91039,84360,83035,97895,97901,97894,97896,99704,100547,100193,101195,101185,101748,92311,103285,83745,82889,83940,84693,84436,84034
         ];
 
         $this->curiousLowlandHoneycomb = [
@@ -199,6 +203,10 @@ class Controller extends BaseController
             73711, // Bag of Aurillium (10)
             74212,  // Bag of Ley-line crystals (10)
             69985, // Bandit Crest 
+        ];
+
+        $this->dailyJanthirCatch = [
+            95822, 103060, 96226, 103274, 97278, 97866, 102796, 97356, 103280, 102523, 95668
         ];
 
         $this->dragoniteOre = [
@@ -515,10 +523,20 @@ class Controller extends BaseController
         // Magic Warped Bundle (Ember Bay)
         // Magic Warped Packet
         $this->unboundMagic = [
-            'id' => [79186, 79186, 79114],
-            'conversionRate' =>  [500,  1250, 250],
-            'fee' => [10000, 4000, 5000],
-            'outputQty' => array_fill(0, 3, 1),
+            'id' => [
+                79186, 
+                79186, 
+                79114,
+                79264, // Fluctuating Mass
+            ],
+            'conversionRate' =>  [
+                500, 
+                1250, 
+                250,
+                150,
+            ],
+            'fee' => [10000, 4000, 5000, 0],
+            'outputQty' => array_fill(0, 4, 1),
         ];
 
         $this->ursusOblige = [
@@ -1020,41 +1038,45 @@ class Controller extends BaseController
 
         foreach ($dropRatesTable as $item){
             //dd($dropRatesTable, $item);
-            if (strpos($item->item_name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
-                $value += $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
-            } 
-            // CHAMP BAGS, CONTAINERS
-            else if ($item->type == "Container" && strpos($item->description, 'Salvage') === false){
-                $value += $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-            } 
-            // SALVAGEABLES (exclu uni gear)
-            else if ($item->description === "Salvage Item" && in_array('Salvageables', $includes)){
-                $value += $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
-            }
-            // EXCHANGEABLES
-            else if (array_key_exists($item->item_name, $this->exchangeableMap)) {
-                $value += $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-            }
-            // RAW CURRENCIES
-            else if ($item->currency_id) {
-                $value += $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
-            }
-            // JUNK
-            else if ($item->rarity === "Junk"){
-                $value += $item->vendor_value * $item->drop_rate; 
-            }
-            // ANYTHING ELSE NOT FROM ABOVE 
-            else {
-                if ($item->$sellOrderSetting){
-                    $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
-                } else {
-                    $value += $item->vendor_value * $item->drop_rate;
-                }
-            }
+            // if (strpos($item->item_name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
+            //     $value += $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+            // } 
+            // // CHAMP BAGS, CONTAINERS
+            // else if ($item->type == "Container" && strpos($item->description, 'Salvage') === false){
+            //     $value += $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+            // } 
+            // // SALVAGEABLES (exclu uni gear)
+            // else if ($item->description === "Salvage Item" && in_array('Salvageables', $includes)){
+            //     $value += $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+            // }
+            // // EXCHANGEABLES
+            // else if (array_key_exists($item->item_name, $this->exchangeableMap)) {
+            //     $value += $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+            // }
+            // // RAW CURRENCIES
+            // else if ($item->currency_id) {
+            //     $value += $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+            // }
+            // // JUNK
+            // else if ($item->rarity === "Junk"){
+            //     $value += $item->vendor_value * $item->drop_rate; 
+            // }
+            // // ANYTHING ELSE NOT FROM ABOVE 
+            // else {
+            //     if ($item->$sellOrderSetting){
+            //         $value += ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+            //     } else {
+            //         $value += $item->vendor_value * $item->drop_rate;
+            //     }
+            // }
+            $value += $this->getItemValue($item, $includes, $sellOrderSetting, $tax);            
         }
         if (!$containerDropRate){
             $containerDropRate = 1;
         }
+        // if ($containerID == 78364){
+        //     dd($dropRatesTable, $value, $containerDropRate, $value * $containerDropRate);
+        // }
         //dd($value * $containerDropRate, $dropRatesTable, $containerDropRate);
         return $value * $containerDropRate; 
     }
@@ -1700,10 +1722,18 @@ class Controller extends BaseController
                 return $item->vendor_value * $item->drop_rate;   
             }
             // UNIDENTIFIED GEAR
-            else if (strpos($item->item_name, "Unidentified Gear") !== false && in_array('Salvageables', $includes)){
-                return $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+            else if (strpos($item->item_name, "Unidentified Gear") !== false){
+                // CHECK IF SALVAGEABLE IS IN $INCLUDES
+                if (in_array('Salvageables', $includes)){
+                    return $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
+                } else {
+                    // OTHERWISE RETURN RAW UNI GEAR VALUE
+                    return ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+                }
+                   
             } 
             // CHOICE CHESTS
+            // UPDATE ARRAY OF choiceChests 
             else if (in_array($item->item_id, $this->choiceChests)){
                 return $this->getChoiceChestValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
             }
@@ -1729,6 +1759,7 @@ class Controller extends BaseController
                 if ($item->drop_rate){
                     return ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
                 } else {
+                    
                     return $item->$sellOrderSetting * $tax;
                 }
                 

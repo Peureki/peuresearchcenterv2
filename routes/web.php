@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BagController;
+use App\Http\Controllers\ConfirmationController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -28,6 +29,11 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/register', [LoginController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);
+
+// *
+// * CONFIRMATIONS
+// *
+Route::post('/item/confirm', [ConfirmationController::class, 'confirmItem']);
 
 Route::get('/{any}', function () {
     return view('welcome');

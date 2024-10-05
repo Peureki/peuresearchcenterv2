@@ -1,6 +1,7 @@
 <template>
     <form @submit.prevent="$emit('handleItemSearch', searchQuery, searchQuantity)">
         <input
+            v-show="showQuantity"
             class="small-number-field"
             type="number"
             min="0"
@@ -8,10 +9,10 @@
         >
         <input
             type="text"
-            placeholder="Glob of Ectoplasm"
+            :placeholder="placeholder"
             v-model="searchBar"
         >
-        <button class="submit" type="submit">Add Item</button>
+        <button class="submit" type="submit">{{ submitText }}</button>
 
         <ul class="search-query-container" v-if="searchBar && searchBar.length > 3">
             <button 
@@ -34,6 +35,21 @@
 import { ref, watch } from 'vue';
 import { showRarityColor } from '@/js/vue/composables/FormatFunctions.js'
 import { debounce } from 'lodash';
+
+const props = defineProps({
+    showQuantity: {
+        type: Boolean,
+        default: true,
+    },
+    placeholder: {
+        type: String, 
+        default: 'Glob of Ectoplasm'
+    },
+    submitText: {
+        type: String,
+        default: 'Add Item'
+    }
+})
 
 const searchBar = ref(null), 
     searchQuery = ref(null),
@@ -62,3 +78,7 @@ watch(searchBar, debounce(async (query) => {
 }, 500));
 
 </script>
+
+<style scoped>
+
+</style>
