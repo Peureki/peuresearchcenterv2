@@ -257,6 +257,15 @@
                         ]"
                         location="Lowland Shore, Janthir Wilds"
                     />
+                    <Card
+                        :main-icon="SyntriRing"
+                        main-label="Knotted Rope Ring"
+                        rarity="Ascended"
+                        :requirements="[
+                            {src: UnusualCoin, label: 'Unusual Coin', quantity: 800},
+                        ]"
+                        location="Janthir Syntri, Janthir Wilds"
+                    />
                 </div>
             </div>
         </div>
@@ -526,6 +535,9 @@ import BjoraAccessory from "@/imgs/icons/Asgeir's_Talisman.png"
 // Lowland Shore
 import LowlandRing1 from '@/imgs/icons/Wood_Rune_Ring.png'
 import LowlandRing2 from "@/imgs/icons/Ring_of_the_Crustacean.png"
+
+// Janthir Syntri
+import SyntriRing from '@/imgs/icons/Knotted_Rope_Ring.png'
 
 // Currencies
 import UnboundMagic from '@/imgs/icons/Unbound_Magic.png'
