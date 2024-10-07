@@ -19,10 +19,10 @@ class SalvageableController extends Controller
         }
     }
 
-    public function mixedSalvageables($sellOrderSetting, $tax){
-        $mixedSalvageableDropRates = MixedSalvageableDropRate::join('mixed_salvageables', 'mixed_salvageable_drop_rates.mixed_salvageable_id', '=', 'mixed_salvageables.id')
-        ->join('items as item', 'mixed_salvageable_drop_rates.item_id', '=', 'item.id')
-        ->join('items as salvageable_item', 'mixed_salvageables.id', '=', 'salvageable_item.id')
+    public function mixedSalvageables($includes, $sellOrderSetting, $tax){
+        $mixedSalvageableDropRates = MixedSalvageableDropRate::leftjoin('mixed_salvageables', 'mixed_salvageable_drop_rates.mixed_salvageable_id', '=', 'mixed_salvageables.id')
+        ->leftjoin('items as item', 'mixed_salvageable_drop_rates.item_id', '=', 'item.id')
+        ->leftjoin('items as salvageable_item', 'mixed_salvageables.id', '=', 'salvageable_item.id')
         ->select(
             'mixed_salvageables.*',
             'mixed_salvageable_drop_rates.*',
@@ -40,6 +40,16 @@ class SalvageableController extends Controller
         ->get()
         ->groupBy('mixed_salvageable_id');
 
+        $merp = MixedSalvageableDropRate::get(); 
+
+        //dd($merp);
+        // foreach ($merp as $salvageable){
+        //     if ($salvageable->exotic){
+        //         dd($salvageable);
+        //     }
+            
+        // }
+
         $salvageables = [];
         $salvageablePrice = $this->salvageableBuyOrSellPrice($sellOrderSetting); 
 
@@ -55,23 +65,34 @@ class SalvageableController extends Controller
 
             foreach ($salvageable as $item){
                 //dd($item);
-                switch ($item->name){
-                    case "Copper-Fed Salvage-o-Matic":
-                        $fee = $item->drop_rate;
-                        break;
-
-                    case "Runecrafter's Salvage-o-Matic":
-                        $fee = $item->drop_rate; 
-                        break;
-
-                    case "Silver-Fed Salvage-o-Matic":
-                        $fee = $item->drop_rate; 
-                        break;
-
-                    default: 
-                        $value = ($item->$sellOrderSetting * $tax) * ($item->drop_rate); 
-                        break; 
+                // If the item name is one of the salvage kits, then that's the fee
+                // Otherwise get the value of each item
+                if ($item->exotic){
+                    $value = $this->getItemvalue($item, $includes, $sellOrderSetting, $tax); 
+                } else {
+                    switch ($item->name){
+                        case "Copper-Fed Salvage-o-Matic":
+                            $fee = $item->drop_rate;
+                            break;
+    
+                        case "Runecrafter's Salvage-o-Matic":
+                            $fee = $item->drop_rate; 
+                            break;
+    
+                        case "Silver-Fed Salvage-o-Matic":
+                            $fee = $item->drop_rate; 
+                            break;
+    
+                        // case 'Exotic':
+                        //     $value = $this->getItemValue($item, $includes, $sellOrderSetting, $tax);
+                        //     break;
+    
+                        default: 
+                            $value = ($item->$sellOrderSetting * $tax) * ($item->drop_rate); 
+                            break; 
+                    }
                 }
+                
                 
                 $subTotal += $value - $fee; 
 

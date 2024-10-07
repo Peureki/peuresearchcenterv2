@@ -10,6 +10,7 @@ use App\Models\ConsumableDropRate;
 use App\Models\ContainerDropRate;
 use App\Models\CopperFedSalvageableDropRate;
 use App\Models\CurrencyBagDropRates;
+use App\Models\Exotic;
 use App\Models\FishDropRate;
 use App\Models\Items;
 use App\Models\MixedSalvageableDropRate;
@@ -1102,6 +1103,31 @@ class Controller extends BaseController
         $value = 0;
         return $value * $commendationDropRate;
     }
+
+    // *
+    // * GET "AVG" VALUE OF EXOTICS THAT CAN DROP FROM GENERAL BAGS/GEAR
+    // * 
+    protected function getExoticGearValue($dropRate, $includes, $sellOrderSetting, $tax){
+        $exotics = Exotic::join('items', 'exotics.id', '=', 'items.id')
+        ->get(); 
+
+        $value = 0;
+        
+        foreach ($exotics as $exotic){
+            // To make sure that the value isn't too high, restrict it at < 5g value
+            if ($exotic->$sellOrderSetting < 50000){
+                $value += $exotic->$sellOrderSetting * $tax; 
+            }
+            
+        }
+        // Avg out
+        $value /= $exotics->count();
+
+        //dd($value, $exotics->count(), $dropRate, $value * $dropRate);
+        return $value * $dropRate; 
+        
+    }
+
     // GET AND RETURN VALUE OF ANY EXCHANGEABLE OR CURRENCY VALUE
     // Ex: 
     // Dragonite Ore
@@ -1752,6 +1778,10 @@ class Controller extends BaseController
             // RAW CURRENCIES
             else if ($item->currency_id) {
                 return $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax, $recursionLevel);
+            }
+            // 'EXOTICS' 
+            else if ($item->exotic){
+                return $this->getExoticGearValue($item->drop_rate, $includes, $sellOrderSetting, $tax);
             }
             // ANYTHING ELSE NOT FROM ABOVE 
             else {

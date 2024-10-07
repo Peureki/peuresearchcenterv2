@@ -108,7 +108,7 @@ Route::get('/recipes/search-recipes', [RecipeController::class, 'searchRecipes']
 // SALVAGEABLES
 Route::get('/tools/salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'salvageables']);
 // MIXED SALVAGEABLES
-Route::get('/tools/mixed-salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'mixedSalvageables']);
+Route::get('/tools/mixed-salvageables/{includes}/{sellOrderSetting}/{tax}', [SalvageableController::class, 'mixedSalvageables']);
 
 
 

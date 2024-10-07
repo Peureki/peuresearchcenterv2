@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 import Nav from '@/js/vue/components/general/Nav.vue';
 import Header from '@/js/vue/components/general/Header.vue'
@@ -42,11 +42,15 @@ import GeneralTable from '@/js/vue/components/general/GeneralTable.vue';
 import SalvageableTables from '@/js/vue/components/tables/SalvageableTables.vue'
 import Disclaimer from '@/js/vue/components/general/Disclaimer.vue'
 
-import { user, tax, sellOrder, buyOrder } from '@/js/vue/composables/Global'
+import { user, tax, sellOrder, buyOrder, includes } from '@/js/vue/composables/Global'
+
+import { getAuthUser } from '@/js/vue/composables/Authentication';
 
 const salvageableURL = `../api/tools/salvageables/${sellOrder.value}/${tax.value}`;
 
-const mixedSalvageableURL = `../api/tools/mixed-salvageables/${sellOrder.value}/${tax.value}`;
+const mixedSalvageableURL = computed(() => {
+    return `../api/tools/mixed-salvageables/${includes.value}/${sellOrder.value}/${tax.value}`;
+}) 
 
 const salvageables = ref(null),
     mixedSalvageables = ref(null),
@@ -67,15 +71,39 @@ const getSalvageables = async () => {
 }
 
 const getMixedSalvageables = async () => {
-    const response = await fetch(mixedSalvageableURL);
-    const data = await response.json(); 
+    try {
+        const response = await fetch(mixedSalvageableURL.value);
+        const data = await response.json(); 
 
-    console.log('mixed: ', data);
-    mixedSalvageables.value = data.salvageables; 
-    mixedSalvageableDropRates.value = data.dropRates; 
+        console.log('mixed: ', data);
+        if (response.ok){
+            mixedSalvageables.value = data.salvageables; 
+            mixedSalvageableDropRates.value = data.dropRates; 
+        }
+    } catch (error){
+        console.log('Could not fetch mixed salvageables: ', error); 
+    }
+    
+    
 }
 
-getSalvageables();
-getMixedSalvageables();
+
+
+onMounted(async () => {
+    await getAuthUser(); 
+    console.log('url: ', mixedSalvageableURL.value);
+
+    if (!user.value){
+        console.log('no user found');
+        getSalvageables();
+        getMixedSalvageables();
+    }
+    else {
+        console.log('user found');
+        getSalvageables();
+        getMixedSalvageables();
+    }
+
+})
 
 </script>

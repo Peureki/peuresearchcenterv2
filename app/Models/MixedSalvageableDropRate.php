@@ -15,6 +15,7 @@ class MixedSalvageableDropRate extends Model
         'currency_id',
         'mixed_salvageable_id',
         'drop_rate',
+        'exotic',
     ];
 
     //  *
