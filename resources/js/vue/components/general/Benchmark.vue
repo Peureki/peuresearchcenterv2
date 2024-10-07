@@ -1,20 +1,20 @@
 <template>
-    <div class="benchmark-grid">
+    <div class="card-grid">
         <div
-            class="benchmark-card"
+            class="card-container"
             v-for="(benchmark, index) in benchmarks" :key="index"
         >
             <p class="rank">{{ index + 1 }}</p>
-            <div class="benchmark-card-container">
+            <div class="card">
                 
-                <img class="most-valued-icon" :src="benchmark.mostValuedIcon" :alt="benchmark.mostValuedItem" :title="benchmark.mostValuedItem">
-                <div class="benchmark-details">
+                <img class="card-main-icon" :src="benchmark.mostValuedIcon" :alt="benchmark.mostValuedItem" :title="benchmark.mostValuedItem">
+                <div class="card-details">
                     <!--
                         *
                         * TITLE AND ESTIMATES
                         *
                     -->
-                    <span class="benchmark-title-and-value">
+                    <span class="card-title-and-value">
                         <span class="title-container">
                             <p 
                                 class="title"
@@ -38,16 +38,16 @@
                         * MAP AND currencies
                         *
                     -->
-                    <span class="benchmark-map-and-info">
+                    <span class="card-map-and-info">
                         <p class="map-and-region">{{ benchmark.type }}</p>
                         <!--
                             *
                             * currencies
                             *
                         -->
-                        <span class="benchmark-info-container">
-                            <span class="benchmark-currencies" v-for="currency in setCurrencies(dropRates[index])">
-                                <img class="benchmark-currency" :src="currency.icon">
+                        <span class="card-info-container">
+                            <span class="card-currencies" v-for="currency in setCurrencies(dropRates[index])">
+                                <img class="card-currency" :src="currency.icon">
                                 <p>{{ currency.value }}</p>
                             </span>
 

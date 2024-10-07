@@ -53,6 +53,7 @@ import ExchangeableWritsView from '@/js/vue/views/exchangeables/WritsView.vue'
  * TOOLS
  * 
  */
+import ToolsAscendedTrinketsView from '@/js/vue/views/tools/AscendedTrinketsView.vue'
 import ToolsHomesteadView from '@/js/vue/views/tools/HomesteadView.vue'
 import ToolsRecipeValueView from '@/js/vue/views/tools/RecipeValueView.vue'
 import ToolsSalvageablesView from '@/js/vue/views/tools/SalvageablesView.vue'
@@ -265,6 +266,11 @@ const routes = [
     // *
     // * TOOLS
     // *
+    {
+        path: '/tools/ascended-trinkets',
+        component: ToolsAscendedTrinketsView,
+        name: 'tools-ascended-trinkets',
+    },
     {
         path: '/tools/homestead',
         component: ToolsHomesteadView,

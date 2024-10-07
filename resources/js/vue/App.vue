@@ -888,14 +888,19 @@ svg.import {
     * BENCHMARKS
     =================================================
 */
+.card-grid-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-general);
+}
 
-.benchmark-grid{
+.card-grid{
     display: flex;
     flex-direction: column;
     width: fit-content;
     gap: var(--gap-general);
 }
-.benchmark-card{
+.card-container{
     position: relative;
     display: flex;
     flex-direction: column;
@@ -906,6 +911,9 @@ svg.import {
     gap: var(--gap-content);
     transition: var(--transition-all-03s-ease);
 }
+.card-container:hover{
+    border: 1px solid var(--color-text);
+}
 p.rank{
     position: absolute;
     font-size: var(--font-size-h4);
@@ -915,7 +923,7 @@ p.rank{
     opacity: 0.5;
     z-index: 3;
 }
-.benchmark-card-container{
+.card{
     position: relative;
     display: flex;
     gap: var(--gap-general);
@@ -923,29 +931,32 @@ p.rank{
     z-index: 2;
 }
 
-.benchmark-card:hover{
-    border: 1px solid var(--color-text);
-}
-.benchmark-details{
+
+.card-details{
     display: flex;
     width: 100%;
     flex-direction: column;
     justify-content: space-between;
     gap: var(--gap-benchmarks);
 }
-.benchmark-title-and-value{
+.card-title-and-value{
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: var(--gap-content);
 }
-img.most-valued-icon{
+img.card-main-icon{
     height: 100%;
     max-height: 75px;
     max-width: 75px;
 }
 .benchmark-value{
     font-size: var(--font-size-h5);
+}
+.benchmark-requirements{
+    display: flex;
+    align-items: center;
+    gap: var(--gap-general);
 }
 .title-container{
     display: flex;
@@ -954,8 +965,9 @@ img.most-valued-icon{
 }
 .title {
     font-size: var(--font-size-h4);
+    white-space: nowrap;
 }
-.benchmark-map-and-info{
+.card-map-and-info{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -965,7 +977,7 @@ img.most-valued-icon{
     white-space: nowrap;
 }
 
-.benchmark-info-container{
+.card-info-container{
     display: flex;
     align-items: center;
     gap: var(--gap-general);
@@ -974,12 +986,12 @@ img.bait{
     width: 20px;
     height: 20px;
 }
-.benchmark-currencies{
+.card-currencies{
     display: flex;
     gap: 3px;
 }
 
-img.benchmark-currency,
+img.card-currency,
 svg.sun,
 svg.moon,
 svg.arrow{
@@ -1000,41 +1012,42 @@ svg.arrow path{
     gap: 5px;
 }
 @media (max-width: 768px){
-    .benchmark-grid{
+    .card-grid{
         width: 100%;
     }
-    .benchmark-details{
+    .card-details{
         flex-direction: unset;
         align-items: center;
     }
-    img.most-valued-icon{
+    img.card-main-icon{
         height: 40px;
         width: 40px;
     }
-    /* .benchmark-info-container{
+    /* .card-info-container{
         display: none;
     } */
-    img.benchmark-currency{
+    img.card-currency{
         width: 20px;
     }
-    .benchmark-details{
+    .card-details{
         gap: var(--gap-general);
     }
-    .benchmark-title-and-value{
+    .card-title-and-value{
         flex-direction: column;
         align-items: flex-start;
         gap: var(--gap-general);
+        height: 100%;
     }
-    .benchmark-map-and-info{
+    .card-map-and-info{
         height: 100%;
         align-items: flex-start;
         gap: var(--gap-general);
         flex-direction: column;
     }
-    .benchmark-currencies{
+    .card-currencies{
         display: none;
     }
-    .benchmark-info-container{
+    .card-info-container{
         width: 100%;
         justify-content: flex-end;
     }
@@ -1077,16 +1090,32 @@ svg.arrow path{
     padding: var(--gap-general);
     border: var(--border-bottom);
 }
-.img-and-label{
+.pair-container{
     display: flex;
     align-items: center;
     gap: var(--gap-general);
+}
+
+.img-and-label,
+.pair{
+    display: flex;
+    align-items: center;  
     grid-area: name;
 }
-.img-and-label > img{
+.img-and-label{
+    gap: var(--gap-general);
+}
+.pair {
+    gap: var(--gap-pair);
+}
+
+.img-and-label > img,
+.pair > img{
     width: var(--svg-icon-size);
     height: var(--svg-icon-size);
 }
+
+
 .svg-ctas{
     display: flex;
     align-items: center;
@@ -1207,9 +1236,14 @@ img.map-guide{
 }
 .link{
     color: var(--color-link);
+    text-decoration: underline;
+    cursor: pointer;
 }
-.rare{
+.rare, .Rare{
     color: var(--color-rarity-rare);
+}
+.ascneded, .Ascended{
+    color: var(--color-rarity-ascended);
 }
 
 .flex-column{
@@ -1333,7 +1367,7 @@ img.map-guide{
     --color-anytime: #e15e6c;
 
     --font-size-h1: clamp(2.5rem, 5.5vw, 6.25rem);
-    --font-size-h2: clamp(2rem, 3.5vw, 4rem);
+    --font-size-h2: clamp(2rem, 3vw, 3rem);
     --font-size-h3: clamp(2rem, 3vw, 2rem);
     --font-size-h4: clamp(1.3rem, 1.2vw, 1.7rem);
     --font-size-h5: clamp(1.0rem, 1.1vw, 1.5rem);
@@ -1343,6 +1377,7 @@ img.map-guide{
 
     --font-size-homepage-h1: clamp(4rem, 8vw, 10rem);
 
+    --gap-pair: clamp(0.3rem, 0.3vw, 0.8rem);
     --gap-general: clamp(0.6rem, 0.5vw, 1rem);
     --gap-content: clamp(0.8rem, 1.5vw, 2rem);
     --gap-ingredients: clamp(0.3rem, 0.3vw, 0.8rem);

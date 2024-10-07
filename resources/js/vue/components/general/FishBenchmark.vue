@@ -1,20 +1,19 @@
 <template>
-    <div class="benchmark-grid">
-        <div
-            class="benchmark-card"
+    <div class="card-grid">
+        <div class="card-container"
             :style="{border: dailyBorderColor(fishingHole)}"
             v-for="(fishingHole, index) in fishingHoles" :key="index"
         >
             <p class="rank">{{ index + 1 }}</p>
-            <div class="benchmark-card-container">
-                <img class="most-valued-icon" :src="fishingHole.mostValuedIcon" :alt="fishingHole.mostValuedItem" :title="fishingHole.mostValuedItem">
-                <div class="benchmark-details">
+            <div class="card">
+                <img class="card-main-icon" :src="fishingHole.mostValuedIcon" :alt="fishingHole.mostValuedItem" :title="fishingHole.mostValuedItem">
+                <div class="card-details">
                     <!--
                         *
                         * TITLE AND ESTIMATES
                         *
                     -->
-                    <span class="benchmark-title-and-value">
+                    <span class="card-title-and-value">
                         <span class="title-container">
                             <p class="title" :class="changeTimeBackground(fishingHole.time)">{{ fishingHole.name }}</p>
                             <!--
@@ -50,21 +49,22 @@
                     </span>
                     <!--
                         *
-                        * MAP AND benchmark-info-container
+                        * MAP AND card-info-container
                         *
                     -->
-                    <span class="benchmark-map-and-info">
+                    <span class="card-map-and-info">
                         <p class="map-and-info">{{ fishingHole.map}}, {{ fishingHole.region }}</p>
+
                         <!--
                             *
-                            * benchmark-info-container
+                            * card-info-container
                             *
                         -->
-                        <span class="benchmark-info-container">
+                        <span class="card-info-container">
                             <img class="bait" :src="fishingHole.baitIcon" :alt="fishingHole.bait" :title="fishingHole.bait">
                             
                             <span class="fishing-power">
-                                <img class="benchmark-currency" :src="GreenHook" alt="Fishing Power" title="Fishing Power">
+                                <img class="card-currency" :src="GreenHook" alt="Fishing Power" title="Fishing Power">
                                 <p>{{ fishingHole.fishingPower }}</p>
                             </span>
 
@@ -93,6 +93,7 @@
                                 <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFFFFF"/>
                             </svg>
                         </span>
+                        
                     </span>
                 </div>
             </div>
@@ -114,7 +115,7 @@
                 </div>
                 
             </div>
-        </div>
+        </div> 
     </div>
 
     
@@ -314,18 +315,18 @@ const matchTyrianTime = (benchmarkTime, region) => {
 }
 
 @media (max-width: 768px){
-    .benchmark-card-container{
+    .card-container{
         flex-direction: column;
     }
-    .benchmark-details{
+    .card-details{
         flex-direction: column;
         gap: unset;
     }
-    .benchmark-title-and-value{
+    .card-title-and-value{
         flex-direction: row;
         width: 100%;
     }
-    .benchmark-map-and-info{
+    .card-map-and-info{
         flex-direction: row;
         align-items: flex-end;
         width: 100%;

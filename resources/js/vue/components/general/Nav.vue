@@ -451,13 +451,15 @@
 
                 <Transition name="fade-right">
                     <div v-if="toolsToggle">
+                        <NavPage category="tools" url="ascended-trinkets" name="Ascended Trinkets" :icon="BlackIceBand"/> 
+
+                        <NavPage category="tools" url="checklist" name="Checklist" :icon="BulletList"/>  
+
                         <NavPage category="tools" url="homestead" name="Homestead" :icon="Homestead"/>
 
                         <NavPage category="tools" url="recipe-value" name="Recipe Value" :icon="Armorer"/>
 
                         <NavPage category="tools" url="salvageables" name="Salvageables" :icon="UnidentifiedGear"/>
-
-                        <NavPage category="tools" url="checklist" name="Checklist" :icon="BulletList"/>  
                     </div>
                 </Transition>
 
@@ -684,6 +686,7 @@ import Homestead from '@/imgs/icons/Homestead.png'
 import Armorer from '@/imgs/icons/Guild_Armorer.png'
 import UnidentifiedGear from '@/imgs/icons/Piece_of_Unidentified_Gear.png'
 import BulletList from '@/imgs/svgs/bullet_list.svg'
+import BlackIceBand from '@/imgs/icons/Black_Ice_Band.png'
 
 import PetrifiedWood from '@/imgs/icons/Petrified_Wood.png'
 import JadeShard from '@/imgs/icons/Jade_Shard.png'
