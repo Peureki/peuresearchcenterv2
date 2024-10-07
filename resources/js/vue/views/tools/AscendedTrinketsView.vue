@@ -27,7 +27,7 @@
                             {src: UnboundMagic, label: 'Unbound Magic', quantity: 4000}
                             
                         ]"
-                        location="Bitterfrost Frontier, Living Story 3"
+                        location="Accessory | Bitterfrost Frontier, Living Story 3"
                     />
                     <Card
                         :main-icon="BitterfrostRing"
@@ -38,7 +38,7 @@
                             {src: UnboundMagic, label: 'Unbound Magic', quantity: 2000}
                             
                         ]"
-                        location="Bitterfrost Frontier, Living Story 3"
+                        location="Ring | Bitterfrost Frontier, Living Story 3"
                     >
                         <p>Merp</p>
                     </Card>
@@ -50,7 +50,7 @@
                             {src: EternalIceShard, label: 'Eternal Ice Shard', quantity: 375},
                             {src: Karma, label: 'Karma', quantity: 56000}
                         ]"
-                        location="Bjora Marches, Icebrood Saga"
+                        location="Amulet | Bjora Marches, Icebrood Saga"
                     />
                 </div>
                 <div class="card-grid">
@@ -62,7 +62,7 @@
                             {src: EternalIceShard, label: 'Eternal Ice Shard', quantity: 375},
                             {src: Karma, label: 'Karma', quantity: 56000}
                         ]"
-                        location="Bjora Marches, Icebrood Saga"
+                        location="Accessory | Bjora Marches, Icebrood Saga"
                     />
                     <Card
                         :main-icon="LowlandRing2"
@@ -72,9 +72,19 @@
                             {src: UrsusOblige, label: 'Ursus Oblige', quantity: 550},
                             {src: Gold, label: 'Gold', quantity: 5}
                         ]"
-                        location="Lowland Shore, Janthir Wilds"
+                        location=" Ring | Lowland Shore, Janthir Wilds"
                     />
-                    
+                    <Card
+                        :main-icon="SirensBackBalthazar"
+                        main-label="Relic of Balthazar"
+                        rarity="Ascended"
+                        :requirements="[
+                            {src: OrrianPearl, label: 'Orrian Pearl', quantity: 200},
+                            {src: Karma, label: 'Karma', quantity: 315000}
+                            
+                        ]"
+                        location="Backpiece (any Siren's) | Siren's Landing, Living Story 3"
+                    ></Card>
                     
                 </div>
             </div>
