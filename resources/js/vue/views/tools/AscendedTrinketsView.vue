@@ -75,8 +75,8 @@
                         location=" Ring | Lowland Shore, Janthir Wilds"
                     />
                     <Card
-                        :main-icon="SirensBackBalthazar"
-                        main-label="Relic of Balthazar"
+                        :main-icon="SirensBackDwayna"
+                        main-label="Relic of Dwayna"
                         rarity="Ascended"
                         :requirements="[
                             {src: OrrianPearl, label: 'Orrian Pearl', quantity: 200},
@@ -84,7 +84,9 @@
                             
                         ]"
                         location="Backpiece (any Siren's) | Siren's Landing, Living Story 3"
-                    ></Card>
+                    >
+                        <p>Merp</p>
+                    </Card>
                     
                 </div>
             </div>
