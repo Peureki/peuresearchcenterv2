@@ -11,6 +11,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Items extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'id';
+    public $incrementing = false; 
+
     protected $fillable = [
         'id',
         'chat_link',
@@ -94,7 +98,7 @@ class Items extends Model
         return $this->hasMany(MixedSalvageableDropRate::class); 
     }
 
-    public function exotic(){
-        return $this->hasMany(Exotic::class); 
-    }
+    // public function exotic(){
+    //     return $this->hasMany(Exotic::class, 'id', 'id'); 
+    // }
 }

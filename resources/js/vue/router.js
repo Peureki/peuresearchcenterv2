@@ -36,6 +36,7 @@ import CurrenciesVolatileMagicView from '@/js/vue/views/currencies/VolatileMagic
  * 
  */
 import ExchangeablesCuriousLowlandHoneycombView from '@/js/vue/views/exchangeables/CuriousLowlandHoneycombView.vue'
+import ExchangeablesCuriousMursaatCurrencyView from '@/js/vue/views/exchangeables/CuriousMursaatCurrencyView.vue'
 import ExchangeablesDragoniteOreView from '@/js/vue/views/exchangeables/DragoniteOreView.vue'
 import ExchangeablesEmpyrealFragmentView from '@/js/vue/views/exchangeables/EmpyrealFragmentView.vue'
 import ExchangeableFineRiftEssenceView from '@/js/vue/views/exchangeables/FineRiftEssenceView.vue'
@@ -73,6 +74,7 @@ import TimersDomainOfKournaView from '@/js/vue/views/timers/DomainOfKournaView.v
 import TimersDragonfallView from '@/js/vue/views/timers/DragonfallView.vue'
 import TimersEmberBayView from './views/timers/EmberBayView.vue'
 import TimersJahaiBluffsView from './views/timers/JahaiBluffsView.vue'
+import TimersJanthirSyntri from '@/js/vue/views/timers/JanthirSyntriView.vue'
 import TimersLakeDoricView from '@/js/vue/views/timers/LakeDoricView.vue'
 import TimersLowlandShoreView from '@/js/vue/views/timers/LowlandShoreView.vue'
 import TimersSkywatchArchipelagoView from '@/js/vue/views/timers/SkywatchArchipelagoView.vue'
@@ -207,6 +209,11 @@ const routes = [
         name: 'exchangeable-curious-lowland-honeycomb',
     },
     {
+        path: '/exchangeables/curious-mursaat-currency',
+        component: ExchangeablesCuriousMursaatCurrencyView,
+        name: 'exchangeable-curious-mursaat-currency',
+    },
+    {
         path: '/exchangeables/dragonite-ore',
         component: ExchangeablesDragoniteOreView,
         name: 'exchangeable-dragonite-ore',
@@ -321,6 +328,11 @@ const routes = [
         path: '/timers/jahai-bluffs',
         component: TimersJahaiBluffsView,
         name: 'timers-jahai-bluffs',
+    },
+    {
+        path: '/timers/janthir-syntri',
+        component: TimersJanthirSyntri,
+        name: 'timers-janthir-syntri',
     },
     {
         path: '/timers/lake-doric',

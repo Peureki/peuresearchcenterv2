@@ -250,6 +250,12 @@
                                 />
 
                                 <IncludesCheckbox
+                                    name="Curious Mursaat Currency"
+                                    :icon="CuriousMursaatCurrency"
+                                    label="CuriousMursaatCurrency"
+                                />
+
+                                <IncludesCheckbox
                                     name="Dragonite Ore"
                                     :icon="DragoniteOre"
                                     label="DragoniteOre"
@@ -528,6 +534,8 @@
                     <div v-if="exchangeablesToggle">
                         <NavPage category="exchangeables" url="curious-lowland-honeycomb" name="Curious Lowland Honeycomb" :icon="CuriousLowlandHoneycomb"/>
 
+                        <NavPage category="exchangeables" url="curious-mursaat-currency" name="Curious Mursaat Currency" :icon="CuriousMursaatCurrency"/>
+
                         <NavPage category="exchangeables" url="dragonite-ore" name="Dragonite Ore" :icon="DragoniteOre"/>
 
                         <NavPage category="exchangeables" url="empyreal-fragment" name="Empyreal Fragment" :icon="EmpyrealFragment"/>
@@ -572,8 +580,6 @@
 
                         <NavPage category="timers" url="auric-basin" name="Auric Basin" :icon="LumpOfAurillium"/> 
 
-                        
-
                         <NavPage category="timers" url="domain-of-istan" name="Domain of Istan" :icon="KralkatiteOre"/> 
 
                         <NavPage category="timers" url="domain-of-kourna" name="Domain of Kourna" :icon="InscribedShard"/> 
@@ -584,9 +590,11 @@
 
                         <NavPage category="timers" url="jahai-bluffs" name="Jahai Bluffs" :icon="Mistonium"/> 
 
+                        <NavPage category="timers" url="janthir-syntri" name="Janthir Syntri" :icon="CuriousMursaatCurrency"/> 
+
                         <NavPage category="timers" url="lake-doric" name="Lake Doric" :icon="JadeShard"/> 
 
-                        <NavPage category="timers" url="lowland-shore" name="Lowland Shore" :icon="UrsusOblige"/>
+                        <NavPage category="timers" url="lowland-shore" name="Lowland Shore" :icon="CuriousLowlandHoneycomb"/>
 
                         <NavPage category="timers" url="sandswept-isles" name="Sandswept Isles" :icon="DifluoriteCrystal"/> 
 
@@ -696,6 +704,7 @@ import InscribedShard from '@/imgs/icons/Inscribed_Shard.png'
 import MistbornMote from '@/imgs/icons/Mistborn_Mote.png'
 import Mistonium from '@/imgs/icons/Lump_of_Mistonium.png'
 import UrsusOblige from '@/imgs/icons/Ursus_Oblige.png'
+import CuriousMursaatCurrency from '@/imgs/icons/Curious_Mursaat_Currency.png'
 
 import PeuChoya from '@/imgs/choyas/Peu_Choya.png'
 import RollingChoya from '@/imgs/choyas/Rolling_Choya.png'

@@ -172,6 +172,7 @@ class BagController extends Controller
             // Then add to the collection
             switch ($request){
                 case "Curious Lowland Honeycomb":
+                case "Curious Mursaat Currency":
                     foreach ($itemDropRates as $index => $item){
                         if ($item->id == 103530){
                             $duplicateItem = clone $item; 
@@ -247,6 +248,9 @@ class BagController extends Controller
             }
             // Go through each drop rate as $item
             foreach ($group as $item){
+                // if ($item->id == 103530){
+                //     dd($item);
+                // }
                 $value = $this->getItemValue($item, $includes, $sellOrderSetting,$tax); 
                 $total += $value; 
 

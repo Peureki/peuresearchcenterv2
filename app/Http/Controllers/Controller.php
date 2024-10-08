@@ -55,6 +55,7 @@ class Controller extends BaseController
     protected $banditCrest;
     protected $calcifiedGasp;
     protected $curiousLowlandHoneycomb;
+    protected $curiousMursaatCurrency;
     protected $currencyBags;
     protected $dragoniteOre; 
     protected $empyrealFragment;
@@ -177,6 +178,25 @@ class Controller extends BaseController
         ];
 
         $this->curiousLowlandHoneycomb = [
+            'id' => [
+                103530, 103530, // Kodan Cache Key (4 daily, 21 daily)
+                103285, // Serpent's Wrath Weapon Choice Box
+            ],
+            'conversionRate' => [
+                1, 2,
+                10
+            ],
+            'fee' => [
+                0, 0,
+                0,
+            ],
+            'outputQty' => [
+                1, 1,
+                1,
+            ],
+        ];
+
+        $this->curiousMursaatCurrency = [
             'id' => [
                 103530, 103530, // Kodan Cache Key (4 daily, 21 daily)
                 103285, // Serpent's Wrath Weapon Choice Box
@@ -859,6 +879,7 @@ class Controller extends BaseController
             "Bandit Crest" => $this->banditCrest,
             "Calcified Gasp" => $this->calcifiedGasp,
             "Curious Lowland Honeycomb" => $this->curiousLowlandHoneycomb,
+            "Curious Mursaat Currency" => $this->curiousMursaatCurrency,
             "Lump of Aurillium" => $this->leyEnergyMatter,
             "Ley Line Crystal" => $this->leyEnergyMatter,
             "Empyreal Fragment" => $this->empyrealFragment,
@@ -1780,7 +1801,7 @@ class Controller extends BaseController
                 return $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax, $recursionLevel);
             }
             // 'EXOTICS' 
-            else if ($item->exotic){
+            else if (isset($item->exotic) && $item->exotic){
                 return $this->getExoticGearValue($item->drop_rate, $includes, $sellOrderSetting, $tax);
             }
             // ANYTHING ELSE NOT FROM ABOVE 

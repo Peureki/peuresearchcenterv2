@@ -43,6 +43,10 @@ class FetchItems implements ShouldQueue
             $totalPages = ceil($totalEntries / $perPage);
     
             $batch = array_chunk($idList, $perPage);
+
+            $restrictedItemIDs = [
+                8743
+            ];
             
     
             while ($currentPage < $totalPages){
@@ -50,6 +54,10 @@ class FetchItems implements ShouldQueue
                 $batchList = $apiBatch->json(); 
     
                 foreach($batchList as $item){
+                    // Skip if item id matches restricted list
+                    if (in_array($item['id'], $restrictedItemIDs)){
+                        continue; 
+                    }
                     Items::updateOrCreate(
                         [
                             'id' => $item['id']

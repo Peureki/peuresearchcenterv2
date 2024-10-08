@@ -64,7 +64,8 @@ class FetchBenchmarks implements ShouldQueue
             //dd($ids);
 
             foreach ($ids as $key => $id){
-                if (empty($id)){
+                $checkEmpty = trim($id);
+                if (empty($checkEmpty)){
                     continue; 
                 }
                 if ($id === 'Exotic'){
