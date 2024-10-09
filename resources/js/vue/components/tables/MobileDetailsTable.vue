@@ -19,7 +19,8 @@
                 </svg>
             </div>
             <div class="drop-rate">
-                <p>{{ formatPercentage(item.drop_rate) }}</p>
+                <p>{{ Number(item.drop_rate) }}</p>
+                <p class="small-subtitle">({{ formatPercentage(item.drop_rate) }})</p>
             </div>
 
             <span class="gold-label-container">

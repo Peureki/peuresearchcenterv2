@@ -216,7 +216,7 @@ const sortBenchmarks = (benchmarks) => {
                     bench.estimateValue += flawlessFillet.value.buy_price * tax.value;
                 }
             }
-            if (fishRarity == 'Rare'){
+            if (fishRarity == 'Rare' || fishRarity == 'Exotic'){
                 if (sellOrder == 'sell_price'){
                 bench.estimateValue += ambergris.value.sell_price * tax.value;                        
                 } 
@@ -268,8 +268,11 @@ const sortBenchmarks = (benchmarks) => {
         // If ARBORSTONE dailyCatch != empty
         if (dailyCatch.value.arborstone.hasOwnProperty('count')){
             benchmarks.forEach(bench => {
-                if (dailyCatch.value.arborstone.fish.map == bench.region
+                if ((dailyCatch.value.arborstone.fish.map == bench.region
                     && dailyCatch.value.arborstone.fish.fishing_hole == bench.name)
+                    // For special cases such as Maguuma Jungle, Freshwater with Homesteads and SOTO freshwaters
+                    || (dailyCatch.value.arborstone.fish.map == 'Maguuma Jungle' && dailyCatch.value.arborstone.fish.fishing_hole == 'Freshwater Fish' && bench.name.includes('Freshwater Fish'))
+                )
                 {
                     addEstimate(dailyCatch.value.arborstone.fish.rarity, sellOrder.value, bench); 
                 }

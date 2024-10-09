@@ -15,15 +15,15 @@
                         *
                     -->
                     <span class="card-title-and-value">
+                        <!-- MAP TITLE -->
                         <span class="title-container">
                             <p 
                                 class="title"
                                 :class="changeBackgroundType(benchmark.type)"
                             >{{ benchmark.map }}
-                            </p>
-                            
+                            </p>  
                         </span>
-                        
+                        <!-- MAP VALUE -->
                         <span class="gold-label-container benchmark-value">
                             <span 
                                 class="gold-label"

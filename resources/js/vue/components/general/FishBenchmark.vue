@@ -145,8 +145,6 @@ const props = defineProps({
     dropRates: Object,
 })
 
-console.log('daily catch: ', props.dailyCatch);
-
 // Individually allow each card to be expanded or not
 // By default, have each card not expanded
 const expand = ref(props.fishingHoles.map(() => false));
@@ -162,11 +160,15 @@ const matchDailyCatch = (benchmark) => {
         const fish_b = ['Cherry Salmon', 'Sockeye'];
         const benchmark_b = ['Lowland Brackish Fish'];
 
+        console.log('fish: ', fish, '| benchmark: ', benchmark.name);
+
         // Check all possible areas where daily fish is the daily
         if (
-            (fish.map === benchmark.region && fish.fishing_hole === benchmark.name) ||
+            (fish.map === benchmark.region && benchmark.name.includes(fish.fishing_hole)) ||
             (fish_b_o.includes(fish.name) && benchmark_b_o.includes(benchmark.name)) ||
-            (fish_b.includes(fish.name) && benchmark_b.includes(benchmark.name))
+            (fish_b.includes(fish.name) && benchmark_b.includes(benchmark.name)) || 
+            // // For special cases such as Maguuma Jungle, Freshwater with Homesteads and SOTO freshwaters
+            (fish.map === 'Maguuma Jungle' && fish.fishing_hole == 'Freshwater Fish' && benchmark.name.includes('Freshwater Fish'))
         ){
             if (fish.rarity == 'Masterwork'){
                 return {
@@ -174,7 +176,8 @@ const matchDailyCatch = (benchmark) => {
                     color: 'var(--color-rarity-masterwork)'
                 }
             }
-            if (fish.rarity == 'Rare'){
+            // Sometimes the daily fish for Janthir are exotic
+            if (fish.rarity == 'Rare' || fish.rarity == 'Exotic'){
                 return {
                     daily: 'Daily Ambergris Catch',
                     color: 'var(--color-rarity-rare)'

@@ -1122,6 +1122,9 @@ svg.arrow path{
     gap: var(--gap-general);
 }
 .drop-rate{
+    display: flex;
+    align-items: center;
+    gap: var(--gap-general);
     grid-area: dr;
 }
 .item-name{
