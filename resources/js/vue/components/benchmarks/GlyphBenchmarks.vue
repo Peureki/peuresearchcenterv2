@@ -4,10 +4,10 @@
             class="card-container"
             v-for="(benchmark, index) in benchmarks" :key="index"
         >
-            <p class="rank">{{ index + 1 }}</p>
+            <!-- <p class="rank">{{ index + 1 }}</p> -->
             <div class="card">
                 
-                <img class="card-main-icon" :src="benchmark.mostValuedIcon" :alt="benchmark.mostValuedItem" :title="benchmark.mostValuedItem">
+                <img class="card-main-icon" :src="benchmark.icon" :alt="benchmark.name" :title="benchmark.name">
                 <div class="card-details">
                     <!--
                         *
@@ -17,17 +17,14 @@
                     <span class="card-title-and-value">
                         <!-- MAP TITLE -->
                         <span class="title-container">
-                            <p 
-                                class="title"
-                                :class="changeBackgroundType(benchmark.type)"
-                            >{{ benchmark.map }}
+                            <p class="title node">{{ benchmark.name }}
                             </p>  
                         </span>
                         <!-- MAP VALUE -->
                         <span class="gold-label-container benchmark-value">
                             <span 
                                 class="gold-label"
-                                v-for="gold in formatValue(benchmark.gph)"
+                                v-for="gold in formatValue(benchmark.value)"
                             >
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.title">
                             </span>
@@ -39,17 +36,22 @@
                         *
                     -->
                     <span class="card-map-and-info">
-                        <p class="map-and-region">{{ benchmark.type }}</p>
+                        <span class="img-and-label">
+                            <img :src="setGlyphType(benchmark.type)" :alt="benchmark.type" :title="benchmark.type">
+                            <p>{{ benchmark.level }}</p>
+                        </span>
+                        
+                        
                         <!--
                             *
                             * currencies
                             *
                         -->
                         <span class="card-info-container">
-                            <span class="card-currencies" v-for="currency in setCurrencies(dropRates[index])">
+                            <!-- <span class="card-currencies" v-for="currency in setCurrencies(dropRates[index])">
                                 <img class="card-currency" :src="currency.icon">
                                 <p>{{ currency.value }}</p>
-                            </span>
+                            </span> -->
 
                             <svg 
                                 class="arrow"
@@ -99,32 +101,16 @@ import PageButtons from '@/js/vue/components/general/PageButtons.vue'
 
 import { isMobile } from '@/js/vue/composables/Global.js'
 
-import GreenHook from '@/imgs/icons/fishes/Green_Hook.png'
-
-
+import Ore from '@/imgs/icons/Ore.png'
+import Log from '@/imgs/icons/Log.png'
+import Plant from '@/imgs/icons/Plant.png'
 
 const props = defineProps({
     benchmarks: Object,
     dropRates: Object,
 })
 
-const setCurrencies = (drops) => {
-    // If benchmark does not contain any currencies
-    if (drops.hasOwnProperty('node_benchmark_id')){
-        return null; 
-    }
 
-    const set = new Set(); 
-    drops.forEach(item => {
-        if (item.currency_id && item.currency_id != 1){
-            set.add(JSON.stringify({ 
-                icon: item.icon, 
-                value: Math.round(item.drop_rate / item.time) 
-            }));
-        }
-    });
-    return Array.from(set).map(item => JSON.parse(item));
-}
 
 // Individually allow each card to be expanded or not
 // By default, have each card not expanded
@@ -136,6 +122,14 @@ const changeBackgroundType = (type) => {
         daily: type === 'Daily',
         node: type === 'Node',
         solo: type === 'Solo',
+    }
+}
+
+const setGlyphType = (type) => {
+    switch (type){
+        case 'Ore': return Ore; 
+        case 'Log': return Log;
+        case 'Plant': return Plant;
     }
 }
 

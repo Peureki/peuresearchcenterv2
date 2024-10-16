@@ -176,7 +176,8 @@ const researchers = [
     'sevenFootPIGMAN.9417',
     'reignman.3059',
     'CrossoverX.1406',
-    'GW2Efficiency'
+    'GW2Efficiency',
+    'BigZThyDoom.8750',
 ];
 
 const sortedDonators = computed(() => {

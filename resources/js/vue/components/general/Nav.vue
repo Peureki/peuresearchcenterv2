@@ -440,7 +440,14 @@
                 <Transition name="fade-right">
                     <div v-if="benchmarksToggle">
                         <NavPage category="benchmarks" url="maps" name="Maps" :icon="BlueCommander"/>
+
                         <NavPage category='benchmarks' url="fishing" name="Fishing" :icon="FishingHook"/>
+
+                        <NavPage category='benchmarks' url="glyphs" name="Glyphs" :icon="GlyphOfVolatility"/>
+
+                        <NavPage category='benchmarks' url="node-farms" name="Node Farms" :icon="ElderWoodLog"/>
+
+                        <NavPage category='benchmarks' url="solo" name="Solo" :icon="CallTarget"/>
                     </div>
                 </Transition>
 
@@ -674,6 +681,9 @@ import TradeContract from '@/imgs/icons/Trade_Contract.png'
 import TyrianDefenseSeal from '@/imgs/icons/Tyrian_Defense_Seal.png'
 import UnboundMagic from '@/imgs/icons/Unbound_Magic.png'
 import VolatileMagic from '@/imgs/icons/Volatile_Magic.png'
+import ElderWoodLog from '@/imgs/icons/Elder_Wood_Log.png'
+import CallTarget from '@/imgs/icons/Call_Target.png'
+import GlyphOfVolatility from '@/imgs/icons/Glyph_of_Volatility.png'
 
 import CalcifiedGasp from '@/imgs/icons/Calcified_Gasp.png'
 import DragoniteOre from '@/imgs/icons/Dragonite_Ore.png'

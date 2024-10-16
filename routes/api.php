@@ -90,7 +90,11 @@ Route::get('/fetch-fishing-holes', [FetchController::class, 'fetchFishingHoles']
 
 Route::get('/fetch-consumables', [FetchController::class, 'fetchConsumables']);
 Route::get('/fetch-exotics', [FetchController::class, 'fetchExotics']);
-
+// *
+// * FETCH NODES
+// *
+Route::get('/fetch-nodes', [FetchController::class, 'fetchNodes']);
+Route::get('/fetch-node-combinations', [FetchController::class, 'fetchNodeCombinations']);
 
 // *
 // * TOOLS
@@ -148,9 +152,15 @@ Route::get('/fetch-derp', [FetchController::class, 'fetchDerp']);
 // *
 // * BENCHMARKS
 // *
+Route::get('/benchmarks/maps/{includes}/{filter}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'maps']);
+
 Route::get('/benchmarks/fishing/{includes}/{buyOrderSetting}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'fishing']);
 
-Route::get('/benchmarks/maps/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'maps']);
+
+Route::get('/benchmarks/glyphs/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'glyphs']);
+
+// ESTIMATED NODE BENCHMARKS
+Route::get('/benchmarks/nodes/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'nodes']);
 
 // OTHER RECIPES
 Route::get('/fetch-other-recipes', [FetchController::class, 'fetchOtherRecipes']);

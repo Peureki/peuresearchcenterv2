@@ -5,7 +5,9 @@ import HomeView from './views/HomeView.vue'
 
 import BenchmarksMapsView from './views/benchmarks/MapsView.vue'
 import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
-
+import BenchmarksGlyphsView from '@/js/vue/views/benchmarks/GlyphsView.vue'
+import BenchmarksNodeFarmsView from '@/js/vue/views/benchmarks/NodeFarmsView.vue'
+import BenchmarksSoloView from '@/js/vue/views/benchmarks/SoloView.vue'
 /*
  * 
  * CURRENCIES
@@ -62,6 +64,13 @@ import ToolsChecklistView from '@/js/vue/views/tools/ChecklistView.vue'
 
 /*
  * 
+ * PERSONAL TOOLS
+ * 
+ */
+import ToolsGatheringTrackerView from '@/js/vue/views/tools/GatheringTrackerView.vue'
+
+/*
+ * 
  * TIMERS
  * 
  */
@@ -95,6 +104,9 @@ const routes = [
         component: PrivacyPolicyView,
         name: 'privacy-policy',
     },
+    // *
+    // * BENCHMARKS
+    // *
     {
         path: '/benchmarks/maps',
         component: BenchmarksMapsView,
@@ -104,6 +116,21 @@ const routes = [
         path: '/benchmarks/fishing',
         component: BenchmarksFishingView,
         name: 'benchmarks-fishing',
+    },
+    {
+        path: '/benchmarks/glyphs',
+        component: BenchmarksGlyphsView,
+        name: 'benchmarks-glyphs',
+    },
+    {
+        path: '/benchmarks/node-farms',
+        component: BenchmarksNodeFarmsView,
+        name: 'benchmarks-node-farms',
+    },
+    {
+        path: '/benchmarks/solo',
+        component: BenchmarksSoloView,
+        name: 'benchmarks-solo',
     },
     // *
     // * CURRENCIES
@@ -304,6 +331,15 @@ const routes = [
         component: ToolsChecklistView,
         name: 'tools-checklist',
     },
+    // *
+    // * PERSONAL TOOLS
+    // *
+    {
+        path: '/tools/gathering-tracker',
+        component: ToolsGatheringTrackerView,
+        name: 'tools-gathering-tracker'
+    },
+
     // *
     // * TIMERS
     // *

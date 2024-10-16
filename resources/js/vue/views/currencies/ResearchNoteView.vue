@@ -202,8 +202,7 @@ const getResearchNotes = async (url) => {
         if (user.value){
             checkIfFavorite(responseData.data); 
         }
-        
-
+    
         researchNotes.value = responseData;
         //console.log('research notes: ', researchNotes.value.data);
     } catch (error){

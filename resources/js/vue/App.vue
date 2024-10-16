@@ -54,6 +54,10 @@ input {
     border: none;
     padding: var(--padding-input);
 }
+input[type="button"]{
+    background-color: var(--color-link);
+    cursor: pointer;
+}
 a {
     cursor: pointer;
 }
@@ -680,6 +684,10 @@ span.blurb{
     align-items: center;
     gap: var(--gap-general);
 }
+span.inline{
+    display: inline;
+    max-width: 700px;
+}
 /* 
     * For any content blocks under main sections
     * Allows section.main to keep the borders full width
@@ -1070,7 +1078,7 @@ svg.arrow path{
 .mobile-benchmark-details-container{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: fit-content;
     gap: 5px;
 }
 .mobile-info-container{
@@ -1190,6 +1198,22 @@ img.map-guide{
 
 /* 
     =================================================
+    * GUIDE CONTAINER
+    =================================================
+*/
+.guide-container{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-content);
+}
+.guide-and-label{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-general);
+}
+
+/* 
+    =================================================
     * BUTTONS
     =================================================
 */
@@ -1237,6 +1261,7 @@ img.map-guide{
 .clickable {
     cursor: pointer;
 }
+.inline-link,
 .link{
     color: var(--color-link);
     text-decoration: underline;
@@ -1402,6 +1427,7 @@ img.map-guide{
     --border-tooltip: 2px solid #3D3F42;
     --border-positive: 2px solid #5ED625;
     --border-negative: 2px solid #EC004D;
+    --border-tooltip: 1px solid var(--color-text);
     --border-left-hover: 2px solid var(--color-text);
     --border-hover-link: 2px solid #ffd12c;
     

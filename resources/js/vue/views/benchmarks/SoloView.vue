@@ -1,6 +1,6 @@
 <template>
     <Nav/>
-    <Header page-name="Map Benchmarks"/>
+    <Header page-name="Solo Benchmarks"/>
 
     <section class="main">
         <div class="content-section">
@@ -36,7 +36,7 @@ const mapBenchmarks = ref([]),
 const currentlyRefreshing = ref(false),
     currentProgress = ref(0);
 
-const filter = ['Daily', 'Repeatable'];
+const filter = ['Solo'];
 
 const sortBenchmarks = (benchmarks) => {
     if (benchmarks){

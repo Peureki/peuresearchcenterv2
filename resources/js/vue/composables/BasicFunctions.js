@@ -76,7 +76,7 @@ export const activeArrow = (expandIndex) =>  {
 }
 // * 
 // * WIKIs
-// * 
+// * Insert item name and put underscores to match what the wiki has
 export const wiki = (itemName) => {
     const convertToURL = itemName.replace(/ /g, "_");
     window.open(`https://wiki.guildwars2.com/wiki/${convertToURL}`, '_blank');
@@ -84,4 +84,35 @@ export const wiki = (itemName) => {
 
 export const openNewTab = (link) => {
     window.open(link, '_blank');
+}
+
+export const copyWaypoint = (text) => {
+    if (navigator.clipboard){
+        try {
+            navigator.clipboard.writeText(text);
+        } catch (error){
+            console.log(`Failed to copy ${text}`);
+        }
+    }
+}
+
+// Concat all waypoint links from guides.value in /components/guides/nodes
+export const copyAllWaypoints = (guides) => {
+    let waypoints = '';
+    
+    guides.forEach((guide, index) => {
+        // Get first letters of each map
+        // ie Verdant Brink = VB: [waypointLink], 
+
+        // Only produce the comma between each word and not before the first
+        const comma = index > 0 ? ', ' : '';
+
+        // Some guides may not have a waypoint attached
+        // Skip if so
+        if (guide.waypointLink){
+            waypoints += comma + guide.alt.split(' ').map(word => word.charAt(0).toUpperCase()).join('') + ': ' + guide.waypointLink; 
+        }
+    })
+
+    return waypoints; 
 }

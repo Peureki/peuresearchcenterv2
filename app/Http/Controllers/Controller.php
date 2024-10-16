@@ -12,8 +12,10 @@ use App\Models\CopperFedSalvageableDropRate;
 use App\Models\CurrencyBagDropRates;
 use App\Models\Exotic;
 use App\Models\FishDropRate;
+use App\Models\GlyphDropRate;
 use App\Models\Items;
 use App\Models\MixedSalvageableDropRate;
+use App\Models\NodeDropRate;
 use App\Models\RunecraftersSalvageableDropRate;
 use App\Models\Salvageable;
 use App\Models\SalvageableDropRate;
@@ -978,6 +980,13 @@ class Controller extends BaseController
         return $buyOrderSetting;
     }
 
+    // Get last word of a given string
+    // EX: Glyph of Bounty => Bounty
+    protected function getLastWord($string){
+        $words = explode(' ', $string);
+        return end($words); 
+    }
+
     protected function getSellOrderSetting($sellOrderSetting){
         // If the price setting exist, then be that
         // Otherwise, default to sell_price
@@ -993,6 +1002,165 @@ class Controller extends BaseController
             $sellOrderSetting = 'sell_price';
         }
         return $sellOrderSetting;
+    }
+
+    // *
+    // * GET NODE VALUES
+    // * 
+    public function getNodeValue($pick, $axe, $sickle, $level, $nodeID, $dropRate, $includes, $sellOrderSetting, $tax){
+        $nodeDropRates = NodeDropRate::where('node_drop_rates.node_id', $nodeID)
+        ->join('items', 'node_drop_rates.item_id', '=', 'items.id')
+        ->join('nodes', 'node_drop_rates.node_id', '=', 'nodes.id')
+        ->select(
+            'node_drop_rates.*',
+            'items.*',
+            'nodes.*',
+            'items.id as item_id',
+            'items.name as item_name'
+        )
+        ->get(); 
+
+        $value = 0;
+        $subValue = 0;
+        $mostValuedItemID = null;
+        $highestValue = 0;
+
+        // Calculate all drops from a node and add them together
+        foreach ($nodeDropRates as $item){ 
+            $subValue = $this->getItemValue($item, $includes, $sellOrderSetting, $tax);
+
+            // Reclaim highest valued item if the current item is valued higher than the previous
+            if ($subValue > $highestValue){
+                $highestValue = $subValue; 
+                $mostValuedItemID = $item->item_id; 
+            }
+
+            $value += $subValue; 
+
+        }
+        //dd('node drop rates: ', $value, $level, $pick, $axe, $sickle);
+
+        // Add glyph value after getting value of node
+        $value += $this->getGlyphValue($nodeDropRates->first()->type, $level, $pick, $axe, $sickle, $includes, $sellOrderSetting, $tax, $value);
+
+        
+        return [
+            'mostValuedItemID' => $mostValuedItemID,
+            'value' => $value * $dropRate
+        ];
+    }
+
+    // *
+    // * GET GLYPH VALUES
+    // * Return the value of a given glyph when applied to a type of node
+    protected function getGlyphValue($type, $level, $pick, $axe, $sickle, $includes, $sellOrderSetting, $tax, $nodeValue = 0){
+        // Depending on what type of NODE => select appropiate tool to query
+        // $multipler == since glyphs are measured by strikes, ores and logs give 3 strikes
+        switch ($type){
+            case 'Ore':
+                $currentGlyph = $pick; 
+                $currentTool = 'Pick';
+                $multiplier = 3; 
+                if (!$pick) return 0;
+                break;
+
+            case 'Log':
+                $currentGlyph = $axe;
+                $currentTool = 'Axe';
+                $multiplier = 3;
+                if (!$axe) return 0;
+                break;
+            
+            case 'Plant':
+                $currentGlyph = $sickle;
+                $currentTool = 'Sickle';
+                $multiplier = 1; 
+                if (!$sickle) return 0; 
+                break;
+        }
+
+        // For Glyphs without any drops connected to their value
+        if ($currentGlyph == 'Glyph of Bounty'){
+            switch ($currentTool){
+                case 'Pick':
+                case 'Axe':
+                    return ($nodeValue * 1.1583) - $nodeValue; 
+
+                case 'Sickle':
+                    return ($nodeValue * 1.4748) - $nodeValue; 
+            }
+        }
+
+        // Get drop rates of glyphs the users chose
+        $glyphDropRates = GlyphDropRate::leftjoin('glyphs', 'glyph_id', '=', 'glyphs.id')
+        ->leftjoin('items', 'glyph_drop_rates.item_id', '=', 'items.id')
+        ->leftjoin('currencies', 'glyph_drop_rates.currency_id', '=', 'currencies.id')
+        ->select(
+            'glyph_drop_rates.*',
+            'glyphs.*',
+            'items.*',
+            'currencies.*',
+            'currencies.name as currency_name',
+            'glyphs.name as name',
+            'glyphs.type as glyph_type',
+            'glyphs.level as level',
+            'items.name as item_name',
+            'items.id as item_id',
+            'items.type as type',
+        )
+        
+        ->where('glyphs.name', $currentGlyph)
+        ->where('glyphs.type', $type)
+        ->where(function ($query) use ($currentGlyph, $level){
+            if (!in_array($currentGlyph, [
+                'Glyph of the Scavenger',
+                'Glyph of the Unbound',
+                'Glyph of Volatility',
+                'Glyph of the Watchknight',
+            ])){
+                if ($level == '71-80'){
+                    $query->where('glyphs.level', '=', $level)
+                        ->orWhere('glyphs.level', '=', 'All');
+                } 
+                else if ($level == 'All'){
+                    $query->where('glyphs.level', '=', '71-80')
+                        ->orWhere('glyphs.level', '=', 'All');
+                }
+                else {
+                    $query->where('glyphs.level', '=', $level);
+                }
+            }
+        })
+        ->get();
+
+        // if ($currentGlyph == 'Glyph of the Herbalist'){
+        //     dd($glyphDropRates);
+        // }
+        //dd($glyphDropRates);
+
+        // if ($glyphDropRates->isEmpty()){
+        //     dd($glyphDropRates, $currentGlyph, $type, $level);
+        // }
+        $value = 0;
+        //$proc = 0; 
+
+        // A glyph may not proc every single strike 
+        // Insert % where it will
+        // if ($currentGlyph == 'Glyph of the Scavenger'){
+        //     $proc = 0.33; 
+        // }
+
+        // Get glyph value by adding all the drop values
+        foreach ($glyphDropRates as $glyph){
+            //dd($glyphDropRates, $glyph);
+            $value += $this->getItemValue($glyph, $includes, $sellOrderSetting, $tax);
+
+            // if ($currentGlyph == 'Glyph of Volatility'){
+            //     dd($glyph, $value, $nodeValue); 
+            // }
+        }
+
+        return $value;
     }
 
     protected function getChoiceChestValue($chestID, $chestQuantity, $includes, $sellOrderSetting, $tax){
@@ -1156,6 +1324,11 @@ class Controller extends BaseController
     // Eyes of Kormir
     protected function getExchangeableValue($itemName, $itemDropRate, $includes, $sellOrderSetting, $tax, $recursionLevel = 0){
 
+        // If $inclues is somehow still not an array at this point, make it an arary
+        if (!is_array($includes)) {
+            $includes = json_decode($includes, true);
+        }
+        //dd('itemname: ', $itemName, $includes);
         //dd('exchangeable map', $this->exchangeableMap, 'item name', $itemName, 'includes', $includes, in_array($itemName, $includes));
 
         switch ($itemName){
@@ -1723,15 +1896,22 @@ class Controller extends BaseController
         // || strpos($item->description, 'unbound magic')){
         //     dd($item);
         // }
+        // if ($item->name == 'Glyph of the Unbound'){
+        //     dd($item);
+        // }
+        
 
         $id = $item->id ?? 0;
         $itemId = $item->item_id ?? 0; 
+        $itemType = $item->type ?? 0;
+        $itemRarity = $item->rarity ?? 0;
+        $itemName = $item->item_name ?? 0;
         $currencyId = $item->currency_id ?? 0; 
         $bagId = $item->bag_id ?? 0; 
 
         // CACHE ITEM VALUES
         // This function is working overtime for almost everything. This makes sure stuff can load efficiently and fast
-        $cacheKey = "item_value_" . md5(json_encode($includes)) . $id . $itemId . $currencyId . $bagId . $sellOrderSetting . $tax . $recursionLevel; 
+        $cacheKey = "item_value_" . md5(json_encode($includes)) . $id . $itemId . $itemType . $itemRarity . $itemName . $currencyId . $bagId . $sellOrderSetting . $tax . $recursionLevel; 
 
         return Cache::remember($cacheKey, now()->addHours(6), function() use ($item, $includes, $sellOrderSetting, $tax, $recursionLevel){
              // RESTRICT recursion
@@ -1751,18 +1931,16 @@ class Controller extends BaseController
                 return $this->getCommendationValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
             }
             // CONSUMABLES
-            else if ($item->type === 'Consumable' && strpos($item->item_description, 'volatile magic') 
-            || strpos($item->item_description, 'Volatile Magic')
-            || strpos($item->item_description, 'unbound magic')
-            || strpos($item->description, 'volatile magic') 
-            || strpos($item->description, 'Volatile Magic')
-            || strpos($item->description, 'unbound magic')
-            || strpos($item->item_description, 'Imperial Favors')){
-                //dd($item->name);
-                //dd($this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax));
-                return $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
-                
-                //dd($item->item_name, $itemValue);
+            else if ($item->type === 'Consumable'){
+                if (strpos($item->item_description, 'volatile magic') 
+                || strpos($item->item_description, 'Volatile Magic')
+                || strpos($item->item_description, 'unbound magic')
+                || strpos($item->description, 'volatile magic') 
+                || strpos($item->description, 'Volatile Magic')
+                || strpos($item->description, 'unbound magic')
+                || strpos($item->item_description, 'Imperial Favors')){
+                    return $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
+                }
             }
             // JUNK ITEMS
             else if ($item->rarity == 'Junk') {
@@ -1772,6 +1950,7 @@ class Controller extends BaseController
             else if (strpos($item->item_name, "Unidentified Gear") !== false){
                 // CHECK IF SALVAGEABLE IS IN $INCLUDES
                 if (in_array('Salvageables', $includes)){
+                    
                     return $this->getUnidentifiedGearValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
                 } else {
                     // OTHERWISE RETURN RAW UNI GEAR VALUE

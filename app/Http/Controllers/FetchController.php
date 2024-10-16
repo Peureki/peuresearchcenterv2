@@ -6,6 +6,8 @@ use App\Jobs\Fetches\FetchBags;
 use App\Jobs\Fetches\FetchBenchmarks;
 use App\Jobs\Fetches\FetchGeneral;
 use App\Jobs\Fetches\FetchItems;
+use App\Jobs\Fetches\FetchNodeCombinations;
+use App\Jobs\Fetches\FetchNodes;
 use App\Jobs\Fetches\FetchOtherRecipes;
 use App\Jobs\Fetches\FetchPrices;
 use App\Jobs\Fetches\FetchRecipes;
@@ -110,6 +112,16 @@ class FetchController extends Controller
     public function fetchSalvageables(){
         dispatch(new FetchSalvageables());
         return response()->json(['message' => 'Fetching salvageables has been queued']);
+    }
+
+    public function fetchNodes(){
+        dispatch(new FetchNodes());
+        return response()->json(['message' => 'Fetching nodes has been queued']);
+    }
+
+    public function fetchNodeCombinations(){
+        dispatch(new FetchNodeCombinations());
+        return response()->json(['message' => 'Fetching node combinations has been queued']);
     }
 
     public function merp(){
