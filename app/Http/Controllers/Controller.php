@@ -1904,6 +1904,7 @@ class Controller extends BaseController
         $id = $item->id ?? 0;
         $itemId = $item->item_id ?? 0; 
         $itemType = $item->type ?? 0;
+        $itemGlyphType = $item->glyph_type ?? 0;
         $itemRarity = $item->rarity ?? 0;
         $itemName = $item->item_name ?? 0;
         $currencyId = $item->currency_id ?? 0; 
@@ -1911,7 +1912,7 @@ class Controller extends BaseController
 
         // CACHE ITEM VALUES
         // This function is working overtime for almost everything. This makes sure stuff can load efficiently and fast
-        $cacheKey = "item_value_" . md5(json_encode($includes)) . $id . $itemId . $itemType . $itemRarity . $itemName . $currencyId . $bagId . $sellOrderSetting . $tax . $recursionLevel; 
+        $cacheKey = "item_value_" . md5(json_encode($includes)) . $id . $itemId . $itemType . $itemGlyphType . $itemRarity . $itemName . $currencyId . $bagId . $sellOrderSetting . $tax . $recursionLevel; 
 
         return Cache::remember($cacheKey, now()->addHours(6), function() use ($item, $includes, $sellOrderSetting, $tax, $recursionLevel){
              // RESTRICT recursion
