@@ -408,6 +408,10 @@ class BenchmarkController extends Controller
             foreach ($group as $item){
                 //dd($item);
 
+                // if ($item->item_name == 'Curious Mursaat Currency'){
+                //     dd($item);
+                // }
+
                 $itemValue = $this->getItemValue($item, $includes, $sellOrderSetting, $tax); 
 
                 if ($itemValue > $currentHighestValue){

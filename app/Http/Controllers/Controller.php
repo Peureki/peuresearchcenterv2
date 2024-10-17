@@ -1899,6 +1899,7 @@ class Controller extends BaseController
         // if ($item->name == 'Branded Mass'){
         //     dd($item);
         // }
+        
 
         $id = $item->id ?? 0;
         $itemId = $item->item_id ?? 0; 
@@ -1928,27 +1929,15 @@ class Controller extends BaseController
                 return $item->$sellOrderSetting * $tax;  
             }
             // COMMENDATIONS (DWC)
-            else if ($item->type == 'Trophy' && strpos($item->item_name, 'Commendation')){
+            if ($item->type == 'Trophy' && strpos($item->item_name, 'Commendation')){
                 return $this->getCommendationValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
             }
-            // CONSUMABLES
-            else if ($item->type === 'Consumable'){
-                if (strpos($item->item_description, 'volatile magic') 
-                || strpos($item->item_description, 'Volatile Magic')
-                || strpos($item->item_description, 'unbound magic')
-                || strpos($item->description, 'volatile magic') 
-                || strpos($item->description, 'Volatile Magic')
-                || strpos($item->description, 'unbound magic')
-                || strpos($item->item_description, 'Imperial Favors')){
-                    return $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
-                }
-            }
             // JUNK ITEMS
-            else if ($item->rarity == 'Junk') {
+            if ($item->rarity == 'Junk') {
                 return $item->vendor_value * $item->drop_rate;   
             }
             // UNIDENTIFIED GEAR
-            else if (strpos($item->item_name, "Unidentified Gear") !== false){
+            if (strpos($item->item_name, "Unidentified Gear") !== false){
                 // CHECK IF SALVAGEABLE IS IN $INCLUDES
                 if (in_array('Salvageables', $includes)){
                     
@@ -1961,40 +1950,52 @@ class Controller extends BaseController
             } 
             // CHOICE CHESTS
             // UPDATE ARRAY OF choiceChests 
-            else if (in_array($item->item_id, $this->choiceChests)){
+            if (in_array($item->item_id, $this->choiceChests)){
                 return $this->getChoiceChestValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
             }
             // CHAMP BAGS, CONTAINERS
-            else if ($item->type == "Container" && strpos($item->item_description, 'Salvage') === false){
+            if ($item->type == "Container" && strpos($item->item_description, 'Salvage') === false){
                 return $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
             } 
             // SALVAGEABLES (exclu uni gear)
-            else if ($item->item_description === "Salvage Item" && in_array('Salvageables', $includes)){
+            if ($item->item_description === "Salvage Item" && in_array('Salvageables', $includes)){
                 return $this->getSalvageableValue($item->item_id, $item->$sellOrderSetting, $item->drop_rate, $sellOrderSetting, $tax);
             }
             // GENERAL EXCHANGEABLES
-            else if (array_key_exists($item->item_name, $this->exchangeableMap)) {
+            if (array_key_exists($item->item_name, $this->exchangeableMap)) {
                 return $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax, $recursionLevel);
             }
             // RAW CURRENCIES
-            else if ($item->currency_id) {
+            if ($item->currency_id) {
                 return $this->getExchangeableValue($item->currency_name, $item->drop_rate, $includes, $sellOrderSetting, $tax, $recursionLevel);
             }
+            // CONSUMABLES
+            if ($item->type === 'Consumable'){
+                if (strpos($item->item_description, 'volatile magic') 
+                || strpos($item->item_description, 'Volatile Magic')
+                || strpos($item->item_description, 'unbound magic')
+                || strpos($item->description, 'volatile magic') 
+                || strpos($item->description, 'Volatile Magic')
+                || strpos($item->description, 'unbound magic')
+                || strpos($item->item_description, 'Imperial Favors')){
+                    return $this->getContainerValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax); 
+                }
+            }
             // 'EXOTICS' 
-            else if (isset($item->exotic) && $item->exotic){
+            if (isset($item->exotic) && $item->exotic){
                 return $this->getExoticGearValue($item->drop_rate, $includes, $sellOrderSetting, $tax);
             }
             // ANYTHING ELSE NOT FROM ABOVE 
-            else {
-                // If it is an item that doesn't meet any of these conditions AND is probably an item from a choice chest that doesn't have drop_rate, then
-                if ($item->drop_rate){
-                    return ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
-                } else {
-                    
-                    return $item->$sellOrderSetting * $tax;
-                }
+            //else {
+            // If it is an item that doesn't meet any of these conditions AND is probably an item from a choice chest that doesn't have drop_rate, then
+            if ($item->drop_rate){
+                return ($item->$sellOrderSetting * $tax) * $item->drop_rate; 
+            } else {
                 
-            } 
+                return $item->$sellOrderSetting * $tax;
+            }
+                
+            //} 
         });   
          
     }
