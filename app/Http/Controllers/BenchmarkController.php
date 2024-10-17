@@ -40,6 +40,7 @@ class BenchmarkController extends Controller
             'currencies.*',
             'nodes.name as node_name',
             'nodes.type as node_type',
+            'items.name as name',
             'items.name as item_name',
             'items.icon as item_icon',
             'currencies.name as currencies_name',
@@ -60,9 +61,9 @@ class BenchmarkController extends Controller
 
                 $subNodeValue += $this->getItemValue($item, $includes, $sellOrderSetting, $tax);
 
-                if ($subNodeValue == 0){
-                    //dd($item, $subNodeValue);
-                }
+                // if ($subNodeValue == 0){
+                //     dd($item, $subNodeValue);
+                // }
 
                 $nodeValue += $subNodeValue;
                 $item->value = $subNodeValue; 
