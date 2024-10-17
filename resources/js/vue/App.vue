@@ -1245,6 +1245,12 @@ img.map-guide{
 .disclaimer > path{
     fill: var(--color-down);
 }
+/* Insert to create space between columns of content */
+.gap-content{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-content);
+}
 /* For SVG hearts */
 .favorite > path {
     fill: var(--color-link);
@@ -1437,7 +1443,7 @@ img.map-guide{
     --nav-padding: 10px 0 10px 10px;
     --nav-padding-left: 10px;
     --nav-padding-label: 5px;
-    --nav-img-w-and-h: clamp(3rem, 10vw, 10rem);
+    --nav-img-w-and-h: clamp(3rem, 7vw, 10rem);
 
     --padding-section: clamp(0.5rem, 0.5vw, 1.5rem);
     --padding-section-left: clamp(0.5rem, 1vw, 1.5rem);
@@ -1471,6 +1477,7 @@ img.map-guide{
 
     --w-pie-chart: clamp(18rem, 20vw, 35rem);
     --w-map-guide: clamp(20rem, 50vw, 45rem);
+    --w-p-size: clamp(20rem, 100%, 50rem);
 
     --img-material-w: 20px;
     --img-header: clamp(1.5rem, 2vw, 3rem);

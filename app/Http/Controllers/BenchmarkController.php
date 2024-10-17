@@ -27,6 +27,15 @@ class BenchmarkController extends Controller
             $includes = json_decode($includes);
         }
 
+        // Create unique cache key with the unique paramters a user may have
+        $cacheKey = 'node_benchmarks_' . md5(json_encode($includes) . $sellOrderSetting . $tax); 
+        // If data has been cached, then return that instead
+        $cachedResponse = Cache::get($cacheKey); 
+        if ($cachedResponse){
+            //Log::info('this is the cached benchmarks: ', $cachedResponse);
+            return response()->json($cachedResponse); 
+        }
+
         $response = [];
         $nodes = [];
 
@@ -87,6 +96,9 @@ class BenchmarkController extends Controller
             'dropRates' => $nodeDropRates,
         ];
 
+        // Store unique cache key for the next [time] minutes
+        Cache::put($cacheKey, $response, now()->addHours(24)); 
+
         return response()->json($response);
     }
 
@@ -97,6 +109,15 @@ class BenchmarkController extends Controller
             $includes = [];
         } else {
             $includes = json_decode($includes);
+        }
+
+        // Create unique cache key with the unique paramters a user may have
+        $cacheKey = 'node_farm_benchmarks_' . md5(json_encode($includes) . $sellOrderSetting . $tax); 
+        // If data has been cached, then return that instead
+        $cachedResponse = Cache::get($cacheKey); 
+        if ($cachedResponse){
+            //Log::info('this is the cached benchmarks: ', $cachedResponse);
+            return response()->json($cachedResponse); 
         }
 
         $response = [];
@@ -190,6 +211,9 @@ class BenchmarkController extends Controller
             ]);
         }
 
+        // Store unique cache key for the next [time] minutes
+        Cache::put($cacheKey, $response, now()->addHours(24)); 
+
         $response = [
             'benchmarks' => $map,
             'combinations' => $combinations
@@ -204,6 +228,15 @@ class BenchmarkController extends Controller
             $includes = [];
         } else {
             $includes = json_decode($includes);
+        }
+
+        // Create unique cache key with the unique paramters a user may have
+        $cacheKey = 'glyph_benchmarks_' . md5(json_encode($includes) . $sellOrderSetting . $tax); 
+        // If data has been cached, then return that instead
+        $cachedResponse = Cache::get($cacheKey); 
+        if ($cachedResponse){
+            //Log::info('this is the cached benchmarks: ', $cachedResponse);
+            return response()->json($cachedResponse); 
         }
 
         $response = []; 
@@ -264,78 +297,11 @@ class BenchmarkController extends Controller
             'dropRates' => $glyphDropRates
         ];
 
+        // Store unique cache key for the next [time] minutes
+        Cache::put($cacheKey, $response, now()->addHours(24)); 
+
         return response()->json($response);
     }
-
-    // public function nodes($pick, $axe, $sickle, $includes, $sellOrderSetting, $tax){
-    //     // Make it a workable arrays
-    //     // New accounts that haven't set any settings may still have "null"
-    //     // if ($includes == "null"){
-    //     //     $includes = [];
-    //     // } else {
-    //     //     $includes = json_decode($includes);
-    //     // }
-
-    //     //dd($pick, $axe, $sickle);
-
-    //     $response = [];
-    //     $map = []; 
-
-    //     $nodeBenchmarkDropRates = NodeBenchmarkDropRate::join('node_benchmarks', 'node_benchmark_id', '=', 'node_benchmarks.id')
-    //     ->join('nodes', 'node_id', '=', 'nodes.id')
-    //     ->select(
-    //         'node_benchmark_drop_rates.*',
-    //         'node_benchmarks.*',
-    //         'nodes.*',
-    //         'node_benchmarks.name as map_name',
-    //         'node_benchmarks.sample_size as sample_size'
-    //     )
-    //     ->get()
-    //     ->groupBy('node_benchmark_id'); 
-
-    //     //dd($nodeBenchmarkDropRates);
-
-    //     foreach ($nodeBenchmarkDropRates as $group){
-
-    //         $value = 0;
-    //         $gph = 0;
-
-    //         foreach($group as $node){
-    //             //dd($node);
-    //             // The value for this particular item in this loop
-    //             // Reset for the next
-    //             $subValue = 0;
-    //             $subValue += $this->getNodeValue($pick, $axe, $sickle, $node->level, $node->node_id, $node->drop_rate, $includes, $sellOrderSetting, $tax);
-
-    //             $node->value = $subValue; 
-    //             $value += $subValue; 
-    //         }
-
-    //         $gph = (3600 / $group[0]->time) * $value;
-    //         //dd('gold per hour: '.$gph);
-    //         $map[] = [
-    //             'map' => $group[0]->map_name,
-    //             'type' => $pick .', '. $axe .', '. $sickle,
-    //             'time' => $group[0]->time,
-    //             'sample_size' => $group[0]->sample_size, 
-    //             'total' => $value,
-    //             'gph' => $gph,
-    //         ];
-            
-    //     }
-    //     $nodeBenchmarkDropRates = $nodeBenchmarkDropRates->values();
-
-    //     $response = [
-    //         'benchmarks' => $map,
-    //         'dropRates' => $nodeBenchmarkDropRates
-    //     ];
-    //     //dd($map);
-    //     //dd($map, $nodeBenchmarkDropRates);
-
-    //     return response()->json($response);
-
-    // }
-
 
     public function maps($includes, $filter, $sellOrderSetting, $tax){
         //dd($filter);

@@ -29,7 +29,7 @@ import Footer from '@/js/vue/components/general/Footer.vue'
 import NodeBenchmarks from '@/js/vue/components/benchmarks/NodeBenchmarks.vue';
 import Loading from '@/js/vue/components/general/Loading.vue'
 
-const nodes = ref([]),
+const nodes = ref(null),
     dropRates = ref([]);
 
 const currentlyRefreshing = ref(false),

@@ -3,7 +3,11 @@
     <Header page-name="Glyphs"/>
 
     <section class="main">
-        <div class="content-section">
+        <div class="content-section gap-content">
+            <Info 
+                message="Karma versions of these glyphs can be purchases at major cities and lounges under [Gathering Merchant]. Lion's Arch example: "
+                link="[&BCwEAAA=]"
+            />
             <GlyphBenchmarks
                 v-if="glyphs"
                 :benchmarks="glyphs"
@@ -11,7 +15,7 @@
             />
         </div>
     </section>
-    
+
     <Loading v-if="!glyphs || currentlyRefreshing" :width="200" :height="200" :progress="currentProgress"/>
     <Footer/>
 </template>
@@ -21,6 +25,8 @@ import { onMounted, ref, computed, watch } from 'vue'
 import { user, sellOrder, tax, includes, refreshSettings } from '@/js/vue/composables/Global';
 import { getAuthUser } from '@/js/vue/composables/Authentication';
 
+
+
 import Echo from 'laravel-echo';
 
 import Nav from '@/js/vue/components/general/Nav.vue'
@@ -28,9 +34,10 @@ import Header from '@/js/vue/components/general/Header.vue'
 import Footer from '@/js/vue/components/general/Footer.vue'
 import Benchmark from '@/js/vue/components/general/Benchmark.vue'
 import GlyphBenchmarks from '@/js/vue/components/benchmarks/GlyphBenchmarks.vue';
+import Info from '@/js/vue/components/general/Info.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
 
-const glyphs = ref([]),
+const glyphs = ref(null),
     dropRates = ref([]);
 
 const currentlyRefreshing = ref(false),
@@ -56,7 +63,7 @@ onMounted( async () => {
         console.log('user found')
         getGlyphs(url.value);
     }
-    console.log('glyph url: ', url.value);
+    //console.log('glyph url: ', url.value);
 })
 // Update the progress of loading the data 
 window.Echo.channel('progress')

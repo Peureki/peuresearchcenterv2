@@ -706,7 +706,7 @@ import CuriousLowlandHoneycomb from '@/imgs/icons/Curious_Lowland_Honeycomb.png'
 import Homestead from '@/imgs/icons/Homestead.png'
 import Armorer from '@/imgs/icons/Guild_Armorer.png'
 import UnidentifiedGear from '@/imgs/icons/Piece_of_Unidentified_Gear.png'
-import BulletList from '@/imgs/svgs/bullet_list.svg'
+import BulletList from '@/imgs/svgs/list.svg'
 import BlackIceBand from '@/imgs/icons/Black_Ice_Band.png'
 
 import PetrifiedWood from '@/imgs/icons/Petrified_Wood.png'

@@ -39,7 +39,7 @@ import Loading from '@/js/vue/components/general/Loading.vue'
 import Disclaimer from '@/js/vue/components/general/Disclaimer.vue'
 
 const mapBenchmarks = ref([]),
-    estNodeBenchmarks = ref([]),
+    estNodeBenchmarks = ref(null),
     combinations = ref([]),
     estNodeCombinations = ref([]),
     benchmarkToggle = ref(false),

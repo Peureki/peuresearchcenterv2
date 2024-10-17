@@ -21,6 +21,7 @@
             <div class="drop-rate">
                 <p>{{ Number(item.drop_rate) }}</p>
                 <p class="small-subtitle">({{ formatPercentage(item.drop_rate) }})</p>
+                <p v-if="item.level" class="small-subtitle">Lvl: {{ item.level }}</p>
             </div>
 
             <span class="gold-label-container">
