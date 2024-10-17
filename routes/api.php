@@ -150,7 +150,7 @@ Route::get('/merp', [FetchController::class, 'merp']);
 Route::get('/fetch-derp', [FetchController::class, 'fetchDerp']);
 
 // *
-// * BENCHMARKS
+// * GET BENCHMARKS
 // *
 Route::get('/benchmarks/maps/{includes}/{filter}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'maps']);
 
@@ -159,8 +159,10 @@ Route::get('/benchmarks/fishing/{includes}/{buyOrderSetting}/{sellOrderSetting}/
 
 Route::get('/benchmarks/glyphs/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'glyphs']);
 
-// ESTIMATED NODE BENCHMARKS
 Route::get('/benchmarks/nodes/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'nodes']);
+
+// ESTIMATED NODE BENCHMARKS
+Route::get('/benchmarks/node-farms/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'nodeFarms']);
 
 // OTHER RECIPES
 Route::get('/fetch-other-recipes', [FetchController::class, 'fetchOtherRecipes']);

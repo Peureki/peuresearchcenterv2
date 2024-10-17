@@ -1,10 +1,4 @@
 <template>
-    <PageButtons
-        v-if="combinations"
-        :data-array="combinations"
-        @new-url="handleNewUrl"
-    />
-
     <div class="card-grid">
         <div
             class="card-container"
@@ -13,7 +7,7 @@
             <!-- <p class="rank">{{ index + 1 }}</p> -->
             <div class="card">
                 
-                <img class="card-main-icon" :src="benchmark.mostValuedItemIcon" :alt="benchmark.mostValuedItemName" :title="benchmark.mostValuedItemName">
+                <img class="card-main-icon" :src="benchmark.icon" :alt="benchmark.name" :title="benchmark.name">
                 <div class="card-details">
                     <!--
                         *
@@ -23,14 +17,14 @@
                     <span class="card-title-and-value">
                         <!-- MAP TITLE -->
                         <span class="title-container">
-                            <p class="title node">{{ benchmark.map }}
+                            <p class="title node">{{ benchmark.name }}
                             </p>  
                         </span>
                         <!-- MAP VALUE -->
                         <span class="gold-label-container benchmark-value">
                             <span 
                                 class="gold-label"
-                                v-for="gold in formatValue(benchmark.gph)"
+                                v-for="gold in formatValue(benchmark.value)"
                             >
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.title">
                             </span>
@@ -43,11 +37,10 @@
                     -->
                     <span class="card-map-and-info">
                         <span class="img-and-label">
-                            <span v-for="(glyph, index) in benchmark.glyphs" class="img-and-label">
-                                <img :src="setGatheringToolIcons(index)" :alt="glyph.name" :title="glyph.name">
-                                <p>{{ glyph.name }}</p>
-                            </span>
+                            <img :src="setGlyphType(benchmark.type)" :alt="benchmark.type" :title="benchmark.type">
+                            <p>{{ benchmark.type }}</p>
                         </span>
+                        
                         
                         <!--
                             *
@@ -55,10 +48,10 @@
                             *
                         -->
                         <span class="card-info-container">
-                            <span class="card-currencies" v-for="currency in setCurrencies(combinations[index])">
+                            <!-- <span class="card-currencies" v-for="currency in setCurrencies(dropRates[index])">
                                 <img class="card-currency" :src="currency.icon">
                                 <p>{{ currency.value }}</p>
-                            </span>
+                            </span> -->
 
                             <svg 
                                 class="arrow"
@@ -78,36 +71,18 @@
                 class="details-container"
             >
                 <MobileDetailsTable
-                    :drop-rates="benchmark.nodes"
+                    :drop-rates="dropRates[index]"
                 />
 
                 <PieChart
                     v-if="!isMobile"
-                    :drop-rates="benchmark.nodes"
+                    :drop-rates="dropRates[index]"
                 />
-
-                <!--
-                    *
-                    * GATHERING ROUTE GUIDES FOR SPECIFIC FARMS
-                    *
-                -->
-                <BloodstoneFen v-if="benchmark.map == 'Bloodstone Fen (Logs, Plants)'"/>
-                <DraconisMons v-if="benchmark.map == 'Draconis Mons (Plants)'"/>
-                <Flax v-if="benchmark.map == 'Flax (Plants)'"/>
-                <HoneyFlowersAndLowlandPineSaplings v-if="benchmark.map == 'Honey Flowers & Lowland Pine Saplings'"/> 
-                <MaguumaLilies v-if="benchmark.map == 'Maguuma Lilies (Herbs)'"/>
-                <Mussels v-if="benchmark.map == 'Mussels (Plants)'"/>
-                <RichNodes v-if="benchmark.map == 'Rich Nodes (Iron, Platinum)'"/>
-                
             </div>
         </div>
     </div>
 
-    <PageButtons
-        v-if="combinations"
-        :data-array="combinations"
-        @new-url="handleNewUrl"
-    />
+    
 
     
 </template>
@@ -130,55 +105,12 @@ import Ore from '@/imgs/icons/Ore.png'
 import Log from '@/imgs/icons/Log.png'
 import Plant from '@/imgs/icons/Plant.png'
 
-// GUIDES
-import BloodstoneFen from '@/js/vue/components/guides/nodes/BloodstoneFen.vue'
-import DraconisMons from '@/js/vue/components/guides/nodes/DraconisMons.vue'
-import Flax from '@/js/vue/components/guides/nodes/Flax.vue'
-import HoneyFlowersAndLowlandPineSaplings from '@/js/vue/components/guides/nodes/HoneyFlowersAndLowlandPineSaplings.vue'
-import MaguumaLilies from '@/js/vue/components/guides/nodes/MaguumaLilies.vue'
-import Mussels from '@/js/vue/components/guides/nodes/Mussels.vue'
-import RichNodes from '@/js/vue/components/guides/nodes/RichNodes.vue'
-
-
 const props = defineProps({
     benchmarks: Object,
-    combinations: Object,
+    dropRates: Object,
 })
 
-const emit = defineEmits(['get-new-node-benchmark-url']);
 
-// Emit new url from PageButtons via pagnation
-const handleNewUrl = (url) => {
-    emit('get-new-node-benchmark-url', url); 
-}
-
-// Set gathering tool icons to v-for when displaying which glyphs to use 
-const setGatheringToolIcons = (index) => {
-    switch (index){
-        case 0: return Ore; 
-        case 1: return Log;
-        case 2: return Plant;
-    }
-}
-
-const setCurrencies = (drops) => {
-    return null; 
-    // If benchmark does not contain any currencies
-    if (drops.hasOwnProperty('node_benchmark_id')){
-        return null; 
-    }
-
-    const set = new Set(); 
-    drops.forEach(item => {
-        if (item.currency_id && item.currency_id != 1){
-            set.add(JSON.stringify({ 
-                icon: item.icon, 
-                value: Math.round(item.drop_rate / item.time) 
-            }));
-        }
-    });
-    return Array.from(set).map(item => JSON.parse(item));
-}
 
 // Individually allow each card to be expanded or not
 // By default, have each card not expanded
@@ -193,7 +125,15 @@ const changeBackgroundType = (type) => {
     }
 }
 
-console.log('drop rates', props.combinations);
+const setGlyphType = (type) => {
+    switch (type){
+        case 'Ore': return Ore; 
+        case 'Log': return Log;
+        case 'Plant': return Plant;
+    }
+}
+
+console.log('drop rates', props.dropRates);
 
 </script>
 

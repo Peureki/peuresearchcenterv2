@@ -445,7 +445,9 @@
 
                         <NavPage category='benchmarks' url="glyphs" name="Glyphs" :icon="GlyphOfVolatility"/>
 
-                        <NavPage category='benchmarks' url="node-farms" name="Node Farms" :icon="ElderWoodLog"/>
+                        <NavPage category='benchmarks' url="nodes" name="Nodes" :icon="ElderWoodLog"/>
+
+                        <NavPage category='benchmarks' url="node-farms" name="Node Farms" :icon="ChoyaMiningTool"/>
 
                         <NavPage category='benchmarks' url="solo" name="Solo" :icon="CallTarget"/>
                     </div>
@@ -684,6 +686,7 @@ import VolatileMagic from '@/imgs/icons/Volatile_Magic.png'
 import ElderWoodLog from '@/imgs/icons/Elder_Wood_Log.png'
 import CallTarget from '@/imgs/icons/Call_Target.png'
 import GlyphOfVolatility from '@/imgs/icons/Glyph_of_Volatility.png'
+import ChoyaMiningTool from '@/imgs/icons/Choya_Mining_Tool.png'
 
 import CalcifiedGasp from '@/imgs/icons/Calcified_Gasp.png'
 import DragoniteOre from '@/imgs/icons/Dragonite_Ore.png'

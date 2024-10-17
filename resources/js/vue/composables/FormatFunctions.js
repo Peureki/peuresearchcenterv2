@@ -116,7 +116,7 @@ export function getCSSVariable(variable){
     return getComputedStyle(document.documentElement).getPropertyValue(variable).trim(); 
 }
 
-// Format time in seconds
+// Format time from seconds
 // Example 1hr, 30mins, 25seconds would be 01:30:25
 export function formatTime (seconds) {
     const hours = Math.floor(seconds / 3600);

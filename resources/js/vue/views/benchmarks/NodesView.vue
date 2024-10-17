@@ -1,18 +1,18 @@
 <template>
     <Nav/>
-    <Header page-name="Glyphs"/>
+    <Header page-name="Nodes"/>
 
     <section class="main">
         <div class="content-section">
-            <GlyphBenchmarks
-                v-if="glyphs"
-                :benchmarks="glyphs"
+            <NodeBenchmarks
+                v-if="nodes"
+                :benchmarks="nodes"
                 :drop-rates="dropRates"
             />
         </div>
     </section>
-    
-    <Loading v-if="!glyphs || currentlyRefreshing" :width="200" :height="200" :progress="currentProgress"/>
+
+    <Loading v-if="!nodes || currentlyRefreshing" :width="200" :height="200" :progress="currentProgress"/>
     <Footer/>
 </template>
 
@@ -26,11 +26,10 @@ import Echo from 'laravel-echo';
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import Footer from '@/js/vue/components/general/Footer.vue'
-import Benchmark from '@/js/vue/components/general/Benchmark.vue'
-import GlyphBenchmarks from '@/js/vue/components/benchmarks/GlyphBenchmarks.vue';
+import NodeBenchmarks from '@/js/vue/components/benchmarks/NodeBenchmarks.vue';
 import Loading from '@/js/vue/components/general/Loading.vue'
 
-const glyphs = ref([]),
+const nodes = ref([]),
     dropRates = ref([]);
 
 const currentlyRefreshing = ref(false),
@@ -38,7 +37,7 @@ const currentlyRefreshing = ref(false),
 
 // ESTIMATED farms
 const url = computed(() => {
-    return `../api/benchmarks/glyphs/${JSON.stringify(includes.value)}/${sellOrder.value}/${tax.value}`
+    return `../api/benchmarks/nodes/${JSON.stringify(includes.value)}/${sellOrder.value}/${tax.value}`
 })
 
 // BY DEFAULT
@@ -49,14 +48,14 @@ onMounted( async () => {
     // IF NO USER
     if (!user.value){
         console.log('no user')
-        getGlyphs(url.value);
+        getNodes(url.value);
     } 
     // USER FOUND
     else {
         console.log('user found')
-        getGlyphs(url.value);
+        getNodes(url.value);
     }
-    console.log('glyph url: ', url.value);
+    console.log('node url: ', url.value);
 })
 // Update the progress of loading the data 
 window.Echo.channel('progress')
@@ -79,7 +78,7 @@ const sortBenchmarks = (benchmarks) => {
         const sortedDropRates = indexes.map(index => dropRates.value[index]);
 
         // Update the ref values with sorted data
-        glyphs.value = sortedBenchmarks;
+        nodes.value = sortedBenchmarks;
         dropRates.value = sortedDropRates;
 
         //console.log('sorted: ', fishingHoles.value, dropRates.value);
@@ -87,16 +86,16 @@ const sortBenchmarks = (benchmarks) => {
     }
 }
 
-const getGlyphs = async (url) => {
+const getNodes = async (url) => {
     const response = await fetch(url);
     const responseData = await response.json(); 
     
     if (responseData){
         console.log('response data: ', responseData)
-        glyphs.value = responseData.benchmarks;
+        nodes.value = responseData.benchmarks;
         dropRates.value = responseData.dropRates;  
         
-        sortBenchmarks(glyphs.value);
+        sortBenchmarks(nodes.value);
         
         currentlyRefreshing.value = false;
     }

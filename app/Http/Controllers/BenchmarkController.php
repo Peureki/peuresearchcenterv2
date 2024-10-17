@@ -28,6 +28,80 @@ class BenchmarkController extends Controller
         }
 
         $response = [];
+        $nodes = [];
+
+        $nodeDropRates = NodeDropRate::leftjoin('nodes', 'node_id', 'nodes.id')
+        ->leftjoin('items', 'node_drop_rates.item_id', 'items.id')
+        ->leftjoin('currencies', 'node_drop_rates.currency_id', 'currencies.id')
+        ->select(
+            'node_drop_rates.*',
+            'nodes.*',
+            'items.*',
+            'currencies.*',
+            'nodes.name as node_name',
+            'nodes.type as node_type',
+            'items.name as item_name',
+            'items.icon as item_icon',
+            'currencies.name as currencies_name',
+            'currencies.icon as currencies_icon',
+        )
+        ->get()
+        ->groupBy('node_id');
+
+        foreach ($nodeDropRates as $group){
+            $nodeValue = 0; 
+
+            $nodeIcon = null; 
+            $mostValuedItem = 0; 
+
+            // Calculate items that can drop from a node
+            foreach ($group as $item){
+                $subNodeValue = 0;
+
+                $subNodeValue += $this->getItemValue($item, $includes, $sellOrderSetting, $tax);
+
+                if ($subNodeValue == 0){
+                    //dd($item, $subNodeValue);
+                }
+
+                $nodeValue += $subNodeValue;
+                $item->value = $subNodeValue; 
+
+                if ($subNodeValue > $mostValuedItem){
+                    $mostValuedItem = $subNodeValue;
+                    $nodeIcon = $item->item_icon; 
+                }
+            }
+
+            array_push($nodes, [
+                'value' => $nodeValue, 
+                'name' => $group[0]->node_name, 
+                'icon' => $nodeIcon,
+                'type' => $group[0]->node_type,
+            ]);
+        }
+
+        $nodeDropRates = $nodeDropRates->values();
+
+        //dd($nodeDropRates);
+        $response = [
+            'benchmarks' => $nodes,
+            'dropRates' => $nodeDropRates,
+        ];
+
+        return response()->json($response);
+    }
+
+    public function nodeFarms($includes, $sellOrderSetting, $tax){
+        // Make it a workable arrays
+        // New accounts that haven't set any settings may still have "null"
+        if ($includes == "null"){
+            $includes = [];
+        } else {
+            $includes = json_decode($includes);
+        }
+
+        $response = [];
         $map = [];
         $dropRates = [];
 
@@ -114,6 +188,7 @@ class BenchmarkController extends Controller
                 'mostValuedItemIcon' => $benchmark['most_valued_item_icon'],
                 'nodes' => $currentNode,
                 'glyphs' => $glyphs,
+                'time' => $benchmark['time'],
             ]);
         }
 

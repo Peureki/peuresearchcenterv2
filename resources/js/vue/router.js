@@ -6,6 +6,7 @@ import HomeView from './views/HomeView.vue'
 import BenchmarksMapsView from './views/benchmarks/MapsView.vue'
 import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
 import BenchmarksGlyphsView from '@/js/vue/views/benchmarks/GlyphsView.vue'
+import BenchmarksNodesView from '@/js/vue/views/benchmarks/NodesView.vue'
 import BenchmarksNodeFarmsView from '@/js/vue/views/benchmarks/NodeFarmsView.vue'
 import BenchmarksSoloView from '@/js/vue/views/benchmarks/SoloView.vue'
 /*
@@ -121,6 +122,11 @@ const routes = [
         path: '/benchmarks/glyphs',
         component: BenchmarksGlyphsView,
         name: 'benchmarks-glyphs',
+    },
+    {
+        path: '/benchmarks/nodes',
+        component: BenchmarksNodesView,
+        name: 'benchmarks-nodes',
     },
     {
         path: '/benchmarks/node-farms',

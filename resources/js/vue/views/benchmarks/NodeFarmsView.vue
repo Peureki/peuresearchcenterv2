@@ -7,7 +7,7 @@
 
     <section class="main">
         <div class="content-section">
-            <NodeBenchmarks
+            <NodeFarmBenchmarks
                 v-if="estNodeToggle"
                 :benchmarks="estNodeBenchmarks"
                 :combinations="estNodeCombinations"
@@ -34,7 +34,7 @@ import { getAuthUser } from '@/js/vue/composables/Authentication';
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import Footer from '@/js/vue/components/general/Footer.vue'
-import NodeBenchmarks from '@/js/vue/components/benchmarks/NodeBenchmarks.vue';
+import NodeFarmBenchmarks from '@/js/vue/components/benchmarks/NodeFarmBenchmarks.vue';
 import Loading from '@/js/vue/components/general/Loading.vue'
 import Disclaimer from '@/js/vue/components/general/Disclaimer.vue'
 
@@ -53,7 +53,7 @@ const filter = ['Node'];
 
 // ESTIMATED farms
 const estURL = computed(() => {
-    return `../api/benchmarks/nodes/${JSON.stringify(includes.value)}/${sellOrder.value}/${tax.value}`
+    return `../api/benchmarks/node-farms/${JSON.stringify(includes.value)}/${sellOrder.value}/${tax.value}`
 })
 
 // BY DEFAULT
