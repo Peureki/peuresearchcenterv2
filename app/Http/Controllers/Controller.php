@@ -1896,7 +1896,7 @@ class Controller extends BaseController
         // || strpos($item->description, 'unbound magic')){
         //     dd($item);
         // }
-        // if ($item->name == 'Glyph of the Unbound'){
+        // if ($item->name == 'Branded Mass'){
         //     dd($item);
         // }
 

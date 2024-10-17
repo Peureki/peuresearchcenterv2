@@ -43,8 +43,9 @@ class BenchmarkController extends Controller
             'items.name as name',
             'items.name as item_name',
             'items.icon as item_icon',
-            'currencies.name as currencies_name',
-            'currencies.icon as currencies_icon',
+            'items.description as item_description',
+            'currencies.name as currency_name',
+            'currencies.icon as currency_icon',
         )
         ->get()
         ->groupBy('node_id');
@@ -60,10 +61,6 @@ class BenchmarkController extends Controller
                 $subNodeValue = 0;
 
                 $subNodeValue += $this->getItemValue($item, $includes, $sellOrderSetting, $tax);
-
-                // if ($subNodeValue == 0){
-                //     dd($item, $subNodeValue);
-                // }
 
                 $nodeValue += $subNodeValue;
                 $item->value = $subNodeValue; 
