@@ -53,9 +53,11 @@ watch(user, (userData) => {
 
         // APPLY DEFAULT FILTERS if property doesn't exist in the user's database
         // This should only be the case for new users
-        if (userData.filters){
+        if (!userData.filters){
+            userData.filters = {}; 
+
             Object.keys(filters.value).forEach(key => {
-                if (!userData.filters.hasOwnProperty(key)){
+                if (!userData.filters.hasOwnProperty(key) || !userData.filters[key]){
                     userData.filters[key] = filters.value[key];
                 }
             })

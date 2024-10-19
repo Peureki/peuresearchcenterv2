@@ -133,6 +133,8 @@ const filterGlyphs = ['All', 'Bounty'],
     filterLevels = ref(null),
     filterTypes = ref(null);
 
+console.log('filters: ', filters.value.showGlyph);
+
 // ALL GLYPHS
 const allGlyphURL = computed(() => {
     return `../api/benchmarks/glyphs/${JSON.stringify(includes.value)}/${sellOrder.value}/${tax.value}`
