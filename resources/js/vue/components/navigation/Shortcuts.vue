@@ -110,7 +110,7 @@
 </template>
 
 <script setup>
-import { isMobile, user } from '@/js/vue/composables/Global';
+import { isMobile, user, settingsToggle, filtersToggle } from '@/js/vue/composables/Global';
 import { logout } from '@/js/vue/composables/Authentication'
 import { openNewTab } from '@/js/vue/composables/BasicFunctions';
 

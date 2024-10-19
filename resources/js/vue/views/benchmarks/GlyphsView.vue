@@ -103,8 +103,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed, watch } from 'vue'
-import { user, sellOrder, tax, includes, refreshSettings, filters} from '@/js/vue/composables/Global';
+import { onMounted, ref, computed, watch, onUnmounted } from 'vue'
+import { user, sellOrder, tax, includes, refreshSettings, filters, filtersToggle } from '@/js/vue/composables/Global';
 import { getAuthUser } from '@/js/vue/composables/Authentication';
 
 
@@ -116,7 +116,7 @@ import NodeBenchmarks from '@/js/vue/components/benchmarks/NodeBenchmarks.vue';
 import Info from '@/js/vue/components/general/Info.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
 import FilterRadio from '@/js/vue/components/filters/FilterRadio.vue'
-import FilterToggle from '@/js/vue/components/filters/FilterToggle.vue';
+import FilterToggle from '@/js/vue/components/filters/FilterToggle.vue'
 
 const glyphs = ref(null),
     nodes = ref(null),
@@ -276,7 +276,14 @@ const getGlyphBountyNodes = async (url) => {
         sortNodes(nodes.value);
     }
 }
-
+// Show Filters tab
+onMounted(() => {
+    filtersToggle.value = true; 
+})
+// Don't show Filters tab when leaving the page
+onUnmounted(() => {
+    filtersToggle.value = false;
+})
 
 watch(refreshSettings, async (newSettings) => {
     if (newSettings){

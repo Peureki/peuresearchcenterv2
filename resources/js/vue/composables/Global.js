@@ -21,6 +21,11 @@ export const isMobile = ref(window.innerWidth < 786);
 export const mainNavToggle = ref(isMobile ? false : true);
 export const mobileHamburger = ref(isMobile ? true : false);
 
+// SHORTCUT TOGGLES
+export const settingsToggle = ref(false),
+    filtersToggle = ref(false),
+    bookmarksToggle = ref(false),
+    apiKeyToggle = ref(false);
 
 // SETTINGS
 // DEFAULTS
@@ -52,7 +57,7 @@ watch(user, (userData) => {
         filterResearchNotes.value = userData.filter_research_notes;
 
         // APPLY DEFAULT FILTERS if property doesn't exist in the user's database
-        // This should only be the case for new users
+        // This should only be the case for new users or people who do not have any filter settings filled yet
         if (!userData.filters){
             userData.filters = {}; 
 

@@ -658,7 +658,7 @@ import { ref, watch, provide, onMounted, onUnmounted, computed, nextTick } from 
 
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
-import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings, loginToggle, mainNavToggle, mobileHamburger, favorites, filterResearchNotes, filters } from '@/js/vue/composables/Global.js';
+import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings, loginToggle, mainNavToggle, mobileHamburger, favorites, filterResearchNotes, filters, settingsToggle, bookmarksToggle, filtersToggle, apiKeyToggle } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
 import { getAuthUser, logout, register } from '@/js/vue/composables/Authentication';
 
@@ -938,10 +938,7 @@ const benchmarksToggle = ref(true),
     timersToggle = ref(true),
     generalToggle = ref(true);
 
-const settingsToggle = ref(false),
-    filtersToggle = ref(false),
-    bookmarksToggle = ref(false),
-    apiKeyToggle = ref(false);
+
 
 // Change buy and sell order settings
 const changeOrder = (order) => {

@@ -124,7 +124,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
@@ -143,7 +143,7 @@ import FilterToggle from '@/js/vue/components/general/FilterToggle.vue'
 import { pageRefresh } from '@/js/vue/composables/BasicFunctions'
 import { checkIfFavorite } from '@/js/vue/composables/FormatFunctions'
 import axios from 'axios'
-import { filterResearchNotes, user, buyOrder, sellOrder, tax, refreshSettings, favorites, refreshFavorites } from '@/js/vue/composables/Global'
+import { filterResearchNotes, user, buyOrder, sellOrder, tax, refreshSettings, favorites, refreshFavorites, filtersToggle } from '@/js/vue/composables/Global'
 import { getAuthUser } from '@/js/vue/composables/Authentication'
 
 // *
@@ -242,6 +242,15 @@ onMounted( async () => {
     
     //console.log('favorites url: ', favoritesUrl.value);
     checkFilterDisclaimers(filterResearchNotes.value);
+})
+
+// Show Filters tab
+onMounted(() => {
+    filtersToggle.value = true; 
+})
+// Don't show Filters tab when leaving the page
+onUnmounted(() => {
+    filtersToggle.value = false;
 })
 
 // Check if the filters need their Disclaimers to be active or not
