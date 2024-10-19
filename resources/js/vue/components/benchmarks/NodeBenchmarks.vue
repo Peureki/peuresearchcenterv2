@@ -21,14 +21,28 @@
                             </p>  
                         </span>
                         <!-- MAP VALUE -->
-                        <span class="gold-label-container benchmark-value">
-                            <span 
-                                class="gold-label"
-                                v-for="gold in formatValue(benchmark.value)"
-                            >
-                                {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.title">
+                        <span class="img-and-label">
+                            <span v-if="benchmark.bountyValue" class="gold-label-container benchmark-value">
+                                (+<span 
+                                    class="gold-label"
+                                    v-for="gold in formatValue(benchmark.bountyValue)"
+                                >
+                                    {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.title">
+                                </span>)
                             </span>
+                            
+                            <span class="gold-label-container benchmark-value">
+                                <span 
+                                    class="gold-label"
+                                    v-for="gold in formatValue(benchmark.value)"
+                                >
+                                    {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.title">
+                                </span>
+                            </span>
+
+                            
                         </span>
+                        
                     </span>
                     <!--
                         *

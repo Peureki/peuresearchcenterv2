@@ -32,6 +32,11 @@ export const includes = ref([]);
 export const favorites = ref([]);
 export const checklist = ref([]);
 export const filterResearchNotes = ref(["Crafting","TP","Armorsmith","Artificer","Chef","Huntsman","Jeweler","Leatherworker","Scribe","Tailor","Weaponsmith","Consumable","Armor","Weapon","Back","Trinket"]);
+export const filters = ref({
+    showGlyph: 'All', 
+    toggleGlyphLevels: ['All', '1-15', '16-40', '41-55', '56-70', '71-80'],
+    toggleGlyphTypes: ['Ore', 'Log', 'Plant'],
+})
 // MAKE THIS 'TRUE' IN FUNCTIONS THAT ALTER THE SETTINGS TO TRIGGER A REFRESH OF DATA ON PAGES
 export const refreshSettings = ref(false);
 export const refreshFavorites = ref(false); 
@@ -45,5 +50,18 @@ watch(user, (userData) => {
         tax.value = userData.settings_tax; 
         includes.value = userData.includes;
         filterResearchNotes.value = userData.filter_research_notes;
+
+        // APPLY DEFAULT FILTERS if property doesn't exist in the user's database
+        // This should only be the case for new users
+        if (userData.filters){
+            Object.keys(filters.value).forEach(key => {
+                if (!userData.filters.hasOwnProperty(key)){
+                    userData.filters[key] = filters.value[key];
+                }
+            })
+            // Otherwise apply filters.value with user settings
+            filters.value = userData.filters; 
+        }
     }
+    
 })

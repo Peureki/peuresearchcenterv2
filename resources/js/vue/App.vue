@@ -478,7 +478,7 @@ span.bookmark-label{
     * FILTER CONTAINERS 
     =================================================
 */
-.filter-container{
+.filter-container, .filter-collection-container{
     display: flex;
     flex-direction: column;
     gap: var(--gap-general);

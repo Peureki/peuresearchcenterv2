@@ -82,4 +82,26 @@ class UserController extends Controller
             $user->update(['favorites' => $request->favorites]);
         }
     }
+
+    public function saveFilters(Request $request){
+        $request->validate([
+            'filters' => 'nullable|array',
+        ]);
+
+        $user = auth()->user(); 
+        
+        if ($user){
+            // If checklist is null, input an empty array
+            $user->update(['filters' => $request->filters ?? []]);
+        }
+    }
+
+    public function getFilters(Request $request){
+        $user = auth()->user(); 
+
+        if ($user){
+            $filters = $user->filters; 
+            return response()->json($filters);
+        }
+    }
 }

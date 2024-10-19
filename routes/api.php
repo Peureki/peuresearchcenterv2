@@ -49,6 +49,10 @@ Route::post('/user/saveFilterResearchNotes', [UserController::class, 'saveFilter
 
 Route::post('/user/saveFavorites', [UserController::class, 'saveFavorites']);
 
+Route::get('/user/getFilters', [UserController::class, 'getFilters']);
+Route::post('/user/saveFilters', [UserController::class, 'saveFilters']);
+
+
 
 
 // *

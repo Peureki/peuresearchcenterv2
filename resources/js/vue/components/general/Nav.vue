@@ -658,7 +658,7 @@ import { ref, watch, provide, onMounted, onUnmounted, computed, nextTick } from 
 
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
-import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings, loginToggle, mainNavToggle, mobileHamburger, favorites, filterResearchNotes } from '@/js/vue/composables/Global.js';
+import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings, loginToggle, mainNavToggle, mobileHamburger, favorites, filterResearchNotes, filters } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
 import { getAuthUser, logout, register } from '@/js/vue/composables/Authentication';
 
@@ -1012,6 +1012,7 @@ watch(user, (userData) => {
         sellOrder.value = userData.settings_sell_order;
         tax.value = userData.settings_tax; 
         includes.value = userData.includes;
+        filters.value = userData.filters;
         filterResearchNotes.value = userData.filter_research_notes;
         favorites.value = userData.favorites; 
     }

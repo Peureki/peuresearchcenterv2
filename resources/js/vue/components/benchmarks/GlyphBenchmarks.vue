@@ -2,11 +2,10 @@
     <div class="card-grid">
         <div
             class="card-container"
-            v-for="(benchmark, index) in benchmarks" :key="index"
+            v-for="(benchmark, index) in filteredBenchmarks" :key="index"
         >
             <!-- <p class="rank">{{ index + 1 }}</p> -->
             <div class="card">
-                
                 <img class="card-main-icon" :src="benchmark.icon" :alt="benchmark.name" :title="benchmark.name">
                 <div class="card-details">
                     <!--
@@ -99,7 +98,7 @@ import MobileBenchmarkTable from '@/js/vue/components/tables/MobileBenchmarkTabl
 import MobileDetailsTable from '@/js/vue/components/tables/MobileDetailsTable.vue'
 import PageButtons from '@/js/vue/components/general/PageButtons.vue'
 
-import { isMobile } from '@/js/vue/composables/Global.js'
+import { isMobile, filters } from '@/js/vue/composables/Global.js'
 
 import Ore from '@/imgs/icons/Ore.png'
 import Log from '@/imgs/icons/Log.png'
@@ -108,6 +107,16 @@ import Plant from '@/imgs/icons/Plant.png'
 const props = defineProps({
     benchmarks: Object,
     dropRates: Object,
+})
+
+// *
+// * FILTER BENCHMARKS
+// * If filters are applied, then display appropiately
+const filteredBenchmarks = computed(() => {
+    return props.benchmarks.filter(benchmark => 
+        filters.value.toggleGlyphLevels.includes(benchmark.level)
+        && filters.value.toggleGlyphTypes.includes(benchmark.type)
+    );
 })
 
 
@@ -132,8 +141,6 @@ const setGlyphType = (type) => {
         case 'Plant': return Plant;
     }
 }
-
-console.log('drop rates', props.dropRates);
 
 </script>
 

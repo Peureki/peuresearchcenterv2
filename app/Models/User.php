@@ -29,6 +29,7 @@ class User extends Authenticatable
         'settings_sell_order',
         'settings_tax',
         'favorites',
+        'filters',
     ];
 
     /**
@@ -53,5 +54,6 @@ class User extends Authenticatable
         'includes' => 'array',
         'filter_research_notes' => 'array',
         'favorites' => 'array',
+        'filters' => 'array',
     ];
 }
