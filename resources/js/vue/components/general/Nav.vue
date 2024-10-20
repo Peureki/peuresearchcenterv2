@@ -1005,14 +1005,20 @@ watch(isMobile, (newIsMobile) => {
 //UPDATE settings when user has logged on or off
 watch(user, (userData) => {
     if (userData){
-        
         buyOrder.value = userData.settings_buy_order;
         sellOrder.value = userData.settings_sell_order;
         tax.value = userData.settings_tax; 
         includes.value = userData.includes;
-        filters.value = userData.filters;
+        
         filterResearchNotes.value = userData.filter_research_notes;
         favorites.value = userData.favorites; 
+
+        // IF COLUMNS ARE EMPTY OR NULL 
+        // THEN USE DEFAULTS via Global.js
+        // Pages that use these filters will respectively populate the database with defaults
+        if (userData.filter){
+            filters.value = userData.filters;
+        }
     }
 })
 

@@ -125,7 +125,6 @@ const props = defineProps({
 })
 
 const filteredBenchmarks = computed(() => {
-    console.log(filters.value.toggleGlyphTypes);
     return props.benchmarks.filter(benchmark => 
         filters.value.toggleNodeTypes.includes(benchmark.type)
     );
