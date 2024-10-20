@@ -780,7 +780,10 @@ const toggleTheme = (currentTheme) => {
     document.documentElement.setAttribute('data-theme', currentTheme);
     if (user.value){
         saveTheme(); 
-    } 
+    } else {
+        localStorage.setItem('theme', theme.value); 
+        console.log(localStorage);
+    }
 }
 
 // *
@@ -1032,6 +1035,11 @@ const checkMobile = () => { isMobile.value = window.innerWidth < 768 };
 onMounted(() => {
     window.addEventListener('resize', checkMobile);
     checkMobile();
+
+    // IF NO USER, check localStorage for theme if non-auth user selected it at some point
+    if (!user.value){
+        theme.value = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+    }
 });
 
 // As isMobile changes, when it reaches true/false, update the navigation

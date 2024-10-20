@@ -34,6 +34,13 @@
                 const savedTheme = '{{ auth()->user()->theme }}';
                 document.documentElement.setAttribute('data-theme', savedTheme);
             </script>
+        @else
+            <script>
+                const localTheme = localStorage.getItem('theme') ? 
+                    localStorage.getItem('theme') : null;
+
+                document.documentElement.setAttribute('data-theme', localTheme);
+            </script>
         @endif
 
 
