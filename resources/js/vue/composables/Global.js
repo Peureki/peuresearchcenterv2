@@ -41,34 +41,28 @@ export const filters = ref({
     showGlyph: 'All', 
     toggleGlyphLevels: ['All', '1-15', '16-40', '41-55', '56-70', '71-80'],
     toggleGlyphTypes: ['Ore', 'Log', 'Plant'],
+    toggleNodeTypes: ['Ore', 'Log', 'Plant'],
 })
 // MAKE THIS 'TRUE' IN FUNCTIONS THAT ALTER THE SETTINGS TO TRIGGER A REFRESH OF DATA ON PAGES
 export const refreshSettings = ref(false);
 export const refreshFavorites = ref(false); 
 
-// UPDATE settings when user has logged on or off
-watch(user, (userData) => {
-    console.log('userdata: ', userData)
-    if (userData){
-        buyOrder.value = userData.settings_buy_order;
-        sellOrder.value = userData.settings_sell_order;
-        tax.value = userData.settings_tax; 
-        includes.value = userData.includes;
-        filterResearchNotes.value = userData.filter_research_notes;
+// // UPDATE settings when user has logged on or off
+// watch(user, (userData) => {
+//     if (userData){
+//         buyOrder.value = userData.settings_buy_order;
+//         sellOrder.value = userData.settings_sell_order;
+//         tax.value = userData.settings_tax; 
+//         includes.value = userData.includes;
+//         filterResearchNotes.value = userData.filter_research_notes;
+//         filters.value = userData.filters; 
 
-        // APPLY DEFAULT FILTERS if property doesn't exist in the user's database
-        // This should only be the case for new users or people who do not have any filter settings filled yet
-        if (!userData.filters){
-            userData.filters = {}; 
-
-            Object.keys(filters.value).forEach(key => {
-                if (!userData.filters.hasOwnProperty(key) || !userData.filters[key]){
-                    userData.filters[key] = filters.value[key];
-                }
-            })
-            // Otherwise apply filters.value with user settings
-            filters.value = userData.filters; 
-        }
-    }
+//         console.log('when does this happen')
+//         // APPLY DEFAULT FILTERS if property doesn't exist in the user's database
+//         // This should only be the case for new users or people who do not have any filter settings filled yet
+//         // if (!userData.filters){
+//         //     userData.filters = filters.value; 
+//         // }
+//     }
     
-})
+// })

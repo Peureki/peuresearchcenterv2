@@ -9,13 +9,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, nextTick } from 'vue'
 import { filters } from '@/js/vue/composables/Global'
 import axios from 'axios';
+import { getAuthUser } from '@/js/vue/composables/Authentication';
 
 const props = defineProps({
     toggleOptions: Object, 
-    filterProperty: String,
     filterPropertyName: String,
 })
 
@@ -30,13 +30,10 @@ const chooseActiveFilter = (index) => {
 // Check if filters has desired property
 // Ex: showGlyphs
 const checkFilters = () => {
-    try {
-        if (props.filterProperty){
-            // Set active index to show which filter option is active
-            activeIndex.value = props.toggleOptions.indexOf(props.filterProperty);
-        }
-    } catch (error){
-        console.log('Cannot find filter property', error);
+    if (filters.value[props.filterPropertyName]){
+        activeIndex.value = props.toggleOptions.indexOf(filters.value[props.filterPropertyName]);
+
+        console.log('index of: ', props.toggleOptions.indexOf(filters.value[props.filterPropertyName]), filters.value[props.filterPropertyName], filters.value)
     }
 }
 
@@ -59,7 +56,7 @@ const saveFilters = async () => {
         })
 
         if (response){
-            console.log('Saved filters');
+            console.log('Saved filters', filters.value);
         }
     } catch (error){
         console.log('Could not save Filters: ', error);

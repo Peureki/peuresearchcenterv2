@@ -158,7 +158,6 @@ export function formatToDecimal(number){
 // By default, .favorite is false
 // If yes => .favorite = true
 export const checkIfFavorite = (researchNotes) => {
-    console.log(researchNotes);
 
     researchNotes.forEach(item => item.favorite = false);
 
@@ -172,4 +171,22 @@ export const checkIfFavorite = (researchNotes) => {
         })
     }
 }
-  
+
+// *
+// * LIST PROPERTIES
+// * Create a list of unique properties from a given array
+// * Ex: glyph[0].level: All, glyph[1].level = '71-80'
+// * List: ['All', '71-80']
+export const listProperties = (desiredProperty, targetArray) => {
+    // Initalize a new Set
+    const uniqueValues = new Set(); 
+    // Check if the array has the desired property
+    // If yes => add to Set if unique
+    targetArray.forEach(item => {
+        if (item.hasOwnProperty(desiredProperty)){
+            uniqueValues.add(item[desiredProperty]);
+        }
+    })
+
+    return Array.from(uniqueValues); 
+}

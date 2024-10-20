@@ -403,6 +403,7 @@
                 <Transition name="fade-right">
                     
                     <div v-if="filtersToggle" class="shortcut-container" ref="filtersElement">
+                        <p v-if="!user" class="error-message">Register/Login to be able to save these Filters</p>
                         <slot 
                             name="filters"
                         />
@@ -988,23 +989,23 @@ watch(isMobile, (newIsMobile) => {
         mobileHamburger.value = false;
         mainNavToggle.value = true; 
     }
-    console.log(newIsMobile);
 }, {
     immediate: true,
 })
 
-onMounted(async () => {
-    if (!user.value){
-        getAuthUser();
-    }
+// onMounted(async () => {
+//     if (!user.value){
+//         getAuthUser();
+//     }
     
-})
+// })
 
 
 
-// UPDATE settings when user has logged on or off
+//UPDATE settings when user has logged on or off
 watch(user, (userData) => {
     if (userData){
+        
         buyOrder.value = userData.settings_buy_order;
         sellOrder.value = userData.settings_sell_order;
         tax.value = userData.settings_tax; 

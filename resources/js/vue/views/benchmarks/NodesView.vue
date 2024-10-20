@@ -1,6 +1,28 @@
 <template>
-    <Nav/>
     <Header page-name="Nodes"/>
+    <Nav>
+        <template v-slot:filters>
+            <div class="filter-container">
+                <h3>Filters</h3>
+                <!-- 
+                    *
+                    * NODE TYPES
+                    *
+                -->
+                <div class="filter-collection-container" v-if="filterTypes">
+                    <p>Type</p>
+                    <div class="filter-collection">
+                        <FilterToggle
+                            v-for="type in filterTypes"
+                            :toggle-option="type"
+                            filter-property-name="toggleNodeTypes"
+                        />
+                    </div>
+                </div>
+            </div>
+        </template>
+
+    </Nav>
 
     <section class="main">
         <div class="content-section">
@@ -17,9 +39,10 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed, watch } from 'vue'
-import { user, sellOrder, tax, includes, refreshSettings } from '@/js/vue/composables/Global';
+import { onMounted, ref, computed, watch, onUnmounted } from 'vue'
+import { user, sellOrder, tax, includes, refreshSettings, filtersToggle } from '@/js/vue/composables/Global';
 import { getAuthUser } from '@/js/vue/composables/Authentication';
+import { listProperties } from '@/js/vue/composables/FormatFunctions';
 
 import Echo from 'laravel-echo';
 
@@ -28,12 +51,16 @@ import Header from '@/js/vue/components/general/Header.vue'
 import Footer from '@/js/vue/components/general/Footer.vue'
 import NodeBenchmarks from '@/js/vue/components/benchmarks/NodeBenchmarks.vue';
 import Loading from '@/js/vue/components/general/Loading.vue'
+import FilterToggle from '@/js/vue/components/filters/FilterToggle.vue';
 
 const nodes = ref(null),
     dropRates = ref([]);
 
 const currentlyRefreshing = ref(false),
     currentProgress = ref(0);
+
+// Initilize filters
+const filterTypes = ref(null); 
 
 // ESTIMATED farms
 const url = computed(() => {
@@ -47,16 +74,24 @@ onMounted( async () => {
     await getAuthUser();
     // IF NO USER
     if (!user.value){
-        console.log('no user')
+        //console.log('no user')
         getNodes(url.value);
     } 
     // USER FOUND
     else {
-        console.log('user found')
+        //console.log('user found')
         getNodes(url.value);
     }
-    console.log('node url: ', url.value);
+    // Show Filters tab
+    filtersToggle.value = true; 
+    //console.log('node url: ', url.value);
 })
+
+// Don't show Filters tab when leaving the page
+onUnmounted(() => {
+    filtersToggle.value = false;
+})
+
 // Update the progress of loading the data 
 window.Echo.channel('progress')
     .listen('LoadingProgress', (e) => {
@@ -68,8 +103,6 @@ const sortBenchmarks = (benchmarks) => {
     if (benchmarks){
         // Create an array of indexes
         const indexes = benchmarks.map((_, index) => index);
-
-
         // Sort the indexes based on the estimatedValue
         indexes.sort((a, b) => benchmarks[b].value - benchmarks[a].value);
 
@@ -91,9 +124,12 @@ const getNodes = async (url) => {
     const responseData = await response.json(); 
     
     if (responseData){
-        console.log('response data: ', responseData)
+        //console.log('response data: ', responseData)
         nodes.value = responseData.benchmarks;
         dropRates.value = responseData.dropRates;  
+
+        // SET FILTER PROPERTIES
+        filterTypes.value = listProperties('type', nodes.value); 
         
         sortBenchmarks(nodes.value);
         

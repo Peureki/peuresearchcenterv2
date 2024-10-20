@@ -2,8 +2,6 @@
     <Header page-name="Glyphs"/>
     <Nav>
         <template v-slot:filters>
-            <p v-if="!user" class="error-message">Register/Login to be able to save these Filters</p>
-
             <div class="filter-container">
                 <h3>Filters</h3>
                 <!-- 
@@ -12,14 +10,16 @@
                     * Only chose one of the filters to be displayed
                     *
                 -->
-                <p>Show Glyph</p>
-                <div class="filter-collection">
-                    <FilterRadio
-                        :toggle-options="filterGlyphs"
-                        :filter-property="filters.showGlyph"
-                        filter-property-name="showGlyph"
-                    />
+                <div v-if="filters" class="filter-collection-container">
+                    <p>Show Glyph</p>
+                    <div class="filter-collection">
+                        <FilterRadio
+                            :toggle-options="filterGlyphs"
+                            filter-property-name="showGlyph"
+                        />
+                    </div>
                 </div>
+                
                 <!-- 
                     *
                     * TOGGLE FILTERS
@@ -106,6 +106,7 @@
 import { onMounted, ref, computed, watch, onUnmounted } from 'vue'
 import { user, sellOrder, tax, includes, refreshSettings, filters, filtersToggle } from '@/js/vue/composables/Global';
 import { getAuthUser } from '@/js/vue/composables/Authentication';
+import { listProperties } from '@/js/vue/composables/FormatFunctions';
 
 
 import Nav from '@/js/vue/components/general/Nav.vue'
@@ -133,8 +134,6 @@ const filterGlyphs = ['All', 'Bounty'],
     filterLevels = ref(null),
     filterTypes = ref(null);
 
-console.log('filters: ', filters.value.showGlyph);
-
 // ALL GLYPHS
 const allGlyphURL = computed(() => {
     return `../api/benchmarks/glyphs/${JSON.stringify(includes.value)}/${sellOrder.value}/${tax.value}`
@@ -160,6 +159,7 @@ onMounted( async () => {
         getGlyphs(allGlyphURL.value);
         getGlyphBountyNodes(nodeURL.value);
     }
+    filtersToggle.value = true; 
     //console.log('glyph url: ', allGlyphURL.value);
 })
 // Update the progress of loading the data 
@@ -212,24 +212,6 @@ const sortNodes = (benchmarks) => {
         //benchmarkToggle.value = true; 
     }
 }
-// *
-// * LIST PROPERTIES
-// * Create a list of unique properties from a given array
-// * Ex: glyph[0].level: All, glyph[1].level = '71-80'
-// * List: ['All', '71-80']
-const listProperties = (desiredProperty, targetArray) => {
-    // Initalize a new Set
-    const uniqueValues = new Set(); 
-    // Check if the array has the desired property
-    // If yes => add to Set if unique
-    targetArray.forEach(item => {
-        if (item.hasOwnProperty(desiredProperty)){
-            uniqueValues.add(item[desiredProperty]);
-        }
-    })
-
-    return Array.from(uniqueValues); 
-}
 
 const getGlyphs = async (url) => {
     const response = await fetch(url);
@@ -276,24 +258,10 @@ const getGlyphBountyNodes = async (url) => {
         sortNodes(nodes.value);
     }
 }
-// Show Filters tab
-onMounted(() => {
-    filtersToggle.value = true; 
-})
 // Don't show Filters tab when leaving the page
 onUnmounted(() => {
     filtersToggle.value = false;
 })
 
-watch(refreshSettings, async (newSettings) => {
-    if (newSettings){
-        currentlyRefreshing.value = true; 
-
-        //await getMapBenchmarks(allGlyphURL.value);
-
-        currentlyRefreshing.value = false;
-        refreshSettings.value = false;
-    }
-})
 
 </script>

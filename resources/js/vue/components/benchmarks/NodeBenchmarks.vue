@@ -2,7 +2,7 @@
     <div class="card-grid">
         <div
             class="card-container"
-            v-for="(benchmark, index) in benchmarks" :key="index"
+            v-for="(benchmark, index) in filteredBenchmarks" :key="index"
         >
             <!-- <p class="rank">{{ index + 1 }}</p> -->
             <div class="card">
@@ -30,7 +30,7 @@
                                     {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.title">
                                 </span>)
                             </span>
-                            
+
                             <span class="gold-label-container benchmark-value">
                                 <span 
                                     class="gold-label"
@@ -113,7 +113,7 @@ import MobileBenchmarkTable from '@/js/vue/components/tables/MobileBenchmarkTabl
 import MobileDetailsTable from '@/js/vue/components/tables/MobileDetailsTable.vue'
 import PageButtons from '@/js/vue/components/general/PageButtons.vue'
 
-import { isMobile } from '@/js/vue/composables/Global.js'
+import { isMobile, filters } from '@/js/vue/composables/Global.js'
 
 import Ore from '@/imgs/icons/Ore.png'
 import Log from '@/imgs/icons/Log.png'
@@ -124,7 +124,12 @@ const props = defineProps({
     dropRates: Object,
 })
 
-
+const filteredBenchmarks = computed(() => {
+    console.log(filters.value.toggleGlyphTypes);
+    return props.benchmarks.filter(benchmark => 
+        filters.value.toggleNodeTypes.includes(benchmark.type)
+    );
+})
 
 // Individually allow each card to be expanded or not
 // By default, have each card not expanded
@@ -146,8 +151,6 @@ const setGlyphType = (type) => {
         case 'Plant': return Plant;
     }
 }
-
-console.log('drop rates', props.dropRates);
 
 </script>
 

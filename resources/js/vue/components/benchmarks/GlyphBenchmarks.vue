@@ -113,6 +113,7 @@ const props = defineProps({
 // * FILTER BENCHMARKS
 // * If filters are applied, then display appropiately
 const filteredBenchmarks = computed(() => {
+    console.log(filters.value.toggleGlyphTypes);
     return props.benchmarks.filter(benchmark => 
         filters.value.toggleGlyphLevels.includes(benchmark.level)
         && filters.value.toggleGlyphTypes.includes(benchmark.type)

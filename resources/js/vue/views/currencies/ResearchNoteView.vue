@@ -2,7 +2,6 @@
     <Header page-name="Research Notes"/>
     <Nav>
         <template v-slot:filters>
-            <p v-if="!user" class="error-message">Register/Login to be able to save these Filters</p>
 
             <div class="filter-container">
                 <h3>Filters</h3>
@@ -219,7 +218,7 @@ const getFavoriteNotes = async (url) => {
 
         if (response){
             favoriteResearchNotes.value = responseData;
-            console.log('favorites notes response: ', favoriteResearchNotes.value);
+            //console.log('favorites notes response: ', favoriteResearchNotes.value);
         }
 
         
@@ -242,16 +241,19 @@ onMounted( async () => {
     
     //console.log('favorites url: ', favoritesUrl.value);
     checkFilterDisclaimers(filterResearchNotes.value);
-})
-
-// Show Filters tab
-onMounted(() => {
     filtersToggle.value = true; 
 })
+
 // Don't show Filters tab when leaving the page
 onUnmounted(() => {
     filtersToggle.value = false;
 })
+
+// // Show Filters tab
+// onMounted(() => {
+//     filtersToggle.value = true; 
+// })
+
 
 // Check if the filters need their Disclaimers to be active or not
 // Checks to see if each of the preferenc categories has at least one active at a time
