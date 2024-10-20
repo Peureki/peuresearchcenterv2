@@ -139,9 +139,31 @@
                 -->
                 <Transition name="fade-right">
                     <div v-if="settingsToggle" ref="settingsElement" id="#settings">
+
                         <div class="shortcut-container">
                             <h3>Settings</h3>
                             <p v-if="!user" class="error-message">Register/Login to save these settings</p>
+
+                            <div class="settings-button-container">
+                                <p>Theme</p>
+                                <div class="settings-button">
+                                    <button 
+                                        @click="toggleTheme(null)"
+                                        :class="theme == null ? 'active-button' : 'inactive-button'"
+                                    >   
+                                        Dark
+                                    </button>
+                                    <button 
+                                        @click="toggleTheme('light')"
+                                        :class="theme == 'light' ? 'active-button' : 'inactive-button'"
+                                    >
+                                        Light
+                                    </button>
+                                </div>
+                                
+                            </div>
+                            
+
                             <div class="settings-button-container">
                                 <!-- 
                                     * SETTING BUTTONS
@@ -222,7 +244,7 @@
                                 <h4>Include</h4>
                                 <div class="img-and-label">
                                     <svg class="icon clickable" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M8.16675 13.1665H9.83341V8.1665H8.16675V13.1665ZM9.00008 6.49984C9.23619 6.49984 9.43425 6.41984 9.59425 6.25984C9.75425 6.09984 9.83397 5.90206 9.83341 5.6665C9.83341 5.43039 9.75341 5.23234 9.59341 5.07234C9.43341 4.91234 9.23564 4.83261 9.00008 4.83317C8.76397 4.83317 8.56591 4.91317 8.40591 5.07317C8.24591 5.23317 8.16619 5.43095 8.16675 5.6665C8.16675 5.90262 8.24675 6.10067 8.40675 6.26067C8.56675 6.42067 8.76453 6.50039 9.00008 6.49984ZM9.00008 17.3332C7.8473 17.3332 6.76397 17.1143 5.75008 16.6765C4.73619 16.2387 3.85425 15.6451 3.10425 14.8957C2.35425 14.1457 1.76064 13.2637 1.32341 12.2498C0.886193 11.2359 0.667304 10.1526 0.666748 8.99984C0.666748 7.84706 0.885637 6.76373 1.32341 5.74984C1.76119 4.73595 2.3548 3.854 3.10425 3.104C3.85425 2.354 4.73619 1.76039 5.75008 1.32317C6.76397 0.885948 7.8473 0.667059 9.00008 0.666504C10.1529 0.666504 11.2362 0.885393 12.2501 1.32317C13.264 1.76095 14.1459 2.35456 14.8959 3.104C15.6459 3.854 16.2398 4.73595 16.6776 5.74984C17.1154 6.76373 17.334 7.84706 17.3334 8.99984C17.3334 10.1526 17.1145 11.2359 16.6767 12.2498C16.239 13.2637 15.6454 14.1457 14.8959 14.8957C14.1459 15.6457 13.264 16.2396 12.2501 16.6773C11.2362 17.1151 10.1529 17.3337 9.00008 17.3332ZM9.00008 15.6665C10.8612 15.6665 12.4376 15.0207 13.7292 13.729C15.0209 12.4373 15.6667 10.8609 15.6667 8.99984C15.6667 7.13873 15.0209 5.56234 13.7292 4.27067C12.4376 2.979 10.8612 2.33317 9.00008 2.33317C7.13897 2.33317 5.56258 2.979 4.27091 4.27067C2.97925 5.56234 2.33341 7.13873 2.33341 8.99984C2.33341 10.8609 2.97925 12.4373 4.27091 13.729C5.56258 15.0207 7.13897 15.6665 9.00008 15.6665Z" fill="#FFD12C"/>
+                                        <path d="M8.16675 13.1665H9.83341V8.1665H8.16675V13.1665ZM9.00008 6.49984C9.23619 6.49984 9.43425 6.41984 9.59425 6.25984C9.75425 6.09984 9.83397 5.90206 9.83341 5.6665C9.83341 5.43039 9.75341 5.23234 9.59341 5.07234C9.43341 4.91234 9.23564 4.83261 9.00008 4.83317C8.76397 4.83317 8.56591 4.91317 8.40591 5.07317C8.24591 5.23317 8.16619 5.43095 8.16675 5.6665C8.16675 5.90262 8.24675 6.10067 8.40675 6.26067C8.56675 6.42067 8.76453 6.50039 9.00008 6.49984ZM9.00008 17.3332C7.8473 17.3332 6.76397 17.1143 5.75008 16.6765C4.73619 16.2387 3.85425 15.6451 3.10425 14.8957C2.35425 14.1457 1.76064 13.2637 1.32341 12.2498C0.886193 11.2359 0.667304 10.1526 0.666748 8.99984C0.666748 7.84706 0.885637 6.76373 1.32341 5.74984C1.76119 4.73595 2.3548 3.854 3.10425 3.104C3.85425 2.354 4.73619 1.76039 5.75008 1.32317C6.76397 0.885948 7.8473 0.667059 9.00008 0.666504C10.1529 0.666504 11.2362 0.885393 12.2501 1.32317C13.264 1.76095 14.1459 2.35456 14.8959 3.104C15.6459 3.854 16.2398 4.73595 16.6776 5.74984C17.1154 6.76373 17.334 7.84706 17.3334 8.99984C17.3334 10.1526 17.1145 11.2359 16.6767 12.2498C16.239 13.2637 15.6454 14.1457 14.8959 14.8957C14.1459 15.6457 13.264 16.2396 12.2501 16.6773C11.2362 17.1151 10.1529 17.3337 9.00008 17.3332ZM9.00008 15.6665C10.8612 15.6665 12.4376 15.0207 13.7292 13.729C15.0209 12.4373 15.6667 10.8609 15.6667 8.99984C15.6667 7.13873 15.0209 5.56234 13.7292 4.27067C12.4376 2.979 10.8612 2.33317 9.00008 2.33317C7.13897 2.33317 5.56258 2.979 4.27091 4.27067C2.97925 5.56234 2.33341 7.13873 2.33341 8.99984C2.33341 10.8609 2.97925 12.4373 4.27091 13.729C5.56258 15.0207 7.13897 15.6665 9.00008 15.6665Z" fill="var(--color-link)"/>
                                     </svg>
                                     <p class="small-subtitle">Include currencies, exchangeables throughout the website. i.e. Benchmarks</p>
                                 </div>
@@ -643,11 +665,11 @@
             
 
             <svg v-if="mobileHamburger" @click="mobileHamburger = !mobileHamburger; mainNavToggle = !mainNavToggle" class="hamburger" width="25" height="17" viewBox="0 0 25 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M0 1.85938C0 1.54857 0.123465 1.2505 0.343234 1.03073C0.563003 0.810965 0.861074 0.6875 1.17188 0.6875H23.8281C24.1389 0.6875 24.437 0.810965 24.6568 1.03073C24.8765 1.2505 25 1.54857 25 1.85938C25 2.17018 24.8765 2.46825 24.6568 2.68802C24.437 2.90779 24.1389 3.03125 23.8281 3.03125H1.17188C0.861074 3.03125 0.563003 2.90779 0.343234 2.68802C0.123465 2.46825 0 2.17018 0 1.85938ZM0 8.5C0 8.1892 0.123465 7.89113 0.343234 7.67136C0.563003 7.45159 0.861074 7.32812 1.17188 7.32812H23.8281C24.1389 7.32812 24.437 7.45159 24.6568 7.67136C24.8765 7.89113 25 8.1892 25 8.5C25 8.8108 24.8765 9.10887 24.6568 9.32864C24.437 9.54841 24.1389 9.67188 23.8281 9.67188H1.17188C0.861074 9.67188 0.563003 9.54841 0.343234 9.32864C0.123465 9.10887 0 8.8108 0 8.5ZM1.17188 13.9688C0.861074 13.9688 0.563003 14.0922 0.343234 14.312C0.123465 14.5318 0 14.8298 0 15.1406C0 15.4514 0.123465 15.7495 0.343234 15.9693C0.563003 16.189 0.861074 16.3125 1.17188 16.3125H23.8281C24.1389 16.3125 24.437 16.189 24.6568 15.9693C24.8765 15.7495 25 15.4514 25 15.1406C25 14.8298 24.8765 14.5318 24.6568 14.312C24.437 14.0922 24.1389 13.9688 23.8281 13.9688H1.17188Z" fill="#FFD12C"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M0 1.85938C0 1.54857 0.123465 1.2505 0.343234 1.03073C0.563003 0.810965 0.861074 0.6875 1.17188 0.6875H23.8281C24.1389 0.6875 24.437 0.810965 24.6568 1.03073C24.8765 1.2505 25 1.54857 25 1.85938C25 2.17018 24.8765 2.46825 24.6568 2.68802C24.437 2.90779 24.1389 3.03125 23.8281 3.03125H1.17188C0.861074 3.03125 0.563003 2.90779 0.343234 2.68802C0.123465 2.46825 0 2.17018 0 1.85938ZM0 8.5C0 8.1892 0.123465 7.89113 0.343234 7.67136C0.563003 7.45159 0.861074 7.32812 1.17188 7.32812H23.8281C24.1389 7.32812 24.437 7.45159 24.6568 7.67136C24.8765 7.89113 25 8.1892 25 8.5C25 8.8108 24.8765 9.10887 24.6568 9.32864C24.437 9.54841 24.1389 9.67188 23.8281 9.67188H1.17188C0.861074 9.67188 0.563003 9.54841 0.343234 9.32864C0.123465 9.10887 0 8.8108 0 8.5ZM1.17188 13.9688C0.861074 13.9688 0.563003 14.0922 0.343234 14.312C0.123465 14.5318 0 14.8298 0 15.1406C0 15.4514 0.123465 15.7495 0.343234 15.9693C0.563003 16.189 0.861074 16.3125 1.17188 16.3125H23.8281C24.1389 16.3125 24.437 16.189 24.6568 15.9693C24.8765 15.7495 25 15.4514 25 15.1406C25 14.8298 24.8765 14.5318 24.6568 14.312C24.437 14.0922 24.1389 13.9688 23.8281 13.9688H1.17188Z" fill="var(--color-link)"/>
             </svg>
 
             <svg v-if="!mobileHamburger" @click="mobileHamburger = !mobileHamburger; mainNavToggle = !mainNavToggle" class="mobile-close" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M13 1L1 13M1 1L13 13" stroke="#FFD12C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13 1L1 13M1 1L13 13" stroke="var(--color-link)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </div>
         
@@ -659,7 +681,7 @@ import { ref, watch, provide, onMounted, onUnmounted, computed, nextTick } from 
 
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
-import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings, loginToggle, mainNavToggle, mobileHamburger, favorites, filterResearchNotes, filters, settingsToggle, bookmarksToggle, filtersToggle, apiKeyToggle } from '@/js/vue/composables/Global.js';
+import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings, loginToggle, mainNavToggle, mobileHamburger, favorites, filterResearchNotes, filters, settingsToggle, bookmarksToggle, filtersToggle, apiKeyToggle, theme } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
 import { getAuthUser, logout, register } from '@/js/vue/composables/Authentication';
 
@@ -744,6 +766,39 @@ const registerToggle = ref(false);
 const wv = ref(null); 
 
 const timerPageToggle = ref(false);
+
+const resetTheme = () => {
+    theme.value = null; 
+}
+
+// *
+// * TOGGLE THEME
+// * light/dark mode
+// * 
+const toggleTheme = (currentTheme) => {
+    theme.value = currentTheme;
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    if (user.value){
+        saveTheme(); 
+    } 
+}
+
+// *
+// * SAVE THEME
+// * 
+const saveTheme = async () => {
+    try {
+        const response = await axios.post('/api/user/saveTheme', {
+            theme: theme.value
+        })
+
+        if (response){
+            console.log('Saved theme', theme.value);
+        }
+    } catch (error){
+        console.log('Could not save theme: ', error);
+    }
+}
 
 // Scroll to Settings div when users toggle Settings shortcut
 const scrollToSettings = () => {
@@ -1009,10 +1064,9 @@ watch(user, (userData) => {
         sellOrder.value = userData.settings_sell_order;
         tax.value = userData.settings_tax; 
         includes.value = userData.includes;
-        
         filterResearchNotes.value = userData.filter_research_notes;
         favorites.value = userData.favorites; 
-
+        theme.value = userData.theme; 
         // IF COLUMNS ARE EMPTY OR NULL 
         // THEN USE DEFAULTS via Global.js
         // Pages that use these filters will respectively populate the database with defaults
@@ -1114,6 +1168,7 @@ nav a:hover{
 }
 .settings-button{
     display: flex;
+    gap: var(--gap-general);
 }
 .settings-button button{
     border: var(--border-general);

@@ -104,4 +104,16 @@ class UserController extends Controller
             return response()->json($filters);
         }
     }
+
+    public function saveTheme(Request $request){
+        $request->validate([
+            'theme' => 'nullable|string'
+        ]);
+
+        $user = auth()->user(); 
+
+        if ($user){
+            $user->update(['theme' => $request->theme]); 
+        }
+    }
 }

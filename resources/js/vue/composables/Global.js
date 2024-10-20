@@ -10,6 +10,8 @@ export const user = ref(null);
 export const loginToggle = ref(null);
 export const isAuthenticating = ref(true);
 
+export const theme = ref(null); 
+
 // TYRIAN AND CANTHAN TIME PEROIDS
 // Used for the navigation and Fishing benchmarks
 export const tyrianCurrentPeriod = ref(null);

@@ -25,7 +25,7 @@
 import Writ from '@/imgs/icons/Writ_of_New_Kaineng_City.png'
 import CurrencyPage from '@/js/vue/components/general/CurrencyPage.vue'
 
-const targetCurrency = 'Writ of New Kaineng_City';
+const targetCurrency = 'Writ of New Kaineng City';
 const currencyIcon = Writ;
 
 </script>

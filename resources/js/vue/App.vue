@@ -43,13 +43,12 @@ html, body{
 }
 
 h1, h2, h3, h4, h5, h6, p, label, button, input, span{
-    font-family: var(--font-family);
     color: var(--color-text);
     margin: 0;
 }
 
 input {
-    color: var(--color-black);
+    color: var(--color-opposite-text);
     background-color: var(--color-input-bkg);
     border: none;
     padding: var(--padding-input);
@@ -61,24 +60,30 @@ input[type="button"]{
 a {
     cursor: pointer;
 }
+h1, h2, h3, h4, h5, h6{
+    font-family: var(--font-family-readex);
+}
 
 h1{
     color: var(--color-h1);
     font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-h1);
 }
 h2{
     color: var(--color-subheader);
     font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-h2);
 }
 h3{
     color: var(--color-subheader);
     font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-h3);
 }
 h4{
     color: var(--color-text);
     font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-h4);
     margin: 0;
-    font-weight: normal;
 }
 h5{
     color: var(--color-text);
@@ -93,8 +98,20 @@ h6{
     margin: 0;
     font-weight: normal;
 }
-p, label, input, button {
+p, label, input, button{
+    font-family: var(--font-family-rubik);
     font-size: var(--font-size-p);
+    font-weight: var(--font-weight-p);
+}
+span{
+    font-family: var(--font-family-rubik);
+    font-weight: var(--font-weight-p);
+}
+h1 > span.green, h1 > span.red{
+    font-family: var(--font-family-readex);
+}
+input{
+    color: var(--color-input);
 }
 p {
     line-height: 1.5;
@@ -104,7 +121,7 @@ ul {
     padding: 0;
 }
 li {
-    font-family: var(--font-family);
+    font-family: var(--font-family-readex);
     font-size: var(--font-size-p);
     color: var(--color-text);
     list-style: none;
@@ -114,7 +131,7 @@ table, th, td{
     border-collapse: collapse;
 }
 button {
-    color: var(--color-black);
+    color: var(--color-opposite-text);
     border: none;
     cursor: pointer;
     width: fit-content;
@@ -193,7 +210,7 @@ a.page-link{
     padding: var(--nav-padding-label);
 }
 .distinquish-section .label h6{
-    color: var(--color-black);
+    color: var(--color-opposite-text);
 }
 .distinquish-section .label#core{
     background-color: var(--color-core);
@@ -275,7 +292,7 @@ table thead tr:first-child th{
     border-bottom: var(--border-bottom-link);
 } */
 table tr:nth-child(odd){
-    background-color: #303134;
+    background-color: var(--color-table-odd-bkg);
 }
 table .table-header{
     padding: var(--padding-table-header)
@@ -295,13 +312,13 @@ table th{
 }
 
 table thead h4{
-    color: var(--color-black);
+    color: var(--color-opposite-text);
     padding: var(--padding-table-header);
 }
 table td{
     color: var(--color-text);
     font-size: var(--font-size-p);
-    font-family: var(--font-family);
+    font-family: var(--font-family-readex);
     padding: var(--padding-table-td);
     vertical-align: middle;
 }
@@ -499,7 +516,7 @@ span.input-radio{
     padding: var(--padding-button);
 }
 span.input-radio label{
-    color: var(--color-black);
+    color: var(--color-opposite-text);
 }
 /* input[type="text"]{
     width: 300px;
@@ -829,7 +846,7 @@ button.support-button{
     animation-timing-function: linear;
 }
 button.support-button p{
-    color: var(--color-black);
+    color: var(--color-opposite-text);
     white-space: nowrap;
 }
 img.rolling-choya{
@@ -973,6 +990,7 @@ img.card-main-icon{
 }
 .title {
     font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-title);
     white-space: nowrap;
 }
 .card-map-and-info{
@@ -1303,7 +1321,7 @@ img.map-guide{
 .active-button {
     opacity: 1;
     background-color: var(--color-link);
-    color: var(--color-black);
+    color: var(--color-opposite-text);
     border: var(--border-hidden);
     transition: var(--transition-all-03s-ease);
     border-radius: 10px;
@@ -1351,17 +1369,32 @@ img.map-guide{
 .active-checklist > path{
     fill: var(--color-down);
 }
+.repeatable{
+    color: var(--color-type-repeatable);
+}
+.daily{
+    color: var(--color-type-daily);
+}
+.node{
+    color: var(--color-type-node);
+}
+.solo{
+    color: var(--color-type-solo);
+}
+
+
 
 :root{
     --color-bkg: #2a2b2e;
     --color-bkg-fade: #2F3034;
     --color-bkg-more-fade: #2a2b2e;
-    --color-h1: #ff391b;
+    --color-h1: #e2553c;
+    --color-h1-MAYBE: #93cddd;
     --color-text: #ffffff;
     --color-text-fade: #d1d1d1;
     --color-text-dark-fade: #9195a0;
-    --color-link: #ffd12c;
-    --color-black: #000000;
+    --color-link: #f0cd4e;
+    --color-opposite-text: #000000;
     --color-core: #f8ebb7;
     --color-hot: #5ed625;
     --color-ls3: #f75277;
@@ -1399,6 +1432,16 @@ img.map-guide{
     --color-dusk: #db8b9d;
     --color-dawn: #db8b9d;
     --color-anytime: #e15e6c;
+    --color-expand-circle: var(--color-up);
+    --color-input: var(--color-opposite-text);
+    --color-table-odd-bkg: var(--color-bkg-fade);
+
+    --font-weight-h1: 700;
+    --font-weight-h2: 500;
+    --font-weight-h3: 500;
+    --font-weight-h4: 450;
+    --font-weight-p: 400; 
+    --font-weight-title: 400;
 
     --font-size-h1: clamp(2.5rem, 5.5vw, 6.25rem);
     --font-size-h2: clamp(2rem, 3vw, 3rem);
@@ -1409,7 +1452,7 @@ img.map-guide{
     --font-size-p: clamp(1rem, 1vw, 1rem);
     --font-size-subtext: clamp(0.7rem, 3vw, 0.8rem);
 
-    --font-size-homepage-h1: clamp(4rem, 8vw, 10rem);
+    --font-size-homepage-h1: clamp(3.5rem, 8vw, 6.5rem);
 
     --gap-pair: clamp(0.3rem, 0.3vw, 0.8rem);
     --gap-general: clamp(0.6rem, 0.5vw, 1rem);
@@ -1418,14 +1461,15 @@ img.map-guide{
     --gap-operators: clamp(0.3rem, 0.5vw, 1rem);
     --gap-benchmarks: clamp(0.5rem, 0.5vw, 0.8rem);
 
-    --font-family: 'Rubik', sans-serif;
+    --font-family-readex: 'Readex Pro', sans-serif;
+    --font-family-rubik: 'Rubik', sans-serif;
 
     --border-general: 2px solid #3D3F42;
     --border-general-link: 2px solid var(--color-link);
     --border-hidden: 2px solid rgb(95, 96, 98, 0);
     --border-bottom: 2px solid #3D3F42;
-    --border-button-link: 2px solid #ffd12c;
-    --border-bottom-link: 2px solid #ffd12c;
+    --border-button-link: 2px solid var(--color-link);
+    --border-bottom-link: 2px solid var(--color-link);
     --border-event-up: 4px solid #5ED625;
     --border-event-upcoming: 4px solid #FFB64A;
     --border-event-overdue: 4px solid #EC004D;
@@ -1435,7 +1479,7 @@ img.map-guide{
     --border-negative: 2px solid #EC004D;
     --border-tooltip: 1px solid var(--color-text);
     --border-left-hover: 2px solid var(--color-text);
-    --border-hover-link: 2px solid #ffd12c;
+    --border-hover-link: 2px solid var(--color-link);
     
     --border-radius-card: 5px;
     
@@ -1497,6 +1541,58 @@ img.map-guide{
     --hover-bkg-fade: rgba(255, 209, 44, 0.2); 
 
     --img-timer-map-w: clamp(62.5rem, 115vw, 300rem);
+}
+
+[data-theme="light"]{
+    --color-bkg: #e6e6e6; 
+    --color-text: #000000;
+    --color-h1: #802020;
+    --color-h2: #4e935e;
+    --color-h3: #1ba73c;
+    --color-subheader: #1b8b3d;
+    --color-link: #0a435e;
+    --color-opposite-text: #e4e8e4;
+    --color-input-bkg: #d4d4d4;
+    --color-input: var(--color-text);
+    --color-bkg-fade: #e7e7e7;
+    --color-bkg-more-fade: #eeeeee; 
+    --color-text-fade: #292929;
+    --color-type-daily: #07571b;
+    --color-type-repeatable: #860184;
+    --color-type-node: #a86506;
+    --color-type-solo: #257eb6;
+    /* --color-rarity-legendary: var(--color-text);
+    --color-rarity-ascended: var(--color-text);
+    --color-rarity-exotic: var(--color-text);
+    --color-rarity-rare: var(--color-text);
+    --color-rarity-masterwork: var(--color-text);
+    --color-rarity-fine: var(--color-text);
+    --color-rarity-junk: var(--color-junk); */
+    --color-rarity-legendary: #6509ac;
+    --color-rarity-ascended: #99053b;
+    --color-rarity-exotic: #795109;
+    --color-rarity-rare: #5c5a0c;
+    --color-rarity-masterwork: #196b08;
+    --color-rarity-fine: #0c376d;
+    --color-rarity-junk: #646464;
+    --color-up: #40b40a;
+    --color-down: #a70b3f;
+    --color-expand-circle: var(--color-text);
+    --color-table-header: var(--color-subheader);
+    --color-event-meta: #14a79d;
+    --color-event-up: #3eac0b;
+    --color-event-upcoming: #db8b12;
+
+    --border-bottom: 2px solid #b4b4b4;
+    --border-general: 2px solid #c5c5c5;
+    --border-button-link: 2px solid var(--color-link);
+    --border-bottom-link: 2px solid var(--color-link);
+    --hover-border-bottom: 2px solid var(--color-link);
+    --border-positive: 2px solid var(--color-up);
+    --border-negative: 2px solid var(--color-down);
+    --border-event-meta: 5px solid var(--color-event-meta);
+    --border-event-up: 5px solid var(--color-event-up);
+    --border-event-upcoming: 5px solid var(--color-event-upcoming);
 }
 
 </style>

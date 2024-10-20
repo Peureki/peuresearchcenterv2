@@ -155,17 +155,6 @@ console.log('drop rates', props.dropRates);
     * DYNAMIC CLASSES
     * For day/night fish and routes
 */
-.repeatable{
-    color: var(--color-type-repeatable);
-}
-.daily{
-    color: var(--color-type-daily);
-}
-.node{
-    color: var(--color-type-node);
-}
-.solo{
-    color: var(--color-type-solo);
-}
+
 
 </style>

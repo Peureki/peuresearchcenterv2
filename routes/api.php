@@ -52,6 +52,8 @@ Route::post('/user/saveFavorites', [UserController::class, 'saveFavorites']);
 Route::get('/user/getFilters', [UserController::class, 'getFilters']);
 Route::post('/user/saveFilters', [UserController::class, 'saveFilters']);
 
+Route::post('/user/saveTheme', [UserController::class, 'saveTheme']);
+
 
 
 

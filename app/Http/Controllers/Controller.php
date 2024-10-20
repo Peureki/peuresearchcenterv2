@@ -1427,7 +1427,9 @@ class Controller extends BaseController
         } catch (ValueError $e){
             dd($e, $allValues, $bagDropTable, $itemName);
         }
-            
+        if ($itemName == 'Writ of Echovald Wilds'){
+            dd('echovild wild', $currencyValue);
+        }
             //dd($currencyValue);
             //$currencyValue = (max($allValues) - $fee) / $conversionRate; 
         

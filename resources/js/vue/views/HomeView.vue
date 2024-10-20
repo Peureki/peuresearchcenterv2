@@ -30,7 +30,7 @@
                     <div class="img-and-cta">
                         <img class="card-icon" :src="JungleChoya" alt="Map Benchmarks" title="Map Benchmarks">
                         <svg class="card-cta" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
+                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="var(--color-link)"/>
                         </svg>
                     </div>
                 </router-link>
@@ -45,7 +45,7 @@
                     <div class="img-and-cta">
                         <img class="card-icon" :src="BlueChoya" alt="Map Benchmarks" title="Map Benchmarks">
                         <svg class="card-cta" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
+                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="var(--color-link)"/>
                         </svg>
                     </div>
                 </router-link>
@@ -60,7 +60,7 @@
                     <div class="img-and-cta">
                         <img class="card-icon" :src="ResearchChoya" alt="Map Benchmarks" title="Map Benchmarks">
                         <svg class="card-cta" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
+                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="var(--color-link)"/>
                         </svg>
                     </div>
                 </router-link>
@@ -75,7 +75,7 @@
                     <div class="img-and-cta">
                         <img class="card-icon" :src="GolemChoya" alt="Map Benchmarks" title="Map Benchmarks">
                         <svg class="card-cta" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
+                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="var(--color-link)"/>
                         </svg>
                     </div>
                 </router-link>
@@ -136,11 +136,10 @@ h1{
 h2{
     text-align: center;
     color: var(--color-text);
-    font-weight: 200; 
     font-size: clamp(1rem, 2vw, 3rem);
 }
 .peu-choya{
-    width: clamp(20rem, 30vw, 30rem);
+    width: clamp(10rem, 30vw, 20rem);
 }
 .red{
     color: var(--color-h1);
