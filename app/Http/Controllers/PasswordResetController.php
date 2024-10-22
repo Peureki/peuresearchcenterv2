@@ -36,7 +36,7 @@ class PasswordResetController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:8|confirmed',
         ]);
-        
+
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function (User $user, string $password) {
@@ -50,8 +50,8 @@ class PasswordResetController extends Controller
             }
         );
 
-        $status === Password::PASSWORD_RESET
-            ? redirect()->route('/')->with('status', __($status))
-            : back()->withErrors(['email' => [__($status)]]);
+        return $status === Password::PASSWORD_RESET
+            ? response()->json(['message' => 'Password reset successfully!'])
+            : response()->json(['error' => __($status)], 400);
     }
 }

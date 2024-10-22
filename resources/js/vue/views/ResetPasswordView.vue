@@ -15,7 +15,7 @@
             <button type="submit">Reset Password</button>
         </form>
 
-        <p v-if="success">Password change succesful!</p>
+        <p v-if="success">{{ responseMessage }}</p>
         <router-link to="/">Return Home</router-link>
     </div>
     
@@ -30,7 +30,8 @@ import axios from 'axios';
 const password = ref(null),
     confirmPassword = ref(null);
 
-const success = ref(null);
+const success = ref(null),
+    responseMessage = ref(null);
 
 const requiredCountMessage = computed(() => {
     if (password.value.length < 7){
@@ -61,7 +62,7 @@ const handleForgotPassword = async () => {
 
         if (response){
             success.value = true; 
-            console.log('Password change successful!', response);
+            responseMessage.value = response.data.message; 
         }
     } catch (error){
         console.log('Could not verify email: ', error); 

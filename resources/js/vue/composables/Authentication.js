@@ -27,7 +27,7 @@ export const getAuthUser = async () => {
 // * REGISTER USER
 // * Assuming a completed form with username, password => login into a new session 
 // * Refresh page if successful
-export const register = async (name, email, password) => {
+export const register = async (name, email, password, remember) => {
     console.log('registering as: ', name, email, password);
     try {
           const response = await fetch('/register', {
@@ -45,7 +45,8 @@ export const register = async (name, email, password) => {
   
         if (response.ok) {
             console.log('Registered!', response);
-            window.location.reload(); 
+            login(name, email, password, remember); 
+            //window.location.reload(); 
         } else {
             return response; 
         }
@@ -56,6 +57,40 @@ export const register = async (name, email, password) => {
         return response; 
         // Handle error (e.g., show error message)
     }
+};
+
+// *
+// * LOGIN
+// * Assuming a completed form with username, password => login into a new session 
+// * Refresh page if successful
+export const login = (name, email, password, remember) => {
+    // Get unique CSRF cookie first
+    axios.get('/sanctum/csrf-cookie')
+        .then(() => {
+            // Send POST request to login
+            return axios.post('/login', {
+                name: name,
+                email: email,
+                password: password,
+                remember: remember,
+            }, {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            });
+        })
+        .then(response => {
+            // If login is successful, refresh the page
+            if (response) {
+                console.log("Login successful!", response);
+                window.location.reload();
+            }
+        })
+        .catch(error => {
+            // Handle login error
+            console.log('Login error: ', error);
+            handleAuthErrors(error);
+        });
 };
 // *
 // * LOGIN

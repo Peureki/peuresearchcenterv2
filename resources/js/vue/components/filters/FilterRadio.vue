@@ -10,7 +10,7 @@
 
 <script setup>
 import { ref, onMounted, watch, nextTick } from 'vue'
-import { filters } from '@/js/vue/composables/Global'
+import { filters, user } from '@/js/vue/composables/Global'
 import axios from 'axios';
 import { getAuthUser } from '@/js/vue/composables/Authentication';
 
@@ -43,7 +43,10 @@ const setFilters = (propertyName, filter) => {
             ...filters.value,
             [propertyName]: filter
         }
-        saveFilters(); 
+        if (user.value){
+            saveFilters(); 
+        }
+        
     }
 }
 

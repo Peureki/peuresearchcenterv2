@@ -77,7 +77,7 @@ const filter = ['Daily', 'Repeatable'],
     filterTypes = ['Repeatable', 'Daily'];
 
 const sortBenchmarks = (benchmarks, sortFilter) => {
-    console.log('benchmarks: ', benchmarks, 'dropRates: ', dropRates);
+    //console.log('benchmarks: ', benchmarks, 'dropRates: ', dropRates);
 
     if (benchmarks){
         // Create an array of indexes
@@ -149,7 +149,7 @@ onMounted( async () => {
 
     }
     filtersToggle.value = true; 
-    console.log('url: ', url.value);
+    //console.log('url: ', url.value);
 })
 onUnmounted(() => {
     filtersToggle.value = false;
@@ -187,7 +187,6 @@ watch(refreshSettings, async (newSettings) => {
 
 watch(filters, (newFilters) => {
     if (newFilters){
-        console.log(newFilters.sortMapBenchmarks);
         sortBenchmarks(mapBenchmarks.value, newFilters.sortMapBenchmarks);
     }
 })

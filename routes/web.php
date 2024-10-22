@@ -32,7 +32,17 @@ Route::post('/logout', [LoginController::class, 'logout']);
 // *
 // * EMAIL VERIFICATION
 // *
-Route::get('/email/verify', [EmailVerificationController::class, 'verifyEmail']);
+Route::get('/email/verify', [EmailVerificationController::class, 'show'])
+    ->middleware('auth')
+    ->name('verification.route');
+
+Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verifyEmail'])
+    ->middleware(['auth', 'signed'])
+    ->name('verification.verify');
+
+Route::post('/email/verification-notification', [EmailVerificationController::class, 'resendEmail'])
+    ->middleware(['auth', 'throttle:6,1'])
+    ->name('verification.send');
 
 // *
 // * PASSWORD RESETS

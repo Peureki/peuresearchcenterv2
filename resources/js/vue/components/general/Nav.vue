@@ -56,8 +56,15 @@
                     @change-toggle-status="changeToggleStatus"
                 />
 
+                <!-- 
+                    *
+                    * AUTH WELCOME MESSAGE
+                    *
+                -->
                 <div class="auth-welcome" v-if="user">
                     <p>Hello, {{ user.name }}</p>
+                    <a class="small-subtitle link" v-if="!emailVerified" @click="resendVerificationEmail">Send Email Verification</a>
+                    <p class="small-subtitle" v-if="emailVerificationMessage && !emailVerified">{{ emailVerificationMessage }}</p>
                 </div>
 
                 <!-- 
@@ -722,7 +729,7 @@ import { ref, watch, provide, onMounted, onUnmounted, computed, nextTick } from 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
 import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings, loginToggle, mainNavToggle, mobileHamburger, favorites, filterResearchNotes, filters, settingsToggle, bookmarksToggle, filtersToggle, apiKeyToggle, theme } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
-import { getAuthUser, logout, register } from '@/js/vue/composables/Authentication';
+import { getAuthUser, logout, register, login } from '@/js/vue/composables/Authentication';
 
 import NavPage from '@/js/vue/components/navigation/NavPage.vue';
 import IncludesCheckbox from '@/js/vue/components/navigation/IncludesCheckbox.vue';
@@ -796,7 +803,9 @@ const name = ref(''),
     password = ref(''),
     remember = ref(null),
     authErrorStatus = ref(null),
-    authErrorMessage = ref(null);
+    authErrorMessage = ref(null),
+    emailVerified = ref(true),
+    emailVerificationMessage = ref(null);
 
 const settingsElement = ref(null),
     filtersElement = ref(null);
@@ -827,6 +836,22 @@ const handleForgotPassword = async () => {
         console.log('Could not verify email: ', error); 
     }
 }
+// *
+// * RESEND EMAIL VERIFICATION
+// *
+const resendVerificationEmail = async () => {
+    try {
+        const response = await axios.post('/email/verification-notification')
+
+        if (response){
+            emailVerificationMessage.value = response.data.message;
+            console.log(response.data.message);
+        }
+    } catch (error){
+        console.log('Could not resend email verification: ', error);
+    }
+}
+
 
 // *
 // * TOGGLE THEME
@@ -932,8 +957,6 @@ const handleLogin = async (name, email, password, remember) => {
     try {
         response = await login(name, email, password, remember);
 
-        
-
         // If a response is returned, that means registration failed somehow
         // Switch error messages to display depending on error code
         if (response){
@@ -946,39 +969,39 @@ const handleLogin = async (name, email, password, remember) => {
         handleAuthErrors(error.status); 
     }
 }
-// *
-// * LOGIN
-// * Assuming a completed form with username, password => login into a new session 
-// * Refresh page if successful
-const login = (name, email, password, remember) => {
-    // Get unique CSRF cookie first
-    axios.get('/sanctum/csrf-cookie')
-        .then(() => {
-            // Send POST request to login
-            return axios.post('/login', {
-                name: name,
-                email: email,
-                password: password,
-                remember: remember,
-            }, {
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            });
-        })
-        .then(response => {
-            // If login is successful, refresh the page
-            if (response) {
-                console.log("Login successful!", response);
-                window.location.reload();
-            }
-        })
-        .catch(error => {
-            // Handle login error
-            console.log('Login error: ', error);
-            handleAuthErrors(error);
-        });
-};
+// // *
+// // * LOGIN
+// // * Assuming a completed form with username, password => login into a new session 
+// // * Refresh page if successful
+// const login = (name, email, password, remember) => {
+//     // Get unique CSRF cookie first
+//     axios.get('/sanctum/csrf-cookie')
+//         .then(() => {
+//             // Send POST request to login
+//             return axios.post('/login', {
+//                 name: name,
+//                 email: email,
+//                 password: password,
+//                 remember: remember,
+//             }, {
+//                 headers: {
+//                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+//                 }
+//             });
+//         })
+//         .then(response => {
+//             // If login is successful, refresh the page
+//             if (response) {
+//                 console.log("Login successful!", response);
+//                 window.location.reload();
+//             }
+//         })
+//         .catch(error => {
+//             // Handle login error
+//             console.log('Login error: ', error);
+//             handleAuthErrors(error);
+//         });
+// };
 
 
 
@@ -1125,7 +1148,8 @@ watch(isMobile, (newIsMobile) => {
 //UPDATE settings when user has logged on or off
 watch(user, (userData) => {
     if (userData){
-        
+        console.log('user data: ', userData);
+        emailVerified.value = userData.email_verified_at ? true : false; 
         buyOrder.value = userData.settings_buy_order;
         sellOrder.value = userData.settings_sell_order;
         tax.value = userData.settings_tax; 
