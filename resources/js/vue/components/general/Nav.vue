@@ -168,6 +168,36 @@
                                     >
                                         Light
                                     </button>
+                                    <button 
+                                        @click="toggleTheme('heart-of-thorns')"
+                                        :class="theme == 'heart-of-thorns' ? 'active-button' : 'inactive-button'"
+                                    >
+                                        HoT
+                                    </button>
+                                    <button 
+                                        @click="toggleTheme('path-of-fire')"
+                                        :class="theme == 'path-of-fire' ? 'active-button' : 'inactive-button'"
+                                    >
+                                        PoF
+                                    </button>
+                                    <button 
+                                        @click="toggleTheme('end-of-dragons')"
+                                        :class="theme == 'end-of-dragons' ? 'active-button' : 'inactive-button'"
+                                    >
+                                        EoD
+                                    </button>
+                                    <button 
+                                        @click="toggleTheme('secrets-of-the-obscure')"
+                                        :class="theme == 'secrets-of-the-obscure' ? 'active-button' : 'inactive-button'"
+                                    >
+                                        SoTo
+                                    </button>
+                                    <button 
+                                        @click="toggleTheme('janthir-wilds')"
+                                        :class="theme == 'janthir-wilds' ? 'active-button' : 'inactive-button'"
+                                    >
+                                        JW
+                                    </button>
                                 </div>
                                 
                             </div>
@@ -1203,6 +1233,7 @@ nav a:hover{
 }
 .settings-button{
     display: flex;
+    flex-wrap: wrap;
     gap: var(--gap-general);
 }
 .settings-button button{

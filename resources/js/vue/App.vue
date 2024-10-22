@@ -1563,13 +1563,6 @@ img.map-guide{
     --color-type-repeatable: #860184;
     --color-type-node: #a86506;
     --color-type-solo: #257eb6;
-    /* --color-rarity-legendary: var(--color-text);
-    --color-rarity-ascended: var(--color-text);
-    --color-rarity-exotic: var(--color-text);
-    --color-rarity-rare: var(--color-text);
-    --color-rarity-masterwork: var(--color-text);
-    --color-rarity-fine: var(--color-text);
-    --color-rarity-junk: var(--color-junk); */
     --color-rarity-legendary: #6509ac;
     --color-rarity-ascended: #99053b;
     --color-rarity-exotic: #795109;
@@ -1597,6 +1590,69 @@ img.map-guide{
     --border-event-meta: 5px solid var(--color-event-meta);
     --border-event-up: 5px solid var(--color-event-up);
     --border-event-upcoming: 5px solid var(--color-event-upcoming);
+}
+
+[data-theme="path-of-fire"]{
+    --color-bkg: #1b0313;
+    --color-h1: #ff6d10;
+    --color-bkg-fade: #2b0324;
+    --color-bkg-more-fade: #22061d;
+}
+
+[data-theme="heart-of-thorns"]{
+    --color-bkg: #292b26;
+    --color-h1: #7f9b2a;
+    --color-h2: #3fbeb3;
+    --color-h3: #3fbeb3;
+    --color-subheader: #3fbeb3;
+    --color-bkg-fade: #212519;
+    --color-bkg-more-fade: #1f221a;
+    --color-link: #f7b114;
+
+    --border-bottom: 2px solid #3e5242;
+    --border-general: 2px solid #3e5242;
+}
+
+[data-theme="end-of-dragons"]{
+    --color-bkg: #044548; 
+    --color-h1: #03b770;
+    --color-h2: #aafaf1;
+    --color-h3: #aafaf1;
+    --color-subheader: #aafaf1;
+    --color-bkg-fade: #04393b;
+    --color-bkg-more-fade: #043133;
+    --color-link: #5ae601;
+
+    --border-bottom: 2px solid #548a62;
+    --border-general: 2px solid #548a62;
+}
+
+[data-theme="secrets-of-the-obscure"]{
+    --color-bkg: #1e170a;
+    --color-h1: #f1bb16;
+    --color-h2: #f7e4a6;
+    --color-h3: #f7e4a6;
+    --color-subheader: #f7e4a6;
+    --color-link: #4fd9ff;
+    --color-bkg-fade: #2b1f0a;
+    --color-bkg-more-fade: #291a04;
+    --color-table-header: var(--color-subheader);
+}
+
+[data-theme="janthir-wilds"]{
+    --color-bkg: #1e1515;
+    --color-h1: #4d9ac1;
+    --color-h2: #3f8adb;
+    --color-h3: #3f8adb;
+    --color-subheader: #3f8adb;
+    --color-bkg-fade: #1c1f2c;
+    --color-bkg-more-fade: #171a29;
+    --color-link: #f19027;
+
+    --color-table-header: var(--color-subheader);
+
+    --border-bottom: 2px solid #3b3f52;
+    --border-general: 2px solid #3b3f52;
 }
 
 </style>
