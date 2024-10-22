@@ -86,8 +86,7 @@
                             <span class="remember-container">
                                 <label for="remember">Remember Me</label>
                                 <input type="checkbox" name="remember" v-model="remember">
-                            </span>
-                            
+                            </span> 
 
                             <div class="form-button-container">
                                 <button type="submit" v-if="!user">Login</button>
@@ -101,6 +100,16 @@
                                 <p v-if="authErrorStatus" class="error-message">{{ authErrorMessage }}</p>
                             </div>
                         </form>
+
+                        <!-- 'FORGOT PASSWORD' LINK -->
+                        <p class="link" @click="forgotPasswordForm = !forgotPasswordForm">Forgot Password</p>
+                        <!-- FORGOT EMAIL FORM -->
+                        <form v-if="forgotPasswordForm" @submit.prevent="handleForgotPassword(forgotEmail)">
+                            <input type="email" name="forgotEmail" id="forgotEmail" placeholder="merp@derp.com" v-model="forgotEmail">
+                            <button type="submit">Send Verification Email</button>
+                        </form>
+
+                        <p v-if="forgotPasswordEmailSent">Email sent!</p>
                     </div>
                 </Transition>
                 <!--
@@ -753,6 +762,7 @@ import NavSection from '@/js/vue/components/navigation/NavSection.vue';
 // Initialize form fields
 const name = ref(''), 
     email = ref(''),
+    forgotEmail = ref(null),
     password = ref(''),
     remember = ref(null),
     authErrorStatus = ref(null),
@@ -761,14 +771,31 @@ const name = ref(''),
 const settingsElement = ref(null),
     filtersElement = ref(null);
 
+const forgotPasswordForm = ref(null),
+    forgotPasswordEmailSent = ref(null);
+
 const registerToggle = ref(false);
 // Wizard's Vault
 const wv = ref(null); 
 
 const timerPageToggle = ref(false);
 
-const resetTheme = () => {
-    theme.value = null; 
+// *
+// * FORGOT PASSWORD
+// *
+const handleForgotPassword = async () => {
+    try {
+        const response = await axios.post('/forgot-password', {
+            email: forgotEmail.value,
+        }); 
+
+        if (response){
+            console.log('Email sent!', response);
+            forgotPasswordEmailSent.value = true; 
+        }
+    } catch (error){
+        console.log('Could not verify email: ', error); 
+    }
 }
 
 // *
@@ -1200,7 +1227,10 @@ nav a:hover{
 }
 
 .form-container{
+    display: flex;
+    flex-direction: column;
     padding: var(--gap-general);
+    gap: var(--gap-general);
 }
 .form-container input{
     width: 100%;

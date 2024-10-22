@@ -59,6 +59,7 @@ input[type="button"]{
 }
 a {
     cursor: pointer;
+    color: var(--color-link);
 }
 h1, h2, h3, h4, h5, h6{
     font-family: var(--font-family-readex);
@@ -1522,6 +1523,7 @@ img.map-guide{
     --w-pie-chart: clamp(18rem, 20vw, 35rem);
     --w-map-guide: clamp(20rem, 50vw, 45rem);
     --w-p-size: clamp(20rem, 100%, 50rem);
+    --w-homepage-icon: clamp(10rem, 30vw, 20rem);
 
     --img-material-w: 20px;
     --img-header: clamp(1.5rem, 2vw, 3rem);
@@ -1582,6 +1584,8 @@ img.map-guide{
     --color-event-meta: #14a79d;
     --color-event-up: #3eac0b;
     --color-event-upcoming: #db8b12;
+
+    --font-weight-p: 425;
 
     --border-bottom: 2px solid #b4b4b4;
     --border-general: 2px solid #c5c5c5;

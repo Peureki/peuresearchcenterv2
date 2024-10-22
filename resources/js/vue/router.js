@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 
 import HomeView from './views/HomeView.vue'
+import ResetPasswordView from '@/js/vue/views/ResetPasswordView.vue'
 
 import BenchmarksMapsView from './views/benchmarks/MapsView.vue'
 import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
@@ -99,6 +100,12 @@ const routes = [
         path: '/',
         component: HomeView,
         name: 'home',
+    },
+    {
+        path: '/reset-password/:token',
+        component: ResetPasswordView,
+        name: 'reset-password',
+        props: route => ({token: route.params.token, email: route.query.email})  
     },
     {
         path: '/privacy-policy',

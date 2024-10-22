@@ -89,6 +89,7 @@
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 
+import { getAuthUser } from '@/js/vue/composables/Authentication';
 import { loginToggle, isMobile, mainNavToggle, mobileHamburger } from '@/js/vue/composables/Global';
 
 import PeuChoya from '@/imgs/choyas/Peu_Choya.png'
@@ -96,6 +97,7 @@ import JungleChoya from '@/imgs/choyas/Jungle_Choya.png'
 import BlueChoya from '@/imgs/choyas/Blue_Choya.png'
 import ResearchChoya from '@/imgs/choyas/Research_Choya.png'
 import GolemChoya from '@/imgs/choyas/Golem_Choya.png'
+import { onMounted } from 'vue';
 
 const loginButton = () => {
     if (isMobile){
@@ -104,6 +106,10 @@ const loginButton = () => {
     }
     loginToggle.value = !loginToggle.value; 
 }
+
+onMounted( async () => {
+    await getAuthUser();
+})
 
 </script>
 

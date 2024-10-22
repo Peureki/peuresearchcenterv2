@@ -1,11 +1,10 @@
 <?php
-
-use App\Http\Controllers\BagController;
 use App\Http\Controllers\ConfirmationController;
+use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\LoginController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\PasswordResetController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +28,24 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/register', [LoginController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);
+
+// *
+// * EMAIL VERIFICATION
+// *
+Route::get('/email/verify', [EmailVerificationController::class, 'verifyEmail']);
+
+// *
+// * PASSWORD RESETS
+// *
+Route::post('/forgot-password', [PasswordResetController::class, 'forgotPassword'])
+    ->middleware('guest')
+    ->name('password.email');
+
+Route::post('/reset-password/{token}', [PasswordResetController::class, 'resetPassword'])
+    ->middleware('guest')
+    ->name('password.reset');
+
+
 
 // *
 // * CONFIRMATIONS
