@@ -40,6 +40,14 @@ export const favorites = ref([]);
 export const checklist = ref([]);
 export const filterResearchNotes = ref(["Crafting","TP","Armorsmith","Artificer","Chef","Huntsman","Jeweler","Leatherworker","Scribe","Tailor","Weaponsmith","Consumable","Armor","Weapon","Back","Trinket"]);
 export const filters = ref({
+    // * MAP BENCHMARK FILTERS
+    sortMapBenchmarks: 'Gold', 
+    toggleMapBenchmarkTypes: ['Repeatable', 'Daily'],
+    // * SOLO BENCHMARK FILTERS
+    sortSoloBenchmarks: 'Gold',
+    // * NODE BENCHMARK FILTERS
+    toggleNodeBenchmarkGlyphs: ['Scavenger', 'Unbound', 'Volatility', 'Watchknight', 'Forester', 'Herbalist', 'Leatherworker', 'Prospector', 'Tailor', 'Bounty'],
+
     showGlyph: 'All', 
     toggleGlyphLevels: ['All', '1-15', '16-40', '41-55', '56-70', '71-80'],
     toggleGlyphTypes: ['Ore', 'Log', 'Plant'],

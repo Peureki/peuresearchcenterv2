@@ -1,7 +1,34 @@
 <template>
-    <Nav/>
     <Header page-name="Node Farms"/>
+    <Nav>
+        <template v-slot:filters>
+            <h3>Filters</h3>
 
+            <div v-if="estNodeBenchmarks" class="filter-collection-container">
+                <p>Glyph Type</p>
+                <div class="filter-collection">
+                    <FilterToggle
+                        v-if="filterGlyphs"
+                        v-for="glyphs in filterGlyphs"
+                        :toggle-option="glyphs"
+                        filter-property-name="toggleNodeBenchmarkGlyphs"
+                    />
+                </div>
+            </div>
+
+            <div class="filter-collection-container">
+                <p>Set new filters</p>
+                <div class="filter-collection">
+                    
+                    <button 
+                        @click="getEstNodeBenchmarks(estURL); currentlyRefreshing = true"
+                    >
+                        Apply Filters
+                    </button>
+                </div>
+            </div>
+        </template>
+    </Nav>
     
     
 
@@ -27,8 +54,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed, watch } from 'vue'
-import { user, sellOrder, tax, includes, refreshSettings } from '@/js/vue/composables/Global';
+import { onMounted, ref, computed, watch, onUnmounted } from 'vue'
+import { user, sellOrder, tax, includes, refreshSettings, filters, filtersToggle } from '@/js/vue/composables/Global';
 import { getAuthUser } from '@/js/vue/composables/Authentication';
 
 import Nav from '@/js/vue/components/general/Nav.vue'
@@ -37,6 +64,7 @@ import Footer from '@/js/vue/components/general/Footer.vue'
 import NodeFarmBenchmarks from '@/js/vue/components/benchmarks/NodeFarmBenchmarks.vue';
 import Loading from '@/js/vue/components/general/Loading.vue'
 import Disclaimer from '@/js/vue/components/general/Disclaimer.vue'
+import FilterToggle from '@/js/vue/components/filters/FilterToggle.vue';
 
 const mapBenchmarks = ref([]),
     estNodeBenchmarks = ref(null),
@@ -49,11 +77,12 @@ const currentlyRefreshing = ref(false),
     currentProgress = ref(0);
 
 // Distinquish what type of farm to return in this page
-const filter = ['Node'];
+const filter = ['Node'],
+    filterGlyphs = ['Scavenger', 'Unbound', 'Volatility', 'Watchknight', 'Forester', 'Herbalist', 'Leatherworker', 'Prospector', 'Tailor', 'Bounty'];
 
 // ESTIMATED farms
 const estURL = computed(() => {
-    return `../api/benchmarks/node-farms/${JSON.stringify(includes.value)}/${sellOrder.value}/${tax.value}`
+    return `../api/benchmarks/node-farms/${JSON.stringify(filters.value.toggleNodeBenchmarkGlyphs)}/${JSON.stringify(includes.value)}/${sellOrder.value}/${tax.value}`
 })
 
 // BY DEFAULT
@@ -71,7 +100,11 @@ onMounted( async () => {
         console.log('user found')
         getEstNodeBenchmarks(estURL.value);
     }
+    filtersToggle.value = true; 
     console.log('estimated url: ', estURL.value);
+})
+onUnmounted(() => {
+    filtersToggle.value = false; 
 })
 // Update the progress of loading the data 
 window.Echo.channel('progress')
@@ -96,6 +129,7 @@ const getEstNodeBenchmarks = async (url) => {
         //sortBenchmarks(mapBenchmarks.value); 
     }
 }
+
 
 watch(refreshSettings, async (newSettings) => {
     if (newSettings){

@@ -74,6 +74,7 @@ class BenchmarkController extends Controller
                 $nodeValue += $subNodeValue;
                 $item->value = $subNodeValue; 
 
+                // Get the icon of the most valued item of the node
                 if ($subNodeValue > $mostValuedItem){
                     $mostValuedItem = $subNodeValue;
                     $nodeIcon = $item->item_icon; 
@@ -83,7 +84,8 @@ class BenchmarkController extends Controller
             array_push($nodes, [
                 'value' => $nodeValue, 
                 'name' => $group[0]->node_name, 
-                'icon' => $nodeIcon,
+                // For users that do not opt in for VM or asc junk b/c then the value of the node would be 0
+                'icon' => $nodeValue ? $nodeIcon : $group[0]->item_icon,
                 'type' => $group[0]->node_type,
             ]);
         }
@@ -102,7 +104,31 @@ class BenchmarkController extends Controller
         return response()->json($response);
     }
 
-    public function nodeFarms($includes, $sellOrderSetting, $tax){
+    // *
+    // * NODE FARMS
+    // *
+    public function nodeFarms($filters, $includes, $sellOrderSetting, $tax){
+        // Make it a workable arrays
+        // New accounts that haven't set any settings may still have "null"
+        if ($filters == "null"){
+            $filters = [];
+        } else {
+            //dd($filters);
+            $filters = json_decode($filters);
+            // In the front end, to make it easier, they are listed by their unique name rather than having the "Glyph of"
+            // This attaches the full name to them
+            foreach ($filters as &$filter){
+                switch ($filter){
+                    case "Volatility":
+                    case "Bounty":
+                        $filter = 'Glyph of '.$filter; 
+                        break;
+
+                    default: 
+                        $filter = 'Glyph of the '.$filter;
+                }
+            }
+        }
         // Make it a workable arrays
         // New accounts that haven't set any settings may still have "null"
         if ($includes == "null"){
@@ -112,7 +138,7 @@ class BenchmarkController extends Controller
         }
 
         // Create unique cache key with the unique paramters a user may have
-        $cacheKey = 'node_farm_benchmarks_' . md5(json_encode($includes) . $sellOrderSetting . $tax); 
+        $cacheKey = 'node_farm_benchmarks_' . md5(json_encode($filters)) . md5(json_encode($includes) . $sellOrderSetting . $tax); 
         // If data has been cached, then return that instead
         $cachedResponse = Cache::get($cacheKey); 
         if ($cachedResponse){
@@ -139,6 +165,11 @@ class BenchmarkController extends Controller
             'axe_items.icon as axe_icon',
             'sickle_items.icon as sickle_icon',
         )
+        ->where(function($query) use ($filters) {
+            $query->whereIn('pick_items.name', $filters)
+                  ->orWhereIn('axe_items.name', $filters)
+                  ->orWhereIn('sickle_items.name', $filters);
+        })
         ->orderBy('value', 'desc')
         ->paginate(50); 
 
@@ -303,6 +334,9 @@ class BenchmarkController extends Controller
         return response()->json($response);
     }
 
+    // *
+    // * MAP BENCHMARKS
+    // * 
     public function maps($includes, $filter, $sellOrderSetting, $tax){
         //dd($filter);
 
@@ -369,6 +403,7 @@ class BenchmarkController extends Controller
             $currentHighestValue = 0; 
             $mostValuedItem = '';
             $mostValuedIcon = '';
+            $currencies = [];
             $total = 0;
 
             foreach ($group as $item){
@@ -391,6 +426,16 @@ class BenchmarkController extends Controller
                     }
                 }
 
+                // PUSH CURRENCIES
+                if ($item->currency_name && $item->currency_name != 'Coin'){
+                    array_push($currencies, [
+                        'name' => $item->currency_name,
+                        'count' => round((int) $item->drop_rate / $time),
+                        'icon' => $item->currency_icon, 
+                    ]);
+                }
+                // Create new 'value' property
+                // This is to display the value of the dropped item in benchmark details
                 $item->value = $itemValue;
                 
                 $total += $itemValue; 
@@ -412,6 +457,7 @@ class BenchmarkController extends Controller
                 'latestRun' => $group[0]->latest_run,
                 'mostValuedItem' => $mostValuedItem,
                 'mostValuedIcon' => $mostValuedIcon,
+                'currencies' => $currencies,
             ];
             // Constantly return progress of loading benchmarks
             $progress = count($mapBenchmark) / $benchmarkTotalCount;

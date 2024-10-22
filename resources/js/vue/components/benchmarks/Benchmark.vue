@@ -2,7 +2,7 @@
     <div class="card-grid">
         <div
             class="card-container"
-            v-for="(benchmark, index) in benchmarks" :key="index"
+            v-for="(benchmark, index) in filteredBenchmarks" :key="index"
         >
             <p class="rank">{{ index + 1 }}</p>
             <div class="card">
@@ -46,9 +46,9 @@
                             *
                         -->
                         <span class="card-info-container">
-                            <span class="card-currencies" v-for="currency in setCurrencies(dropRates[index])">
+                            <span class="card-currencies" v-for="currency in benchmark.currencies">
                                 <img class="card-currency" :src="currency.icon">
-                                <p>{{ currency.value }}</p>
+                                <p>{{ currency.count }}</p>
                             </span>
 
                             <svg 
@@ -97,7 +97,7 @@ import MobileBenchmarkTable from '@/js/vue/components/tables/MobileBenchmarkTabl
 import MobileDetailsTable from '@/js/vue/components/tables/MobileDetailsTable.vue'
 import PageButtons from '@/js/vue/components/general/PageButtons.vue'
 
-import { isMobile } from '@/js/vue/composables/Global.js'
+import { isMobile, filters } from '@/js/vue/composables/Global.js'
 
 import GreenHook from '@/imgs/icons/fishes/Green_Hook.png'
 
@@ -106,25 +106,18 @@ import GreenHook from '@/imgs/icons/fishes/Green_Hook.png'
 const props = defineProps({
     benchmarks: Object,
     dropRates: Object,
+    filterProperty: String, 
 })
 
-const setCurrencies = (drops) => {
-    // If benchmark does not contain any currencies
-    if (drops.hasOwnProperty('node_benchmark_id')){
-        return null; 
+const filteredBenchmarks = computed(() => {
+    if (props.filterProperty){
+        return props.benchmarks.filter(benchmark => 
+            filters.value[props.filterProperty].includes(benchmark.type)
+        )
+    } else {
+        return props.benchmarks;
     }
-
-    const set = new Set(); 
-    drops.forEach(item => {
-        if (item.currency_id && item.currency_id != 1){
-            set.add(JSON.stringify({ 
-                icon: item.icon, 
-                value: Math.round(item.drop_rate / item.time) 
-            }));
-        }
-    });
-    return Array.from(set).map(item => JSON.parse(item));
-}
+})
 
 // Individually allow each card to be expanded or not
 // By default, have each card not expanded
@@ -139,7 +132,7 @@ const changeBackgroundType = (type) => {
     }
 }
 
-console.log('drop rates', props.dropRates);
+//console.log('drop rates', props.dropRates);
 
 </script>
 

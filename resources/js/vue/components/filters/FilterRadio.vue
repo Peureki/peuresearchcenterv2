@@ -32,8 +32,6 @@ const chooseActiveFilter = (index) => {
 const checkFilters = () => {
     if (filters.value[props.filterPropertyName]){
         activeIndex.value = props.toggleOptions.indexOf(filters.value[props.filterPropertyName]);
-
-        console.log('index of: ', props.toggleOptions.indexOf(filters.value[props.filterPropertyName]), filters.value[props.filterPropertyName], filters.value)
     }
 }
 

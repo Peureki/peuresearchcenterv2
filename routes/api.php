@@ -168,7 +168,7 @@ Route::get('/benchmarks/glyphs/{includes}/{sellOrderSetting}/{tax}', [BenchmarkC
 Route::get('/benchmarks/nodes/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'nodes']);
 
 // ESTIMATED NODE BENCHMARKS
-Route::get('/benchmarks/node-farms/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'nodeFarms']);
+Route::get('/benchmarks/node-farms/{filters}/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'nodeFarms']);
 
 // OTHER RECIPES
 Route::get('/fetch-other-recipes', [FetchController::class, 'fetchOtherRecipes']);

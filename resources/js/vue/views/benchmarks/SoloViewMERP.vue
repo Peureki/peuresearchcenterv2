@@ -1,35 +1,22 @@
 <template>
-    <Header page-name="Map Benchmarks"/>
+    <Header page-name="Solo Benchmarks"/>
     <Nav>
         <template v-slot:filters>
-            <h3>Filters</h3>
             <!-- 
-                    *
-                    * RADIO FILTERS
-                    * Only chose one of the filters to be displayed
-                    *
-                -->
-                <div v-if="mapBenchmarks" class="filter-collection-container">
-                    <p>Sort by</p>
-                    <div class="filter-collection">
-                        <FilterRadio
-                            :toggle-options="filterSort"
-                            filter-property-name="sortMapBenchmarks"
-                        />
-                    </div>
+                *
+                * RADIO FILTERS
+                * Only chose one of the filters to be displayed
+                *
+            -->
+            <div v-if="soloBenchmarks" class="filter-collection-container">
+                <p>Sort by</p>
+                <div class="filter-collection">
+                    <FilterRadio
+                        :toggle-options="filterSort"
+                        filter-property-name="sortSoloBenchmarks"
+                    />
                 </div>
-
-                <div v-if="mapBenchmarks" class="filter-collection-container">
-                    <p>Type</p>
-                    <div class="filter-collection">
-                        <FilterToggle
-                            v-if="filterTypes"
-                            v-for="type in filterTypes"
-                            :toggle-option="type"
-                            filter-property-name="toggleMapBenchmarkTypes"
-                        />
-                    </div>
-                </div>
+            </div>
         </template>
     </Nav>
 
@@ -38,9 +25,8 @@
             <Loading v-if="!benchmarkToggle || currentlyRefreshing" :width="200" :height="200" :progress="currentProgress"/>
             <Benchmark
                 v-if="benchmarkToggle"
-                :benchmarks="mapBenchmarks"
+                :benchmarks="soloBenchmarks"
                 :drop-rates="dropRates"
-                filter-property="toggleMapBenchmarkTypes"
             />
         </div>
     </section>
@@ -49,7 +35,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed, watch, onUnmounted } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import { user, sellOrder, tax, includes, refreshSettings, filters, filtersToggle } from '@/js/vue/composables/Global';
 import { getAuthUser } from '@/js/vue/composables/Authentication';
 
@@ -61,23 +47,20 @@ import Footer from '@/js/vue/components/general/Footer.vue'
 import Benchmark from '@/js/vue/components/benchmarks/Benchmark.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
 import FilterRadio from '@/js/vue/components/filters/FilterRadio.vue';
-import FilterToggle from '@/js/vue/components/filters/FilterToggle.vue';
 
-const mapBenchmarks = ref(null),
+const soloBenchmarks = ref(null),
     dropRates = ref(null),
     benchmarkToggle = ref(false);
 
 const currentlyRefreshing = ref(false),
     currentProgress = ref(0);
 
-const filter = ['Daily', 'Repeatable'],
+const filter = ['Solo'],
     // List any currencies that should be sorted
-    filterSort = ['Gold', 'Spirit Shard', 'Karma', 'Volatile Magic', 'Unbound Magic', 'Trade Contract'],
-    // List benchmark types
-    filterTypes = ['Repeatable', 'Daily'];
+    filterSort = ['Gold', 'Spirit Shard', 'Karma', 'Volatile Magic'];
 
 const sortBenchmarks = (benchmarks, sortFilter) => {
-    console.log('benchmarks: ', benchmarks, 'dropRates: ', dropRates);
+    console.log('benchmarks: ', benchmarks, 'dropRates: ', dropRates.value);
 
     if (benchmarks){
         // Create an array of indexes
@@ -122,8 +105,10 @@ const sortBenchmarks = (benchmarks, sortFilter) => {
         }
 
         // Update the ref values with sorted data
-        mapBenchmarks.value = sortedBenchmarks;
+        soloBenchmarks.value = sortedBenchmarks;
         dropRates.value = sortedDropRates;
+
+        console.log(soloBenchmarks.value, dropRates.value);
 
         benchmarkToggle.value = true; 
     }
@@ -140,21 +125,18 @@ onMounted( async () => {
     // IF NO USER
     if (!user.value){
         console.log('no user')
-        getMapBenchmarks(url.value);
+        getSoloBenchmarks(url.value);
     } 
     // USER FOUND
     else {
         console.log('user found')
-        getMapBenchmarks(url.value);
+        getSoloBenchmarks(url.value);
 
+        
     }
     filtersToggle.value = true; 
     console.log('url: ', url.value);
 })
-onUnmounted(() => {
-    filtersToggle.value = false;
-})
-
 // Update the progress of loading the data 
 window.Echo.channel('progress')
     .listen('LoadingProgress', (e) => {
@@ -162,15 +144,15 @@ window.Echo.channel('progress')
         //console.log('Loading Progress: ', e.progress);
     })
 
-const getMapBenchmarks = async (url) => {
+const getSoloBenchmarks = async (url) => {
     const response = await fetch(url);
     const responseData = await response.json(); 
     
     if (responseData){
-        mapBenchmarks.value = responseData.benchmarks;
+        soloBenchmarks.value = responseData.benchmarks;
         dropRates.value = responseData.dropRates; 
         
-        sortBenchmarks(mapBenchmarks.value, filters.value.sortMapBenchmarks); 
+        sortBenchmarks(soloBenchmarks.value, filters.value.sortSoloBenchmarks); 
     }
 }
 
@@ -178,17 +160,10 @@ watch(refreshSettings, async (newSettings) => {
     if (newSettings){
         currentlyRefreshing.value = true; 
 
-        await getMapBenchmarks(url.value);
+        await getSoloBenchmarks(url.value);
 
         currentlyRefreshing.value = false;
         refreshSettings.value = false;
-    }
-})
-
-watch(filters, (newFilters) => {
-    if (newFilters){
-        console.log(newFilters.sortMapBenchmarks);
-        sortBenchmarks(mapBenchmarks.value, newFilters.sortMapBenchmarks);
     }
 })
 

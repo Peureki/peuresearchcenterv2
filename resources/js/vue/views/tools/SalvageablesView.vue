@@ -49,7 +49,7 @@ import { getAuthUser } from '@/js/vue/composables/Authentication';
 const salvageableURL = `../api/tools/salvageables/${sellOrder.value}/${tax.value}`;
 
 const mixedSalvageableURL = computed(() => {
-    return `../api/tools/mixed-salvageables/${includes.value}/${sellOrder.value}/${tax.value}`;
+    return `../api/tools/mixed-salvageables/${JSON.stringify(includes.value)}/${sellOrder.value}/${tax.value}`;
 }) 
 
 const salvageables = ref(null),

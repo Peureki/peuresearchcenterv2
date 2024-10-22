@@ -20,6 +20,14 @@ class SalvageableController extends Controller
     }
 
     public function mixedSalvageables($includes, $sellOrderSetting, $tax){
+        // Make it a workable arrays
+        // New accounts that haven't set any settings may still have "null"
+        if ($includes == "null"){
+            $includes = [];
+        } else {
+            $includes = json_decode($includes);
+        }
+
         $mixedSalvageableDropRates = MixedSalvageableDropRate::leftjoin('mixed_salvageables', 'mixed_salvageable_drop_rates.mixed_salvageable_id', '=', 'mixed_salvageables.id')
         ->leftjoin('items as item', 'mixed_salvageable_drop_rates.item_id', '=', 'item.id')
         ->leftjoin('items as salvageable_item', 'mixed_salvageables.id', '=', 'salvageable_item.id')
@@ -39,16 +47,6 @@ class SalvageableController extends Controller
         )
         ->get()
         ->groupBy('mixed_salvageable_id');
-
-        $merp = MixedSalvageableDropRate::get(); 
-
-        //dd($merp);
-        // foreach ($merp as $salvageable){
-        //     if ($salvageable->exotic){
-        //         dd($salvageable);
-        //     }
-            
-        // }
 
         $salvageables = [];
         $salvageablePrice = $this->salvageableBuyOrSellPrice($sellOrderSetting); 
