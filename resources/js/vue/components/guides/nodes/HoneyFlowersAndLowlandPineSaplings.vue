@@ -2,6 +2,8 @@
     <div class="guide-container">
         <h3>Route</h3>
 
+        <p>Credits: pieffff.2065. This is a slightly modified route.</p>
+
         <button @click="(e) => {copyWaypoint(copyAllWaypoints(guides)); handleTooltipToggle(e)}">Copy all waypoints</button>
 
         <GuideItem
