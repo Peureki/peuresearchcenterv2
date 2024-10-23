@@ -55,9 +55,9 @@ const handleTooltipToggle = (e) => {
 // *
 const guides = ref([
     {
-        instruction: "From Moon Camp, head down and eastward. Follow the path through the arid area",
-        waypointName: "Astral Waard Moon Camp Waypoint",
-        waypointLink: "[&BCcPAAA=]",
+        instruction: "Follow the arrows on the map. Because this map is somewhat straightforward, you can rollerbeetle for most of the way. Otherwise use Jackal or Warclaw and not Raptor for the hills.",
+        waypointName: "Hot Springs Waypoint",
+        waypointLink: "[&BMkOAAA=]",
         img: LowlandShore,
         alt: "Lowland Shore"
     },
