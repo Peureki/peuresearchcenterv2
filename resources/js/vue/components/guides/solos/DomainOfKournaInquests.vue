@@ -1,9 +1,7 @@
 <template>
     <div class="guide-container">
         <h3>Route</h3>
-
-        <button @click="(e) => {copyWaypoint(copyAllWaypoints(guides)); showTooltip(e)}">Copy all waypoints</button>
-
+    
         <GuideItem
             v-for="(guide, index) in guides"
             :index="index + 1"
@@ -13,7 +11,7 @@
             :img="guide.img"
             :alt="guide.alt"
             @handle-show-tooltip="showTooltip"
-        />       
+        />  
     </div>
 
     <Transition name="fade">
@@ -23,7 +21,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import { copyWaypoint, copyAllWaypoints } from '@/js/vue/composables/BasicFunctions';
 import { handleCursorTooltip } from '@/js/vue/composables/MouseFunctions'
 
 // Cursor tooltip
@@ -31,20 +28,21 @@ import CursorTooltip from '@/js/vue/components/general/CursorTooltip.vue';
 import GuideItem from '@/js/vue/components/guides/nodes/GuideItem.vue';
 
 // Picture guides
-import VerdantBrink from '@/imgs/guides/nodes/Mussels_Verdant_Brink.webp'
+import Guide from '@/imgs/guides/solos/Domain_Of_Kourna_Inquests.webp'
 
 // Initilize tooltip vars
 const { mouseX, mouseY, tooltipToggle, showTooltip } = handleCursorTooltip(); 
+
 // *
 // * FILL IN GUIDES AND PICTURES
 // *
 const guides = ref([
     {
-        instruction: "There will be a small valley with a small waterfall. Head down and there will be a trail of Mussels and up the stairs. From there, keep heading forward and you'll see another trail of Mussels along the water.",
-        waypointName: "Shipwreck Peak Waypoint",
-        waypointLink: "[&BN4HAAA=]",
-        img: VerdantBrink,
-        alt: "Verdant Brink"
+        instruction: "Lots of Inquests gathered inside the cave. When you go outside, there will be groups of 3 throughout. If the meta is NOT active and you see a cannon event above the cliffs, that will infinitely spawn Inquests until the event is complete. If you do that, focus on the mobs and not the cannon.",
+        waypointName: "Apizmic Grounds Waypoint",
+        waypointLink: "[&BFALAAA=]",
+        img: Guide,
+        alt: "Domain of Kourna Inquest Route"
     },
 ])
 

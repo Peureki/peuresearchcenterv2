@@ -2,8 +2,6 @@
     <div class="guide-container">
         <h3>Route</h3>
 
-        <button @click="(e) => {copyWaypoint(copyAllWaypoints(guides)); showTooltip(e)}">Copy all waypoints</button>
-
         <GuideItem
             v-for="(guide, index) in guides"
             :index="index + 1"
@@ -23,7 +21,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import { copyWaypoint, copyAllWaypoints } from '@/js/vue/composables/BasicFunctions';
 import { handleCursorTooltip } from '@/js/vue/composables/MouseFunctions'
 
 // Cursor tooltip
@@ -31,20 +28,21 @@ import CursorTooltip from '@/js/vue/components/general/CursorTooltip.vue';
 import GuideItem from '@/js/vue/components/guides/nodes/GuideItem.vue';
 
 // Picture guides
-import VerdantBrink from '@/imgs/guides/nodes/Mussels_Verdant_Brink.webp'
+import IceboundChest from '@/imgs/guides/solos/Bitterfrost_Events.webp'
 
 // Initilize tooltip vars
 const { mouseX, mouseY, tooltipToggle, showTooltip } = handleCursorTooltip(); 
+
 // *
 // * FILL IN GUIDES AND PICTURES
 // *
 const guides = ref([
     {
-        instruction: "There will be a small valley with a small waterfall. Head down and there will be a trail of Mussels and up the stairs. From there, keep heading forward and you'll see another trail of Mussels along the water.",
-        waypointName: "Shipwreck Peak Waypoint",
-        waypointLink: "[&BN4HAAA=]",
-        img: VerdantBrink,
-        alt: "Verdant Brink"
+        instruction: "This is a very *chill* set of events that can be very easy to solo. Both meta and regular events. Throughout the ice floe, there are 9 braizers. They could either have a gear icon or a shield icon. If it's a gear, then you need to grab a torch from a lit brazier and apply it to apply/speed up the event. If it's a shield, you need to defend from incoming mobs. The more braziers that are lit, the faster the meta will spawn. Meta generally spawns ~55 minutes after it's last completion. When it starts getting dark, the braziers will go ham in activity.",
+        waypointName: "Sorrow's Eclipse Waypoint",
+        waypointLink: "[&BH0JAAA=]",
+        img: IceboundChest,
+        alt: "Icebound Chest Route"
     },
 ])
 

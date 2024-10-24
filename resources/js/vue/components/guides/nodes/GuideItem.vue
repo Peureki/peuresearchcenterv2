@@ -7,7 +7,7 @@
                 class="inline-link" 
                 @click="(e) => {
                     copyWaypoint(`${waypointLink}`); 
-                    $emit('handleTooltipToggle', e)
+                    $emit('handleShowTooltip', e)
                 }"
             > 
             {{ waypointLink }}</span>

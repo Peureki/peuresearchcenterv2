@@ -724,6 +724,11 @@ span.inline{
     display: flex;
     gap: var(--gap-content);
 }
+.details{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-content);
+}
 @media (max-width: 768px){
     .details-container{
         flex-direction: column-reverse;

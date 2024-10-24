@@ -2,8 +2,6 @@
     <div class="guide-container">
         <h3>Route</h3>
 
-        <button @click="(e) => {copyWaypoint(copyAllWaypoints(guides)); showTooltip(e)}">Copy all waypoints</button>
-
         <GuideItem
             v-for="(guide, index) in guides"
             :index="index + 1"
@@ -23,7 +21,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import { copyWaypoint, copyAllWaypoints } from '@/js/vue/composables/BasicFunctions';
 import { handleCursorTooltip } from '@/js/vue/composables/MouseFunctions'
 
 // Cursor tooltip
@@ -31,20 +28,21 @@ import CursorTooltip from '@/js/vue/components/general/CursorTooltip.vue';
 import GuideItem from '@/js/vue/components/guides/nodes/GuideItem.vue';
 
 // Picture guides
-import VerdantBrink from '@/imgs/guides/nodes/Mussels_Verdant_Brink.webp'
+import IceboundChest from '@/imgs/guides/solos/Bitterfrost_Icebound_Chests.webp'
 
 // Initilize tooltip vars
 const { mouseX, mouseY, tooltipToggle, showTooltip } = handleCursorTooltip(); 
+
 // *
 // * FILL IN GUIDES AND PICTURES
 // *
 const guides = ref([
     {
-        instruction: "There will be a small valley with a small waterfall. Head down and there will be a trail of Mussels and up the stairs. From there, keep heading forward and you'll see another trail of Mussels along the water.",
-        waypointName: "Shipwreck Peak Waypoint",
-        waypointLink: "[&BN4HAAA=]",
-        img: VerdantBrink,
-        alt: "Verdant Brink"
+        instruction: "Follow the arrows on the map below in a somewhat counterclockwise rotation. These chests will respawn per character AND per meta. Meaning, even after you gather chests on one character and then complete the meta, that character will be able to loot new chests. These will despawn when the meta champs are up so if you want to continue this, kill all 9 champs.",
+        waypointName: "Sorrow's Eclipse Waypoint",
+        waypointLink: "[&BH0JAAA=]",
+        img: IceboundChest,
+        alt: "Icebound Chest Route"
     },
 ])
 

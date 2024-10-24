@@ -26,7 +26,7 @@
     <section class="main">
         <div class="content-section">
             <Loading v-if="!benchmarkToggle || currentlyRefreshing" :width="200" :height="200" :progress="currentProgress"/>
-            <Benchmark
+            <SoloBenchmarks
                 v-if="benchmarkToggle"
                 :benchmarks="mapBenchmarks"
                 :drop-rates="dropRates"
@@ -42,12 +42,10 @@ import { onMounted, ref, computed, watch, onUnmounted } from 'vue'
 import { user, sellOrder, tax, includes, refreshSettings, filters, filtersToggle } from '@/js/vue/composables/Global';
 import { getAuthUser } from '@/js/vue/composables/Authentication';
 
-import Echo from 'laravel-echo';
-
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
 import Footer from '@/js/vue/components/general/Footer.vue'
-import Benchmark from '@/js/vue/components/benchmarks/Benchmark.vue'
+import SoloBenchmarks from '@/js/vue/components/benchmarks/SoloBenchmarks.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
 import FilterRadio from '@/js/vue/components/filters/FilterRadio.vue';
 
