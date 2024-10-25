@@ -72,10 +72,15 @@
                     :drop-rates="dropRates[index]"
                 />
 
-                <PieChart
-                    v-if="!isMobile"
-                    :drop-rates="dropRates[index]"
-                />
+                <div class="details">
+                    <PieChart
+                        v-if="!isMobile"
+                        :drop-rates="dropRates[index]"
+                    />
+
+                    <Dragonfall v-if="benchmark.map == 'Dragonfall'"/>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -101,7 +106,8 @@ import { isMobile, filters } from '@/js/vue/composables/Global.js'
 
 import GreenHook from '@/imgs/icons/fishes/Green_Hook.png'
 
-
+// MAP GUIDES
+import Dragonfall from '@/js/vue/components/guides/maps/Dragonfall.vue'
 
 const props = defineProps({
     benchmarks: Object,

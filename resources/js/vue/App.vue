@@ -81,7 +81,7 @@ h3{
     font-weight: var(--font-weight-h3);
 }
 h4{
-    color: var(--color-text);
+    color: var(--color-subheader);
     font-size: var(--font-size-h4);
     font-weight: var(--font-weight-h4);
     margin: 0;
@@ -89,10 +89,11 @@ h4{
 h5{
     color: var(--color-text);
     font-size: var(--font-size-h5);
+    font-weight: var(--font-weight-h5);
     padding: var(--padding-h5);
     margin: 0;
-    font-weight: normal;
-    text-align: center;
+    padding: 0;
+
 }
 h6{
     font-size: var(--font-size-h6);
@@ -124,8 +125,10 @@ ul {
 li {
     font-family: var(--font-family-readex);
     font-size: var(--font-size-p);
+    font-weight: var(--font-weight-li);
     color: var(--color-text);
     list-style: none;
+    line-height: 1.5;
 }
 table, th, td{
     border: var(--border-general);
@@ -728,6 +731,7 @@ span.inline{
     display: flex;
     flex-direction: column;
     gap: var(--gap-content);
+    max-width: 1000px; /* So content/text doesn't go so far */
 }
 @media (max-width: 768px){
     .details-container{
@@ -1235,6 +1239,30 @@ img.map-guide{
     flex-direction: column;
     gap: var(--gap-general);
 }
+/* 
+    =================================================
+    * REQUIREMENTS & RECOMMENDATION CONTAINERS
+    =================================================
+*/
+.requirements-and-recommendations{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: var(--gap-content);
+}
+.requirements-container, .recommendations-container{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-general);
+    max-width: 50%;
+}
+.requirement{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-general);
+    border: var(--border-general);
+    padding: var(--padding-general);
+}
 
 /* 
     =================================================
@@ -1265,10 +1293,6 @@ img.map-guide{
     * DYNAMIC CLASSES
     =================================================
 */
-/* For SVG disclaimers */
-.disclaimer > path{
-    fill: var(--color-down);
-}
 /* Insert to create space between columns of content */
 .gap-content{
     display: flex;
@@ -1438,6 +1462,8 @@ img.map-guide{
     --color-dusk: #db8b9d;
     --color-dawn: #db8b9d;
     --color-anytime: #e15e6c;
+    --color-disclaimer-caution: #FFD12C;
+    --color-disclaimer-warning: #EC004D;
     --color-expand-circle: var(--color-up);
     --color-input: var(--color-opposite-text);
     --color-table-odd-bkg: var(--color-bkg-fade);
@@ -1446,7 +1472,9 @@ img.map-guide{
     --font-weight-h2: 500;
     --font-weight-h3: 500;
     --font-weight-h4: 450;
-    --font-weight-p: 400; 
+    --fon-weight-h5: 450;
+    --font-weight-p: 400;
+    --font-weight-li: 400; 
     --font-weight-title: 400;
 
     --font-size-h1: clamp(2.5rem, 5.5vw, 6.25rem);

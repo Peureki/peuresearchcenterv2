@@ -27,7 +27,8 @@ export const mobileHamburger = ref(isMobile ? true : false);
 export const settingsToggle = ref(false),
     filtersToggle = ref(false),
     bookmarksToggle = ref(false),
-    apiKeyToggle = ref(false);
+    apiKeyToggle = ref(false),
+    dayAndNightTimerToggle = ref(false);
 
 // SETTINGS
 // DEFAULTS

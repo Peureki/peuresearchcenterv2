@@ -140,7 +140,10 @@
                     * TYRIAN AND CANTHAN DAY/NIGHT CYCLE
                     *
                 -->
-                <DayAndNightTimers/>
+                <Transition name="fade-right">
+                    <DayAndNightTimers v-if="dayAndNightTimerToggle"/>
+                </Transition>
+                
                 <!--
                     * SLOT - TIMERS
                     * 
@@ -727,7 +730,7 @@ import { ref, watch, provide, onMounted, onUnmounted, computed, nextTick } from 
 
 
 import { scrollTo } from '@/js/vue/composables/NavFunctions.js'
-import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings, loginToggle, mainNavToggle, mobileHamburger, favorites, filterResearchNotes, filters, settingsToggle, bookmarksToggle, filtersToggle, apiKeyToggle, theme } from '@/js/vue/composables/Global.js';
+import { user, isMobile, includes, buyOrder, sellOrder, tax, refreshSettings, loginToggle, mainNavToggle, mobileHamburger, favorites, filterResearchNotes, filters, settingsToggle, bookmarksToggle, filtersToggle, apiKeyToggle, theme, dayAndNightTimerToggle } from '@/js/vue/composables/Global.js';
 import { convertTaxToPercent, pageRefresh } from '@/js/vue/composables/BasicFunctions.js'
 import { getAuthUser, logout, register, login } from '@/js/vue/composables/Authentication';
 

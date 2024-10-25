@@ -123,8 +123,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
-import { user, buyOrder, sellOrder, tax, includes } from '@/js/vue/composables/Global'
+import { ref, computed, onMounted, watch, onUnmounted } from 'vue'
+import { user, buyOrder, sellOrder, tax, includes, dayAndNightTimerToggle } from '@/js/vue/composables/Global'
 import { showRarityColor } from '@/js/vue/composables/FormatFunctions'
 import { getAuthUser } from '@/js/vue/composables/Authentication'
 
@@ -338,7 +338,13 @@ onMounted( async () => {
         getFishes(url);
     }
 
+    dayAndNightTimerToggle.value = true; 
+
     console.log(url.value);
+})
+
+onUnmounted(() => {
+    dayAndNightTimerToggle.value = false; 
 })
 
 // Update the progress of loading the data 
