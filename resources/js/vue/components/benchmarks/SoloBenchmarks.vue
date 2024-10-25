@@ -87,6 +87,8 @@
                     <BitterfrostIceboundChests v-if="benchmark.map == 'Bitterfrost Icebound Chests'"/>
                     <DomainOfKournaInquests v-if="benchmark.map == 'Kourna Inquest'"/>
                     <SandsweptInquestDrake v-if="benchmark.map == 'Sandswept Inquest/Drake'"/>
+
+                    <p v-else class="small-subtitle">Benchmark guide coming soon</p>
                 </div>
                 
             </div>

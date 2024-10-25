@@ -79,6 +79,7 @@
                     />
 
                     <Dragonfall v-if="benchmark.map == 'Dragonfall'"/>
+                    <p v-else class="small-subtitle">Benchmark guide coming soon</p>
                 </div>
                 
             </div>

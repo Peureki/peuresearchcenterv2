@@ -1263,6 +1263,28 @@ img.map-guide{
     border: var(--border-general);
     padding: var(--padding-general);
 }
+.gathering-tools{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-general);
+}
+.glyphs{
+    display: flex;
+    align-items: center;
+    gap: var(--gap-general);
+}
+.glyphs img{
+    width: var(--img-glyph);
+}
+@media (max-width: 1100px){
+    .requirements-and-recommendations{
+        flex-wrap: wrap;
+    }
+    .requirements-container, .recommendations-container{
+        max-width: unset;
+        width: 100%;
+    }
+}
 
 /* 
     =================================================
@@ -1560,6 +1582,7 @@ img.map-guide{
 
     --img-material-w: 20px;
     --img-header: clamp(1.5rem, 2vw, 3rem);
+    --img-glyph: clamp(2rem, 2vw, 3rem);
 
     --svg-expand: clamp(0.8rem, 0.9vw, 1.5rem);
     --svg-icon-size: clamp(1.2rem, 1.5vw, 1.30rem);

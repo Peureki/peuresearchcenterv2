@@ -40,7 +40,7 @@
                     <ul>
                         <li class="img-and-label">
                             <img :src="KarmicRetribution" alt="Karmic Retribution" title="Karmic Retribution">
-                            <p>Karmic Retribution will forces each mob to drop a Retribution, which will force drop volatile magic</p>
+                            <p><a href="https://wiki.guildwars2.com/wiki/Karmic_Retribution_(Dragonfall)" target="_blank">Karmic Retribution</a> (at least tier 1) will forces each mob to drop a Retribution, which will force drop volatile magic</p>
                         </li>
                     </ul>
                 </div>
@@ -84,6 +84,26 @@
                         </li>
                     </ul>
                 </div>
+                <div class="requirement">
+                    <p>Gathering Tools</p>
+                    <div class="gathering-tools">
+                        <div class="glyphs">
+                            <img :src="GlyphOfVolatility" alt="Glyph of Volatility" title="Glyph of Volatility">
+                            <img :src="GlyphOfVolatility" alt="Glyph of Volatility" title="Glyph of Volatility">
+                            <img :src="GlyphOfBounty" alt="Glyph of Bounty" title="Glyph of Bounty">
+                        </div>
+                        <p class="small-subtitle">Volatility, Volatility, Bounty</p>
+                    </div>
+
+                    <p>Or</p>
+
+                    <div class="img-and-label">
+                        <img :src="SickleOfBounty" alt="Harvesting Sickle of Bounty" title="Harvesting Sickle of Bounty">
+                        <p><a href="https://wiki.guildwars2.com/wiki/Harvesting_Sickle_of_Bounty" target="_blank">Harvesting Sickle of Bounty</a></p>
+                    </div>
+
+                    <p>Volatility for general Volatile Magic, Bounty for extra Mistborn Motes</p>
+                </div>
             </div>
         </div>
         
@@ -97,10 +117,9 @@
         <p class="small-subtitle">Assuming you start on a fresh map</p>
         <ul>
             <li>1. Escort from main waypoint to end of each camp</li>
-            <li>2. Each camp: 3 Culls, Brandstorm, Champ, then their meta-event</li>
-            <li>3. Menders spawns at level 2 at Olmakhan, level 3 for Crystal Bloom, Mist Warden</li>
-            <li>4. When camps are complete, split everyone ~2+ per escort/defense throughout the map</li>
-            <li>5. High DPS for Weak Points, so much that the elites can't regenerate HP fast enough/won't retaliate as much</li>
+            <li>2. Each camp: 3 Culls, Brandstorm, Champ, then their meta-event. Menders spawns at level 2 at Olmakhan, level 3 for Crystal Bloom, Mist Warden</li>
+            <li>3. When camps are complete, split everyone ~2+ per escort/defense throughout the map. 6 escorts, 6 defenses.</li>
+            <li>4. High DPS for Weak Points, so much that the elites can't regenerate HP fast enough/won't retaliate as much</li>
             <li>6. At 6/12 Weak Points, split squad to each Shrine and kill champs simulatanously</li>
             <li>7. Destroy final 6 Weak Points, follow champ train route</li>
             <li>8. Extra Mistborn Mote farm</li>
@@ -170,6 +189,66 @@
 
         <img class="map-guide" :src="CampEvents" alt="Camp Events" title="Camp Events">
 
+        <!-- 
+            *
+            * PRE-META
+            *
+        -->
+        <h4>3. Pre-meta</h4>
+
+        <p>After the camps have reached level 4, there will be 2 escorsts and 2 defenses at each camp. It is best to split everyone with at least 2 people per event. The faster this progresses, the faster the meta can start.</p>
+
+        <Disclaimer 
+            type="caution"
+            message="If you desperate for keys, you can tag more than 1 event" 
+        />
+
+        <img class="map-guide" :src="EscortsAndReflectors" alt="Escorts and Reflectors" title="Escorts and Reflectors">
+
+        <!-- 
+            *
+            * META
+            *
+        -->
+        <h4>4. Meta</h4>
+
+        <p>Before the meta beings, there will be a ~2 minute wait period. It's best to prep your food, buffs and gather everyone at the southwest shrine. Once the timer is up, you'll see on your mini map where the Weak Spots are. Alternatively, you could do a strat where you split the group into 3 groups, one at each Shrine and do the same process, but 1 large group works just fine. You need to hit 6/12 to spawn the 3 legendaries that will be near each shrine.</p>
+
+        <Disclaimer 
+            type="caution"
+            message="You can waypoint to each Shrine even in combat!"
+        />
+
+        <p>Make sure you kill each legendary simulatanously! I suggest getting to around ~20% and waiting for the last legendary to reach that point to burn. There's only a 30 second window to kill them all. Because of the 1 group stat, most people will be inclined to go to Matriarch as it's the closest. So, as the commander or if you know this meta, I recommend the other two. When all 3 legendaries are complete, whatever Weak Spot is near you, head to it. There should be enough of a split for everyone to complete the rest of the meta.</p>
+
+        <Disclaimer 
+            type="caution"
+            message="The higher the DPS, the less chance for the Mender to invoke retaliation and healing to the Weak Point."
+        />
+
+        <img class="map-guide" :src="Meta" alt="Meta" title="Meta">
+
+        <!-- 
+            *
+            * POST-META CHAMPS
+            *
+        -->
+        <h4>5. Post-Meta Champs</h4>
+
+        <p>After the meta, everyone will be redirected to the northwest Shrine to gather the chests. In about a minute, 9 champions will spawn, 3 at each camp. Follow the route below for a smooth track. If you don't have a flying mount, there are alternative routes and I highly recommend a Jackal.</p>
+
+        <img class="map-guide" :src="Champions" alt="Champions" title="Champions">
+
+        <!-- 
+            *
+            * MISTBORN MOTE FARM
+            *
+        -->
+        <h4>6. Mistborn Mote Farm</h4>
+
+        <p>After the meta, there are 6 Mistborn Motes that will spawn where the legendary Wraithbringer and Hydra were. These will respawn after each meta and can only be obtained that way. There are also other Mistborn Motes scattered throughout Kralk's body that used to be inaccessible.</p>
+
+        <img class="map-guide" :src="MistbornMotes" alt="Mistborn Motes" title="Mistborn Motes">
     </div>
 </template>
 
@@ -194,7 +273,16 @@ import KarmicRetribution from '@/imgs/icons/Karmic_Retribution.png'
 // ACHIEVEMENTS
 import LS4Achievements from '@/imgs/icons/War_Eternal.png'
 
+// GLYPHS AND TOOLS
+import GlyphOfBounty from '@/imgs/icons/glyphs/Glyph_of_Bounty.png'
+import GlyphOfVolatility from '@/imgs/icons/glyphs/Glyph_of_Volatility.png'
+import SickleOfBounty from '@/imgs/icons/glyphs/Harvesting_Sickle_of_Bounty.png'
+
 // MAP GUIDES
 import BridgesAndEscorts from '@/imgs/guides/maps/dragonfall/Bridges_And_Escorts.webp'
 import CampEvents from '@/imgs/guides/maps/dragonfall/Camp_Events.webp'
+import Champions from '@/imgs/guides/maps/dragonfall/Champions.webp'
+import EscortsAndReflectors from '@/imgs/guides/maps/dragonfall/Escorts_And_Reflectors.webp'
+import Meta from '@/imgs/guides/maps/dragonfall/Meta.webp'
+import MistbornMotes from '@/imgs/guides/maps/dragonfall/Mistborn_Motes.webp'
 </script>
