@@ -178,11 +178,12 @@ console.log('drop rates', props.combinations);
 </script>
 
 <style scoped>
-/* .gold-label{
-    font-size: var(--font-size-h5);
-} */
-
-
+@media (max-width: 768px){
+    .img-and-label{
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+}
 
 /*
     *

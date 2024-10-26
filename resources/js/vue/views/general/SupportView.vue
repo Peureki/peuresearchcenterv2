@@ -90,6 +90,11 @@
                     <h4 class="underline">Researchers</h4>
                     <p class="supporter" v-for="researcher in sortedResearchers">{{ researcher }}</p>
                 </div>
+
+                <div class="supporter-list">
+                    <h4 class="underline">Artwork</h4>
+                    <p class="supporter"><a href="https://x.com/tiffymew?lang=en" target="_blank">Tiffy.2305</a></p>
+                </div>
             </div>
         </div>    
     </section>

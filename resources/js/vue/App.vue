@@ -781,8 +781,6 @@ span.currency img{
 .search-query-container{
     display: flex;
     flex-direction: column;
-    margin: var(--margin-block-general);
-    padding: 0;
     height: fit-content;
     max-height: 200px;
     overflow-y: auto;
@@ -793,8 +791,11 @@ span.currency img{
 .search-query-container li{
     display: flex;
     align-items: center;
-    gap: 5px;
-    padding: var(--padding-search-li);
+    gap: var(--gap-general);
+    padding: var(--gap-ingredients);
+}
+.search-query-container li p {
+    text-align: left;
 }
 .search-query-container li img{
     width: 20px;
@@ -1093,6 +1094,9 @@ svg.arrow path{
     p.rank{
         top: 0;
         transform: translate(-1%, 0);
+    }
+    .title{
+        white-space: wrap;
     }
 }
 

@@ -2,7 +2,7 @@
     <section class="main">
         <div class="content-section">
             <Disclaimer
-                message="The choyas are working hard to build this website. This is an 'early release'. To check patch notes, check out the #prc-patch-notes channel on Discord. Version 0.8.1"
+                message="The choyas are working hard to build this website. This is an 'early release'. To check patch notes, check out the #prc-patch-notes channel on Discord. Version 0.8.2"
             />
         </div>
         
@@ -16,6 +16,8 @@
 
                     <span>
                         <p class="small-subtitle temp-merp">Created by Peureki.3647</p>
+
+                        <p class="small-subtitle">Choya artwork by the fabulous <a href="https://x.com/tiffymew?lang=en" target="_blank">Tiffy</a></p>
                         
                         <router-link to="/privacy-policy" class="link small-subtitle">Privacy Policy</router-link>
 

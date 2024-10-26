@@ -569,7 +569,7 @@
 
                         <NavPage category="currencies" url="calcified-gasp" name="Calcified Gasp" :icon="CalcifiedGasp"/>
 
-                        <NavPage category="currencies" url="geode" name="Geodes" :icon="Geode"/>
+                        <!-- <NavPage category="currencies" url="geode" name="Geodes" :icon="Geode"/> -->
 
                         <NavPage category="currencies" url="imperial-favor" name="Imperial Favors" :icon="ImperialFavor"/>
 
