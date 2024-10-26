@@ -10,6 +10,7 @@
                     * SEARCH SPECIFIC ITEM
                     *
                 -->
+                <p>Use Specific Material</p>
                 <SearchItem
                     :show-quantity="false"
                     placeholder="Silk Scrap"
