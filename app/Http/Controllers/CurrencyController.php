@@ -90,7 +90,7 @@ class CurrencyController extends Controller
             });
 
         if ($material !== "null" && $material !== null){
-            $filteredQuery->where('research_note.ingredients', 'LIKE', '%"name":"' . $material . '"%');
+            $filteredQuery->where('research_note.ingredients', 'LIKE', '%' . $material . '%');
         }
     
         // Return Research Notes db 
