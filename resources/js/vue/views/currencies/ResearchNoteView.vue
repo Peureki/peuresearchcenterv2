@@ -215,7 +215,7 @@ const favoritesUrl = computed(() => {
 })
 
 const getResearchNotes = async (url) => {
-    console.log('url: ', url);
+    //console.log('url: ', url);
     try {
         const response = await fetch(url);
         const responseData = await response.json();
