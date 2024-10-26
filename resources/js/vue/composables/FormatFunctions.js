@@ -118,7 +118,17 @@ export function getCSSVariable(variable){
 
 // Format time from seconds
 // Example 1hr, 30mins, 25seconds would be 01:30:25
-export function formatTime (seconds) {
+export function formatTime (value, unit = 'seconds') {
+    let seconds; 
+
+    switch (unit) {
+        case 'hours': seconds = value * 3600; break;
+        case 'minutes': seconds = value * 60; break;
+        default: seconds = value; 
+    }
+
+    seconds = Math.floor(seconds);
+
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;

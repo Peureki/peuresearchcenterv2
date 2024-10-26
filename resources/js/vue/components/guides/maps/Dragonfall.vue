@@ -36,6 +36,21 @@
                 </div>
 
                 <div class="requirement">
+                    <p>Keys</p>
+                    <ul>
+                        <li class="img-and-label">
+                            <img :src="MistbornKey" alt="Mistborn Key" title="Mistborn Key">
+                            <p>~54 Mistborn Keys (entire train)</p>
+                        </li>
+                        <li class="img-and-label">
+                            <img :src="MistbornKey" alt="Mistborn Key" title="Mistborn Key">
+                            <p>36 Mistborn Keys (meta + champs)</p>
+                        </li>
+                    </ul>
+                    <p class="small-subtitle">Keys are obtained via events. Fresh map escorts and meta give 3 while everything else gives 1 per.</p>
+                </div>
+
+                <div class="requirement">
                     <p>Buffs</p>
                     <ul>
                         <li class="img-and-label">
@@ -116,13 +131,12 @@
         <h4>TLDR;</h4>
         <p class="small-subtitle">Assuming you start on a fresh map</p>
         <ul>
-            <li>1. Escort from main waypoint to end of each camp</li>
+            <li>1. Bridges & Escort from main waypoint to end of each camp</li>
             <li>2. Each camp: 3 Culls, Brandstorm, Champ, then their meta-event. Menders spawns at level 2 at Olmakhan, level 3 for Crystal Bloom, Mist Warden</li>
             <li>3. When camps are complete, split everyone ~2+ per escort/defense throughout the map. 6 escorts, 6 defenses.</li>
-            <li>4. High DPS for Weak Points, so much that the elites can't regenerate HP fast enough/won't retaliate as much</li>
-            <li>6. At 6/12 Weak Points, split squad to each Shrine and kill champs simulatanously</li>
-            <li>7. Destroy final 6 Weak Points, follow champ train route</li>
-            <li>8. Extra Mistborn Mote farm</li>
+            <li>4. High DPS for Weak Points, so much that the elites can't regenerate HP fast enough/won't retaliate as much. At 6/12 Weak Points, split squad to each Shrine and kill champs simulatanously</li>
+            <li>5. 9 Champion train</li>
+            <li>6. Extra Mistborn Mote farm</li>
         </ul>
 
         <p>To keep track of the event timers, I recommend my <router-link to="/timers/dragonfall" target="_blank">Dragonfall Timer Page</router-link>, especially for Menders or Bridge events.</p>
@@ -266,6 +280,9 @@ import Skyscale from '@/imgs/icons/Skyscale.png'
 // MASTERIES
 import ThermalPropulsion from '@/imgs/icons/masteries/Thermal_Propulsion.png'
 import UpdraftUseMastery from '@/imgs/icons/masteries/Updraft_Use.png'
+
+// KEYS
+import MistbornKey from '@/imgs/icons/Mistborn_Key.png'
 
 // BUFFS
 import KarmicRetribution from '@/imgs/icons/Karmic_Retribution.png'
