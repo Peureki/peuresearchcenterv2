@@ -7,6 +7,19 @@
                 <h3>Filters</h3>
                 <!-- 
                     *
+                    * SEARCH SPECIFIC ITEM
+                    *
+                -->
+                <SearchItem
+                    :show-quantity="false"
+                    placeholder="Silk Scrap"
+                    submit-text="Add to filters"
+                    @handle-item-search="handleItemSearch"
+                />
+
+                <p class="small-subtitle">Selected material: {{ material }}</p>
+                <!-- 
+                    *
                     * PREFERENCES FILTERS
                     *
                 -->
@@ -136,6 +149,7 @@ import ResearchNotesCard from '@/js/vue/components/tables/ResearchNotesCard.vue'
 import ResearchNote from '@/imgs/icons/Research_Note.png'
 
 import FilterToggle from '@/js/vue/components/general/FilterToggle.vue'
+import SearchItem from '@/js/vue/components/general/SearchItem.vue'
 // *
 // * COMPOSABLES
 // *
@@ -165,6 +179,9 @@ const refreshFilters = ref(false),
 // True => database first
 const columnReverse = ref(false); 
 
+// Search Query
+const material = ref(null);
+
 // Favorites 
 const favoriteResearchNotes = ref([]);
 
@@ -184,8 +201,12 @@ const saveFilters = async () => {
     }
 }
 
+const handleItemSearch = (query, quantity) => {
+    material.value = query.name;
+}
+
 const url = computed(() => {
-    return `../api/currencies/research-note/${buyOrder.value}/${JSON.stringify(filterResearchNotes.value)}`;
+    return `../api/currencies/research-note/${buyOrder.value}/${JSON.stringify(filterResearchNotes.value)}/${material.value}`;
 })
 
 const favoritesUrl = computed(() => {
@@ -232,7 +253,7 @@ const getFavoriteNotes = async (url) => {
 onMounted( async () => {
     // Check if user is being auth
     await getAuthUser();
-    //console.log('url: ', url.value);
+    console.log('url: ', url.value);
     getResearchNotes(url.value); 
 
     if (user.value){

@@ -128,7 +128,7 @@ Route::get('/currencies/spirit-shards/{buyOrderSetting}/{sellOrderSetting}/{tax}
 // *
 // * GENERAL CURRENCIES
 // *
-Route::get('/currencies/{filter}/{includes}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'currencies']);
+// Route::get('/currencies/{filter}/{includes}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'currencies']);
 
 // *
 // * EXCHANGEABLES
@@ -142,7 +142,7 @@ Route::get('/exchangeables/{request}/{includes}/{sellOrderSetting}/{tax}', [BagC
 Route::get('/currencies/salvage-research-notes/{buyOrderSetting}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'salvageResearchNotes']);
 
 
-Route::get('/currencies/research-note/{buyOrderSetting}/{filter}', [CurrencyController::class, 'researchNote']);
+Route::get('/currencies/research-note/{buyOrderSetting}/{filter}/{material}', [CurrencyController::class, 'researchNote']);
 Route::get('/currencies/favorite-research-note/{buyOrderSetting}/{favorites}', [CurrencyController::class, 'favoriteResearchNote']);
 
 

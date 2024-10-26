@@ -12,10 +12,11 @@
             :placeholder="placeholder"
             v-model="searchBar"
         >
-        <button class="submit" type="submit">{{ submitText }}</button>
+        <!-- <button class="submit" type="submit">{{ submitText }}</button> -->
 
         <ul class="search-query-container" v-if="searchBar && searchBar.length > 3">
             <button 
+                type="submit"
                 v-for="(item, index) in searchResults"
                 @click="searchQuery = searchResults[index];
                     searchBar = item.name"
@@ -80,5 +81,8 @@ watch(searchBar, debounce(async (query) => {
 </script>
 
 <style scoped>
-
+input[type="text"]{
+    width: 100%;
+    max-width: 300px;
+}
 </style>

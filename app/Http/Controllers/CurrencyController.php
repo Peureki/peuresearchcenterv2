@@ -64,17 +64,18 @@ class CurrencyController extends Controller
     // * RESEARCH NOTES
     // *
     // * RETURN recipe value and research note value
-    public function researchNote($buyOrderSetting, $filter){
+    public function researchNote($buyOrderSetting, $filter, $material){
         // $filter might be "null" for users
         // By default, start with an empty array
         $filteredArray = []; 
         // Unless it's not "null", then use the settings the user has chosen
         if ($filter != "null"){
             $filteredArray = json_decode($filter);
-        }  
-        
+        } 
+
 
         //dd($filteredArray, $filter);
+        
 
         $filteredQuery = ResearchNotes::select('*')
             ->join('recipes', 'research_note.recipe_id', '=', 'recipes.id')
@@ -87,7 +88,11 @@ class CurrencyController extends Controller
                     $query->orWhereJsonContains('disciplines', $item);
                 }
             });
- 
+
+        if ($material !== "null" && $material !== null){
+            $filteredQuery->where('research_note.ingredients', 'LIKE', '%"name":"' . $material . '"%');
+        }
+    
         // Return Research Notes db 
         // Calculate crafting_value / avg_output and sort by that (cost/note column)
         $researchNotes = $filteredQuery
@@ -119,6 +124,8 @@ class CurrencyController extends Controller
                 END
             ")
             ->paginate(50);
+
+            //dd($researchNotes);
 
         return response()->json($researchNotes);
 

@@ -1578,7 +1578,7 @@ img.map-guide{
     --w-pie-chart: clamp(18rem, 20vw, 35rem);
     --w-map-guide: clamp(20rem, 50vw, 45rem);
     --w-p-size: clamp(20rem, 100%, 50rem);
-    --w-homepage-icon: clamp(10rem, 30vw, 20rem);
+    --w-homepage-icon: clamp(10rem, 20vw, 20rem);
 
     --img-material-w: 20px;
     --img-header: clamp(1.5rem, 2vw, 3rem);

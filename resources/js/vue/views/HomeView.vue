@@ -23,7 +23,7 @@
                 <router-link class="card-container" to="/benchmarks/maps">
                     <div class="card-title">
                         <h3>Map Benchmarks</h3>
-                        <p class="small-subtitle">Open world farms, gathering, solo</p>
+                        <p class="small-subtitle">Wide variety of open world farms!</p>
                     </div>
                     
 
@@ -38,12 +38,27 @@
                 <router-link class="card-container" to="/benchmarks/fishing">
                     <div class="card-title">
                         <h3>Fishing Benchmarks</h3>
-                        <p class="small-subtitle">Dozens of fishing farms</p>
+                        <p class="small-subtitle">Embracing all fishes around Tyria</p>
                     </div>
                     
 
                     <div class="img-and-cta">
                         <img class="card-icon" :src="BlueChoya" alt="Map Benchmarks" title="Map Benchmarks">
+                        <svg class="card-cta" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="var(--color-link)"/>
+                        </svg>
+                    </div>
+                </router-link>
+
+                <router-link class="card-container" to="/benchmarks/node-farms">
+                    <div class="card-title">
+                        <h3>Gathering Benchmarks</h3>
+                        <p class="small-subtitle">Gathering routes with numbers of almost every glyph combination</p>
+                    </div>
+                    
+
+                    <div class="img-and-cta">
+                        <img class="card-icon" :src="GatheringChoya" alt="Gathering Benchmarks" title="Gathering Benchmarks">
                         <svg class="card-cta" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="var(--color-link)"/>
                         </svg>
@@ -97,6 +112,7 @@ import JungleChoya from '@/imgs/choyas/Jungle_Choya.png'
 import BlueChoya from '@/imgs/choyas/Blue_Choya.png'
 import ResearchChoya from '@/imgs/choyas/Research_Choya.png'
 import GolemChoya from '@/imgs/choyas/Golem_Choya.png'
+import GatheringChoya from '@/imgs/choyas/Gathering_Choya.png'
 import { onMounted } from 'vue';
 
 const loginButton = () => {
@@ -145,7 +161,7 @@ h2{
     font-size: clamp(1rem, 2vw, 3rem);
 }
 .peu-choya{
-    width: clamp(10rem, 30vw, 20rem);
+    width: var(--w-homepage-icon);
 }
 .red{
     color: var(--color-h1);
