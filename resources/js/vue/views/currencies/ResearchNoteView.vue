@@ -215,6 +215,7 @@ const favoritesUrl = computed(() => {
 })
 
 const getResearchNotes = async (url) => {
+    console.log('url: ', url);
     try {
         const response = await fetch(url);
         const responseData = await response.json();
@@ -254,7 +255,7 @@ const getFavoriteNotes = async (url) => {
 onMounted( async () => {
     // Check if user is being auth
     await getAuthUser();
-    console.log('url: ', url.value);
+    
     getResearchNotes(url.value); 
 
     if (user.value){
