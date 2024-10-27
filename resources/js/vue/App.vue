@@ -1382,7 +1382,6 @@ img.map-guide{
     opacity: 1;
     background-color: var(--color-link);
     color: var(--color-opposite-text);
-    border: var(--border-hidden);
     transition: var(--transition-all-03s-ease);
     border-radius: 10px;
 }

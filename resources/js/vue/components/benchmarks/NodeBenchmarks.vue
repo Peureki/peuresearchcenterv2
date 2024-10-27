@@ -85,12 +85,12 @@
                 class="details-container"
             >
                 <MobileDetailsTable
-                    :drop-rates="dropRates[index]"
+                    :drop-rates="filteredDropRates[index]"
                 />
 
                 <PieChart
                     v-if="!isMobile"
-                    :drop-rates="dropRates[index]"
+                    :drop-rates="filteredDropRates[index]"
                 />
             </div>
         </div>
@@ -129,6 +129,24 @@ const filteredBenchmarks = computed(() => {
         filters.value.toggleNodeTypes.includes(benchmark.type)
     );
 })
+
+// *
+// * FILTER DROP RATES TO MATCH FILTERED BENCHMARK INDEXES
+// *
+// * This was it does not mismatch when filtering glyphs
+const filteredDropRates = computed(() => {
+    // Get the indexes of the filtered benchmarks
+    const filteredIndexes = props.benchmarks
+        .map((benchmark, index) => (
+            filters.value.toggleNodeTypes.includes(benchmark.type)
+                ? index
+                : null
+        ))
+        .filter(index => index !== null);
+
+    // Use those indexes to filter dropRates
+    return filteredIndexes.map(index => props.dropRates[index]);
+});
 
 // Individually allow each card to be expanded or not
 // By default, have each card not expanded

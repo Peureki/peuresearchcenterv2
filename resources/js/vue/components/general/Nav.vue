@@ -542,6 +542,8 @@
 
                         <NavPage category="tools" url="checklist" name="Checklist" :icon="BulletList"/>  
 
+                        <!-- <NavPage category="tools" url="drizzlewood-commendations" name="DWC Commendations" :icon="CharrCommendation"/>   -->
+
                         <NavPage category="tools" url="homestead" name="Homestead" :icon="Homestead"/>
 
                         <NavPage category="tools" url="recipe-value" name="Recipe Value" :icon="Armorer"/>
@@ -790,6 +792,7 @@ import MistbornMote from '@/imgs/icons/Mistborn_Mote.png'
 import Mistonium from '@/imgs/icons/Lump_of_Mistonium.png'
 import UrsusOblige from '@/imgs/icons/Ursus_Oblige.png'
 import CuriousMursaatCurrency from '@/imgs/icons/Curious_Mursaat_Currency.png'
+import CharrCommendation from '@/imgs/icons/Charr_Commendation.png'
 
 import PeuChoya from '@/imgs/choyas/Peu_Choya.png'
 import RollingChoya from '@/imgs/choyas/Rolling_Choya.png'
