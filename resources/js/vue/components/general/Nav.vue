@@ -1199,9 +1199,6 @@ nav{
     z-index: 100000;
     transition: var(--transition-all-03s-ease);
 }
-nav:hover{
-    width: calc(var(--nav-width) + clamp(5rem, 5vw, 10rem));
-}
 ::-webkit-scrollbar{
     width: 1rem;
     border: var(--border-general);

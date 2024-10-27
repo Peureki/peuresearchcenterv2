@@ -1188,6 +1188,10 @@ svg.arrow path{
     padding: var(--gap-general);
     border-radius: var(--border-radius-card);
     border: var(--border-general);
+    transition: var(--transition-all-03s-ease);
+}
+.mobile-currency-card:hover{
+    border: 1px solid var(--color-text);
 }
 
 .label-and-cta{
@@ -1524,7 +1528,7 @@ img.map-guide{
     --font-family-readex: 'Readex Pro', sans-serif;
     --font-family-rubik: 'Rubik', sans-serif;
 
-    --border-general: 2px solid #3D3F42;
+    --border-general: 1px solid #3D3F42;
     --border-general-link: 2px solid var(--color-link);
     --border-hidden: 2px solid rgb(95, 96, 98, 0);
     --border-bottom: 2px solid #3D3F42;
@@ -1543,7 +1547,7 @@ img.map-guide{
     
     --border-radius-card: 5px;
     
-    --nav-width: clamp(13.5rem, 15vw, 16rem);
+    --nav-width: clamp(13.5rem, 15vw, 30rem);
     --nav-padding: 10px 0 10px 10px;
     --nav-padding-left: 10px;
     --nav-padding-label: 5px;
