@@ -705,10 +705,6 @@ span.blurb{
     align-items: center;
     gap: var(--gap-general);
 }
-span.inline{
-    display: inline;
-    max-width: 700px;
-}
 /* 
     * For any content blocks under main sections
     * Allows section.main to keep the borders full width
@@ -1583,7 +1579,7 @@ img.map-guide{
     --padding-left-nav: calc(var(--nav-width) + var(--gap-general));
 
     --w-pie-chart: clamp(18rem, 20vw, 35rem);
-    --w-map-guide: clamp(20rem, 50vw, 45rem);
+    --w-map-guide: clamp(20rem, 100%, 100rem);
     --w-p-size: clamp(20rem, 100%, 50rem);
     --w-homepage-icon: clamp(10rem, 20vw, 20rem);
 
