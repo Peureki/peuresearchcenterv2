@@ -11,6 +11,7 @@
             </svg>
 
             <p>{{ message }}</p>
+            <slot></slot>
         </div>
     </div>
 </template>

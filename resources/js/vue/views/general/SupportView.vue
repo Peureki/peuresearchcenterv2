@@ -134,7 +134,8 @@ const donators = [
     'SABI',
     'Snikkens',
     'Michael N. H.',
-    'BuD'
+    'BuD',
+    'Anastasia Z.'
 ];
 
 const researchers = [

@@ -79,6 +79,9 @@ class Controller extends BaseController
     protected $volatileMagic; 
     protected $writs;
 
+    // DWC COMMENDATIONS
+    protected $ashLegionCommendation;
+
     // NON-MONETIZABLE EXCHANGEABLES
     // Example:
     // Homested materials

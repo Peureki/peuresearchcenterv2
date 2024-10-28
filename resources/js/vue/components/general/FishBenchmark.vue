@@ -105,13 +105,319 @@
                 <MobileDetailsTable
                     :drop-rates="dropRates[index]"
                 />
-                <div class="pie-chart">
+                <div class="details">
                     <PieChart
                         :drop-rates="dropRates[index]"
                     />
+
                     <FishProofs
                         :fishing-hole="fishingHole"
                     />
+
+                    <!--
+                        * AMNYTAS, ASTRAL FISH
+                    -->
+                    <Disclaimer v-if="fishingHole.map == 'Amnytas'">
+                        <p>This will not complete a full hours worth of fishing in the same way that you can continously go from pool to pool non-stop. This has a high ascended rate of fish so I wanted to put this benchmark to see where it would be. If you follow all the directions below, you will get a decent ~25 minute run, but then there will be a pause.</p>
+                    </Disclaimer>
+                    <AmnytasAstralFish v-if="fishingHole.map == 'Amnytas'"/>
+
+                    <!-- 
+                        * BLOODTIDE COAST, COASTAL FISH
+                    -->
+                    <BloodtideCoast v-if="fishingHole.map == 'Bloodtide Coast'"/>
+
+                    <!--
+                        * CALEDON FOREST, SALTWATER FISH
+                    -->
+                    <Disclaimer v-if="fishingHole.map == 'Caledon Forest'">
+                        <p>This is probably my least favorite route ever. There are multiple mobs that will pull you off your skiff and put you in combat and may make you lose your stacks.</p>
+                    </Disclaimer>
+                    <CaledonForest v-if="fishingHole.map == 'Caledon Forest'"/>
+
+                    <!--
+                        * CRYSTAL OASIS, DESERT FISH
+                    -->
+                    <CrystalOasis v-if="fishingHole.map == 'Crystal Oasis'"/>
+
+                    <!--
+                        * DRACONIS MONS, VOLCANIC FISH
+                    -->
+                    <DraconisMons v-if="fishingHole.map == 'Draconis Mons'"/>
+
+                    <!--
+                        * DOMAIN OF ISTAN, OFFSHORE FISH
+                    -->
+                    <DomainOfIstan v-if="fishingHole.map == 'Domain of Istan'"/>
+
+                    <!--
+                        * DOMAIN OF KOURNA, DESERT FISH
+                    -->
+                    <DomainOfKourna v-if="fishingHole.map == 'Domain of Kourna'"/>
+
+                    <!--
+                        * DRAGON'S END, CAVERN FISH
+                    -->
+                    <DragonsEndCavernFish
+                        v-if="
+                            fishingHole.name == 'Cavern Fish' 
+                            && fishingHole.time == 'Daytime' 
+                            && fishingHole.map == 'Dragon\'s End'" 
+                    />
+
+                    <!--
+                        * DRAGON'S END, QUARRY FISH
+                    -->
+                    <Disclaimer
+                        v-if="
+                            fishingHole.name == 'Quarry Fish' 
+                            && fishingHole.time == 'Nighttime' 
+                            && fishingHole.map == 'Dragon\'s End'" 
+                    >
+                        <p>There are so many mobs that may attack you in this route that it's not worth farming.</p>
+                    </Disclaimer>
+                    <DragonsEndQuarryFish
+                        v-if="
+                            fishingHole.name == 'Quarry Fish' 
+                            && fishingHole.time == 'Nighttime' 
+                            && fishingHole.map == 'Dragon\'s End'" 
+                    />
+
+                    <!--
+                        * DRIZZLEWOOD COAST, LAKE FISH
+                    -->
+                    <Disclaimer v-if="fishingHole.map == 'Drizzlewood Coast'" type="caution">
+                        <p>This is a very unique farm where you can push over 1000 Fishing Power. 925 is from the normal maxing of getting Fishing Power while the additional 92 comes from <a href="https://wiki.guildwars2.com/wiki/Raise_Morale" target="_blank">Raise Morale</a> from the Quartermaster. The south camps need to be completed in order to achieve the maximum morale boost. From my experience, lots of Drizzlewood maps are left abondoned with the south portion completed and north not progressing, which is the perfect opportunity to do this farm.</p>
+                    </Disclaimer>
+                    <DrizzlewoodCoast
+                        v-if="
+                            fishingHole.name == 'Lake Fish' 
+                            && fishingHole.time == 'Daytime' 
+                            && fishingHole.map == 'Drizzlewood Coast'" 
+                    />
+
+                    <!--
+                        * ECHOVALD WILDS, LAKE FISH
+                    -->
+                    <Disclaimer v-if="fishingHole.map == 'Echovald Wilds'">
+                        <p>There is a chance that Qinkai Waypoint may be locked. This happens if the event chain from Jade Gate Waypoint (will have a tangerine symbol if not started) is progressing. The waypoint can be unlocked by completing the event when it reaches Qinkai.</p>
+                    </Disclaimer>
+                    <EchovaldLakeFish v-if="fishingHole.map == 'Echovald Wilds'"/>
+
+                    <!--
+                        * ELON RIVERLANDS, DESERT FISH
+                    -->
+                    <Disclaimer
+                        v-if="
+                            fishingHole.name == 'Desert Fish' 
+                            && fishingHole.time == 'Daytime' 
+                            && fishingHole.map == 'Elon Riverlands'" 
+                        message="There are many mobs on the south portion of this farm. You can avoid them by fishing at the highest point of your skiff (usually on the tail end)."
+                        type="caution"
+                    />
+                    <ElonRiverlands
+                        v-if="
+                            fishingHole.name == 'Desert Fish' 
+                            && fishingHole.time == 'Daytime' 
+                            && fishingHole.map == 'Elon Riverlands'" 
+                    />
+
+                    <!-- 
+                        * FROSTGORGE SOUND, BOREAL FISH 
+                    -->
+                    <FrostgorgeSound v-if="fishingHole.map == 'Frostgorge Sound'"/>
+
+                    <!--
+                        * GENDARREN FIELDS, RIVER FISH
+                    -->
+                    <GendarrenFieldsRiverFish v-if="fishingHole.map == 'Gendarran Fields'"/>
+
+                    <!--
+                        * HOMESTEADS, FRESHWATER FISH
+                    -->
+                    <Homestead v-if="fishingHole.map == 'Homestead'"/>
+
+                    <!--
+                        * INNER NAYOS
+                    -->
+                    <Disclaimer 
+                        v-if="fishingHole.map == 'Inner Nayos'" 
+                        type="caution"
+                    >
+                        <p>While this benchmark is based on Mackerels for the sake of getting the best possible chances, this farm is totally acceptable of using ANY other bait with 875 or 925 Fishing Power.</p>
+                    </Disclaimer>
+                    <InnerNayosDreamFish v-if="fishingHole.name == 'Dream Fish'"/>
+                    <InnerNayosNayosianFish v-if="fishingHole.name == 'Nayosian Fish'"/>
+                    
+
+                    <!--
+                        * LAKE FISH, DRIZZLEWOOD 
+                    -->
+                    <Disclaimer 
+                        v-if="
+                            fishingHole.name == 'Lake Fish' 
+                            && fishingHole.time == 'Daytime' 
+                            && fishingHole.map == 'Drizzlewood Coast'" 
+                        type="caution"
+                    >
+                        <p>This is a very unique farm that can hit over 1000 fishing power. 925 is obtained by the regular maxing method and the rest is obtained when all of the camps on the south side are cleared. While this is situational, lots of empty maps clear south's meta, but do not attempt north without a squad. You can obtain <a href="https://wiki.guildwars2.com/wiki/Raise_Morale" target="_blank">Raise Morale</a> for 30 minutes by exchanging 100 War Supplies</p>
+                    </Disclaimer>
+
+                    <!--
+                        * LOWLAND SHORE, BRACKISH FISH
+                    -->
+                    <LowlandShoreBrackishFish
+                        v-if="
+                            fishingHole.name == 'Lowland Brackish Fish' 
+                            && fishingHole.time == 'Daytime' 
+                            && fishingHole.map == 'Lowland Shore'"
+                    />
+
+                    <!--
+                        * LOWLAND SHORE, OFFSHORE FISH
+                    -->
+                    <LowlandShoreOffshoreFish
+                        v-if="
+                            fishingHole.name == 'Lowland Offshore Fish' 
+                            && fishingHole.time == 'Daytime' 
+                            && fishingHole.map == 'Lowland Shore'"
+                    />
+
+                    
+
+                    <!--
+                        * LION'S ARCH
+                    -->
+                    <LionsArch v-if="fishingHole.map == 'Lion\'s Arch'"/>
+
+                    <!--
+                        * MOUNT MAELSTROM, SALTWATER FISH
+                    -->
+                    <MountMaelstrom v-if="fishingHole.map == 'Mount Maelstrom'"/>
+
+                    <!--
+                        * NEW KAINENG CITY
+                    -->
+                    <Disclaimer 
+                        v-if="
+                            fishingHole.name == 'Channel Fish' 
+                            && (fishingHole.time == 'Daytime' || fishingHole.time == 'Nighttime') 
+                            && fishingHole.map == 'New Kaineng City'"
+                        type="caution"
+                    >
+                        <p>There may be an annoying event that spawns in the middle of the route there snipers can shoot you. Try your best to get out of sight.</p>
+                    </Disclaimer>
+                    <NewKainengCityChannelFish
+                        v-if="
+                            fishingHole.name == 'Channel Fish' 
+                            && (fishingHole.time == 'Daytime' || fishingHole.time == 'Nighttime') 
+                            && fishingHole.map == 'New Kaineng City'"
+                    />
+                    <NewKainengCityCoastalFish
+                        v-if="
+                            fishingHole.name == 'Coastal Fish' 
+                            && fishingHole.time == 'Daytime' 
+                            && fishingHole.map == 'New Kaineng City'" 
+                    />
+
+                    <!--
+                        * RATA SUM, SALTWATER FISH
+                    -->
+                    <Disclaimer v-if="fishingHole.map == 'Rata Sum'" type="caution">
+                        <p>Because this is a Saltwater pool, it has a much higher chance to obtain Saltwater Fish to complete the <a href="https://wiki.guildwars2.com/wiki/Saltwater_Fisher" target="_blank">Saltwater Fisher achievement and avid</a>. If you do this farm regularly, it's common to continuously complete the avid. I've had sessions where I completed it in less than an hour from start to finish or within 2 hours. The benchmark currently does not include Avid loot.</p>
+                    </Disclaimer>
+                    <RataSum v-if="fishingHole.map == 'Rata Sum'"/>
+
+                    <!--
+                        * SANDSWEPT ISLES, OFFSHORE FISH
+                    -->
+                    <SandsweptIslesOffshoreFish
+                        v-if="
+                            fishingHole.name == 'Offshore Fish' 
+                            && fishingHole.time == 'Nighttime' 
+                            && fishingHole.map == 'Sandswept Isles'"
+                    />
+
+                    <!--
+                        * SANDSWEPT ISLES, SHORE FISH
+                    -->
+                    <SandsweptIslesShoreFish
+                        v-if="
+                            fishingHole.name == 'Shore Fish' 
+                            && fishingHole.time == 'Daytime' 
+                            && fishingHole.map == 'Sandswept Isles'" 
+                    />
+
+                    <!--
+                        * SIREN'S LANDING, SHORE FISH
+                    -->
+                    <SirensLanding v-if="fishingHole.map == 'Siren\'s Landing'"/>
+
+                    <!--
+                        * STRAITS OF DEVESTATION, OFFSHORE FISH
+                    -->
+                    <StraitsOfDevestationOffshoreFish 
+                        v-if="
+                            fishingHole.name == 'Offshore Fish' 
+                            && (fishingHole.time == 'Nighttime' || fishingHole.time == 'Daytime') 
+                            && fishingHole.map == 'Straits of Devestation'" 
+                    />
+
+                    <!--
+                        * SEITUNG, OFFSHORE FISH
+                    -->
+                    <Disclaimer 
+                        v-if="
+                            fishingHole.name == 'Offshore Fish' 
+                            && (fishingHole.time == 'Daytime' || fishingHole.time == 'Nighttime')
+                            && fishingHole.map == 'Seitung Province'" 
+                        type="caution"
+                    >
+                        <p>Sometimes a Levi will trigger and it will be in parts of the route. Tag if you wish, but careful of the Naga that spawns. If that's the case, I'd tag and leave or keep your skiff afloat and kill. If your skiff disappears though, you will risk losing your stacks.</p>
+                    </Disclaimer>
+                    <SeitungOffshoreFish
+                        v-if="
+                            fishingHole.name == 'Offshore Fish' 
+                            && (fishingHole.time == 'Daytime' || fishingHole.time == 'Nighttime')
+                            && fishingHole.map == 'Seitung Province'" 
+                    />
+
+                    <!--
+                        * SEITUNG, SHORE FISH
+                    -->
+                    <SeitungShoreFish
+                        v-if="
+                            fishingHole.name == 'Shore Fish' 
+                            && fishingHole.time == 'Nighttime' 
+                            && fishingHole.map == 'Seitung Province'" 
+                    />
+
+                    <!--
+                        * SKYWATCH, FRESHWATER
+                    -->
+                    <SkywatchArchipelago v-if="fishingHole.map == 'Skywatch Archipelago'"/>
+
+                    <!--
+                        * SNOWDEN DRIFTS, LAKE FISH
+                    -->
+                    <Disclaimer v-if="fishingHole.map == 'Snowden Drifts'" type="caution">
+                        <p>Sometimes there's an event that spawns underwater from the first waypoint. If that's the case, try to position your skiff as far as possible</p>
+                    </Disclaimer>
+                    <SnowdenDrifts v-if="fishingHole.map == 'Snowden Drifts'" />
+
+                    <!--
+                        * SPARKFLY FEN, SALTWATER FISH
+                    -->
+                    <SparkflyFen v-if="fishingHole.map == 'Sparkfly Fen'"/>
+
+                    <!--
+                        * THUNDERHEAD, BOREAL FISH
+                    -->
+                    <Disclaimer v-if="fishingHole.map == 'Thunderhead Peaks'" type="caution">
+                        <p>To avoid the Dredge, park your skiff as far away from the ice as you can.</p>
+                    </Disclaimer>
+                    <Thunderhead v-if="fishingHole.map == 'Thunderhead Peaks'"/>
+                    
                 </div>
                 
             </div>
@@ -134,10 +440,48 @@ import FishProofs from '@/js/vue/components/general/FishProofs.vue'
 import PieChart from '@/js/vue/components/general/PieChart.vue'
 import MobileBenchmarkTable from '@/js/vue/components/tables/MobileBenchmarkTable.vue'
 import MobileDetailsTable from '@/js/vue/components/tables/MobileDetailsTable.vue'
+import Disclaimer from '@/js/vue/components/general/Disclaimer.vue'
 
 import { tyrianCurrentPeriod, canthanCurrentPeriod, isMobile } from '@/js/vue/composables/Global.js'
 
 import GreenHook from '@/imgs/icons/fishes/Green_Hook.png'
+
+// MAP GUIDES
+import AmnytasAstralFish from '@/js/vue/components/guides/fishing/AmnytasAstralFish.vue'
+import BloodtideCoast from '@/js/vue/components/guides/fishing/BloodtideCoast.vue'
+import CaledonForest from '@/js/vue/components/guides/fishing/CaledonForest.vue'
+import CrystalOasis from '@/js/vue/components/guides/fishing/CrystalOasis.vue'
+import DomainOfIstan from '@/js/vue/components/guides/fishing/DomainOfIstan.vue'
+import DomainOfKourna from '@/js/vue/components/guides/fishing/DomainOfKourna.vue'
+import DraconisMons from '@/js/vue/components/guides/fishing/DraconisMons.vue'
+import DragonsEndCavernFish from '@/js/vue/components/guides/fishing/DragonsEndCavernFish.vue'
+import DragonsEndQuarryFish from '@/js/vue/components/guides/fishing/DragonsEndQuarryFish.vue'
+import DrizzlewoodCoast from '@/js/vue/components/guides/fishing/DrizzlewoodCoast.vue'
+import EchovaldLakeFish from '@/js/vue/components/guides/fishing/EchovaldLakeFish.vue'
+import ElonRiverlands from '@/js/vue/components/guides/fishing/ElonRiverlands.vue'
+import FrostgorgeSound from '@/js/vue/components/guides/fishing/FrostgorgeSound.vue'
+import GendarrenFieldsRiverFish from '@/js/vue/components/guides/fishing/GendarrenFieldsRiverFish.vue'
+import Homestead from '@/js/vue/components/guides/fishing/Homestead.vue'
+import InnerNayosDreamFish from '@/js/vue/components/guides/fishing/InnerNayosDreamFish.vue'
+import InnerNayosNayosianFish from '@/js/vue/components/guides/fishing/InnerNayosNayosianFish.vue'
+import LionsArch from '@/js/vue/components/guides/fishing/LionsArch.vue'
+import LowlandShoreBrackishFish from '@/js/vue/components/guides/fishing/LowlandShoreBrackishFish.vue'
+import LowlandShoreOffshoreFish from '@/js/vue/components/guides/fishing/LowlandShoreOffshoreFish.vue'
+import MountMaelstrom from '@/js/vue/components/guides/fishing/MountMaelstrom.vue'
+import NewKainengCityChannelFish from '@/js/vue/components/guides/fishing/NewKainengCityChannelFish.vue'
+import NewKainengCityCoastalFish from '@/js/vue/components/guides/fishing/NewKainengCityCoastalFish.vue'
+import RataSum from '@/js/vue/components/guides/fishing/RataSum.vue'
+import SandsweptIslesOffshoreFish from '@/js/vue/components/guides/fishing/SandsweptIslesOffshoreFish.vue'
+import SandsweptIslesShoreFish from '@/js/vue/components/guides/fishing/SandsweptIslesShoreFish.vue'
+import SirensLanding from '@/js/vue/components/guides/fishing/SirensLanding.vue'
+import StraitsOfDevestationOffshoreFish from '@/js/vue/components/guides/fishing/StraitsOfDevestationOffshoreFish.vue'
+import SeitungOffshoreFish from '@/js/vue/components/guides/fishing/SeitungOffshoreFish.vue'
+import SeitungShoreFish from '@/js/vue/components/guides/fishing/SeitungShoreFish.vue'
+import SkywatchArchipelago from '@/js/vue/components/guides/fishing/SkywatchArchipelago.vue'
+import SnowdenDrifts from '@/js/vue/components/guides/fishing/SnowdenDrifts.vue'
+import SparkflyFen from '@/js/vue/components/guides/fishing/SparkflyFen.vue'
+import Thunderhead from '@/js/vue/components/guides/fishing/Thunderhead.vue'
+
 
 const props = defineProps({
     dailyCatch: Object,

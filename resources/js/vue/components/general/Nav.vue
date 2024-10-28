@@ -542,7 +542,7 @@
 
                         <NavPage category="tools" url="checklist" name="Checklist" :icon="BulletList"/>  
 
-                        <!-- <NavPage category="tools" url="drizzlewood-commendations" name="DWC Commendations" :icon="CharrCommendation"/>   -->
+                        <NavPage category="tools" url="drizzlewood-commendations" name="DWC Commendations" :icon="CharrCommendation"/>  
 
                         <NavPage category="tools" url="homestead" name="Homestead" :icon="Homestead"/>
 
