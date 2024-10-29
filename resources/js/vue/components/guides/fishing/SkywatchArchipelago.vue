@@ -38,7 +38,9 @@ const { mouseX, mouseY, tooltipToggle, showTooltip } = handleCursorTooltip();
 // *
 const guides = ref([
     {
-        instruction: "Probably the most simple route out there. Follow the river at the end of your home and to the ocean. You will see them in groups of 3.",
+        instruction: "From the waypoint, head up to the higher elevated pond. Start there as it's a lot easier to go down than up. When you get the end of the bottom pond, there will be an updraft that you need to take to get back to the start. Make sure you land in the water as quick as possible to deploy your skiff.",
+        waypointName: "Observation Camp Waypoint",
+        waypointLink: "[&BEYOAAA=]",
         img: FracturedFreshwaterFish,
         alt: "Fractured Freshwater Fish Guide",
     },
