@@ -10,6 +10,7 @@
                 <div class="flex-column">
                     <h3>Sickles</h3>
                     <GatheringTools
+                        v-if="sickles"
                         :tools="sickles"
                     />
                 </div>
@@ -17,6 +18,7 @@
                 <div class="flex-column">
                     <h3>Axes</h3>
                     <GatheringTools
+                        v-if="axes"
                         :tools="axes"
                     />
                 </div>
@@ -24,6 +26,7 @@
                 <div class="flex-column">
                     <h3>Picks</h3>
                     <GatheringTools
+                        v-if="picks"
                         :tools="picks"
                     />
                 </div>
