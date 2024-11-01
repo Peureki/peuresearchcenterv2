@@ -35,6 +35,7 @@ use App\Models\FishDropRate;
 use App\Models\FishingEstimate;
 use App\Models\FishingHole;
 use App\Models\FishingHoleDropRate;
+use App\Models\GatheringTool;
 use App\Models\MapBenchmark;
 use App\Models\MapBenchmarkDropRate;
 use App\Models\MixedSalvageable;
@@ -496,6 +497,8 @@ class FetchController extends Controller
             }
         });
     }
+
+    
 
     public function fetchDailyCatch(){
         $confirmationDB = Confirmation::join('items', 'item_id', '=', 'items.id')

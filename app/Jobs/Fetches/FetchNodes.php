@@ -3,6 +3,7 @@
 namespace App\Jobs\Fetches;
 
 use App\Http\Controllers\Controller;
+use App\Models\GatheringTool;
 use App\Models\Glyph;
 use App\Models\GlyphDropRate;
 use App\Models\Items;
@@ -49,6 +50,8 @@ class FetchNodes implements ShouldQueue
      */
     public function handle(): void
     {
+        $this->gatheringTools();
+
         $this->nodes(); 
         $this->glyphs();
         $this->nodeBenchmarks();
@@ -302,4 +305,27 @@ class FetchNodes implements ShouldQueue
             }
         }
     }
+
+    private function gatheringTools(){
+        $api = Http::get('https://script.google.com/macros/s/AKfycbwyxz2aACIrIR-vyyOoI0_lPYV3V1af9G5vo0J6_pP_ez4wHQ_LXroc3A6msTlyLh4SYQ/exec?endpoint=gatheringTools');
+        $spreadsheet = $api->json();
+
+        foreach ($spreadsheet['gatheringTools'] as $tool){
+            //dd($tool);
+            GatheringTool::updateOrCreate(
+                [
+                    'id' => $tool['id'],
+                    'item_id' => $tool['itemID'],
+                ],
+                [
+                    'type' => $tool['type'],
+                    'max_cast' => $tool['maxCast'],
+                    'min_cast' => $tool['minCast'],
+                    'animation_locked' => $tool['locked'],
+                ]
+            );
+        }
+    }
+
+    
 }

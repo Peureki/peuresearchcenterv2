@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\LoadingProgress;
 use App\Models\FishingHole;
 use App\Models\FishingHoleDropRate;
+use App\Models\GatheringTool;
 use App\Models\GlyphDropRate;
 use App\Models\Items;
 use App\Models\MapBenchmarkCache;
@@ -18,6 +19,29 @@ use Illuminate\Support\Facades\Log;
 
 class BenchmarkController extends Controller
 {
+    public function gatheringTools(){
+        $response = [];
+        $sickles = [];
+        $axes = [];
+        $picks = [];
+
+        $gatheringToolDB = GatheringTool::join('items', 'items.id', 'gathering_tools.item_id')
+        ->select(
+            'gathering_tools.*',
+            'items.icon as icon',
+            'items.name as name',
+            'items.rarity as rarity',
+        )
+        ->get()
+        ->groupBy(function ($item) {
+            return strtolower($item->type); // Make type lowercase
+        });
+
+        //dd($gatheringToolDB);
+
+        return response()->json($gatheringToolDB); 
+    }
+
     public function nodes($includes, $sellOrderSetting, $tax){
         // Make it a workable arrays
         // New accounts that haven't set any settings may still have "null"

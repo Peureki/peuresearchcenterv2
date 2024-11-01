@@ -130,6 +130,9 @@ li {
     list-style: none;
     line-height: 1.5;
 }
+table {
+    width: fit-content;
+}
 table, th, td{
     border: var(--border-general);
     border-collapse: collapse;
@@ -148,7 +151,7 @@ article {
 
 section{
     padding-left: calc(var(--nav-width));
-    padding-block: var(--gap-content);
+    padding-block: var(--gap-general);
     border-bottom: var(--border-bottom);
 }
 section.main{
@@ -494,6 +497,11 @@ span.bookmark-label{
     height: 20px;
     transition: var(--transition-all-03s-ease);
 }
+.flex-wrap{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-content);
+}
 /* 
     =================================================
     * FILTER CONTAINERS 
@@ -705,11 +713,21 @@ span.blurb{
     align-items: center;
     gap: var(--gap-general);
 }
+/* For independent long paragraphs that aren't inside a content block */
+.paragraph {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-general);
+    max-width: 1000px;
+}
 /* 
     * For any content blocks under main sections
     * Allows section.main to keep the borders full width
 */
 .content-section{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-content);
     padding-inline: var(--gap-general);
 }
 
@@ -1357,6 +1375,7 @@ img.map-guide{
 .flex-column{
     display: flex;
     flex-direction: column;
+    gap: var(--gap-general);
 }
 .column-reverse{
     flex-direction: column-reverse;

@@ -515,6 +515,8 @@
 
                         <NavPage category='benchmarks' url="fishing" name="Fishing" :icon="FishingHook"/>
 
+                        <NavPage category='benchmarks' url="gathering-tools" name="Gathering Tools" :icon="ChoyaHarvestingTool"/>
+
                         <NavPage category='benchmarks' url="glyphs" name="Glyphs" :icon="GlyphOfVolatility"/>
 
                         <NavPage category='benchmarks' url="nodes" name="Nodes" :icon="ElderWoodLog"/>
@@ -793,6 +795,7 @@ import Mistonium from '@/imgs/icons/Lump_of_Mistonium.png'
 import UrsusOblige from '@/imgs/icons/Ursus_Oblige.png'
 import CuriousMursaatCurrency from '@/imgs/icons/Curious_Mursaat_Currency.png'
 import CharrCommendation from '@/imgs/icons/Charr_Commendation.png'
+import ChoyaHarvestingTool from '@/imgs/icons/Choya_Harvesting_Tool.png'
 
 import PeuChoya from '@/imgs/choyas/Peu_Choya.png'
 import RollingChoya from '@/imgs/choyas/Rolling_Choya.png'

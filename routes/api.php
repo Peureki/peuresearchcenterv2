@@ -172,3 +172,6 @@ Route::get('/benchmarks/node-farms/{filters}/{includes}/{sellOrderSetting}/{tax}
 
 // OTHER RECIPES
 Route::get('/fetch-other-recipes', [FetchController::class, 'fetchOtherRecipes']);
+
+// GATHERING TOOLS
+Route::get('/benchmarks/gathering-tools', [BenchmarkController::class, 'gatheringTools']);

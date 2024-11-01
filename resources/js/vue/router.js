@@ -6,6 +6,7 @@ import ResetPasswordView from '@/js/vue/views/ResetPasswordView.vue'
 
 import BenchmarksMapsView from './views/benchmarks/MapsView.vue'
 import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
+import BenchmarksGatheringToolsView from '@/js/vue/views/benchmarks/GatheringToolsView.vue'
 import BenchmarksGlyphsView from '@/js/vue/views/benchmarks/GlyphsView.vue'
 import BenchmarksNodesView from '@/js/vue/views/benchmarks/NodesView.vue'
 import BenchmarksNodeFarmsView from '@/js/vue/views/benchmarks/NodeFarmsView.vue'
@@ -125,6 +126,11 @@ const routes = [
         path: '/benchmarks/fishing',
         component: BenchmarksFishingView,
         name: 'benchmarks-fishing',
+    },
+    {
+        path: '/benchmarks/gathering-tools',
+        component: BenchmarksGatheringToolsView,
+        name: 'benchmarks-gathering-tools',
     },
     {
         path: '/benchmarks/glyphs',

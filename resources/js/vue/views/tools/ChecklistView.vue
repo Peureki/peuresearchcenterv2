@@ -118,17 +118,16 @@
 
         <section class="main">
             <div class="overflow-x">
-                <div class="content-section">
-                    <List
-                        v-if="checklist"
-                        v-for="(entry, index) in checklist"
-                        @pop-entry="popEntry"
-                        @handle-unsaved-changes="handleUnsavedChanges"
-                        :entry="entry"
-                        :entry-index="index"
-                        :quantity="requestedQuantity"
-                    />
-                </div>
+                <List
+                    v-if="checklist"
+                    v-for="(entry, index) in checklist"
+                    @pop-entry="popEntry"
+                    @handle-unsaved-changes="handleUnsavedChanges"
+                    :entry="entry"
+                    :entry-index="index"
+                    :quantity="requestedQuantity"
+                />
+
             </div>
         </section>
         
@@ -356,5 +355,7 @@ watch(checklist, (newChecklist) => {
     gap: var(--gap-general);
     padding-left: var(--gap-content);
 }
-
+.overflow-x{
+    padding-left: var(--nav-padding-left);
+}
 </style>
