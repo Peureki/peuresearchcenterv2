@@ -120,21 +120,24 @@
                     message="Check your Filters"
                 />
 
-                <div class="img-and-label">
-                    <h3>Database</h3>
-                    <svg v-if="favoriteResearchNotes.length != 0" class="icon clickable" @click="columnReverse = !columnReverse" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5.83333 8.5L0.5 12.5M0.5 12.5L5.83333 16.5M0.5 12.5H16.5M11.1667 0.5L16.5 4.5M16.5 4.5L11.1667 8.5M16.5 4.5H0.5" stroke="#FFD12C" stroke-linecap="round" stroke-linejoin="round"/>
-                        <title>Swap arrangement of Favorites & Database</title>
-                    </svg>
-                </div>
+                <div>
+                    <div class="img-and-label">
+                        <h3>Database</h3>
+                        <svg v-if="favoriteResearchNotes.length != 0" class="icon clickable" @click="columnReverse = !columnReverse" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.83333 8.5L0.5 12.5M0.5 12.5L5.83333 16.5M0.5 12.5H16.5M11.1667 0.5L16.5 4.5M16.5 4.5L11.1667 8.5M16.5 4.5H0.5" stroke="#FFD12C" stroke-linecap="round" stroke-linejoin="round"/>
+                            <title>Swap arrangement of Favorites & Database</title>
+                        </svg>
+                    </div>
 
-                <ResearchNotesCard
-                    :is-favorite="false"
-                    :currency-icon="ResearchNote"
-                    target-currency="Research Note"
-                    :research-notes="researchNotes"
-                    @new-url="getResearchNotes"
-                /> 
+                    <ResearchNotesCard
+                        :is-favorite="false"
+                        :currency-icon="ResearchNote"
+                        target-currency="Research Note"
+                        :research-notes="researchNotes"
+                        @new-url="getResearchNotes"
+                    /> 
+                </div>
+                
             </div>
         </section>
     </div>

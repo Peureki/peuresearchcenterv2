@@ -24,24 +24,7 @@
 
         <template v-slot:info>
             <article class="info-content">
-                <p>Auric Basin is a unique map where there are pylon(outpost) events that need to be completed before some of the events listed on this page can begin. Each outpost will have a linear chain of events. </p>
-
-                <p>On the navigation, there are <span><img src="@/imgs/icons/Outpost_Active.png">pylon events</span>(North, Souteast, etc). When you complete the final chain of meta-outpost events (the in-game pylon symbol will turn orange), click on the appropiate outpost to start all of that area's timers.</p>
-
-                <p>Since this map is unique, these events have two different kinds of timers. The initial spawn when you complete their meta-outpost events and their respawn timers. After completing an event for the first time, a new cooldown will initiate.</p>
-                <p>Priority pylons to complete: South &#x2192; Southeast &#x2192; West &#x2192; West-North &#x2192; North (if has progress already) &#x2192; Southwest &#x2192; East</p>
-
-                <p>Repeatable priority of events:</p>
-                <ul class="list-general">
-                    <li>1. Veteran Vinetooths</li>
-                    <li>2. Blighted Saplings (south)</li>
-                    <li>3. Wyvern (southeast)</li>
-                    <li>4. Golden Ooze (west)</li>
-                    <li>5. Gold Guzzler (west-north)</li>
-                    <li>6. Stalk (north)</li>
-                    <li>7. Stoneheads (southwest & if squad has great DPS/CC)</li>
-                    <li>8. Priory Escorts</li>
-                </ul>
+                <p>Coming soon</p>
             </article>
         </template>
     </MainTimers>

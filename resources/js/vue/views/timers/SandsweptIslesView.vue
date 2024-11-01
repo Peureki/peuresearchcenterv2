@@ -27,17 +27,7 @@
 
         <template v-slot:info>
             <article class="info-content">
-                <p>Istan has two metas and the best time to start a train is to start with Palawadan. While the Great Hall meta can spawn at any moment as long as you kill enough Mordent Cresent, it always will spawn at the xx:20 mark after Palawadan. This makes farming this map more structured and easier to manage.</p>
-
-                <p>In between metas, there should be enough time to do all the recommended events below at least once. If you're not doing a farm that should last an hour, then you can finish your farm after Great Hall.</p>
-
-                <p>Repeatable priority of events:</p>
-                <ul class="list-general">
-                    <li>1. Metas</li>
-                    <li>2. Akali or Book Raid</li>
-                    <li>3. Pirates</li>
-                    <li>4. Graveyard</li>
-                </ul>
+                <p>Coming soon</p>
             </article>
         </template>
     </MainTimers>

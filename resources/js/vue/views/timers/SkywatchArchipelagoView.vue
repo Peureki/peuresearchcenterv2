@@ -18,20 +18,7 @@
     >
         <template v-slot:info>
             <article class="info-content">
-                <p>The overall goal is to get to the meta as fast as possible. Complete each sector/outpost by doing events in their area. When you complete them, click on the <span><img src="@/imgs/icons/Outpost_Active.png"> ouposts</span> to start their timers.</p>
-
-                <p>For Menders: Menders spawn at T3 at Mist Warden and Crystal Bloom sector, but T2 at Olmakhan.</p>
-
-                <p>For Bridges: The first cooldown is after completing the salvage event. Restart the timer after completing the first defense.</p>
-
-                <p>Repeatable priority of events:</p>
-                <ul class="list-general">
-                    <li>1. Menders</li>
-                    <li>2. Culls</li>
-                    <li>3. Brandstorms</li>
-                    <li>4. Champs</li>
-                    <li>5. Sector/Outpost Objectives</li>
-                </ul>
+                <p>Coming soon</p>
             </article>
         </template>
     </MainTimers>

@@ -35,6 +35,8 @@
             <div class="paragraph">
                 <p>These numbers were tracked using OBS. I hotkeyed when I started gathering and when I stopped. These times may not be *exactly* down to the milisecond, but I've tried my best to get the quickest times. I measured the minimum cast time by the earliest I can cancel the animation while receiving all possible drops of the node. Maximum cast time is measured by ending the timer when the character returns to it's 'combat' stance.</p>
 
+                <p>Unlimited mining picks guarantee 4 strikes.</p>
+
                 <div class="img-and-label">
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M0 10V0H10V10H0Z" fill="var(--color-down)"/>

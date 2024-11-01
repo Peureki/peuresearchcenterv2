@@ -42,20 +42,21 @@
                 </div>
             </div>
 
+            <!-- 
+                *
+                * UNIQUE STRIKES
+                *
+            -->
             <div v-if="expand[index]" class="details-container">
-                <p v-if="tool.name == 'Unbound Magic Harvesting Blast'">
-                    Gathers entire node in a single swoop. Example: If the node can be gathered more than once, it will auto gather the extra strikes.
-                </p>
-
                 <p v-if="tool.name == 'Unbound Magic Logging Pulse'">
                     By completing the full animation, it will add more strikes on top of the regular 3
                 </p>
 
-                <p v-if="tool.name == 'Unbound Magic Mining Beam'">
-                    It will take a bit longer to get the first strike, but it will gather the 3 strikes in quicker succession than the regular animations. You can gather up to 4 times.
+                <p v-else-if="tool.name == 'Unbound Magic Mining Beam'">
+                    It will take a bit longer to get the first strike, but it will gather the 3 strikes in quicker succession than the regular animations.
                 </p>
 
-                <p v-if="tool.name == 'Choya Mining Tool'">
+                <p v-else-if="tool.name == 'Choya Mining Tool'">
                     Regular gathering strikes, but the final strike will auto strike 2 more times, for a total of 5 per animation
                 </p>
 
@@ -87,13 +88,13 @@ const isAnimationLocked = (isLocked) => {
 
 const specialTool = (toolName) => {
     switch (toolName){
-        case 'Unbound Magic Harvesting Blast':
         case 'Unbound Magic Logging Pulse':
         case 'Unbound Magic Mining Beam':
         case 'Choya Mining Tool':
             return '*';
-            break;
     }
 }
+
+
 
 </script>

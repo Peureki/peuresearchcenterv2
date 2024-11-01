@@ -15,6 +15,7 @@
 
         <div class="page-button-list">
             <button 
+                v-if="dataArray.current_page > 1"
                 class="page-button-prev"
                 @click="$emit('newUrl', `${dataArray.prev_page_url}`); loadingChoya"
             > 
@@ -37,7 +38,7 @@
             * NEXT PAGE
             *
         -->
-        <button @click="$emit('newUrl', `${dataArray.next_page_url}`); loadingChoya">
+        <button v-if="dataArray.current_page != dataArray.last_page" @click="$emit('newUrl', `${dataArray.next_page_url}`); loadingChoya">
             <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="var(--color-link)"/>
             </svg>
@@ -73,6 +74,8 @@ import Loading from '@/js/vue/components/general/Loading.vue'
 const props = defineProps({
     dataArray: Object, 
 })
+
+console.log('data array: ', props.dataArray.current_page);
 
 const emit = defineEmits(['newUrl']);
 
