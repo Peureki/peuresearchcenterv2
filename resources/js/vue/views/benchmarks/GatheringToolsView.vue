@@ -42,6 +42,11 @@
                     </svg>
                     <p>Animation locked after the last strike</p>
                 </div>
+
+                <div class="img-and-label">
+                    <p>*</p>
+                    <p>Unique gathering strikes</p>
+                </div>
             </div>
 
             <Disclaimer type="caution" message="These are just the skins that I have on my account. There are many more out there, but it's waaay to expensive to buy them all to test :P" />

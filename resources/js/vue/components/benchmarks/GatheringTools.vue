@@ -4,7 +4,7 @@
             <div class="label-and-cta">
                 <div class="img-and-label">
                     <img class="icon" :src="tool.icon" :alt="tool.name" :title="tool.name">
-                    <p class="item-name" :style="{color: showRarityColor(tool.rarity)}">{{ tool.name }}</p>
+                    <p class="item-name" :style="{color: showRarityColor(tool.rarity)}">{{ tool.name }}{{ specialTool(tool.name) }}</p>
                 </div>
 
                 <div class="svg-ctas">
@@ -82,6 +82,17 @@ const isAnimationLocked = (isLocked) => {
     if (isLocked){
         console.log('merp');
         return 'var(--color-down)';
+    }
+}
+
+const specialTool = (toolName) => {
+    switch (toolName){
+        case 'Unbound Magic Harvesting Blast':
+        case 'Unbound Magic Logging Pulse':
+        case 'Unbound Magic Mining Beam':
+        case 'Choya Mining Tool':
+            return '*';
+            break;
     }
 }
 
