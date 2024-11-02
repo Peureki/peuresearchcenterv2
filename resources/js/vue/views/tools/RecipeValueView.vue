@@ -431,10 +431,10 @@ const handleFavorite = async (recipe) => {
         favorites.value.recipes = [];
     }
     if (favorites.value.recipes){
-        const index = favorites.value.recipes.indexOf(recipe.id); 
+        const index = favorites.value.recipes.indexOf(recipe.output_item_id); 
         // If item id NOT in array
         if (index == -1){  
-            favorites.value.recipes = [...favorites.value.recipes, recipe.id]; 
+            favorites.value.recipes = [...favorites.value.recipes, recipe.output_item_id]; 
         } 
         // If item id IS in array
         else {
@@ -444,7 +444,7 @@ const handleFavorite = async (recipe) => {
             ]
         }
     } else {
-        favorites.value.recipes = [recipe.id]; 
+        favorites.value.recipes = [recipe.output_item_id]; 
     }
 
     try {

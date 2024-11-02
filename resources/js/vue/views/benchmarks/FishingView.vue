@@ -15,6 +15,7 @@
                         submit-text="Submit Arborstone"
                         @handle-item-search="handleArborstoneSearch"
                     />
+                    <button @click="(e) => {copyWaypoint(copyAllWaypoints(guides)); showTooltip(e)}">Copy all waypoints</button>
                     <!--
                         *
                         * ARBORSTONE DAILY CATCH
@@ -119,6 +120,11 @@
         
     </section>
 
+    <!-- * CURSOR TOOLTIP -->
+    <Transition name="fade">
+        <CursorTooltip v-if="tooltipToggle" message="Copied!" :mouseX="mouseX" :mouseY="mouseY" />
+    </Transition>
+
     <Footer/>
 </template>
 
@@ -127,6 +133,7 @@ import { ref, computed, onMounted, watch, onUnmounted } from 'vue'
 import { user, buyOrder, sellOrder, tax, includes, dayAndNightTimerToggle } from '@/js/vue/composables/Global'
 import { showRarityColor } from '@/js/vue/composables/FormatFunctions'
 import { getAuthUser } from '@/js/vue/composables/Authentication'
+import { handleCursorTooltip } from '@/js/vue/composables/MouseFunctions'
 
 
 import Nav from '@/js/vue/components/general/Nav.vue'
@@ -136,6 +143,7 @@ import FishBenchmark from '@/js/vue/components/general/FishBenchmark.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
 import SearchItem from '@/js/vue/components/general/SearchItem.vue'
 import PopUpMessage from '@/js/vue/components/general/PopUpMessage.vue'
+import CursorTooltip from '@/js/vue/components/general/CursorTooltip.vue';
 
 const fishingHoles = ref([]),
     dropRates = ref([]),
@@ -156,6 +164,9 @@ const ambergris = ref(null),
     flawlessFillet = ref(null);
 
 const currentProgress = ref(0);
+
+// Initilize tooltip vars
+const { mouseX, mouseY, tooltipToggle, showTooltip } = handleCursorTooltip(); 
 
 
 const handleArborstoneSearch = async (query) => {
