@@ -415,7 +415,7 @@ const craftingDifference = (recipe, priceType) => {
 // Sort favorite recipes based on crafting differences and user buy order settings
 const sortedFavorites = computed(() => {
     if (favoriteRecipes.value){
-        return favoriteRecipes.value.sort((a, b) => craftingDifference(b, buyOrder.value) - craftingDifference(a, buyOrder.value));
+        return favoriteRecipes.value.sort((a, b) => craftingDifference(b, 'sell_price') - craftingDifference(a, 'sell_price'));
     }
     
 })
