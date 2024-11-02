@@ -73,6 +73,7 @@
                         </svg>
                         <p>Save this recipe</p>
                     </div>
+                    <p v-if="!user" class="error-message small-subtitle">Need to be registered/logged in to keep Favorites list</p>
                 </div>
             
 
