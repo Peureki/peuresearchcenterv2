@@ -212,11 +212,13 @@ const handleRecipeRequest = async (searchResults, quantity) => {
     if (!Array.isArray(checklist.value)){
         checklist.value = []; 
     }
+
+    console.log(searchResults);
     
     requestedItem.value = searchResults; 
     requestedQuantity.value = quantity; 
 
-    const response = await fetch(`../api/recipes/${searchResults.id}/${quantity}`);
+    const response = await fetch(`../api/recipes/${searchResults.item_id}/${quantity}`);
     const responseData = await response.json(); 
 
     if (response){
