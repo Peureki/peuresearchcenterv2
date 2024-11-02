@@ -64,7 +64,6 @@ const searchBar = ref(null),
 watch(searchBar, debounce(async (query) => {
     if (query.length > 3){
         try {
-            
             const response = await fetch(`../api/recipes/search-recipes?request=${query}`);
             const responseData = await response.json(); 
             searchResults.value = responseData; 

@@ -25,12 +25,15 @@
                             <ul class="search-query-container" v-if="searchQuery && searchQuery.length > 3">
                                 <button 
                                     v-for="recipe in searchResults"
-                                    @click="searchQuery = recipe.name; idRequest = recipe.id"
+                                    @click="
+                                        searchQuery = recipe.name; 
+                                        itemID = recipe.item_id;
+                                        recipeID = recipe.id"
                                 >
                                     <li>
                                         <img :src="recipe.icon" :alt="recipe.name" :title="recipe.name">
                                         <span class="flex-row-space-btw">
-                                            <p :style="{color: showRarityColor(recipe.rarity)}">{{ recipe.name }}</p> 
+                                            <p :style="{color: showRarityColor(recipe.rarity)}">{{ recipe.name }} [{{ recipe.id }}]</p> 
                                         </span>
                                     </li> 
                                 </button>
@@ -250,7 +253,7 @@
                                 <path d="M8.88659 16.6603L8.88587 16.6596C6.30104 14.3157 4.19578 12.4033 2.73088 10.6111C1.27148 8.82559 0.5 7.22062 0.5 5.5C0.5 2.68674 2.69555 0.5 5.5 0.5C7.08885 0.5 8.62206 1.24223 9.62058 2.40564L10 2.84771L10.3794 2.40564C11.3779 1.24223 12.9112 0.5 14.5 0.5C17.3045 0.5 19.5 2.68674 19.5 5.5C19.5 7.22062 18.7285 8.82559 17.2691 10.6111C15.8042 12.4033 13.699 14.3157 11.1141 16.6596L11.1134 16.6603L10 17.6738L8.88659 16.6603Z" stroke="var(--color-link)"/>
                             </svg>
 
-                            <svg @click="fetchRequestedRecipe(recipe.name, recipe.id, 1)" class="icon clickable" width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg @click="fetchRequestedRecipe(recipe.name, recipe.output_item_id, recipe.id, 1)" class="icon clickable" width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M13 5.9V4.2C13.55 3.96667 14.1127 3.79167 14.688 3.675C15.2633 3.55833 15.8673 3.5 16.5 3.5C16.9333 3.5 17.3583 3.53333 17.775 3.6C18.1917 3.66667 18.6 3.75 19 3.85V5.45C18.6 5.3 18.1957 5.18767 17.787 5.113C17.3783 5.03833 16.9493 5.00067 16.5 5C15.8667 5 15.2583 5.07933 14.675 5.238C14.0917 5.39667 13.5333 5.61733 13 5.9ZM13 11.4V9.7C13.55 9.46667 14.1127 9.29167 14.688 9.175C15.2633 9.05833 15.8673 9 16.5 9C16.9333 9 17.3583 9.03333 17.775 9.1C18.1917 9.16667 18.6 9.25 19 9.35V10.95C18.6 10.8 18.1957 10.6873 17.787 10.612C17.3783 10.5367 16.9493 10.4993 16.5 10.5C15.8667 10.5 15.2583 10.575 14.675 10.725C14.0917 10.875 13.5333 11.1 13 11.4ZM13 8.65V6.95C13.55 6.71667 14.1127 6.54167 14.688 6.425C15.2633 6.30833 15.8673 6.25 16.5 6.25C16.9333 6.25 17.3583 6.28333 17.775 6.35C18.1917 6.41667 18.6 6.5 19 6.6V8.2C18.6 8.05 18.1957 7.93733 17.787 7.862C17.3783 7.78667 16.9493 7.74933 16.5 7.75C15.8667 7.75 15.2583 7.82933 14.675 7.988C14.0917 8.14667 13.5333 8.36733 13 8.65ZM5.5 12C6.28333 12 7.046 12.0877 7.788 12.263C8.53 12.4383 9.26733 12.7007 10 13.05V3.2C9.31667 2.8 8.59167 2.5 7.825 2.3C7.05833 2.1 6.28333 2 5.5 2C4.9 2 4.304 2.05833 3.712 2.175C3.12 2.29167 2.54933 2.46667 2 2.7V12.6C2.58333 12.4 3.16267 12.25 3.738 12.15C4.31333 12.05 4.90067 12 5.5 12ZM12 13.05C12.7333 12.7 13.471 12.4377 14.213 12.263C14.955 12.0883 15.7173 12.0007 16.5 12C17.1 12 17.6877 12.05 18.263 12.15C18.8383 12.25 19.4173 12.4 20 12.6V2.7C19.45 2.46667 18.879 2.29167 18.287 2.175C17.695 2.05833 17.0993 2 16.5 2C15.7167 2 14.9417 2.1 14.175 2.3C13.4083 2.5 12.6833 2.8 12 3.2V13.05ZM11 16C10.2 15.3667 9.33333 14.875 8.4 14.525C7.46667 14.175 6.5 14 5.5 14C4.8 14 4.11267 14.0917 3.438 14.275C2.76333 14.4583 2.11733 14.7167 1.5 15.05C1.15 15.2333 0.812667 15.225 0.488 15.025C0.163333 14.825 0.000666667 14.5333 0 14.15V2.1C0 1.91667 0.046 1.74167 0.138 1.575C0.23 1.40833 0.367333 1.28333 0.55 1.2C1.31667 0.8 2.11667 0.5 2.95 0.3C3.78333 0.1 4.63333 0 5.5 0C6.46667 0 7.41267 0.125 8.338 0.375C9.26333 0.625 10.1507 1 11 1.5C11.85 1 12.7377 0.625 13.663 0.375C14.5883 0.125 15.534 0 16.5 0C17.3667 0 18.2167 0.1 19.05 0.3C19.8833 0.5 20.6833 0.8 21.45 1.2C21.6333 1.28333 21.771 1.40833 21.863 1.575C21.955 1.74167 22.0007 1.91667 22 2.1V14.15C22 14.5333 21.8377 14.825 21.513 15.025C21.1883 15.225 20.8507 15.2333 20.5 15.05C19.8833 14.7167 19.2377 14.4583 18.563 14.275C17.8883 14.0917 17.2007 14 16.5 14C15.5 14 14.5333 14.175 13.6 14.525C12.6667 14.875 11.8 15.3667 11 16Z" fill="var(--color-link)"/>
                                 <title>View Recipe of {{ recipe.name }}</title>
                             </svg>
@@ -349,7 +352,8 @@ const route = useRoute(),
     router = useRouter(); 
 
 const searchQuery = ref(null),
-    idRequest = ref(null),
+    itemID = ref(null),
+    recipeID = ref(null),
     searchResults = ref(null),
     url = ref(null);
 
@@ -476,7 +480,7 @@ const updateRecipeTree = (selectedIngredient, userPreference) => {
 // *
 // * By having a preferences, the recipe tree will choose the best and cheapest path
 const choosePreference = (currentIngredient, selectedIngredient, userPreference) => {
-    console.log('selected ingredient: ', selectedIngredient);
+    //console.log('selected ingredient: ', selectedIngredient);
     // If the user selected a specific ingredient
     if (selectedIngredient){
         if (currentIngredient == selectedIngredient){ 
@@ -589,6 +593,7 @@ watch(searchQuery, debounce(async (query) => {
             const response = await fetch(`../api/recipes/search-recipes?request=${query}`);
             const responseData = await response.json(); 
             searchResults.value = responseData; 
+            console.log('search results: ', searchResults.value);
 
         } catch (error) {
             console.log("Trouble with search query: ", error); 
@@ -599,15 +604,16 @@ watch(searchQuery, debounce(async (query) => {
 
 const handleRecipeRequest = () => {
     const requestedURL = searchQuery.value,
-        requestedID = idRequest.value,
+        requestedID = itemID.value,
+        requestedRecipeID = recipeID.value, 
         requestedQuantity = quantityRequest.value; 
     
     if (requestedURL){
-        fetchRequestedRecipe(requestedURL, requestedID, requestedQuantity);
+        fetchRequestedRecipe(requestedURL, requestedID, requestedRecipeID, requestedQuantity);
     }
 }
 
-const fetchRequestedRecipe = async (requestedRecipe, requestedID, requestedQuantity) => {
+const fetchRequestedRecipe = async (requestedRecipe, requestedID, requestedRecipeID, requestedQuantity) => {
     try{
         loadingToggle.value = true; 
         const encodedRecipe = encodeURIComponent(requestedRecipe);
@@ -615,11 +621,12 @@ const fetchRequestedRecipe = async (requestedRecipe, requestedID, requestedQuant
         router.replace({
             query: {
                 requestedRecipe: encodedRecipe,
-                id: requestedID,
+                itemId: requestedID,
+                recipeId: requestedRecipeID,
                 qty: requestedQuantity,
             }});
 
-        const url = `../api/recipes/${encodedRecipe}/${requestedID}/${requestedQuantity}`;
+        const url = `../api/recipes/${encodedRecipe}/${requestedID}/${requestedRecipeID}/${requestedQuantity}`;
 
         const response = await fetch(url);
         const responseData = await response.json(); 
@@ -650,13 +657,14 @@ onMounted( async () => {
 
     if (route.query.requestedRecipe){
         url.value = decodeURIComponent(route.query.requestedRecipe);
-        idRequest.value = route.query.id;
+        itemID.value = route.query.itemId;
+        recipeID.value = route.query.recipeId;
         quantityRequest.value = route.query.qty; 
     }
     
     if (url.value){
         //console.log(url.value);
-        fetchRequestedRecipe(url.value, idRequest.value, quantityRequest.value);
+        fetchRequestedRecipe(url.value, itemID.value, recipeID.value, quantityRequest.value);
     }
     if (favoritesUrl.value){
         getFavoriteRecipes(favoritesUrl.value);
@@ -670,13 +678,13 @@ watch(refreshSettings, async (newSettings) => {
 
         if (route.query.requestedRecipe){
             url.value = decodeURIComponent(route.query.requestedRecipe);
-            idRequest.value = route.query.id;
+            itemID.value = route.query.id;
             quantityRequest.value = route.query.qty; 
         }
 
         if (url.value){
         //console.log(url.value);
-            fetchRequestedRecipe(url.value, idRequest.value, quantityRequest.value);
+            fetchRequestedRecipe(url.value, itemID.value, recipeID.value, quantityRequest.value);
         }
         if (favoritesUrl.value){
             getFavoriteRecipes(favoritesUrl.value);

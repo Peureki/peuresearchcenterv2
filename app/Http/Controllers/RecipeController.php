@@ -21,26 +21,28 @@ class RecipeController extends Controller
         
         $recipes = Recipes::join('items', 'recipes.output_item_id', '=', 'items.id')
             ->where('items.name', 'like', '%'.$query.'%')
-            ->select('items.name', 'icon', 'items.id', 'rarity')
+            ->select('recipes.id', 'items.name', 'icon', 'items.id as item_id', 'rarity')
             ->get()
             ->map(function ($recipe){
                 return [
+                    'id' => $recipe->id,
                     'name' => $recipe->name,
                     'icon' => $recipe->icon,
-                    'id' => $recipe->id,
+                    'item_id' => $recipe->item_id,
                     'rarity' => $recipe->rarity,
                 ];
             });
 
         $otherRecipes = OtherRecipe::join('items', 'other_recipes.output_item_id', '=', 'items.id')
             ->where('items.name', 'like', '%'.$query.'%')
-            ->select('items.name', 'icon', 'items.id', 'rarity')
+            ->select('other_recipes.id', 'items.name', 'icon', 'items.id as item_id', 'rarity')
             ->get()
             ->map(function ($recipe){
                 return [
+                    'id' => $recipe->id,
                     'name' => $recipe->name,
                     'icon' => $recipe->icon,
-                    'id' => $recipe->id,
+                    'item_id' => $recipe->item_id,
                     'rarity' => $recipe->rarity,
                 ];
             });
@@ -499,6 +501,12 @@ class RecipeController extends Controller
         $recipes = json_decode($recipes);
         $recipeDB = Recipes::join('items', 'recipes.output_item_id', 'items.id')
             ->whereIn('output_item_id', $recipes)
+            ->select(
+                'recipes.*',
+                'recipes.id as id',
+                'recipes.output_item_id as output_item_id',
+                'items.name as name',
+            )
             ->get(); 
 
         //dd($recipeDB);
@@ -506,7 +514,7 @@ class RecipeController extends Controller
         $response = [];
         
         foreach ($recipeDB as $recipe){
-            $merp = $this->getRecipeValues($recipe->name, $recipe->output_item_id, 1, false, $buyOrderSetting);
+            $merp = $this->getRecipeValues($recipe->name, $recipe->output_item_id, $recipe->id,  1, false, $buyOrderSetting);
 
             //dd($merp->getData());
 
@@ -520,21 +528,39 @@ class RecipeController extends Controller
     // * CALLED AS A REQUEST FROM THE USER VIA RECIPE FORMS
     // * OR FETCHRECIPEVALUES FOR RESEARCH NOTES
     // * Request = Name of the recipe => return recipe tree array
-    public function getRecipeValues($request, $id, $quantity, $skipOthersRecipe = false, $buyOrderSetting = null){
+    public function getRecipeValues($request, $itemId, $recipeId, $quantity, $skipOthersRecipe = false, $buyOrderSetting = null){
         // Decode the $request 
         // When users type in a request, it comes out as Sigil20%of20%Blood or something 
         $requestName = urldecode($request);
         
         // Combine the Recipes db and the Items db to get more info
         $recipe = Recipes::join('items', 'recipes.output_item_id', '=', 'items.id')
+            ->select(
+                'recipes.*',
+                'items.buy_price',
+                'items.sell_price',
+                'items.name',
+                'items.icon',
+                'items.rarity',
+            )
             ->where('items.name', $requestName)
-            ->where('items.id', $id)
+            ->where('items.id', $itemId)
+            ->where('recipes.id', $recipeId)
             ->first();
 
         if (!$recipe){
             $recipe = OtherRecipe::join('items', 'other_recipes.output_item_id', '=', 'items.id')
+            ->select(
+                'other_recipes.*',
+                'items.buy_price',
+                'items.sell_price',
+                'items.name',
+                'items.icon',
+                'items.rarity',
+            )
             ->where('items.name', $requestName)
-            ->where('items.id', $id)
+            ->where('items.id', $itemId)
+            ->where('other_recipes.id', $recipeId)
             ->first();
         }
 
@@ -549,6 +575,7 @@ class RecipeController extends Controller
         // Start with index of 0 so that the output item is the first of the recipe tree displayed
         $returnArray = [
             "id" => $recipe['id'],
+            'output_item_id' => $recipe['output_item_id'],
             "name" => $recipe['name'],
             "buy_price" => $recipe['buy_price'] * $recipe['output_item_count'] * $quantity,
             "sell_price" => $recipe['sell_price'] * $recipe['output_item_count'] * $quantity,

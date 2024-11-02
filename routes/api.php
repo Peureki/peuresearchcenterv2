@@ -108,7 +108,7 @@ Route::get('/fetch-node-combinations', [FetchController::class, 'fetchNodeCombin
 // GET REFINED MATERIALS
 Route::get('/refine/{request}/{requestID}/{buyOrderSetting}/{tax}', [RefineController::class, 'refine']);
 // GET RECIPE VALUES
-Route::get('/recipes/{request}/{id}/{quantity}', [RecipeController::class, 'getRecipeValues']);
+Route::get('/recipes/{request}/{id}/{recipeId}/{quantity}', [RecipeController::class, 'getRecipeValues']);
 // GET RECIPE TREE
 Route::get('/recipes/{id}/{quantity}', [RecipeController::class, 'getRecipeTree']);
 // SEARCH ITEMS
