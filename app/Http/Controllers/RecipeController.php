@@ -492,11 +492,35 @@ class RecipeController extends Controller
         return $newRecipeTree;
     }
 
+    // *
+    // * GET RECIPE FAVORITES AND THEIR VALUES
+    // *
+    public function favoriteRecipes($buyOrderSetting, $recipes){
+        $recipes = json_decode($recipes);
+        $recipeDB = Recipes::join('items', 'recipes.output_item_id', 'items.id')
+            ->whereIn('output_item_id', $recipes)
+            ->get(); 
+
+        //dd($recipeDB);
+
+        $response = [];
+        
+        foreach ($recipeDB as $recipe){
+            $merp = $this->getRecipeValues($recipe->name, $recipe->output_item_id, 1, false, $buyOrderSetting);
+
+            //dd($merp->getData());
+
+            $response[] = $merp->getData();
+        }
+
+        //dd($response);
+        return response()->json($response);
+    }
 
     // * CALLED AS A REQUEST FROM THE USER VIA RECIPE FORMS
     // * OR FETCHRECIPEVALUES FOR RESEARCH NOTES
     // * Request = Name of the recipe => return recipe tree array
-    public function getRecipeValues($request, $id, $quantity, $skipOthersRecipe = false){
+    public function getRecipeValues($request, $id, $quantity, $skipOthersRecipe = false, $buyOrderSetting = null){
         // Decode the $request 
         // When users type in a request, it comes out as Sigil20%of20%Blood or something 
         $requestName = urldecode($request);
@@ -524,6 +548,7 @@ class RecipeController extends Controller
         // To be returned
         // Start with index of 0 so that the output item is the first of the recipe tree displayed
         $returnArray = [
+            "id" => $recipe['id'],
             "name" => $recipe['name'],
             "buy_price" => $recipe['buy_price'] * $recipe['output_item_count'] * $quantity,
             "sell_price" => $recipe['sell_price'] * $recipe['output_item_count'] * $quantity,
@@ -543,7 +568,16 @@ class RecipeController extends Controller
 
         $returnArray['ingredients'] = $this->addRecipeTreePrices($returnArray, $quantity);
         //dd($returnArray);
-        $returnArray['craftingValue'] = $this->calculateCraftingValue($returnArray); 
+        
+        if ($buyOrderSetting){
+            $returnArray['craftingValue'] = $this->calculateCraftingValue($returnArray, $buyOrderSetting); 
+            
+        } else {
+            $returnArray['craftingValue'] = $this->calculateCraftingValue($returnArray); 
+        }
+
+        //dd($returnArray['craftingValue'], $buyOrderSetting);
+        
         //$returnArray['preference'] = $this->preferences($returnArray);
         
         if ($returnArray['craftingValue'] < $returnArray['buy_price'] && $returnArray['craftingValue'] < $returnArray['sell_price']){
@@ -552,6 +586,7 @@ class RecipeController extends Controller
         if ($returnArray['buy_price'] == null && $returnArray['sell_price'] == null){
             $returnArray['preference'] = 'Crafting';
         }
+        //dd($returnArray);
         
         return response()->json($returnArray);
     }
@@ -577,7 +612,7 @@ class RecipeController extends Controller
         return $recipe['ingredients']; 
     }
 
-    private function calculateCraftingValue(&$recipe){
+    private function calculateCraftingValue(&$recipe, $buyOrderSetting = null){
         //dd($recipe);
 
         $value = 0;
@@ -586,15 +621,23 @@ class RecipeController extends Controller
             $prevoiusCraftingValue = 0;
             //dd($ingredient);
             if (array_key_exists('ingredients', $ingredient)){
-                $ingredient['craftingValue'] = $this->calculateCraftingValue($ingredient); 
+                $ingredient['craftingValue'] = $this->calculateCraftingValue($ingredient, $buyOrderSetting); 
             } 
             if (array_key_exists('craftingValue', $ingredient)){
                 $prevoiusCraftingValue = $ingredient['craftingValue'];
             } else {
-                $prevoiusCraftingValue = min(
-                    $ingredient['buy_price'],
-                    $ingredient['sell_price']
-                );
+                // If $buyOrderSetting exist, follow what the requested buy_order 
+                if ($buyOrderSetting){
+                    $prevoiusCraftingValue = $ingredient[$buyOrderSetting];
+                } 
+                // Otherwise get the best option
+                else {
+                    $prevoiusCraftingValue = min(
+                        $ingredient['buy_price'],
+                        $ingredient['sell_price']
+                    );
+                }
+                
             }
             $value += $prevoiusCraftingValue;
             

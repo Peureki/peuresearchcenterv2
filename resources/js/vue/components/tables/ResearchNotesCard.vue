@@ -117,7 +117,7 @@
 import { computed, ref, watch } from 'vue'
 import { showRarityColor, formatValue } from '@/js/vue/composables/FormatFunctions'
 import { wiki, activeArrow } from '@/js/vue/composables/BasicFunctions'
-import { buyOrder, favorites, refreshFavorites } from '@/js/vue/composables/Global';
+import { buyOrder, favorites, refreshFavorites, user } from '@/js/vue/composables/Global';
 
 import PageButtons from '@/js/vue/components/general/PageButtons.vue'
 
@@ -162,8 +162,8 @@ const handleFavorite = async (item) => {
     item.favorite = !item.favorite; 
     console.log('favorites before anything: ', favorites.value);
 
-    if (!favorites.value){
-        favorites.value = { researchNotes: []};
+    if (!favorites.value.researchNotes){
+        favorites.value.researchNotes = [];
     }
     if (favorites.value.researchNotes){
         const index = favorites.value.researchNotes.indexOf(item.id); 
@@ -188,7 +188,7 @@ const handleFavorite = async (item) => {
         })
 
         if (response){
-            console.log('Saved favorites!', favorites.value);
+            console.log('Saved favorites!', favorites.value, user.value);
             refreshFavorites.value = true; 
         }
     } catch (error){

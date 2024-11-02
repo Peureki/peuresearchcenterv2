@@ -143,7 +143,11 @@ Route::get('/currencies/salvage-research-notes/{buyOrderSetting}/{sellOrderSetti
 
 
 Route::get('/currencies/research-note/{buyOrderSetting}/{filter}/{material}', [CurrencyController::class, 'researchNote']);
+
+// * FETCH FAVORITES
 Route::get('/currencies/favorite-research-note/{buyOrderSetting}/{favorites}', [CurrencyController::class, 'favoriteResearchNote']);
+
+Route::get('/tools/favorite-recipes/{buyOrderSetting}/{favorites}', [RecipeController::class, 'favoriteRecipes']);
 
 
 // BAG DETAILS

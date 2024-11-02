@@ -168,10 +168,10 @@ export function formatToDecimal(number){
 // By default, .favorite is false
 // If yes => .favorite = true
 export const checkIfFavorite = (researchNotes) => {
-
     researchNotes.forEach(item => item.favorite = false);
 
-    if (favorites.value){
+    if (favorites.value.researchNotes){
+        console.log('favorites: ', favorites.value);
         favorites.value.researchNotes.forEach(favorite => {
             // Match the ID from favorites to the focused array
             const matchedItem = researchNotes.find(item => item.id == favorite);

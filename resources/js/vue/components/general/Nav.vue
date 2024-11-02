@@ -1164,7 +1164,6 @@ watch(user, (userData) => {
         tax.value = userData.settings_tax; 
         includes.value = userData.includes;
         filterResearchNotes.value = userData.filter_research_notes;
-        favorites.value = userData.favorites; 
         theme.value = userData.theme; 
         // IF COLUMNS ARE EMPTY OR NULL 
         // THEN USE DEFAULTS via Global.js
@@ -1180,8 +1179,28 @@ watch(user, (userData) => {
             })
             filters.value = userData.filters;
         }
+
+        if (userData.filters){
+            useDefaultGlobals(userData.filters, filters.value);
+        }
+        if (userData.favorites){
+            useDefaultGlobals(userData.favorites, favorites.value);
+        }
     }
 })
+
+const useDefaultGlobals = (userData, property) => {
+    Object.keys(property).forEach(key => {
+        if (!(key in userData)){
+            userData[key] = property[key];
+        }
+    })
+    
+    Object.keys(userData).forEach(key => {
+        property[key] = userData[key];
+    });
+    //console.log('property: ', property, 'userData: ', userData);
+}
 
 </script>
 

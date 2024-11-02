@@ -52,6 +52,16 @@ export function compareBuyOrderAndCraftingValues(item){
     }
 }
 
+// *
+// * GET RECIPE VALUE
+// * Redirects users to the recipe-value page with the requested recipe
+export const getRecipeValue = (recipeName, recipeId, recipeQty) => {
+    const url = `../tools/recipe-value?requestedRecipe=${recipeName}&id=${recipeId}&qty=${recipeQty}`;
+
+    window.open(url, '_blank');
+    
+}
+
 // * 
 // * REFRESH PAGE
 // * 

@@ -37,7 +37,10 @@ export const buyOrder = ref('buy_price');
 export const sellOrder = ref('sell_price');
 export const tax = ref(0.85);
 export const includes = ref([]);
-export const favorites = ref([]);
+export const favorites = ref({
+    recipes: [],
+    researchNotes: [],
+});
 export const checklist = ref([]);
 export const filterResearchNotes = ref(["Crafting","TP","Armorsmith","Artificer","Chef","Huntsman","Jeweler","Leatherworker","Scribe","Tailor","Weaponsmith","Consumable","Armor","Weapon","Back","Trinket"]);
 export const filters = ref({
