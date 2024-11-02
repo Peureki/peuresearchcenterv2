@@ -327,7 +327,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { debounce } from 'lodash'
 
 import { formatValue, showRarityColor } from '@/js/vue/composables/FormatFunctions.js'
-import { user, buyOrder, sellOrder, tax, favorites } from '@/js/vue/composables/Global'
+import { user, buyOrder, sellOrder, tax, favorites, refreshSettings } from '@/js/vue/composables/Global'
 import { getAuthUser } from '@/js/vue/composables/Authentication'
 import { getRecipeValue } from '@/js/vue/composables/BasicFunctions'
 
@@ -659,6 +659,28 @@ onMounted( async () => {
     }
     if (favoritesUrl.value){
         getFavoriteRecipes(favoritesUrl.value);
+    }
+})
+
+watch(refreshSettings, async (newSettings) => {
+    if (newSettings){
+
+        loadingToggle.value = true; 
+
+        if (route.query.requestedRecipe){
+            url.value = decodeURIComponent(route.query.requestedRecipe);
+            idRequest.value = route.query.id;
+            quantityRequest.value = route.query.qty; 
+        }
+
+        if (url.value){
+        //console.log(url.value);
+            fetchRequestedRecipe(url.value, idRequest.value, quantityRequest.value);
+        }
+        if (favoritesUrl.value){
+            getFavoriteRecipes(favoritesUrl.value);
+        }
+        refreshSettings.value = false;
     }
 })
 
