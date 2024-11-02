@@ -15,7 +15,6 @@
                         submit-text="Submit Arborstone"
                         @handle-item-search="handleArborstoneSearch"
                     />
-                    <button @click="(e) => {copyWaypoint(copyAllWaypoints(guides)); showTooltip(e)}">Copy all waypoints</button>
                     <!--
                         *
                         * ARBORSTONE DAILY CATCH
@@ -53,9 +52,11 @@
                         <p>{{ dailyCatch.arborstone.fish.map }}, {{ dailyCatch.arborstone.fish.fishing_hole }}</p>
 
                         <p class="small-subtitle">Daily Arborstone confirmed by {{ dailyCatch.arborstone.count }} choyas</p>
-
-                        
                     </div>
+                    <!-- 
+                        * ARBORSTONE WAYPOINT 
+                    -->
+                    <p class="link" @click="(e) => {copyWaypoint('[&BGMNAAA=]'); showTooltip(e)}">Arborstone Waypoint</p>
                 </div>
                 
                 <div class="daily-catch-search-and-catch">
@@ -104,8 +105,11 @@
 
                         <p class="small-subtitle">Daily Janthir confirmed by {{ dailyCatch.janthir.count }} choyas</p>
 
-                        
                     </div>
+                    <!-- 
+                        * JANTHIR WAYPOINT
+                    -->
+                    <p class="link" @click="(e) => {copyWaypoint('[&BC4PAAA=]'); showTooltip(e)}">Autumn's Vale Waypoint</p>
                 </div>
                 
             </div>
@@ -134,7 +138,7 @@ import { user, buyOrder, sellOrder, tax, includes, dayAndNightTimerToggle } from
 import { showRarityColor } from '@/js/vue/composables/FormatFunctions'
 import { getAuthUser } from '@/js/vue/composables/Authentication'
 import { handleCursorTooltip } from '@/js/vue/composables/MouseFunctions'
-
+import { copyWaypoint } from '@/js/vue/composables/BasicFunctions'
 
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Header from '@/js/vue/components/general/Header.vue'
