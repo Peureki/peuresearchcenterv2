@@ -81,7 +81,7 @@
                     <button 
                         @click="saveFilters();"
                     >
-                        Save & Refresh
+                        Apply
                     </button>
                 </div>
             </div>
@@ -92,6 +92,11 @@
     <Loading v-if="!researchNotes || currentlyRefreshing" :width="200" :height="200"/>
 
     <div class="flex-column" :class="{'column-reverse': columnReverse}">
+        <!-- 
+            *
+            * FAVORITES
+            *
+        -->
         <section class="main" v-if="favoriteResearchNotes.length != 0">
             <div class="content-section"> 
                 <Disclaimer v-if="!user" message="Favorites will not save unless logged in"/> 
@@ -113,30 +118,40 @@
                 />
             </div>
         </section>
-
+        <!-- 
+            *
+            * DATABASE
+            *
+        -->
         <section class="main" v-if="researchNotes">
             <div class="content-section">
                 <Disclaimer v-if="researchNotes && researchNotes.data == 0"
                     message="Check your Filters"
                 />
+                <div class="content-and-legend">
+                    
 
-                <div>
-                    <div class="img-and-label">
-                        <h3>Database</h3>
-                        <svg v-if="favoriteResearchNotes.length != 0" class="icon clickable" @click="columnReverse = !columnReverse" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5.83333 8.5L0.5 12.5M0.5 12.5L5.83333 16.5M0.5 12.5H16.5M11.1667 0.5L16.5 4.5M16.5 4.5L11.1667 8.5M16.5 4.5H0.5" stroke="#FFD12C" stroke-linecap="round" stroke-linejoin="round"/>
-                            <title>Swap arrangement of Favorites & Database</title>
-                        </svg>
+                    <div>
+                        <div class="img-and-label">
+                            <h3>Database</h3>
+                            <svg v-if="favoriteResearchNotes.length != 0" class="icon clickable" @click="columnReverse = !columnReverse" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.83333 8.5L0.5 12.5M0.5 12.5L5.83333 16.5M0.5 12.5H16.5M11.1667 0.5L16.5 4.5M16.5 4.5L11.1667 8.5M16.5 4.5H0.5" stroke="#FFD12C" stroke-linecap="round" stroke-linejoin="round"/>
+                                <title>Swap arrangement of Favorites & Database</title>
+                            </svg>
+                        </div>
+
+                        <ResearchNotesCard
+                            :is-favorite="false"
+                            :currency-icon="ResearchNote"
+                            target-currency="Research Note"
+                            :research-notes="researchNotes"
+                            @new-url="getResearchNotes"
+                        /> 
                     </div>
 
-                    <ResearchNotesCard
-                        :is-favorite="false"
-                        :currency-icon="ResearchNote"
-                        target-currency="Research Note"
-                        :research-notes="researchNotes"
-                        @new-url="getResearchNotes"
-                    /> 
+                    <ResearchNoteLegend/>
                 </div>
+                
                 
             </div>
         </section>
@@ -156,6 +171,7 @@ import Disclaimer from '@/js/vue/components/general/Disclaimer.vue'
 import PopUpMessage from '@/js/vue/components/general/PopUpMessage.vue'
 
 import ResearchNotesCard from '@/js/vue/components/tables/ResearchNotesCard.vue'
+import ResearchNoteLegend from '@/js/vue/components/guides/legends/ResearchNotes.vue'
 
 import ResearchNote from '@/imgs/icons/Research_Note.png'
 
@@ -236,7 +252,7 @@ const getResearchNotes = async (url) => {
         }
     
         researchNotes.value = responseData;
-        //console.log('research notes: ', researchNotes.value.data);
+        console.log('research notes: ', researchNotes.value.data);
     } catch (error){
         console.log('Error fetching data: ', error);
     }

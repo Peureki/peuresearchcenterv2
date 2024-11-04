@@ -100,7 +100,7 @@ h6{
     margin: 0;
     font-weight: normal;
 }
-p, label, input, button{
+p, label, input, button, a{
     font-family: var(--font-family-rubik);
     font-size: var(--font-size-p);
     font-weight: var(--font-weight-p);
@@ -698,6 +698,19 @@ span.label-and-subtitle{
     * GENERAL CLASSES
     =================================================
 */
+.legend{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-general);
+}
+/* 
+ * For pages that have the main content on the left and then legend of the right 
+ */
+.content-and-legend{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+    gap: var(--gap-content);
+}
 .flex{
     display: flex;
     align-items: center;
@@ -730,7 +743,13 @@ span.blurb{
     gap: var(--gap-content);
     padding-inline: var(--gap-general);
 }
-
+@media (max-width: 768px){
+    .content-and-legend{
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--gap-content);
+    }
+}
 
 /* 
     =================================================
@@ -1230,6 +1249,9 @@ svg.arrow path{
     .mobile-currency-container{
         width: 100%;
     }
+    .value-container{
+        flex-wrap: wrap;
+    }
 }
 
 /* 
@@ -1408,6 +1430,7 @@ img.map-guide{
     transition: var(--transition-all-03s-ease);
     border-radius: 10px;
 }
+.warning-message,
 .error-message{
     color: var(--color-down);
 }

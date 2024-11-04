@@ -208,11 +208,9 @@
                                     >
                                         JW
                                     </button>
-                                </div>
-                                
+                                </div>    
                             </div>
-                            
-
+                        
                             <div class="settings-button-container">
                                 <!-- 
                                     * SETTING BUTTONS
@@ -458,7 +456,7 @@
                                     @click="saveSettings();"    
                                     class="submit"
                                 >
-                                    Save & Refresh
+                                    Apply
                                 </button>
                             </div>
                             
@@ -819,6 +817,8 @@ const name = ref(''),
 const settingsElement = ref(null),
     filtersElement = ref(null);
 
+const settingsWarningMessage = ref(false);
+
 const forgotPasswordForm = ref(null),
     forgotPasswordEmailSent = ref(null);
 
@@ -1157,7 +1157,7 @@ watch(isMobile, (newIsMobile) => {
 //UPDATE settings when user has logged on or off
 watch(user, (userData) => {
     if (userData){
-        console.log('user data: ', userData);
+        //console.log('user data: ', userData);
         emailVerified.value = userData.email_verified_at ? true : false; 
         buyOrder.value = userData.settings_buy_order;
         sellOrder.value = userData.settings_sell_order;

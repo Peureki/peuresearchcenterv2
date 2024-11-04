@@ -1116,18 +1116,18 @@ class FetchResearchNotes implements ShouldQueue
             ["Zephyrite Fish Jerky", 1],
 
             // DUNGEON STUFF
-            ["Alpha Conduit", 75],
-            ["Ashes of the Effigy", 75],
-            ["Bloodstone Fragment", 75],
-            ["Claw of the Howling King", 75],
-            ["Colossus Fang", 75],
-            ["Eternal Flame (trinket)", 75],
-            ["Husk of the Destroyer", 75],
-            ["Infinity Loop", 75],
-            ["Koda's Gift", 75],
-            ["Nightmare Coil", 75],
-            ["Operative's Creed", 75],
-            ["Plague (ring)", 75],
+            // ["Alpha Conduit", 75],
+            // ["Ashes of the Effigy", 75],
+            // ["Bloodstone Fragment", 75],
+            // ["Claw of the Howling King", 75],
+            // ["Colossus Fang", 75],
+            // ["Eternal Flame (trinket)", 75],
+            // ["Husk of the Destroyer", 75],
+            // ["Infinity Loop", 75],
+            // ["Koda's Gift", 75],
+            // ["Nightmare Coil", 75],
+            // ["Operative's Creed", 75],
+            // ["Plague (ring)", 75],
 
             // ARTIFCER
             
