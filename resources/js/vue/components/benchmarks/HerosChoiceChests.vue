@@ -61,7 +61,7 @@
                                 * GUARANTEED ITEM
                                 *
                             -->
-                            <div v-if="chest.guaranteed" class="mobile-benchmark-details-container">
+                            <div v-if="chest.guaranteed && expand[index]" class="mobile-benchmark-details-container">
                                 <div class="mobile-drops-container">
                                     <div class="label-and-cta">
                                         <div class="img-and-label">
