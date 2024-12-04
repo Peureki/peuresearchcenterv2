@@ -1194,18 +1194,24 @@ svg.arrow path{
     align-items: center;
     gap: var(--gap-general);
 }
-.drop-rate{
-    display: flex;
-    align-items: center;
-    gap: var(--gap-general);
-    grid-area: dr;
-}
+
 .item-name{
     font-size: var(--font-size-h6);
 }
 .mobile-drops-container > .gold-label-container{
     grid-area: gph;
     text-align: right;
+}
+.mobile-drops-container > .gold-label-container.buy-price,
+.drop-rate{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--gap-general);
+    grid-area: dr;
+}
+.mobile-drops-container > .gold-label-container.buy-price{
+    gap: unset;
 }
 .mobile-currency-container{
     display: flex;
@@ -1235,7 +1241,6 @@ svg.arrow path{
 }
 .value-container{
     display: flex;
-    align-items: center;
     justify-content: space-between;
     gap: var(--gap-content);
 }
@@ -1576,8 +1581,8 @@ img.map-guide{
     --border-event-overdue: 4px solid #EC004D;
     --border-event-meta: 4px solid #76E9E1;
     --border-tooltip: 2px solid #3D3F42;
-    --border-positive: 2px solid #5ED625;
-    --border-negative: 2px solid #EC004D;
+    --border-positive: 1px solid #5ED625;
+    --border-negative: 1px solid #EC004D;
     --border-tooltip: 1px solid var(--color-text);
     --border-left-hover: 2px solid var(--color-text);
     --border-hover-link: 2px solid var(--color-link);

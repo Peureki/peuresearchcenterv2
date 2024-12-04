@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\LoadingProgress;
+use App\Models\ChoiceChest;
 use App\Models\FishingHole;
 use App\Models\FishingHoleDropRate;
 use App\Models\GatheringTool;
@@ -19,6 +20,111 @@ use Illuminate\Support\Facades\Log;
 
 class BenchmarkController extends Controller
 {
+    // *
+    // * HERO CHOICE CHESTS
+    // * 
+    public function herosChoiceChests($includes, $sellOrderSetting, $tax){
+        // Make it a workable arrays
+        // New accounts that haven't set any settings may still have "null"
+        if ($includes == "null"){
+            $includes = [];
+        } else {
+            $includes = json_decode($includes);
+        }
+
+        $response = []; 
+        $choiceChests = []; 
+
+        $choiceChestDB = ChoiceChest::join('choice_chest_options as options', 'options.choice_chest_id', 'choice_chests.id')
+        ->join('items as choices', 'options.item_id', 'choices.id')
+        ->join('items as chests', 'choice_chests.id', 'chests.id')
+        ->select(
+            'chests.id as choice_chest_id',
+            'chests.name as chest_name',
+            'chests.icon as chest_icon',
+            'chests.rarity as chest_rarity',
+            'chests.type as chest_type',
+
+            'options.option as option',
+            'options.quantity as quantity',
+            'options.quantity as drop_rate',
+            'options.bag_id as bag_id',
+            'options.currency_id as currency_id',
+            'options.currency_quantity as currency_quantity',
+
+
+            'choices.id as item_id',
+            'choices.name as item_name',
+            'choices.icon as item_icon',
+            'choices.rarity as item_rarity',
+            'choices.type as item_type',
+            'choices.description as item_description',
+            'choices.buy_price as buy_price',
+            'choices.sell_price as sell_price'
+        )
+        ->where('chests.name', 'like', '%Hero%')
+        ->orderBy('chest_name', 'asc')
+        ->get()
+        ->groupBy('choice_chest_id'); 
+
+        foreach($choiceChestDB as $chest){
+            $currentChestDrops = [];
+            $guaranteedDrop = null; 
+            $bestIndex = 0;
+
+            foreach($chest as $drop){
+                // Adjust value of drop with the quantity
+                if ($drop->option == 'Guaranteed'){
+                    $guaranteedDrop = $drop; 
+                    $drop->value = $drop->$sellOrderSetting; 
+                // Only value chest drops if they are choices
+                } else {
+                    // if ($drop->item_name == 'Pile of Elonian Trade Contracts'){
+                    //     dd($drop);
+                    // }
+                    $dropValue = $this->getItemValue($drop, $includes, $sellOrderSetting, $tax);
+
+                    $currentChestDrops[] = $dropValue; 
+                    // Change the value of the item to match the real itemValue depending on the $includes
+                    $drop->value = $dropValue; 
+                }
+            }
+
+            $bestValue = max($currentChestDrops);
+            $bestIndex = array_keys($currentChestDrops, $bestValue)[0];
+
+            // Add the guaranteed item + best choice drop
+            if ($guaranteedDrop){
+                $bestValue += $guaranteedDrop->$sellOrderSetting; 
+            }
+            //dd($bestIndex, $chest, $chest[$bestIndex]);
+            
+
+            $choiceChests[] = [
+                'id' => $chest[0]->choice_chest_id,
+                'name' => $chest[0]->chest_name,
+                'icon' => $chest[0]->chest_icon,
+                'rarity' => $chest[0]->chest_rarity,
+                'type' => $chest[0]->chest_type,
+                'bestChoice' => $chest[$bestIndex],
+                'guaranteed' => $guaranteedDrop,
+                'value' => $bestValue,
+            ];
+        }
+        //dd($choiceChests);
+        $choiceChestDB = $choiceChestDB->values();
+
+        $response = [
+            'chests' => $choiceChests,
+            'dropRates' => $choiceChestDB,
+        ];
+
+        return response()->json($response);
+    }
+
+    // *
+    // * GATHERING TOOLS
+    // * 
     public function gatheringTools(){
         $response = [];
         $sickles = [];

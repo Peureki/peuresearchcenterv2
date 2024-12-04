@@ -4,10 +4,16 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from './views/HomeView.vue'
 import ResetPasswordView from '@/js/vue/views/ResetPasswordView.vue'
 
+/*
+ * 
+ * BENCHMARKS
+ * 
+ */
 import BenchmarksMapsView from './views/benchmarks/MapsView.vue'
 import BenchmarksFishingView from './views/benchmarks/FishingView.vue'
 import BenchmarksGatheringToolsView from '@/js/vue/views/benchmarks/GatheringToolsView.vue'
 import BenchmarksGlyphsView from '@/js/vue/views/benchmarks/GlyphsView.vue'
+import BenchmarksHerosChoiceChests from '@/js/vue/views/benchmarks/HerosChoiceChestsView.vue'
 import BenchmarksNodesView from '@/js/vue/views/benchmarks/NodesView.vue'
 import BenchmarksNodeFarmsView from '@/js/vue/views/benchmarks/NodeFarmsView.vue'
 import BenchmarksSoloView from '@/js/vue/views/benchmarks/SoloView.vue'
@@ -136,6 +142,11 @@ const routes = [
         path: '/benchmarks/glyphs',
         component: BenchmarksGlyphsView,
         name: 'benchmarks-glyphs',
+    },
+    {
+        path: '/benchmarks/heros-choice-chests',
+        component: BenchmarksHerosChoiceChests,
+        name: 'benchmarks-heros-choice-chests',
     },
     {
         path: '/benchmarks/nodes',

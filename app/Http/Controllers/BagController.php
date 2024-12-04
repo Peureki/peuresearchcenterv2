@@ -40,8 +40,6 @@ class BagController extends Controller
     // Get array of item ids for $requestedBags
     // => Check if id belongs in Bags or ChoiceChest
     // => Rest, check if it's in Items
-    // 
-    // 
     public function exchangeables($request, $includes, $sellOrderSetting, $tax){
         // Make it a workable arrays
         // New accounts that haven't set any settings may still have "null"

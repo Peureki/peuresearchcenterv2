@@ -63,8 +63,8 @@
                 -->
                 <div class="auth-welcome" v-if="user">
                     <p>Hello, {{ user.name }}</p>
-                    <a class="small-subtitle link" v-if="!emailVerified" @click="resendVerificationEmail">Send Email Verification</a>
-                    <p class="small-subtitle" v-if="emailVerificationMessage && !emailVerified">{{ emailVerificationMessage }}</p>
+                    <!-- <a class="small-subtitle link" v-if="!emailVerified" @click="resendVerificationEmail">Send Email Verification</a>
+                    <p class="small-subtitle" v-if="emailVerificationMessage && !emailVerified">{{ emailVerificationMessage }}</p> -->
                 </div>
 
                 <!-- 
@@ -451,7 +451,8 @@
                                 />  
                             </div>
 
-                            <div class="button-container">
+                            <div class="flex-column">
+                                <p>Apply new settings </p>
                                 <button 
                                     @click="saveSettings();"    
                                     class="submit"
@@ -516,6 +517,8 @@
                         <NavPage category='benchmarks' url="gathering-tools" name="Gathering Tools" :icon="ChoyaHarvestingTool"/>
 
                         <NavPage category='benchmarks' url="glyphs" name="Glyphs" :icon="GlyphOfVolatility"/>
+
+                        <NavPage category='benchmarks' url="heros-choice-chests" name="Hero's Choice Chests" :icon="HeroChoiceChest"/>
 
                         <NavPage category='benchmarks' url="nodes" name="Nodes" :icon="ElderWoodLog"/>
 
@@ -761,6 +764,7 @@ import ElderWoodLog from '@/imgs/icons/Elder_Wood_Log.png'
 import CallTarget from '@/imgs/icons/Call_Target.png'
 import GlyphOfVolatility from '@/imgs/icons/Glyph_of_Volatility.png'
 import ChoyaMiningTool from '@/imgs/icons/Choya_Mining_Tool.png'
+import HeroChoiceChest from "@/imgs/icons/Auric_Basin-_Hero's_Choice_Chest.png"
 
 import CalcifiedGasp from '@/imgs/icons/Calcified_Gasp.png'
 import DragoniteOre from '@/imgs/icons/Dragonite_Ore.png'

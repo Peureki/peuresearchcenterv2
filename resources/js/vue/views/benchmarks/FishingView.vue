@@ -172,6 +172,27 @@ const currentProgress = ref(0);
 // Initilize tooltip vars
 const { mouseX, mouseY, tooltipToggle, showTooltip } = handleCursorTooltip(); 
 
+// *
+// * INITIALIZE FILLETS TO BE REFINED/EXCHANGED
+// *
+const exchangeableFillets = [
+    // 1 Fine Fish Fillet <- 1 Piece of Crustacean Meat
+    {result: 96762, resultQty: 1, exchangeable: 97075, exchangeableQty: 1},
+    // 1 FAbulous Fish Fillet <- 5 Fine Fish Fillet
+    {result: 97690, resultQty: 1, exchangeable: 96762, exchangeableQty: 5},
+    // 1 Flavorful Fish Fillet <- 5 Fabulous fish Fillet
+    {result: 96943, resultQty: 1, exchangeable: 97690, exchangeableQty: 5},
+    // 1 Fantatic Fish fillet <- 5 Flavorful Fish Fillet
+    {result: 95663, resultQty: 1, exchangeable: 96943, exchangeableQty: 5},
+    // 1 Flawless Fish Fillet <- 5 Fantastic Fish Fillet
+    {result: 95673, resultQty: 1, exchangeable: 95663, exchangeableQty: 5},
+    // 1 Mackerel <- 5 Fine Fish Fillet
+    {result: 95943, resultQty: 1, exchangeable: 96762, exchangeableQty: 5},
+    // 1 Chunk of Ambergris <- 10 Flawless Fillet
+    {result: 96347, resultQty: 1, exchangeable: 95673, exchangeableQty: 10}
+]
+
+
 
 const handleArborstoneSearch = async (query) => {
     submitDailyCatch(query, 'Arborstone');

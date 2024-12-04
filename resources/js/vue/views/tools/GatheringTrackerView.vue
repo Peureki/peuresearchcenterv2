@@ -32,15 +32,6 @@ import GatheringInput from '@/js/vue/components/general/GatheringInput.vue'
 </script>
 
 <style scoped>
-.content-section{
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-general);
-}
-.gathering-input-container{
-    display: flex;
-    align-items: center;
-    gap: var(--gap-general);
-}
+
 
 </style>

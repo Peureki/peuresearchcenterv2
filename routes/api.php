@@ -179,3 +179,6 @@ Route::get('/fetch-other-recipes', [FetchController::class, 'fetchOtherRecipes']
 
 // GATHERING TOOLS
 Route::get('/benchmarks/gathering-tools', [BenchmarkController::class, 'gatheringTools']);
+
+// * HERO'S CHOICE CHEST
+Route::get('/benchmarks/heros-choice-chests/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'herosChoiceChests']);

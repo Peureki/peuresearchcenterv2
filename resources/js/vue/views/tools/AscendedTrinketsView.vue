@@ -10,11 +10,14 @@
     <section class="main">
         <div class="content-section">
             <h2>Recommendation</h2>
+
+            <Disclaimer type="caution" message="Note that ascended trinkets need to be unique. For example, to have two rings, they need to be different. This rule applies to all trinkets except for fractal, raid, sPvP, or WvW trinkets." />
             <p class="small-subtitle">If you frequently do fractals, raids, sPvP, or WvW, then I recommend those trinkets as they are not unique. 
                 <span class="link" @click="wiki('Mist Talisman')"> Accessory, </span> 
                 <span class="link" @click="wiki('Mist Band (Infused)')"> Ring, </span>
                 <span class="link" @click="wiki('Mist Pendant')"> Amulet </span>
             </p>
+
 
             <div class="card-grid-container">
                 <div class="card-grid">

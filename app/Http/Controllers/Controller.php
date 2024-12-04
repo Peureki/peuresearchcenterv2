@@ -70,6 +70,7 @@ class Controller extends BaseController
     protected $leyEnergyMatter;
     protected $rareRiftEssence; 
     protected $pileOfBloodstoneDust;
+    protected $pileOfElonianTradeContracts;
     protected $pinchOfStardust;
     protected $staticCharge;
     protected $tradeContract;
@@ -896,6 +897,7 @@ class Controller extends BaseController
             "Jade Sliver" => $this->jadeSliver,
             "Laurel" => $this->laurel,
             "Pile of Bloodstone Dust" => $this->pileOfBloodstoneDust,
+            "Pile of Elonian Trade Contracts" => $this->tradeContract,
             "Pinch of Stardust" => $this->pinchOfStardust,
             "Rare Rift Essence" => $this->rareRiftEssence,
             "Static Charge" => $this->staticCharge,
@@ -1341,7 +1343,8 @@ class Controller extends BaseController
         
         $requestedBags = [];
 
-        if (in_array($itemName, $includes)){
+        // Pile of Elonian Trade Contracts is a unique situation where in Hero's Choice Chests, it's being counted as a currency to be exchanged like a regular Trade Contract and it's not in Includes
+        if (in_array($itemName, $includes) || $itemName == 'Pile of Elonian Trade Contracts'){
             if (array_key_exists($itemName, $this->exchangeableMap)){
                 $data = $this->exchangeableMap[$itemName]; 
                 $requestedBags = array_merge($requestedBags, $data['id']);
@@ -1354,6 +1357,8 @@ class Controller extends BaseController
         } else {
             return 0;
         }
+
+        
         
 
         $bagDropTable = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
@@ -1901,10 +1906,9 @@ class Controller extends BaseController
         // || strpos($item->description, 'unbound magic')){
         //     dd($item);
         // }
-        // if ($item->name == 'Branded Mass'){
+        // if ($item->item_name == 'Pile of Elonian Trade Contracts'){
         //     dd($item);
         // }
-        
 
         $id = $item->id ?? 0;
         $itemId = $item->item_id ?? 0; 
@@ -1968,6 +1972,9 @@ class Controller extends BaseController
             }
             // GENERAL EXCHANGEABLES
             if (array_key_exists($item->item_name, $this->exchangeableMap)) {
+                // if ($item->item_name == 'Pile of Elonian Trade Contracts'){
+                //     dd($item);
+                // }
                 return $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax, $recursionLevel);
             }
             // RAW CURRENCIES
