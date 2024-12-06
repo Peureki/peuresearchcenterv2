@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Fetches;
 
+use App\Http\Controllers\RecipeController;
 use App\Models\Items;
 use App\Models\Recipes;
 use App\Models\ResearchNotes;
@@ -1230,6 +1231,8 @@ class FetchResearchNotes implements ShouldQueue
         $salvageableMap = array_column($salvageableItemCategories, 1, 0);
         $researchNotesResponse = [];
 
+        $recipeController = new RecipeController();
+
         Items::where(function ($goodItemQuery) use ($salvageableItemNames){
             foreach ($salvageableItemNames as $name){
                 $goodItemQuery->orWhere('name', 'like', '%'.$name.'%');
@@ -1243,7 +1246,7 @@ class FetchResearchNotes implements ShouldQueue
                 $badItemQuery->where('name', 'not like', $restricted);
             }
         })
-        ->chunk(100, function ($salvageableItems) use ($salvageableMap){
+        ->chunk(100, function ($salvageableItems) use ($salvageableMap, $recipeController){
             foreach ($salvageableItems as $item){
                 $recipe = Recipes::where('output_item_id', $item->id)->first();
 

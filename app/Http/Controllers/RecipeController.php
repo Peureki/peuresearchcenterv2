@@ -585,6 +585,7 @@ class RecipeController extends Controller
             "rarity" => $recipe['rarity'],
             "craftingValue" => 0,
             "preference" => 'TP',
+            "recipe_materials" => null,
         ];
 
         //dd($returnArray);
@@ -594,6 +595,10 @@ class RecipeController extends Controller
         //dd($returnArray);
 
         $returnArray['ingredients'] = $this->addRecipeTreePrices($returnArray, $quantity);
+        
+        // GET UNIQUE ITEM IDS FROM RECIPE TREE
+        $returnArray['recipe_materials'] = $this->getUniqueItemIds($returnArray);
+
         //dd($returnArray);
         
         if ($buyOrderSetting){
@@ -671,6 +676,22 @@ class RecipeController extends Controller
         }
         //dd($value);
         return $value;
+    }
+
+    private function getUniqueItemIds($recipe, &$uniqueIds = []) {
+        // Add the current item's ID to the unique IDs array
+        if (isset($recipe['id'])) {
+            $uniqueIds[$recipe['id']] = true;
+        }
+    
+        // If the recipe has ingredients, recursively check them
+        if (isset($recipe['ingredients']) && is_array($recipe['ingredients'])) {
+            foreach ($recipe['ingredients'] as $ingredient) {
+                $this->getUniqueItemIds($ingredient, $uniqueIds);
+            }
+        }
+    
+        return array_keys($uniqueIds);
     }
 
     private function preferences(&$recipe){

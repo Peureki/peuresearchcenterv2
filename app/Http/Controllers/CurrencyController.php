@@ -97,8 +97,16 @@ class CurrencyController extends Controller
             });
 
         if ($material !== "null" && $material !== null){
-            $filteredQuery->where('research_note.ingredients', 'LIKE', '%' . $material . '%');
+            $filteredQuery->whereRaw('JSON_CONTAINS(research_note.recipe_materials, ?)', ['[' . $material . ']']);
         }
+
+        //$merp = ResearchNotes::get(); 
+
+        // foreach($merp as $derp){
+        //     dd($derp);
+        // }
+        // //dd($merp);
+        // dd($material);
     
         // Return Research Notes db 
         // Calculate crafting_value / avg_output and sort by that (cost/note column)
