@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\BagController;
 use App\Http\Controllers\BenchmarkController;
+use App\Http\Controllers\ConversionController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\FetchController;
 use App\Http\Controllers\LoginController;
@@ -182,3 +183,8 @@ Route::get('/benchmarks/gathering-tools', [BenchmarkController::class, 'gatherin
 
 // * HERO'S CHOICE CHEST
 Route::get('/benchmarks/heros-choice-chests/{includes}/{sellOrderSetting}/{tax}', [BenchmarkController::class, 'herosChoiceChests']);
+
+// * 
+// * CONVERSIONS
+// * 
+Route::get('/benchmarks/fishmonger/{sellOrderSetting}/{tax}', [ConversionController::class, 'fishmonger']);

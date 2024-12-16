@@ -12,6 +12,14 @@ class RefineController extends Controller
     // Showcase the cost/value it takes 
     //
     // Use $buyOrderSetting instead of sell since would buy materials then refine
+    // 
+    // @param int $request - 
+    // @param int $requestID - ID of the requested item
+    //
+    // @return array $response 
+    // 1) exchangeables
+    // 2) output
+    // 
     public function refine($request, $requestID, $buyOrderSetting, $tax){
         //dd($request);
 
@@ -21,8 +29,8 @@ class RefineController extends Controller
         $output = [];
         // Check if $request matches with one of the $map
         // Populate arrays
-        if (isset($this->homesteadMap[$request])){
-            $data = $this->homesteadMap[$request]; 
+        if (isset($this->refinementMap[$request])){
+            $data = $this->refinementMap[$request]; 
             $requestedArray = array_merge($requestedArray, $data['id']);
             $conversionRate = $data['conversionRate'];
             $outputQty = $data['outputQty'];

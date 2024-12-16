@@ -151,6 +151,7 @@ import CursorTooltip from '@/js/vue/components/general/CursorTooltip.vue';
 
 const fishingHoles = ref([]),
     dropRates = ref([]),
+    fishmonger = ref([]),
     fishingHoleToggle = ref(false);
 
 const dailyCatch = ref(null);
@@ -171,28 +172,6 @@ const currentProgress = ref(0);
 
 // Initilize tooltip vars
 const { mouseX, mouseY, tooltipToggle, showTooltip } = handleCursorTooltip(); 
-
-// *
-// * INITIALIZE FILLETS TO BE REFINED/EXCHANGED
-// *
-const exchangeableFillets = [
-    // 1 Fine Fish Fillet <- 1 Piece of Crustacean Meat
-    {result: 96762, resultQty: 1, exchangeable: 97075, exchangeableQty: 1},
-    // 1 FAbulous Fish Fillet <- 5 Fine Fish Fillet
-    {result: 97690, resultQty: 1, exchangeable: 96762, exchangeableQty: 5},
-    // 1 Flavorful Fish Fillet <- 5 Fabulous fish Fillet
-    {result: 96943, resultQty: 1, exchangeable: 97690, exchangeableQty: 5},
-    // 1 Fantatic Fish fillet <- 5 Flavorful Fish Fillet
-    {result: 95663, resultQty: 1, exchangeable: 96943, exchangeableQty: 5},
-    // 1 Flawless Fish Fillet <- 5 Fantastic Fish Fillet
-    {result: 95673, resultQty: 1, exchangeable: 95663, exchangeableQty: 5},
-    // 1 Mackerel <- 5 Fine Fish Fillet
-    {result: 95943, resultQty: 1, exchangeable: 96762, exchangeableQty: 5},
-    // 1 Chunk of Ambergris <- 10 Flawless Fillet
-    {result: 96347, resultQty: 1, exchangeable: 95673, exchangeableQty: 10}
-]
-
-
 
 const handleArborstoneSearch = async (query) => {
     submitDailyCatch(query, 'Arborstone');
@@ -352,6 +331,10 @@ const url = computed(() => {
     return `../api/benchmarks/fishing/${JSON.stringify(includes.value)}/${buyOrder.value}/${sellOrder.value}/${tax.value}`;
 })
 
+const fishmongerURL = computed(() => {
+    return `../api/benchmarks/fishmonger/${sellOrder.value}/${tax.value}`;
+})
+
 // BY DEFAULT
 // If there is no user logged in, use default settings
 onMounted( async () => {
@@ -366,12 +349,12 @@ onMounted( async () => {
     // IF NO USER
     if (!user.value){
         console.log('no user')
-        getFishes(url);
+        getFishes();
     } 
     // USER FOUND
     else {
         console.log('user found')
-        getFishes(url);
+        getFishes();
     }
 
     dayAndNightTimerToggle.value = true; 
@@ -426,6 +409,13 @@ const getFishes = async () => {
     fishingHoles.value = responseData.fishingHoles; 
     dropRates.value = responseData.dropRates;
     sortBenchmarks(fishingHoles.value);
+
+    const fishmongerResponse = await fetch(fishmongerURL.value);
+    const fishmongerResponseData = await fishmongerResponse.json(); 
+
+    fishmonger.value = fishmongerResponseData; 
+    console.log('FISHMONGER: ', fishmonger.value);
+
 }
 
 const getDailyCatch = async () => {
