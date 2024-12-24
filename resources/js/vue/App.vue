@@ -284,15 +284,11 @@ nav-timer-container .hidden-timer{
 
 /* 
  *
- * GENERAL TABLES
+ * TABLES
  *
  */
 table{
     border-spacing: 0;
-}
-/* Only the main header at the top */
-table thead tr:first-child th{
-    background-color: var(--color-table-header);
 }
 /* Prevents the main header of the table to look selectable */
 /* table tr:not(:first-child) th:hover{
@@ -314,13 +310,13 @@ table thead img {
     height: var(--font-size-h5);
 }
 table th{
+    padding: var(--gap-general);
     cursor: pointer;
     transition: var(--transition-all-03s-ease);
 }
 
 table thead h4{
-    color: var(--color-opposite-text);
-    padding: var(--padding-table-header);
+    color: var(--color-text);
 }
 table td{
     color: var(--color-text);
@@ -351,6 +347,13 @@ table td img{
     width: 20px;
     aspect-ratio: 1 / 1;
     margin-left: 2px;
+}
+.exchange-container{
+    height: fit-content;
+    margin-inline: var(--padding-inline);
+}
+.exchange-container svg{
+    transform: rotate(180deg);
 }
 
 .list-general {
@@ -589,6 +592,9 @@ button.submit {
 
 .sub-gold-label, .gold-label, .profit-label{
     padding-left: 3px;
+}
+.gold-label > p{
+    line-height: 1.1;
 }
 
 
@@ -1404,6 +1410,10 @@ img.map-guide{
     flex-direction: column;
     gap: var(--gap-general);
 }
+.flex-row{
+    display: flex;
+    gap: var(--gap-general);
+}
 .column-reverse{
     flex-direction: column-reverse;
 }
@@ -1483,7 +1493,9 @@ img.map-guide{
 .solo{
     color: var(--color-type-solo);
 }
-
+.daytime{
+    color: var(--color-rarity-exotic);
+}
 
 
 :root{

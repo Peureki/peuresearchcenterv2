@@ -90,12 +90,17 @@ class Controller extends BaseController
     protected $homesteadMetal; 
     protected $homesteadWood;
 
+    // CONVERSIONS
+    // Example: 
+    // Fishmonger Fillet conversions
+    protected $exchangeableFillets;
+
     // CHOICE CHESTS
     // ie Hero's Choice Chest, Ash Legino Crafting Box via Drizzlewood
     protected $choiceChests; 
 
     protected $exchangeableMap; 
-    protected $homesteadMap; 
+    protected $refinementMap; 
 
     public function __construct()
     {
@@ -912,13 +917,34 @@ class Controller extends BaseController
             "Writ of Dragon's End" => $this->writs,
         ];
 
-        // Reference this map when dealing with anything homestead conversions
-        $this->homesteadMap = [
+        // MAP out simple refinements or conversions
+        // EXAMPLE: Homestead materials
+        $this->refinementMap = [
+            // * HOMESTEAD MATERIALS
             "Refined Homestead Fiber" => $this->homesteadFiber,
             "Refined Homestead Metal" => $this->homesteadMetal,
             "Refined Homestead Wood" => $this->homesteadWood,
         ];
+
+        $this->exchangeableFillets = [
+            // 1 Fine Fish Fillet <- 1 Piece of Crustacean Meat
+            ['result' => 96762, 'resultQty' => 1, 'exchangeable' => 97075, 'exchangeableQty' => 1],
+            // 1 Fabulous Fish Fillet <- 5 Fine Fish Fillet
+            ['result' => 97690, 'resultQty' => 1, 'exchangeable' => 96762, 'exchangeableQty' => 5],
+            // 1 Flavorful Fish Fillet <- 5 Fabulous Fish Fillet
+            ['result' => 96943, 'resultQty' => 1, 'exchangeable' => 97690, 'exchangeableQty' => 5],
+            // 1 Fantastic Fish Fillet <- 5 Flavorful Fish Fillet
+            ['result' => 95663, 'resultQty' => 1, 'exchangeable' => 96943, 'exchangeableQty' => 5],
+            // 1 Flawless Fish Fillet <- 5 Fantastic Fish Fillet
+            ['result' => 95673, 'resultQty' => 1, 'exchangeable' => 95663, 'exchangeableQty' => 5],
+            // 1 Mackerel <- 5 Fine Fish Fillet
+            ['result' => 95943, 'resultQty' => 1, 'exchangeable' => 96762, 'exchangeableQty' => 5],
+            // 1 Chunk of Ambergris <- 10 Flawless Fillet
+            ['result' => 96347, 'resultQty' => 1, 'exchangeable' => 95673, 'exchangeableQty' => 10]
+        ];
     }
+
+    
 
     
 

@@ -383,6 +383,9 @@ class BenchmarkController extends Controller
         return response()->json($response); 
     }
 
+    // * 
+    // * GLYPHS
+    // *
     public function glyphs($includes, $sellOrderSetting, $tax){
         // In case $includes is null
         if ($includes == "null"){
@@ -609,6 +612,9 @@ class BenchmarkController extends Controller
         return response()->json($response); 
     }
 
+    // * 
+    // * FISHING BENCHMARKS
+    // * 
     public function fishing($includes, $buyOrderSetting, $sellOrderSetting, $tax){
 
         // Make it a workable arrays
