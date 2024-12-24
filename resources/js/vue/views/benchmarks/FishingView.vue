@@ -114,15 +114,37 @@
                 
             </div>
             
-            <FishBenchmark
-                v-if="fishingHoleToggle"
-                :daily-catch="dailyCatch"
-                :fishing-holes="fishingHoles"
-                :drop-rates="dropRates"
-            />
-        </div>
+
+            <div class="content-and-legend">
+                <FishBenchmark
+                    v-if="fishingHoleToggle"
+                    :daily-catch="dailyCatch"
+                    :fishing-holes="fishingHoles"
+                    :drop-rates="dropRates"
+                />
+
+                <div class="flex-column">
+                    <ExchangeTable v-if="fishmonger" 
+                        :exchanges="fishmonger"
+                        title="Fishmonger"
+                    />
+
+                    <ItemValueTable
+                        title="Item Values"
+                        :items="individualItemsResponse"
+                    />
+
+                    <Legend/>
+                </div>
+             
+            </div>
+            
+        </div> <!-- End of content-section -->
+        
         
     </section>
+
+    
 
     <!-- * CURSOR TOOLTIP -->
     <Transition name="fade">
@@ -149,9 +171,15 @@ import SearchItem from '@/js/vue/components/general/SearchItem.vue'
 import PopUpMessage from '@/js/vue/components/general/PopUpMessage.vue'
 import CursorTooltip from '@/js/vue/components/general/CursorTooltip.vue';
 
+import ExchangeTable from '@/js/vue/components/tables/ExchangeTable.vue'
+import ItemValueTable from '@/js/vue/components/tables/ItemValueTable.vue'
+
+import Legend from '@/js/vue/components/guides/legends/Fishing.vue'
+
 const fishingHoles = ref([]),
     dropRates = ref([]),
-    fishmonger = ref([]),
+    fishmonger = ref(null),
+    individualItemsResponse = ref(null),
     fishingHoleToggle = ref(false);
 
 const dailyCatch = ref(null);
@@ -172,6 +200,32 @@ const currentProgress = ref(0);
 
 // Initilize tooltip vars
 const { mouseX, mouseY, tooltipToggle, showTooltip } = handleCursorTooltip(); 
+
+const exchangeableFillets = [
+    // 1 Fine Fish Fillet <- 1 Piece of Crustacean Meat
+    { resultID: 96762, resultQty: 1, exchangeableID: 97075, exchangeableQty: 1 },
+    // 1 Fabulous Fish Fillet <- 5 Fine Fish Fillet
+    { resultID: 97690, resultQty: 1, exchangeableID: 96762, exchangeableQty: 5 },
+    // 1 Flavorful Fish Fillet <- 5 Fabulous Fish Fillet
+    { resultID: 96943, resultQty: 1, exchangeableID: 97690, exchangeableQty: 5 },
+    // 1 Fantastic Fish Fillet <- 5 Flavorful Fish Fillet
+    { resultID: 95663, resultQty: 1, exchangeableID: 96943, exchangeableQty: 5 },
+    // 1 Flawless Fish Fillet <- 5 Fantastic Fish Fillet
+    { resultID: 95673, resultQty: 1, exchangeableID: 95663, exchangeableQty: 5 },
+    // 1 Mackerel <- 5 Fine Fish Fillet
+    { resultID: 95943, resultQty: 1, exchangeableID: 96762, exchangeableQty: 5 },
+    // 1 Chunk of Ambergris <- 10 Flawless Fillet
+    { resultID: 96347, resultQty: 1, exchangeableID: 95673, exchangeableQty: 10 }
+];
+
+const individualItems = [
+    // Chunk of Ancient Ambergris
+    96347,
+    // Zephyrite Fish Jerky
+    99955,
+]
+
+
 
 const handleArborstoneSearch = async (query) => {
     submitDailyCatch(query, 'Arborstone');
@@ -332,7 +386,7 @@ const url = computed(() => {
 })
 
 const fishmongerURL = computed(() => {
-    return `../api/benchmarks/fishmonger/${sellOrder.value}/${tax.value}`;
+    return `../api/exchange/${JSON.stringify(exchangeableFillets)}/${sellOrder.value}/${tax.value}`;
 })
 
 // BY DEFAULT
@@ -342,6 +396,8 @@ onMounted( async () => {
     await getDailyCatch();
     // Fetch Ambergris and Flawless Fillet values
     await fetchDailyItems();
+    // Fetch individual items
+    await fetchIndividualItems(individualItems); 
 
     //console.log('url value: ', url.value);
     // Check if user is being auth
@@ -372,6 +428,24 @@ window.Echo.channel('progress')
         currentProgress.value = e.progress; 
         //console.log('Loading Progress: ', e.progress);
     })
+
+// *
+// * FETCH INDIVIDUAL ITEMS
+// * 
+// * Create const requestArray as an array of items for the request
+// * RETURNS from data from items db 
+// *
+const fetchIndividualItems = async (requestArray) => {
+    try {
+        const response = await fetch(`../api/items/${JSON.stringify(requestArray)}`);
+        const responseData = await response.json(); 
+
+        individualItemsResponse.value = responseData; 
+
+    } catch (error){
+        console.log('Could not fetch individual items: ', error); 
+    }
+}
 
 const fetchDailyItems = async () => {
     try {
@@ -414,7 +488,6 @@ const getFishes = async () => {
     const fishmongerResponseData = await fishmongerResponse.json(); 
 
     fishmonger.value = fishmongerResponseData; 
-    console.log('FISHMONGER: ', fishmonger.value);
 
 }
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\BenchmarkController;
 use App\Http\Controllers\ConversionController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\FetchController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RefineController;
@@ -108,6 +109,10 @@ Route::get('/fetch-node-combinations', [FetchController::class, 'fetchNodeCombin
 // *
 // GET REFINED MATERIALS
 Route::get('/refine/{request}/{requestID}/{buyOrderSetting}/{tax}', [RefineController::class, 'refine']);
+
+// * GET EXCHANGED ITEM
+Route::get('/exchange/{request}/{sellOrderSetting}/{tax}', [RefineController::class, 'exchange']);
+
 // GET RECIPE VALUES
 Route::get('/recipes/{request}/{id}/{recipeId}/{quantity}', [RecipeController::class, 'getRecipeValues']);
 // GET RECIPE TREE
@@ -120,6 +125,9 @@ Route::get('/recipes/search-recipes', [RecipeController::class, 'searchRecipes']
 Route::get('/tools/salvageables/{sellOrderSetting}/{tax}', [SalvageableController::class, 'salvageables']);
 // MIXED SALVAGEABLES
 Route::get('/tools/mixed-salvageables/{includes}/{sellOrderSetting}/{tax}', [SalvageableController::class, 'mixedSalvageables']);
+
+// FETCH ITEM AND RETURN ITEM INFO
+Route::get('/items/{requestArray}', [ItemController::class, 'items']);
 
 
 
@@ -135,8 +143,6 @@ Route::get('/currencies/spirit-shards/{buyOrderSetting}/{sellOrderSetting}/{tax}
 // * EXCHANGEABLES
 // *
 Route::get('/exchangeables/{request}/{includes}/{sellOrderSetting}/{tax}', [BagController::class, 'exchangeables']);
-
-
 
 
 // * RESEARCH NOTES

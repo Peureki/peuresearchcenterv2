@@ -13,8 +13,8 @@ class RefineController extends Controller
     //
     // Use $buyOrderSetting instead of sell since would buy materials then refine
     // 
-    // @param int $request - 
-    // @param int $requestID - ID of the requested item
+    // @param int $request - Name of the refinementMap 
+    // @param int $requestID - ID of the output item
     //
     // @return array $response 
     // 1) exchangeables
@@ -85,5 +85,59 @@ class RefineController extends Controller
         //dd($response);
 
         return response()->json($response);
+    }
+
+    // *
+    // * EXCHANGE ITEMS
+    // * For single item converion/refinements/exchanges to another item
+    // * 
+    // * EXAMPLE: 5 Fine Fish Fillet -> 1 Fabulous Fish Fillet
+    // * 
+    // * @param json $request 
+    // * @param string $sellOrderSetting - buy_price or sell_price
+    // * @param int $tax - TP tax 
+    // * THE REQUEST JSON NEEDS TO HAVE THE FOLLOWING PROPERTIES: 
+    // * {
+    // *    resultID: int
+    // *    resultQty: int 
+    // *    exchangeableID: int
+    // *    exchangeableQty: int
+    // * }
+    // * RETURN WILL PRODUCE NEW PROPERTIES
+    // * {
+    // *    resultValue: int 
+    // *    exchangeableValue: int 
+    // *    exchangeValue: int - value of the exchange (+/-)
+    // * 
+    public function exchange($request, $sellOrderSetting, $tax){
+        $request = json_decode($request); 
+
+        $response = []; 
+
+        foreach ($request as $index => $exchange){
+            // RESULTS
+            $resultDB = Items::where('id', $exchange->resultID)->first(); 
+            $resultValue = ($resultDB->$sellOrderSetting * $tax) * $exchange->resultQty; 
+            // Insert new properties
+            $exchange->resultValue = $resultValue;
+            $exchange->resultName = $resultDB->name; 
+            $exchange->resultIcon = $resultDB->icon; 
+
+            // EXCHANGEABLE
+            $exchangeableDB = Items::where('id', $exchange->exchangeableID)->first();
+            $exchangeableValue = ($exchangeableDB->$sellOrderSetting * $tax) * $exchange->exchangeableQty;  
+            // Insert new properties
+            $exchange->exchangeableValue = $exchangeableValue;
+            $exchange->exchangeableName = $exchangeableDB->name; 
+            $exchange->exchangeableIcon = $exchangeableDB->icon; 
+
+            // EXCHANGE VALUE
+            // Insert new property
+            $exchange->exchangeValue = $resultValue - $exchangeableValue;   
+
+            $response[] = $exchange; 
+        }
+
+        return response()->json($response); 
     }
 }

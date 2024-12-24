@@ -149,6 +149,11 @@
                         /> 
                     </div>
 
+                    <!--
+                        *
+                        * LEGEND
+                        *
+                    -->
                     <ResearchNoteLegend/>
                 </div>
                 

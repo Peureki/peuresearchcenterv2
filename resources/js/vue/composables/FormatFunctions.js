@@ -200,3 +200,7 @@ export const listProperties = (desiredProperty, targetArray) => {
 
     return Array.from(uniqueValues); 
 }
+
+export const positiveOrNegative = (value) => {
+    return value >= 0 ? `var(--color-up)` : `var(--color-down)`
+}
