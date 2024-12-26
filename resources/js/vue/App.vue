@@ -318,6 +318,7 @@ table th{
 
 table thead h4{
     color: var(--color-text);
+    text-align: left;
 }
 table td{
     color: var(--color-text);
