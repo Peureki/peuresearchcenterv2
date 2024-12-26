@@ -289,6 +289,7 @@ nav-timer-container .hidden-timer{
  */
 table{
     border-spacing: 0;
+    padding-inline: var(--padding-inline);
 }
 /* Prevents the main header of the table to look selectable */
 /* table tr:not(:first-child) th:hover{
@@ -324,6 +325,7 @@ table td{
     font-family: var(--font-family-readex);
     padding: var(--padding-table-td);
     vertical-align: middle;
+    white-space: nowrap;
 }
 
 table svg{
@@ -350,7 +352,6 @@ table td img{
 }
 .exchange-container{
     height: fit-content;
-    margin-inline: var(--padding-inline);
 }
 .exchange-container svg{
     transform: rotate(180deg);
@@ -1363,6 +1364,8 @@ img.map-guide{
 @media (max-width: 768px){
     .overflow-x{
         overflow-x: auto;
+        /* Have the content fit 100% of the screen, but include the padding that's incorporated in mobile-only */
+        width: calc(100vw - (var(--padding-general) * 2));
     }
 }
 /* 

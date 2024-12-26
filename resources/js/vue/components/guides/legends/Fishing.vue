@@ -95,41 +95,44 @@
             * EXAMPLE RESEARCH NOTE CARD
             *
         -->
-        <div class="card-container">
-            <div class="card">
-                <img class="card-main-icon" :src="UnholyMackerel" alt="Most profitable item in the farm" title="Most profitable item in the farm">
+        <div v-if="!isMobile" class="overflow-x">
+            <div class="card-container">
+                <div class="card">
+                    <img class="card-main-icon" :src="UnholyMackerel" alt="Most profitable item in the farm" title="Most profitable item in the farm">
 
-                <div class="card-details">
-                    <span class="card-title-and-value">
-                        <span class="title-container">
-                            <p class="title daytime">Fishing Hole</p>
+                    <div class="card-details">
+                        <span class="card-title-and-value">
+                            <span class="title-container">
+                                <p class="title daytime">Fishing Hole</p>
 
-                            <svg 
-                                class="icon" 
-                                width="20" height="20" xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <circle class="fill-circle" cx="10" cy="10" r="10" fill="var(--color-up)" stroke-width="1" />
-                            </svg>
+                                <svg 
+                                    class="icon" 
+                                    width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <circle class="fill-circle" cx="10" cy="10" r="10" fill="var(--color-up)" stroke-width="1" />
+                                </svg>
 
-                            <p>(Active/Inactive)</p>
+                                <p>(Active/Inactive)</p>
+                            </span>
+
+                            <p>{ Value }</p>
                         </span>
 
-                        <p>{ Value }</p>
-                    </span>
+                        <span class="card-map-and-info">
+                            <p class="map-and-info">{ Map, Region }</p>
 
-                    <span class="card-map-and-info">
-                        <p class="map-and-info">{ Map, Region }</p>
-
-                        <span class="card-info-container">
-                            <img class="bait" :src="Shrimpling" alt="Bait" title="Bait">
-                            <p>(Bait)</p>
-                            <p>{ Fishing Power }</p>
-                            <p>{ Time of Day }</p>
+                            <span class="card-info-container">
+                                <img class="bait" :src="Shrimpling" alt="Bait" title="Bait">
+                                <p>(Bait)</p>
+                                <p>{ Fishing Power }</p>
+                                <p>{ Time of Day }</p>
+                            </span>
                         </span>
-                    </span>
+                    </div>
                 </div>
             </div>
         </div>
+        
     </div>
 </template>
 
@@ -137,6 +140,6 @@
 import UnholyMackerel from '@/imgs/icons/fishes/Unholy_Mackerel.png'
 import Shrimpling from '@/imgs/icons/Shrimpling.png'
 
-import { buyOrder, settingsToggle, filtersToggle } from '@/js/vue/composables/Global';
+import { buyOrder, settingsToggle, filtersToggle, isMobile } from '@/js/vue/composables/Global';
 
 </script>

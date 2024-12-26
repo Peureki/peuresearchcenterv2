@@ -130,7 +130,7 @@
                     />
 
                     <ItemValueTable
-                        title="Item Values"
+                        title="Fish Item Values"
                         :items="individualItemsResponse"
                     />
 
