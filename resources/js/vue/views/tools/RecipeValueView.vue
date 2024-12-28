@@ -33,7 +33,7 @@
                                     <li>
                                         <img :src="recipe.icon" :alt="recipe.name" :title="recipe.name">
                                         <span class="flex-row-space-btw">
-                                            <p :style="{color: showRarityColor(recipe.rarity)}">{{ recipe.name }}</p> 
+                                            <p :style="{color: showRarityColor(recipe.rarity)}">{{ recipe.name }} ({{ recipe.id }})</p> 
                                         </span>
                                     </li> 
                                 </button>
@@ -71,7 +71,7 @@
                         *
                     -->
                     <div class="img-and-label" v-if="recipe">
-                        <svg @click="handleFavorite(recipe)" class="icon clickable" width="20" height="19" viewBox="0 0 20 19" :fill="alreadyFavorite(recipe.output_item_id)" xmlns="http://www.w3.org/2000/svg">
+                        <svg @click="handleFavorite(recipe)" class="icon clickable" width="20" height="19" viewBox="0 0 20 19" :fill="alreadyFavorite(recipe.output_item_id, recipe.id)" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8.88659 16.6603L8.88587 16.6596C6.30104 14.3157 4.19578 12.4033 2.73088 10.6111C1.27148 8.82559 0.5 7.22062 0.5 5.5C0.5 2.68674 2.69555 0.5 5.5 0.5C7.08885 0.5 8.62206 1.24223 9.62058 2.40564L10 2.84771L10.3794 2.40564C11.3779 1.24223 12.9112 0.5 14.5 0.5C17.3045 0.5 19.5 2.68674 19.5 5.5C19.5 7.22062 18.7285 8.82559 17.2691 10.6111C15.8042 12.4033 13.699 14.3157 11.1141 16.6596L11.1134 16.6603L10 17.6738L8.88659 16.6603Z" stroke="var(--color-link)"/>
                         </svg>
                         <p>Save this recipe</p>
@@ -369,31 +369,11 @@ const loadingToggle = ref(false);
 // * FAVORITES
 const favoriteRecipes = ref(null);
 
-const favoritesUrl = computed(() => {
+const favoriteRecipesURL = computed(() => {
     return `../api/tools/favorite-recipes/${buyOrder.value}/${JSON.stringify(favorites.value.recipes)}`
 })
 
-// *
-// * GET FAVORITE RECIPES FROM DATABASE
-// *
-const getFavoriteRecipes = async (url) => {
-    loadingToggle.value = true; 
-    try {
-        const response = await fetch(url);
-        const responseData = await response.json(); 
 
-        if (response){
-            // Update favorite recipes
-            favoriteRecipes.value = responseData;
-            console.log('fav recipes: ', favoriteRecipes.value);
-            loadingToggle.value = false;
-        }
-
-    } catch (error){
-        console.log('Could not get favorite recipes: ', error);
-        loadingToggle.value = false;
-    }
-}
 
 // Change color based on value 
 const profitColors = (value) => {
@@ -404,8 +384,13 @@ const profitDegrees = (value) => {
     return value > 0 ? `rotate(-90deg)` : `rotate(90deg)`;
 }
 // If recipe ID is already a favorite, fill svg heart
-const alreadyFavorite = (recipeID) => {
-    return favorites.value.recipes.includes(recipeID) ? 'var(--color-link)' : 'none'   
+const alreadyFavorite = (outputID, recipeID) => {
+    //console.log('current favorites: ', favorites.value);
+    return favorites.value.recipes.some(
+        (favorite) => favorite[0] == outputID && favorite[1] == recipeID
+    ) 
+        ? 'var(--color-link)'
+        : 'none';
 }
 // *
 // * CRAFTING DIFFERENCE
@@ -424,19 +409,41 @@ const sortedFavorites = computed(() => {
     
 })
 
+// *
+// * HANDLE FAVORITES
+// * 
+// * Occurs when users favorites or un-favorites an item by clicking the <3
+// *
+// * 1) Check if favorites in user DB exists or isnt empty
+// * 2a) IF exists => find index if the item already exists as a favorite
+// * 2aa) IF index exist => remove from favorites
+// * 2ab) ELSE => add to favorites
+// * 2b) ELSE => add to favorites
+// * 3) POST favorites to users DB
+// * 4) GET favorite recipe values
+// *
 const handleFavorite = async (recipe) => {
     console.log('recipe merp: ', recipe);
 
+    // Check if favorites array exist
     if (!favorites.value.recipes){
         favorites.value.recipes = [];
     }
     if (favorites.value.recipes){
-        const index = favorites.value.recipes.indexOf(recipe.output_item_id); 
-        // If item id NOT in array
+        // FIND index if favorite item exists
+        //const index = favorites.value.recipes.indexOf(recipe.output_item_id); 
+        const index = favorites.value.recipes.findIndex(
+            (fav) => 
+                fav[0] == recipe.output_item_id && fav[1] == recipe.id
+            
+        ); 
+        // IF item id NOT in array
         if (index == -1){  
-            favorites.value.recipes = [...favorites.value.recipes, recipe.output_item_id]; 
+            favorites.value.recipes = [...favorites.value.recipes, [
+                recipe.output_item_id, recipe.id]
+            ]; 
         } 
-        // If item id IS in array
+        // ELSE item id IS in array
         else {
             favorites.value.recipes = [
                 ...favorites.value.recipes.slice(0, index),
@@ -444,22 +451,48 @@ const handleFavorite = async (recipe) => {
             ]
         }
     } else {
-        favorites.value.recipes = [recipe.output_item_id]; 
+        favorites.value.recipes = [[recipe.output_item_id, recipe.id]]; 
     }
 
     try {
+        // POST favorites array to users DB
         const response = await axios.post('../api/user/saveFavorites', {
             favorites: favorites.value,
         })
 
         console.log('new favorites: ', favorites.value);
 
+        // IF all goes good, GET favorite recipe values
         if (response){
             console.log('Saved favorites!', favorites.value, response);
-            await getFavoriteRecipes(favoritesUrl.value);
+            await getFavoriteRecipes(favoriteRecipesURL.value);
         }
     } catch (error) {
         console.log('Could not save Favorites: ', error); 
+    }
+}
+
+// *
+// * GET FAVORITE RECIPES FROM DATABASE
+// *
+const getFavoriteRecipes = async (url) => {
+    loadingToggle.value = true; 
+    try {
+        console.log('favorites url: ', url);
+
+        const response = await fetch(url);
+        const responseData = await response.json(); 
+
+        if (response){
+            // Update favorite recipes
+            favoriteRecipes.value = responseData;
+            console.log('fav recipes: ', favoriteRecipes.value);
+            loadingToggle.value = false;
+        }
+
+    } catch (error){
+        console.log('Could not get favorite recipes: ', error);
+        loadingToggle.value = false;
     }
 }
 
@@ -595,7 +628,7 @@ watch(searchQuery, debounce(async (query) => {
             const response = await fetch(`../api/recipes/search-recipes?request=${query}`);
             const responseData = await response.json(); 
             searchResults.value = responseData; 
-            console.log('search results: ', searchResults.value);
+            console.log('search results: ', searchResults.value, `../api/recipes/search-recipes?request=${query}`);
 
         } catch (error) {
             console.log("Trouble with search query: ", error); 
@@ -668,9 +701,9 @@ onMounted( async () => {
         //console.log(url.value);
         fetchRequestedRecipe(url.value, itemID.value, recipeID.value, quantityRequest.value);
     }
-    if (favoritesUrl.value){
-        console.log('fav url: ', favoritesUrl.value);
-        getFavoriteRecipes(favoritesUrl.value);
+    if (favoriteRecipesURL.value){
+        console.log('fav url: ', favoriteRecipesURL.value);
+        getFavoriteRecipes(favoriteRecipesURL.value);
     }
 })
 
@@ -689,8 +722,8 @@ watch(refreshSettings, async (newSettings) => {
         //console.log(url.value);
             fetchRequestedRecipe(url.value, itemID.value, recipeID.value, quantityRequest.value);
         }
-        if (favoritesUrl.value){
-            getFavoriteRecipes(favoritesUrl.value);
+        if (favoriteRecipesURL.value){
+            getFavoriteRecipes(favoriteRecipesURL.value);
         }
         refreshSettings.value = false;
     }

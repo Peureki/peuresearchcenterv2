@@ -499,26 +499,81 @@ class RecipeController extends Controller
     // *
     public function favoriteRecipes($buyOrderSetting, $recipes){
         $recipes = json_decode($recipes);
-        $recipeDB = Recipes::join('items', 'recipes.output_item_id', 'items.id')
-            ->whereIn('output_item_id', $recipes)
+
+        //dd($recipes);
+
+        $results = [];
+
+        foreach ($recipes as $recipe){
+            $outputItemID = $recipe[0];
+            $recipeID = $recipe[1];
+
+            $recipeDB = Recipes::join('items', 'recipes.output_item_id', 'items.id')
+            ->where('recipes.output_item_id', $outputItemID)
+            ->where('recipes.id', $recipeID)
             ->select(
                 'recipes.*',
                 'recipes.id as id',
                 'recipes.output_item_id as output_item_id',
                 'items.name as name',
             )
-            ->get(); 
+            ->first(); 
 
-        //dd($recipeDB);
+            if ($recipeDB){
+                $results[] = $recipeDB; 
+            } else {
+                $otherRecipeDB = OtherRecipe::join('items', 'other_recipes.output_item_id', 'items.id')
+                ->where('other_recipes.output_item_id', $outputItemID)
+                ->where('other_recipes.id', $recipeID)
+                ->select(
+                    'other_recipes.*',
+                    'other_recipes.id as id',
+                    'other_recipes.output_item_id as output_item_id',
+                    'items.name as name',
+                )
+                ->first();
+                
+                if ($otherRecipeDB){
+                    $results[] = $otherRecipeDB;
+                }
+            }
+        }
 
-        $response = [];
+        //dd($response);
+
         
-        foreach ($recipeDB as $recipe){
-            $merp = $this->getRecipeValues($recipe->name, $recipe->output_item_id, $recipe->id,  1, false, $buyOrderSetting);
+
+        // 1) Check if $recipes[0] is 
+
+        
+
+        
+
+        // $recipeDB = Recipes::join('items', 'recipes.output_item_id', 'items.id')
+        // ->select(
+        //     'items.id as output_item_id',
+        //     'items.name as name',
+        //     'recipes.id as id',
+        // )
+        // ->whereIn('recipes.id', $recipes)
+        // ->get(); 
+
+        // foreach ($merp as $recipe){
+        //     dd($recipe);
+        // }
+
+        // dd($merp);
+
+        // dd($recipeDB);
+
+        //$response = [];
+        
+        foreach ($results as $recipe){
+            $recipeValue = $this->getRecipeValues($recipe->name, $recipe->output_item_id, $recipe->id,  1, false, $buyOrderSetting);
 
             //dd($merp->getData());
 
-            $response[] = $merp->getData();
+            $response[] = $recipeValue->getData();
         }
 
         //dd($response);

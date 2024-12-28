@@ -2,7 +2,6 @@
 import { ref, watch } from 'vue'
 import { getAuthUser } from './Authentication';
 
-
 export const nodeTrackerModalToggle = ref(false);
 
 // USER AUTH
@@ -30,9 +29,11 @@ export const settingsToggle = ref(false),
     apiKeyToggle = ref(false),
     dayAndNightTimerToggle = ref(false);
 
-// SETTINGS
-// DEFAULTS
-// These settings will be these settings every page refresh unless: user is logged in and has saved settings
+// * 
+// * SETTINGS
+// * DEFAULTS
+// * These settings will be these settings every page refresh unless: user is logged in and has saved settings
+// * 
 export const buyOrder = ref('buy_price');
 export const sellOrder = ref('sell_price');
 export const tax = ref(0.85);
