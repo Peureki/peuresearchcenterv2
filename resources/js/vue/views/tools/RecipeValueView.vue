@@ -244,6 +244,7 @@
                         <div class="img-and-label">
                             <img class="icon" :src="recipe.icon" :alt="recipe.name" :title="recipe.name">
                             <p>{{ recipe.count }} {{ recipe.name }}</p>
+                            <p class="small-subtitle">({{ recipe.id }})</p>
                         </div>
                         <!-- 
                             * SVG CTAS
