@@ -503,6 +503,7 @@ class RecipeController extends Controller
         //dd($recipes);
 
         $results = [];
+        $response = [];
 
         foreach ($recipes as $recipe){
             $outputItemID = $recipe[0];
