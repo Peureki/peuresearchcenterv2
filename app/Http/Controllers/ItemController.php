@@ -25,6 +25,8 @@ class ItemController extends Controller
 
         $items = Items::whereIn('id', $requestArray)->get();
 
+        //dd($items);
+
         return response()->json($items);
     }
 }

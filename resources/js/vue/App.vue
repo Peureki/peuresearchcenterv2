@@ -1360,7 +1360,7 @@ img.map-guide{
     =================================================
 */
 .overflow-x{
-    overflow-x: unset;
+    overflow-x: auto;
 }
 @media (max-width: 768px){
     .overflow-x{
