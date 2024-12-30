@@ -46,6 +46,8 @@ class FetchGeneral implements ShouldQueue
 
         Log::info("API Response for fishes", [$spreadsheet]);
 
+        //dd($spreadsheet['fishes']);
+
         foreach ($spreadsheet['fishes'] as $index => $fish){
 
             // For fish samples that are Karma based
@@ -62,6 +64,8 @@ class FetchGeneral implements ShouldQueue
                     'fishing_hole' => $fish['fishingHole'],
                     'time' => $fish['time'],
                     'sample_size' => $sampleSize,
+                    // Daijun Blackfin & Shinota Blackfin are special fishes that are not part of a collection and thus are NULL and not an INT
+                    'order' => is_numeric($fish['order']) ? $fish['order'] : null,
                 ]
             );
 

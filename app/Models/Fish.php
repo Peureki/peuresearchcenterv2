@@ -17,7 +17,8 @@ class Fish extends Model
         'fishing_hole',
         'bait_id',
         'time',
-        'sample_size'
+        'sample_size',
+        'order'
     ];
 
     // *

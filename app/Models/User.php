@@ -52,6 +52,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<string, string>
      */
     protected $casts = [
+        'achievements' => 'array',
         'email_verified_at' => 'datetime',
         'checklist' => 'array',
         'includes' => 'array',

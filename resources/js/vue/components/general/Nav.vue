@@ -543,6 +543,8 @@
                     <div v-if="toolsToggle">
                         <NavPage category="tools" url="ascended-trinkets" name="Ascended Trinkets" :icon="BlackIceBand"/> 
 
+                        <NavPage category="tools" url="becoming-cod" name="Becoming Cod" :icon="BlackIceBand"/>
+
                         <NavPage category="tools" url="checklist" name="Checklist" :icon="BulletList"/>  
 
                         <!-- <NavPage category="tools" url="drizzlewood-commendations" name="DWC Commendations" :icon="CharrCommendation"/>   -->
