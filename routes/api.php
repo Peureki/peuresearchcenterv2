@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\BagController;
 use App\Http\Controllers\BenchmarkController;
 use App\Http\Controllers\ConversionController;
@@ -104,6 +106,9 @@ Route::get('/fetch-exotics', [FetchController::class, 'fetchExotics']);
 Route::get('/fetch-nodes', [FetchController::class, 'fetchNodes']);
 Route::get('/fetch-node-combinations', [FetchController::class, 'fetchNodeCombinations']);
 
+// * FETCH ACHIEVEMENTS
+Route::get('/fetch-achievements', [FetchController::class, 'fetchAchievements']);
+
 // *
 // * TOOLS
 // *
@@ -194,3 +199,10 @@ Route::get('/benchmarks/heros-choice-chests/{includes}/{sellOrderSetting}/{tax}'
 // * CONVERSIONS
 // * 
 Route::get('/benchmarks/fishmonger/{sellOrderSetting}/{tax}', [ConversionController::class, 'fishmonger']);
+
+// * 
+// * ACHIEVEMENTS
+// * 
+Route::get('/user/achievements/fishing', [AchievementController::class, 'getFishing']);
+
+Route::get('/achievements/fishing', [AchievementController::class, 'getFishing']);

@@ -22,12 +22,30 @@ import { getAuthUser } from '@/js/vue/composables/Authentication';
 
 import { user } from '@/js/vue/composables/Global'
 import { onMounted } from 'vue';
+import axios from 'axios';
 
 onMounted(async () => {
     await getAuthUser(); 
 
-    console.log('USER: ', user.value); 
+    if (user.value){
+        getFishingAchievements();
+    }
+    
+
+    //console.log('USER: ', user.value); 
 })
+
+const getFishingAchievements = async () => {
+    try {
+        const response = await axios.get('../api/user/achievements/fishing');
+
+        if (response){
+            console.log('RESPONSE: ', response.data); 
+        }
+    } catch (error) {
+        console.log('Could not get fishing achievements: ', error); 
+    }
+}
 
 </script>
 

@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Fetches;
 
+use App\Models\Achievement;
 use App\Models\Bag;
 use App\Models\Fish;
 use App\Models\FishDropRate;
@@ -174,4 +175,6 @@ class FetchGeneral implements ShouldQueue
             }
         }
     }
+
+    
 }
