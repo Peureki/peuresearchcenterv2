@@ -617,50 +617,6 @@ const matchTyrianTime = (benchmarkTime, region) => {
 .any{
     color: var(--color-anytime); 
 }
-/*
-    *
-    * ACTIVE OR INACTIVE BENCHMARKS
-    * When active => expand circle
-*/
-.Active > circle.fill-circle{
-    animation: 5s infinite forwards activeSignal; 
-}
-.Active > circle.expand-circle{
-    animation: 5s infinite forwards expandSignal;
-    stroke: var(--color-expand-circle);
-}
-.Inactive > circle.fill-circle{
-    fill: var(--color-down);
-}
-.Inactive > circle.expand-circle{
-    display: none;
-}
-@keyframes activeSignal {
-    0% {
-        fill: var(--color-up-faded);
-    }
-    50% {
-        fill: var(--color-up);
-    }
-    100% {
-        fill: var(--color-up-faded);
-    }
-}
-@keyframes expandSignal {
-    0% {
-        r: 5;
-        stroke-opacity: 1;
-    }
-    50% {
-        r: 10;
-        stroke-opacity: 0.5;
-    }
-    100% {
-        r: 10;
-        stroke-opacity: 0;
-    }
-}
-
 @media (max-width: 768px){
     .card-container{
         flex-direction: column;

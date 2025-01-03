@@ -1501,6 +1501,52 @@ img.map-guide{
     color: var(--color-rarity-exotic);
 }
 
+/*
+    *
+    * ACTIVE OR INACTIVE SVG CIRCLE PINGING
+    * When active => expand circle
+    *
+    * Example: Fishing benchmarks when a farm is available or not based on time
+*/
+.Active > circle.fill-circle{
+    animation: 5s infinite forwards activeSignal; 
+}
+.Active > circle.expand-circle{
+    animation: 5s infinite forwards expandSignal;
+    stroke: var(--color-expand-circle);
+}
+.Inactive > circle.fill-circle{
+    fill: var(--color-down);
+}
+.Inactive > circle.expand-circle{
+    display: none;
+}
+@keyframes activeSignal {
+    0% {
+        fill: var(--color-up-faded);
+    }
+    50% {
+        fill: var(--color-up);
+    }
+    100% {
+        fill: var(--color-up-faded);
+    }
+}
+@keyframes expandSignal {
+    0% {
+        r: 5;
+        stroke-opacity: 1;
+    }
+    50% {
+        r: 10;
+        stroke-opacity: 0.5;
+    }
+    100% {
+        r: 10;
+        stroke-opacity: 0;
+    }
+}
+
 
 :root{
     --color-bkg: #2a2b2e;
@@ -1593,6 +1639,7 @@ img.map-guide{
     --border-button-link: 2px solid var(--color-link);
     --border-bottom-link: 2px solid var(--color-link);
     --border-event-up: 4px solid #5ED625;
+    
     --border-event-upcoming: 4px solid #FFB64A;
     --border-event-overdue: 4px solid #EC004D;
     --border-event-meta: 4px solid #76E9E1;
@@ -1649,6 +1696,7 @@ img.map-guide{
     --img-material-w: 20px;
     --img-header: clamp(1.5rem, 2vw, 3rem);
     --img-glyph: clamp(2rem, 2vw, 3rem);
+    --img-icon-size: clamp(1.2rem, 3vw, 2.5rem);
 
     --svg-expand: clamp(0.8rem, 0.9vw, 1.5rem);
     --svg-icon-size: clamp(1.2rem, 1.5vw, 1.30rem);
