@@ -63,9 +63,17 @@ import Waypoint from '@/imgs/icons/Waypoint.png'
 // * 
 // * PHOTOS OF FISH GUIDES
 // * 
+import CrystalOasisDesertFish from '@/imgs/guides/fishing/Crystal_Oasis_Desert_Fish.webp'
+import DiessaPlateuLakeFish from '@/imgs/guides/fishing/Diessa_Plateau_Lake_Fish.webp'
+import DraconisMonsVolcanicFish from '@/imgs/guides/fishing/Draconis_Mons_Volcanic_Fish.webp'
+import EmberBayCoastalFish from '@/imgs/guides/fishing/Ember_Bay_Coastal_Fish.webp'
+import FireheartRiseNoxiousWaterFish from '@/imgs/guides/fishing/Fireheart_Rise_Noxious_Water_Fish.webp'
 import GendarranFieldsLakeFish from '@/imgs/guides/fishing/Gendarren_Fields_Lake_Fish.webp'
 import GendarranRiverFish from '@/imgs/guides/fishing/Gendarran_Fields_River_Fish.webp'
 import LionsArchCoastalFish from '@/imgs/guides/fishing/Lions_Arch_Coastal_Fish.webp'
+import RataSumSaltwaterFish from '@/imgs/guides/fishing/Rata_Sum_Saltwater_Fish.webp'
+import SeitungProvinceOffshoreFish from '@/imgs/guides/fishing/Seitung_Province_Offshore_Fish.webp'
+import SeitungProvinceShoreFish from '@/imgs/guides/fishing/Seitung_Province_Shore_Fish.webp'
 
 // Initilize tooltip vars
 const { mouseX, mouseY, tooltipToggle, showTooltip } = handleCursorTooltip(); 
@@ -90,14 +98,147 @@ const baitName = computed(() => {
 // * mapNamePoolName: ###
 // *
 const minFishingPower = {
+    ascalonLakeFish: 450,
+    ascalonNoxiousWaterFish: 500,
+    crystalDesertDesertFish: 500,
     krytanCoastalFish: 450,
     krytanLakeFish: 400,
     krytanRiverFish: 350,
+    ringOfFireCoastalFish: 700,
+    ringOfFireVolcanicFish: 750,
+    saltwaterFish: 550,
+    seitungProvinceOffshoreFish: 200,
+    seitungProvinceShoreFish: 150,
+
 }
 
 
 onMounted(() => {
     switch (props.fish.map){
+        // *
+        // * ASCALON REGION
+        // *
+        case 'Ascalon':
+            switch (props.fish.name){
+                // *
+                // * LAKE FISH
+                // *
+                case 'Bluegill':
+                case 'Rock Bass':
+                case 'Largemouth Bass':
+                    guide.value.src = DiessaPlateuLakeFish; 
+                    guide.value.alt = "Diessa Plateau Lake Fish";
+                    guide.value.waypoint = '[&BMkDAAA=] -> [&BGQBAAA=]';
+                    guide.value.minFishingPower = minFishingPower.ascalonLakeFish;
+                    guide.value.description = "Should be a fairly common drop. I recommend this particular route for Ascalon Lake Fish because there's so many of the pools. You have the option to stay in the first lake (first waypoint) or utilize lakes in Diessa."
+                    break;
+
+                case 'Brook Trout':
+                    guide.value.src = DiessaPlateuLakeFish; 
+                    guide.value.alt = "Diessa Plateau Lake Fish";
+                    guide.value.waypoint = '[&BMkDAAA=] -> [&BGQBAAA=]';
+                    guide.value.minFishingPower = minFishingPower.ascalonLakeFish;
+                    guide.value.description = "Should be a fairly common drop, but it's also a dusk/dawn fish so..good luck."
+                    break;
+
+                case 'Golden Trout':
+                case 'Gar':
+                case 'Muskellunge':
+                case 'Old Whiskers':
+                    guide.value.src = DiessaPlateuLakeFish; 
+                    guide.value.alt = "Diessa Plateau Lake Fish";
+                    guide.value.waypoint = '[&BMkDAAA=] -> [&BGQBAAA=]';
+                    guide.value.minFishingPower = minFishingPower.ascalonLakeFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances. Good luck."
+                    break;
+
+                // *
+                // * NOXIOUS WATER FISH
+                // *
+                case 'Black Crappie':
+                case 'Yellow Perch':
+                    guide.value.src = FireheartRiseNoxiousWaterFish; 
+                    guide.value.alt = "Fireheart Rise Noxious Water Fish";
+                    guide.value.waypoint = '[&BBYCAAA=] -> [&BBoCAAA=], or Fields of Ruin: [&BNcAAAA=]';
+                    guide.value.minFishingPower = minFishingPower.ascalonNoxiousWaterFish;
+                    guide.value.description = "Should be a fairly common drop. Other maps that have Noxious Water Fish include Blazerridge and Iron Marches. They have as easy of routes, but Fireheart has lots of Lake Fish in case you need those fish as well. If you don't want to waypoint for Noxious Fish and only want Noxious Fish, then I recommend Fields of Ruin. Though, it only has 4 pools close to each other and no close Lake Fish (refer to the waypoint above)."
+                    break;
+
+                case 'Aquatic Frog':
+                case 'Branded Eel':
+                    guide.value.src = FireheartRiseNoxiousWaterFish; 
+                    guide.value.alt = "Fireheart Rise Noxious Water Fish";
+                    guide.value.waypoint = '[&BBYCAAA=] -> [&BBoCAAA=], or Fields of Ruin: [&BNcAAAA=]';
+                    guide.value.minFishingPower = minFishingPower.ascalonNoxiousWaterFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances. Fireheart Rise is unique where it contains all the fishing pools for the Ascalon achievement. But, if you don't want to waypoint for Noxious Fish and only want Noxious Fish, then I recommend Fields of Ruin. Though, it only has 4 pools close to each other and no close Lake Fish (refer to the waypoint above)."
+                    break;
+
+                // *
+                // * NONE, OPEN WATER
+                // *
+                case 'Bitterling':
+                case 'Bream':
+                case 'Cutthroat Trout':
+                case 'Smallmouth Bass':
+                    guide.value.waypoint = '[&BEIEAAA=], [&BMkDAAA=], [&BGQBAAA=], [&BKYAAAA=], [&BMcDAAA=]';
+                    guide.value.minFishingPower = minFishingPower.ascalonLakeFish;
+                    guide.value.description = "Any body of water in the Krytan region will do. I recommend having any fish food to be above the minimum fishing power if you're not using a skiff to have a green bar."
+                    break;
+            }
+            break;
+        // *
+        // * DESERT REGION
+        // *
+        case 'Crystal Desert':
+            switch (props.fish.name){
+                // *
+                // * DESERT FISH
+                // *
+                case 'Elon Tetra':
+                case 'Barramundi':
+                case 'Giant Barb':
+                case 'Lungfish':
+                case 'Red-Eyed Piranha':
+                case 'Mudskipper':
+                case 'Zander':
+                case 'Sand Carp':
+                case 'Paddlefish':
+                    guide.value.src = CrystalOasisDesertFish; 
+                    guide.value.alt = "Crystal Oasis Desert Fish";
+                    guide.value.waypoint = '[&BLsKAAA=] -> Head west to the bay.';
+                    guide.value.minFishingPower = minFishingPower.crystalDesertDesertFish;
+                    guide.value.description = "Should be a fairly common drop. There are many other great Desert Fish routes such as Kourna, but Crystal Oasis has a longer route, more pools, and it's very pretty."
+                    break;
+
+                case 'Gilded Loach':
+                case 'Marbled Lungfish':
+                case 'Giant Paddlefish':
+                case 'Golden Mahseer':
+                case 'Striped Catfish':
+                case 'Kaluga':
+                case 'Silver Bichir':
+                case 'Tigerfish':
+                case 'Vundu':
+                    guide.value.src = CrystalOasisDesertFish; 
+                    guide.value.alt = "Crystal Oasis Desert Fish";
+                    guide.value.waypoint = '[&BLsKAAA=] -> Head west to the bay.';
+                    guide.value.minFishingPower = minFishingPower.crystalDesertDesertFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances. There are many other great Desert Fish routes such as Kourna, but Crystal Oasis has a longer route, more pools, and it's very pretty."
+                    break;
+
+
+                // *
+                // * NONE, OPEN WATER
+                // *
+                case 'Elonian Bass':
+                case 'Mahseer':
+                case 'Tilapia':
+                    guide.value.waypoint = '[&BLsKAAA=], [&BFcLAAA=] (take portal west of waypoint), [&BGcKAAA=]';
+                    guide.value.minFishingPower = minFishingPower.krytanRiverFish;
+                    guide.value.description = "Any body of water in the Krytan region will do. I recommend having any fish food to be above the minimum fishing power if you're not using a skiff to have a green bar."
+                    break;
+            }
+            break;
         // *
         // * KRYTA REGION
         // *
@@ -198,7 +339,166 @@ onMounted(() => {
                     break;
             }
             break; 
+        // *
+        // * RING OF FIRE REGION
+        // *
+        case 'Ring of Fire':
+        case 'Draconis Mons':
+        case 'Ember Bay':
+            switch (props.fish.name){
+                // *
+                // * COASTAL FISH
+                // *
+                case 'Igneous Rockfish':
+                case 'Redtail Catfish':
+                case 'Geyser Batfin':
+                    guide.value.src = EmberBayCoastalFish; 
+                    guide.value.alt = 'Ember Bay Coastal Fish';
+                    guide.value.waypoint = '[&BF8JAAA=]';
+                    guide.value.minFishingPower = minFishingPower.ringOfFireCoastalFish;
+                    guide.value.description = "Should be a fairly common drop."
+                    break;
 
+                case 'Flamefin Betta':
+                case 'Scorpion Fish':
+                case 'Dunkleosteus':
+                    guide.value.src = EmberBayCoastalFish; 
+                    guide.value.alt = 'Ember Bay Coastal Fish';
+                    guide.value.waypoint = '[&BF8JAAA=]';
+                    guide.value.minFishingPower = minFishingPower.ringOfFireCoastalFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+
+                // *
+                // * VOLCANIC FISH
+                // *
+                case 'Flayfin':
+                case 'Garnet Ram':
+                case 'Fire Eel':
+                    guide.value.src = DraconisMonsVolcanicFish; 
+                    guide.value.alt = 'Draconis Mons Volcanic Fish';
+                    guide.value.waypoint = '[&BL0JAAA=]';
+                    guide.value.minFishingPower = minFishingPower.ringOfFireVolcanicFish;
+                    guide.value.description = "Should be a fairly common drop."
+                    break;
+
+                case 'Glowing Coalfish':
+                case 'Magma Ray':
+                case 'Stone Guiyu':
+                    guide.value.src = DraconisMonsVolcanicFish; 
+                    guide.value.alt = 'Draconis Mons Volcanic Fish';
+                    guide.value.waypoint = '[&BL0JAAA=]';
+                    guide.value.minFishingPower = minFishingPower.ringOfFireVolcanicFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+
+
+                // *
+                // * NONE, OPEN WATER
+                // *
+                case 'Volcanic Blackfish':
+                case 'Firemouth':
+                    guide.value.waypoint = '[&BF8JAAA=], [&BL0JAAA=]';
+                    guide.value.minFishingPower = 
+                        props.fish.name == 'Volcanic Blackfish'
+                            ? minFishingPower.ringOfFireVolcanicFish
+                            : minFishingPower.ringOfFireCoastalFish
+                    guide.value.description = "Any body of water in the Ring of Fire region will do. I recommend having any fish food to be above the minimum fishing power if you're not using a skiff to have a green bar."
+                    break;
+            }
+            break;
+
+        // *
+        // * SALTWATER REGION
+        // *
+        case 'Saltwater':
+            guide.value.src = RataSumSaltwaterFish; 
+            guide.value.alt = 'Rata Sum Saltwater Fish';
+            guide.value.waypoint = '[&BAcFAAA=]';
+            guide.value.minFishingPower = minFishingPower.RataSumSaltwaterFish;
+            guide.value.description = "You could either do Rata Sum or Mount Maelstrom (refer to the waypoints above). Both are extremely plentiful for pools and are very safe. Rata's pool are more condensed, especially if you can waypoint at the end of the route."
+            guide.value.bait = "Any. I recommend still running Sardines to also get the Maguuma Fisher achievement (and to get lots of legendary fishes), but you can opt out if you purely only want Saltwater.";
+            break;
+
+        // *
+        // * SEITUNG PROVINCE REGION
+        // *
+        case 'Seitung Province':
+            switch (props.fish.name){
+                // *
+                // * OFFSHORE REGION
+                // *
+                case 'Bluefin Trevally':
+                case 'Corvina':
+                case 'Chestnut Sea Bream':
+                    guide.value.src = SeitungProvinceOffshoreFish; 
+                    guide.value.alt = 'Seitung Province Offshore Fish';
+                    guide.value.waypoint = '[&BJ4MAAA=]';
+                    guide.value.minFishingPower = minFishingPower.seitungProvinceOffshoreFish;
+                    guide.value.description = "Should be a fairly common drop. You could either do Shore or Offshore Fish or both."
+                    break;
+
+                case 'Crimson Snapper':
+                case 'Honeycomb Grouper':
+                case 'Green Sawfish':
+                case 'Tripletail':
+                    guide.value.src = SeitungProvinceOffshoreFish; 
+                    guide.value.alt = 'Seitung Province Offshore Fish';
+                    guide.value.waypoint = '[&BJ4MAAA=]';
+                    guide.value.minFishingPower = minFishingPower.seitungProvinceOffshoreFish;
+                    guide.value.description = "Should be a fairly common drop."
+                    break;
+
+                case 'Humphead Wrasse':
+                case 'Skipjack Tuna':
+                case 'Sailfish':
+                case 'Dragonet':
+                case 'Mega Prawn':
+                case 'Sunfish':
+                    guide.value.src = SeitungProvinceOffshoreFish; 
+                    guide.value.alt = 'Seitung Province Offshore Fish';
+                    guide.value.waypoint = '[&BJ4MAAA=]';
+                    guide.value.minFishingPower = minFishingPower.seitungProvinceOffshoreFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+                    
+                // *
+                // * SHORE FISH
+                // *
+                case 'Cherry Salmon':
+                case 'Cutlass Fish':
+                    guide.value.src = SeitungProvinceShoreFish; 
+                    guide.value.alt = 'Seitung Province Shore Fish';
+                    guide.value.waypoint = '[&BJ4MAAA=]';
+                    guide.value.minFishingPower = minFishingPower.seitungProvinceShoreFish;
+                    guide.value.description = "Should be a fairly common drop."
+                    break;
+
+                case 'Stingray':
+                case 'Spotted Stringray':
+                case 'Fugu Fish':
+                    guide.value.src = SeitungProvinceShoreFish; 
+                    guide.value.alt = 'Seitung Province Shore Fish';
+                    guide.value.waypoint = '[&BJ4MAAA=]';
+                    guide.value.minFishingPower = minFishingPower.seitungProvinceShoreFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+
+                // *
+                // * NONE, OPEN WATER
+                // *
+                case 'Globefish':
+                case 'Mullet':
+                case 'Porgy':
+                    guide.value.waypoint = '[&BJ4MAAA=]';
+                    guide.value.minFishingPower = minFishingPower.seitungProvinceShoreFish
+                    guide.value.description = "Any body of water in Seitung Province will do."
+                    break;
+            }
+
+        // *
+        // * WORLD REGION
+        // *
         case 'World':
             switch (props.fish.name){
                 
