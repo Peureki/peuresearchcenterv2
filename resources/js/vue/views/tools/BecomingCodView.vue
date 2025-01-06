@@ -124,8 +124,11 @@ onMounted(async () => {
 
     await getAuthUser(); 
 
+    
+
     if (user.value){
         getFishingAchievements();
+        console.log('USER ACHIEVEMENTS: ', user.value.achievements)
     }
 })
 

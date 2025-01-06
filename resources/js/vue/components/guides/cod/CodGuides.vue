@@ -66,12 +66,15 @@ import Waypoint from '@/imgs/icons/Waypoint.png'
 import CrystalOasisDesertFish from '@/imgs/guides/fishing/Crystal_Oasis_Desert_Fish.webp'
 import DiessaPlateuLakeFish from '@/imgs/guides/fishing/Diessa_Plateau_Lake_Fish.webp'
 import DraconisMonsVolcanicFish from '@/imgs/guides/fishing/Draconis_Mons_Volcanic_Fish.webp'
+import DomainOfIstanOffshoreFish from '@/imgs/guides/fishing/Domain_of_Istan_Offshore_Fish.webp'
 import EmberBayCoastalFish from '@/imgs/guides/fishing/Ember_Bay_Coastal_Fish.webp'
 import FireheartRiseNoxiousWaterFish from '@/imgs/guides/fishing/Fireheart_Rise_Noxious_Water_Fish.webp'
 import GendarranFieldsLakeFish from '@/imgs/guides/fishing/Gendarren_Fields_Lake_Fish.webp'
 import GendarranRiverFish from '@/imgs/guides/fishing/Gendarran_Fields_River_Fish.webp'
+import HomesteadFreshwaterFish from '@/imgs/guides/fishing/Homestead_Freshwater_Fish.webp'
 import LionsArchCoastalFish from '@/imgs/guides/fishing/Lions_Arch_Coastal_Fish.webp'
 import RataSumSaltwaterFish from '@/imgs/guides/fishing/Rata_Sum_Saltwater_Fish.webp'
+import SandsweptIslesShoreFish from '@/imgs/guides/fishing/Sandswept_Isles_Shore_Fish.webp'
 import SeitungProvinceOffshoreFish from '@/imgs/guides/fishing/Seitung_Province_Offshore_Fish.webp'
 import SeitungProvinceShoreFish from '@/imgs/guides/fishing/Seitung_Province_Shore_Fish.webp'
 
@@ -101,9 +104,13 @@ const minFishingPower = {
     ascalonLakeFish: 450,
     ascalonNoxiousWaterFish: 500,
     crystalDesertDesertFish: 500,
+    desertIslesOffshoreFish: 650,
+    desertIslesShoreFish: 600,
     krytanCoastalFish: 450,
     krytanLakeFish: 400,
     krytanRiverFish: 350,
+    maguumaJungleFreshwaterFish: 500,
+    maguumaJungleSaltwaterFish: 550,
     ringOfFireCoastalFish: 700,
     ringOfFireVolcanicFish: 750,
     saltwaterFish: 550,
@@ -187,7 +194,7 @@ onMounted(() => {
             }
             break;
         // *
-        // * DESERT REGION
+        // * CRYSTAL DESERT REGION
         // *
         case 'Crystal Desert':
             switch (props.fish.name){
@@ -239,6 +246,70 @@ onMounted(() => {
                     break;
             }
             break;
+        // *
+        // * DESERT ISLES REGION
+        // *
+        case 'Desert Isles':
+            switch (props.fish.name){
+                // *
+                // * OFFSHORE FISH
+                // *
+                case 'Parrotfish':
+                case 'Roosterfish':
+                case 'Opah':
+                    guide.value.src = DomainOfIstanOffshoreFish; 
+                    guide.value.alt = "Domain of Istan Offshore Fish";
+                    guide.value.waypoint = '[&BAkLAAA=] or [&BPoKAAA=] for long alternative, extended route';
+                    guide.value.minFishingPower = minFishingPower.desertIslesOffshoreFish;
+                    guide.value.description = "Should be a fairly common drop. This route is great compared to other Krytan maps because this will be 100% safe and straightforward. You can either follow the map or circle through the bay."
+                    break;
+
+                case 'Wahoo':
+                case 'Blue Marlin':
+                case 'Dandan':
+                    guide.value.src = DomainOfIstanOffshoreFish; 
+                    guide.value.alt = "Domain of Istan Offshore Fish";
+                    guide.value.waypoint = '[&BAkLAAA=] or [&BPoKAAA=] for long alternative, extended route';
+                    guide.value.minFishingPower = minFishingPower.desertIslesOffshoreFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+
+                // *
+                // * SHORE FISH
+                // *
+                case 'Cobia':
+                case 'Diamond Trevally':
+                case 'Yellowtail Snapper':
+                    guide.value.src = SandsweptIslesShoreFish; 
+                    guide.value.alt = "Sandswept Isles Shore Fish";
+                    guide.value.waypoint = '[&BEMLAAA=]';
+                    guide.value.minFishingPower = minFishingPower.desertIslesShoreFish;
+                    guide.value.description = "Should be a fairly common drop."
+                    break;
+
+                case 'Pompano':
+                case 'King Crab':
+                case 'Beluga':
+                    guide.value.src = SandsweptIslesShoreFish; 
+                    guide.value.alt = "Sandswept Isles Shore Fish";
+                    guide.value.waypoint = '[&BEMLAAA=]';
+                    guide.value.minFishingPower = minFishingPower.desertIslesShoreFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+
+                // *
+                // * NONE, OPEN WATER
+                // *
+                case 'Sea Trout':
+                case 'Sheepshead':
+                    guide.value.waypoint = '[&BAkLAAA=], [&BEMLAAA=]';
+                    guide.value.minFishingPower = minFishingPower.desertIslesOffshoreFish;
+                    guide.value.description = "Any body of water in the Krytan region will do. I recommend having any fish food to be above the minimum fishing power if you're not using a skiff to have a green bar."
+                    break;
+
+            }
+            break;
+
         // *
         // * KRYTA REGION
         // *
@@ -339,6 +410,76 @@ onMounted(() => {
                     break;
             }
             break; 
+
+        // *
+        // * MAGUUMA JUNGLE REGION
+        // *
+        case 'Maguuma Jungle':
+            switch (props.fish.name){
+                // *
+                // * FRESHWATER FISH
+                // *
+                case 'Bicuda':
+                case 'Pacu':
+                case 'Payara':
+                case 'Peacock Bass':
+                    guide.value.src = HomesteadFreshwaterFish; 
+                    guide.value.alt = 'Homestead Saltwater Fish';
+                    guide.value.waypoint = 'Use personal Homestead portal or Tangled Depths: [&BAwIAAA=] (head down from waypoint)';
+                    guide.value.minFishingPower = minFishingPower.maguumaJungleFreshwaterFish;
+                    guide.value.description = "Should be a fairly common drop. Homestead has the most straightforward route and it's easily accessible. But, if you don't have access to your Homestead, refer to the waypoint for Tangled Depths."
+                    break;
+
+                case 'Arowana':
+                case 'Golden Dorado':
+                case 'Arapaima':
+                case 'Sardinata':
+                case 'Jundia':
+                    guide.value.src = HomesteadFreshwaterFish; 
+                    guide.value.alt = 'Homestead Saltwater Fish';
+                    guide.value.waypoint = 'Use personal Homestead portal or Tangled Depths: [&BAwIAAA=] (head down from waypoint)';
+                    guide.value.minFishingPower = minFishingPower.maguumaJungleFreshwaterFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances. Homestead has the most straightforward route and it's easily accessible. But, if you don't have access to your Homestead, refer to the waypoint for Tangled Depths."
+                    break;
+
+                // *
+                // * SALTWATER FISH
+                // *
+                case 'Oscar':
+                case 'Silver Drum':
+                case 'Surubim':
+                case 'Maguuma Trout':
+                case 'Wolffish':
+                    guide.value.src = RataSumSaltwaterFish; 
+                    guide.value.alt = 'Rata Sum Saltwater Fish';
+                    guide.value.waypoint = '[&BAcFAAA=], [&BNQCAAA=]';
+                    guide.value.minFishingPower = minFishingPower.maguumaJungleSaltwaterFish;
+                    guide.value.description = "Should be a fairly common drop. This map is Rata Sum because it has a really good route for Saltwater Fish (and for the Saltwater achievement), but you can also go to Mount Maelstrom (refer to second waypoint)."
+                    break;
+
+                case 'Rainbow Glowfish':
+                case 'Royal Starfish':
+                case 'Goliath Grouper':
+                    guide.value.src = RataSumSaltwaterFish; 
+                    guide.value.alt = 'Rata Sum Saltwater Fish';
+                    guide.value.waypoint = '[&BAcFAAA=], [&BNQCAAA=]';
+                    guide.value.minFishingPower = minFishingPower.maguumaJungleSaltwaterFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances. This map is Rata Sum because it has a really good route for Saltwater Fish (and for the Saltwater achievement), but you can also go to Mount Maelstrom (refer to second waypoint)."
+                    break;
+
+                // *
+                // * NONE, OPEN WATER
+                // *
+                case 'Brackish Goby':
+                case 'Piranha':
+                case 'Snook':
+                    guide.value.waypoint = '[&BAcFAAA=], [&BNQCAAA=], [&BAwIAAA=] (head down from the waypoint), Homested';
+                    guide.value.minFishingPower = minFishingPower.maguumaJungleSaltwaterFish;
+                    guide.value.description = "Any body of water in the Maguuma Jungle region will do. I recommend having any fish food to be above the minimum fishing power if you're not using a skiff to have a green bar."
+                    break;
+            }
+            break;
+        
         // *
         // * RING OF FIRE REGION
         // *
@@ -475,7 +616,7 @@ onMounted(() => {
                     break;
 
                 case 'Stingray':
-                case 'Spotted Stringray':
+                case 'Spotted Stingray':
                 case 'Fugu Fish':
                     guide.value.src = SeitungProvinceShoreFish; 
                     guide.value.alt = 'Seitung Province Shore Fish';
