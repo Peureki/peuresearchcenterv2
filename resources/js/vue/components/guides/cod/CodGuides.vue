@@ -66,17 +66,32 @@ import Waypoint from '@/imgs/icons/Waypoint.png'
 import CrystalOasisDesertFish from '@/imgs/guides/fishing/Crystal_Oasis_Desert_Fish.webp'
 import DiessaPlateuLakeFish from '@/imgs/guides/fishing/Diessa_Plateau_Lake_Fish.webp'
 import DraconisMonsVolcanicFish from '@/imgs/guides/fishing/Draconis_Mons_Volcanic_Fish.webp'
+import DragonsEndCavernFish from "@/imgs/guides/fishing/Dragon's_End_Cavern_Fish.webp"
+import DragonsEndQuarryFish from "@/imgs/guides/fishing/Dragon's_End_Quarry_Fish.webp"
 import DomainOfIstanOffshoreFish from '@/imgs/guides/fishing/Domain_of_Istan_Offshore_Fish.webp'
+import EchovaldWildsGrottoFish from '@/imgs/guides/fishing/Echovald_Wilds_Grotto_Fish.webp'
+import EchovaldWildsLakeFish from '@/imgs/guides/fishing/Echovald_Wilds_Lake_Fish.webp'
 import EmberBayCoastalFish from '@/imgs/guides/fishing/Ember_Bay_Coastal_Fish.webp'
 import FireheartRiseNoxiousWaterFish from '@/imgs/guides/fishing/Fireheart_Rise_Noxious_Water_Fish.webp'
+import FrostgorgeSoundBorealFish from '@/imgs/guides/fishing/Frostgorge_Sound_Boreal_Fish.webp'
 import GendarranFieldsLakeFish from '@/imgs/guides/fishing/Gendarren_Fields_Lake_Fish.webp'
 import GendarranRiverFish from '@/imgs/guides/fishing/Gendarran_Fields_River_Fish.webp'
 import HomesteadFreshwaterFish from '@/imgs/guides/fishing/Homestead_Freshwater_Fish.webp'
+import InnerNayosNayosianFish from '@/imgs/guides/fishing/Inner_Nayos_Nayosian_Fish.webp'
+import JanthirSyntriAllFish from '@/imgs/guides/fishing/Janthir_Syntri_All_Fish.webp'
+import KessexHillsPollutedLakeFish from '@/imgs/guides/fishing/Kessex_Hills_Polluted_Lake_Fish.webp'
 import LionsArchCoastalFish from '@/imgs/guides/fishing/Lions_Arch_Coastal_Fish.webp'
+import LowlandShoreBrackishFish from '@/imgs/guides/fishing/Lowland_Shore_Brackish_Fish.webp'
+import LowlandShoreOffshoreFish from '@/imgs/guides/fishing/Lowland_Shore_Offshore_Fish.webp'
+import NewKainengCityChannelFish from '@/imgs/guides/fishing/New_Kaineng_City_Channel_Fish.webp'
+import NewKainengCityCoastalFish from '@/imgs/guides/fishing/New_Kaineng_City_Coastal_Fish.webp'
 import RataSumSaltwaterFish from '@/imgs/guides/fishing/Rata_Sum_Saltwater_Fish.webp'
 import SandsweptIslesShoreFish from '@/imgs/guides/fishing/Sandswept_Isles_Shore_Fish.webp'
 import SeitungProvinceOffshoreFish from '@/imgs/guides/fishing/Seitung_Province_Offshore_Fish.webp'
 import SeitungProvinceShoreFish from '@/imgs/guides/fishing/Seitung_Province_Shore_Fish.webp'
+import SirensLandingShoreFish from "@/imgs/guides/fishing/Siren's_Landing_Shore_Fish.webp"
+import SnowdenDriftsLakeFish from '@/imgs/guides/fishing/Snowden_Drifts_Lake_Fish.webp'
+import StraitsOfDevestationOffshoreFish from '@/imgs/guides/fishing/Straits_of_Devestation_Offshore_Fish.webp'
 
 // Initilize tooltip vars
 const { mouseX, mouseY, tooltipToggle, showTooltip } = handleCursorTooltip(); 
@@ -104,19 +119,35 @@ const minFishingPower = {
     ascalonLakeFish: 450,
     ascalonNoxiousWaterFish: 500,
     crystalDesertDesertFish: 500,
+    dragonsEndCavernFish: 350,
+    dragonsEndQuarryFish: 300,
     desertIslesOffshoreFish: 650,
     desertIslesShoreFish: 600,
+    echovaldWildsGrottoFish: 300,
+    echovaldWildsLakeFish: 250,
+    hornOfMaguumaNayosianFish: 600,
+    janthirBrackishFish: 550,
+    janthirOffshoreFish: 600,
+    janthirSyntriBrackishFish: 650,
+    janthirSyntriFreshwaterFish: 600,
+    janthirSyntriOffshoreFish: 650,
     krytanCoastalFish: 450,
     krytanLakeFish: 400,
     krytanRiverFish: 350,
     maguumaJungleFreshwaterFish: 500,
     maguumaJungleSaltwaterFish: 550,
+    newKainengCityChannelFish: 250,
+    newKainengCityCoastalFish: 200,
+    orrOffshoreFish: 700,
+    orrShoreFish: 650,
     ringOfFireCoastalFish: 700,
     ringOfFireVolcanicFish: 750,
     saltwaterFish: 550,
     seitungProvinceOffshoreFish: 200,
     seitungProvinceShoreFish: 150,
-
+    shiverpeaksBorealFish: 450,
+    shiverpeaksLakeFish: 400,
+    worldClassPollutedLakeFish: 500,
 }
 
 
@@ -247,6 +278,69 @@ onMounted(() => {
             }
             break;
         // *
+        // * DRAGON'S END REGION
+        // *
+        case "Dragon's End":
+            switch (props.fish.name){
+                // *
+                // * CAVERN FISH
+                // *
+                case 'Gourami':
+                case 'Toadfish':
+                case 'Sheatfish':
+                    guide.value.src = DragonsEndCavernFish; 
+                    guide.value.alt = "Dragon's End Cavern Fish";
+                    guide.value.waypoint = '[&BKIMAAA=] -> Head south';
+                    guide.value.minFishingPower = minFishingPower.dragonsEndCavernFish;
+                    guide.value.description = "Should be a fairly common drop."
+                    break;
+
+                case 'Unicorn Fish':
+                case 'Axolotl':
+                case 'Chambered Nautilus':
+                    guide.value.src = DragonsEndCavernFish; 
+                    guide.value.alt = "Dragon's End Cavern Fish";
+                    guide.value.waypoint = '[&BKIMAAA=] -> Head south';
+                    guide.value.minFishingPower = minFishingPower.dragonsEndCavernFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+                
+                // *
+                // * QUARRY FISH
+                // *
+                case 'Canthan Carp':
+                case 'Jade Lamprey':
+                case 'Spotted Pufferfish':
+                    guide.value.src = DragonsEndQuarryFish; 
+                    guide.value.alt = "Dragon's End Quarry Fish";
+                    guide.value.waypoint = '[&BKIMAAA=] -> Head east';
+                    guide.value.minFishingPower = minFishingPower.dragonsEndQuarryFish;
+                    guide.value.description = "Should be a fairly common drop."
+                    break;
+
+                case 'Giant Gourami':
+                case 'Jade Sea Turtle':
+                case 'Cuttlefish':
+                    guide.value.src = DragonsEndQuarryFish; 
+                    guide.value.alt = "Dragon's End Quarry Fish";
+                    guide.value.waypoint = '[&BKIMAAA=] -> Head east';
+                    guide.value.minFishingPower = minFishingPower.dragonsEndQuarryFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+                
+                // *
+                // * NONE, OPEN WATER
+                // *
+                case 'Boxfish':
+                case 'Rohu':
+                    guide.value.waypoint = '[&BKIMAAA=]';
+                    guide.value.minFishingPower = minFishingPower.dragonsEndCavernFish;
+                    guide.value.description = "Any body of water in Dragon's End will do."
+                    break;
+            }
+            break;
+        
+        // *
         // * DESERT ISLES REGION
         // *
         case 'Desert Isles':
@@ -307,6 +401,143 @@ onMounted(() => {
                     guide.value.description = "Any body of water in the Krytan region will do. I recommend having any fish food to be above the minimum fishing power if you're not using a skiff to have a green bar."
                     break;
 
+            }
+            break;
+
+        // *
+        // * ECHOVALD WILDS REGION
+        // *
+        case 'Echovald Wilds':
+            switch (props.fish.name){
+                // *
+                // * GROTTO FISH
+                // *
+                case 'Snakefish':
+                case 'Petrifish':
+                    guide.value.src = EchovaldWildsGrottoFish; 
+                    guide.value.alt = "Echovald Wilds Grotto Fish";
+                    guide.value.waypoint = '[&BMwMAAA=] (for the 5), [&BMcMAAA=]';
+                    guide.value.minFishingPower = minFishingPower.echovaldWildsGrottoFish;
+                    guide.value.description = "Should be a fairly common drop. If you only need Grotto Fish, then I recommend going to the (5) pool spot. If you also need Lake Fish, then I recommend the other route."
+                    break;
+
+                case 'Albino Axolotl':
+                case 'Albino Gourami':
+                case 'Dark Sleeper':
+                    guide.value.src = EchovaldWildsGrottoFish; 
+                    guide.value.alt = "Echovald Wilds Grotto Fish";
+                    guide.value.waypoint = '[&BMwMAAA=] (for the 5), [&BMcMAAA=]';
+                    guide.value.minFishingPower = minFishingPower.echovaldWildsGrottoFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances. If you also need Lake Fish, then I recommend the other route."
+                    break;
+
+                // *
+                // * LAKE FISH
+                // *
+                case 'Black Carp':
+                case 'Knifefish':
+                case 'Bullhead Catfish':
+                case 'Cherry Barb':
+                    guide.value.src = EchovaldWildsLakeFish; 
+                    guide.value.alt = "Echovald Wilds Lake Fish";
+                    guide.value.waypoint = '[&BNQMAAA=], [&BMcMAAA=]';
+                    guide.value.minFishingPower = minFishingPower.echovaldWildsLakeFish;
+                    guide.value.description = "Should be a fairly common drop. If you do not wish to waypoint between the two, you could stay south (the second waypoint) and go in circles around that lake."
+                    break;
+
+                case 'Amber Trout':
+                case 'Royal Featherback':
+                case "Melandru's Lurker":
+                    guide.value.src = EchovaldWildsLakeFish; 
+                    guide.value.alt = "Echovald Wilds Lake Fish";
+                    guide.value.waypoint = '[&BNQMAAA=], [&BMcMAAA=]';
+                    guide.value.minFishingPower = minFishingPower.echovaldWildsLakeFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances. If you do not wish to waypoint between the two, you could stay south (the second waypoint) and go in circles around that lake."
+                    break;
+
+                // *
+                // * NONE, OPEN WATER
+                // *
+                case 'Freshwater Eel':
+                case 'Stone Loach':
+                    guide.value.waypoint = '[&BNQMAAA=], [&BMcMAAA=]';
+                    guide.value.minFishingPower = minFishingPower.echovaldWildsLakeFish;
+                    guide.value.description = "Any body of water in Echovald Wilds will do."
+                    break;
+            }
+            break;
+
+        // *
+        // * HORN OF MAGUUMA REGION
+        // *
+        case 'Horn of Maguuma':
+            guide.value.src = InnerNayosNayosianFish; 
+            guide.value.alt = "Inner Nayos Nayosian Fish";
+            guide.value.waypoint = '[&BGYOAAA=]';
+            guide.value.minFishingPower = minFishingPower.hornOfMaguumaNayosianFish;
+            guide.value.description = "This is a unique fishing achievement where ALL of the fish can be aquired by either Nayosian Fish or Dream Fish. Any other pool in the Horn of Maguuma region is too difficult or not practical. For higher-end fishes, I recommend obtaining the highest possible Fishing Power to better your chances."
+            break;
+
+        // *
+        // * JANTHIR REGION
+        // *
+        case 'Janthir':
+            switch (props.fish.name){
+                // *
+                // * BRACKISH/FRESHWATER FISH
+                // *
+                case 'Lowland Grunt':
+                case 'Shaderock Salamander':
+                case 'Juvenile Frogfish':
+                    guide.value.src = LowlandShoreBrackishFish; 
+                    guide.value.alt = "Lowland Shore Brackish/Freshwater Fish";
+                    guide.value.waypoint = '[&BC4PAAA=]';
+                    guide.value.minFishingPower = minFishingPower.janthirBrackishFish;
+                    guide.value.description = "Should be a fairly common drop. While the map guide is the same fishing benchmark, to make things easier, I highly recommend only going to the waypoint listed above. This refers to the middle of the map route. This should be a decent amount of both Brackish and Freshwater pools. It is possible to get this fish for Lowland Offshore and Shore pools."
+                    break;
+
+                case 'Mohawk Bream':
+                case 'Spectacled Lumper':
+                    guide.value.src = LowlandShoreOffshoreFish; 
+                    guide.value.alt = "Lowland Shore Offshore/Shore Fish";
+                    guide.value.waypoint = '[&BN8OAAA=]';
+                    guide.value.minFishingPower = minFishingPower.janthirOffshoreFish;
+                    guide.value.description = "Should be a fairly common drop."
+                    break;
+
+                // *
+                // * OFFSHORE/SHORE FISH
+                // *
+                case 'Violet Screamer':
+                case 'Viperfish': 
+                    guide.value.src = LowlandShoreOffshoreFish; 
+                    guide.value.alt = "Lowland Shore Offshore/Shore Fish";
+                    guide.value.waypoint = '[&BN8OAAA=]';
+                    guide.value.minFishingPower = minFishingPower.janthirOffshoreFish;
+                    guide.value.description = "Should be a fairly common drop."
+                    break;
+
+                // *
+                // * JANTHIR SYNTRI
+                // *
+                case 'Flowerhead':
+                case 'Indigo Drakefish':
+                    guide.value.src = JanthirSyntriAllFish; 
+                    guide.value.alt = "Janthir Syntri All Fish";
+                    guide.value.waypoint = '[&BLcOAAA=], [&BCoPAAA=], [&BLgOAAA=]';
+                    guide.value.minFishingPower = minFishingPower.janthirSyntriOffshoreFish;
+                    guide.value.description = "The best route would be both Brackish, Offshore, and Shore pools. The Freshwater are too isolated, but this may drop from those pools too. I recommend obtaining the highest possible Fishing Power to better your chances."
+                    break;
+
+                case 'Queen Parrotfish':
+                case 'Longhorn Boxfish':
+                case 'Mouse-Eared Octopus':
+                    guide.value.src = JanthirSyntriAllFish; 
+                    guide.value.alt = "Janthir Syntri All Fish";
+                    guide.value.waypoint = '[&BLcOAAA=], [&BCoPAAA=], [&BLgOAAA=]';
+                    guide.value.minFishingPower = minFishingPower.janthirSyntriOffshoreFish;
+                    guide.value.description = "The best route would be both Brackish, Offshore, and Shore pools. The Freshwater are too isolated."
+                    break;
             }
             break;
 
@@ -479,6 +710,166 @@ onMounted(() => {
                     break;
             }
             break;
+
+        // * 
+        // * NEW KAINENG CITY
+        // *
+        case 'New Kaineng City':
+            switch (props.fish.name){
+                // *
+                // * CHANNEL FISH
+                // *
+                case 'Blowfish':
+                case 'Emperor Fish':
+                case 'Weever':
+                    guide.value.src = NewKainengCityChannelFish; 
+                    guide.value.alt = 'New Kaineng City Channel Fish';
+                    guide.value.waypoint = '[&BNQCAAA=]';
+                    guide.value.minFishingPower = minFishingPower.newKainengCityChannelFish;
+                    guide.value.description = "Should be a fairly common drop. You could get these fish from Coastal Fish as well. Both have great routes. I'm putting Channel Fish's map on here because the achievement does not require Mackerels, which can be expensive."
+                    break;
+
+                case 'Striped Barracuda':
+                case 'Dragonfish':
+                    guide.value.src = NewKainengCityChannelFish; 
+                    guide.value.alt = 'New Kaineng City Channel Fish';
+                    guide.value.waypoint = '[&BNQCAAA=]';
+                    guide.value.minFishingPower = minFishingPower.newKainengCityChannelFish;
+                    guide.value.description = "Should be a fairly common drop."
+                    break;
+
+                case 'Taimen':
+                case 'Starry Flounder':
+                case 'Oarfish':
+                    guide.value.src = NewKainengCityChannelFish; 
+                    guide.value.alt = 'New Kaineng City Channel Fish';
+                    guide.value.waypoint = '[&BNQCAAA=]';
+                    guide.value.minFishingPower = minFishingPower.newKainengCityChannelFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+
+                // *
+                // * COASTAL FISH
+                // *
+                case 'Emerald Snapper':
+                case 'Kahawai':
+                case 'Amberjack':
+                case 'Pufferfish':
+                    guide.value.src = NewKainengCityCoastalFish; 
+                    guide.value.alt = 'New Kaineng City Coastal Fish';
+                    guide.value.waypoint = '[&BMYMAAA=]';
+                    guide.value.minFishingPower = minFishingPower.newKainengCityCoastalFish;
+                    guide.value.description = "Should be a fairly common drop."
+                    break;
+
+                case 'Blue Dorado':
+                case 'Sturgeon':
+                case 'Giant Trevally':
+                case 'Tarpon':
+                case 'Bluefin Tuna':
+                case 'Swordfish':
+                    guide.value.src = NewKainengCityCoastalFish; 
+                    guide.value.alt = 'New Kaineng City Coastal Fish';
+                    guide.value.waypoint = '[&BMYMAAA=]';
+                    guide.value.minFishingPower = minFishingPower.newKainengCityCoastalFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+
+                
+
+
+                // *
+                // * NONE, OPEN WATER
+                // *
+                case 'Flying Fish':
+                case 'Pollock':
+                case 'Sea Perch':
+                    guide.value.waypoint = '[&BMYMAAA=], [&BBkNAAA=]';
+                    guide.value.minFishingPower = minFishingPower.newKainengCityCoastalFish
+                    guide.value.description = "Any body of water in New Kaineng City will do."
+                    break;
+            }
+            break;
+
+        // *
+        // * ORR REGION
+        // *
+        case 'Orr':
+            switch (props.fish.name){
+                // *
+                // * OFFSHORE FISH
+                // *
+                case 'Albino Blindfish':
+                case 'Dead Alewife':
+                case 'Monkfish':
+                case 'Viperfish':
+                case 'Hagfish':
+                case 'Abyssal Squid':
+                case 'Spectral Jellyfish':
+                    guide.value.src = StraitsOfDevestationOffshoreFish; 
+                    guide.value.alt = 'Straits of Devestation Offshore Fish';
+                    guide.value.waypoint = '[&BPICAAA=]';
+                    guide.value.minFishingPower = minFishingPower.orrOffshoreFish;
+                    guide.value.description = "Should be a fairly common drop. While the body of water is massive, this general area around the waypoint seems to have the most reliable set of pools for every instance."
+                    break;
+
+                case 'Stargazer':
+                case 'Blobfish':
+                case 'Benthic Behemoth':
+                case 'Orrian Anglerfish':
+                case 'Giant Octopus':
+                case 'Shipwreck Moray':
+                    guide.value.src = StraitsOfDevestationOffshoreFish; 
+                    guide.value.alt = 'Straits of Devestation Offshore Fish';
+                    guide.value.waypoint = '[&BPICAAA=]';
+                    guide.value.minFishingPower = minFishingPower.orrOffshoreFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances. While the body of water is massive, this general area around the waypoint seems to have the most reliable set of pools for every instance."
+                    break;
+
+                // *
+                // * SHORE FISH
+                // *
+                case 'Monkfish':
+                case 'Dhuum Fish':
+                case 'Frilled Shark':
+                    guide.value.src = SirensLandingShoreFish; 
+                    guide.value.alt = "Sire's Landing Shore Fish";
+                    guide.value.waypoint = "[&BO8JAAA=], or Malchor's Leap starting at [&BLICAAA=] -> along coast to [&BIoCAAA=]";
+                    guide.value.minFishingPower = minFishingPower.orrShoreFish;
+                    guide.value.description = "Should be a fairly common drop. If you do not have Siren's Landing unlocked, Malchor's Leap has a decent amount of Shore Fish (refer to the waypoint and POIs)."
+                    break;
+
+                case 'Man-of-War':
+                case 'Risen Sea Bass':
+                case 'Unholy Mackerel':
+                    guide.value.src = SirensLandingShoreFish; 
+                    guide.value.alt = "Sire's Landing Shore Fish";
+                    guide.value.waypoint = "[&BO8JAAA=], or Malchor's Leap starting at [&BLICAAA=] -> along coast to [&BIoCAAA=]";
+                    guide.value.minFishingPower = minFishingPower.orrShoreFish;
+                    guide.value.description = "I recommend aiming for higher Fishing Power to improve your chances. If you do not have Siren's Landing unlocked, Malchor's Leap has a decent amount of Shore Fish (refer to the waypoint and POIs)."
+                    break;
+
+                case 'Frilled Shark':
+                    guide.value.src = SirensLandingShoreFish; 
+                    guide.value.alt = "Sire's Landing Shore Fish";
+                    guide.value.waypoint = '[&BO8JAAA=]';
+                    guide.value.minFishingPower = minFishingPower.orrShoreFish;
+                    guide.value.description = "Should be a fairly common drop."
+                    break;
+
+
+                // *
+                // * NONE, OPEN WATER
+                // *
+                case 'Dusky Grouper':
+                case 'Ghostfish':
+                case 'Murkwater Darter':
+                    guide.value.waypoint = '[&BPICAAA=]';
+                    guide.value.minFishingPower = minFishingPower.orrOffshoreFish;
+                    guide.value.description = "Any body of water in the Orr region will do. I recommend having any fish food to be above the minimum fishing power if you're not using a skiff to have a green bar."
+                    break;
+            }
+            
         
         // *
         // * RING OF FIRE REGION
@@ -638,12 +1029,106 @@ onMounted(() => {
             }
 
         // *
+        // * SHIVERPEAKS REGION
+        // *
+        case 'Shiverpeaks':
+            switch (props.fish.name){
+                // *
+                // * BOREAL FISH
+                // * 
+                case 'Alpine Char':
+                case 'Grayling':
+                case 'Walleye':
+                case 'Boreal Cod':
+                case 'Icy Lumpfish':
+                    guide.value.src = FrostgorgeSoundBorealFish; 
+                    guide.value.alt = 'Frostgorge Sound Boreal Fish';
+                    guide.value.waypoint = '[&BH4CAAA=]';
+                    guide.value.minFishingPower = minFishingPower.shiverpeaksBorealFish;
+                    guide.value.description = "Should be a fairly common drop."
+                    break;
+
+                case 'Mystic Remora':
+                    guide.value.src = FrostgorgeSoundBorealFish; 
+                    guide.value.alt = 'Frostgorge Sound Boreal Fish';
+                    guide.value.waypoint = '[&BH4CAAA=], Bitterfrost: [&BH0JAAA=]';
+                    guide.value.minFishingPower = minFishingPower.shiverpeaksBorealFish;
+                    guide.value.description = "I recommend sticking with Frostgorge for the ease of route and you can plan your time to catch. But, if you ONLY need Mystic Remora, then maybe Bitterfrost could be an option. That map is unique where it changes from day -> dusk when the meta starts prepping. There's no global timer on it, but each instance cycles the meta every ~55mins or so. I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+
+                case 'Snowflake Eel':
+                    guide.value.src = FrostgorgeSoundBorealFish; 
+                    guide.value.alt = 'Frostgorge Sound Boreal Fish';
+                    guide.value.waypoint = '[&BH4CAAA=], Lowland: [&BC4PAAA=]';
+                    guide.value.minFishingPower = minFishingPower.shiverpeaksBorealFish;
+                    guide.value.description = "Frostgorge (Shiverpeaks in general) will give you the best chances for these. Though, it is possible to drop these in Lowland Shore's Brackish Fish. If you go to Lowlands, they will only drop during the day. I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+
+                case 'Halibut':
+                    guide.value.src = FrostgorgeSoundBorealFish; 
+                    guide.value.alt = 'Frostgorge Sound Boreal Fish';
+                    guide.value.waypoint = '[&BH4CAAA=], Lowland: [&BN8OAAA=]';
+                    guide.value.minFishingPower = minFishingPower.shiverpeaksBorealFish;
+                    guide.value.description = "Frostgorge (Shiverpeaks in general) will give you the best chances for these. Though, it is possible to drop these in Lowland Shore's Offshore/Shore Fish. If you go to Lowlands, they will only drop during the night. I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+
+                case "Lornar's Bass":
+                    guide.value.src = FrostgorgeSoundBorealFish; 
+                    guide.value.alt = 'Frostgorge Sound Boreal Fish';
+                    guide.value.waypoint = '[&BH4CAAA=], Lowland: [&BC4PAAA=]';
+                    guide.value.minFishingPower = minFishingPower.shiverpeaksBorealFish;
+                    guide.value.description = "Frostgorge (Shiverpeaks in general) will give you the best chances for these. Though, it is possible to drop these in Lowland Shore's Freshwater Fish. If you go to Lowlands, they will only drop during the day. I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+
+                case 'Alabaster Oscar':
+                    guide.value.src = FrostgorgeSoundBorealFish; 
+                    guide.value.alt = 'Frostgorge Sound Boreal Fish';
+                    guide.value.waypoint = '[&BH4CAAA=], Lowland: [&BN8OAAA=]';
+                    guide.value.minFishingPower = minFishingPower.shiverpeaksBorealFish;
+                    guide.value.description = "Frostgorge (Shiverpeaks in general) will give you the best chances for these. Though, it is possible to drop these in Lowland Shore's Offshore/Shore Fish. If you go to Lowlands, they will only drop during the day. I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+
+                // *
+                // * LAKE FISH
+                // * 
+                case 'White Bass':
+                case 'Sockeye':
+                    guide.value.src = SnowdenDriftsLakeFish; 
+                    guide.value.alt = 'Snowden Drifts Lake Fish';
+                    guide.value.waypoint = '[&BLgAAAA=] -> [&BMADAAA=], Timberline: [&BEkCAAA=]';
+                    guide.value.minFishingPower = minFishingPower.shiverpeaksLakeFish;
+                    guide.value.description = "Should be a fairly common drop. Snowden would be the most reliable and populated option for pools. If you do not wish to waypoint, you could go to Timberline (refer to the 3rd waypoint)."
+                    break;
+
+                case 'Chain Pickerel':
+                case 'Cerulean Salamander':
+                case 'Glacial Snakehead':
+                    guide.value.src = SnowdenDriftsLakeFish; 
+                    guide.value.alt = 'Snowden Drifts Lake Fish';
+                    guide.value.waypoint = '[&BLgAAAA=] -> [&BMADAAA=], Timberline: [&BEkCAAA=], Drizzlewood: [&BHIMAAA=]';
+                    guide.value.minFishingPower = minFishingPower.shiverpeaksLakeFish;
+                    guide.value.description = "There's a couple options. Snowden would be the most reliable and populated option for pools. If you do not wish to waypoint, you could go to Timberline (refer to the 3rd waypoint). If you want an even higher chance, could go to Drizzlewood (refer 4th waypoint). If, however, you do Drizzlewood, this method can only work if south has progressed and north has not because you need the 10% Morale Boost from the Quartermaster. I recommend aiming for higher Fishing Power to improve your chances."
+                    break;
+
+
+                // *
+                // * NONE, OPEN WATER
+                // *
+                case 'Alewife':
+                case 'Icefish':
+                case 'Snow Crab':
+                    guide.value.waypoint = '[&BH4CAAA=], [&BLgAAAA=]';
+                    guide.value.minFishingPower = minFishingPower.shiverpeaksBorealFish
+                    guide.value.description = "Any body of water in the Shiverpeaks region will do."
+                    break;
+            }
+            break;
+
+        // *
         // * WORLD REGION
         // *
         case 'World':
             switch (props.fish.name){
-                
-
                 case 'Moonfin Striker':
                     guide.value.src = GendarranRiverFish; 
                     guide.value.alt = 'Gendarran Fields River Fish';
@@ -651,6 +1136,14 @@ onMounted(() => {
                     guide.value.minFishingPower = minFishingPower.krytanRiverFish;
                     guide.value.description = "There are some areas in particular that have higher rates of Moonfin Striker because these drop tables, combined with over 900 fishing power, contain no exotic drops. As a replacement, since Moonfin can drop anywhere, it natrually fills that gap. In this case, Moonfin has a high drop rate of ~6% at 975 FP. Other areas that has high (but slightly less drop rates) are Offshore Fish, Desert Isles, or Boreal Fish, Shiverpeaks."
                     guide.value.bait = 'Any, except Freshwater Minnows, unless you also need Queenfish or Mud Skate.';
+                    break;
+
+                default: 
+                    guide.value.src = KessexHillsPollutedLakeFish; 
+                    guide.value.alt = 'Kessex Hills Polluted Lake Fish';
+                    guide.value.waypoint = '[&BAoAAAA=]';
+                    guide.value.minFishingPower = minFishingPower.worldClassPollutedLakeFish;
+                    guide.value.description = "For all of World Class, I recommend not focusing on completing it before others. These fishes will most likey be obtained passively as you finish the other achievements. If, however, you still need after completing all the others, fishing in Polluted Lake Fish drops lots of World Class fish and junk."
                     break;
             }
             break; 
