@@ -23,9 +23,43 @@ class AchievementController extends Controller
 
         // Overall array to return with all the info
         $response = [];
-        // Store all item IDs such as fish IDs and rewards to fetch the Items database then populate the $achievementsDB[bits]
-        $itemIDs = [];
         $achievementIDs = [
+            // Aquatic Trash Collector
+            6439,
+            // Aquatic Treasure Collector
+            6505,
+            // Ascalonian Fisher
+            6330,
+            // Desert Fisher
+            6317,
+            // Desert Isles
+            6106,
+            // Dragon's End Fisher
+            6506,
+            // Echovald Wilds Fisher
+            6258,
+            // Horn of Maguuma Fisher
+            7114,
+            // Janthir Fisher
+            8168, 
+            // Kaineng Fisher
+            6342, 
+            // Krytan Fisher
+            6068, 
+            // Maguuma Fisher
+            6344, 
+            // Orrian Fisher
+            6363, 
+            // Ring of Fire Fisher
+            6489, 
+            // Saltwater Fisher
+            6471, 
+            // Seitung Province Fisher
+            6336, 
+            // Shiverpeaks Fisher
+            6179, 
+            // World Class Fisher
+            6224,
             // Avid Ascalonian Fisher
             6484, 
             // Avid Desert Fisher
@@ -90,12 +124,22 @@ class AchievementController extends Controller
             // Ex: return array: [2, 3, 5, 6]
             // 3) populate $response with the newly populated $achievementsDB and $userAchievements then RETURN
             $userAchievements = array_values(array_filter($user->achievements, function($achievement) use ($achievementIDs){
-                return in_array($achievement['id'], $achievementIDs);
+                // Make sure to only return matching user achievement IDS && if the achivement is not complete yet
+                // But, if the achievement is considered 'done', but can be repeated, show that
+                return in_array($achievement['id'], $achievementIDs) && (!($achievement['done'] && !array_key_exists('repeated', $achievement)));
             }));
 
+            // Do the same as above, excpet now match the $achievementDB to match what the user is currently on
+            // 
+            // This is b/c on the frontend, to sort by index for both arrays, they need to match by ID 
+            $userAchievementIDs = array_column($userAchievements, 'id');
+
+            $achievements = $achievementsDB->filter(function ($achievement) use ($userAchievementIDs) {
+                return in_array($achievement->id, $userAchievementIDs);
+            })->values();
+
             $response = [
-                'fishIDs' => $itemIDs,
-                'achievements' => $achievementsDB,
+                'achievements' => $achievements,
                 'userAchievements' => $userAchievements,
             ];
 

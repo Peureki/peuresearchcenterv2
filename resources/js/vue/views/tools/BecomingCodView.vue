@@ -10,9 +10,15 @@
                         <div></div>
 
                         <div class="card-details">
+                            <!--
+                                *
+                                * NAME / PROGRESS
+                                *
+                            -->
                             <div class="card-title-and-value">
+                                <!-- NAME -->
                                 <p class="title">{{ achievement.name }}</p>
-
+                                <!-- PROGRESS -->
                                 <p>{{ userAchievements[index].current }} / {{ achievement.bits.length }}</p>
                             </div>
 

@@ -1128,6 +1128,7 @@ onMounted(() => {
         // * WORLD REGION
         // *
         case 'World':
+        case 'Any':
             switch (props.fish.name){
                 case 'Moonfin Striker':
                     guide.value.src = GendarranRiverFish; 
@@ -1138,12 +1139,22 @@ onMounted(() => {
                     guide.value.bait = 'Any, except Freshwater Minnows, unless you also need Queenfish or Mud Skate.';
                     break;
 
+                case 'Sunscale Striker':
+                    guide.value.src = LionsArchCoastalFish; 
+                    guide.value.alt = "Lion's Arch Coastal Fish";
+                    guide.value.waypoint = '[&BDMEAAA=], [&BC8EAAA=]';
+                    guide.value.minFishingPower = minFishingPower.krytanCoastalFish;
+                    guide.value.description = "There are some areas in particular that have higher rates of Sunscale Striker because these drop tables, combined with over 900 fishing power, contain no exotic drops. As a replacement, since Sunscale can drop anywhere, it natrually fills that gap. In this case, Sunscale has a high drop rate of ~8% at 975 FP. Other areas that has high (but slightly less drop rates) are New Kaineng City, Coastal Fish and Astral Fish, Amnytas."
+                    guide.value.bait = 'Any, except Shrimplings, unless you also need Holy Mackerel and Black Lionfish.';
+                    break;
+
+
                 default: 
                     guide.value.src = KessexHillsPollutedLakeFish; 
                     guide.value.alt = 'Kessex Hills Polluted Lake Fish';
                     guide.value.waypoint = '[&BAoAAAA=]';
                     guide.value.minFishingPower = minFishingPower.worldClassPollutedLakeFish;
-                    guide.value.description = "For all of World Class, I recommend not focusing on completing it before others. These fishes will most likey be obtained passively as you finish the other achievements. If, however, you still need after completing all the others, fishing in Polluted Lake Fish drops lots of World Class fish and junk."
+                    guide.value.description = "For all of World Class and junk items, I recommend not focusing on completing it before others. These fishes will most likey be obtained passively as you finish the other achievements. If, however, you still need after completing all the others, fishing in Polluted Lake Fish drops lots of World Class fish and junk."
                     break;
             }
             break; 
