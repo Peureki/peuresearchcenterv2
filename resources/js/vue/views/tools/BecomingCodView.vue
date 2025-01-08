@@ -103,7 +103,12 @@
                     -->
                     <router-link class="card-container" id="fishing-benchmarks" to="/benchmarks/fishing">
                         <h4>Fishing Benchmarks</h4>
-                        <p>Page that lists all the best fishing farms and routes in the game.</p>
+                        <div class="img-and-label">
+                            <p>Page that lists all the best fishing farms and routes in the game.</p>
+                            <svg class="arrow clickable inactive-arrow" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
+                            </svg>
+                        </div>
                     </router-link>
                     <!--
                         *
@@ -571,9 +576,6 @@ const availability = (fish) => {
     grid-template-columns: repeat(7, 1fr);
     width: fit-content;
     gap: var(--gap-general);
-}
-.card-container{
-    border: var(--border-link);
 }
 .card-details{
     gap: var(--gap-content);
