@@ -123,12 +123,15 @@ ul {
     padding: 0;
 }
 li {
-    font-family: var(--font-family-readex);
+    font-family: var(--font-family-rubik);
     font-size: var(--font-size-p);
     font-weight: var(--font-weight-li);
     color: var(--color-text);
     list-style: none;
     line-height: 1.5;
+}
+ul > li:not(:last-child){
+    margin-bottom: var(--gap-general);
 }
 table {
     width: fit-content;
@@ -505,6 +508,7 @@ span.bookmark-label{
 .flex-wrap{
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: var(--gap-content);
 }
 /* 
@@ -991,6 +995,13 @@ svg.import {
 .card-container:hover{
     border: 1px solid var(--color-text);
 }
+a.card-container:hover{
+    border: 1px solid var(--color-link);
+}
+a.card-container {
+    text-decoration: none;
+}
+
 p.rank{
     position: absolute;
     font-size: var(--font-size-h4);
@@ -1073,8 +1084,8 @@ img.card-currency,
 svg.sun,
 svg.moon,
 svg.arrow{
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
 }
 svg.arrow {
     cursor: pointer;
@@ -1298,7 +1309,20 @@ img.map-guide{
 }
 /* 
     =================================================
-    * REQUIREMENTS & RECOMMENDATION CONTAINERS
+    * COUNTDOWN
+    =================================================
+*/
+.countdown-container{
+    padding: var(--padding-general);
+    border-bottom: var(--border-bottom);
+}
+.countdown{
+    display: flex;
+    justify-content: space-between;
+}
+/* 
+    =================================================
+    * REQUIREMENTS & RECOMMENDATION CONTAINERS & INFO BOXES
     =================================================
 */
 .requirements-and-recommendations{
@@ -1313,12 +1337,20 @@ img.map-guide{
     gap: var(--gap-general);
     max-width: 50%;
 }
-.requirement{
+.info-box-container{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--gap-general);
+}
+.requirement, 
+.info-box{
     display: flex;
     flex-direction: column;
     gap: var(--gap-general);
     border: var(--border-general);
     padding: var(--padding-general);
+    border-radius: var(--border-radius-card);
+    background-color: var(--color-bkg-fade)
 }
 .gathering-tools{
     display: flex;
@@ -1340,6 +1372,10 @@ img.map-guide{
     .requirements-container, .recommendations-container{
         max-width: unset;
         width: 100%;
+    }
+    .info-box-container{
+        display: flex;
+        flex-direction: column;
     }
 }
 
@@ -1501,6 +1537,52 @@ img.map-guide{
     color: var(--color-rarity-exotic);
 }
 
+/*
+    *
+    * ACTIVE OR INACTIVE SVG CIRCLE PINGING
+    * When active => expand circle
+    *
+    * Example: Fishing benchmarks when a farm is available or not based on time
+*/
+.Active > circle.fill-circle{
+    animation: 5s infinite forwards activeSignal; 
+}
+.Active > circle.expand-circle{
+    animation: 5s infinite forwards expandSignal;
+    stroke: var(--color-expand-circle);
+}
+.Inactive > circle.fill-circle{
+    fill: var(--color-down);
+}
+.Inactive > circle.expand-circle{
+    display: none;
+}
+@keyframes activeSignal {
+    0% {
+        fill: var(--color-up-faded);
+    }
+    50% {
+        fill: var(--color-up);
+    }
+    100% {
+        fill: var(--color-up-faded);
+    }
+}
+@keyframes expandSignal {
+    0% {
+        r: 5;
+        stroke-opacity: 1;
+    }
+    50% {
+        r: 10;
+        stroke-opacity: 0.5;
+    }
+    100% {
+        r: 10;
+        stroke-opacity: 0;
+    }
+}
+
 
 :root{
     --color-bkg: #2a2b2e;
@@ -1587,12 +1669,14 @@ img.map-guide{
     --font-family-rubik: 'Rubik', sans-serif;
 
     --border-general: 1px solid #3D3F42;
+    --border-link: 1px solid var(--color-link);
     --border-general-link: 2px solid var(--color-link);
     --border-hidden: 2px solid rgb(95, 96, 98, 0);
     --border-bottom: 2px solid #3D3F42;
     --border-button-link: 2px solid var(--color-link);
     --border-bottom-link: 2px solid var(--color-link);
     --border-event-up: 4px solid #5ED625;
+    
     --border-event-upcoming: 4px solid #FFB64A;
     --border-event-overdue: 4px solid #EC004D;
     --border-event-meta: 4px solid #76E9E1;
@@ -1649,6 +1733,7 @@ img.map-guide{
     --img-material-w: 20px;
     --img-header: clamp(1.5rem, 2vw, 3rem);
     --img-glyph: clamp(2rem, 2vw, 3rem);
+    --img-icon-size: clamp(1.2rem, 3vw, 2.5rem);
 
     --svg-expand: clamp(0.8rem, 0.9vw, 1.5rem);
     --svg-icon-size: clamp(1.2rem, 1.5vw, 1.30rem);

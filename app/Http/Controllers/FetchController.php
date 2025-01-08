@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\Fetches\FetchAchievements;
 use App\Jobs\Fetches\FetchBags;
 use App\Jobs\Fetches\FetchBenchmarks;
 use App\Jobs\Fetches\FetchGeneral;
@@ -123,6 +124,11 @@ class FetchController extends Controller
     public function fetchNodeCombinations(){
         dispatch(new FetchNodeCombinations());
         return response()->json(['message' => 'Fetching node combinations has been queued']);
+    }
+
+    public function fetchAchievements(){
+        dispatch(new FetchAchievements());
+        return response()->json(['message' => 'Fetching achievements has been queued']);
     }
 
     public function merp(){

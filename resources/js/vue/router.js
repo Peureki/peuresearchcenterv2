@@ -66,6 +66,7 @@ import ExchangeableWritsView from '@/js/vue/views/exchangeables/WritsView.vue'
  * 
  */
 import ToolsAscendedTrinketsView from '@/js/vue/views/tools/AscendedTrinketsView.vue'
+import ToolsBecomingCodView from '@/js/vue/views/tools/BecomingCodView.vue'
 import ToolsDrizzlewoodCommendationsView from '@/js/vue/views/tools/DrizzlewoodCommendationsView.vue'
 import ToolsHomesteadView from '@/js/vue/views/tools/HomesteadView.vue'
 import ToolsRecipeValueView from '@/js/vue/views/tools/RecipeValueView.vue'
@@ -335,6 +336,11 @@ const routes = [
         path: '/tools/ascended-trinkets',
         component: ToolsAscendedTrinketsView,
         name: 'tools-ascended-trinkets',
+    },
+    {
+        path: '/tools/becoming-cod',
+        component: ToolsBecomingCodView,
+        name: 'tools-becoming-cod',
     },
     {
         path: '/tools/drizzlewood-commendations',

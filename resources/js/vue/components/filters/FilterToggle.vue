@@ -64,6 +64,7 @@ const saveFilters = async () => {
 // *
 // * CHECK FILTERS IF EXISTS
 // * If exists => apply toggle 
+// *
 const checkFilters = (option) => {
     try {
         // Check if the property exist in filter
@@ -71,7 +72,10 @@ const checkFilters = (option) => {
             // True/false if the toggle option is already included or not
             const isIncluded = filters.value[props.filterPropertyName].some(array => array.includes(option));
 
+            console.log('Filters: ', filters.value, filters.value[props.filterPropertyName])
+
             if (isIncluded){
+                console.log('is included: ', isIncluded);
                 toggle.value = true; 
             }
         }

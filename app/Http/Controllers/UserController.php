@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -114,6 +116,25 @@ class UserController extends Controller
 
         if ($user){
             $user->update(['theme' => $request->theme]); 
+        }
+    }
+
+    public function apiSubmission(Request $request){
+        $request->validate([
+            'apiKey' => 'nullable|string'
+        ]);
+
+        $user = auth()->user(); 
+
+        if ($user){
+            $gw2API = Http::get('https://api.guildwars2.com/v2/account/achievements?access_token='.$request->apiKey);
+
+            $user->update([
+                'achievements' => $gw2API->json(),
+                'api_key' => $request->apiKey
+            ]);
+
+            
         }
     }
 }
