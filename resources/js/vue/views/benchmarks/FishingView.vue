@@ -124,6 +124,18 @@
                 />
 
                 <div class="flex-column">
+                    <router-link class="card-container" to="/tools/becoming-cod">
+                        <h4>Becoming a Cod</h4>
+                        <div class="img-and-label">
+                            <p>Track your fishing achievements</p>
+                            <svg class="arrow clickable inactive-arrow" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
+                            </svg>
+                        </div>
+                        
+
+                    </router-link>
+                
                     <ExchangeTable v-if="fishmonger" 
                         :exchanges="fishmonger"
                         title="Fishmonger"

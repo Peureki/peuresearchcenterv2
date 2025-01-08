@@ -143,6 +143,14 @@
                 <Transition name="fade-right">
                     <DayAndNightTimers v-if="dayAndNightTimerToggle"/>
                 </Transition>
+
+                <!--
+                    * SLOT - COUNTDOWN
+                    * 
+                    * Put a countdown of anything. i.e REfresh countdown from Cod page
+                -->
+
+                <slot name="countdown"></slot>
                 
                 <!--
                     * SLOT - TIMERS
@@ -543,6 +551,8 @@
                     <div v-if="toolsToggle">
                         <NavPage category="tools" url="ascended-trinkets" name="Ascended Trinkets" :icon="BlackIceBand"/> 
 
+                        <NavPage category="tools" url="becoming-cod" name="Becoming Cod" :icon="Muskellunge"/>
+
                         <NavPage category="tools" url="checklist" name="Checklist" :icon="BulletList"/>  
 
                         <!-- <NavPage category="tools" url="drizzlewood-commendations" name="DWC Commendations" :icon="CharrCommendation"/>   -->
@@ -765,6 +775,7 @@ import CallTarget from '@/imgs/icons/Call_Target.png'
 import GlyphOfVolatility from '@/imgs/icons/Glyph_of_Volatility.png'
 import ChoyaMiningTool from '@/imgs/icons/Choya_Mining_Tool.png'
 import HeroChoiceChest from "@/imgs/icons/Auric_Basin-_Hero's_Choice_Chest.png"
+import Muskellunge from '@/imgs/icons/fishes/Muskellunge.png'
 
 import CalcifiedGasp from '@/imgs/icons/Calcified_Gasp.png'
 import DragoniteOre from '@/imgs/icons/Dragonite_Ore.png'

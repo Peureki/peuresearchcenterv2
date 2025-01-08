@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\ApiRefresh;
 use App\Jobs\DailyReset;
 use App\Jobs\Fetches\FetchNodeCombinations;
 use App\Jobs\Fetches\FetchPrices;
@@ -22,6 +23,10 @@ class Kernel extends ConsoleKernel
         $schedule->job(new FetchPrices)->everyThirtyMinutes();
         $schedule->job(new FetchRecipeValues)->everySixHours();
         $schedule->job(new FetchNodeCombinations)->daily(); 
+
+        // Refresh API stuff every 5 mins
+        // $schedule->job(new ApiRefresh)->everyFiveMinutes();
+
         // Reset databases at reset
         $schedule->job(new DailyReset)->cron('0 0 * * *');
     }

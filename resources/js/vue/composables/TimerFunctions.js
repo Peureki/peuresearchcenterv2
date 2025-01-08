@@ -67,7 +67,7 @@ export function convertToTime(cooldown){
     return formatTime;
 }
 // TIMER CLASS
-// Class b/c we're creating many many multiples instances of timers. We love a good repeatable and reuseable code
+// Class b/c we're creating many many multiples instances of timers
 export default class Timer{
     constructor(initialCooldown, respawnCooldown, active, respawnActive, outpost){
         this.initialCooldown = ref(initialCooldown);
