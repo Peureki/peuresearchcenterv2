@@ -508,6 +508,7 @@ span.bookmark-label{
 .flex-wrap{
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: var(--gap-content);
 }
 /* 
@@ -1668,6 +1669,7 @@ img.map-guide{
     --font-family-rubik: 'Rubik', sans-serif;
 
     --border-general: 1px solid #3D3F42;
+    --border-link: 1px solid var(--color-link);
     --border-general-link: 2px solid var(--color-link);
     --border-hidden: 2px solid rgb(95, 96, 98, 0);
     --border-bottom: 2px solid #3D3F42;

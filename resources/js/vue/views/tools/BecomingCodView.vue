@@ -572,6 +572,9 @@ const availability = (fish) => {
     width: fit-content;
     gap: var(--gap-general);
 }
+.card-container{
+    border: var(--border-link);
+}
 .card-details{
     gap: var(--gap-content);
 }
