@@ -58,6 +58,7 @@ Route::post('/user/saveFilters', [UserController::class, 'saveFilters']);
 
 Route::post('/user/saveTheme', [UserController::class, 'saveTheme']);
 
+Route::post('/user/apiSubmission', [UserController::class, 'apiSubmission']);
 
 
 

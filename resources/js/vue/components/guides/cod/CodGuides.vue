@@ -572,7 +572,7 @@ onMounted(() => {
                     guide.value.alt = "Lion's Arch Coastal Fish";
                     guide.value.waypoint = '[&BDMEAAA=] or [&BC8EAAA=]';
                     guide.value.minFishingPower = minFishingPower.krytanCoastalFish;
-                    guide.value.description = "For this particular legendary fish, I highly highly HIGHLY recommend catching this during the night. Night yields a much higher drop rate (3% in the day, ~10% at night at 975 Fishing Power). I recommend aiming for higher Fishing Power to improve your chances. This route is great compared to other Krytan maps because this will be 100% safe and straightforward. You can either follow the map or circle through the bay."
+                    guide.value.description = "For this particular legendary fish, I highly highly HIGHLY recommend catching this during the night. Night yields a much higher drop rate (3% in the day, ~10% at night at 925 Fishing Power). I recommend aiming for higher Fishing Power to improve your chances. This route is great compared to other Krytan maps because this will be 100% safe and straightforward. You can either follow the map or circle through the bay."
                     break;
 
                 // *
@@ -944,12 +944,27 @@ onMounted(() => {
         // * SALTWATER REGION
         // *
         case 'Saltwater':
-            guide.value.src = RataSumSaltwaterFish; 
-            guide.value.alt = 'Rata Sum Saltwater Fish';
-            guide.value.waypoint = '[&BAcFAAA=]';
-            guide.value.minFishingPower = minFishingPower.RataSumSaltwaterFish;
-            guide.value.description = "You could either do Rata Sum or Mount Maelstrom (refer to the waypoints above). Both are extremely plentiful for pools and are very safe. Rata's pool are more condensed, especially if you can waypoint at the end of the route."
-            guide.value.bait = "Any. I recommend still running Sardines to also get the Maguuma Fisher achievement (and to get lots of legendary fishes), but you can opt out if you purely only want Saltwater.";
+            switch (props.fish.name){
+                case 'Rockfish':
+                    guide.value.src = RataSumSaltwaterFish; 
+                    guide.value.alt = 'Rata Sum Saltwater Fish';
+                    guide.value.waypoint = '[&BAcFAAA=], or Lowland: [&BN8OAAA=]';
+                    guide.value.minFishingPower = minFishingPower.RataSumSaltwaterFish;
+                    guide.value.description = "For Rockfish specifically, this fish has a very high chance to drop in Lowland Shore's Offshore/Shore Fish. You could either do Rata Sum or Mount Maelstrom (refer to the waypoints above). Both are extremely plentiful for pools and are very safe. Rata's pool are more condensed, especially if you can waypoint at the end of the route."
+                    guide.value.bait = "Any. I recommend still running Sardines to also get the Maguuma Fisher achievement (and to get lots of legendary fishes), but you can opt out if you purely only want Saltwater.";
+                    break;
+
+                default: 
+                    guide.value.src = RataSumSaltwaterFish; 
+                    guide.value.alt = 'Rata Sum Saltwater Fish';
+                    guide.value.waypoint = '[&BAcFAAA=]';
+                    guide.value.minFishingPower = minFishingPower.RataSumSaltwaterFish;
+                    guide.value.description = "You could either do Rata Sum or Mount Maelstrom (refer to the waypoints above). Both are extremely plentiful for pools and are very safe. Rata's pool are more condensed, especially if you can waypoint at the end of the route."
+                    guide.value.bait = "Any. I recommend still running Sardines to also get the Maguuma Fisher achievement (and to get lots of legendary fishes), but you can opt out if you purely only want Saltwater.";
+                    break;
+                }
+
+            
             break;
 
         // *
@@ -1146,6 +1161,22 @@ onMounted(() => {
                     guide.value.minFishingPower = minFishingPower.krytanCoastalFish;
                     guide.value.description = "There are some areas in particular that have higher rates of Sunscale Striker because these drop tables, combined with over 900 fishing power, contain no exotic drops. As a replacement, since Sunscale can drop anywhere, it natrually fills that gap. In this case, Sunscale has a high drop rate of ~8% at 975 FP. Other areas that has high (but slightly less drop rates) are New Kaineng City, Coastal Fish and Astral Fish, Amnytas."
                     guide.value.bait = 'Any, except Shrimplings, unless you also need Holy Mackerel and Black Lionfish.';
+                    break;
+
+                case 'Antique Porcelain Vase':
+                guide.value.src = EchovaldWildsLakeFish; 
+                    guide.value.alt = "Echovald Wilds Lake Fish";
+                    guide.value.waypoint = '[&BNQMAAA=] -> [&BMcMAAA=], Crystal Oasis: [&BLsKAAA=]';
+                    guide.value.minFishingPower = minFishingPower.crystalDesertDesertFish;
+                    guide.value.description = "For all of World Class and junk items, I recommend not focusing on completing it before others. These fishes will most likey be obtained passively as you finish the other achievements. Areas outside of this description do NOT drop this junk item for some reason. Places that do drop it: Desert Fish, Shiverpeak's Lake Fish, and Shiverpeak's Boreal Fish. Echovald's Lake Fish seems to have the highest chance to drop it of almost 1% (assuming 925 FP). If you do not wish to waypoint using Echovald's route, you could either use the second Echovald waypoint, or go to Crystal Oasis's Desert Fish."
+                    break;
+
+                case 'Antique Diving Helm':
+                    guide.value.src = NewKainengCityChannelFish; 
+                    guide.value.alt = "New Kaineng Channel Fish";
+                    guide.value.waypoint = '[&BBkNAAA=]';
+                    guide.value.minFishingPower = minFishingPower.newKainengCityChannelFish;
+                    guide.value.description = "For all of World Class and junk items, I recommend not focusing on completing it before others. These fishes will most likey be obtained passively as you finish the other achievements. Areas outside of this description do NOT drop this junk item for some reason. Places that do drop it: Shiverpeak's Lake Fish, New Kaineng's Channel Fish, Seitung's Shore Fish and Offshore Fish, Kryta's Coastal Fish, Maguuma's Saltwater Fish, Orr's Offshore Fish, Desert Isles's Offshore Fish and Shore Fish, Ring of Fire's Volcanic Fish. "
                     break;
 
 

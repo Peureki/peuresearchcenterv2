@@ -204,3 +204,13 @@ export const listProperties = (desiredProperty, targetArray) => {
 export const positiveOrNegative = (value) => {
     return value >= 0 ? `var(--color-up)` : `var(--color-down)`
 }
+
+// *
+// * VALIDATE API KEY SUBMISSIONS
+// * 
+export const validateAPIKey = (key) => {
+    // Example: 302FC177-7F3B-7B47-9EC0-93C1BEE40566C6A338E5-3CC5-46D4-9758-A35CF844BBF8
+    const regex = /^[A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{20}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12}$/i;
+    const trimmedKey = key.trim(); 
+    return regex.test(trimmedKey);
+}

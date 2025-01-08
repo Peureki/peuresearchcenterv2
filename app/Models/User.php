@@ -33,6 +33,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'favorites',
         'filters',
         'theme',
+        'achievements',
     ];
 
     /**
@@ -60,4 +61,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'favorites' => 'array',
         'filters' => 'array',
     ];
+
+    // *
+    // * ADDITIONAL ATTRIBUTES
+    // *
+    // api_key is private, but sometimes I need to know if the user has an api key saved
+    protected $appends = ['has_api_key'];
+
+    public function getHasApiKeyAttribute(){
+        return !empty($this->api_key);
+    }
 }

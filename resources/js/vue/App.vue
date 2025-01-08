@@ -123,12 +123,15 @@ ul {
     padding: 0;
 }
 li {
-    font-family: var(--font-family-readex);
+    font-family: var(--font-family-rubik);
     font-size: var(--font-size-p);
     font-weight: var(--font-weight-li);
     color: var(--color-text);
     list-style: none;
     line-height: 1.5;
+}
+ul > li:not(:last-child){
+    margin-bottom: var(--gap-general);
 }
 table {
     width: fit-content;
@@ -991,6 +994,13 @@ svg.import {
 .card-container:hover{
     border: 1px solid var(--color-text);
 }
+a.card-container:hover{
+    border: 1px solid var(--color-link);
+}
+a.card-container {
+    text-decoration: none;
+}
+
 p.rank{
     position: absolute;
     font-size: var(--font-size-h4);
@@ -1073,8 +1083,8 @@ img.card-currency,
 svg.sun,
 svg.moon,
 svg.arrow{
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
 }
 svg.arrow {
     cursor: pointer;
@@ -1298,7 +1308,20 @@ img.map-guide{
 }
 /* 
     =================================================
-    * REQUIREMENTS & RECOMMENDATION CONTAINERS
+    * COUNTDOWN
+    =================================================
+*/
+.countdown-container{
+    padding: var(--padding-general);
+    border-bottom: var(--border-bottom);
+}
+.countdown{
+    display: flex;
+    justify-content: space-between;
+}
+/* 
+    =================================================
+    * REQUIREMENTS & RECOMMENDATION CONTAINERS & INFO BOXES
     =================================================
 */
 .requirements-and-recommendations{
@@ -1313,12 +1336,20 @@ img.map-guide{
     gap: var(--gap-general);
     max-width: 50%;
 }
-.requirement{
+.info-box-container{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--gap-general);
+}
+.requirement, 
+.info-box{
     display: flex;
     flex-direction: column;
     gap: var(--gap-general);
     border: var(--border-general);
     padding: var(--padding-general);
+    border-radius: var(--border-radius-card);
+    background-color: var(--color-bkg-fade)
 }
 .gathering-tools{
     display: flex;
@@ -1340,6 +1371,10 @@ img.map-guide{
     .requirements-container, .recommendations-container{
         max-width: unset;
         width: 100%;
+    }
+    .info-box-container{
+        display: flex;
+        flex-direction: column;
     }
 }
 

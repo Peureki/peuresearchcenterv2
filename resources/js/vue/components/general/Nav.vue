@@ -143,6 +143,14 @@
                 <Transition name="fade-right">
                     <DayAndNightTimers v-if="dayAndNightTimerToggle"/>
                 </Transition>
+
+                <!--
+                    * SLOT - COUNTDOWN
+                    * 
+                    * Put a countdown of anything. i.e REfresh countdown from Cod page
+                -->
+
+                <slot name="countdown"></slot>
                 
                 <!--
                     * SLOT - TIMERS

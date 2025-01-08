@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new FetchNodeCombinations)->daily(); 
 
         // Refresh API stuff every 5 mins
-        $schedule->job(new ApiRefresh)->everyFiveMinutes();
+        // $schedule->job(new ApiRefresh)->everyFiveMinutes();
 
         // Reset databases at reset
         $schedule->job(new DailyReset)->cron('0 0 * * *');
