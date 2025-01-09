@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -131,7 +132,7 @@ class UserController extends Controller
 
             $user->update([
                 'achievements' => $gw2API->json(),
-                'api_key' => $request->apiKey
+                'api_key' => Crypt::encryptString($request->apiKey),
             ]);
 
             

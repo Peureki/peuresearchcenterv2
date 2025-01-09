@@ -6,6 +6,7 @@ use App\Models\Achievement;
 use App\Models\Fish;
 use App\Models\Items;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 
 class AchievementController extends Controller
@@ -135,7 +136,9 @@ class AchievementController extends Controller
             // * 
             // * REFRESH $USER->ACHIEVEMENTS
             // *
-            $gw2API = Http::get('https://api.guildwars2.com/v2/account/achievements?access_token='.$user->api_key);
+            $apiKey = Crypt::decryptString($user->api_key);
+
+            $gw2API = Http::get('https://api.guildwars2.com/v2/account/achievements?access_token='.$apiKey);
 
             $user->update([
                 'achievements' => $gw2API->json(),
