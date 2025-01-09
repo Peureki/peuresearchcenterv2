@@ -10,6 +10,8 @@
                     <span>
                         <p class="small-subtitle temp-merp">Created by Peureki.3647</p>
 
+                        <p class="small-subtitle">Business: <a href="https://peu.dev/" target="_blank" class="small-subtitle link"> peu.dev</a></p>
+
                         <p class="small-subtitle">Choya artwork by the fabulous <a href="https://x.com/tiffymew?lang=en" target="_blank">Tiffy.2305</a></p>
                         
                         <router-link to="/privacy-policy" class="link small-subtitle">Privacy Policy</router-link>
