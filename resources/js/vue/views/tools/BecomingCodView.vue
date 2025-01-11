@@ -216,7 +216,7 @@
                                         <p class="title">{{ achievement.name }}</p>
                                         <!-- REPEATED # -->
                                         <p class="small-subtitle" v-if="userAchievements[index].repeated">Repeated: {{ userAchievements[index].repeated }}</p>
-                                        <p v-else class="small-subtitle">Cod requirement</p>
+                                        <!-- <p v-else class="small-subtitle">Cod requirement</p> -->
 
                                         <!-- <p v-else-if="checkPossibleAvid(achievement.name)" class="small-subtitle">(Avid after completion)</p> -->
                                     
