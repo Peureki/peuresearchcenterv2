@@ -43,6 +43,7 @@ const setFilters = (propertyName, filter) => {
             ...filters.value,
             [propertyName]: filter
         }
+
         if (user.value){
             saveFilters(); 
         }

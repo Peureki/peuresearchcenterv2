@@ -1,23 +1,50 @@
 <template>
     <Header page-name="Becoming Cod"/>
     <Nav>
+        <!--
+            *
+            * FILTERS PANEL
+            *
+        -->
         <template v-slot:filters>
             <div class="filter-container">
                 <h3>Filters</h3>
                 <div class="filter-collection-container">
-                    <p>Show</p>
+                    <p>Toggle</p>
                     <div class="filter-collection">
                         <FilterToggle
-                            v-if="filterShow"
-                            v-for="show in filterShow"
-                            :toggle-option="show"
+                            v-if="filterToggle"
+                            v-for="toggle in filterToggle"
+                            :toggle-option="toggle"
                             filter-property-name="toggleCodShow"
                         />
                     </div>
                 </div>
+
+                <Transition name="fade">
+                    <div v-if="achievements" class="filter-collection-container">
+                        <p>Achievements</p>
+                        <div class="filter-collection">
+                            <FilterToggle
+                                :toggle-options="filterAchievements"
+                                filter-property-name="toggleCodAchievements"
+                                :radio="true"
+                            />
+                        </div>
+
+                        <!-- <p v-if="filters.toggleCodShow.includes('Only Cod')" class="small-subtitle">Removed achievements that aren't needed for Cod anymore and are post-EOD. Toggle 'Only Cod' off to see everything.</p>
+                        <p v-else class="small-subtitle">Showing all achievements. Toggle 'Only Cod' to only show achievements for Cod.</p> -->
+                    </div>
+                </Transition>
+                
             </div>
         </template>
 
+        <!--
+            *
+            * API REFRESH PANEL
+            *
+        -->
         <template v-slot:countdown v-if="user">
             <div class="countdown-container" v-if="user.has_api_key">
                 <div class="countdown">
@@ -173,109 +200,111 @@
             
 
             <div class="card-grid">
-                <div v-if="achievements" v-for="(achievement, index) in achievements" class="card-container">
-                    <div class="card">
-                        <div></div>
+                <template v-if="achievements" v-for="(achievement, index) in achievements">
+                    <div v-if="onlyCodAchievements(userAchievements[index])"  class="card-container">
+                        <div class="card">
+                            <div class="card-details">
+                                <!--
+                                    *
+                                    * NAME / PROGRESS
+                                    *
+                                -->
+                                <div class="card-title-and-value">
+                                    
+                                    <div class="flex">
+                                        <!-- NAME -->
+                                        <p class="title">{{ achievement.name }}</p>
+                                        <!-- REPEATED # -->
+                                        <p class="small-subtitle" v-if="userAchievements[index].repeated">Repeated: {{ userAchievements[index].repeated }}</p>
+                                        <p v-else class="small-subtitle">Cod requirement</p>
 
-                        <div class="card-details">
-                            <!--
-                                *
-                                * NAME / PROGRESS
-                                *
-                            -->
-                            <div class="card-title-and-value">
-                                
-                                <div class="flex">
-                                    <!-- NAME -->
-                                    <p class="title">{{ achievement.name }}</p>
-                                    <!-- REPEATED # -->
-                                    <p class="small-subtitle" v-if="userAchievements[index].repeated">Repeated: {{ userAchievements[index].repeated }}</p>
-
-                                    <!-- <p v-else-if="checkPossibleAvid(achievement.name)" class="small-subtitle">(Avid after completion)</p> -->
-                                
-                                </div>
-                                
-                                <!-- PROGRESS -->
-                                <div class="flex">
-                                    <p class="small-subtitle">{{ (achievement.bits.length - userAchievements[index].current) }} fishes left, </p>
-                                    <p class="small-subtitle">{{ userAchievements[index].current }} / {{ achievement.bits.length }}</p>
-                                </div>
-                                
-                            </div>
-
-                            <div class="fish-achievement-container">
-                                <div class="fish-collection">
-                                    <div class="fish" v-for="(fish, achievementIndex) in achievement.bits">
-                                        <img :style="{opacity: capturedFishOpacity(achievementIndex, userAchievements[index].bits)}" :src="fish.icon" :alt="fish.name" :title="fish.name">
+                                        <!-- <p v-else-if="checkPossibleAvid(achievement.name)" class="small-subtitle">(Avid after completion)</p> -->
+                                    
                                     </div>
+                                    
+                                    <!-- PROGRESS -->
+                                    <div class="flex">
+                                        <p class="small-subtitle">{{ (achievement.bits.length - userAchievements[index].current) }} fishes left, </p>
+                                        <p class="small-subtitle">{{ userAchievements[index].current }} / {{ achievement.bits.length }}</p>
+                                    </div>
+                                    
                                 </div>
 
-                                <div class="fish-recommendations">
-                                    <template v-for="(fish, achievementIndex) in achievement.bits">
-                                        <div v-if="missingFish(achievementIndex, userAchievements[index].bits)" class="fish-details-container" :style="{opacity: fishOpacity(view[index][achievementIndex])}">
-                                            <div class="fish">
-                                                <div class="fish flex-column">
-                                                    <img :src="fish.icon" :alt="fish.name" :title="fish.name">
-                                                    <svg 
-                                                        class="arrow"
-                                                        @click="expand[index][achievementIndex] = !expand[index][achievementIndex]"
-                                                        :class="activeArrow(expand[index][achievementIndex])"
-                                                        width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                                                    >
-                                                        <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="var(--color-text)"/>
-                                                    </svg>
+                                <div class="fish-achievement-container">
+                                    <div class="fish-collection">
+                                        <div class="fish" v-for="(fish, achievementIndex) in achievement.bits">
+                                            <img :style="{opacity: capturedFishOpacity(achievementIndex, userAchievements[index].bits)}" :src="fish.icon" :alt="fish.name" :title="fish.name">
+                                        </div>
+                                    </div>
 
-                                                </div>
-                                                
-
-                                                <div class="fish-details">
-                                                    <div class="img-and-label">
-                                                        <p :style="{color: showRarityColor(fish.rarity)}">{{ fish.name }}</p>
-                                                        <!--
-                                                            *
-                                                            * SVG SIGNAL
-                                                            *
-                                                        -->
+                                    <div class="fish-recommendations">
+                                        <template v-for="(fish, achievementIndex) in achievement.bits">
+                                            <div v-if="missingFish(achievementIndex, userAchievements[index].bits)" class="fish-details-container" :style="{opacity: fishOpacity(view[index][achievementIndex])}">
+                                                <div class="fish">
+                                                    <div class="fish flex-column">
+                                                        <img :src="fish.icon" :alt="fish.name" :title="fish.name">
                                                         <svg 
-                                                            class="signal" 
-                                                            :class="availability(fish)"
-                                                            width="30" height="30" xmlns="http://www.w3.org/2000/svg"
+                                                            class="arrow"
+                                                            @click="expand[index][achievementIndex] = !expand[index][achievementIndex]"
+                                                            :class="activeArrow(expand[index][achievementIndex])"
+                                                            width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
                                                         >
-                                                            <circle class="fill-circle" cx="15" cy="15" r="5" stroke="black" stroke-width="1" />
-                                                            <circle class="expand-circle" cx="15" cy="15" r="15"  fill="transparent" stroke-width="1"/>
-                                                            <title>{{ availability(fish) }}</title>
+                                                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="var(--color-text)"/>
                                                         </svg>
-                                                        <!--
-                                                            *
-                                                            * VIEW SYMBOL - HIDE FISH
-                                                            *
-                                                        -->
-                                                        <!-- <svg @click="view[index][achievementIndex] = !view[index][achievementIndex]" class="icon clickable" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M13 1L1 13M1 1L13 13" stroke="#FFD12C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                                            <title>Show/hide fish</title>
-                                                        </svg> -->
+
                                                     </div>
                                                     
-                                                    
-                                                    <p class="small-subtitle">Hole: {{ fish.fishing_hole }}</p>
-                                                    <p class="small-subtitle">Bait: {{ baitName(fish.bait_name) }}</p>
-                                                    <p class="small-subtitle">Time: {{ fish.time }}</p>
-                                                </div>                     
-                                            </div>
 
-                                            
-                                            <CodGuides
-                                                v-if="expand[index][achievementIndex]"
-                                                :fish="fish"
-                                            />
-                                            <!-- <img v-if="expand[index][achievementIndex]"  :src="GendarranRiverFish"> -->
-                                        </div>
-                                    </template>
+                                                    <div class="fish-details">
+                                                        <div class="img-and-label">
+                                                            <p :style="{color: showRarityColor(fish.rarity)}">{{ fish.name }}</p>
+                                                            <!--
+                                                                *
+                                                                * SVG SIGNAL
+                                                                *
+                                                            -->
+                                                            <svg 
+                                                                class="signal" 
+                                                                :class="availability(fish)"
+                                                                width="30" height="30" xmlns="http://www.w3.org/2000/svg"
+                                                            >
+                                                                <circle class="fill-circle" cx="15" cy="15" r="5" stroke="black" stroke-width="1" />
+                                                                <circle class="expand-circle" cx="15" cy="15" r="15"  fill="transparent" stroke-width="1"/>
+                                                                <title>{{ availability(fish) }}</title>
+                                                            </svg>
+                                                            <!--
+                                                                *
+                                                                * VIEW SYMBOL - HIDE FISH
+                                                                *
+                                                            -->
+                                                            <!-- <svg @click="view[index][achievementIndex] = !view[index][achievementIndex]" class="icon clickable" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M13 1L1 13M1 1L13 13" stroke="#FFD12C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                <title>Show/hide fish</title>
+                                                            </svg> -->
+                                                        </div>
+                                                        
+                                                        
+                                                        <p class="small-subtitle">Hole: {{ fish.fishing_hole }}</p>
+                                                        <p class="small-subtitle">Bait: {{ baitName(fish.bait_name) }}</p>
+                                                        <p class="small-subtitle">Time: {{ fish.time }}</p>
+                                                    </div>                     
+                                                </div>
+
+                                                
+                                                <CodGuides
+                                                    v-if="expand[index][achievementIndex]"
+                                                    :fish="fish"
+                                                />
+                                                <!-- <img v-if="expand[index][achievementIndex]"  :src="GendarranRiverFish"> -->
+                                            </div>
+                                        </template>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </template>
+                
             </div>
         </div>
         
@@ -298,6 +327,7 @@ import Footer from '@/js/vue/components/general/Footer.vue'
 import CodGuides from '@/js/vue/components/guides/cod/CodGuides.vue';
 import Loading from '@/js/vue/components/general/Loading.vue'
 import FilterToggle from '@/js/vue/components/filters/FilterToggle.vue';
+import FilterRadio from '@/js/vue/components/filters/FilterRadio.vue';
 import PopUpMessage from '@/js/vue/components/general/PopUpMessage.vue'
 
 import { activeArrow } from '@/js/vue/composables/BasicFunctions'
@@ -332,7 +362,8 @@ const apiKey = ref(null),
 // The amount of time in seconds for API refresh (5mins)
 const refreshCountdown = ref(300);
 
-const filterShow = ['Tips'];
+const filterToggle = ['Tips'],
+    filterAchievements = ['Only Cod', 'All'];
 
 const expand = ref(null),
     view = ref(null);
@@ -411,6 +442,10 @@ const getFishingAchievements = async () => {
     }
 }
 
+const setFishingAchievements = () => {
+    
+}
+
 const refreshFishingAchievements = setInterval(() => {
     console.log('Refreshing Fishing Achievements');
     getFishingAchievements(); 
@@ -440,6 +475,48 @@ const showTips = computed(() => {
 const fishOpacity = (viewIndex) => {
     return viewIndex ? 1 : 0.3; 
 }
+const isOnlyCodEnabled = computed(() => {
+    return user.value.filters.toggleCodAchievements == 'Only Cod';
+})
+// *
+// * SHOW ONLY COD ACHIEVEMENTS
+// * If user clicked filter 'Only Cod' => only show those achievements
+// * Else => show everything
+// *
+const onlyCodAchievements = (userAchievement) => {
+    const isOnlyCodEnabled = filters.value.toggleCodAchievements.includes('Only Cod');
+    //Horn of Maguuma (+ avid), Janthir (+ avid)
+    const postEODAchievements = [7114, 8168, 7804, 8246];
+
+    console.log('is only cod: ', isOnlyCodEnabled);
+    
+    if (isOnlyCodEnabled){
+        if (userAchievement.hasOwnProperty('repeated') || postEODAchievements.includes(userAchievement.id)){
+            return false; 
+        }
+
+        return true; 
+    }
+
+    return true; 
+}
+// const onlyCodAchievements = (userAchievement) => {
+//     const isOnlyCodEnabled = user.value.filters.toggleCodShow.includes('Only Cod');
+//     // // Horn of Maguuma (+ avid), Janthir (+ avid)
+//     // const postEODAchievements = [7114, 8168, 7804, 8246];
+
+//     console.log('is only cod: ');
+    
+//     // if (isOnlyCodEnabled){
+//     //     if (userAchievement.hasOwnProperty('repeated') || postEODAchievements.includes(userAchievement.id)){
+//     //         return false; 
+//     //     }
+
+//     //     return true; 
+//     // }
+
+//     // return true; 
+// }
 
 const showLogin = () => {
     if (isMobile){

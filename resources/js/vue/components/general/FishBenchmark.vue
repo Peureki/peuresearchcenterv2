@@ -253,15 +253,6 @@
                     <!--
                         * LAKE FISH, DRIZZLEWOOD 
                     -->
-                    <Disclaimer 
-                        v-if="
-                            fishingHole.name == 'Lake Fish' 
-                            && fishingHole.time == 'Daytime' 
-                            && fishingHole.map == 'Drizzlewood Coast'" 
-                        type="caution"
-                    >
-                        <p>This is a very unique farm that can hit over 1000 fishing power. 925 is obtained by the regular maxing method and the rest is obtained when all of the camps on the south side are cleared. While this is situational, lots of empty maps clear south's meta, but do not attempt north without a squad. You can obtain <a href="https://wiki.guildwars2.com/wiki/Raise_Morale" target="_blank">Raise Morale</a> for 30 minutes by exchanging 100 War Supplies</p>
-                    </Disclaimer>
 
                     <!--
                         * LOWLAND SHORE, BRACKISH FISH

@@ -100,9 +100,9 @@
                                 
                                 <button v-if="user" type="button" @click="logout">Logout</button>
 
-                                <button v-if="!registerToggle" type="button" @click="registerToggle = !registerToggle">I want to be a choya</button>
+                                <button v-if="!registerToggle" type="button" @click="registerToggle = !registerToggle">I want to be a choya (register)</button>
 
-                                <button v-if="registerToggle" type="button" @click="handleRegistration(name, email, password)">Register</button>
+                                <button v-if="registerToggle" type="button" @click="handleRegistration(name, email, password)">Register this choya now</button>
 
                                 <p v-if="authErrorStatus" class="error-message">{{ authErrorMessage }}</p>
                             </div>

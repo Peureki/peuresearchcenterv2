@@ -57,7 +57,10 @@ export const filters = ref({
     toggleGlyphLevels: ['All', '1-15', '16-40', '41-55', '56-70', '71-80'],
     toggleGlyphTypes: ['Ore', 'Log', 'Plant'],
     toggleNodeTypes: ['Ore', 'Log', 'Plant'],
+
+    // * BECOMING COD
     toggleCodShow: ['Tips'],
+    toggleCodAchievements: ['Only Cod'],
 })
 // MAKE THIS 'TRUE' IN FUNCTIONS THAT ALTER THE SETTINGS TO TRIGGER A REFRESH OF DATA ON PAGES
 export const refreshSettings = ref(false);

@@ -147,6 +147,7 @@ button {
     width: fit-content;
     background-color: var(--color-link);
     padding: var(--padding-button);
+    text-align: left;
 }
 article {
     padding: var(--padding-article);

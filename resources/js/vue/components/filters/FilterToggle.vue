@@ -1,9 +1,18 @@
 <template>
     <button 
-        @click="toggle = !toggle; setFilter(filterPropertyName, toggleOption)"
+        v-if="toggleOption"
+        @click="toggle = !toggle; setRegularToggleFilter(filterPropertyName, toggleOption)"
         :class="toggle ? 'active-button' : 'inactive-button'"
     > 
         {{ toggleOption }}
+    </button>
+
+    <button 
+        v-if="toggleOptions" v-for="(filter, index) in toggleOptions" :key="index"
+        :class="index === activeIndex ? 'active-button' : 'inactive-button'"
+        @click="chooseActiveFilter(index); setRegularToggleFilter(filterPropertyName, filter)"
+    >
+        {{ filter }}
     </button>
 </template>
 
@@ -13,27 +22,61 @@ import { user, filters } from '@/js/vue/composables/Global'
 import axios from 'axios';
 
 const props = defineProps({
+    // toggleOption w/o being plural means this component is for individual toggles
     toggleOption: String, 
+    // w/ being plural means this component is for RADIO toggles (one at a time)
+    toggleOptions: Object,
     filterPropertyName: String,
+    // True => Radio toggles
+    // False => Regular toggles
+    radio: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const toggle = ref(null); 
 
-// SET NEW FILTER
-const setFilter = (propertyName, filter) => {
+const activeIndex = ref(null);
+
+
+// *
+// * REGULAR TOGGLE FILTER FUNCTIONS
+// *
+// * These are for toggles that users can choose as little/many as they want
+// * 
+
+// * SET NEW REGULAR TOGGLE FILTER
+const setRegularToggleFilter = (propertyName, filter) => {
     if (filters.value[propertyName]){
         // filterArray will be the replacement array 
-        const filterArray = filters.value[propertyName];
+        let filterArray = filters.value[propertyName];
         // Check if filter is in the array
         const index = filterArray.indexOf(filter); 
+        
+        switch (props.radio){
+            case true: 
+                // If filter exists, don't do anything
+                if (index > -1){
+                    return;
+                // If filter does not exist => empty filter settings and add the new one
+                } else {
+                    filterArray = []; 
+                    filterArray.push(filter);
+                }
+                break;
 
-        // If filter exists, remove filter from array
-        if (index > -1){
-            filterArray.splice(index, 1); 
-        // Otherwise add filter
-        } else {
-            filterArray.push(filter);
+            default: 
+                // If filter exists, remove filter from array
+                if (index > -1){
+                    filterArray.splice(index, 1); 
+                // Otherwise add filter
+                } else {
+                    filterArray.push(filter);
+                }
+                break;
         }
+        
         // Set new filter and update filters
         filters.value = {
             ...filters.value,
@@ -41,14 +84,14 @@ const setFilter = (propertyName, filter) => {
         }
         // Apply settings to user db
         if (user.value){     
-            saveFilters(); 
+            saveRegularToggleFilter(); 
         }
     }
 }
 // *
-// * SAVE FILTERS TO USER DATABASE
+// * SAVE REGULAR TOGGLE FILTERS TO USER DATABASE
 // * 
-const saveFilters = async () => {
+const saveRegularToggleFilter = async () => {
     try {
         const response = await axios.post('../api/user/saveFilters', {
             filters: filters.value
@@ -65,17 +108,17 @@ const saveFilters = async () => {
 // * CHECK FILTERS IF EXISTS
 // * If exists => apply toggle 
 // *
-const checkFilters = (option) => {
+const checkRegularToggleFilters = (option) => {
     try {
         // Check if the property exist in filter
         if (filters.value[props.filterPropertyName]){
             // True/false if the toggle option is already included or not
             const isIncluded = filters.value[props.filterPropertyName].some(array => array.includes(option));
 
-            console.log('Filters: ', filters.value, filters.value[props.filterPropertyName])
+            //console.log('Filters: ', filters.value, filters.value[props.filterPropertyName])
 
             if (isIncluded){
-                console.log('is included: ', isIncluded);
+                //console.log('is included: ', isIncluded);
                 toggle.value = true; 
             }
         }
@@ -84,8 +127,38 @@ const checkFilters = (option) => {
     }
 }
 
+// *
+// * RADIO TOGGLE FILTER FUNCTIONS
+// *
+// * These are for toggles that users can only choose one at at time
+// *
+// * Conditions: props.radio == true
+// *
+
+// * 
+// * CHECK RADIO FILTERS
+// * Check user.filter properties to see if the filter has been already set
+// * If yes => highlight the active index
+// *
+const checkRadioToggleFilters = () => {
+    if (filters.value[props.filterPropertyName]){
+        activeIndex.value = props.toggleOptions.indexOf(filters.value[props.filterPropertyName][0]);
+    }
+}
+// * When users click on a different radio button, that button will be active instead of the others
+const chooseActiveFilter = (index) => {
+    activeIndex.value = index; 
+}
+
 onMounted(() => {
-    checkFilters(props.toggleOption);
+    if (props.toggleOption){
+        checkRegularToggleFilters(props.toggleOption);
+    }
+    else if (props.toggleOptions){
+        console.log('merp');
+        checkRadioToggleFilters();
+    }
+    
 })
 
 </script>
