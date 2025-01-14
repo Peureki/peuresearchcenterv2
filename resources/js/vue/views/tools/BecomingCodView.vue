@@ -116,7 +116,7 @@
                         <h4>How this page works</h4>
                         <ul>
                             <li>
-                                1. Must be <a @click="showLogin">signed on</a> and input your API key above. You can obtain this by going to <a href="https://account.arena.net/applications" target="_blank">Arenanet's website</a> -> Applications
+                                1. Must be <a @click="showLogin">signed on</a> and input your API key above. You can obtain this by going to <a href="https://account.arena.net/applications" target="_blank">Arenanet's website</a> -> Applications. The option "Progression" will need to be selected for this to work. 
                             </li>
                             
                             <li>2. Achievements will be listed in order of amount that needs to be completed. Any achievement that has been completed that isn't repeatable or an avid will not show.</li>
