@@ -12,9 +12,20 @@ use Illuminate\Support\Facades\Http;
 class AchievementController extends Controller
 {
     // *
-    // * GET FISHING ACHIEVEMENTS
+    // * GET DRIZZLEWOOD COMMENDATION-RELATED ACHIEVEMENTS
     // * 
-    // * Requires user AUTH
+    // * Goal
+    // * Return all commendation-related achievements and user's current progress
+    // * 
+    public function getDrizzlewoodCommendations(){
+        $response = [];
+
+        return response()->json($response); 
+    }
+
+
+    // *
+    // * GET FISHING ACHIEVEMENTS
     // * 
     // * Goal
     // * Return all fishing achievements and use user's api key to determine what fishes are missing 

@@ -82,6 +82,13 @@ class Controller extends BaseController
 
     // DWC COMMENDATIONS
     protected $ashLegionCommendation;
+    protected $bloodLegionCommendation;
+    protected $corruptedCommendation; 
+    protected $dominionCommendation; 
+    protected $flameLegionCommendation; 
+    protected $ironLegionCommendation; 
+    
+     
 
     // NON-MONETIZABLE EXCHANGEABLES
     // Example:
@@ -634,6 +641,79 @@ class Controller extends BaseController
 
         /*
             *
+            * DRIZZLEWOOD COMMENDATIONS
+            *
+        */
+        $this->ashLegionCommendation = [
+            'id' => [
+                93371, // Special Mission Document
+                93515, // Ash Legion Leather Box
+                93378, // Ash Legion Crafting Box
+                93455, // Rare Charr Salvage
+                93588, // Ash Legion Venom Box
+                65448, // Champion Jotun Loot Box
+                93515, // Ash Legion Leather Box
+                93378, // Ash Legino Crafting Box
+                93455, // Rare Charr Salvage
+                93369, // Ash Legion Glacial Materials Box
+                93516, // Ash Legion Special Mission Document
+                93378, // Ash Legion Crafting Box
+                93515, // Ash Legion Leather Box
+                65394, // Champion Wurm Loot Box
+                93588, // Ash Legino Venom Box
+                93455, // Rare Charr Salvage
+                93378, // Ash Legion Crafing Box
+                93515, // Ash Legion Leather Box
+                93371, // Special Mission Document
+                93574, // Ash Legion Reward Box
+            ],
+            'conversionRate' => array_fill(0, 20, 250), 
+            'fee' => array_fill(0, 20, 0), 
+            'outputQty' => array_merge(
+                array_fill(0, 9, 1), 
+                [2],
+                array_fill(11, 7, 1),
+                [3,
+                1],   
+            )
+        ];
+
+        $this->bloodLegionCommendation = [
+            'id' => [
+                93371, // Special Mission Document
+                93357, // Blood Legion Wood Box
+                93547, // Blood Legion Crafting Box
+                93455, // Rare Charr Salvage
+                93478, // Blood Legion Blood Box
+                65398, // Champion Branded Minion Loot Box
+                93357, // Blood Legion Wood Box
+                93547, // Blood Legion Crafing Box
+                93455, // Rare Charr Salvage
+                93658, // Blood Legion Charged Materials Box
+                93499, // Blood Legion Special Mission Document
+                93547, // Blood Legion Crafting Box
+                93357, // Blood Legion Leather Box
+                65449, // Champion Grawl Loot Box
+                93478, // Blood Legion Venom Box
+                93455, // Rare Charr Salvage
+                93547, // Blood Legion Crafing Box
+                93357, // Blood Legion Wood Box
+                93371, // Special Mission Document
+                93485, // Blood Legion Reward Box
+            ],
+            'conversionRate' => array_fill(0, 20, 250), 
+            'fee' => array_fill(0, 20, 0), 
+            'outputQty' => array_merge(
+                array_fill(0, 9, 1), 
+                [2],
+                array_fill(11, 7, 1),
+                [3,
+                1],   
+            )
+        ];
+
+        /*
+            *
             * HOMESTEAD CONVERSIONS
             *
         */
@@ -887,6 +967,7 @@ class Controller extends BaseController
         // USE this for functions that use any of these exchangeables to find their values thru their drop rates
         $this->exchangeableMap = [
             "Airship Part" => $this->airshipPart,
+            "Ash Legion Commendation" => $this->ashLegionCommendation,
             "Bandit Crest" => $this->banditCrest,
             "Calcified Gasp" => $this->calcifiedGasp,
             "Curious Lowland Honeycomb" => $this->curiousLowlandHoneycomb,
@@ -1317,12 +1398,19 @@ class Controller extends BaseController
         return $value;
     }
     // *
-    // * DRIZZLEWOOD COAST COMMENDATIONS
-    // * EX: ASH LEGION COMMENDATION
-    protected function getCommendationValue($commendationID, $commendationDropRate, $includes, $sellOrderSetting, $tax){
-        $value = 0;
-        return $value * $commendationDropRate;
-    }
+    // * GET DRIZZLEWOOD COMMENDATION VALUES
+    // * 
+    // * Calculate all items contained in a drizzlewood reward track then /divide by # of items (20) 
+    // * 
+    // protected function getCommendationValues($includes, $buyOrderSetting, $sellOrderSetting, $tax){
+    //     // Make it a workable arrays
+    //     // New accounts that haven't set any settings may still have "null"
+    //     if ($includes == "null"){
+    //         $includes = [];
+    //     } else {
+    //         $includes = json_decode($includes);
+    //     }  
+    // }
 
     // *
     // * GET "AVG" VALUE OF EXOTICS THAT CAN DROP FROM GENERAL BAGS/GEAR
@@ -1965,7 +2053,7 @@ class Controller extends BaseController
             }
             // COMMENDATIONS (DWC)
             if ($item->type == 'Trophy' && strpos($item->item_name, 'Commendation')){
-                return $this->getCommendationValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                return $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax, $recursionLevel);
             }
             // JUNK ITEMS
             if ($item->rarity == 'Junk') {

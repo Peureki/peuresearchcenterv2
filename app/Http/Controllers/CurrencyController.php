@@ -15,6 +15,8 @@ use PDO;
 
 class CurrencyController extends Controller
 {
+    
+
     public function favoriteResearchNote($buyOrderSetting, $favorites){
         $buyOrderSetting = $this->getBuyOrderSetting($buyOrderSetting);
 

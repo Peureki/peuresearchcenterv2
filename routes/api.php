@@ -140,6 +140,7 @@ Route::get('/items/{requestArray}', [ItemController::class, 'items']);
 
 // * SPIRIT SHARDS
 Route::get('/currencies/spirit-shards/{buyOrderSetting}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'getSpiritShards']);
+
 // *
 // * GENERAL CURRENCIES
 // *
