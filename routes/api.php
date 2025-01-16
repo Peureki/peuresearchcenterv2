@@ -151,6 +151,12 @@ Route::get('/currencies/spirit-shards/{buyOrderSetting}/{sellOrderSetting}/{tax}
 // *
 Route::get('/exchangeables/{request}/{includes}/{sellOrderSetting}/{tax}', [BagController::class, 'exchangeables']);
 
+// *
+// * DRIZZLEWOOD COMMENDATIONS
+// *
+Route::get('/currencies/drizzlewood-commendations/{includes}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'getAllCommendationValues']);
+
+
 
 // * RESEARCH NOTES
 Route::get('/currencies/salvage-research-notes/{buyOrderSetting}/{sellOrderSetting}/{tax}', [CurrencyController::class, 'salvageResearchNotes']);
@@ -208,3 +214,7 @@ Route::get('/benchmarks/fishmonger/{sellOrderSetting}/{tax}', [ConversionControl
 Route::get('/user/achievements/fishing', [AchievementController::class, 'getFishing']);
 
 Route::get('/achievements/fishing', [AchievementController::class, 'getFishing']);
+// *
+// * DRIZZLEWOOD REAWRD TRACK PROGRESS
+// *
+Route::get('/user/achievements/drizzlewood-reward-tracks', [AchievementController::class, 'getDrizzlewoodRewardTracks']);

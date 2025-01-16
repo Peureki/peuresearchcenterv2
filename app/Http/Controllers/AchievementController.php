@@ -17,8 +17,67 @@ class AchievementController extends Controller
     // * Goal
     // * Return all commendation-related achievements and user's current progress
     // * 
-    public function getDrizzlewoodCommendations(){
+    public function getDrizzlewoodRewardTracks(){
+        $user = auth()->user(); 
+
+        $commendationIDs = [
+            [
+                'id' => 93525, // Ash Legion 
+                'achievementID' => 5327,
+                'repeatableAchievementID' => 5338,
+            ],
+            [
+                'id' => 93625, // Blood Legion
+                'achievementID' => 5312,
+                'repeatableAchievementID' => 5278,
+            ],
+            [
+                'id' => 93496, // Flame Legion
+                'achievementID' => 5319,
+                'repeatableAchievementID' => 5334,
+            ],
+            [
+                'id' => 93624, // Iron Legion
+                'achievementID' => 5298,
+                'repeatableAchievementID' => 5286,
+            ],
+            [
+                'id' => 93868, // Dominion
+                'achievementID' => 5403,
+                'repeatableAchievementID' => 5391,
+            ],
+            [
+                'id' => 93899, // Frost Legion
+                'achievementID' => 5364,
+                'repeatableAchievementID' => 5356,
+            ],
+        ];
+
         $response = [];
+
+        if ($user){
+            $this->updateUserAPIAchievements($user); 
+
+            $oneTimeAchievementIDs = array_column($commendationIDs, 'achievementID');
+            $repeatableAchievementIDs = array_column($commendationIDs, 'repeatableAchievementID'); 
+
+            $userOneTimeAchievements = array_values(array_filter($user->achievements, function ($achievement) use ($oneTimeAchievementIDs){
+                return in_array($achievement['id'], $oneTimeAchievementIDs); 
+            }));
+
+            $repeatableAchievementIDs = array_values(array_filter($user->achievements, function ($achievement) use ($repeatableAchievementIDs){
+                return in_array($achievement['id'], $repeatableAchievementIDs); 
+            }));
+
+            //dd('user one time achieves: ', $userOneTimeAchievements);
+
+            $response = [
+                'oneTimeAchievements' => $userOneTimeAchievements,
+                'repeatableAchievements' => $repeatableAchievementIDs,
+            ];
+        }
+
+        
 
         return response()->json($response); 
     }
@@ -32,7 +91,7 @@ class AchievementController extends Controller
     // * 
     public function getFishing(){
 
-        $user = auth()->user(); 
+        $user = auth()->user();
 
         // Overall array to return with all the info
         $response = [];

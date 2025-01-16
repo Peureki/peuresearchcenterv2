@@ -37,6 +37,149 @@ class BagController extends Controller
         }
         return response()->json($returnArray);
     }
+
+    // // * 
+    // // * GET BAG VALUE OF REQUESTED BAG IDs
+    // // * 
+    // // * @param $requestIDs <array>: IDs to be queued and get the values of each bag
+    // // * 
+    // public function getBagValues($requestIDs, $includes, $sellOrderSetting, $tax){
+    //     $bagDB = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
+    //         ->leftjoin('items as item', 'bag_drop_rates.item_id', '=', 'item.id')
+    //         ->leftjoin('items as bag_item', 'bags.id', '=', 'bag_item.id')
+    //         ->leftjoin('currencies as currency', 'bag_drop_rates.currency_id', '=', 'currency.id')
+    //         ->select(
+    //             'bag_drop_rates.*', 
+    //             'bags.*', 
+    //             'currency.*',
+    //             'currency.name as currency_name',
+    //             'currency.icon as currency_icon',
+    //             'currency.icon as item_icon',
+    //             'item.icon as item_icon',
+    //             'item.name as item_name', 
+    //             'item.*', 
+    //             'bag_item.icon as bag_icon',
+    //             'bag_item.name as bag_name',
+    //             'bag_item.rarity as bag_rarity',
+    //         )
+    //         ->whereIn('bag_id', $requestIDs)
+    //         ->get()
+    //         ->groupBy('bag_id');
+
+    //     foreach ($bagDB as $bag){
+    //         $value = 0; 
+    //         foreach ($bag as $item){
+    //             //dd('item: ', $item);
+    //             $value += $this->getItemValue($item, $includes, $sellOrderSetting, $tax); 
+    //         }
+    //         $bag->value = $value; 
+    //         //dd($bag); 
+    //     }
+
+    //     //dd('bagDB: ', $bagDB); 
+
+    //     return $bagDB; 
+    // }
+
+    // * 
+    // * GET BAG VALUE OF REQUESTED BAG IDs
+    // * 
+    // * @param $requestIDs <array>: IDs to be queued and get the values of each bag
+    // * 
+    public function getBagCollection($requestID, $includes, $sellOrderSetting, $tax){
+        $bagDB = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
+            ->leftjoin('items as item', 'bag_drop_rates.item_id', '=', 'item.id')
+            ->leftjoin('items as bag_item', 'bags.id', '=', 'bag_item.id')
+            ->leftjoin('currencies as currency', 'bag_drop_rates.currency_id', '=', 'currency.id')
+            ->select(
+                'bag_drop_rates.*', 
+                'bags.*', 
+                'currency.*',
+                'currency.name as currency_name',
+                'currency.icon as currency_icon',
+                'currency.icon as item_icon',
+                'item.icon as item_icon',
+                'item.name as item_name', 
+                'item.*', 
+                'bag_item.icon as bag_icon',
+                'bag_item.name as bag_name',
+                'bag_item.rarity as bag_rarity',
+            )
+            ->where('bag_id', $requestID)
+            ->get();
+
+        $value = 0;
+
+        foreach ($bagDB as $item){
+            $value += $this->getItemValue($item, $includes, $sellOrderSetting, $tax); 
+        }
+        // Append as array property so that it will show up in the json response in the frontend
+        $bagDB['value'] = $value; 
+
+        //dd('bagDB: ', $bagDB); 
+
+        return $bagDB; 
+    }
+
+    // * 
+    // * GET CHOICE CHEST VALUE OF REQUESTED BAG IDs
+    // * 
+    // * @param $requestIDs <array>: IDs to be queued and get the values of each bag
+    // * 
+    public function getChoiceChestCollection($requestID, $includes, $sellOrderSetting, $tax){
+        $choiceChestDB = ChoiceChestOption::join('choice_chests', 'choice_chest_options.choice_chest_id', '=', 'choice_chests.id')
+        ->leftjoin('items as item', 'choice_chests.id', '=', 'item.id')
+        ->where('choice_chests.id', $requestID)
+        ->leftjoin('items as bag_item', 'choice_chest_options.item_id', '=', 'bag_item.id')
+        ->select(
+            'choice_chest_options.*',
+            'bag_item.*',
+            'item.name as bag_name',
+            'item.icon as bag_icon',
+            'item.rarity as bag_rarity',
+            'choice_chest_options.quantity as drop_rate'
+        )
+        ->get();
+
+        $value = 0;
+
+        //dd('choice chest db: ', $choiceChestDB);
+
+        foreach ($choiceChestDB as $item){
+            $value += $this->getItemValue($item, $includes, $sellOrderSetting, $tax); 
+        }
+        // Append as array property so that it will show up in the json response in the frontend
+        $choiceChestDB['value'] = $value; 
+
+        return $choiceChestDB; 
+    }
+
+    // * 
+    // * GET CHOICE CHEST VALUE OF REQUESTED BAG IDs
+    // * 
+    // * @param $requestIDs <array>: IDs to be queued and get the values of each bag
+    // * 
+    // public function getChoiceChestValues($requestIDs, $includes, $sellOrderSetting, $tax){
+    //     $choiceChestDB = ChoiceChestOption::join('choice_chests', 'choice_chest_options.choice_chest_id', '=', 'choice_chests.id')
+    //     ->leftjoin('items as item', 'choice_chests.id', '=', 'item.id')
+    //     ->where('choice_chests.id', $requestIDs)
+    //     ->leftjoin('items as bag_item', 'choice_chest_options.item_id', '=', 'bag_item.id')
+    //     ->select(
+    //         'choice_chest_options.*',
+    //         'bag_item.*',
+    //         'item.name as bag_name',
+    //         'item.icon as bag_icon',
+    //         'item.rarity as bag_rarity',
+    //         'choice_chest_options.quantity as drop_rate'
+    //     )
+    //     ->get()
+    //     ->groupBy('choice_chest_id');
+
+    //     dd('choice chest db: ', $choiceChestDB, $requestIDs); 
+
+    //     return $choiceChestDB; 
+    // }
+
     // Get array of item ids for $requestedBags
     // => Check if id belongs in Bags or ChoiceChest
     // => Rest, check if it's in Items
@@ -386,6 +529,8 @@ class BagController extends Controller
                 case 'Unbound Magic': 
                     $this->duplicate_and_splice_bag(79186, $bagDropRates, 'Magic-Warped Bundle (Ember Bay)');
                     break;
+
+                
             }
 
             //dd($bagDropRates, $requestedBags);
