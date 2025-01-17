@@ -1638,6 +1638,12 @@ img.map-guide{
     --color-expand-circle: var(--color-up);
     --color-input: var(--color-opposite-text);
     --color-table-odd-bkg: var(--color-bkg-fade);
+    --color-flame-legion-commendation: #bd5f00;
+    --color-ash-legion-commendation: #4c68fe;
+    --color-iron-legion-commendation: #6b6f8f;
+    --color-blood-legion-commendation: #780306;
+    --color-dominion-commendation: #007c94;
+    --color-frost-legion-commendation: #0f74a2;
 
     --font-weight-h1: 700;
     --font-weight-h2: 500;
@@ -1751,6 +1757,8 @@ img.map-guide{
     --hover-bkg-fade: rgba(255, 209, 44, 0.2); 
 
     --img-timer-map-w: clamp(62.5rem, 115vw, 300rem);
+
+
 }
 
 [data-theme="light"]{

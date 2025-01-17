@@ -52,7 +52,32 @@
                         </tr>
                     </tbody>
                 </table>
+            </div> 
+
+            <div v-if="repeatableRewardTracks" v-for="(achievement, index) in repeatableRewardTracks" :key="index" class="reward-track-container">
+                <p class="title">{{ commendationID(achievement.id).name }}</p>
+                <div class="reward-track-bar">
+                    <!-- Create 20 lines for 20 rewards, except the last line -->
+                    <span 
+                        v-for="n in 20" 
+                        class="progress-separator"
+                        :style="{
+                            left: `${n * 5}%`,
+                            display: n === 20 ? 'none' : 'block'
+                            }"
+                        >
+                    </span>
+                    <span 
+                        class="progress-bar" 
+                        :style="{
+                            width: `${(achievement.current/achievement.max) * 100}%`,
+                            backgroundColor: commendationID(achievement.id).backgroundColor
+                        }"
+                    >
+                    </span>
+                </div>
             </div>
+
         </div>
     </section>
 </template>
@@ -72,6 +97,7 @@ import axios from 'axios';
 
 const commendations = ref(null); 
 
+const repeatableRewardTracks = ref(null);
 
 onMounted(async () => {
     getAllCommendations(); 
@@ -92,9 +118,56 @@ const getUserRewardTrackProgress = async () => {
 
         if (response){
             console.log('ACHIEVEMENT RESPONSE: ', response.data); 
+            repeatableRewardTracks.value = response.data.repeatableAchievements; 
         }
     } catch (error){
         console.log("Could not get user's dwc achievements: ", error); 
+    }
+}
+
+const commendationID = (id) => {
+    console.log('commendaiton id: ', id)
+    switch (id){
+        case 5278: // Blood Legion
+            return {
+                name: 'Glory to the Blood Legion',
+                backgroundColor: 'var(--color-blood-legion-commendation)'
+            }
+
+        case 5286: // Iron Legion
+            return {
+                name: 'Glory to the Iron Legion',
+                backgroundColor: 'var(--color-iron-legion-commendation)'
+            }
+
+        case 5334: // Flame Legion
+            return {
+                name: 'Glory to the Flame Legion',
+                backgroundColor: 'var(--color-flame-legion-commendation)'
+            }
+
+        case 5338: // Ash Legion
+            return {
+                name: 'Glory to the Ash Legion',
+                backgroundColor: 'var(--color-ash-legion-commendation)'
+            }
+
+        case 5356: // Frost Legion
+            return {
+                name: 'Death to the Corrupted',
+                backgroundColor: 'var(--color-frost-legion-commendation)'
+            }
+
+        case 5391: // Dominion 
+            return {
+                name: 'Death to the Dominion',
+                backgroundColor: 'var(--color-dominion-commendation)'
+            }
+
+        default: 
+            return {
+                backgroundColor: 'var(--color-up)'
+            }
     }
 }
 
@@ -133,3 +206,30 @@ const totalValue = (commendation) => {
     return value; 
 }
 </script>
+
+<style scoped>
+.reward-track-bar{
+    position: relative; 
+    width: 100%; 
+    height: 30px;
+    border: var(--border-general);
+}
+.reward-track-bar > span.progress-separator{
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background-color: var(--color-text-dark-fade);
+    left: 50%;
+    z-index: 3;
+}
+.progress-bar{
+    position: absolute;
+    width: 0px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    transition: var(--transition-all-03s-ease);
+}
+
+</style>

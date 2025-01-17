@@ -55,11 +55,11 @@ class AchievementController extends Controller
 
         $response = [];
 
+        $oneTimeAchievementIDs = array_column($commendationIDs, 'achievementID');
+        $repeatableAchievementIDs = array_column($commendationIDs, 'repeatableAchievementID');  
+
         if ($user){
             $this->updateUserAPIAchievements($user); 
-
-            $oneTimeAchievementIDs = array_column($commendationIDs, 'achievementID');
-            $repeatableAchievementIDs = array_column($commendationIDs, 'repeatableAchievementID'); 
 
             $userOneTimeAchievements = array_values(array_filter($user->achievements, function ($achievement) use ($oneTimeAchievementIDs){
                 return in_array($achievement['id'], $oneTimeAchievementIDs); 
@@ -69,7 +69,6 @@ class AchievementController extends Controller
                 return in_array($achievement['id'], $repeatableAchievementIDs); 
             }));
 
-            //dd('user one time achieves: ', $userOneTimeAchievements);
 
             $response = [
                 'oneTimeAchievements' => $userOneTimeAchievements,
