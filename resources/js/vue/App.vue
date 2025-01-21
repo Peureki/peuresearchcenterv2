@@ -1644,6 +1644,7 @@ img.map-guide{
     --color-blood-legion-commendation: #780306;
     --color-dominion-commendation: #007c94;
     --color-frost-legion-commendation: #0f74a2;
+    --color-progress-separator: linear-gradient(180deg, rgba(176,176,176,0.7063200280112045) 0%, rgba(68,68,68,0) 100%);
 
     --font-weight-h1: 700;
     --font-weight-h2: 500;

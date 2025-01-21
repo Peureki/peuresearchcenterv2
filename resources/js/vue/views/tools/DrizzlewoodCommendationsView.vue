@@ -9,6 +9,11 @@
 
     <section class="main">
         <div class="content-section">
+            <!--
+                *
+                * COMMENDATION VALUE TABLE
+                *
+            -->
             <div v-if="commendations" class="overflow-x">
                 <table class="exchange-container">
                     <thead>
@@ -33,7 +38,7 @@
                                 <span class="gold-label-container">
                                     <span 
                                         class="gold-label"
-                                        v-for="gold in formatValue(totalValue(commendation))"
+                                        v-for="gold in formatValue(totalRewardTrackValue(commendation))"
                                     >
                                         <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
                                     </span>
@@ -43,7 +48,7 @@
                                 <span class="gold-label-container">
                                     <span 
                                         class="gold-label"
-                                        v-for="gold in formatValue(totalValue(commendation)/5000)"
+                                        v-for="gold in formatValue(totalRewardTrackValue(commendation)/5000)"
                                     >
                                         <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
                                     </span>
@@ -55,26 +60,84 @@
             </div> 
 
             <div v-if="repeatableRewardTracks" v-for="(achievement, index) in repeatableRewardTracks" :key="index" class="reward-track-container">
-                <p class="title">{{ commendationID(achievement.id).name }}</p>
-                <div class="reward-track-bar">
-                    <!-- Create 20 lines for 20 rewards, except the last line -->
-                    <span 
-                        v-for="n in 20" 
-                        class="progress-separator"
-                        :style="{
-                            left: `${n * 5}%`,
-                            display: n === 20 ? 'none' : 'block'
+
+                <div class="reward-track-header">
+                    <!-- ACHIEVEMENT NAME -->
+                    <p class="title">{{ commendationID(achievement.id).name }}</p>
+                    
+                    <!-- TOTAL REWARD TRACK VALUE -->
+                    <span class="gold-label-container">
+                        <span 
+                            class="gold-label"
+                            v-for="gold in formatValue(totalRewardTrackValue(sortedCommendations[index]))"
+                        >
+                            <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
+                        </span>
+                    </span>
+                </div>
+                
+
+                <div class="reward-track-bar-container">
+                    <!--
+                        *
+                        * REWARD TRACK BAR
+                        *
+                    -->
+                    <div class="reward-track-bar">
+                        <!-- CURRENT REWARD TRACK PROGRESS -->
+                        <div class="reward-track-progress-container">
+                            <p class="reward-track-percentage small-subtitle">{{ getProgressionPercentage(achievement.current, achievement.max) }}</p>
+
+                            <p class="small-subtitle">{{ getProgressionAmount(achievement) }}</p>          
+                        </div>
+                        
+                        
+                        <!-- Create 20 lines for 20 rewards, except the last line -->
+                        <span 
+                            v-for="n in 20" 
+                            class="progress-separator"
+                            :style="{
+                                left: `${n * 5}%`,
+                                display: n === 20 ? 'none' : 'block'
+                                }"
+                        >
+                        </span>
+                        <!--
+                            *
+                            * PROGRESS BAR
+                            *
+                        -->
+                        <span 
+                            class="progress-bar" 
+                            :style="{
+                                width: `${(achievement.current/achievement.max) * 100}%`,
+                                backgroundColor: commendationID(achievement.id).backgroundColor
                             }"
                         >
-                    </span>
-                    <span 
-                        class="progress-bar" 
-                        :style="{
-                            width: `${(achievement.current/achievement.max) * 100}%`,
-                            backgroundColor: commendationID(achievement.id).backgroundColor
-                        }"
-                    >
-                    </span>
+                        </span>
+                        <!--
+                            *
+                            * REWARDS
+                            *
+                        -->
+                        <span 
+                            v-for="(n, subIndex) in 20" 
+                            class="reward"
+                            :style="{
+                                left: `${n * 5}%`
+                                }"
+                        >
+                            <img class="icon" :src="getRewardTrackItem(commendations[index][subIndex]).icon" :alt="getRewardTrackItem(commendations[index][subIndex]).name" :title="getRewardTrackItem(commendations[index][subIndex]).name">
+                        </span>
+                    </div>
+                    <!--
+                        *
+                        * FINAL REWARDS
+                        *
+                    -->
+                    <div class="final-reward">
+                        <img class="card-main-icon" :src="getRewardTrackItem(commendations[index][19]).icon">
+                    </div>
                 </div>
             </div>
 
@@ -92,10 +155,13 @@ import Currency from '@/imgs/icons/Ash_Legion_Commendation.png'
 import { onMounted, ref } from 'vue';
 import { getAuthUser } from '@/js/vue/composables/Authentication';
 import { user, includes, buyOrder, sellOrder, tax } from '@/js/vue/composables/Global';
-import { formatValue } from '@/js/vue/composables/FormatFunctions.js'
+import { formatValue, formatPercentage } from '@/js/vue/composables/FormatFunctions.js'
 import axios from 'axios';
 
-const commendations = ref(null); 
+import Choya from '@/imgs/icons/Choya_Mining_Tool.png'
+
+const commendations = ref(null),
+    sortedCommendations = ref(null); 
 
 const repeatableRewardTracks = ref(null);
 
@@ -119,14 +185,34 @@ const getUserRewardTrackProgress = async () => {
         if (response){
             console.log('ACHIEVEMENT RESPONSE: ', response.data); 
             repeatableRewardTracks.value = response.data.repeatableAchievements; 
+
+            // SORT by reward tracks that have the most progress
+            repeatableRewardTracks.value.sort((a, b) => {
+                return (b.current - b.max) - (a.current - a.max); 
+            })
+
+            // SORT commendation.value into sortedCommendations.value by the indexes of their respective reward tracks
+            const trackIDs = repeatableRewardTracks.value.map(track => track.id); 
+            sortedCommendations.value = trackIDs.map(trackID => {
+                return commendations.value.find(commendation => commendation.repeatableAchievementID == trackID)
+            });
+            // console.log('track ids: ', trackIDs);
+            // console.log('commendations map: ', sortedCommendations.value, commendations.value); 
         }
     } catch (error){
         console.log("Could not get user's dwc achievements: ", error); 
     }
 }
 
+
+
+
+// *
+// * BASE ON COMMENDATION ID: 
+// * - Change name
+// * - Change background color
+// * 
 const commendationID = (id) => {
-    console.log('commendaiton id: ', id)
     switch (id){
         case 5278: // Blood Legion
             return {
@@ -188,13 +274,34 @@ const getAllCommendations = async () => {
     }
 }
 
+const getRewardTrackItem = (reward) => {
+    if (!reward.hasOwnProperty('0')){
+        return {
+            icon: reward.icon,
+            name: reward.name
+        } 
+    } else {
+        return {
+            icon: reward[0].bag_icon,
+            name: reward[0].bag_name,
+        } 
+    }
+}
+
+const getProgressionPercentage = (min, max) => {
+    return formatPercentage(min/max); 
+}
+
+const getProgressionAmount = (achievement) => {
+    return `${achievement.current} / ${achievement.max}`
+}
+
 // * 
 // * GET TOTAL VALUE OF REWARD TRACK
 // * 
-const totalValue = (commendation) => {
+const totalRewardTrackValue = (commendation) => {
     // Object.keys since commendations are Objects with both numerial properties and named properties
-    let value = 0,
-        subValue = 0; 
+    let value = 0;
     Object.keys(commendation).forEach(key => {
         // Check on numerical keys 
         // If yes => continously add into value
@@ -208,19 +315,48 @@ const totalValue = (commendation) => {
 </script>
 
 <style scoped>
+.reward-track-container{
+    padding-bottom: calc(var(--gap-content));
+}
+.reward-track-bar-container{
+    display: flex;
+    align-items: center;
+    gap: var(--gap-content);
+}
+.reward-track-header{
+    display: flex;
+    justify-content: space-between;
+}
 .reward-track-bar{
     position: relative; 
     width: 100%; 
     height: 30px;
     border: var(--border-general);
+    border-radius: var(--border-radius-card);
 }
 .reward-track-bar > span.progress-separator{
     position: absolute;
     width: 2px;
     height: 100%;
-    background-color: var(--color-text-dark-fade);
-    left: 50%;
+    background: var(--color-progress-separator);
+    bottom: -50%;
     z-index: 3;
+}
+.reward-track-progress-container{
+    position: absolute;
+    display: flex;
+    gap: var(--gap-content);
+    top: 50%;
+    right: 0;
+    transform: translate(-10%, -50%);
+    z-index: 5;
+}
+
+.reward{
+    position: absolute;
+    bottom: -125%;
+    z-index: 4;
+    transform: translateX(-50%);
 }
 .progress-bar{
     position: absolute;
@@ -230,6 +366,7 @@ const totalValue = (commendation) => {
     left: 0;
     z-index: 2;
     transition: var(--transition-all-03s-ease);
+    border-radius: var(--border-radius-card);
 }
 
 </style>

@@ -38,38 +38,57 @@ class CurrencyController extends Controller
             [
                 'id' => 93525, // Ash Legion 
                 'achievementID' => 5327,
+                'repeatableAchievementID' => 5338,
             ],
             [
                 'id' => 93625, // Blood Legion
                 'achievementID' => 5312,
+                'repeatableAchievementID' => 5278,
             ],
             [
                 'id' => 93496, // Flame Legion
                 'achievementID' => 5319,
+                'repeatableAchievementID' => 5334,
             ],
             [
                 'id' => 93624, // Iron Legion
                 'achievementID' => 5298,
+                'repeatableAchievementID' => 5286,
             ],
             [
                 'id' => 93868, // Dominion
                 'achievementID' => 5403,
+                'repeatableAchievementID' => 5391,
             ],
             [
                 'id' => 93899, // Frost Legion
                 'achievementID' => 5364,
+                'repeatableAchievementID' => 5356,
             ],
         ];
 
         $onlyCommendationIDList = array_column($commendationIDs, 'id');
-        $commendationDB = Items::whereIn('id', $onlyCommendationIDList)->get(); 
+        $commendationDB = Items::whereIn('id', $onlyCommendationIDList)->get();
 
         $response = []; 
+
+        // Set maps for achievement IDs to input them into the $commendationDB collection
+        $idToAchievementMap = array_column($commendationIDs, 'achievementID', 'id');
+        $idToRepeatableAchievementMap = array_column($commendationIDs, 'repeatableAchievementID', 'id'); 
         
         // Treat commendations as if it was a bag since it has a collection of items in the reward track
         $bagController = new BagController(); 
 
-        foreach ($commendationDB as $commendation){
+        foreach ($commendationDB as $index => $commendation){
+            // Input achievement_id & repeatable_achievement_id as property
+            if (isset($idToAchievementMap[$commendation->id])){
+                $commendation->achievement_id = $idToAchievementMap[$commendation->id];
+                $commendation->repeatable_achievement_id = $idToAchievementMap[$commendation->id];
+            }
+            if (isset($idToRepeatableAchievementMap[$commendation->id])){
+                $commendation->repeatable_achievement_id = $idToRepeatableAchievementMap[$commendation->id];
+            }
+
             $requestedBags = []; 
             $commendationName = $commendation->name; 
             // $response[] = $bagController->exchangeables($commendation, $includes, $sellOrderSetting, $tax)->original; 
@@ -119,6 +138,8 @@ class CurrencyController extends Controller
             }
 
             $responseCollection['id'] = $commendation->id;
+            $responseCollection['achievementID'] = $commendation->achievement_id; 
+            $responseCollection['repeatableAchievementID'] = $commendation->repeatable_achievement_id; 
             $responseCollection['name'] = $commendationName; 
             $responseCollection['icon'] = $commendation->icon; 
 
