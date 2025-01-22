@@ -1742,6 +1742,8 @@ img.map-guide{
     --img-header: clamp(1.5rem, 2vw, 3rem);
     --img-glyph: clamp(2rem, 2vw, 3rem);
     --img-icon-size: clamp(1.2rem, 3vw, 2.5rem);
+    --img-width: clamp(1.25rem, 2vw, 2rem);
+    --img-height: var(--img-width);
 
     --svg-expand: clamp(0.8rem, 0.9vw, 1.5rem);
     --svg-icon-size: clamp(1.2rem, 1.5vw, 1.30rem);

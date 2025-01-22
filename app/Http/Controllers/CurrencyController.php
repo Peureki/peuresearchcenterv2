@@ -25,7 +25,6 @@ class CurrencyController extends Controller
     // * RETURN array of the commendations
     // *
     public function getAllCommendationValues($includes, $sellOrderSetting, $tax){
-
         // Make it a workable arrays
         // New accounts that haven't set any settings may still have "null"
         if ($includes == "null"){
@@ -33,6 +32,8 @@ class CurrencyController extends Controller
         } else {
             $includes = json_decode($includes);
         }
+
+        
 
         $commendationIDs = [
             [
@@ -97,6 +98,7 @@ class CurrencyController extends Controller
             if (isset($this->exchangeableMap[$commendationName])){
                 $data = $this->exchangeableMap[$commendationName]; 
                 $requestedBags = array_merge($requestedBags, $data['id']);
+                $outputQty = $data['outputQty'];
             }
 
 
@@ -114,27 +116,31 @@ class CurrencyController extends Controller
                 return $bagsDB->firstWhere('id', $id) ?: $choiceDB->firstWhere('id', $id);
             });
 
+            //dd($responseCollection, $outputQty);
+
             // For any empty or 'null' indexes in $responseCollection means they were not found in Bags:: or ChoiceChest:: so they must be an individual Item::
             // Fill those indexes 
             foreach ($responseCollection as $index => &$item){
                 if (!$item){
                     $responseCollection[$index] = Items::where('id', $requestedBags[$index])->get()->first(); 
-                    $responseCollection[$index]['value'] = $responseCollection[$index][$sellOrderSetting] ?? 0; 
+                    $responseCollection[$index]['value'] = $responseCollection[$index][$sellOrderSetting] * $outputQty[$index] ?? 0; 
                 } 
                 else {
                     switch ($item->getTable()){
                         case 'bags':    
                             //dd($item);                 
-                            $responseCollection[$index] = $bagController->getBagCollection($item->id, $includes, $sellOrderSetting, $tax); 
+                            $responseCollection[$index] = $bagController->getBagCollection($item->id, $outputQty[$index], $includes, $sellOrderSetting, $tax); 
 
                             //dd($responseCollection[$index], $item);
                             break;
 
                         case 'choice_chests':
-                            $responseCollection[$index] = $bagController->getChoiceChestCollection($item->id, $includes, $sellOrderSetting, $tax); 
+                            $responseCollection[$index] = $bagController->getChoiceChestCollection($item->id, $outputQty[$index], $includes, $sellOrderSetting, $tax); 
                             break;
                     }
                 }
+
+                $responseCollection[$index]['quantity'] = $outputQty[$index]; 
             }
 
             $responseCollection['id'] = $commendation->id;

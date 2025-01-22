@@ -674,7 +674,7 @@ class Controller extends BaseController
             'outputQty' => array_merge(
                 array_fill(0, 9, 1), 
                 [2],
-                array_fill(11, 7, 1),
+                array_fill(11, 8, 1),
                 [3,
                 1],   
             )
@@ -708,7 +708,7 @@ class Controller extends BaseController
             'outputQty' => array_merge(
                 array_fill(0, 9, 1), 
                 [2],
-                array_fill(11, 7, 1),
+                array_fill(11, 8, 1),
                 [3,
                 1],   
             )
@@ -742,7 +742,7 @@ class Controller extends BaseController
             'outputQty' => array_merge(
                 array_fill(0, 9, 1), 
                 [2],
-                array_fill(11, 7, 1),
+                array_fill(11, 8, 1),
                 [3,
                 1],   
             )
@@ -776,7 +776,7 @@ class Controller extends BaseController
             'outputQty' => array_merge(
                 array_fill(0, 9, 1), 
                 [2],
-                array_fill(11, 7, 1),
+                array_fill(11, 8, 1),
                 [3,
                 1],   
             )
@@ -810,7 +810,7 @@ class Controller extends BaseController
             'outputQty' => array_merge(
                 array_fill(0, 9, 1), 
                 [2],
-                array_fill(11, 7, 1),
+                array_fill(11, 8, 1),
                 [3,
                 1],   
             )
@@ -844,7 +844,7 @@ class Controller extends BaseController
             'outputQty' => array_merge(
                 array_fill(0, 9, 1), 
                 [2],
-                array_fill(11, 7, 1),
+                array_fill(11, 8, 1),
                 [3,
                 1],   
             )

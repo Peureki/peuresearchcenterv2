@@ -86,7 +86,7 @@ class BagController extends Controller
     // * 
     // * @param $requestIDs <array>: IDs to be queued and get the values of each bag
     // * 
-    public function getBagCollection($requestID, $includes, $sellOrderSetting, $tax){
+    public function getBagCollection($requestID, $quantity, $includes, $sellOrderSetting, $tax){
         $bagDB = BagDropRate::join('bags', 'bag_drop_rates.bag_id', '=', 'bags.id')
             ->leftjoin('items as item', 'bag_drop_rates.item_id', '=', 'item.id')
             ->leftjoin('items as bag_item', 'bags.id', '=', 'bag_item.id')
@@ -111,10 +111,12 @@ class BagController extends Controller
         $value = 0;
 
         foreach ($bagDB as $item){
-            $value += $this->getItemValue($item, $includes, $sellOrderSetting, $tax); 
+            $itemValue = $this->getItemValue($item, $includes, $sellOrderSetting, $tax); 
+            $item->value = $itemValue; 
+            $value += $itemValue; 
         }
         // Append as array property so that it will show up in the json response in the frontend
-        $bagDB['value'] = $value; 
+        $bagDB['value'] = $value * $quantity; 
 
         //dd('bagDB: ', $bagDB); 
 
@@ -126,7 +128,7 @@ class BagController extends Controller
     // * 
     // * @param $requestIDs <array>: IDs to be queued and get the values of each bag
     // * 
-    public function getChoiceChestCollection($requestID, $includes, $sellOrderSetting, $tax){
+    public function getChoiceChestCollection($requestID, $quantity, $includes, $sellOrderSetting, $tax){
         $choiceChestDB = ChoiceChestOption::join('choice_chests', 'choice_chest_options.choice_chest_id', '=', 'choice_chests.id')
         ->leftjoin('items as item', 'choice_chests.id', '=', 'item.id')
         ->where('choice_chests.id', $requestID)
@@ -137,19 +139,30 @@ class BagController extends Controller
             'item.name as bag_name',
             'item.icon as bag_icon',
             'item.rarity as bag_rarity',
-            'choice_chest_options.quantity as drop_rate'
+            'choice_chest_options.quantity as drop_rate',
+            'bag_item.name as item_name'
         )
         ->get();
 
-        $value = 0;
+        $bestValue = 0;
 
         //dd('choice chest db: ', $choiceChestDB);
 
-        foreach ($choiceChestDB as $item){
-            $value += $this->getItemValue($item, $includes, $sellOrderSetting, $tax); 
+        foreach ($choiceChestDB as &$item){
+            //dd($item);
+            $itemValue = $this->getItemValue($item, $includes, $sellOrderSetting, $tax); 
+            $item->value = $itemValue; 
+
+            // if ($item->name == 'Dragonite Ore'){
+            //     dd($item, $itemValue, $includes);
+            // }
+
+            if ($bestValue < $itemValue){
+                $bestValue = $itemValue;
+            }
         }
         // Append as array property so that it will show up in the json response in the frontend
-        $choiceChestDB['value'] = $value; 
+        $choiceChestDB['value'] = $bestValue * $quantity; 
 
         return $choiceChestDB; 
     }
