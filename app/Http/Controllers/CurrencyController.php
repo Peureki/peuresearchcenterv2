@@ -120,7 +120,12 @@ class CurrencyController extends Controller
 
             // For any empty or 'null' indexes in $responseCollection means they were not found in Bags:: or ChoiceChest:: so they must be an individual Item::
             // Fill those indexes 
+
+            // Initialize commendation value
+            $totalRewardTrackValue = 0;
+
             foreach ($responseCollection as $index => &$item){
+
                 if (!$item){
                     $responseCollection[$index] = Items::where('id', $requestedBags[$index])->get()->first(); 
                     $responseCollection[$index]['value'] = $responseCollection[$index][$sellOrderSetting] * $outputQty[$index] ?? 0; 
@@ -141,6 +146,7 @@ class CurrencyController extends Controller
                 }
 
                 $responseCollection[$index]['quantity'] = $outputQty[$index]; 
+                $totalRewardTrackValue += $responseCollection[$index]['value']; 
             }
 
             $responseCollection['id'] = $commendation->id;
@@ -148,6 +154,8 @@ class CurrencyController extends Controller
             $responseCollection['repeatableAchievementID'] = $commendation->repeatable_achievement_id; 
             $responseCollection['name'] = $commendationName; 
             $responseCollection['icon'] = $commendation->icon; 
+            $responseCollection['trackValue'] = $totalRewardTrackValue; 
+            $responseCollection['value'] = $totalRewardTrackValue/5000;
 
             $response[] = $responseCollection; 
             //dd('requested bags: ', $requestedBags, 'bagsDB: ', $bagsDB, 'choiceDB: ', $choiceDB, 'commendationDB: ', $responseCollection);
