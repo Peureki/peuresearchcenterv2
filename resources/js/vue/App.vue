@@ -135,10 +135,24 @@ ul > li:not(:last-child){
 }
 table {
     width: fit-content;
-}
-table, th, td{
-    border: var(--border-general);
     border-collapse: collapse;
+}
+th, td{
+    border-collapse: collapse;
+}
+th{
+    border-bottom: var(--border-bottom);
+}
+td:not(:first-child):not(:last-child){
+    border: var(--border-general);
+}
+td:first-child{
+    border-top: var(--border-general);
+    border-right: var(--border-general);
+}
+td:last-child{
+    border-top: var(--border-general);
+    border-left: var(--border-general);
 }
 button {
     color: var(--color-opposite-text);
@@ -355,6 +369,14 @@ table td img{
     aspect-ratio: 1 / 1;
     margin-left: 2px;
 }
+.table-container{
+    overflow-x: auto; 
+    border: var(--border-general);
+    border-radius: var(--border-radius-card);
+    height: fit-content;
+    width: fit-content;
+}
+
 .exchange-container{
     height: fit-content;
 }
@@ -367,6 +389,11 @@ table td img{
 }
 .list-general li{
     padding: var(--padding-li-general);
+}
+@media (max-width: 768px){
+    .table-container{
+        width: calc(100vw - (var(--padding-general) * 2));
+    }
 }
 
 /* 
@@ -719,9 +746,14 @@ span.label-and-subtitle{
 /* 
  * For pages that have the main content on the left and then legend of the right 
  */
-.content-and-legend{
+/* .content-and-legend{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+    gap: var(--gap-content);
+} */
+.content-and-legend{
+    display: flex;
+    flex-wrap: wrap;
     gap: var(--gap-content);
 }
 .flex{
@@ -1450,6 +1482,11 @@ img.map-guide{
     display: flex;
     flex-direction: column;
     gap: var(--gap-general);
+}
+.flex-column-content{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-content);
 }
 .flex-row{
     display: flex;

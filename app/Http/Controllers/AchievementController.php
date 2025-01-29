@@ -21,6 +21,9 @@ class AchievementController extends Controller
         $user = auth()->user(); 
 
         $commendationIDs = [
+            // *
+            // * REPEATABLE ACHIEVEMENTS
+            // *
             [
                 'id' => 93525, // Ash Legion 
                 'achievementID' => 5327,

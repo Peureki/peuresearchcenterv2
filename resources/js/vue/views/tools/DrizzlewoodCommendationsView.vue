@@ -26,61 +26,72 @@
     <section class="main">
         <div class="content-section">
             <div v-if="commendations" class="content-and-legend">
-                <!--
-                    *
-                    * COMMENDATION VALUE TABLE
-                    *
-                -->
-                <div class="overflow-x">
-                    <table class="exchange-container">
-                        <thead>
-                            <tr>
-                                <th class="table-header" colspan="100%"><h3>Reward Tracks</h3></th>
-                            </tr>
-                            <tr>
-                                <th><h4>Name</h4></th>
-                                <th><h4>Total Value</h4></th>
-                                <th><h4>/Commendation</h4></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(commendation, index) in commendations" :key="index">
-                                <td>
-                                    <div class="img-and-label">
-                                        <img :src="commendation.icon" :alt="commendation.name" :title="commendation.name">
-                                        <p>{{ commendation.name }}</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="gold-label-container">
-                                        <span 
-                                            class="gold-label"
-                                            v-for="gold in formatValue(commendation.trackValue)"
-                                        >
-                                            <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
+                <div class="flex-column-content">
+                    <!--
+                        *
+                        * COMMENDATION VALUE TABLE
+                        *
+                    -->
+                    <div class="table-container">
+                        <table class="exchange-container">
+                            <thead>
+                                <tr>
+                                    <th class="table-header" colspan="100%"><h3>Reward Tracks</h3></th>
+                                </tr>
+                                <tr>
+                                    <th><h4>Name</h4></th>
+                                    <th><h4>Total Value</h4></th>
+                                    <th><h4>/Commendation</h4></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(commendation, index) in commendations" :key="index">
+                                    <td>
+                                        <div class="img-and-label">
+                                            <img :src="commendation.icon" :alt="commendation.name" :title="commendation.name">
+                                            <p>{{ commendation.name }}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="gold-label-container">
+                                            <span 
+                                                class="gold-label"
+                                                v-for="gold in formatValue(commendation.trackValue)"
+                                            >
+                                                <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
+                                            </span>
                                         </span>
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="gold-label-container">
-                                        <span 
-                                            class="gold-label"
-                                            v-for="gold in formatValue(commendation.value)"
-                                        >
-                                            <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
+                                    </td>
+                                    <td>
+                                        <span class="gold-label-container">
+                                            <span 
+                                                class="gold-label"
+                                                v-for="gold in formatValue(commendation.value)"
+                                            >
+                                                <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
+                                            </span>
                                         </span>
-                                    </span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 
+                        *
+                        * API KEY SUBMISSION FORM 
+                        * 
+                    -->
+                    <APIKeyForm v-if="user" :user="user"/>
+                    
                 </div>
+                
                 <!--
                     *
                     * DAILY MATERIAL DONATIONS TABLE
                     *
                 -->
-                <div class="overflow-x">
+                <div class="table-container">
                     <table class="exchange-container">
                         <thead>
                             <tr>
@@ -108,7 +119,16 @@
                                         <p>{{ material.exchange_rate }} {{ material.exchange_name }}</p>
                                     </div>
                                 </td>
-                                <td>{{ materialDonationValue(material) }}</td>
+                                <td :style="{borderRight: `2px solid ${positiveOrNegative(materialDonationValue(material))}`}">
+                                    <span class="gold-label-container">
+                                        <span 
+                                            class="gold-label"
+                                            v-for="gold in formatValue(materialDonationValue(material))"
+                                        >
+                                            <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
+                                        </span>
+                                    </span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -150,16 +170,6 @@
                             </span>
                         </span>
                     </div>
-                    
-                </div>
-
-                <div class="next-reward-container">
-                    <!-- <p>Next reward: </p> -->
-
-                    <!-- <img class="card-main-icon" :src="nextReward(achievement, sortedCommendations[index]).icon" :alt="nextReward(achievement, sortedCommendations[index]).name" :title="nextReward(achievement, sortedCommendations[index]).name"> -->
-
-                    <!-- <p>{{ nextReward(achievement, sortedCommendations[index]).name }}</p> -->
-                    
                 </div>
                 
 
@@ -351,6 +361,8 @@
         </div>
     </section>
 
+    <Footer/>
+
     <Loading v-if="!commendations || !repeatableRewardTracks" :width="200" :height="200"/>
 </template>
 
@@ -362,11 +374,13 @@ import Loading from '@/js/vue/components/general/Loading.vue'
 import { onMounted, ref } from 'vue';
 import { getAuthUser } from '@/js/vue/composables/Authentication';
 import { user, includes, buyOrder, sellOrder, tax } from '@/js/vue/composables/Global';
-import { formatValue, formatPercentage, formatToDecimal } from '@/js/vue/composables/FormatFunctions.js'
-import { wiki, activeArrow } from '@/js/vue/composables/BasicFunctions'
+import { formatValue, formatPercentage, formatToDecimal, positiveOrNegative } from '@/js/vue/composables/FormatFunctions.js'
+import { wiki, activeArrow, getItemBuyOrder, getItemSellOrder } from '@/js/vue/composables/BasicFunctions'
 import axios from 'axios';
 
 import dailyMaterialDonations from '@/js/vue/components/json/dailyMaterialDonations.json'
+import APIKeyForm from '@/js/vue/components/general/APIKeyForm.vue';
+import Footer from '@/js/vue/components/general/Footer.vue'
 
 const commendations = ref(null),
     // Sorted by closest reward track to be completed
@@ -377,7 +391,7 @@ const repeatableRewardTracks = ref(null);
 const expand = ref(null),
     detailExpand = ref(null);
 
-const quartermasterMaterialIDs = [
+const quartermasterExchangeableIDs = [
     19700, // Mithril
     19729, // Thick Leather Section
     19748, // Silk Scrap
@@ -386,13 +400,16 @@ const quartermasterMaterialIDs = [
     19701, // Orichalcum Ore
     19745, // Gossamer Scrap
 ]
+const quartermasterExchangeableData = ref(null); 
 
 console.log('daily donations: ', dailyMaterialDonations);
 
 onMounted(async () => {
-    await getAuthUser(); 
-    getAllCommendations(); 
     getQuartermasterMaterials();
+
+    await getAuthUser(); 
+
+    getAllCommendations(); 
 
     if (user.value){
         console.log('USER FOUND: ', user.value);
@@ -410,6 +427,7 @@ const getAllCommendations = async () => {
         const responseData = await response.json(); 
 
         commendations.value = responseData; 
+        commendations.value.sort((a, b) => b.value - a.value); 
 
         console.log('COMMENDATION REPONSE: ', responseData); 
 
@@ -422,9 +440,10 @@ const getAllCommendations = async () => {
 // * 
 const getQuartermasterMaterials = async () => {
     try {
-        const response = await axios.get(`../api/items/${JSON.stringify(quartermasterMaterialIDs)}`);
+        const response = await axios.get(`../api/items/${JSON.stringify(quartermasterExchangeableIDs)}`);
 
         if (response){
+            quartermasterExchangeableData.value = response.data; 
             console.log('quartermaster material response: ', response); 
         }
 
@@ -475,7 +494,15 @@ const getUserRewardTrackProgress = async () => {
 // * RETURN MATERIAL DONATION VALUE
 // *
 const materialDonationValue = (material) => {
-    console.log('charr commendation value: ', getCharrCommendationValue());
+    const exchangeable = quartermasterExchangeableData.value.find(mat => mat.id == material.exchange_id);
+    switch (material.name){
+        case 'Charr Commendation':
+            return (material.quantity * getCharrCommendationValue()) - (material.exchange_rate * getItemSellOrder(exchangeable));
+
+        default:
+            const commendation = commendations.value.find(commendation => commendation.id === material.id); 
+            return (material.quantity * commendation.value) - (material.exchange_rate * getItemSellOrder(exchangeable))
+    }
 }
 
 const getCharrCommendationValue = () => {
