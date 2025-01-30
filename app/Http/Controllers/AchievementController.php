@@ -56,13 +56,51 @@ class AchievementController extends Controller
             ],
         ];
 
+        
+
         $response = [];
 
         $oneTimeAchievementIDs = array_column($commendationIDs, 'achievementID');
         $repeatableAchievementIDs = array_column($commendationIDs, 'repeatableAchievementID');  
 
+        $allAchievementIDs = array_merge($oneTimeAchievementIDs, $repeatableAchievementIDs); 
+
+        $allAchievementDB = Achievement::whereIn('id', $allAchievementIDs)->get(); 
+        // Extract a list of IDs that are prerequisites to other fisher achievements
+        // ie. Repeatable Glory to the Ash from Glory to the Ash
+        $prerequisiteAchievements = $allAchievementDB->flatMap(function ($achievement) {
+            // Check if the prerequisites property exists and is a non-empty array
+            return isset($achievement->prerequisites) && is_array($achievement->prerequisites)
+                ? $achievement->prerequisites
+                : [];
+        })->unique()->values(); 
+
+        // $dwcAchievementsDB = Achievement::whereIn('id', $dwcAchievements)->get(); 
+
         if ($user){
             $this->updateUserAPIAchievements($user); 
+
+            $userAchievements = array_values(array_filter($user->achievements, function($achievement) use ($allAchievementIDs){
+                // Make sure to only return matching user achievement IDS && if the achivement is not complete yet
+                // But, if the achievement is considered 'done', but can be repeated, show that
+                return in_array($achievement['id'], $allAchievementIDs) && (!($achievement['done'] && !array_key_exists('repeated', $achievement)));
+            }));
+
+            foreach ($allAchievementIDs as $achievementID){
+                if (!in_array($achievementID, array_column($user->achievements, 'id'))){
+
+                    if (!in_array($achievementID, $prerequisiteAchievements->toArray())){
+                        continue; 
+                    }
+
+                    $userAchievements[] = [
+                        'id' => $achievementID, 
+                        'current' => 0,
+                        'max' => 5000,
+                        'done' => false,
+                    ];
+                }
+            }
 
             $userOneTimeAchievements = array_values(array_filter($user->achievements, function ($achievement) use ($oneTimeAchievementIDs){
                 return in_array($achievement['id'], $oneTimeAchievementIDs); 
@@ -76,10 +114,10 @@ class AchievementController extends Controller
             $response = [
                 'oneTimeAchievements' => $userOneTimeAchievements,
                 'repeatableAchievements' => $repeatableAchievementIDs,
+                'userAchievements' => $userAchievements,
+                'pre' => $prerequisiteAchievements,
             ];
-        }
-
-        
+        } 
 
         return response()->json($response); 
     }
@@ -242,6 +280,7 @@ class AchievementController extends Controller
             // 3) Create an empty $user->achievement for that missing achievement
             foreach ($achievementIDs as $achievementID){
                 if (!in_array($achievementID, array_column($user->achievements, 'id'))){
+
                     $filteredAchievement = $fisherAchievementDB->filter(function ($achievement) use ($achievementID) {
                         return $achievement['id'] === $achievementID;
                     })->first();

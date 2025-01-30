@@ -786,6 +786,7 @@ span.blurb{
     display: flex;
     flex-direction: column;
     gap: var(--gap-content);
+    padding-block: var(--gap-content);
     padding-inline: var(--gap-general);
 }
 @media (max-width: 768px){

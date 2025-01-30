@@ -25,6 +25,13 @@
 
     <section class="main">
         <div class="content-section">
+            <!-- 
+                *
+                * API KEY SUBMISSION FORM 
+                * 
+            -->
+            <APIKeyForm v-if="user" :user="user"/>
+
             <div v-if="commendations" class="content-and-legend">
                 <div class="flex-column-content">
                     <!--
@@ -76,14 +83,6 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- 
-                        *
-                        * API KEY SUBMISSION FORM 
-                        * 
-                    -->
-                    <APIKeyForm v-if="user" :user="user"/>
-                    
                 </div>
                 
                 <!--
@@ -136,7 +135,7 @@
             </div>
              
 
-            <div v-if="repeatableRewardTracks" v-for="(achievement, index) in repeatableRewardTracks" :key="index" class="reward-track-container">
+            <div v-if="rewardTracks" v-for="(achievement, index) in rewardTracks" :key="index" class="reward-track-container">
                 <!--
                     *
                     * REWARD TRACK HEADER
@@ -363,7 +362,7 @@
 
     <Footer/>
 
-    <Loading v-if="!commendations || !repeatableRewardTracks" :width="200" :height="200"/>
+    <Loading v-if="!commendations || !rewardTracks" :width="200" :height="200"/>
 </template>
 
 <script setup>
@@ -386,7 +385,7 @@ const commendations = ref(null),
     // Sorted by closest reward track to be completed
     sortedCommendations = ref(null); 
 
-const repeatableRewardTracks = ref(null);
+const rewardTracks = ref(null);
 
 const expand = ref(null),
     detailExpand = ref(null);
@@ -460,17 +459,18 @@ const getUserRewardTrackProgress = async () => {
 
         if (response){
             console.log('ACHIEVEMENT RESPONSE: ', response.data); 
-            repeatableRewardTracks.value = response.data.repeatableAchievements; 
+            rewardTracks.value = response.data.userAchievements; 
 
             // SORT by reward tracks that have the most progress
-            repeatableRewardTracks.value.sort((a, b) => {
+            rewardTracks.value.sort((a, b) => {
                 return (b.current - b.max) - (a.current - a.max); 
             })
 
             // SORT commendation.value into sortedCommendations.value by the indexes of their respective reward tracks
-            const trackIDs = repeatableRewardTracks.value.map(track => track.id); 
+            const trackIDs = rewardTracks.value.map(track => track.id); 
             sortedCommendations.value = trackIDs.map(trackID => {
-                return commendations.value.find(commendation => commendation.repeatableAchievementID == trackID)
+                return commendations.value.find(commendation => 
+                    commendation.repeatableAchievementID == trackID || commendation.achievementID == trackID)
             });
             // console.log('track ids: ', trackIDs);
             // console.log('commendations map: ', sortedCommendations.value, commendations.value); 
@@ -478,7 +478,7 @@ const getUserRewardTrackProgress = async () => {
             // Intilize all expand icons to be false if (repeatableRewardTrack.value)
             // FOR MAIN ITEMS it would be expand[index][0]
             // FOR DETAILED ITEMS it would be expand[index][1][subIndex]
-            expand.value = repeatableRewardTracks.value.map(() => [
+            expand.value = rewardTracks.value.map(() => [
                 false, 
                 Array(20).fill(false),
             ]);
@@ -522,37 +522,44 @@ const getCharrCommendationValue = () => {
 // * 
 const commendationID = (id) => {
     switch (id){
-        case 5278: // Blood Legion
+        // Blood Legion
+        case 5312:
+        case 5278: 
             return {
                 name: 'Glory to the Blood Legion',
                 backgroundColor: 'var(--color-blood-legion-commendation)'
             }
-
-        case 5286: // Iron Legion
+        // Iron Legion
+        case 5298:
+        case 5286: 
             return {
                 name: 'Glory to the Iron Legion',
                 backgroundColor: 'var(--color-iron-legion-commendation)'
             }
-
-        case 5334: // Flame Legion
+        // Flame Legion
+        case 5312:
+        case 5334: 
             return {
                 name: 'Glory to the Flame Legion',
                 backgroundColor: 'var(--color-flame-legion-commendation)'
             }
-
-        case 5338: // Ash Legion
+        // Ash Legion
+        case 5327:
+        case 5338: 
             return {
                 name: 'Glory to the Ash Legion',
                 backgroundColor: 'var(--color-ash-legion-commendation)'
             }
-
-        case 5356: // Frost Legion
+        // Frost Legion
+        case 5364:
+        case 5356: 
             return {
                 name: 'Death to the Corrupted',
                 backgroundColor: 'var(--color-frost-legion-commendation)'
             }
-
-        case 5391: // Dominion 
+        // Dominion 
+        case 5403:
+        case 5391: 
             return {
                 name: 'Death to the Dominion',
                 backgroundColor: 'var(--color-dominion-commendation)'
