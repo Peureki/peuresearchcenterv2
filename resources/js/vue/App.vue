@@ -1456,6 +1456,8 @@ img.map-guide{
     gap: var(--gap-content);
 }
 .gap-general{
+    display: flex;
+    flex-direction: column;
     gap: var(--gap-general);
 }
 /* For SVG hearts */

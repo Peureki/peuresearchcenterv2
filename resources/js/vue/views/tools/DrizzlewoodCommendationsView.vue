@@ -151,224 +151,226 @@
             </div>
              
 
-            <div v-if="rewardTracks" v-for="(achievement, index) in rewardTracks" :key="index" class="reward-track-container">
-                <!--
-                    *
-                    * REWARD TRACK HEADER
-                    *
-                -->
-                <div class="reward-track-header">
-                    <div class="flex">
-                        <!-- ACHIEVEMENT NAME -->
-                        <p class="title">{{ commendationID(achievement.id).name }}</p>
+            <div class="gap-general">
+                <div v-if="rewardTracks" v-for="(achievement, index) in rewardTracks" :key="index" class="reward-track-container">
+                    <!--
+                        *
+                        * REWARD TRACK HEADER
+                        *
+                    -->
+                    <div class="reward-track-header">
+                        <div class="flex">
+                            <!-- ACHIEVEMENT NAME -->
+                            <p class="title">{{ commendationID(achievement.id).name }}</p>
 
-                        <svg 
-                            class="arrow"
-                            @click="expand[index][0] = !expand[index][0]"
-                            :class="activeArrow(expand[index][0])"
-                            width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFFFFF"/>
-                        </svg>
-                    </div>
-                    
-                    
-                    <!-- TOTAL REWARD TRACK VALUE -->
-                    <div class="flex">
-                        <p class="small-subtitle">Remaining: </p>
-                        <span class="gold-label-container">
-                            <span 
-                                class="gold-label"
-                                v-for="gold in formatValue(rewardTrackValueLeft(achievement, sortedRewardTracks[index]))"
+                            <svg 
+                                class="arrow"
+                                @click="expand[index][0] = !expand[index][0]"
+                                :class="activeArrow(expand[index][0])"
+                                width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
                             >
-                                <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
-                            </span>
-                        </span>
-                    </div>
-                </div>
-                
-
-                <div class="bar-container">
-                    <!--
-                        *
-                        * REWARD TRACK BAR
-                        *
-                    -->
-                    <div class="bar">
-                        <!-- CURRENT REWARD TRACK PROGRESS -->
-                        <div class="progress-container">
-                            <p class="reward-track-percentage small-subtitle">{{ getProgressionPercentage(achievement.current, achievement.max) }}</p>
-
-                            <p class="small-subtitle">{{ getProgressionAmount(achievement) }}</p>          
+                                <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFFFFF"/>
+                            </svg>
                         </div>
                         
                         
-                        <!-- Create 20 lines for 20 rewards, except the last line -->
-                        <span 
-                            v-for="n in 20" 
-                            class="progress-separator"
-                            :style="{
-                                left: `${n * 5}%`,
-                                display: n === 20 ? 'none' : 'block'
-                                }"
-                        >
-                        </span>
-                        <!--
-                            *
-                            * PROGRESS BAR
-                            *
-                        -->
-                        <span 
-                            class="progress-bar" 
-                            :style="{
-                                width: `${(achievement.current/achievement.max) * 100}%`,
-                                backgroundColor: commendationID(achievement.id).backgroundColor
-                            }"
-                        >
-                        </span>
-                        <!--
-                            *
-                            * REWARDS
-                            *
-                        -->
-                        <span 
-                            v-for="(n, subIndex) in 20" 
-                            class="reward"
-                            :style="{
-                                left: `${n * 5}%`
-                                }"
-                        >
-                            <img class="icon" :style="{opacity: opacityRewardsAchieved(achievement, subIndex)}" :src="getRewardTrackItem(sortedRewardTracks[index][subIndex]).icon" :alt="getRewardTrackItem(sortedRewardTracks[index][subIndex]).name" :title="getRewardTrackItem(sortedRewardTracks[index][subIndex]).name">
-                        </span>
-                    </div>
-                    <!--
-                        *
-                        * FINAL REWARDS
-                        *
-                    -->
-                    <div class="final-reward">
-                        <img class="card-main-icon" :src="getRewardTrackItem(sortedRewardTracks[index][19]).icon">
-                    </div>
-                </div>
-
-                <!--
-                    *
-                    * REWARD ITEM DETAILS
-                    *
-                -->
-                <div v-if="expand[index][0]" class="drop-details-main-container">
-                    <div v-for="(n, subIndex) in 20" class="drop-details-container" :style="{opacity: opacityRewardsAchieved(achievement, subIndex)}">
-                        <div class="drop-details">
-                            <!-- ICON, NAME -->
-                            <div class="desc-details">
-                                <img :src="getRewardTrackItem(sortedRewardTracks[index][subIndex]).icon" :alt="getRewardTrackItem(sortedRewardTracks[index][subIndex]).name" :title="getRewardTrackItem(sortedRewardTracks[index][subIndex]).name">
-                                <p>{{ getRewardTrackItem(sortedRewardTracks[index][subIndex]).name }}</p>
-
-                                <!-- TIER POSITION -->
-                                <p class="small-subtitle">Tier: {{ subIndex + 1 }}</p>
-                            </div>
-                            
-                            <div class="value-details">
-                                <!-- VALUE -->
-                                <span class="gold-label-container">
-                                    <span 
-                                        class="gold-label"
-                                        v-for="gold in formatValue(getRewardTrackItem(sortedRewardTracks[index][subIndex]).value)"
-                                    >
-                                        <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
-                                    </span>
+                        <!-- TOTAL REWARD TRACK VALUE -->
+                        <div class="flex">
+                            <p class="small-subtitle">Remaining: </p>
+                            <span class="gold-label-container">
+                                <span 
+                                    class="gold-label"
+                                    v-for="gold in formatValue(rewardTrackValueLeft(achievement, sortedRewardTracks[index]))"
+                                >
+                                    <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
                                 </span>
-
-                                <div class="details-ctas">
-                                    <!-- WIKI -->
-                                    <svg class="icon clickable" @click="wiki(getRewardTrackItem(sortedRewardTracks[index][subIndex]).name)" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M14 0C11.2311 0 8.52431 0.821086 6.22202 2.35943C3.91973 3.89777 2.12532 6.08427 1.06569 8.64243C0.00606596 11.2006 -0.271181 14.0155 0.269012 16.7313C0.809205 19.447 2.14258 21.9416 4.10051 23.8995C6.05845 25.8574 8.55301 27.1908 11.2687 27.731C13.9845 28.2712 16.7994 27.9939 19.3576 26.9343C21.9157 25.8747 24.1022 24.0803 25.6406 21.778C27.1789 19.4757 28 16.7689 28 14C28 10.287 26.525 6.72601 23.8995 4.1005C21.274 1.475 17.713 0 14 0ZM26 13H20C19.8833 9.31709 18.9291 5.70915 17.21 2.45C19.5786 3.0979 21.6914 4.45684 23.2632 6.34342C24.8351 8.23 25.7903 10.5534 26 13ZM14 26C13.7769 26.015 13.5531 26.015 13.33 26C11.2583 22.6962 10.1085 18.8981 10 15H18C17.9005 18.8953 16.7612 22.6932 14.7 26C14.467 26.0164 14.2331 26.0164 14 26ZM10 13C10.0995 9.10468 11.2388 5.30682 13.3 2C13.7453 1.94997 14.1947 1.94997 14.64 2C16.7223 5.3008 17.8825 9.09906 18 13H10ZM10.76 2.45C9.0513 5.71164 8.10746 9.31945 8.00001 13H2.00001C2.20971 10.5534 3.16495 8.23 4.7368 6.34342C6.30865 4.45684 8.42144 3.0979 10.79 2.45H10.76ZM2.05001 15H8.05001C8.15437 18.6798 9.09478 22.2875 10.8 25.55C8.43887 24.8951 6.33478 23.5332 4.77056 21.6472C3.20634 19.7612 2.25695 17.4415 2.05001 15ZM17.21 25.55C18.9291 22.2908 19.8833 18.6829 20 15H26C25.7903 17.4466 24.8351 19.77 23.2632 21.6566C21.6914 23.5432 19.5786 24.9021 17.21 25.55Z" fill="var(--color-link)"/>
-                                        <title>Wiki</title>
-                                    </svg>
-                                    <svg 
-                                        class="arrow"
-                                        @click="expand[index][1][subIndex] = !expand[index][1][subIndex]"
-                                        :class="activeArrow(expand[index][1][subIndex])"
-                                        width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFFFFF"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            
+                            </span>
                         </div>
+                    </div>
+                    
 
-                        <!-- 
+                    <div class="bar-container">
+                        <!--
                             *
-                            * SUBDROP DETAILS
+                            * REWARD TRACK BAR
                             *
                         -->
-                        <div v-if="expand[index][1][subIndex]" class="sub-drop-details">
-                            <div v-if="!sortedRewardTracks[index][subIndex].hasOwnProperty('0')" class="drop-details">
+                        <div class="bar">
+                            <!-- CURRENT REWARD TRACK PROGRESS -->
+                            <div class="progress-container">
+                                <p class="reward-track-percentage small-subtitle">{{ getProgressionPercentage(achievement.current, achievement.max) }}</p>
+
+                                <p class="small-subtitle">{{ getProgressionAmount(achievement) }}</p>          
+                            </div>
+                            
+                            
+                            <!-- Create 20 lines for 20 rewards, except the last line -->
+                            <span 
+                                v-for="n in 20" 
+                                class="progress-separator"
+                                :style="{
+                                    left: `${n * 5}%`,
+                                    display: n === 20 ? 'none' : 'block'
+                                    }"
+                            >
+                            </span>
+                            <!--
+                                *
+                                * PROGRESS BAR
+                                *
+                            -->
+                            <span 
+                                class="progress-bar" 
+                                :style="{
+                                    width: `${(achievement.current/achievement.max) * 100}%`,
+                                    backgroundColor: commendationID(achievement.id).backgroundColor
+                                }"
+                            >
+                            </span>
+                            <!--
+                                *
+                                * REWARDS
+                                *
+                            -->
+                            <span 
+                                v-for="(n, subIndex) in 20" 
+                                class="reward"
+                                :style="{
+                                    left: `${n * 5}%`
+                                    }"
+                            >
+                                <img class="icon" :style="{opacity: opacityRewardsAchieved(achievement, subIndex)}" :src="getRewardTrackItem(sortedRewardTracks[index][subIndex]).icon" :alt="getRewardTrackItem(sortedRewardTracks[index][subIndex]).name" :title="getRewardTrackItem(sortedRewardTracks[index][subIndex]).name">
+                            </span>
+                        </div>
+                        <!--
+                            *
+                            * FINAL REWARDS
+                            *
+                        -->
+                        <div class="final-reward">
+                            <img class="card-main-icon" :src="getRewardTrackItem(sortedRewardTracks[index][19]).icon">
+                        </div>
+                    </div>
+
+                    <!--
+                        *
+                        * REWARD ITEM DETAILS
+                        *
+                    -->
+                    <div v-if="expand[index][0]" class="drop-details-main-container">
+                        <div v-for="(n, subIndex) in 20" class="drop-details-container" :style="{opacity: opacityRewardsAchieved(achievement, subIndex)}">
+                            <div class="drop-details">
+                                <!-- ICON, NAME -->
                                 <div class="desc-details">
-                                    <!-- SUBDROP ICON -->
-                                    <img :src="sortedRewardTracks[index][subIndex].icon" :alt="sortedRewardTracks[index][subIndex].name" :title="sortedRewardTracks[index][subIndex].name">
-                                    <!-- SUBDROP NAME -->
-                                    <p>{{ sortedRewardTracks[index][subIndex].quantity }} {{ sortedRewardTracks[index][subIndex].name }}</p>
+                                    <img :src="getRewardTrackItem(sortedRewardTracks[index][subIndex]).icon" :alt="getRewardTrackItem(sortedRewardTracks[index][subIndex]).name" :title="getRewardTrackItem(sortedRewardTracks[index][subIndex]).name">
+                                    <p>{{ getRewardTrackItem(sortedRewardTracks[index][subIndex]).name }}</p>
+
+                                    <!-- TIER POSITION -->
+                                    <p class="small-subtitle">Tier: {{ subIndex + 1 }}</p>
                                 </div>
+                                
                                 <div class="value-details">
-                                    <!-- SUBDROP VALUE -->
+                                    <!-- VALUE -->
                                     <span class="gold-label-container">
                                         <span 
                                             class="gold-label"
-                                            v-for="gold in formatValue(sortedRewardTracks[index][subIndex].value)"
+                                            v-for="gold in formatValue(getRewardTrackItem(sortedRewardTracks[index][subIndex]).value)"
                                         >
                                             <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
                                         </span>
                                     </span>
+
+                                    <div class="details-ctas">
+                                        <!-- WIKI -->
+                                        <svg class="icon clickable" @click="wiki(getRewardTrackItem(sortedRewardTracks[index][subIndex]).name)" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M14 0C11.2311 0 8.52431 0.821086 6.22202 2.35943C3.91973 3.89777 2.12532 6.08427 1.06569 8.64243C0.00606596 11.2006 -0.271181 14.0155 0.269012 16.7313C0.809205 19.447 2.14258 21.9416 4.10051 23.8995C6.05845 25.8574 8.55301 27.1908 11.2687 27.731C13.9845 28.2712 16.7994 27.9939 19.3576 26.9343C21.9157 25.8747 24.1022 24.0803 25.6406 21.778C27.1789 19.4757 28 16.7689 28 14C28 10.287 26.525 6.72601 23.8995 4.1005C21.274 1.475 17.713 0 14 0ZM26 13H20C19.8833 9.31709 18.9291 5.70915 17.21 2.45C19.5786 3.0979 21.6914 4.45684 23.2632 6.34342C24.8351 8.23 25.7903 10.5534 26 13ZM14 26C13.7769 26.015 13.5531 26.015 13.33 26C11.2583 22.6962 10.1085 18.8981 10 15H18C17.9005 18.8953 16.7612 22.6932 14.7 26C14.467 26.0164 14.2331 26.0164 14 26ZM10 13C10.0995 9.10468 11.2388 5.30682 13.3 2C13.7453 1.94997 14.1947 1.94997 14.64 2C16.7223 5.3008 17.8825 9.09906 18 13H10ZM10.76 2.45C9.0513 5.71164 8.10746 9.31945 8.00001 13H2.00001C2.20971 10.5534 3.16495 8.23 4.7368 6.34342C6.30865 4.45684 8.42144 3.0979 10.79 2.45H10.76ZM2.05001 15H8.05001C8.15437 18.6798 9.09478 22.2875 10.8 25.55C8.43887 24.8951 6.33478 23.5332 4.77056 21.6472C3.20634 19.7612 2.25695 17.4415 2.05001 15ZM17.21 25.55C18.9291 22.2908 19.8833 18.6829 20 15H26C25.7903 17.4466 24.8351 19.77 23.2632 21.6566C21.6914 23.5432 19.5786 24.9021 17.21 25.55Z" fill="var(--color-link)"/>
+                                            <title>Wiki</title>
+                                        </svg>
+                                        <svg 
+                                            class="arrow"
+                                            @click="expand[index][1][subIndex] = !expand[index][1][subIndex]"
+                                            :class="activeArrow(expand[index][1][subIndex])"
+                                            width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFFFFF"/>
+                                        </svg>
+                                    </div>
                                 </div>
+                                
                             </div>
-                            
 
-                            <template v-else>
-                                <p v-if="sortedRewardTracks[index][subIndex][0].sample_size" class="small-subtitle">Sample size: {{ sortedRewardTracks[index][subIndex][0].sample_size }}</p>
-
-                                <div v-for="subDrop in onlyNumericalProperties(sortedRewardTracks[index][subIndex])" class="drop-details">
+                            <!-- 
+                                *
+                                * SUBDROP DETAILS
+                                *
+                            -->
+                            <div v-if="expand[index][1][subIndex]" class="sub-drop-details">
+                                <div v-if="!sortedRewardTracks[index][subIndex].hasOwnProperty('0')" class="drop-details">
                                     <div class="desc-details">
                                         <!-- SUBDROP ICON -->
-                                        <img :src="subDrop.icon" :alt="subDrop.name" :title="subDrop.name">
+                                        <img :src="sortedRewardTracks[index][subIndex].icon" :alt="sortedRewardTracks[index][subIndex].name" :title="sortedRewardTracks[index][subIndex].name">
                                         <!-- SUBDROP NAME -->
-                                        <p>{{ formatToDecimal(subDrop.drop_rate) }} {{ subDrop.name }}</p>
+                                        <p>{{ sortedRewardTracks[index][subIndex].quantity }} {{ sortedRewardTracks[index][subIndex].name }}</p>
                                     </div>
                                     <div class="value-details">
                                         <!-- SUBDROP VALUE -->
                                         <span class="gold-label-container">
                                             <span 
                                                 class="gold-label"
-                                                v-for="gold in formatValue(subDrop.value)"
+                                                v-for="gold in formatValue(sortedRewardTracks[index][subIndex].value)"
                                             >
                                                 <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
                                             </span>
                                         </span>
-
-                                        <!-- WIKI -->
-                                        <svg class="icon clickable" @click="wiki(subDrop.name)" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M14 0C11.2311 0 8.52431 0.821086 6.22202 2.35943C3.91973 3.89777 2.12532 6.08427 1.06569 8.64243C0.00606596 11.2006 -0.271181 14.0155 0.269012 16.7313C0.809205 19.447 2.14258 21.9416 4.10051 23.8995C6.05845 25.8574 8.55301 27.1908 11.2687 27.731C13.9845 28.2712 16.7994 27.9939 19.3576 26.9343C21.9157 25.8747 24.1022 24.0803 25.6406 21.778C27.1789 19.4757 28 16.7689 28 14C28 10.287 26.525 6.72601 23.8995 4.1005C21.274 1.475 17.713 0 14 0ZM26 13H20C19.8833 9.31709 18.9291 5.70915 17.21 2.45C19.5786 3.0979 21.6914 4.45684 23.2632 6.34342C24.8351 8.23 25.7903 10.5534 26 13ZM14 26C13.7769 26.015 13.5531 26.015 13.33 26C11.2583 22.6962 10.1085 18.8981 10 15H18C17.9005 18.8953 16.7612 22.6932 14.7 26C14.467 26.0164 14.2331 26.0164 14 26ZM10 13C10.0995 9.10468 11.2388 5.30682 13.3 2C13.7453 1.94997 14.1947 1.94997 14.64 2C16.7223 5.3008 17.8825 9.09906 18 13H10ZM10.76 2.45C9.0513 5.71164 8.10746 9.31945 8.00001 13H2.00001C2.20971 10.5534 3.16495 8.23 4.7368 6.34342C6.30865 4.45684 8.42144 3.0979 10.79 2.45H10.76ZM2.05001 15H8.05001C8.15437 18.6798 9.09478 22.2875 10.8 25.55C8.43887 24.8951 6.33478 23.5332 4.77056 21.6472C3.20634 19.7612 2.25695 17.4415 2.05001 15ZM17.21 25.55C18.9291 22.2908 19.8833 18.6829 20 15H26C25.7903 17.4466 24.8351 19.77 23.2632 21.6566C21.6914 23.5432 19.5786 24.9021 17.21 25.55Z" fill="var(--color-link)"/>
-                                            <title>Wiki</title>
-                                        </svg>
                                     </div>
                                 </div>
-                            </template>
-                            <!-- <div v-if="!subDrop.hasOwnProperty('0')">
-                                <p>{{ subDrop.name }}</p>
+                                
 
-                                <div class="desc-details">
-                                    <img :src="getSubReward(subDrop).icon" :alt="getSubReward(subDrop).name" :title="getSubReward(subDrop).name">
-                                    <p>{{ getSubReward(subDrop).name }}</p>
+                                <template v-else>
+                                    <p v-if="sortedRewardTracks[index][subIndex][0].sample_size" class="small-subtitle">Sample size: {{ sortedRewardTracks[index][subIndex][0].sample_size }}</p>
+
+                                    <div v-for="subDrop in onlyNumericalProperties(sortedRewardTracks[index][subIndex])" class="drop-details">
+                                        <div class="desc-details">
+                                            <!-- SUBDROP ICON -->
+                                            <img :src="subDrop.icon" :alt="subDrop.name" :title="subDrop.name">
+                                            <!-- SUBDROP NAME -->
+                                            <p>{{ formatToDecimal(subDrop.drop_rate) }} {{ subDrop.name }}</p>
+                                        </div>
+                                        <div class="value-details">
+                                            <!-- SUBDROP VALUE -->
+                                            <span class="gold-label-container">
+                                                <span 
+                                                    class="gold-label"
+                                                    v-for="gold in formatValue(subDrop.value)"
+                                                >
+                                                    <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
+                                                </span>
+                                            </span>
+
+                                            <!-- WIKI -->
+                                            <svg class="icon clickable" @click="wiki(subDrop.name)" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M14 0C11.2311 0 8.52431 0.821086 6.22202 2.35943C3.91973 3.89777 2.12532 6.08427 1.06569 8.64243C0.00606596 11.2006 -0.271181 14.0155 0.269012 16.7313C0.809205 19.447 2.14258 21.9416 4.10051 23.8995C6.05845 25.8574 8.55301 27.1908 11.2687 27.731C13.9845 28.2712 16.7994 27.9939 19.3576 26.9343C21.9157 25.8747 24.1022 24.0803 25.6406 21.778C27.1789 19.4757 28 16.7689 28 14C28 10.287 26.525 6.72601 23.8995 4.1005C21.274 1.475 17.713 0 14 0ZM26 13H20C19.8833 9.31709 18.9291 5.70915 17.21 2.45C19.5786 3.0979 21.6914 4.45684 23.2632 6.34342C24.8351 8.23 25.7903 10.5534 26 13ZM14 26C13.7769 26.015 13.5531 26.015 13.33 26C11.2583 22.6962 10.1085 18.8981 10 15H18C17.9005 18.8953 16.7612 22.6932 14.7 26C14.467 26.0164 14.2331 26.0164 14 26ZM10 13C10.0995 9.10468 11.2388 5.30682 13.3 2C13.7453 1.94997 14.1947 1.94997 14.64 2C16.7223 5.3008 17.8825 9.09906 18 13H10ZM10.76 2.45C9.0513 5.71164 8.10746 9.31945 8.00001 13H2.00001C2.20971 10.5534 3.16495 8.23 4.7368 6.34342C6.30865 4.45684 8.42144 3.0979 10.79 2.45H10.76ZM2.05001 15H8.05001C8.15437 18.6798 9.09478 22.2875 10.8 25.55C8.43887 24.8951 6.33478 23.5332 4.77056 21.6472C3.20634 19.7612 2.25695 17.4415 2.05001 15ZM17.21 25.55C18.9291 22.2908 19.8833 18.6829 20 15H26C25.7903 17.4466 24.8351 19.77 23.2632 21.6566C21.6914 23.5432 19.5786 24.9021 17.21 25.55Z" fill="var(--color-link)"/>
+                                                <title>Wiki</title>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </template>
+                                <!-- <div v-if="!subDrop.hasOwnProperty('0')">
+                                    <p>{{ subDrop.name }}</p>
+
+                                    <div class="desc-details">
+                                        <img :src="getSubReward(subDrop).icon" :alt="getSubReward(subDrop).name" :title="getSubReward(subDrop).name">
+                                        <p>{{ getSubReward(subDrop).name }}</p>
 
 
-                                    <p class="small-subtitle">Tier: {{ subIndex + 1 }}</p>
-                                </div>
-                            </div> -->
-                            <!-- ICON, NAME -->
+                                        <p class="small-subtitle">Tier: {{ subIndex + 1 }}</p>
+                                    </div>
+                                </div> -->
+                                <!-- ICON, NAME -->
+                                
+                            </div>
                             
                         </div>
-                        
                     </div>
                 </div>
             </div>
