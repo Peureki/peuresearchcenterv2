@@ -56,8 +56,6 @@ class AchievementController extends Controller
             ],
         ];
 
-        
-
         $response = [];
 
         $oneTimeAchievementIDs = array_column($commendationIDs, 'achievementID');
@@ -74,8 +72,6 @@ class AchievementController extends Controller
                 ? $achievement->prerequisites
                 : [];
         })->unique()->values(); 
-
-        // $dwcAchievementsDB = Achievement::whereIn('id', $dwcAchievements)->get(); 
 
         if ($user){
             $this->updateUserAPIAchievements($user); 
@@ -101,21 +97,8 @@ class AchievementController extends Controller
                     ];
                 }
             }
-
-            $userOneTimeAchievements = array_values(array_filter($user->achievements, function ($achievement) use ($oneTimeAchievementIDs){
-                return in_array($achievement['id'], $oneTimeAchievementIDs); 
-            }));
-
-            $repeatableAchievementIDs = array_values(array_filter($user->achievements, function ($achievement) use ($repeatableAchievementIDs){
-                return in_array($achievement['id'], $repeatableAchievementIDs); 
-            }));
-
-
             $response = [
-                'oneTimeAchievements' => $userOneTimeAchievements,
-                'repeatableAchievements' => $repeatableAchievementIDs,
                 'userAchievements' => $userAchievements,
-                'pre' => $prerequisiteAchievements,
             ];
         } 
 

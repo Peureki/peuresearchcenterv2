@@ -24,13 +24,29 @@
     /> -->
 
     <section class="main">
-        <div class="content-section gap-general">
+        <div class="content-section">
             <!-- 
                 *
                 * API KEY SUBMISSION FORM 
                 * 
             -->
             <APIKeyForm v-if="user" :user="user"/>
+            <div v-else class="info-box-container">
+                <div class="info-box" id="how-to">
+                    <h4>How this page works</h4>
+                    <p>By default, 'Reward Tracks' and 'Daily Material Donations' will display the best in value.</p>
+
+                    <p>To display a visual representation of your Drizzlewood reward tracks, follow the step below:</p>
+                    <ul>
+                        <li>
+                            1. Must be <a @click="showLogin">signed on</a>. You can obtain this by going to <a href="https://account.arena.net/applications" target="_blank">Arenanet's website</a> -> Applications. The option "Progression" will need to be selected for this to work. 
+                        </li>
+                        <li>
+                            2. Once your signed on, an API input box will appear on this page. Input your API key and submit and your progression will appear below the tables. 
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
             <div v-if="sortedCommendations" class="content-and-legend">
                 <div class="flex-column-content">
@@ -362,7 +378,11 @@
 
     <Footer/>
 
-    <Loading v-if="!sortedCommendations || !rewardTracks" :width="200" :height="200"/>
+    <Loading v-if="!sortedCommendations" :width="200" :height="200"/>
+
+    <template v-if="user">
+        <Loading v-if="sortedCommendations && !rewardTracks" :width="200" :height="200"/>
+    </template>
 </template>
 
 <script setup>
@@ -744,7 +764,7 @@ const totalRewardTrackValue = (commendation) => {
     width: 2px;
     height: 100%;
     background: var(--color-progress-separator);
-    bottom: -50%;
+    bottom: -80%;
     z-index: 3;
 }
 .progress-container{
@@ -828,5 +848,21 @@ const totalRewardTrackValue = (commendation) => {
     padding: var(--gap-general);
     border-radius: var(--border-radius-card);
     background-color: var(--color-bkg-more-fade);
+}
+
+#how-to{
+    grid-area: 1 / 1 / 1 / 4;
+}
+
+@media (max-width: 768px){
+    .reward-track-container{
+        padding-bottom: calc(var(--gap-content) * 4);
+    }
+    .reward-track-header{
+        gap: var(--gap-general);
+    }
+    .drop-details-main-container{
+        padding-top: calc(var(--gap-content) * 4); 
+    }
 }
 </style>
