@@ -6,7 +6,7 @@
             * API REFRESH PANEL
             *
         -->
-        <!-- <template v-slot:countdown v-if="user">
+        <template v-slot:countdown v-if="user">
             <div class="countdown-container" v-if="user.has_api_key">
                 <div class="countdown">
                     <p>API Refresh</p>
@@ -15,7 +15,7 @@
 
                 <p class="small-subtitle">Please allow 5-10 mins to update your achievements</p>                
             </div>
-        </template> -->
+        </template>
     </Nav>
     <!-- <CurrencyPage
         page-name="Ash Legion Commendation"
@@ -24,7 +24,7 @@
     /> -->
 
     <section class="main">
-        <div class="content-section">
+        <div class="content-section gap-general">
             <!-- 
                 *
                 * API KEY SUBMISSION FORM 
@@ -32,7 +32,7 @@
             -->
             <APIKeyForm v-if="user" :user="user"/>
 
-            <div v-if="commendations" class="content-and-legend">
+            <div v-if="sortedCommendations" class="content-and-legend">
                 <div class="flex-column-content">
                     <!--
                         *
@@ -46,13 +46,13 @@
                                     <th class="table-header" colspan="100%"><h3>Reward Tracks</h3></th>
                                 </tr>
                                 <tr>
-                                    <th><h4>Name</h4></th>
-                                    <th><h4>Total Value</h4></th>
-                                    <th><h4>/Commendation</h4></th>
+                                    <th @click="sortCommendationsBy('name')"><h4>Name</h4></th>
+                                    <th @click="sortCommendationsBy('total')"><h4>Total Value</h4></th>
+                                    <th @click="sortCommendationsBy('currency')"><h4>/Commendation</h4></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(commendation, index) in commendations" :key="index">
+                                <tr v-for="(commendation, index) in sortedCommendations" :key="index">
                                     <td>
                                         <div class="img-and-label">
                                             <img :src="commendation.icon" :alt="commendation.name" :title="commendation.name">
@@ -97,9 +97,9 @@
                                 <th class="table-header" colspan="100%"><h3>Daily Material Donations</h3></th>
                             </tr>
                             <tr>
-                                <th><h4>Commendation</h4></th>
-                                <th><h4>Cost</h4></th>
-                                <th><h4>Value</h4></th>
+                                <th @click="sortDailyMaterialDonationsBy('name')"><h4>Commendation</h4></th>
+                                <th @click="sortDailyMaterialDonationsBy('cost')"><h4>Cost</h4></th>
+                                <th @click="sortDailyMaterialDonationsBy('value')"><h4>Value</h4></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -118,11 +118,11 @@
                                         <p>{{ material.exchange_rate }} {{ material.exchange_name }}</p>
                                     </div>
                                 </td>
-                                <td :style="{borderRight: `2px solid ${positiveOrNegative(materialDonationValue(material))}`}">
+                                <td :style="{borderRight: `2px solid ${positiveOrNegative(material.value)}`}">
                                     <span class="gold-label-container">
                                         <span 
                                             class="gold-label"
-                                            v-for="gold in formatValue(materialDonationValue(material))"
+                                            v-for="gold in formatValue(material.value)"
                                         >
                                             <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
                                         </span>
@@ -163,7 +163,7 @@
                         <span class="gold-label-container">
                             <span 
                                 class="gold-label"
-                                v-for="gold in formatValue(rewardTrackValueLeft(achievement, sortedCommendations[index]))"
+                                v-for="gold in formatValue(rewardTrackValueLeft(achievement, sortedRewardTracks[index]))"
                             >
                                 <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
                             </span>
@@ -222,7 +222,7 @@
                                 left: `${n * 5}%`
                                 }"
                         >
-                            <img class="icon" :style="{opacity: opacityRewardsAchieved(achievement, subIndex)}" :src="getRewardTrackItem(sortedCommendations[index][subIndex]).icon" :alt="getRewardTrackItem(sortedCommendations[index][subIndex]).name" :title="getRewardTrackItem(sortedCommendations[index][subIndex]).name">
+                            <img class="icon" :style="{opacity: opacityRewardsAchieved(achievement, subIndex)}" :src="getRewardTrackItem(sortedRewardTracks[index][subIndex]).icon" :alt="getRewardTrackItem(sortedRewardTracks[index][subIndex]).name" :title="getRewardTrackItem(sortedRewardTracks[index][subIndex]).name">
                         </span>
                     </div>
                     <!--
@@ -231,7 +231,7 @@
                         *
                     -->
                     <div class="final-reward">
-                        <img class="card-main-icon" :src="getRewardTrackItem(sortedCommendations[index][19]).icon">
+                        <img class="card-main-icon" :src="getRewardTrackItem(sortedRewardTracks[index][19]).icon">
                     </div>
                 </div>
 
@@ -245,8 +245,8 @@
                         <div class="drop-details">
                             <!-- ICON, NAME -->
                             <div class="desc-details">
-                                <img :src="getRewardTrackItem(sortedCommendations[index][subIndex]).icon" :alt="getRewardTrackItem(sortedCommendations[index][subIndex]).name" :title="getRewardTrackItem(sortedCommendations[index][subIndex]).name">
-                                <p>{{ getRewardTrackItem(sortedCommendations[index][subIndex]).name }}</p>
+                                <img :src="getRewardTrackItem(sortedRewardTracks[index][subIndex]).icon" :alt="getRewardTrackItem(sortedRewardTracks[index][subIndex]).name" :title="getRewardTrackItem(sortedRewardTracks[index][subIndex]).name">
+                                <p>{{ getRewardTrackItem(sortedRewardTracks[index][subIndex]).name }}</p>
 
                                 <!-- TIER POSITION -->
                                 <p class="small-subtitle">Tier: {{ subIndex + 1 }}</p>
@@ -257,7 +257,7 @@
                                 <span class="gold-label-container">
                                     <span 
                                         class="gold-label"
-                                        v-for="gold in formatValue(getRewardTrackItem(sortedCommendations[index][subIndex]).value)"
+                                        v-for="gold in formatValue(getRewardTrackItem(sortedRewardTracks[index][subIndex]).value)"
                                     >
                                         <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
                                     </span>
@@ -265,7 +265,7 @@
 
                                 <div class="details-ctas">
                                     <!-- WIKI -->
-                                    <svg class="icon clickable" @click="wiki(getRewardTrackItem(sortedCommendations[index][subIndex]).name)" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="icon clickable" @click="wiki(getRewardTrackItem(sortedRewardTracks[index][subIndex]).name)" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M14 0C11.2311 0 8.52431 0.821086 6.22202 2.35943C3.91973 3.89777 2.12532 6.08427 1.06569 8.64243C0.00606596 11.2006 -0.271181 14.0155 0.269012 16.7313C0.809205 19.447 2.14258 21.9416 4.10051 23.8995C6.05845 25.8574 8.55301 27.1908 11.2687 27.731C13.9845 28.2712 16.7994 27.9939 19.3576 26.9343C21.9157 25.8747 24.1022 24.0803 25.6406 21.778C27.1789 19.4757 28 16.7689 28 14C28 10.287 26.525 6.72601 23.8995 4.1005C21.274 1.475 17.713 0 14 0ZM26 13H20C19.8833 9.31709 18.9291 5.70915 17.21 2.45C19.5786 3.0979 21.6914 4.45684 23.2632 6.34342C24.8351 8.23 25.7903 10.5534 26 13ZM14 26C13.7769 26.015 13.5531 26.015 13.33 26C11.2583 22.6962 10.1085 18.8981 10 15H18C17.9005 18.8953 16.7612 22.6932 14.7 26C14.467 26.0164 14.2331 26.0164 14 26ZM10 13C10.0995 9.10468 11.2388 5.30682 13.3 2C13.7453 1.94997 14.1947 1.94997 14.64 2C16.7223 5.3008 17.8825 9.09906 18 13H10ZM10.76 2.45C9.0513 5.71164 8.10746 9.31945 8.00001 13H2.00001C2.20971 10.5534 3.16495 8.23 4.7368 6.34342C6.30865 4.45684 8.42144 3.0979 10.79 2.45H10.76ZM2.05001 15H8.05001C8.15437 18.6798 9.09478 22.2875 10.8 25.55C8.43887 24.8951 6.33478 23.5332 4.77056 21.6472C3.20634 19.7612 2.25695 17.4415 2.05001 15ZM17.21 25.55C18.9291 22.2908 19.8833 18.6829 20 15H26C25.7903 17.4466 24.8351 19.77 23.2632 21.6566C21.6914 23.5432 19.5786 24.9021 17.21 25.55Z" fill="var(--color-link)"/>
                                         <title>Wiki</title>
                                     </svg>
@@ -288,19 +288,19 @@
                             *
                         -->
                         <div v-if="expand[index][1][subIndex]" class="sub-drop-details">
-                            <div v-if="!sortedCommendations[index][subIndex].hasOwnProperty('0')" class="drop-details">
+                            <div v-if="!sortedRewardTracks[index][subIndex].hasOwnProperty('0')" class="drop-details">
                                 <div class="desc-details">
                                     <!-- SUBDROP ICON -->
-                                    <img :src="sortedCommendations[index][subIndex].icon" :alt="sortedCommendations[index][subIndex].name" :title="sortedCommendations[index][subIndex].name">
+                                    <img :src="sortedRewardTracks[index][subIndex].icon" :alt="sortedRewardTracks[index][subIndex].name" :title="sortedRewardTracks[index][subIndex].name">
                                     <!-- SUBDROP NAME -->
-                                    <p>{{ sortedCommendations[index][subIndex].quantity }} {{ sortedCommendations[index][subIndex].name }}</p>
+                                    <p>{{ sortedRewardTracks[index][subIndex].quantity }} {{ sortedRewardTracks[index][subIndex].name }}</p>
                                 </div>
                                 <div class="value-details">
                                     <!-- SUBDROP VALUE -->
                                     <span class="gold-label-container">
                                         <span 
                                             class="gold-label"
-                                            v-for="gold in formatValue(sortedCommendations[index][subIndex].value)"
+                                            v-for="gold in formatValue(sortedRewardTracks[index][subIndex].value)"
                                         >
                                             <p>{{ gold.value }}</p><img :src="gold.src" :alt="gold.alt" :title="gold.title">
                                         </span>
@@ -310,9 +310,9 @@
                             
 
                             <template v-else>
-                                <p v-if="sortedCommendations[index][subIndex][0].sample_size" class="small-subtitle">Sample size: {{ sortedCommendations[index][subIndex][0].sample_size }}</p>
+                                <p v-if="sortedRewardTracks[index][subIndex][0].sample_size" class="small-subtitle">Sample size: {{ sortedRewardTracks[index][subIndex][0].sample_size }}</p>
 
-                                <div v-for="subDrop in onlyNumericalProperties(sortedCommendations[index][subIndex])" class="drop-details">
+                                <div v-for="subDrop in onlyNumericalProperties(sortedRewardTracks[index][subIndex])" class="drop-details">
                                     <div class="desc-details">
                                         <!-- SUBDROP ICON -->
                                         <img :src="subDrop.icon" :alt="subDrop.name" :title="subDrop.name">
@@ -362,7 +362,7 @@
 
     <Footer/>
 
-    <Loading v-if="!commendations || !rewardTracks" :width="200" :height="200"/>
+    <Loading v-if="!sortedCommendations || !rewardTracks" :width="200" :height="200"/>
 </template>
 
 <script setup>
@@ -370,25 +370,41 @@ import Header from '@/js/vue/components/general/Header.vue'
 import Nav from '@/js/vue/components/general/Nav.vue'
 import Loading from '@/js/vue/components/general/Loading.vue'
 
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { getAuthUser } from '@/js/vue/composables/Authentication';
 import { user, includes, buyOrder, sellOrder, tax } from '@/js/vue/composables/Global';
-import { formatValue, formatPercentage, formatToDecimal, positiveOrNegative } from '@/js/vue/composables/FormatFunctions.js'
+import { formatValue, formatPercentage, formatToDecimal, positiveOrNegative, formatTime } from '@/js/vue/composables/FormatFunctions.js'
 import { wiki, activeArrow, getItemBuyOrder, getItemSellOrder } from '@/js/vue/composables/BasicFunctions'
 import axios from 'axios';
 
-import dailyMaterialDonations from '@/js/vue/components/json/dailyMaterialDonations.json'
+import dailyMaterialDonationsJSON from '@/js/vue/components/json/dailyMaterialDonations.json'
 import APIKeyForm from '@/js/vue/components/general/APIKeyForm.vue';
 import Footer from '@/js/vue/components/general/Footer.vue'
 
 const commendations = ref(null),
+    sortedCommendations = ref(null),
     // Sorted by closest reward track to be completed
-    sortedCommendations = ref(null); 
+    sortedRewardTracks = ref(null); 
 
 const rewardTracks = ref(null);
 
 const expand = ref(null),
     detailExpand = ref(null);
+
+const dailyMaterialDonations = ref(dailyMaterialDonationsJSON); 
+
+// The amount of time in seconds for API refresh (5mins)
+const refreshCountdown = ref(300);
+
+const startRefreshCountdown = setInterval(() => {
+    refreshCountdown.value--;
+}, 1000);
+
+const refreshRewardTracks = setInterval(() => {
+    console.log('Refreshing Reward Tracks');
+    getUserRewardTrackProgress(); 
+    refreshCountdown.value = 300; 
+}, 300000)
 
 const quartermasterExchangeableIDs = [
     19700, // Mithril
@@ -403,12 +419,21 @@ const quartermasterExchangeableData = ref(null);
 
 console.log('daily donations: ', dailyMaterialDonations);
 
+const setDailyMaterialDonationValue = () => {
+    dailyMaterialDonations.value.forEach(donation => {
+        donation.value = materialDonationValue(donation);
+    })
+}
+
 onMounted(async () => {
-    getQuartermasterMaterials();
+    await getQuartermasterMaterials();
 
     await getAuthUser(); 
 
-    getAllCommendations(); 
+    await getAllCommendations(); 
+    setDailyMaterialDonationValue(); 
+
+    console.log('set daily mat donation value: ', dailyMaterialDonations.value);
 
     if (user.value){
         console.log('USER FOUND: ', user.value);
@@ -416,6 +441,10 @@ onMounted(async () => {
         getUserRewardTrackProgress(); 
 
     }
+})
+onUnmounted(() => {
+    clearInterval(refreshRewardTracks); 
+    clearInterval(startRefreshCountdown);
 })
 // *
 // * GET ALL DRIZZLEWOOD COMMENDATIONS
@@ -425,8 +454,8 @@ const getAllCommendations = async () => {
         const response = await fetch(`../api/currencies/drizzlewood-commendations/${JSON.stringify(includes.value)}/${sellOrder.value}/${tax.value}`); 
         const responseData = await response.json(); 
 
-        commendations.value = responseData; 
-        commendations.value.sort((a, b) => b.value - a.value); 
+        sortedCommendations.value = responseData; 
+        sortedCommendations.value.sort((a, b) => b.value - a.value); 
 
         console.log('COMMENDATION REPONSE: ', responseData); 
 
@@ -466,14 +495,14 @@ const getUserRewardTrackProgress = async () => {
                 return (b.current - b.max) - (a.current - a.max); 
             })
 
-            // SORT commendation.value into sortedCommendations.value by the indexes of their respective reward tracks
+            // SORT commendation.value into sortedRewardTracks.value by the indexes of their respective reward tracks
             const trackIDs = rewardTracks.value.map(track => track.id); 
-            sortedCommendations.value = trackIDs.map(trackID => {
-                return commendations.value.find(commendation => 
+            sortedRewardTracks.value = trackIDs.map(trackID => {
+                return sortedCommendations.value.find(commendation => 
                     commendation.repeatableAchievementID == trackID || commendation.achievementID == trackID)
             });
             // console.log('track ids: ', trackIDs);
-            // console.log('commendations map: ', sortedCommendations.value, commendations.value); 
+            // console.log('commendations map: ', sortedRewardTracks.value, commendations.value); 
 
             // Intilize all expand icons to be false if (repeatableRewardTrack.value)
             // FOR MAIN ITEMS it would be expand[index][0]
@@ -491,6 +520,37 @@ const getUserRewardTrackProgress = async () => {
 }
 
 // *
+// * SORT COMMENDATIONS
+// *
+const sortCommendationsBy = (request) => {
+    switch (request){
+        case 'currency':
+            return sortedCommendations.value.sort((a, b) => b.value - a.value)
+
+        case 'total':
+            return sortedCommendations.value.sort((a, b) => b.trackValue - a.trackValue)
+
+        case 'name':
+            return sortedCommendations.value.sort((a, b) => a.name.localeCompare(b.name))
+    }
+}
+// *
+// * SORT DAILY MATERIAL DONATIONS
+// *
+const sortDailyMaterialDonationsBy = (request) => {
+    switch (request){
+        case 'value':
+            return dailyMaterialDonations.value.sort((a, b) => b.value - a.value)
+
+        case 'cost':
+            return dailyMaterialDonations.value.sort((a, b) => a.exchange_name.localeCompare(b.exchange_name))
+
+        case 'name':
+            return dailyMaterialDonations.value.sort((a, b) => a.name.localeCompare(b.name))
+    }
+}
+
+// *
 // * RETURN MATERIAL DONATION VALUE
 // *
 const materialDonationValue = (material) => {
@@ -500,7 +560,7 @@ const materialDonationValue = (material) => {
             return (material.quantity * getCharrCommendationValue()) - (material.exchange_rate * getItemSellOrder(exchangeable));
 
         default:
-            const commendation = commendations.value.find(commendation => commendation.id === material.id); 
+            const commendation = sortedCommendations.value.find(commendation => commendation.id === material.id); 
             return (material.quantity * commendation.value) - (material.exchange_rate * getItemSellOrder(exchangeable))
     }
 }
@@ -508,7 +568,7 @@ const materialDonationValue = (material) => {
 const getCharrCommendationValue = () => {
     // Object.keys since commendations are Objects with both numerial properties and named properties
     let value = 0;
-    commendations.value.forEach(commendation => {
+    sortedCommendations.value.forEach(commendation => {
         value += commendation.value; 
     })
     return value / 6; 
@@ -575,22 +635,6 @@ const commendationID = (id) => {
 
 
 const getRewardTrackItem = (reward) => {
-    if (!reward.hasOwnProperty('0')){
-        return {
-            icon: reward.icon,
-            name: reward.name,
-            value: reward.value,
-        } 
-    } else {
-        return {
-            icon: reward[0].bag_icon,
-            name: reward[0].bag_name,
-            value: reward.value,
-        } 
-    }
-}
-
-const getSubReward = (reward) => {
     if (!reward.hasOwnProperty('0')){
         return {
             icon: reward.icon,

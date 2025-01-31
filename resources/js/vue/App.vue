@@ -143,6 +143,9 @@ th, td{
 th{
     border-bottom: var(--border-bottom);
 }
+thead th:not(:first-child):not(:last-child){
+    border: var(--border-general);
+}
 td:not(:first-child):not(:last-child){
     border: var(--border-general);
 }
@@ -338,6 +341,8 @@ table thead h4{
     color: var(--color-text);
     text-align: left;
 }
+
+
 table td{
     color: var(--color-text);
     font-size: var(--font-size-p);
@@ -1449,6 +1454,9 @@ img.map-guide{
     display: flex;
     flex-direction: column;
     gap: var(--gap-content);
+}
+.gap-general{
+    gap: var(--gap-general);
 }
 /* For SVG hearts */
 .favorite > path {
