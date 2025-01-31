@@ -135,10 +135,27 @@ ul > li:not(:last-child){
 }
 table {
     width: fit-content;
-}
-table, th, td{
-    border: var(--border-general);
     border-collapse: collapse;
+}
+th, td{
+    border-collapse: collapse;
+}
+th{
+    border-bottom: var(--border-bottom);
+}
+thead th:not(:first-child):not(:last-child){
+    border: var(--border-general);
+}
+td:not(:first-child):not(:last-child){
+    border: var(--border-general);
+}
+td:first-child{
+    border-top: var(--border-general);
+    border-right: var(--border-general);
+}
+td:last-child{
+    border-top: var(--border-general);
+    border-left: var(--border-general);
 }
 button {
     color: var(--color-opposite-text);
@@ -324,6 +341,8 @@ table thead h4{
     color: var(--color-text);
     text-align: left;
 }
+
+
 table td{
     color: var(--color-text);
     font-size: var(--font-size-p);
@@ -355,6 +374,14 @@ table td img{
     aspect-ratio: 1 / 1;
     margin-left: 2px;
 }
+.table-container{
+    overflow-x: auto; 
+    border: var(--border-general);
+    border-radius: var(--border-radius-card);
+    height: fit-content;
+    width: fit-content;
+}
+
 .exchange-container{
     height: fit-content;
 }
@@ -367,6 +394,11 @@ table td img{
 }
 .list-general li{
     padding: var(--padding-li-general);
+}
+@media (max-width: 768px){
+    .table-container{
+        width: calc(100vw - (var(--padding-general) * 2));
+    }
 }
 
 /* 
@@ -719,9 +751,14 @@ span.label-and-subtitle{
 /* 
  * For pages that have the main content on the left and then legend of the right 
  */
-.content-and-legend{
+/* .content-and-legend{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+    gap: var(--gap-content);
+} */
+.content-and-legend{
+    display: flex;
+    flex-wrap: wrap;
     gap: var(--gap-content);
 }
 .flex{
@@ -754,6 +791,7 @@ span.blurb{
     display: flex;
     flex-direction: column;
     gap: var(--gap-content);
+    padding-block: var(--gap-content);
     padding-inline: var(--gap-general);
 }
 @media (max-width: 768px){
@@ -1417,6 +1455,9 @@ img.map-guide{
     flex-direction: column;
     gap: var(--gap-content);
 }
+.gap-general{
+    gap: var(--gap-general);
+}
 /* For SVG hearts */
 .favorite > path {
     fill: var(--color-link);
@@ -1450,6 +1491,11 @@ img.map-guide{
     display: flex;
     flex-direction: column;
     gap: var(--gap-general);
+}
+.flex-column-content{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-content);
 }
 .flex-row{
     display: flex;
@@ -1536,6 +1582,9 @@ img.map-guide{
 }
 .daytime{
     color: var(--color-rarity-exotic);
+}
+@media (max-width: 768px){
+    
 }
 
 /*
@@ -1638,6 +1687,13 @@ img.map-guide{
     --color-expand-circle: var(--color-up);
     --color-input: var(--color-opposite-text);
     --color-table-odd-bkg: var(--color-bkg-fade);
+    --color-flame-legion-commendation: #bd5f00;
+    --color-ash-legion-commendation: #4c68fe;
+    --color-iron-legion-commendation: #6b6f8f;
+    --color-blood-legion-commendation: #780306;
+    --color-dominion-commendation: #007c94;
+    --color-frost-legion-commendation: #0f74a2;
+    --color-progress-separator: linear-gradient(180deg, rgba(176,176,176,0.5018382352941176) 0%, rgba(68,68,68,0) 100%);
 
     --font-weight-h1: 700;
     --font-weight-h2: 500;
@@ -1735,6 +1791,8 @@ img.map-guide{
     --img-header: clamp(1.5rem, 2vw, 3rem);
     --img-glyph: clamp(2rem, 2vw, 3rem);
     --img-icon-size: clamp(1.2rem, 3vw, 2.5rem);
+    --img-width: clamp(1.25rem, 2vw, 2rem);
+    --img-height: var(--img-width);
 
     --svg-expand: clamp(0.8rem, 0.9vw, 1.5rem);
     --svg-icon-size: clamp(1.2rem, 1.5vw, 1.30rem);
@@ -1751,6 +1809,8 @@ img.map-guide{
     --hover-bkg-fade: rgba(255, 209, 44, 0.2); 
 
     --img-timer-map-w: clamp(62.5rem, 115vw, 300rem);
+
+
 }
 
 [data-theme="light"]{

@@ -1,0 +1,322 @@
+[
+    {
+        "name":"Charr Commendation",
+        "icon":"https://render.guildwars2.com/file/5D5AEFC0F1F278E0619F2000241F78A9476A3167/2293277.png",
+        "id":93627,
+        "quantity":125,
+        "exchange_name":"Elder Wood Log",
+        "exchange_icon":"https://render.guildwars2.com/file/205871B734054D0206986FB44D6DC5425E572B0B/220465.png",
+        "exchange_id":19722,
+        "exchange_rate":100
+    },
+    {
+        "name":"Charr Commendation",
+        "icon":"https://render.guildwars2.com/file/5D5AEFC0F1F278E0619F2000241F78A9476A3167/2293277.png",
+        "id":93627,
+        "quantity":125,
+        "exchange_name":"Mithril Ore",
+        "exchange_icon":"https://render.guildwars2.com/file/E90FE803CDC205CDEB13FE03694D4D04757ACF5D/65928.png",
+        "exchange_id":19700,
+        "exchange_rate":100
+    },
+    {
+        "name":"Charr Commendation",
+        "icon":"https://render.guildwars2.com/file/5D5AEFC0F1F278E0619F2000241F78A9476A3167/2293277.png",
+        "id":93627,
+        "quantity":125,
+        "exchange_name":"Thick Leather Section",
+        "exchange_icon":"https://render.guildwars2.com/file/CC3A2CAADBB2F2B13B1E70079E7E207B08D16E93/65946.png",
+        "exchange_id":19729,
+        "exchange_rate":100
+    },
+    {
+        "name":"Charr Commendation",
+        "icon":"https://render.guildwars2.com/file/5D5AEFC0F1F278E0619F2000241F78A9476A3167/2293277.png",
+        "id":93627,
+        "quantity":125,
+        "exchange_name":"Silk Scrap",
+        "exchange_icon":"https://render.guildwars2.com/file/021DA825F2092327B1C6BC09EC77BD5DE5B4770D/65961.png",
+        "exchange_id":19748,
+        "exchange_rate":200
+    },
+    {
+        "name":"Charr Commendation",
+        "icon":"https://render.guildwars2.com/file/5D5AEFC0F1F278E0619F2000241F78A9476A3167/2293277.png",
+        "id":93627,
+        "quantity":250,
+        "exchange_name":"Ancient Wood Log",
+        "exchange_icon":"https://render.guildwars2.com/file/5C999770AB7CC1F85D270A50C205673DF8B6E104/220467.png",
+        "exchange_id":19725,
+        "exchange_rate":100
+    },
+    {
+        "name":"Charr Commendation",
+        "icon":"https://render.guildwars2.com/file/5D5AEFC0F1F278E0619F2000241F78A9476A3167/2293277.png",
+        "id":93627,
+        "quantity":250,
+        "exchange_name":"Orichalcum Ore",
+        "exchange_icon":"https://render.guildwars2.com/file/A6E2C82153BA684E2D05D3FCA09F3E02431366ED/220461.png",
+        "exchange_id":19701,
+        "exchange_rate":100
+    },
+    {
+        "name":"Charr Commendation",
+        "icon":"https://render.guildwars2.com/file/5D5AEFC0F1F278E0619F2000241F78A9476A3167/2293277.png",
+        "id":93627,
+        "quantity":250,
+        "exchange_name":"Thick Leather Section",
+        "exchange_icon":"https://render.guildwars2.com/file/CC3A2CAADBB2F2B13B1E70079E7E207B08D16E93/65946.png",
+        "exchange_id":19729,
+        "exchange_rate":100
+    },
+    {
+        "name":"Charr Commendation",
+        "icon":"https://render.guildwars2.com/file/5D5AEFC0F1F278E0619F2000241F78A9476A3167/2293277.png",
+        "id":93627,
+        "quantity":250,
+        "exchange_name":"Gossamer Scrap",
+        "exchange_icon":"https://render.guildwars2.com/file/0CB2040408D0789690575FFE3532F3C34B693C6F/340417.png",
+        "exchange_id":19745,
+        "exchange_rate":200
+    },
+    {
+        "name":"Ash Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/BC5CEC2F0F01205BBC02FAA520BD27E24220E4D5/2293274.png",
+        "id":93525,
+        "quantity":250,
+        "exchange_name":"Ancient Wood Log",
+        "exchange_icon":"https://render.guildwars2.com/file/5C999770AB7CC1F85D270A50C205673DF8B6E104/220467.png",
+        "exchange_id":19725,
+        "exchange_rate":50
+    },
+    {
+        "name":"Ash Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/BC5CEC2F0F01205BBC02FAA520BD27E24220E4D5/2293274.png",
+        "id":93525,
+        "quantity":250,
+        "exchange_name":"Orichalcum Ore",
+        "exchange_icon":"https://render.guildwars2.com/file/A6E2C82153BA684E2D05D3FCA09F3E02431366ED/220461.png",
+        "exchange_id":19701,
+        "exchange_rate":50
+    },
+    {
+        "name":"Ash Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/BC5CEC2F0F01205BBC02FAA520BD27E24220E4D5/2293274.png",
+        "id":93525,
+        "quantity":250,
+        "exchange_name":"Thick Leather Section",
+        "exchange_icon":"https://render.guildwars2.com/file/CC3A2CAADBB2F2B13B1E70079E7E207B08D16E93/65946.png",
+        "exchange_id":19729,
+        "exchange_rate":50
+    },
+    {
+        "name":"Ash Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/BC5CEC2F0F01205BBC02FAA520BD27E24220E4D5/2293274.png",
+        "id":93525,
+        "quantity":250,
+        "exchange_name":"Gossamer Scrap",
+        "exchange_icon":"https://render.guildwars2.com/file/0CB2040408D0789690575FFE3532F3C34B693C6F/340417.png",
+        "exchange_id":19745,
+        "exchange_rate":100
+    },
+    {
+        "name":"Blood Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/7ABDFADCEE9336DDE4AFFD06F2EFC70B6BADBCE2/2293275.png",
+        "id":93625,
+        "quantity":250,
+        "exchange_name":"Ancient Wood Log",
+        "exchange_icon":"https://render.guildwars2.com/file/5C999770AB7CC1F85D270A50C205673DF8B6E104/220467.png",
+        "exchange_id":19725,
+        "exchange_rate":50
+    },
+    {
+        "name":"Blood Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/7ABDFADCEE9336DDE4AFFD06F2EFC70B6BADBCE2/2293275.png",
+        "id":93625,
+        "quantity":250,
+        "exchange_name":"Orichalcum Ore",
+        "exchange_icon":"https://render.guildwars2.com/file/A6E2C82153BA684E2D05D3FCA09F3E02431366ED/220461.png",
+        "exchange_id":19701,
+        "exchange_rate":50
+    },
+    {
+        "name":"Blood Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/7ABDFADCEE9336DDE4AFFD06F2EFC70B6BADBCE2/2293275.png",
+        "id":93625,
+        "quantity":250,
+        "exchange_name":"Thick Leather Section",
+        "exchange_icon":"https://render.guildwars2.com/file/CC3A2CAADBB2F2B13B1E70079E7E207B08D16E93/65946.png",
+        "exchange_id":19729,
+        "exchange_rate":50
+    },
+    {
+        "name":"Blood Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/7ABDFADCEE9336DDE4AFFD06F2EFC70B6BADBCE2/2293275.png",
+        "id":93625,
+        "quantity":250,
+        "exchange_name":"Gossamer Scrap",
+        "exchange_icon":"https://render.guildwars2.com/file/0CB2040408D0789690575FFE3532F3C34B693C6F/340417.png",
+        "exchange_id":19745,
+        "exchange_rate":100
+    },
+    {
+        "name":"Dominion Commendation",
+        "icon":"https://render.guildwars2.com/file/60DA137E7E9D2E455E0679B2ABB97B4C14E27E65/2314485.png",
+        "id":93868,
+        "quantity":250,
+        "exchange_name":"Ancient Wood Log",
+        "exchange_icon":"https://render.guildwars2.com/file/5C999770AB7CC1F85D270A50C205673DF8B6E104/220467.png",
+        "exchange_id":19725,
+        "exchange_rate":50
+    },
+    {
+        "name":"Dominion Commendation",
+        "icon":"https://render.guildwars2.com/file/60DA137E7E9D2E455E0679B2ABB97B4C14E27E65/2314485.png",
+        "id":93868,
+        "quantity":250,
+        "exchange_name":"Orichalcum Ore",
+        "exchange_icon":"https://render.guildwars2.com/file/A6E2C82153BA684E2D05D3FCA09F3E02431366ED/220461.png",
+        "exchange_id":19701,
+        "exchange_rate":50
+    },
+    {
+        "name":"Dominion Commendation",
+        "icon":"https://render.guildwars2.com/file/60DA137E7E9D2E455E0679B2ABB97B4C14E27E65/2314485.png",
+        "id":93868,
+        "quantity":250,
+        "exchange_name":"Thick Leather Section",
+        "exchange_icon":"https://render.guildwars2.com/file/CC3A2CAADBB2F2B13B1E70079E7E207B08D16E93/65946.png",
+        "exchange_id":19729,
+        "exchange_rate":50
+    },
+    {
+        "name":"Dominion Commendation",
+        "icon":"https://render.guildwars2.com/file/60DA137E7E9D2E455E0679B2ABB97B4C14E27E65/2314485.png",
+        "id":93868,
+        "quantity":250,
+        "exchange_name":"Gossamer Scrap",
+        "exchange_icon":"https://render.guildwars2.com/file/0CB2040408D0789690575FFE3532F3C34B693C6F/340417.png",
+        "exchange_id":19745,
+        "exchange_rate":100
+    },
+    {
+        "name":"Flame Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/49380F48C9D698E0A076AE7F063F3BDC916B2224/2293276.png",
+        "id":93496,
+        "quantity":250,
+        "exchange_name":"Ancient Wood Log",
+        "exchange_icon":"https://render.guildwars2.com/file/5C999770AB7CC1F85D270A50C205673DF8B6E104/220467.png",
+        "exchange_id":19725,
+        "exchange_rate":50
+    },
+    {
+        "name":"Flame Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/49380F48C9D698E0A076AE7F063F3BDC916B2224/2293276.png",
+        "id":93496,
+        "quantity":250,
+        "exchange_name":"Orichalcum Ore",
+        "exchange_icon":"https://render.guildwars2.com/file/A6E2C82153BA684E2D05D3FCA09F3E02431366ED/220461.png",
+        "exchange_id":19701,
+        "exchange_rate":50
+    },
+    {
+        "name":"Flame Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/49380F48C9D698E0A076AE7F063F3BDC916B2224/2293276.png",
+        "id":93496,
+        "quantity":250,
+        "exchange_name":"Thick Leather Section",
+        "exchange_icon":"https://render.guildwars2.com/file/CC3A2CAADBB2F2B13B1E70079E7E207B08D16E93/65946.png",
+        "exchange_id":19729,
+        "exchange_rate":50
+    },
+    {
+        "name":"Flame Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/49380F48C9D698E0A076AE7F063F3BDC916B2224/2293276.png",
+        "id":93496,
+        "quantity":250,
+        "exchange_name":"Gossamer Scrap",
+        "exchange_icon":"https://render.guildwars2.com/file/0CB2040408D0789690575FFE3532F3C34B693C6F/340417.png",
+        "exchange_id":19745,
+        "exchange_rate":100
+    },
+    {
+        "name":"Frost Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/FAABE7B977E67F37FFA7B0DCAA02C209915CE697/2314486.png",
+        "id":93899,
+        "quantity":250,
+        "exchange_name":"Ancient Wood Log",
+        "exchange_icon":"https://render.guildwars2.com/file/5C999770AB7CC1F85D270A50C205673DF8B6E104/220467.png",
+        "exchange_id":19725,
+        "exchange_rate":50
+    },
+    {
+        "name":"Frost Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/FAABE7B977E67F37FFA7B0DCAA02C209915CE697/2314486.png",
+        "id":93899,
+        "quantity":250,
+        "exchange_name":"Orichalcum Ore",
+        "exchange_icon":"https://render.guildwars2.com/file/A6E2C82153BA684E2D05D3FCA09F3E02431366ED/220461.png",
+        "exchange_id":19701,
+        "exchange_rate":50
+    },
+    {
+        "name":"Frost Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/FAABE7B977E67F37FFA7B0DCAA02C209915CE697/2314486.png",
+        "id":93899,
+        "quantity":250,
+        "exchange_name":"Thick Leather Section",
+        "exchange_icon":"https://render.guildwars2.com/file/CC3A2CAADBB2F2B13B1E70079E7E207B08D16E93/65946.png",
+        "exchange_id":19729,
+        "exchange_rate":50
+    },
+    {
+        "name":"Frost Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/FAABE7B977E67F37FFA7B0DCAA02C209915CE697/2314486.png",
+        "id":93899,
+        "quantity":250,
+        "exchange_name":"Gossamer Scrap",
+        "exchange_icon":"https://render.guildwars2.com/file/0CB2040408D0789690575FFE3532F3C34B693C6F/340417.png",
+        "exchange_id":19745,
+        "exchange_rate":100
+    },
+    {
+        "name":"Iron Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/37ACD22D0C690E5BD71A0F97C221A925F4366825/2293278.png",
+        "id":93624,
+        "quantity":250,
+        "exchange_name":"Ancient Wood Log",
+        "exchange_icon":"https://render.guildwars2.com/file/5C999770AB7CC1F85D270A50C205673DF8B6E104/220467.png",
+        "exchange_id":19725,
+        "exchange_rate":50
+    },
+    {
+        "name":"Iron Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/37ACD22D0C690E5BD71A0F97C221A925F4366825/2293278.png",
+        "id":93624,
+        "quantity":250,
+        "exchange_name":"Orichalcum Ore",
+        "exchange_icon":"https://render.guildwars2.com/file/A6E2C82153BA684E2D05D3FCA09F3E02431366ED/220461.png",
+        "exchange_id":19701,
+        "exchange_rate":50
+    },
+    {
+        "name":"Iron Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/37ACD22D0C690E5BD71A0F97C221A925F4366825/2293278.png",
+        "id":93624,
+        "quantity":250,
+        "exchange_name":"Thick Leather Section",
+        "exchange_icon":"https://render.guildwars2.com/file/CC3A2CAADBB2F2B13B1E70079E7E207B08D16E93/65946.png",
+        "exchange_id":19729,
+        "exchange_rate":50
+    },
+    {
+        "name":"Iron Legion Commendation",
+        "icon":"https://render.guildwars2.com/file/37ACD22D0C690E5BD71A0F97C221A925F4366825/2293278.png",
+        "id":93624,
+        "quantity":250,
+        "exchange_name":"Gossamer Scrap",
+        "exchange_icon":"https://render.guildwars2.com/file/0CB2040408D0789690575FFE3532F3C34B693C6F/340417.png",
+        "exchange_id":19745,
+        "exchange_rate":100
+    }
+]

@@ -12,16 +12,109 @@ use Illuminate\Support\Facades\Http;
 class AchievementController extends Controller
 {
     // *
-    // * GET FISHING ACHIEVEMENTS
+    // * GET DRIZZLEWOOD COMMENDATION-RELATED ACHIEVEMENTS
     // * 
-    // * Requires user AUTH
+    // * Goal
+    // * Return all commendation-related achievements and user's current progress
+    // * 
+    public function getDrizzlewoodRewardTracks(){
+        $user = auth()->user(); 
+
+        $commendationIDs = [
+            // *
+            // * REPEATABLE ACHIEVEMENTS
+            // *
+            [
+                'id' => 93525, // Ash Legion 
+                'achievementID' => 5327,
+                'repeatableAchievementID' => 5338,
+            ],
+            [
+                'id' => 93625, // Blood Legion
+                'achievementID' => 5312,
+                'repeatableAchievementID' => 5278,
+            ],
+            [
+                'id' => 93496, // Flame Legion
+                'achievementID' => 5319,
+                'repeatableAchievementID' => 5334,
+            ],
+            [
+                'id' => 93624, // Iron Legion
+                'achievementID' => 5298,
+                'repeatableAchievementID' => 5286,
+            ],
+            [
+                'id' => 93868, // Dominion
+                'achievementID' => 5403,
+                'repeatableAchievementID' => 5391,
+            ],
+            [
+                'id' => 93899, // Frost Legion
+                'achievementID' => 5364,
+                'repeatableAchievementID' => 5356,
+            ],
+        ];
+
+        $response = [];
+
+        $oneTimeAchievementIDs = array_column($commendationIDs, 'achievementID');
+        $repeatableAchievementIDs = array_column($commendationIDs, 'repeatableAchievementID');  
+
+        $allAchievementIDs = array_merge($oneTimeAchievementIDs, $repeatableAchievementIDs); 
+
+        $allAchievementDB = Achievement::whereIn('id', $allAchievementIDs)->get(); 
+        // Extract a list of IDs that are prerequisites to other fisher achievements
+        // ie. Repeatable Glory to the Ash from Glory to the Ash
+        $prerequisiteAchievements = $allAchievementDB->flatMap(function ($achievement) {
+            // Check if the prerequisites property exists and is a non-empty array
+            return isset($achievement->prerequisites) && is_array($achievement->prerequisites)
+                ? $achievement->prerequisites
+                : [];
+        })->unique()->values(); 
+
+        if ($user){
+            $this->updateUserAPIAchievements($user); 
+
+            $userAchievements = array_values(array_filter($user->achievements, function($achievement) use ($allAchievementIDs){
+                // Make sure to only return matching user achievement IDS && if the achivement is not complete yet
+                // But, if the achievement is considered 'done', but can be repeated, show that
+                return in_array($achievement['id'], $allAchievementIDs) && (!($achievement['done'] && !array_key_exists('repeated', $achievement)));
+            }));
+
+            foreach ($allAchievementIDs as $achievementID){
+                if (!in_array($achievementID, array_column($user->achievements, 'id'))){
+
+                    if (!in_array($achievementID, $prerequisiteAchievements->toArray())){
+                        continue; 
+                    }
+
+                    $userAchievements[] = [
+                        'id' => $achievementID, 
+                        'current' => 0,
+                        'max' => 5000,
+                        'done' => false,
+                    ];
+                }
+            }
+            $response = [
+                'userAchievements' => $userAchievements,
+            ];
+        } 
+
+        return response()->json($response); 
+    }
+
+
+    // *
+    // * GET FISHING ACHIEVEMENTS
     // * 
     // * Goal
     // * Return all fishing achievements and use user's api key to determine what fishes are missing 
     // * 
     public function getFishing(){
 
-        $user = auth()->user(); 
+        $user = auth()->user();
 
         // Overall array to return with all the info
         $response = [];
@@ -170,6 +263,7 @@ class AchievementController extends Controller
             // 3) Create an empty $user->achievement for that missing achievement
             foreach ($achievementIDs as $achievementID){
                 if (!in_array($achievementID, array_column($user->achievements, 'id'))){
+
                     $filteredAchievement = $fisherAchievementDB->filter(function ($achievement) use ($achievementID) {
                         return $achievement['id'] === $achievementID;
                     })->first();

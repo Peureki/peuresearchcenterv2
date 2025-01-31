@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Items;
 use App\Models\Bag;
+use App\Models\BagDropRate;
 use App\Models\Bags;
+use App\Models\ChoiceChest;
 use App\Models\CurrencyBagDropRates;
 use App\Models\Recipes;
 use App\Models\ResearchNotes;
@@ -15,6 +17,156 @@ use PDO;
 
 class CurrencyController extends Controller
 {
+ 
+    // *
+    // * GET ALL DRIZZLEWOOD COMMENDATION VALUES
+    // * 
+    // * Calculate each individual currencies then 
+    // * RETURN array of the commendations
+    // *
+    public function getAllCommendationValues($includes, $sellOrderSetting, $tax){
+        // Make it a workable arrays
+        // New accounts that haven't set any settings may still have "null"
+        if ($includes == "null"){
+            $includes = [];
+        } else {
+            $includes = json_decode($includes);
+        }
+
+        
+
+        $commendationIDs = [
+            [
+                'id' => 93525, // Ash Legion 
+                'achievementID' => 5327,
+                'repeatableAchievementID' => 5338,
+            ],
+            [
+                'id' => 93625, // Blood Legion
+                'achievementID' => 5312,
+                'repeatableAchievementID' => 5278,
+            ],
+            [
+                'id' => 93496, // Flame Legion
+                'achievementID' => 5319,
+                'repeatableAchievementID' => 5334,
+            ],
+            [
+                'id' => 93624, // Iron Legion
+                'achievementID' => 5298,
+                'repeatableAchievementID' => 5286,
+            ],
+            [
+                'id' => 93868, // Dominion
+                'achievementID' => 5403,
+                'repeatableAchievementID' => 5391,
+            ],
+            [
+                'id' => 93899, // Frost Legion
+                'achievementID' => 5364,
+                'repeatableAchievementID' => 5356,
+            ],
+        ];
+
+        $onlyCommendationIDList = array_column($commendationIDs, 'id');
+        $commendationDB = Items::whereIn('id', $onlyCommendationIDList)->get();
+
+        $response = []; 
+
+        // Set maps for achievement IDs to input them into the $commendationDB collection
+        $idToAchievementMap = array_column($commendationIDs, 'achievementID', 'id');
+        $idToRepeatableAchievementMap = array_column($commendationIDs, 'repeatableAchievementID', 'id'); 
+        
+        // Treat commendations as if it was a bag since it has a collection of items in the reward track
+        $bagController = new BagController(); 
+
+        foreach ($commendationDB as $index => $commendation){
+            // Input achievement_id & repeatable_achievement_id as property
+            if (isset($idToAchievementMap[$commendation->id])){
+                $commendation->achievement_id = $idToAchievementMap[$commendation->id];
+                $commendation->repeatable_achievement_id = $idToAchievementMap[$commendation->id];
+            }
+            if (isset($idToRepeatableAchievementMap[$commendation->id])){
+                $commendation->repeatable_achievement_id = $idToRepeatableAchievementMap[$commendation->id];
+            }
+
+            $requestedBags = []; 
+            $commendationName = $commendation->name; 
+            // $response[] = $bagController->exchangeables($commendation, $includes, $sellOrderSetting, $tax)->original; 
+            // Check if $request matches with one of the $map
+            // Populate arrays
+            if (isset($this->exchangeableMap[$commendationName])){
+                $data = $this->exchangeableMap[$commendationName]; 
+                $requestedBags = array_merge($requestedBags, $data['id']);
+                $outputQty = $data['outputQty'];
+            }
+
+
+            $bagsDB = Bag::whereIn('id', $requestedBags)->get(); 
+            //$bagsDB = $bagController->getBagValues($requestedBags, $includes, $sellOrderSetting, $tax); 
+
+            //dd('bagDB: ', $bagsDB);
+
+            $choiceDB = ChoiceChest::whereIn('id', $requestedBags)->get(); 
+            //$choiceDB = $bagController->getChoiceChestValues($requestedBags, $includes, $sellOrderSetting, $tax); 
+
+
+            // Map the retrieved bags and choice chests back to the original $requestedBags array
+            $responseCollection = collect($requestedBags)->map(function ($id) use ($bagsDB, $choiceDB) {
+                return $bagsDB->firstWhere('id', $id) ?: $choiceDB->firstWhere('id', $id);
+            });
+
+            //dd($responseCollection, $outputQty);
+
+            // For any empty or 'null' indexes in $responseCollection means they were not found in Bags:: or ChoiceChest:: so they must be an individual Item::
+            // Fill those indexes 
+
+            // Initialize commendation value
+            $totalRewardTrackValue = 0;
+
+            foreach ($responseCollection as $index => &$item){
+
+                if (!$item){
+                    $responseCollection[$index] = Items::where('id', $requestedBags[$index])->get()->first(); 
+                    $responseCollection[$index]['value'] = $responseCollection[$index][$sellOrderSetting] * $outputQty[$index] ?? 0; 
+                } 
+                else {
+                    switch ($item->getTable()){
+                        case 'bags':    
+                            //dd($item);                 
+                            $responseCollection[$index] = $bagController->getBagCollection($item->id, $outputQty[$index], $includes, $sellOrderSetting, $tax); 
+
+                            //dd($responseCollection[$index], $item);
+                            break;
+
+                        case 'choice_chests':
+                            $responseCollection[$index] = $bagController->getChoiceChestCollection($item->id, $outputQty[$index], $includes, $sellOrderSetting, $tax); 
+                            break;
+                    }
+                }
+
+                $responseCollection[$index]['quantity'] = $outputQty[$index]; 
+                $totalRewardTrackValue += $responseCollection[$index]['value']; 
+            }
+
+            $responseCollection['id'] = $commendation->id;
+            $responseCollection['achievementID'] = $commendation->achievement_id; 
+            $responseCollection['repeatableAchievementID'] = $commendation->repeatable_achievement_id; 
+            $responseCollection['name'] = $commendationName; 
+            $responseCollection['icon'] = $commendation->icon; 
+            $responseCollection['trackValue'] = $totalRewardTrackValue; 
+            $responseCollection['value'] = $totalRewardTrackValue/5000;
+
+            $response[] = $responseCollection; 
+            //dd('requested bags: ', $requestedBags, 'bagsDB: ', $bagsDB, 'choiceDB: ', $choiceDB, 'commendationDB: ', $responseCollection);
+            
+        }
+
+        //dd($response); 
+
+        return response()->json($response);
+    }
+
     public function favoriteResearchNote($buyOrderSetting, $favorites){
         $buyOrderSetting = $this->getBuyOrderSetting($buyOrderSetting);
 

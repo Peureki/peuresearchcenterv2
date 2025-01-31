@@ -1,4 +1,6 @@
 
+import { buyOrder, sellOrder, tax } from '@/js/vue/composables/Global'
+
 export function addSingleQuantity(num){
     return num.value += 1;
 }
@@ -125,4 +127,14 @@ export const copyAllWaypoints = (guides) => {
     })
 
     return waypoints; 
+}
+
+export const getItemBuyOrder = (item) => {
+    return buyOrder.value == 'buy_price' ? item.buy_price : item.sell_price;
+}
+
+export const getItemSellOrder = (item) => {
+    return sellOrder.value == 'buy_price' 
+    ? item.buy_price * tax.value 
+    : item.sell_price * tax.value
 }

@@ -54,7 +54,6 @@
 
                 <p class="small-subtitle">Please allow 5-10 mins to update your achievements</p>                
             </div>
-            
         </template>
     </Nav>
 

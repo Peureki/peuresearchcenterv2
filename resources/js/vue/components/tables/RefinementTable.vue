@@ -1,119 +1,122 @@
 <template>
-    <table :class="`currency-table-${targetId}`" v-if="data">
-        <thead>
-            <tr>
-                <th colspan="100%">
-                    <h4>{{ targetRefinement }}</h4>
-                </th>
-            </tr>
-            <tr>
-                <!-- 
-                    * TABLE HEADERS 
-                    * 
-                    * @click 
-                    * -> toggle active columns that are being sorted
-                    * -> toggle the order of sort (descending by default)
-                    * -> sort this table
-                    *
-                    * @mouseover, @mouseout 
-                    * -> set the headerIndex to be true when hovering -> highlights header column's borders to show if its sortable
-                -->
-                <!-- 
-                    *
-                    * OUTPUT HEADER
-                    *
-                -->
-                <th 
-                    @click="
-                        toggleActive(0, sortActive);
-                        toggleSortOrder(0, sortOrder);
-                        sortTable('currency-table', 0, 'string', sortOrder);
-                    "
-                >
-                    <span class="sortable-column">
-                        <h5>Output</h5>
-                        <svg
-                            class="sort-arrow active" 
-                            :ref="el => sortActive[0] = el" 
-                            :style="{transform: sortOrder[0] == 'descending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
-                            width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="var(--color-link)"/>
-                        </svg>
-                    </span> 
-                </th>
-                <!-- 
-                    *
-                    * EXCHANGEABLE HEADER
-                    *
-                -->
-                <th 
-                    @click="
-                        toggleActive(1, sortActive);
-                        toggleSortOrder(1, sortOrder);
-                        sortTable('currency-table', 1, 'string', sortOrder);
-                    "
-                >
-                    <span class="sortable-column">
-                        <h5>Exchange</h5>
-                        <svg
-                            class="sort-arrow active" 
-                            :ref="el => sortActive[1] = el" 
-                            :style="{transform: sortOrder[1] == 'descending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
-                            width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="var(--color-link)"/>
-                        </svg>
-                    </span> 
-                </th>
-                <!-- 
-                    *
-                    * VALUE HEADER
-                    *
-                -->
-                <th 
-                    @click="
-                        toggleActive(2, sortActive);
-                        toggleSortOrder(2, sortOrder);
-                        sortTable(`currency-table-${targetId}`, 2, 'gold', sortOrder);   "
-                >
-                    <span class="sortable-column">
-                        <h5>Costs</h5>
-                        <svg
-                            class="sort-arrow active" 
-                            :ref="el => sortActive[2] = el" 
-                            :style="{transform: sortOrder[2] == 'ascending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
-                            width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="var(--color-link)"/>
-                        </svg>
-                    </span> 
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="(exchangeable, index) in data.exchangeables">
-                <!-- Output -->
-                <td
-                    class="bag-name"
-                >
-                    <img :src="data.output[index].icon" :alt="data.output[index].name" :title="data.output[index].name"> {{ data.output[index].qty }} {{ data.output[index].name }}
-                </td>
-                <!-- Exchangeable -->
-                <td class="bag-name">
-                    <img :src="exchangeable.icon" :alt="exchangeable.name" :title="exchangeable.name"> {{ exchangeable.qty }} {{ exchangeable.name }}
-                </td>
-                <!-- Value -->
-                <td class="gold">
-                    <span class="gold-label-container">
-                        <span class="gold-label" v-for="gold in formatValue(data.output[index].value)">
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+    <div class="table-container">
+        <table :class="`currency-table-${targetId}`" v-if="data">
+            <thead>
+                <tr>
+                    <th colspan="100%">
+                        <h4>{{ targetRefinement }}</h4>
+                    </th>
+                </tr>
+                <tr>
+                    <!-- 
+                        * TABLE HEADERS 
+                        * 
+                        * @click 
+                        * -> toggle active columns that are being sorted
+                        * -> toggle the order of sort (descending by default)
+                        * -> sort this table
+                        *
+                        * @mouseover, @mouseout 
+                        * -> set the headerIndex to be true when hovering -> highlights header column's borders to show if its sortable
+                    -->
+                    <!-- 
+                        *
+                        * OUTPUT HEADER
+                        *
+                    -->
+                    <th 
+                        @click="
+                            toggleActive(0, sortActive);
+                            toggleSortOrder(0, sortOrder);
+                            sortTable('currency-table', 0, 'string', sortOrder);
+                        "
+                    >
+                        <span class="sortable-column">
+                            <h5>Output</h5>
+                            <svg
+                                class="sort-arrow active" 
+                                :ref="el => sortActive[0] = el" 
+                                :style="{transform: sortOrder[0] == 'descending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
+                                width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="var(--color-link)"/>
+                            </svg>
+                        </span> 
+                    </th>
+                    <!-- 
+                        *
+                        * EXCHANGEABLE HEADER
+                        *
+                    -->
+                    <th 
+                        @click="
+                            toggleActive(1, sortActive);
+                            toggleSortOrder(1, sortOrder);
+                            sortTable('currency-table', 1, 'string', sortOrder);
+                        "
+                    >
+                        <span class="sortable-column">
+                            <h5>Exchange</h5>
+                            <svg
+                                class="sort-arrow active" 
+                                :ref="el => sortActive[1] = el" 
+                                :style="{transform: sortOrder[1] == 'descending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
+                                width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="var(--color-link)"/>
+                            </svg>
+                        </span> 
+                    </th>
+                    <!-- 
+                        *
+                        * VALUE HEADER
+                        *
+                    -->
+                    <th 
+                        @click="
+                            toggleActive(2, sortActive);
+                            toggleSortOrder(2, sortOrder);
+                            sortTable(`currency-table-${targetId}`, 2, 'gold', sortOrder);   "
+                    >
+                        <span class="sortable-column">
+                            <h5>Costs</h5>
+                            <svg
+                                class="sort-arrow active" 
+                                :ref="el => sortActive[2] = el" 
+                                :style="{transform: sortOrder[2] == 'ascending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
+                                width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="var(--color-link)"/>
+                            </svg>
+                        </span> 
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(exchangeable, index) in data.exchangeables">
+                    <!-- Output -->
+                    <td
+                        class="bag-name"
+                    >
+                        <img :src="data.output[index].icon" :alt="data.output[index].name" :title="data.output[index].name"> {{ data.output[index].qty }} {{ data.output[index].name }}
+                    </td>
+                    <!-- Exchangeable -->
+                    <td class="bag-name">
+                        <img :src="exchangeable.icon" :alt="exchangeable.name" :title="exchangeable.name"> {{ exchangeable.qty }} {{ exchangeable.name }}
+                    </td>
+                    <!-- Value -->
+                    <td class="gold">
+                        <span class="gold-label-container">
+                            <span class="gold-label" v-for="gold in formatValue(data.output[index].value)">
+                                {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                            </span>
                         </span>
-                    </span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
 </template>
 
 <script setup>

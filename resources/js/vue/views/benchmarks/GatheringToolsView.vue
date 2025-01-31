@@ -151,5 +151,8 @@ const getGatheringTools = async (url) => {
     justify-content: flex-start;
     gap: var(--gap-content);
 }
+.flex-wrap{
+    align-items: flex-start;
+}
 
 </style>

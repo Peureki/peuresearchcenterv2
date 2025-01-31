@@ -27,6 +27,8 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use PDO;
 use ValueError;
@@ -82,6 +84,13 @@ class Controller extends BaseController
 
     // DWC COMMENDATIONS
     protected $ashLegionCommendation;
+    protected $bloodLegionCommendation;
+    protected $dominionCommendation; 
+    protected $flameLegionCommendation; 
+    protected $frostLegionCommendation; 
+    protected $ironLegionCommendation; 
+    
+     
 
     // NON-MONETIZABLE EXCHANGEABLES
     // Example:
@@ -634,6 +643,215 @@ class Controller extends BaseController
 
         /*
             *
+            * DRIZZLEWOOD COMMENDATIONS
+            *
+        */
+        $this->ashLegionCommendation = [
+            'id' => [
+                93371, // Special Mission Document (duplicated)
+                93515, // Ash Legion Leather Box (duplicated)
+                93378, // Ash Legion Crafting Box (duplicated)
+                93455, // Rare Charr Salvage (duplicated)
+                93588, // Ash Legion Venom Box
+                65448, // Champion Jotun Loot Box
+                93515, // Ash Legion Leather Box
+                93378, // Ash Legino Crafting Box
+                93455, // Rare Charr Salvage
+                93369, // Ash Legion Glacial Materials Box
+                93516, // Ash Legion Special Mission Document
+                93378, // Ash Legion Crafting Box
+                93515, // Ash Legion Leather Box
+                65394, // Champion Wurm Loot Box
+                93588, // Ash Legino Venom Box
+                93455, // Rare Charr Salvage
+                93378, // Ash Legion Crafing Box
+                93515, // Ash Legion Leather Box
+                93371, // Special Mission Document
+                93574, // Ash Legion Reward Box
+            ],
+            'conversionRate' => array_fill(0, 20, 250), 
+            'fee' => array_fill(0, 20, 0), 
+            'outputQty' => array_merge(
+                array_fill(0, 9, 1), 
+                [2],
+                array_fill(11, 8, 1),
+                [3,
+                1],   
+            )
+        ];
+
+        $this->bloodLegionCommendation = [
+            'id' => [
+                93371, // Special Mission Document
+                93357, // Blood Legion Wood Box
+                93547, // Blood Legion Crafting Box
+                93455, // Rare Charr Salvage
+                93478, // Blood Legion Blood Box
+                65398, // Champion Branded Minion Loot Box
+                93357, // Blood Legion Wood Box
+                93547, // Blood Legion Crafing Box
+                93455, // Rare Charr Salvage
+                93658, // Blood Legion Charged Materials Box
+                93499, // Blood Legion Special Mission Document
+                93547, // Blood Legion Crafting Box
+                93357, // Blood Legion Leather Box
+                65449, // Champion Grawl Loot Box
+                93478, // Blood Legion Venom Box
+                93455, // Rare Charr Salvage
+                93547, // Blood Legion Crafing Box
+                93357, // Blood Legion Wood Box
+                93371, // Special Mission Document
+                93485, // Blood Legion Reward Box
+            ],
+            'conversionRate' => array_fill(0, 20, 250), 
+            'fee' => array_fill(0, 20, 0), 
+            'outputQty' => array_merge(
+                array_fill(0, 9, 1), 
+                [2],
+                array_fill(11, 8, 1),
+                [3,
+                1],   
+            )
+        ];
+
+        $this->frostLegionCommendation = [
+            'id' => [
+                93371, // Special Mission Document
+                93887, // Frost Legion Resource Box
+                93741, // Frost Legion Crafting Box
+                93455, // Rare Charr Salvage
+                93863, // Frost Legion Trophy Box
+                65450, // Champion Sons of Svanir Loot Box
+                93887, // Frost Legion Resource Box
+                93741, // Frost Legion Crafing Box
+                93455, // Rare Charr Salvage
+                93780, // Frost Legion Corrupt Materials Box
+                93799, // Corrupted Intel Document
+                93741, // Frost Legion Crafting Box
+                93887, // Frost Legion Resource Box
+                65540, // Champion Icebrood Goliath Loot Box
+                93863, // Frost Legion Trophy Box
+                93455, // Rare Charr Salvage
+                93741, // Frost Legion Crafting Box
+                93887, // Frost Legion Resource Box
+                93371, // Special Mission Document
+                93794, // Frost Legion Spoils Box
+            ],
+            'conversionRate' => array_fill(0, 20, 250), 
+            'fee' => array_fill(0, 20, 0), 
+            'outputQty' => array_merge(
+                array_fill(0, 9, 1), 
+                [2],
+                array_fill(11, 8, 1),
+                [3,
+                1],   
+            )
+        ];
+
+        $this->dominionCommendation = [
+            'id' => [
+                93371, // Special Mission Document
+                93919, // Dominion Material Box
+                93770, // Dominion Crafting Box
+                93455, // Rare Charr Salvage
+                93848, // Dominion Trophy Box
+                65449, // Champion Grawl Loot Box
+                93919, // Dominion Material Box
+                93770, // Dominion Crafing Box
+                93455, // Rare Charr Salvage
+                93853, // Dominion Crystal Materials Box
+                93842, // Dominion Intel Document
+                93770, // Dominion Crafting Box
+                93919, // Dominion Material Box
+                65448, // Champion Jotun Loot Box
+                93848, // Dominion Trophy Box
+                93455, // Rare Charr Salvage
+                93770, // Dominion Crafting Box
+                93919, // Dominion Matieral Box
+                93371, // Special Mission Document
+                93870, // Dominion Spoils Box
+            ],
+            'conversionRate' => array_fill(0, 20, 250), 
+            'fee' => array_fill(0, 20, 0), 
+            'outputQty' => array_merge(
+                array_fill(0, 9, 1), 
+                [2],
+                array_fill(11, 8, 1),
+                [3,
+                1],   
+            )
+        ];
+
+        $this->flameLegionCommendation = [
+            'id' => [
+                93371, // Special Mission Document
+                93648, // Flame Legion Cloth Box
+                93465, // Flame Legion Crafting Box
+                93455, // Rare Charr Salvage
+                93636, // Flame Legion Dust Box
+                65399, // Champion Ogre Loot Box
+                93648, // Flame Legion Cloth Box
+                93465, // Flame Legion Crafting Box
+                93455, // Rare Charr Salvage
+                93492, // Flame Legion Molten Materials Box
+                93522, // Flame Legion Speicla Mission Document
+                93465, // Flame Legino Crafintg Box
+                93648, // Flame Legion Cloth Box
+                65450, // Champion Sons of Svanir Loot Box
+                93636, // Flame Legion Dust Box
+                93455, // Rare Charr Salvage
+                93465, // Flame Legion Crafting Box
+                93648, // Flame Legion Cloth Box
+                93371, // Special Mission Document
+                93543, // Flame Legion Reward Box
+            ],
+            'conversionRate' => array_fill(0, 20, 250), 
+            'fee' => array_fill(0, 20, 0), 
+            'outputQty' => array_merge(
+                array_fill(0, 9, 1), 
+                [2],
+                array_fill(11, 8, 1),
+                [3,
+                1],   
+            )
+        ];
+
+        $this->ironLegionCommendation = [
+            'id' => [
+                93371, // Special Mission Document
+                93576, // Iron Legion Ore Box
+                93430, // Iron Legion Crafting Box
+                93455, // Rare Charr Salvage
+                93364, // Iron Legion Claw Box
+                65400, // Champion Warg Loot Box
+                93576, // Iron Legion Ore Box
+                93430, // Iron Legion Crafting Box
+                93455, // Rare Charr Salvage
+                93432, // Iron Legion Onyx Materials Box
+                93619, // Iron Legion Special Mission Document
+                93430, // Iron Legion Crafting Box
+                93576, // Iron Legion Ore Box
+                65447, // Champion Dredge Loot Box
+                93364, // Iron Legion Claw Box
+                93455, // Rare Charr Salvage
+                93430, // Iron Legion Crafting Box
+                93576, // Iron Legion Ore Box
+                93371, // Special Mission Document
+                93508, // Iron Legion Reward Box
+            ],
+            'conversionRate' => array_fill(0, 20, 250), 
+            'fee' => array_fill(0, 20, 0), 
+            'outputQty' => array_merge(
+                array_fill(0, 9, 1), 
+                [2],
+                array_fill(11, 8, 1),
+                [3,
+                1],   
+            )
+        ];
+
+        /*
+            *
             * HOMESTEAD CONVERSIONS
             *
         */
@@ -887,15 +1105,21 @@ class Controller extends BaseController
         // USE this for functions that use any of these exchangeables to find their values thru their drop rates
         $this->exchangeableMap = [
             "Airship Part" => $this->airshipPart,
+            "Ash Legion Commendation" => $this->ashLegionCommendation,
+            "Blood Legion Commendation" => $this->bloodLegionCommendation,
             "Bandit Crest" => $this->banditCrest,
             "Calcified Gasp" => $this->calcifiedGasp,
             "Curious Lowland Honeycomb" => $this->curiousLowlandHoneycomb,
             "Curious Mursaat Currency" => $this->curiousMursaatCurrency,
-            "Lump of Aurillium" => $this->leyEnergyMatter,
-            "Ley Line Crystal" => $this->leyEnergyMatter,
-            "Empyreal Fragment" => $this->empyrealFragment,
+            "Dominion Commendation" => $this->dominionCommendation,
             "Dragonite Ore" => $this->dragoniteOre,
+            "Empyreal Fragment" => $this->empyrealFragment,
             "Fine Rift Essence" => $this->fineAndMasterworkRiftEssences,
+            "Flame Legion Commendation" => $this->flameLegionCommendation,
+            "Frost Legion Commendation" => $this->frostLegionCommendation,
+            "Iron Legion Commendation" => $this->ironLegionCommendation, 
+            "Lump of Aurillium" => $this->leyEnergyMatter,
+            "Ley Line Crystal" => $this->leyEnergyMatter, 
             "Masterwork Rift Essence" => $this->fineAndMasterworkRiftEssences,
             "Geode" => $this->geode,
             "Imperial Favor" => $this->imperialFavor,
@@ -945,8 +1169,18 @@ class Controller extends BaseController
     }
 
     
+    // * 
+    // * REFRESH $USER->ACHIEVEMENTS
+    // *
+    protected function updateUserAPIAchievements($user){
+        $apiKey = Crypt::decryptString($user->api_key);
 
-    
+        $gw2API = Http::get('https://api.guildwars2.com/v2/account/achievements?access_token='.$apiKey);
+
+        $user->update([
+            'achievements' => $gw2API->json(),
+        ]);
+    }
 
     protected function duplicate_and_splice_bag($targetID, &$dropRates, $duplicatedName){
         foreach ($dropRates as $index => $targetBag){
@@ -1317,12 +1551,19 @@ class Controller extends BaseController
         return $value;
     }
     // *
-    // * DRIZZLEWOOD COAST COMMENDATIONS
-    // * EX: ASH LEGION COMMENDATION
-    protected function getCommendationValue($commendationID, $commendationDropRate, $includes, $sellOrderSetting, $tax){
-        $value = 0;
-        return $value * $commendationDropRate;
-    }
+    // * GET DRIZZLEWOOD COMMENDATION VALUES
+    // * 
+    // * Calculate all items contained in a drizzlewood reward track then /divide by # of items (20) 
+    // * 
+    // protected function getCommendationValues($includes, $buyOrderSetting, $sellOrderSetting, $tax){
+    //     // Make it a workable arrays
+    //     // New accounts that haven't set any settings may still have "null"
+    //     if ($includes == "null"){
+    //         $includes = [];
+    //     } else {
+    //         $includes = json_decode($includes);
+    //     }  
+    // }
 
     // *
     // * GET "AVG" VALUE OF EXOTICS THAT CAN DROP FROM GENERAL BAGS/GEAR
@@ -1965,7 +2206,7 @@ class Controller extends BaseController
             }
             // COMMENDATIONS (DWC)
             if ($item->type == 'Trophy' && strpos($item->item_name, 'Commendation')){
-                return $this->getCommendationValue($item->item_id, $item->drop_rate, $includes, $sellOrderSetting, $tax);
+                return $this->getExchangeableValue($item->item_name, $item->drop_rate, $includes, $sellOrderSetting, $tax, $recursionLevel);
             }
             // JUNK ITEMS
             if ($item->rarity == 'Junk') {
