@@ -1,156 +1,158 @@
 <template>
-    <table :class="tableName" :id="tableName">
-        <thead>
-            <tr>
-                <th colspan="100%"><h4>{{ tableTitle }}</h4></th>
-            </tr>
-            <tr>
-                <th><h5>Item 1</h5></th>
-                <th><h5>Item 2</h5></th>
-                <th><h5>Item 3</h5></th>
-                <th><h5>Item 4</h5></th>
-                <th><h5>Output</h5></th>
+    <div class="table-container">
+        <table :class="tableName" :id="tableName">
+            <thead>
+                <tr>
+                    <th colspan="100%"><h4>{{ tableTitle }}</h4></th>
+                </tr>
+                <tr>
+                    <th><h5>Item 1</h5></th>
+                    <th><h5>Item 2</h5></th>
+                    <th><h5>Item 3</h5></th>
+                    <th><h5>Item 4</h5></th>
+                    <th><h5>Output</h5></th>
+                    <!-- 
+                        * TABLE HEADERS 
+                        * 
+                        * @click 
+                        * -> toggle active columns that are being sorted
+                        * -> toggle the order of sort (descending by default)
+                        * -> sort this table
+                        *
+                        * @mouseover, @mouseout 
+                        * -> set the headerIndex to be true when hovering -> highlights header column's borders to show if its sortable
+                    -->
+                    <th 
+                        @click="
+                            toggleActive(5, sortActive);
+                            toggleSortOrder(5, sortOrder);
+                            sortTable(tableName, 5, 'gold', sortOrder); 
+                        "
+                        @mouseover="headerIndex = setHoverBorder(5, true)" 
+                        @mouseout="headerIndex = setHoverBorder(5, false)"
+                        :class="{'border-is-hoverable': 5 == headerIndex}"
+                    >
+                        <span class="sortable-column">
+                            <h5>Profit/Conversion</h5>
+                            <svg
+                                class="sort-arrow" 
+                                :ref="el => sortActive[5] = el" 
+                                :style="{transform: sortOrder[5] == 'descending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
+                                width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
+                            </svg>
+                        </span>
+                        
+                    </th>
+                    <th 
+                        @click="
+                            toggleActive(6, sortActive);
+                            toggleSortOrder(6, sortOrder);
+                            sortTable(tableName, 6, 'gold', sortOrder);
+                        "
+                        @mouseover="headerIndex = setHoverBorder(6, true)" 
+                        @mouseout="headerIndex = setHoverBorder(6, false)"
+                        :class="{'border-is-hoverable': 6 == headerIndex}"
+                    >
+                        <span class="sortable-column">
+                            <h5>Profit/Spirit Shard</h5>
+                            <svg
+                                class="sort-arrow active" 
+                                :ref="el => sortActive[6] = el" 
+                                :style="{transform: sortOrder[6] == 'descending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
+                                width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
+                            </svg>
+                        </span>    
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
                 <!-- 
-                    * TABLE HEADERS 
                     * 
-                    * @click 
-                    * -> toggle active columns that are being sorted
-                    * -> toggle the order of sort (descending by default)
-                    * -> sort this table
-                    *
-                    * @mouseover, @mouseout 
-                    * -> set the headerIndex to be true when hovering -> highlights header column's borders to show if its sortable
+                    * RECIPE ROW
+                    * 
                 -->
-                <th 
-                    @click="
-                        toggleActive(5, sortActive);
-                        toggleSortOrder(5, sortOrder);
-                        sortTable(tableName, 5, 'gold', sortOrder); 
-                    "
-                    @mouseover="headerIndex = setHoverBorder(5, true)" 
-                    @mouseout="headerIndex = setHoverBorder(5, false)"
-                    :class="{'border-is-hoverable': 5 == headerIndex}"
-                >
-                    <span class="sortable-column">
-                        <h5>Profit/Conversion</h5>
-                        <svg
-                            class="sort-arrow" 
-                            :ref="el => sortActive[5] = el" 
-                            :style="{transform: sortOrder[5] == 'descending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
-                            width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
-                        </svg>
-                    </span>
-                    
-                </th>
-                <th 
-                    @click="
-                        toggleActive(6, sortActive);
-                        toggleSortOrder(6, sortOrder);
-                        sortTable(tableName, 6, 'gold', sortOrder);
-                    "
-                    @mouseover="headerIndex = setHoverBorder(6, true)" 
-                    @mouseout="headerIndex = setHoverBorder(6, false)"
-                    :class="{'border-is-hoverable': 6 == headerIndex}"
-                >
-                    <span class="sortable-column">
-                        <h5>Profit/Spirit Shard</h5>
-                        <svg
-                            class="sort-arrow active" 
-                            :ref="el => sortActive[6] = el" 
-                            :style="{transform: sortOrder[6] == 'descending' ? 'rotate(90deg)' : 'rotate(-90deg)'}"
-                            width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path d="M0.32246 8.33324V6.66657L10.3225 6.66657L5.73913 2.08324L6.92246 0.899902L13.5225 7.4999L6.92246 14.0999L5.73913 12.9166L10.3225 8.33324H0.32246Z" fill="#FFD12C"/>
-                        </svg>
-                    </span>    
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- 
-                * 
-                * RECIPE ROW
-                * 
-            -->
-            <tr v-for="recipe in recipes.value">
-                <!-- INGREDIENTS -->
-                <td v-for="ingredient in recipe.ingredients">
-                    <div class="material-container">
-                        <span class="ingredient">
-                            {{ ingredient.count }}
-                            <img class="item" :src="ingredient.icon" :alt="ingredient.name" :title="ingredient.name">
-                        </span>
-                        <!-- V-IF ELSE Check for SS -->
-                        <div 
-                            class="gold-container"
-                            v-if="ingredient.name == `Philosopher's Stone` || ingredient.name == `Mystic Crystal`"
-                        >
-                            <span 
-                                class="sub-gold-label"
-                                v-if="ingredient.name == `Philosopher's Stone`"    
+                <tr v-for="recipe in recipes.value">
+                    <!-- INGREDIENTS -->
+                    <td v-for="ingredient in recipe.ingredients">
+                        <div class="material-container">
+                            <span class="ingredient">
+                                {{ ingredient.count }}
+                                <img class="item" :src="ingredient.icon" :alt="ingredient.name" :title="ingredient.name">
+                            </span>
+                            <!-- V-IF ELSE Check for SS -->
+                            <div 
+                                class="gold-container"
+                                v-if="ingredient.name == `Philosopher's Stone` || ingredient.name == `Mystic Crystal`"
                             >
-                                {{ ingredient.count / 10 }}<img src="@/imgs/icons/Spirit_Shard.png">
-                            </span>  
-                            <span 
-                                class="sub-gold-label"
-                                v-else   
+                                <span 
+                                    class="sub-gold-label"
+                                    v-if="ingredient.name == `Philosopher's Stone`"    
+                                >
+                                    {{ ingredient.count / 10 }}<img src="@/imgs/icons/Spirit_Shard.png">
+                                </span>  
+                                <span 
+                                    class="sub-gold-label"
+                                    v-else   
+                                >
+                                    {{ (ingredient.count * 0.6).toFixed(2) }}<img src="@/imgs/icons/Spirit_Shard.png">
+                                </span>    
+                            </div>
+                            <div 
+                                class="gold-container"
+                                v-else
                             >
-                                {{ (ingredient.count * 0.6).toFixed(2) }}<img src="@/imgs/icons/Spirit_Shard.png">
-                            </span>    
+                                <span class="sub-gold-label" v-for="gold in formatValue(ingredient.value)">
+                                    {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                                </span>
+                            </div>
                         </div>
-                        <div 
-                            class="gold-container"
-                            v-else
-                        >
-                            <span class="sub-gold-label" v-for="gold in formatValue(ingredient.value)">
+                    </td>
+                    <!-- OUTPUT -->
+                    <td style="border-left: var(--border-general)">
+                        <div class="material-container">
+                            <span class="output">
+                                ~{{ recipe.count }}
+                                <img class="item" :src="recipe.icon" :alt="recipe.name" :title="recipe.name">
+                            </span>
+                        
+                            <div class="gold-container">
+                                <span class="sub-gold-label" v-for="gold in formatValue(recipe.value)">
+                                    {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                    <!-- PROFIT/CONVERSION -->
+                    <td 
+                        class="text-right"    
+                        style="border-left: var(--border-general)"
+                        :style="{borderRight: recipe.profitPerConversion > 0 ? `var(--border-positive)` : `var(--border-negative)`}"
+                    >
+                        <span class="gold-label-container">
+                            <span class="gold-label" v-for="gold in formatValue(recipe.profitPerConversion)">
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                             </span>
-                        </div>
-                    </div>
-                </td>
-                <!-- OUTPUT -->
-                <td style="border-left: var(--border-general)">
-                    <div class="material-container">
-                        <span class="output">
-                            ~{{ recipe.count }}
-                            <img class="item" :src="recipe.icon" :alt="recipe.name" :title="recipe.name">
                         </span>
-                    
-                        <div class="gold-container">
-                            <span class="sub-gold-label" v-for="gold in formatValue(recipe.value)">
+                    </td>
+                    <!-- PROFIT/SPIRIT SHARD -->
+                    <td 
+                        class="text-right"
+                        :style="{borderRight: recipe.profitPerConversion > 0 ? `var(--border-positive)` : `var(--border-negative)`}"    
+                    >
+                        <span class="gold-label-container">
+                            <span class="gold-label" v-for="gold in formatValue(recipe.profitPerSpiritShard)">
                                 {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                             </span>
-                        </div>
-                    </div>
-                </td>
-                <!-- PROFIT/CONVERSION -->
-                <td 
-                    class="text-right"    
-                    style="border-left: var(--border-general)"
-                    :style="{borderRight: recipe.profitPerConversion > 0 ? `var(--border-positive)` : `var(--border-negative)`}"
-                >
-                    <span class="gold-label-container">
-                        <span class="gold-label" v-for="gold in formatValue(recipe.profitPerConversion)">
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
                         </span>
-                    </span>
-                </td>
-                <!-- PROFIT/SPIRIT SHARD -->
-                <td 
-                    class="text-right"
-                    :style="{borderRight: recipe.profitPerConversion > 0 ? `var(--border-positive)` : `var(--border-negative)`}"    
-                >
-                    <span class="gold-label-container">
-                        <span class="gold-label" v-for="gold in formatValue(recipe.profitPerSpiritShard)">
-                            {{ gold.value }}<img :src="gold.src" :alt="gold.alt" :title="gold.alt">
-                        </span>
-                    </span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </template>
 
 <script setup>

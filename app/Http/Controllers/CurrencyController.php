@@ -331,7 +331,7 @@ class CurrencyController extends Controller
                     // Get the icon and set a new value property with the buyOrderSetting
                     $ingredient['name'] = $ingredientInfo->name;
                     $ingredient['icon'] = $ingredientInfo->icon; 
-                    $ingredient['value'] = $ingredientInfo->$buyOrderSetting * $ingredient['count'] * $tax;
+                    $ingredient['value'] = $ingredientInfo->$buyOrderSetting * $ingredient['count'];
                     // For each ingredient, add each of their values for the profit/conversion
                     $profitPerConversion += $ingredient['value']; 
                     // Check if the ingredient is a spirit shard item
