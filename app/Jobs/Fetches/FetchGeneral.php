@@ -58,9 +58,9 @@ class FetchGeneral implements ShouldQueue
             Fish::updateOrCreate(
                 [
                     'id' => $fish['id'],
-                    'bait_id' => is_numeric($fish['baitID']) ? $fish['baitID'] : null,
                 ],
                 [
+                    'bait_id' => is_numeric($fish['baitID']) ? $fish['baitID'] : null,
                     'map' => $fish['map'],
                     'fishing_hole' => $fish['fishingHole'],
                     'time' => $fish['time'],

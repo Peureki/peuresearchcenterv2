@@ -12,7 +12,7 @@
 -->
 <template>
 
-    <div class="overflow-x">
+    <div class="table-container">
         <table class="exchange-container">
             <thead>
                 <tr>
