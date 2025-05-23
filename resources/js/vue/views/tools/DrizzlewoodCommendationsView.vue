@@ -355,21 +355,7 @@
                                         </div>
                                     </div>
                                 </template>
-                                <!-- <div v-if="!subDrop.hasOwnProperty('0')">
-                                    <p>{{ subDrop.name }}</p>
-
-                                    <div class="desc-details">
-                                        <img :src="getSubReward(subDrop).icon" :alt="getSubReward(subDrop).name" :title="getSubReward(subDrop).name">
-                                        <p>{{ getSubReward(subDrop).name }}</p>
-
-
-                                        <p class="small-subtitle">Tier: {{ subIndex + 1 }}</p>
-                                    </div>
-                                </div> -->
-                                <!-- ICON, NAME -->
-                                
-                            </div>
-                            
+                            </div>     
                         </div>
                     </div>
                 </div>

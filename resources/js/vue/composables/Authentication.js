@@ -14,7 +14,6 @@ export const getAuthUser = async () => {
         if (!response.ok){
             throw new Error('Failed to fetch user data');
         }
-
         user.value = await response.json(); 
 
     } catch (error){

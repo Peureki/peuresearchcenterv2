@@ -37,7 +37,7 @@ class FetchResearchNotes implements ShouldQueue
         $salvageableItemCategories = [
             ["Draconic", 5.5],
             ["Tempered Scale", 6],
-            ["Barbaric", 5.5],
+            ["Barbaric", 5.05],
             ["Splint", 5],
             
             ["Superior Sigil", 1.1],
