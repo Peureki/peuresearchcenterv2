@@ -46,6 +46,7 @@ class FetchGeneral implements ShouldQueue
         $spreadsheet = $api->json(); 
 
         Log::info("API Response for fishes", [$spreadsheet]);
+        echo 'Fetching fish data...';
 
         //dd($spreadsheet['fishes']);
 
@@ -105,6 +106,7 @@ class FetchGeneral implements ShouldQueue
                 }
             }
         }
+        echo "Fish data complete\n";
     }
 
     /*
@@ -115,6 +117,8 @@ class FetchGeneral implements ShouldQueue
     protected function fetchFishingHoles(): void {
         $api = Http::get('https://script.google.com/macros/s/AKfycbyusqQd274FeAyE_8vP7fRgO0Nu9rTy8Bb1O8-uQdvp-qBQ3TLpjQJr58djFcm9louiTw/exec?endpoint=fishingHoles');
         $spreadsheet = $api->json(); 
+
+        echo 'Fetching fishing hole data...';
 
         foreach ($spreadsheet['fishingHoles'] as $index => $hole){
             FishingHole::updateOrCreate(
@@ -129,6 +133,8 @@ class FetchGeneral implements ShouldQueue
                     'time' => $hole['time'],
                     'fishing_power' => $hole['fishingPower'],
                     'sample_size' => $hole['sampleSize'],
+                    'difficulty' => $hole['difficulty'],
+                    'best' => $hole['best'],
                 ]
             );
             // For some routes, they may not have sufficient data or optimal route so the spreadsheet is empty for map, avgholes, etc
@@ -174,6 +180,7 @@ class FetchGeneral implements ShouldQueue
                 );
             }
         }
+        echo "Fishing hole data complete\n";
     }
 
     

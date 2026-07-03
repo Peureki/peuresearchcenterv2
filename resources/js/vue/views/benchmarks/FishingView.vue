@@ -1,6 +1,7 @@
 <template>
     <Nav/>
     <Header page-name="Fishing Benchmarks"/>
+    
 
     <section class="main">
         <div class="content-section">
@@ -11,7 +12,7 @@
                     <SearchItem 
                         v-if="searchArborstone"
                         :show-quantity="false"
-                        placeholder="[Daily Arborstone Catch]"
+                        placeholder="[Enter Daily Arborstone Catch]"
                         submit-text="Submit Arborstone"
                         @handle-item-search="handleArborstoneSearch"
                     />
@@ -63,7 +64,7 @@
                     <SearchItem 
                         v-if="searchJanthir"
                         :show-quantity="false"
-                        placeholder="[Daily Janthir Catch]"
+                        placeholder="[Enter Daily Janthir Catch]"
                         submit-text="Submit Janthir"
                         @handle-item-search="handleJanthirSearch"
                     />
@@ -500,6 +501,7 @@ const getFishes = async () => {
     const fishmongerResponseData = await fishmongerResponse.json(); 
 
     fishmonger.value = fishmongerResponseData; 
+    console.log('fishing holes: ', fishingHoles.value);
 
 }
 

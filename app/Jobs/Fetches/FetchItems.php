@@ -45,13 +45,17 @@ class FetchItems implements ShouldQueue
             $batch = array_chunk($idList, $perPage);
 
             $restrictedItemIDs = [
-                8743
+                8743,
+                91750,
+                95669
             ];
             
     
             while ($currentPage < $totalPages){
                 $apiBatch = Http::get('https://api.guildwars2.com/v2/items?ids='.implode(',', $batch[$currentPage]));
                 $batchList = $apiBatch->json(); 
+
+                echo "Processing batch {$currentPage}/{$totalPages}\n"; 
     
                 foreach($batchList as $item){
                     // Skip if item id matches restricted list

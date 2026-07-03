@@ -1404,6 +1404,13 @@ img.map-guide{
 .glyphs img{
     width: var(--img-glyph);
 }
+.difficulty-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--gap-pair);
+}
+
 @media (max-width: 1100px){
     .requirements-and-recommendations{
         flex-wrap: wrap;
@@ -1501,6 +1508,7 @@ img.map-guide{
 }
 .flex-row{
     display: flex;
+    align-items: center;
     gap: var(--gap-general);
 }
 .column-reverse{
@@ -1602,6 +1610,7 @@ img.map-guide{
 .Active > circle.expand-circle{
     animation: 5s infinite forwards expandSignal;
     stroke: var(--color-expand-circle);
+    transform-origin: center;
 }
 .Inactive > circle.fill-circle{
     fill: var(--color-down);
@@ -1622,15 +1631,11 @@ img.map-guide{
 }
 @keyframes expandSignal {
     0% {
-        r: 5;
+        transform: scale(0);
         stroke-opacity: 1;
     }
-    50% {
-        r: 10;
-        stroke-opacity: 0.5;
-    }
     100% {
-        r: 10;
+        transform: scale(1);
         stroke-opacity: 0;
     }
 }
@@ -1696,6 +1701,11 @@ img.map-guide{
     --color-dominion-commendation: #007c94;
     --color-frost-legion-commendation: #0f74a2;
     --color-progress-separator: linear-gradient(180deg, rgba(176,176,176,0.5018382352941176) 0%, rgba(68,68,68,0) 100%);
+    /* Fishing colors */
+    --color-fishing-difficulty-easy: #00e000; 
+    --color-fishing-difficulty-medium: #e0e000;
+    --color-fishing-difficulty-hard: #e00000;
+    --color-fishing-difficulty-default: rgb(0, 0, 0, 0.5);
 
     --font-weight-h1: 700;
     --font-weight-h2: 500;
@@ -1712,7 +1722,7 @@ img.map-guide{
     --font-size-h4: clamp(1.3rem, 1.2vw, 1.7rem);
     --font-size-h5: clamp(1.0rem, 1.1vw, 1.5rem);
     --font-size-h6: clamp(1.1rem, 1vw, 1.3rem);
-    --font-size-p: clamp(1rem, 1vw, 1rem);
+    --font-size-p: clamp(0.9rem, 0.9vw, 1rem);
     --font-size-subtext: clamp(0.7rem, 3vw, 0.8rem);
 
     --font-size-homepage-h1: clamp(3.5rem, 8vw, 6.5rem);
@@ -1795,6 +1805,7 @@ img.map-guide{
     --img-icon-size: clamp(1.2rem, 3vw, 2.5rem);
     --img-width: clamp(1.25rem, 2vw, 2rem);
     --img-height: var(--img-width);
+    --img-gold-choya: clamp(1.2rem, 10vw, 5rem);
 
     --svg-expand: clamp(0.8rem, 0.9vw, 1.5rem);
     --svg-icon-size: clamp(1.2rem, 1.5vw, 1.30rem);

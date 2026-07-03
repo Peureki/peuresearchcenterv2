@@ -26,6 +26,66 @@
             </div> -->
 
             <div class="img-and-label">
+                <img class="icon" :src="GoldChoya" alt="Recommended Farm" title="Recommended Farm">
+                <span class="flex-row">
+                    <p>Recommended Farm</p>
+                    <p class="small-subtitle">(the best and/or my favorites)</p>
+                </span>
+            </div>
+
+            <div class="img-and-label">
+                <span class="difficulty-container icon">
+                    <svg width="5" height="5" viewBox="0 0 5 5" aria-hidden="true" >
+                        <circle cx="2.5" cy="2.5" r="2.5" fill="var(--color-fishing-difficulty-easy)"/>
+                    </svg>
+                </span>
+
+                <span class="flex-row">
+                    <p>Easy Difficulty</p>
+                    <p class="small-subtitle">(Easy route, no/little mobs, accessible)</p>
+                </span>
+                
+            </div>
+
+            <div class="img-and-label">
+                <span class="difficulty-container icon">
+                    <svg width="5" height="5" viewBox="0 0 5 5" aria-hidden="true" >
+                        <circle cx="2.5" cy="2.5" r="2.5" fill="var(--color-fishing-difficulty-medium)"/>
+                    </svg>
+
+                    <svg width="5" height="5" viewBox="0 0 5 5" aria-hidden="true" >
+                        <circle cx="2.5" cy="2.5" r="2.5" fill="var(--color-fishing-difficulty-medium)"/>
+                    </svg>
+                </span>
+                <span class="flex-row">
+                    <p>Medium Difficulty</p>
+                    <p class="small-subtitle">(Route may require some work, prep may be involved, or some mobs)</p>
+                </span>
+            </div>
+
+            <div class="img-and-label">
+                <span class="difficulty-container icon">
+                    <svg width="5" height="5" viewBox="0 0 5 5" aria-hidden="true" >
+                        <circle cx="2.5" cy="2.5" r="2.5" fill="var(--color-fishing-difficulty-hard)"/>
+                    </svg>
+
+                    <svg width="5" height="5" viewBox="0 0 5 5" aria-hidden="true" >
+                        <circle cx="2.5" cy="2.5" r="2.5" fill="var(--color-fishing-difficulty-hard)"/>
+                    </svg>
+
+                    <svg width="5" height="5" viewBox="0 0 5 5" aria-hidden="true" >
+                        <circle cx="2.5" cy="2.5" r="2.5" fill="var(--color-fishing-difficulty-hard)"/>
+                    </svg>
+                </span>
+                <span class="flex-row">
+                    <p>Hard Difficulty</p>
+                    <p class="small-subtitle">(Unusual route, lots of waypointing, or high mob density)</p>
+                </span>
+            </div>
+
+            
+
+            <div class="img-and-label">
                 <svg 
                     class="icon" 
                     width="20" height="20" xmlns="http://www.w3.org/2000/svg"
@@ -139,6 +199,7 @@
 <script setup>
 import UnholyMackerel from '@/imgs/icons/fishes/Unholy_Mackerel.png'
 import Shrimpling from '@/imgs/icons/Shrimpling.png'
+import GoldChoya from '@/imgs/choyas/Gold_Choya.png'
 
 import { buyOrder, settingsToggle, filtersToggle, isMobile } from '@/js/vue/composables/Global';
 

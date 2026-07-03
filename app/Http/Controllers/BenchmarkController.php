@@ -685,6 +685,8 @@ class BenchmarkController extends Controller
             $timeVariable = $group[0]->time_variable;
             $estimateVariable = $group[0]->estimate_variable; 
             $sampleSize = $group[0]->sample_size;
+            $difficulty = $group[0]->difficulty;
+            $best = $group[0]->best;
 
             //dd($group);
             // Check if there's a benchmark or route made for this in the spreadsheet
@@ -772,7 +774,9 @@ class BenchmarkController extends Controller
                 'avgTime' => $avgTime, 
                 'timeVariable' => $timeVariable,
                 'mostValuedItem' => $mostValuedItem,
-                'mostValuedIcon' => $mostValuedIcon
+                'mostValuedIcon' => $mostValuedIcon,
+                'difficulty' => $difficulty, 
+                'best' => $best,
             ]);
 
             // Constantly return progress of loading benchmarks

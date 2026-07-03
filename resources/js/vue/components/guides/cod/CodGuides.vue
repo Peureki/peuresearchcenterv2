@@ -72,7 +72,9 @@ import DomainOfIstanOffshoreFish from '@/imgs/guides/fishing/Domain_of_Istan_Off
 import EchovaldWildsGrottoFish from '@/imgs/guides/fishing/Echovald_Wilds_Grotto_Fish.webp'
 import EchovaldWildsLakeFish from '@/imgs/guides/fishing/Echovald_Wilds_Lake_Fish.webp'
 import EmberBayCoastalFish from '@/imgs/guides/fishing/Ember_Bay_Coastal_Fish.webp'
+import EternityGardenFreshwaterTropicalFish from '@/imgs/guides/fishing/Eternitys_Garden_Freshwater_Tropical_Fish.webp'
 import FireheartRiseNoxiousWaterFish from '@/imgs/guides/fishing/Fireheart_Rise_Noxious_Water_Fish.webp'
+import FreshwaterTropicalFish from '@/imgs/guides/fishing/Eternity_Garden_Freshwater_Tropical_Fish.webp'
 import FrostgorgeSoundBorealFish from '@/imgs/guides/fishing/Frostgorge_Sound_Boreal_Fish.webp'
 import GendarranFieldsLakeFish from '@/imgs/guides/fishing/Gendarren_Fields_Lake_Fish.webp'
 import GendarranRiverFish from '@/imgs/guides/fishing/Gendarran_Fields_River_Fish.webp'
@@ -90,6 +92,7 @@ import SandsweptIslesShoreFish from '@/imgs/guides/fishing/Sandswept_Isles_Shore
 import SeitungProvinceOffshoreFish from '@/imgs/guides/fishing/Seitung_Province_Offshore_Fish.webp'
 import SeitungProvinceShoreFish from '@/imgs/guides/fishing/Seitung_Province_Shore_Fish.webp'
 import SirensLandingShoreFish from "@/imgs/guides/fishing/Siren's_Landing_Shore_Fish.webp"
+import ShipwreckStrandSaltwaterTropicalFish from '@/imgs/guides/fishing/Shipwreck_Strand_Saltwater_Tropical_Fish.webp'
 import SnowdenDriftsLakeFish from '@/imgs/guides/fishing/Snowden_Drifts_Lake_Fish.webp'
 import StraitsOfDevestationOffshoreFish from '@/imgs/guides/fishing/Straits_of_Devestation_Offshore_Fish.webp'
 
@@ -118,6 +121,7 @@ const baitName = computed(() => {
 const minFishingPower = {
     ascalonLakeFish: 450,
     ascalonNoxiousWaterFish: 500,
+    castoraAllFish: 650,
     crystalDesertDesertFish: 500,
     dragonsEndCavernFish: 350,
     dragonsEndQuarryFish: 300,
@@ -222,6 +226,35 @@ onMounted(() => {
                     guide.value.minFishingPower = minFishingPower.ascalonLakeFish;
                     guide.value.description = "Any body of water in the Krytan region will do. I recommend having any fish food to be above the minimum fishing power if you're not using a skiff to have a green bar."
                     break;
+            }
+            break;
+        // *
+        // * CASTORA REGION
+        // *
+        case 'Castora': 
+            switch (props.fish.name){
+                case 'Castoran Milkfish':
+                case 'Castoran Sea Bass':
+                case 'Illustrious Opah':
+                case 'Elusive Boxcrab':
+                case 'Seaweed-Cutting Scythetail':
+                case 'Beared Sunfish':
+                case 'Castoran Bicorn':
+                case 'Illusive Jellycrab':
+                    guide.value.src = EternityGardenFreshwaterTropicalFish; 
+                    guide.value.alt = "Eternity's Garden Freshwater Tropical Fish"
+                    guide.value.waypoint = '[&BPoPAAA=]';
+                    guide.value.minFishingPower = minFishingPower.castoraAllFish; 
+                    guide.value.description = "Straight forward route. Just make sure you're using the correct bait";
+                break;
+
+                default: 
+                    guide.value.src = ShipwreckStrandSaltwaterTropicalFish;
+                    guide.value.alt = "Shipwreck Strand Saltwater Tropical Fish";
+                    guide.value.waypoint = '[&BJwPAAA=] or [&BMwPAAA=]';
+                    guide.value.minFishingPower = minFishingPower.castoraAllFish; 
+                    guide.value.description = "Either the waypoint linked. Both have a good amount of fishing pools. The south waypoint/route seems to have less mobs";
+                break;
             }
             break;
         // *

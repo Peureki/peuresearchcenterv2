@@ -18,6 +18,8 @@ class FishingHole extends Model
         'time',
         'fishing_power',
         'sample_size',
+        'difficulty',
+        'best',
     ];
 
     // *

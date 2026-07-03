@@ -125,6 +125,8 @@ class AchievementController extends Controller
             6505,
             // Ascalonian Fisher
             6330,
+            // Castora Fisher
+            8900,
             // Desert Fisher
             6317,
             // Desert Isles
@@ -157,6 +159,8 @@ class AchievementController extends Controller
             6224,
             // Avid Ascalonian Fisher
             6484, 
+            // Avid Castora Fisher
+            8973,
             // Avid Desert Fisher
             6509,
             // Avid Desert Isles Fisher
