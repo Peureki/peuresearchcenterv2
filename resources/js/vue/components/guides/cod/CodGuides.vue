@@ -74,7 +74,6 @@ import EchovaldWildsLakeFish from '@/imgs/guides/fishing/Echovald_Wilds_Lake_Fis
 import EmberBayCoastalFish from '@/imgs/guides/fishing/Ember_Bay_Coastal_Fish.webp'
 import EternityGardenFreshwaterTropicalFish from '@/imgs/guides/fishing/Eternitys_Garden_Freshwater_Tropical_Fish.webp'
 import FireheartRiseNoxiousWaterFish from '@/imgs/guides/fishing/Fireheart_Rise_Noxious_Water_Fish.webp'
-import FreshwaterTropicalFish from '@/imgs/guides/fishing/Eternity_Garden_Freshwater_Tropical_Fish.webp'
 import FrostgorgeSoundBorealFish from '@/imgs/guides/fishing/Frostgorge_Sound_Boreal_Fish.webp'
 import GendarranFieldsLakeFish from '@/imgs/guides/fishing/Gendarren_Fields_Lake_Fish.webp'
 import GendarranRiverFish from '@/imgs/guides/fishing/Gendarran_Fields_River_Fish.webp'
